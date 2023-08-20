@@ -10,9 +10,11 @@ import Shop from "../pages/Shop";
 import UserInfoModify from "../pages/UserInfoModify";
 import WorldCup from "../pages/WorldCup";
 import WriteBoard from "../pages/WriteBoard";
-const router = () => {
+import Header from "../components/Header";
+const Router = () => {
   return (
     <BrowserRouter>
+      <Header />
       <Routes>
         <Route path="/" element={<Main />} />
         <Route path="/recommend" element={<AnimeRecommend />} />
@@ -29,4 +31,4 @@ const router = () => {
   );
 };
 
-export default router;
+export default Router;
