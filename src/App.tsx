@@ -1,13 +1,7 @@
 import React from "react";
-import * as laftelApi from "./api/laftel";
+import Router from "./shared/Router";
 function App() {
-  return (
-    <p>
-      <button onClick={() => laftelApi.getAnimeList({ sort: "cnt_eval" })}>
-        fwafe
-      </button>
-    </p>
-  );
+  return <Router />;
 }
 
 export default App;
