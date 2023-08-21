@@ -1,7 +1,7 @@
 import api from './index';
 import { laftelParamsM } from './../consts';
 export const getAnimeList = async (laftelParams: laftelParamsM) => {
-  // 배열 형태로 받기 때문에 ,단위로 join을 해준다.
+  // 배열 형태로 받기 때문에 ',' 단위로 join을 해준다.
   // const genresParam = laftelParams.genres ? laftelParams.genres.join(',') : '';
   // const tagsParam = laftelParams.tags ? laftelParams.tags.join(',') : '';
 
