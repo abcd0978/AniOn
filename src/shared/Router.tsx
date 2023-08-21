@@ -11,6 +11,7 @@ import UserInfoModify from "../pages/UserInfoModify";
 import WorldCup from "../pages/WorldCup";
 import WriteBoard from "../pages/WriteBoard";
 import Header from "../components/Header";
+import AnimeDetail from "../pages/AnimeDetail";
 const Router = () => {
   return (
     <BrowserRouter>
@@ -18,6 +19,7 @@ const Router = () => {
       <Routes>
         <Route path="/" element={<Main />} />
         <Route path="/recommend" element={<AnimeRecommend />} />
+        <Route path="/recommend/:id" element={<AnimeDetail />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/board" element={<Board />} />
