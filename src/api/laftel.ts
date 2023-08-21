@@ -11,7 +11,8 @@ export const getAnimeList = async (laftelParams: laftelParamsM) => {
 
 export const getAnimePreview = async (animeId: string) => {
   const result = await api.get(`/episodes/v1/${animeId}/recent-video/`);
-  console.log(result);
+  // console.log(result);
+  return result.data;
 };
 
 //애니 상세 내용 가져오기

@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
-import { getAnimeById } from "../api/laftel";
+import { getAnimeById, getAnimePreview } from "../api/laftel";
 import { useParams } from "react-router-dom";
+import VideoPlayer from "../components/anime-detail/VideoPlayer";
 
 type Props = {};
 
@@ -11,8 +12,8 @@ function AnimeDetail({}: Props) {
   // 해당 aniId 상세 내용 가져오기
   // "41496" 주술회전 임의 아이디 값
   const {
-    isLoading,
-    error,
+    isLoading: isDetailLoading,
+    isError: isDetailError,
     data: animeDetail,
   } = useQuery({
     queryKey: ["animeDetail"],
@@ -20,15 +21,30 @@ function AnimeDetail({}: Props) {
       return getAnimeById("41496");
     },
   });
+  // 해당 aniId 영상 가져오기
+  const {
+    isLoading: isVideoLoading,
+    isError: isVideoError,
+    data: animeVideo,
+  } = useQuery({
+    queryKey: ["animeVideo"],
+    queryFn: () => {
+      return getAnimePreview("41496");
+    },
+  });
 
-  if (isLoading) {
+  if (isDetailLoading || isVideoLoading) {
     return <h3>데이터를 가져오는 중입니다.</h3>;
   }
-  if (error) {
+  if (isDetailError || isVideoError) {
     console.log("데이터를 가져올 수 없습니다.");
   }
 
-  console.log("data💫💫", animeDetail);
+  console.log(
+    "data💫💫",
+    animeDetail,
+    animeVideo.public_streaming_info.hls_preview_url
+  );
 
   return (
     <div>
@@ -47,7 +63,12 @@ function AnimeDetail({}: Props) {
           </div>
         </div>
       </div>
-      <div>예고편 영상</div>
+      <div>
+        <VideoPlayer
+          src={animeVideo.public_streaming_info.hls_preview_url}
+          type="m3u8"
+        />
+      </div>
     </div>
   );
 }
