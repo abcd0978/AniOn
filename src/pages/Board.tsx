@@ -11,7 +11,6 @@ import {
 } from "../api/comment";
 import { Database } from "../types/supabase";
 import { atom, useAtom } from "jotai";
-
 type PostComment = Database["public"]["Tables"]["post_comments"]["Row"];
 
 // jotai
@@ -48,11 +47,11 @@ const Detail = () => {
     const formattedDate = currentTime.toISOString();
 
     const createComment: PostComment = {
-      id: "",
+      id: id as string,
       created_at: formattedDate,
       comment: newComment,
       post_id: id as string,
-      user_id: user?.userid as string, // 사용자 ID 가져오기
+      user_id: user?.userid as string,
     };
     addMutation.mutate(createComment);
     setNewComment("");
@@ -95,9 +94,10 @@ const Detail = () => {
   };
 
   const [page, setPage] = useState<number>(1);
+
   const { data: comments } = useQuery<any>(
-    ["post_comments", id, page], // queryKey 수정
-    () => fetchComments(id!, page), // queryFn 수정
+    ["post_comments", id, page],
+    () => fetchComments(id!, page),
     { keepPreviousData: true }
   );
 

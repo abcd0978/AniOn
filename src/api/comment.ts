@@ -11,15 +11,16 @@ const fetchComments = async (id: string, page: number): Promise<any> => {
   // 댓글 데이터 가져오기
   const { data } = await supabase
     .from("post_comments")
-    .select()
-    .eq("post_id", id)
+    .select("*")
+    .eq("post_id", "111d55e1-5fbf-497d-9117-18da8937ab55")
     .range(startIndex, startIndex + itemsPerPage - 1);
-  console.log("data", data);
+  //   console.log("data", data)
+
   // 총 댓글 개수 가져오기
   const { count } = await supabase
     .from("post_comments")
     .select("count", { count: "exact" })
-    .eq("post_id", id);
+    .eq("post_id", "111d55e1-5fbf-497d-9117-18da8937ab55");
 
   // 총 페이지 개수 계산
   const totalPages = Math.ceil(count! / itemsPerPage);
@@ -47,3 +48,7 @@ const updateComment = async (editComment: PostComment) => {
 };
 
 export { fetchComments, addComment, deleteComment, updateComment };
+
+// 유저아이    d19626c2-c374-421f-9dd1-726268e982cd
+// cate  f5147c98-9f3a-4d2b-9fe6-0738abf38ba8
+// post 111d55e1-5fbf-497d-9117-18da8937ab55
