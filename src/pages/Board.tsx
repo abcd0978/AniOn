@@ -37,7 +37,7 @@ const Detail = () => {
   //작성
   const addMutation = useMutation(addComment, {
     onSuccess: () => {
-      queryClient.invalidateQueries(["comment"]); // 쿼리 키 수정
+      queryClient.invalidateQueries(["post_comments"]); // 쿼리 키 수정
     },
   });
   const handleCommentSubmit = () => {
@@ -70,7 +70,7 @@ const Detail = () => {
   // 삭제
   const deleteMutation = useMutation(deleteComment, {
     onSuccess: () => {
-      queryClient.invalidateQueries(["PostComment"]); // 쿼리 키 수정
+      queryClient.invalidateQueries(["post_comments"]); // 쿼리 키 수정
     },
   });
   const handleCommentDelete = async (commentId: string) => {
@@ -83,7 +83,7 @@ const Detail = () => {
   //수정
   const editMutation = useMutation(updateComment, {
     onSuccess: () => {
-      queryClient.invalidateQueries(["comment"]); // 쿼리 키 수정
+      queryClient.invalidateQueries(["post_comments"]); // 쿼리 키 수정
     },
   });
 
@@ -105,11 +105,11 @@ const Detail = () => {
 
   const [page, setPage] = useState<number>(1);
   const {
-    isLoading,
-    isError,
+    // isLoading,
+    // isError,
     data: comments,
   } = useQuery<any>(
-    ["comment", id, page], // queryKey 수정
+    ["post_comments", id, page], // queryKey 수정
     () => fetchComments(id!, page), // queryFn 수정
     { keepPreviousData: true }
   );

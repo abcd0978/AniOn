@@ -12,14 +12,14 @@ const fetchComments = async (id: string, page: number): Promise<any> => {
   const { data } = await supabase
     .from("post_comments")
     .select()
-    .eq("postid", id)
+    .eq("post_id", id)
     .range(startIndex, startIndex + itemsPerPage - 1);
 
   // 총 댓글 개수 가져오기
   const { count } = await supabase
     .from("post_comments")
     .select("count", { count: "exact" })
-    .eq("postid", id);
+    .eq("post_id", id);
 
   // 총 페이지 개수 계산
   const totalPages = Math.ceil(count! / itemsPerPage);
@@ -34,8 +34,8 @@ const addComment = async (createComment: PostComment) => {
 };
 
 // 삭제
-const deleteComment = async (commentId: string) => {
-  await supabase.from("post_comments").delete().eq("commentid", commentId);
+const deleteComment = async (id: string) => {
+  await supabase.from("post_comments").delete().eq("id", id);
 };
 
 // 수정
@@ -43,7 +43,7 @@ const updateComment = async (editComment: PostComment) => {
   await supabase
     .from("post_comments")
     .update(editComment)
-    .eq("commentid", editComment.id);
+    .eq("id", editComment.id);
 };
 
 export { fetchComments, addComment, deleteComment, updateComment };
