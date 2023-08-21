@@ -1,32 +1,27 @@
-import { Database } from "../types/supabase";
-type PostComment = Database["public"]["Tables"]["post_comments"]["Row"];
+import React, { useState } from "react";
 import { useParams } from "react-router-dom";
+import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
+import Pagination from "../components/Pagenation";
+import * as S from "./BoardStyle";
 import {
   fetchComments,
   addComment,
   deleteComment,
   updateComment,
 } from "../api/comment";
-import Pagination from "../components/Pagenation";
-import * as S from "./BoardStyle";
-import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
-import { useState } from "react";
+import { Database } from "../types/supabase";
 import { atom, useAtom } from "jotai";
 
-// jotai 원자(atom) 정의
-const userAtom = atom(null);
+type PostComment = Database["public"]["Tables"]["post_comments"]["Row"];
 
-// 사용자 상태 변경 함수
-const setUser = (user: string) => {
-  // 여기서 user의 타입을 수정
-  userAtom[1](user);
-};
+// jotai
+const userAtom = atom<null | any>(null);
 
 const Detail = () => {
   // 포스트 아이디 가져오기
   const { id } = useParams();
-  // 유저 정보 가져오기
-  const user = useAtom(userAtom)[0]; //
+  const [user, setUser] = useAtom(userAtom);
+
   // 쿼리 클라이언트
   const queryClient = useQueryClient();
 
@@ -61,7 +56,7 @@ const Detail = () => {
       created_at: formattedDate,
       comment: newComment,
       post_id: id as string,
-      user_id: user?.userid as string,
+      user_id: user as string,
     };
     addMutation.mutate(createComment);
     setNewComment("");
