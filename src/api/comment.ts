@@ -14,7 +14,7 @@ const fetchComments = async (id: string, page: number): Promise<any> => {
     .select()
     .eq("post_id", id)
     .range(startIndex, startIndex + itemsPerPage - 1);
-
+  console.log("data", data);
   // 총 댓글 개수 가져오기
   const { count } = await supabase
     .from("post_comments")

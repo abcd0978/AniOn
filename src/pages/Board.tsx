@@ -18,11 +18,9 @@ type PostComment = Database["public"]["Tables"]["post_comments"]["Row"];
 const userAtom = atom<null | any>(null);
 
 const Detail = () => {
-  // 포스트 아이디 가져오기
   const { id } = useParams();
   const [user, setUser] = useAtom(userAtom);
 
-  // 쿼리 클라이언트
   const queryClient = useQueryClient();
 
   const [newComment, setNewComment] = useState<string>("");
@@ -36,27 +34,25 @@ const Detail = () => {
     },
   });
   const handleCommentSubmit = () => {
-    if (!user) {
-      alert("로그인 후에 댓글을 작성할 수 있습니다! 로그인해주세요.");
-      return;
-    }
+    // if (!user) {
+    //   alert("로그인 후에 댓글을 작성할 수 있습니다! 로그인해주세요.");
+    //   return;
+    // }
 
-    if (!newComment) {
-      alert("댓글 내용을 입력해주세요.");
-      return;
-    }
+    // if (!newComment) {
+    //   alert("댓글 내용을 입력해주세요.");
+    //   return;
+    // }
 
-    // 유효성 검사
-    // 날짜 설정
     const currentTime = new Date();
     const formattedDate = currentTime.toISOString();
-    // 새로운 댓글 객체 선언
+
     const createComment: PostComment = {
       id: "",
       created_at: formattedDate,
       comment: newComment,
       post_id: id as string,
-      user_id: user as string,
+      user_id: user?.userid as string, // 사용자 ID 가져오기
     };
     addMutation.mutate(createComment);
     setNewComment("");
@@ -99,11 +95,7 @@ const Detail = () => {
   };
 
   const [page, setPage] = useState<number>(1);
-  const {
-    // isLoading,
-    // isError,
-    data: comments,
-  } = useQuery<any>(
+  const { data: comments } = useQuery<any>(
     ["post_comments", id, page], // queryKey 수정
     () => fetchComments(id!, page), // queryFn 수정
     { keepPreviousData: true }
@@ -139,8 +131,6 @@ const Detail = () => {
 
   return (
     <S.Outer>
-      <S.Title>같이 이야기를 나눠보아요🗣️</S.Title>
-
       <S.CommentContainer>
         <S.CommentTop>
           <S.WriteInput
@@ -195,10 +185,10 @@ const Detail = () => {
             totalPages={comments?.totalPages ?? 1}
             onClick={onClickPage}
           />
-          {/* <Comments /> */}
         </S.CommentBot>
       </S.CommentContainer>
     </S.Outer>
   );
 };
+
 export default Detail;
