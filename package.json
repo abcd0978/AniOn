@@ -14,6 +14,7 @@
     "@types/react-router-dom": "^5.3.3",
     "@types/styled-components": "^5.1.26",
     "axios": "^1.4.0",
+    "embla-carousel-autoplay": "^8.0.0-rc11",
     "embla-carousel-react": "^8.0.0-rc11",
     "http-proxy-middleware": "^2.0.6",
     "jotai": "^2.3.1",

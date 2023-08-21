@@ -17,6 +17,7 @@ import prev from "../assets/prev.svg";
 import dot from "../assets/dot.svg";
 import dotDeactivated from "../assets/dotDeactivated.svg";
 import styled from "styled-components";
+import Autoplay from "embla-carousel-autoplay";
 type PropType = {
   options?: EmblaOptionsType;
   slides: ReactNode[];
@@ -50,7 +51,7 @@ const slideStyle: CSSProperties = {
 
 export const Banner = (props: PropType) => {
   const { options, slides } = props;
-  const [emblaRef, emblaApi] = useEmblaCarousel(options);
+  const [emblaRef, emblaApi] = useEmblaCarousel(options, [Autoplay()]);
   const [nextButtonDisabled, setNextButtonDisabled] = useState(true);
   const [prevButtonDisabled, setPrevButtonDisabled] = useState(true);
   const [selectedIndex, setSelectedIndex] = useState(0);
