@@ -9,9 +9,9 @@ function Header({}: Props) {
         <StHeaderLogoSection>로고</StHeaderLogoSection>
         <StHeaderMenuSection>
           <StHeaderMenu>둘러보기</StHeaderMenu>
-          <StHeaderMenu>게임추천</StHeaderMenu>
-          <StHeaderMenu>파티</StHeaderMenu>
+          <StHeaderMenu>애니추천</StHeaderMenu>
           <StHeaderMenu>게시판</StHeaderMenu>
+          <StHeaderMenu>상점</StHeaderMenu>
         </StHeaderMenuSection>
         <StHeaderUserInfoSection>로그인/회원가입</StHeaderUserInfoSection>
       </StHeaderContainer>
