@@ -39,10 +39,9 @@ export const CommentBot = styled.div`
 export const WriteInput = styled.input`
   display: flex;
   border: 1px solid 4F4F4F;
-  width: 100%;
-  height: 180px;
+  width: 1317px;
+  height: 148px;
   margin-top: 10px;
-  border-radius: 10px;
 `;
 
 export const WriteButton = styled.button`
@@ -50,10 +49,11 @@ export const WriteButton = styled.button`
   border: none;
   color: white;
   cursor: pointer;
-  width: 65px;
-  height: 38px;
-  margin-left: 20px;
-  margin-top: 13px;
+  width: 85px;
+  height: 40px;
+  border-radius: 10px;
+  padding: 4px, 14px, 4px, 14px;
+  gap: 8px;
   font-size: 14px;
   &:hover {
     background-color: rgb(0, 0, 0, 0.5);
@@ -71,7 +71,7 @@ export const ButtonBox = styled.div`
 `;
 
 export const button = styled.button`
-  background-color: #a593e0;
+  background-color: #757575
   border: none;
   border-radius: 10px;
   color: white;
@@ -90,10 +90,10 @@ export const Comment = styled.div`
   display: flex;
   flex-direction: column;
   position: relative;
-  border-bottom: 1px solid #566270;
+  border-bottom: 1px solid #d9d9d9;
   margin: 10px 0;
   padding: 10px;
-  width: 800px;
+  width: 1376px;
 `;
 
 export const CommentName = styled.div`

@@ -18,6 +18,7 @@ const userAtom = atom<null | any>(null);
 
 const Comments = () => {
   const { id } = useParams();
+
   const [user, setUser] = useAtom(userAtom);
 
   const queryClient = useQueryClient();
@@ -33,6 +34,11 @@ const Comments = () => {
   });
 
   const handleCommentSubmit = () => {
+    if (!newComment) {
+      alert("댓글 내용을 입력해주세요.");
+      return;
+    }
+
     const currentTime = new Date();
     const formattedDate = currentTime.toISOString();
 
