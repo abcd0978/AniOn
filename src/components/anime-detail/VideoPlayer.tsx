@@ -19,9 +19,9 @@ function VideoPlayer({ src, type }: VideoPlayerType) {
   }, [src, type]);
 
   return type === "m3u8" ? (
-    <ContentVideo ref={videoRef} controls />
+    <ContentVideo ref={videoRef} controls autoPlay muted />
   ) : (
-    <video ref={videoRef} src={src} controls />
+    <ContentVideo ref={videoRef} src={src} controls autoPlay muted />
   );
 }
 
