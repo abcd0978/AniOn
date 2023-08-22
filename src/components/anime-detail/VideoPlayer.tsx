@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import Hls from "hls.js";
+import { styled } from "styled-components";
 
 interface VideoPlayerType {
   src: string;
@@ -18,10 +19,21 @@ function VideoPlayer({ src, type }: VideoPlayerType) {
   }, [src, type]);
 
   return type === "m3u8" ? (
-    <video ref={videoRef} controls />
+    <ContentVideo ref={videoRef} controls />
   ) : (
     <video ref={videoRef} src={src} controls />
   );
 }
 
 export default VideoPlayer;
+
+const ContentVideo = styled.video`
+  width: 1139.4px;
+  // height: 542.36px;
+  margin-top: 20px;
+
+  //   @media screen and (max-width: 600px) {
+  //   flex-direction: column;
+  //   align-items: flex-end;
+  // }
+`;

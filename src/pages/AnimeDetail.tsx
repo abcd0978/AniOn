@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getAnimeById, getAnimePreview } from "../api/laftel";
 import { useParams } from "react-router-dom";
 import VideoPlayer from "../components/anime-detail/VideoPlayer";
+import { S } from "../components/anime-detail/anime-detail.style";
 
 type Props = {};
 
@@ -10,7 +11,7 @@ function AnimeDetail({}: Props) {
   const { aniId } = useParams() as { aniId: string };
 
   // 해당 aniId 상세 내용 가져오기
-  // "41496" 주술회전 임의 아이디 값
+  // "41558" 좀비100 임의 아이디 값
   const {
     isLoading: isDetailLoading,
     isError: isDetailError,
@@ -18,7 +19,7 @@ function AnimeDetail({}: Props) {
   } = useQuery({
     queryKey: ["animeDetail"],
     queryFn: () => {
-      return getAnimeById("41496");
+      return getAnimeById("41558");
     },
   });
   // 해당 aniId 영상 가져오기
@@ -29,7 +30,7 @@ function AnimeDetail({}: Props) {
   } = useQuery({
     queryKey: ["animeVideo"],
     queryFn: () => {
-      return getAnimePreview("41496");
+      return getAnimePreview("41558");
     },
   });
 
@@ -47,29 +48,29 @@ function AnimeDetail({}: Props) {
   );
 
   return (
-    <div>
-      <div>
+    <S.DetailContainer>
+      <S.ContentsContainer>
         <div>
-          <div>
-            {animeDetail.name}
-            <p>{animeDetail.content}</p>
-            <p>{animeDetail.genres}</p>
-          </div>
-          <div>{animeDetail.avg_rating}/5</div>
-        </div>
-        <div>
-          <div>
+          <S.ContentsImg>
             <img src={animeDetail.img} />
-          </div>
+          </S.ContentsImg>
         </div>
-      </div>
+        <div>
+          <S.ContentsText>
+            <p>{animeDetail.name}</p>
+            <S.ContentsText>{animeDetail.content}</S.ContentsText>
+            <S.ContentsText>{animeDetail.genres}</S.ContentsText>
+          </S.ContentsText>
+          <S.ContentsText>평점: {animeDetail.avg_rating}/5</S.ContentsText>
+        </div>
+      </S.ContentsContainer>
       <div>
         <VideoPlayer
           src={animeVideo.public_streaming_info.hls_preview_url}
           type="m3u8"
         />
       </div>
-    </div>
+    </S.DetailContainer>
   );
 }
 
