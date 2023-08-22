@@ -11,10 +11,13 @@ import UserInfoModify from "../pages/UserInfoModify";
 import WorldCup from "../pages/WorldCup";
 import WriteBoard from "../pages/WriteBoard";
 import Header from "../components/Header";
+import { GlobalStyle } from "../styles/globalstyle";
 const Router = () => {
   return (
     <BrowserRouter>
       <Header />
+
+      <GlobalStyle />
       <Routes>
         <Route path="/" element={<Main />} />
         <Route path="/recommend" element={<AnimeRecommend />} />
