@@ -2,30 +2,24 @@ import supabase from "../supabaseClient";
 import { Database } from "../types/supabase";
 type PostComment = Database["public"]["Tables"]["post_comments"]["Row"];
 
-const fetchComments = async (id: string, page: number): Promise<any> => {
-  const itemsPerPage = 4; // 한 페이지당 보여줄 댓글 개수
+const fetchComments = async (post_id: string, page: number): Promise<any> => {
+  const itemsPerPage = 4;
 
-  // 해당 페이지의 시작 인덱스 계산
   const startIndex = (page - 1) * itemsPerPage;
 
-  // 댓글 데이터 가져오기
   const { data } = await supabase
     .from("post_comments")
     .select("*")
-    .eq("post_id", "111d55e1-5fbf-497d-9117-18da8937ab55")
+    .eq("post_id", post_id) // post_id 값을 변수 post_id로 변경
     .range(startIndex, startIndex + itemsPerPage - 1);
-  //   console.log("data", data)
 
-  // 총 댓글 개수 가져오기
   const { count } = await supabase
     .from("post_comments")
     .select("count", { count: "exact" })
-    .eq("post_id", "111d55e1-5fbf-497d-9117-18da8937ab55");
+    .eq("post_id", post_id); // post_id 값을 변수 post_id로 변경
 
-  // 총 페이지 개수 계산
   const totalPages = Math.ceil(count! / itemsPerPage);
 
-  // 데이터와 총 페이지 개수를 객체로 묶어서 반환
   return { data, totalPages };
 };
 

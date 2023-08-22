@@ -11,13 +11,14 @@ import {
 } from "../api/comment";
 import { Database } from "../types/supabase";
 import { atom, useAtom } from "jotai";
+import { v4 as uuidv4 } from "uuid";
 type PostComment = Database["public"]["Tables"]["post_comments"]["Row"];
 
-// jotai
 const userAtom = atom<null | any>(null);
 
-const Detail = () => {
+const Board = () => {
   const { id } = useParams();
+  console.log("id", id);
   const [user, setUser] = useAtom(userAtom);
 
   const queryClient = useQueryClient();
@@ -26,41 +27,33 @@ const Detail = () => {
   const [editingCommentId, setEditingCommentId] = useState<string | null>("");
   const [editedCommentText, setEditedCommentText] = useState<string>("");
 
-  //작성
   const addMutation = useMutation(addComment, {
     onSuccess: () => {
-      queryClient.invalidateQueries(["post_comments"]); // 쿼리 키 수정
+      queryClient.invalidateQueries(["post_comments"]);
     },
   });
+
   const handleCommentSubmit = () => {
-    // if (!user) {
-    //   alert("로그인 후에 댓글을 작성할 수 있습니다! 로그인해주세요.");
-    //   return;
-    // }
-
-    // if (!newComment) {
-    //   alert("댓글 내용을 입력해주세요.");
-    //   return;
-    // }
-
     const currentTime = new Date();
     const formattedDate = currentTime.toISOString();
 
     const createComment: PostComment = {
-      id: id as string,
+      id: uuidv4(),
       created_at: formattedDate,
       comment: newComment,
       post_id: id as string,
       user_id: user?.userid as string,
     };
+
+    console.log("Creating comment:", createComment); // 콘솔 로그 추가
+
     addMutation.mutate(createComment);
     setNewComment("");
   };
 
-  // 삭제
   const deleteMutation = useMutation(deleteComment, {
     onSuccess: () => {
-      queryClient.invalidateQueries(["post_comments"]); // 쿼리 키 수정
+      queryClient.invalidateQueries(["post_comments"]);
     },
   });
   const handleCommentDelete = async (commentId: string) => {
@@ -70,39 +63,39 @@ const Detail = () => {
     }
   };
 
-  //수정
   const editMutation = useMutation(updateComment, {
     onSuccess: () => {
-      queryClient.invalidateQueries(["post_comments"]); // 쿼리 키 수정
+      queryClient.invalidateQueries(["post_comments"]);
     },
   });
 
   const handleCommentEdit = (comment: PostComment) => {
     if (editingCommentId === comment.id) {
-      // 이미 수정 중인 댓글인 경우, 수정된 내용을 저장하고 수정 모드 종료
       const editComment = {
         ...comment,
-        text: editedCommentText,
+        comment: editedCommentText,
       };
       editMutation.mutate(editComment);
       setEditingCommentId(null);
     } else {
-      // 수정 모드로 변경
       setEditingCommentId(comment.id);
       setEditedCommentText(comment.comment);
     }
   };
 
   const [page, setPage] = useState<number>(1);
-
-  const { data: comments } = useQuery<any>(
+  const { data: postCommentsData } = useQuery<any>(
     ["post_comments", id, page],
-    () => fetchComments(id!, page),
+    () => {
+      if (id) {
+        return fetchComments(id, page);
+      }
+      return Promise.resolve({ data: [], totalPages: 1 });
+    },
     { keepPreviousData: true }
   );
 
   const onClickPage = (selected: number | string) => {
-    // 같은 페이지를 그대로 클릭시 함수종료
     if (page === selected) return;
     if (typeof selected === "number") {
       setPage(selected);
@@ -112,22 +105,14 @@ const Detail = () => {
       setPage((prev: any) => prev - 1);
       return;
     }
-    if (selected === "next" && page < comments.total_pages) {
+    if (selected === "next" && page < postCommentsData.totalPages) {
       setPage((prev: any) => prev + 1);
       return;
     }
   };
 
-  // if (isLoading) {
-  //   return (
-  //     <>
-  //       <Loading />
-  //     </>
-  //   );
-  // }
-  // if (isError) {
-  //   return <h1>오류 발생</h1>;
-  // }
+  // 데이터가 로드되고 렌더링되는 부분에 콘솔 로그 추가
+  console.log("postCommentsData:", postCommentsData);
 
   return (
     <S.Outer>
@@ -147,42 +132,37 @@ const Detail = () => {
           <S.WriteButton onClick={handleCommentSubmit}>작성</S.WriteButton>
         </S.CommentTop>
         <S.CommentBot>
-          {comments?.data?.map((comment: any) => (
-            <>
-              <S.Comment key={comment.commentid}>
-                <div>
-                  <S.CommentName>{comment.name}</S.CommentName>
-                  <S.CommentDate>
-                    {new Date(comment.date).toLocaleString()}
-                  </S.CommentDate>
-                </div>
-                {user?.userid === comment.userid && (
-                  <S.ButtonBox>
-                    <S.button onClick={() => handleCommentEdit(comment)}>
-                      {comment.commentid === editingCommentId ? "저장" : "수정"}
-                    </S.button>
-                    <S.button
-                      onClick={() => handleCommentDelete(comment.commentid)}
-                    >
-                      삭제
-                    </S.button>
-                  </S.ButtonBox>
-                )}
-                {comment.commentid === editingCommentId ? (
-                  <S.EditInput
-                    type="text"
-                    value={editedCommentText}
-                    onChange={(e) => setEditedCommentText(e.target.value)}
-                  />
-                ) : (
-                  comment.text
-                )}
-              </S.Comment>
-            </>
+          {postCommentsData?.data?.map((comment: PostComment) => (
+            <S.Comment key={comment.id}>
+              <div>
+                <S.CommentDate>
+                  {new Date(comment.created_at).toLocaleString()}
+                </S.CommentDate>
+              </div>
+              {user?.user_id === comment.user_id && (
+                <S.ButtonBox>
+                  <S.button onClick={() => handleCommentEdit(comment)}>
+                    {comment.id === editingCommentId ? "저장" : "수정"}
+                  </S.button>
+                  <S.button onClick={() => handleCommentDelete(comment.id)}>
+                    삭제
+                  </S.button>
+                </S.ButtonBox>
+              )}
+              {comment.id === editingCommentId ? (
+                <S.EditInput
+                  type="text"
+                  value={editedCommentText}
+                  onChange={(e) => setEditedCommentText(e.target.value)}
+                />
+              ) : (
+                comment.comment
+              )}
+            </S.Comment>
           ))}
           <Pagination
             currentPage={page}
-            totalPages={comments?.totalPages ?? 1}
+            totalPages={postCommentsData?.totalPages ?? 1}
             onClick={onClickPage}
           />
         </S.CommentBot>
@@ -191,4 +171,4 @@ const Detail = () => {
   );
 };
 
-export default Detail;
+export default Board;
