@@ -8,10 +8,10 @@ const AnimeFilter = () => {
   return (
     <>
       <S.FilterContainer>
-        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <section style={{ display: 'flex', justifyContent: 'space-between' }}>
           <AnimeCategory />
           <AnimeSearch />
-        </div>
+        </section>
         <AnimeTag />
       </S.FilterContainer>
     </>

@@ -91,4 +91,6 @@ export interface laftelParamsM {
   )[];
   viewable?: true | false;
   medium?: ('TVA' | '극장판' | 'OVA')[];
+  offset?: number;
+  size?: number;
 }

@@ -3,9 +3,10 @@ import styled from 'styled-components';
 export const S = {
   // 전체 container
   SearchContainer: styled.div`
-    width: 15%;
+    width: 17%;
     height: 36px;
-    border: 1px solid black;
+    border: 1px solid #cfcfcf;
+    border-radius: 20px;
     gap: 16px;
     display: flex;
     -webkit-box-align: center;
@@ -17,13 +18,22 @@ export const S = {
   `,
 
   SearchInput: styled.input`
-    width: 60%;
+    width: 80%;
     height: 50%;
     border: none;
-    border-left: 1px solid grey;
+    border-left: 1px solid #cfcfcf;
+    margin-left: 10px;
     padding: 0px 5px 0px 5px;
     outline: none; /* 원하는 스타일로 변경 가능 */
     font-size: 0.875rem;
+  `,
+
+  SearchSVG: styled.svg`
+    width: 16px;
+    height: 16px;
+    margin-right: 10px;
+    fill: none;
+    cursor: pointer;
   `,
   // 버튼들 container
   //   ButtonContainer: styled.div`
