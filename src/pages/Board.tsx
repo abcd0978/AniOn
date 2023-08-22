@@ -1,13 +1,8 @@
 import React from "react";
-import Comments from "../components/common/Comments";
 
 type Props = {};
 
-function Board({}: Props) {
-  return (
-    <div>
-      <Comments />
-    </div>
-  );
-}
+const Board = (props: Props) => {
+  return <div>Board</div>;
+};
 export default Board;

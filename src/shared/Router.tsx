@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Main from "../pages/Main";
 import AnimeRecommend from "../pages/AnimeRecommend";
-import Board from "../pages/Board";
+import Board from "../pages/BoardDetail";
 import Login from "../pages/Login";
 import MyPage from "../pages/MyPage";
 import Register from "../pages/Register";
@@ -12,6 +12,7 @@ import WorldCup from "../pages/WorldCup";
 import WriteBoard from "../pages/WriteBoard";
 import Header from "../components/Header";
 import AnimeDetail from "../pages/AnimeDetail";
+import BoardDetail from "../pages/BoardDetail";
 import { GlobalStyle } from "../styles/globalstyle";
 const Router = () => {
   return (
@@ -25,7 +26,8 @@ const Router = () => {
         <Route path="/recommend/:id" element={<AnimeDetail />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/board/:id" element={<Board />} />
+        <Route path="/board" element={<Board />} />
+        <Route path="/boarddetail/:id" element={<BoardDetail />} />
         <Route path="/myPage/:user_id" element={<MyPage />} />
         <Route path="/shop/:category" element={<Shop />} />
         <Route path="/userinfomodify" element={<UserInfoModify />} />

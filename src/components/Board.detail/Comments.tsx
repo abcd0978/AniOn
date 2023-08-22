@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
-import Pagination from "../../components/Pagenation";
+import Pagination from "../Pagenation";
 import * as S from "./Comments.Styles";
 import {
   fetchComments,
