@@ -10,13 +10,14 @@ const fetchComments = async (post_id: string, page: number): Promise<any> => {
   const { data } = await supabase
     .from("post_comments")
     .select("*")
-    .eq("post_id", post_id) // post_id 값을 변수 post_id로 변경
+    .eq("post_id", post_id)
+    .order("created_at", { ascending: false }) //댓글 최신순
     .range(startIndex, startIndex + itemsPerPage - 1);
 
   const { count } = await supabase
     .from("post_comments")
     .select("count", { count: "exact" })
-    .eq("post_id", post_id); // post_id 값을 변수 post_id로 변경
+    .eq("post_id", post_id);
 
   const totalPages = Math.ceil(count! / itemsPerPage);
 

@@ -16,9 +16,8 @@ type PostComment = Database["public"]["Tables"]["post_comments"]["Row"];
 
 const userAtom = atom<null | any>(null);
 
-const Board = () => {
+const Comments = () => {
   const { id } = useParams();
-  console.log("id", id);
   const [user, setUser] = useAtom(userAtom);
 
   const queryClient = useQueryClient();
@@ -170,4 +169,4 @@ const Board = () => {
   );
 };
 
-export default Board;
+export default Comments;
