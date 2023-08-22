@@ -45,7 +45,7 @@ const Board = () => {
       user_id: user?.userid as string,
     };
 
-    console.log("Creating comment:", createComment); // 콘솔 로그 추가
+    console.log("Creating comment:", createComment);
 
     addMutation.mutate(createComment);
     setNewComment("");
@@ -111,7 +111,6 @@ const Board = () => {
     }
   };
 
-  // 데이터가 로드되고 렌더링되는 부분에 콘솔 로그 추가
   console.log("postCommentsData:", postCommentsData);
 
   return (
