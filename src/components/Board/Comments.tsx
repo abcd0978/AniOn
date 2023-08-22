@@ -116,20 +116,6 @@ const Board = () => {
   return (
     <S.Outer>
       <S.CommentContainer>
-        <S.CommentTop>
-          <S.WriteInput
-            type="text"
-            value={newComment}
-            onChange={(e) => setNewComment(e.target.value)}
-            onKeyPress={(e) => {
-              if (e.key === "Enter") {
-                handleCommentSubmit();
-              }
-            }}
-            placeholder="댓글을 작성해주세요!"
-          />
-          <S.WriteButton onClick={handleCommentSubmit}>작성</S.WriteButton>
-        </S.CommentTop>
         <S.CommentBot>
           {postCommentsData?.data?.map((comment: PostComment) => (
             <S.Comment key={comment.id}>
@@ -159,6 +145,20 @@ const Board = () => {
               )}
             </S.Comment>
           ))}
+          <div style={{ display: "flex" }}>
+            <S.WriteInput
+              type="text"
+              value={newComment}
+              onChange={(e) => setNewComment(e.target.value)}
+              onKeyPress={(e) => {
+                if (e.key === "Enter") {
+                  handleCommentSubmit();
+                }
+              }}
+              placeholder="댓글을 작성해주세요!"
+            />
+            <S.WriteButton onClick={handleCommentSubmit}>등록</S.WriteButton>
+          </div>
           <Pagination
             currentPage={page}
             totalPages={postCommentsData?.totalPages ?? 1}
