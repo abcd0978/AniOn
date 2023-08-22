@@ -32,8 +32,10 @@ const ContentVideo = styled.video`
   // height: 542.36px;
   margin-top: 20px;
 
-  //   @media screen and (max-width: 600px) {
-  //   flex-direction: column;
-  //   align-items: flex-end;
-  // }
+  @media screen and (max-width: 775px) {
+    width: 500px;
+  }
+  @media screen and (max-width: 570px) {
+    width: 400px;
+  }
 `;

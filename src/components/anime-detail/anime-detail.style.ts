@@ -8,6 +8,11 @@ export const S = {
   ContentsContainer: styled.div`
     display: flex;
     gap: 30px;
+    @media screen and (max-width: 775px) {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
   `,
 
   ContentsImg: styled.div`
