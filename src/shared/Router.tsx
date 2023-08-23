@@ -1,22 +1,17 @@
-import React from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Main from "../pages/Main";
-import AnimeRecommend from "../pages/AnimeRecommend";
-import Board from "../pages/Board";
-import Login from "../pages/Login";
-import MyPage from "../pages/MyPage";
-import Register from "../pages/Register";
-import Shop from "../pages/Shop";
-import UserInfoModify from "../pages/UserInfoModify";
-import WorldCup from "../pages/WorldCup";
-import WriteBoard from "../pages/WriteBoard";
-import Header from "../components/Header";
-<<<<<<< HEAD
-import NotFoundPage from "../pages/NotFoundPage";
-import WithAuth from "../hoc/WithAuth";
-=======
-import { GlobalStyle } from "../styles/globalstyle";
->>>>>>> bb2d959729616be4c4cc065bbc879f420b04ad38
+import React from 'react';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Main from '../pages/Main';
+import AnimeRecommend from '../pages/AnimeRecommend';
+import Board from '../pages/Board';
+import MyPage from '../pages/MyPage';
+import Shop from '../pages/Shop';
+import UserInfoModify from '../pages/UserInfoModify';
+import WorldCup from '../pages/WorldCup';
+import WriteBoard from '../pages/WriteBoard';
+import Header from '../components/Header';
+import NotFoundPage from '../pages/NotFoundPage';
+import WithAuth from '../hoc/WithAuth';
+import { GlobalStyle } from '../styles/globalstyle';
 const Router = () => {
   return (
     <BrowserRouter>
