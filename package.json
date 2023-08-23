@@ -24,6 +24,8 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.15.0",
     "react-scripts": "5.0.1",
+    "short-id": "^0.1.0-1",
+    "shortid": "^2.2.16",
     "styled-components": "^6.0.7",
     "styled-reset": "^4.5.1",
     "supabase": "^1.86.2",
@@ -53,5 +55,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/uuid": "^9.0.2"
   }
 }

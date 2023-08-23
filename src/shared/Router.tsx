@@ -11,7 +11,10 @@ import WriteBoard from '../pages/WriteBoard';
 import Header from '../components/Header';
 import NotFoundPage from '../pages/NotFoundPage';
 import WithAuth from '../hoc/WithAuth';
-import { GlobalStyle } from '../styles/globalstyle';
+import BoardDetail from "../pages/BoardDetail";
+import BoardAni from "../pages/BoardAni";
+import BoardFree from "../pages/BoardFree";
+
 const Router = () => {
   return (
     <BrowserRouter>
@@ -30,7 +33,10 @@ const Router = () => {
         />
         <Route path="/worldcup" element={WithAuth(WorldCup, true)} />
         <Route path="/board/write" element={WithAuth(WriteBoard, true)} />
-        <Route path="/*" element={<NotFoundPage />} />
+        <Route path="/*" element={ <NotFoundPage /> } />
+        <Route path="/board/:post_id" element={ WithAuth(BoardDetail,null) } />
+        <Route path="/ani" element={ WithAuth(BoardAni,null) } />
+        <Route path="/free" element={ WithAuth(BoardFree,null) } />
       </Routes>
     </BrowserRouter>
   );
