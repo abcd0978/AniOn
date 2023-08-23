@@ -26,11 +26,11 @@ const Router = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/board" element={<Board />} />
         <Route path="/board/:post_id" element={<BoardDetail />} />
+        <Route path="/board/write" element={<WriteBoard />} />
         <Route path="/myPage/:user_id" element={<MyPage />} />
         <Route path="/shop/:category" element={<Shop />} />
         <Route path="/userinfomodify" element={<UserInfoModify />} />
         <Route path="/worldcup" element={<WorldCup />} />
-        <Route path="/board/write" element={<WriteBoard />} />
       </Routes>
     </BrowserRouter>
   );

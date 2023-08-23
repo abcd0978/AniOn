@@ -18,7 +18,7 @@ const userAtom = atom<null | any>(null);
 
 const Comments = () => {
   const { post_id } = useParams();
-  console.log("post_id", post_id);
+  // console.log("post_id", post_id);
   const [user, setUser] = useAtom(userAtom);
 
   const queryClient = useQueryClient();
@@ -45,7 +45,7 @@ const Comments = () => {
       user_id: user?.userid as string,
     };
 
-    console.log("Creating comment:", createComment);
+    // console.log("Creating comment:", createComment);
 
     addMutation.mutate(createComment);
     setNewComment("");
@@ -111,7 +111,7 @@ const Comments = () => {
     }
   };
 
-  console.log("postCommentsData:", postCommentsData);
+  // console.log("postCommentsData:", postCommentsData);
 
   return (
     <S.Outer>
