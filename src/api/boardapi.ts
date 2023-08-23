@@ -3,10 +3,10 @@ import { Database } from "../types/supabase";
 type Posts = Database["public"]["Tables"]["posts"]["Row"];
 
 // Post 상세조회
-const getPost = async (id: string): Promise<Posts> => {
-  const { data } = await supabase.from("posts").select().eq("id", id).single();
-  return data;
-};
+// const getPost = async (id: string): Promise<Posts> => {
+//   const { data } = await supabase.from("posts").select().eq("id", id).single();
+//   return data;
+// };
 
 // Post 추가
 const createPost = async (newPost: Posts): Promise<void> => {
@@ -44,4 +44,4 @@ const updatePost = async (editPost: Posts): Promise<void> => {
   await supabase.from("posts").update(editPost).eq("id", editPost.id);
 };
 
-export { createPost, getPost, deletePost, updatePost };
+export { createPost, deletePost, updatePost };

@@ -12,13 +12,17 @@ import {
 import { Database } from "../../types/supabase";
 import { atom, useAtom } from "jotai";
 import { v4 as uuidv4 } from "uuid";
-type PostComment = Database["public"]["Tables"]["post_comments"]["Row"];
+type ReadPostComment = Database["public"]["Tables"]["post_comments"]["Row"];
+type InsertPostComment =
+  Database["public"]["Tables"]["post_comments"]["Insert"];
+type UpdatePostComment =
+  Database["public"]["Tables"]["post_comments"]["Update"];
 
 const userAtom = atom<null | any>(null);
 
 const Comments = () => {
-  const { post_id } = useParams();
-  // console.log("post_id", post_id);
+  const { post_id } = useParams() as { post_id: string };
+
   const [user, setUser] = useAtom(userAtom);
 
   const queryClient = useQueryClient();
@@ -37,15 +41,16 @@ const Comments = () => {
     const currentTime = new Date();
     const formattedDate = currentTime.toISOString();
 
-    const createComment: PostComment = {
-      id: uuidv4(),
+    //생성
+    const createComment: InsertPostComment = {
       created_at: formattedDate,
       comment: newComment,
-      post_id: post_id as string,
-      user_id: user?.userid as string,
+      post_id: "dc0f768b-1d31-41c2-8ec2-7e80edd43396",
+      user_id: "2fb03ff7-9993-458b-8740-317a04b36c65",
+      // user_id: user?.userid as string,
     };
 
-    // console.log("Creating comment:", createComment);
+    console.log("Creating comment:", createComment);
 
     addMutation.mutate(createComment);
     setNewComment("");
@@ -69,7 +74,7 @@ const Comments = () => {
     },
   });
 
-  const handleCommentEdit = (comment: PostComment) => {
+  const handleCommentEdit = (comment: UpdatePostComment) => {
     if (editingCommentId === comment.id) {
       const editComment = {
         ...comment,
@@ -78,7 +83,7 @@ const Comments = () => {
       editMutation.mutate(editComment);
       setEditingCommentId(null);
     } else {
-      setEditingCommentId(comment.id);
+      setEditingCommentId(comment.id!);
       setEditedCommentText(comment.comment);
     }
   };
@@ -131,9 +136,13 @@ const Comments = () => {
           <S.WriteButton onClick={handleCommentSubmit}>작성</S.WriteButton>
         </S.CommentTop>
         <S.CommentBot>
-          {postCommentsData?.data?.map((comment: PostComment) => (
+          {postCommentsData?.data?.map((comment: ReadPostComment) => (
             <S.Comment key={comment.id}>
               <div>
+                <div>
+                  <img src={comment.users.profile_img_url} />
+                </div>
+                <div>{comment.users.nickname}</div>
                 <S.CommentDate>
                   {new Date(comment.created_at).toLocaleString()}
                 </S.CommentDate>

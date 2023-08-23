@@ -224,16 +224,20 @@ export interface Database {
           id: string;
           post_id: string;
           user_id: string;
+          users: {
+            nickname: string;
+            profile_img_url: string;
+          };
         };
         Insert: {
           comment: string;
           created_at?: string;
-          id?: string;
           post_id: string;
           user_id: string;
         };
+
         Update: {
-          comment?: string;
+          comment: string;
           created_at?: string;
           id?: string;
           post_id?: string;
