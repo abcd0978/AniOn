@@ -5,7 +5,7 @@ export const fetchAnimeList = async (laftelParams: laftelParamsM) => {
   // 배열 형태로 받기 때문에 ',' 단위로 join을 해준다.
   const genresParam = laftelParams.genres ? laftelParams.genres.join(',') : '';
   const tagsParam = laftelParams.tags ? laftelParams.tags.join(',') : '';
-
+  // https://laftel.net/api/search/v3/keyword/?keyword=%EB%82%98&viewing_only=true&offset=0&size=24 < 검색 api
   const result = await api.get(`/search/v1/discover/?`, {
     params: {
       sort: laftelParams.sort,

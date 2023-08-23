@@ -31,7 +31,7 @@ const AnimeList = () => {
     refetchOnWindowFocus: false,
   };
 
-  const { isLoading, isError, isFetching, refetch, data } =
+  const { isLoading, isError, isFetching, data } =
     useQuery(defaultQueryOptions);
 
   // 스로틀링된 무한 스크롤 콜백 함수
@@ -39,7 +39,6 @@ const AnimeList = () => {
     if (isNextPage && !isFetching) {
       // 이전 offset에 size를 더하여 다음 페이지 데이터를 가져오도록 설정
       setOffset((prevOffset) => prevOffset! + size);
-      refetch();
     }
   }, 2000); // 1초에 한 번만 호출되도록 설정
 
