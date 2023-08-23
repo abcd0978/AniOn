@@ -12,3 +12,8 @@ export const getAnimePreview = async (animeId: string) => {
   const result = await api.get(`/episodes/v1/${animeId}/recent-video/`);
   console.log(result);
 };
+export const getAnimeById = async (animeId: string) => {
+  const result = await api.get(`/items/v2/${animeId}/`);
+  console.log(result);
+  return result!.data!;
+};

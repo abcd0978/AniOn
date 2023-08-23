@@ -11,21 +11,25 @@ import UserInfoModify from "../pages/UserInfoModify";
 import WorldCup from "../pages/WorldCup";
 import WriteBoard from "../pages/WriteBoard";
 import Header from "../components/Header";
+import NotFoundPage from "../pages/NotFoundPage";
+import WithAuth from "../hoc/WithAuth";
 const Router = () => {
   return (
     <BrowserRouter>
       <Header />
       <Routes>
         <Route path="/" element={<Main />} />
-        <Route path="/recommend" element={<AnimeRecommend />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/board" element={<Board />} />
-        <Route path="/myPage/:user_id" element={<MyPage />} />
-        <Route path="/shop/:category" element={<Shop />} />
-        <Route path="/userinfomodify" element={<UserInfoModify />} />
-        <Route path="/worldcup" element={<WorldCup />} />
-        <Route path="/board/write" element={<WriteBoard />} />
+        <Route path="/recommend" element={WithAuth(AnimeRecommend, true)} />
+        <Route path="/board" element={WithAuth(Board, null)} />
+        <Route path="/myPage/:user_id" element={WithAuth(MyPage, true)} />
+        <Route path="/shop/:category" element={WithAuth(Shop, true)} />
+        <Route
+          path="/userinfomodify"
+          element={WithAuth(UserInfoModify, true)}
+        />
+        <Route path="/worldcup" element={WithAuth(WorldCup, true)} />
+        <Route path="/board/write" element={WithAuth(WriteBoard, true)} />
+        <Route path="/*" element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>
   );
