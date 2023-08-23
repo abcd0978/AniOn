@@ -1,9 +1,9 @@
-import { useQuery } from "@tanstack/react-query";
-import { getAnimeById, getAnimePreview } from "../api/laftel";
-import { useParams } from "react-router-dom";
-import VideoPlayer from "../components/anime-detail/VideoPlayer";
-import { S } from "../components/anime-detail/anime-detail.style";
-import AnimeDetailComments from "../components/anime-detail/AnimeDetailComments";
+import { useQuery } from '@tanstack/react-query';
+import { getAnimeById, getAnimePreview } from '../api/laftel';
+import { useParams } from 'react-router-dom';
+import VideoPlayer from '../components/anime-detail/VideoPlayer';
+import { S } from '../components/anime-detail/anime-detail.style';
+import AnimeDetailComments from '../components/anime-detail/AnimeDetailComments';
 
 type Props = {};
 
@@ -18,7 +18,7 @@ function AnimeDetail({}: Props) {
     isError: isDetailError,
     data: animeDetail,
   } = useQuery({
-    queryKey: ["animeDetail"],
+    queryKey: ['animeDetail'],
     queryFn: () => {
       return getAnimeById(ani_id);
     },
@@ -29,19 +29,19 @@ function AnimeDetail({}: Props) {
     isError: isVideoError,
     data: animeVideo,
   } = useQuery({
-    queryKey: ["animeVideo"],
+    queryKey: ['animeVideo'],
     queryFn: () => {
       return getAnimePreview(ani_id);
     },
   });
 
-  console.log("<<<<<>>>>", animeDetail);
+  // console.log("<<<<<>>>>", animeDetail);
 
   if (isDetailLoading || isVideoLoading) {
     return <h3>데이터를 가져오는 중입니다.</h3>;
   }
   if (isDetailError || isVideoError) {
-    console.log("데이터를 가져올 수 없습니다.");
+    console.log('데이터를 가져올 수 없습니다.');
   }
 
   return (
@@ -56,6 +56,7 @@ function AnimeDetail({}: Props) {
             </S.AniDetailTagBox>
             <S.ContentsText>
               <S.AniLabel>{animeDetail.name}</S.AniLabel>
+              <S.PreviewBox>▶ 1화 맛보기</S.PreviewBox>
               <S.ContentsText>장르: {animeDetail.genres}</S.ContentsText>
               <S.ContentsText>{animeDetail.content}</S.ContentsText>
             </S.ContentsText>
