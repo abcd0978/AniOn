@@ -23,7 +23,7 @@ const Router = () => {
       <Routes>
         <Route path="/" element={<Main />} />
         <Route path="/recommend" element={<AnimeRecommend />} />
-        <Route path="/recommend/:id" element={<AnimeDetail />} />
+        <Route path="/recommend/:ani_id" element={<AnimeDetail />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/board" element={<Board />} />
