@@ -65,7 +65,7 @@ const MyProfile = () => {
     </div>
   );
 };
-
+//새로운 닉네임
 const UpdateProfileForm = ({ user }: { user: Users }) => {
   const [, setUser] = useAtom(userAtom);
   const [newNickname, setNewNickname] = useState("");

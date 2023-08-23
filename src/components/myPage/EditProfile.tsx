@@ -54,7 +54,7 @@ const EditProfile = ({ user }: { user: Users }) => {
         console.error(userUpdateError);
         return;
       }
-      console.log("User profile updated successfully!");
+      console.log("User profile updated successfully!!!!");
     } catch (error) {
       console.error(error);
     }

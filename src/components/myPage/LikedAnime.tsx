@@ -10,11 +10,11 @@ if (!supabaseUrl || !supabaseAnonKey) {
 
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
-type Like = {
-  id: string;
-  post_id: string;
-  user_id: string;
-};
+// type Like = {
+//   id: string;
+//   post_id: string;
+//   user_id: string;
+// };
 
 // const fetchLikedPosts = async (userId: string): Promise<Like[]> => {
 //   const { data, error } = await supabase

@@ -16,8 +16,6 @@ type Post = {
   id: string;
   title: string;
   content: string | null;
-  created_at: string;
-  user_id: string;
 };
 
 const userPostsAtom = atom<Post[]>([]);
@@ -56,7 +54,6 @@ const WhatIWrote = () => {
         {userPosts.map((posts) => (
           <li key={posts.id}>
             <h3>{posts.title}</h3>
-            <p>{posts.created_at}</p>
           </li>
         ))}
       </ul>
