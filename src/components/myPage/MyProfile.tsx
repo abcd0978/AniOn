@@ -35,7 +35,7 @@ export type Users = Database["public"]["Tables"]["users"]["Row"];
 const userAtom = atom<Users | null>(null);
 
 const MyProfile = () => {
-  const [user, setUser] = useAtom(userAtom); // Use the jotai atom
+  const [user, setUser] = useAtom(userAtom);
   const { user_id } = useParams();
 
   useEffect(() => {
