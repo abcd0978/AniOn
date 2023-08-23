@@ -18,6 +18,7 @@
     "axios": "^1.4.0",
     "embla-carousel-autoplay": "^8.0.0-rc11",
     "embla-carousel-react": "^8.0.0-rc11",
+    "hls.js": "^1.4.10",
     "http-proxy-middleware": "^2.0.6",
     "jotai": "^2.3.1",
     "react": "^18.2.0",
