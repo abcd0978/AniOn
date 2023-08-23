@@ -4,15 +4,21 @@ type PostComment = Database["public"]["Tables"]["post_comments"]["Row"];
 
 const fetchComments = async (post_id: string, page: number): Promise<any> => {
   const itemsPerPage = 4;
-
   const startIndex = (page - 1) * itemsPerPage;
 
   const { data } = await supabase
     .from("post_comments")
-    .select("*")
+    .select(
+      `
+      *,
+      users(nickname)
+    `
+    )
     .eq("post_id", post_id)
-    .order("created_at", { ascending: false }) //댓글 최신순
-    .range(startIndex, startIndex + itemsPerPage - 1);
+    .range(startIndex, startIndex + itemsPerPage - 1)
+    .order("created_at", { ascending: false });
+
+  console.log("data", data);
 
   const { count } = await supabase
     .from("post_comments")
@@ -45,5 +51,5 @@ const updateComment = async (editComment: PostComment) => {
 export { fetchComments, addComment, deleteComment, updateComment };
 
 // 유저아이    d19626c2-c374-421f-9dd1-726268e982cd
+// post f4977fbd-d3ad-41f1-bbc7-5fb853b3ecfb
 // cate  f5147c98-9f3a-4d2b-9fe6-0738abf38ba8
-// post 111d55e1-5fbf-497d-9117-18da8937ab55

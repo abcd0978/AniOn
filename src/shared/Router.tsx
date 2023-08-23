@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Main from "../pages/Main";
 import AnimeRecommend from "../pages/AnimeRecommend";
-import Board from "../pages/BoardDetail";
+import Board from "../pages/Board";
 import Login from "../pages/Login";
 import MyPage from "../pages/MyPage";
 import Register from "../pages/Register";
@@ -25,7 +25,7 @@ const Router = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/board" element={<Board />} />
-        <Route path="/boarddetail/:id" element={<BoardDetail />} />
+        <Route path="/board/:post_id" element={<BoardDetail />} />
         <Route path="/myPage/:user_id" element={<MyPage />} />
         <Route path="/shop/:category" element={<Shop />} />
         <Route path="/userinfomodify" element={<UserInfoModify />} />

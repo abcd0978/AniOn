@@ -3,6 +3,6 @@ import React from "react";
 type Props = {};
 
 const Board = (props: Props) => {
-  return <div>Board</div>;
+  return <div></div>;
 };
 export default Board;

@@ -8,7 +8,7 @@ import {
   addComment,
   deleteComment,
   updateComment,
-} from "../../api/comment";
+} from "../../api/commentapi";
 import { Database } from "../../types/supabase";
 import { atom, useAtom } from "jotai";
 import { v4 as uuidv4 } from "uuid";
@@ -17,8 +17,8 @@ type PostComment = Database["public"]["Tables"]["post_comments"]["Row"];
 const userAtom = atom<null | any>(null);
 
 const Comments = () => {
-  const { id } = useParams();
-
+  const { post_id } = useParams();
+  console.log("post_id", post_id);
   const [user, setUser] = useAtom(userAtom);
 
   const queryClient = useQueryClient();
@@ -34,11 +34,6 @@ const Comments = () => {
   });
 
   const handleCommentSubmit = () => {
-    if (!newComment) {
-      alert("댓글 내용을 입력해주세요.");
-      return;
-    }
-
     const currentTime = new Date();
     const formattedDate = currentTime.toISOString();
 
@@ -46,7 +41,7 @@ const Comments = () => {
       id: uuidv4(),
       created_at: formattedDate,
       comment: newComment,
-      post_id: id as string,
+      post_id: post_id as string,
       user_id: user?.userid as string,
     };
 
@@ -90,10 +85,10 @@ const Comments = () => {
 
   const [page, setPage] = useState<number>(1);
   const { data: postCommentsData } = useQuery<any>(
-    ["post_comments", id, page],
+    ["post_comments", post_id, page],
     () => {
-      if (id) {
-        return fetchComments(id, page);
+      if (post_id) {
+        return fetchComments(post_id, page);
       }
       return Promise.resolve({ data: [], totalPages: 1 });
     },
@@ -121,6 +116,20 @@ const Comments = () => {
   return (
     <S.Outer>
       <S.CommentContainer>
+        <S.CommentTop>
+          <S.WriteInput
+            type="text"
+            value={newComment}
+            onChange={(e) => setNewComment(e.target.value)}
+            onKeyPress={(e) => {
+              if (e.key === "Enter") {
+                handleCommentSubmit();
+              }
+            }}
+            placeholder="댓글을 작성해주세요!"
+          />
+          <S.WriteButton onClick={handleCommentSubmit}>작성</S.WriteButton>
+        </S.CommentTop>
         <S.CommentBot>
           {postCommentsData?.data?.map((comment: PostComment) => (
             <S.Comment key={comment.id}>
@@ -150,20 +159,6 @@ const Comments = () => {
               )}
             </S.Comment>
           ))}
-          <div style={{ display: "flex" }}>
-            <S.WriteInput
-              type="text"
-              value={newComment}
-              onChange={(e) => setNewComment(e.target.value)}
-              onKeyPress={(e) => {
-                if (e.key === "Enter") {
-                  handleCommentSubmit();
-                }
-              }}
-              placeholder="댓글을 작성해주세요!"
-            />
-            <S.WriteButton onClick={handleCommentSubmit}>등록</S.WriteButton>
-          </div>
           <Pagination
             currentPage={page}
             totalPages={postCommentsData?.totalPages ?? 1}

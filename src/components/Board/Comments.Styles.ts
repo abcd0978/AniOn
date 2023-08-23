@@ -19,6 +19,7 @@ export const CommentContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background-color: #efefef;
   margin-top: 10px;
   height: 540px;
   border-radius: 30px;
@@ -33,28 +34,30 @@ export const CommentTop = styled.div`
 export const CommentBot = styled.div`
   display: flex;
   flex-direction: column;
-  // height: 80%;
+  height: 80%;
 `;
 
 export const WriteInput = styled.input`
   display: flex;
-  border: 1px solid 4F4F4F;
-  width: 1317px;
-  height: 148px;
+  border: none;
+  width: 90%;
+  height: 40px;
+  background-color: #d9d9d9;
   margin-top: 10px;
+  border-radius: 10px;
 `;
 
 export const WriteButton = styled.button`
-  background-color: #999999;
+  background-color: #a593e0;
   border: none;
   color: white;
-  cursor: pointer;
-  width: 85px;
-  height: 40px;
   border-radius: 10px;
-  padding: 4px, 14px, 4px, 14px;
-  gap: 8px;
-  font-size: 14px;
+  cursor: pointer;
+  width: 65px;
+  height: 38px;
+  margin-left: 20px;
+  margin-top: 13px;
+  font-size: 16px;
   &:hover {
     background-color: rgb(0, 0, 0, 0.5);
     color: rgb(255, 255, 255, 100);
@@ -70,8 +73,10 @@ export const ButtonBox = styled.div`
   margin: 5px;
 `;
 
+export const CommentAuthor = styled.div``;
+
 export const button = styled.button`
-  background-color: #757575
+  background-color: #a593e0;
   border: none;
   border-radius: 10px;
   color: white;
@@ -90,10 +95,12 @@ export const Comment = styled.div`
   display: flex;
   flex-direction: column;
   position: relative;
-  border-bottom: 1px solid #d9d9d9;
+  border: 3px solid #566270;
+  border-radius: 10px;
   margin: 10px 0;
   padding: 10px;
-  width: 1376px;
+  width: 800px;
+  background-color: #ffffff;
 `;
 
 export const CommentName = styled.div`
