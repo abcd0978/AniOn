@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
 import Pagination from '../Pagenation';
@@ -24,6 +24,10 @@ const Comments = () => {
 
   const [user, setUser] = useAtom(userAtom);
 
+  useEffect(() => {
+    setUser({ user_id: '7bd7fde5-17e2-407c-8e70-3b3fb178d761' });
+  }, []);
+
   const queryClient = useQueryClient();
 
   const [newComment, setNewComment] = useState<string>('');
@@ -44,8 +48,8 @@ const Comments = () => {
     const createComment: InsertPostComment = {
       created_at: formattedDate,
       comment: newComment,
-      post_id: 'dc0f768b-1d31-41c2-8ec2-7e80edd43396',
-      user_id: '2fb03ff7-9993-458b-8740-317a04b36c65',
+      post_id: 'a7b5bef1-8973-4c1a-b1d2-33e44ea1cce2',
+      user_id: '7bd7fde5-17e2-407c-8e70-3b3fb178d761',
       // user_id: user?.userid as string,
     };
 
@@ -74,11 +78,15 @@ const Comments = () => {
   });
 
   const handleCommentEdit = (comment: UpdatePostComment) => {
+    console.log('Editing comment:', comment);
+
     if (editingCommentId === comment.id) {
       const editComment = {
         ...comment,
         comment: editedCommentText,
       };
+      console.log('Updating comment with:', editComment);
+
       editMutation.mutate(editComment);
       setEditingCommentId(null);
     } else {
