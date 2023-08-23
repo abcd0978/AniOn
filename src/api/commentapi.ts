@@ -53,5 +53,3 @@ export { fetchComments, addComment, deleteComment, updateComment };
 // 유저아이    d19626c2-c374-421f-9dd1-726268e982cd
 // post f4977fbd-d3ad-41f1-bbc7-5fb853b3ecfb
 // cate  f5147c98-9f3a-4d2b-9fe6-0738abf38ba8
-
-// 주소 http://localhost:3000/board/f4977fbd-d3ad-41f1-bbc7-5fb853b3ecfb
