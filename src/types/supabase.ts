@@ -11,25 +11,31 @@ export interface Database {
     Tables: {
       ani_comments: {
         Row: {
-          ani_id: number;
+          ani_id: string;
           created_at: string;
           deleted_at: string | null;
           id: string;
           user_id: string;
+          comment: string;
+          users: {
+            nickname: string;
+            profile_img_url: string;
+          };
         };
         Insert: {
-          ani_id: number;
+          ani_id: string;
           created_at?: string;
           deleted_at?: string | null;
-          id?: string;
           user_id: string;
+          comment: string;
         };
         Update: {
-          ani_id?: number;
+          ani_id?: string;
           created_at?: string;
           deleted_at?: string | null;
           id?: string;
           user_id?: string;
+          comment: string;
         };
         Relationships: [
           {

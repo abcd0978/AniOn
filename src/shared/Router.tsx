@@ -12,6 +12,7 @@ import WorldCup from "../pages/WorldCup";
 import WriteBoard from "../pages/WriteBoard";
 import Header from "../components/Header";
 import AnimeDetail from "../pages/AnimeDetail";
+import BoardDetail from "../pages/BoardDetail";
 import { GlobalStyle } from "../styles/globalstyle";
 const Router = () => {
   return (
@@ -22,10 +23,11 @@ const Router = () => {
       <Routes>
         <Route path="/" element={<Main />} />
         <Route path="/recommend" element={<AnimeRecommend />} />
-        <Route path="/recommend/:id" element={<AnimeDetail />} />
+        <Route path="/recommend/:ani_id" element={<AnimeDetail />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/board" element={<Board />} />
+        <Route path="/boarddetail/:id" element={<BoardDetail />} />
         <Route path="/myPage/:user_id" element={<MyPage />} />
         <Route path="/shop/:category" element={<Shop />} />
         <Route path="/userinfomodify" element={<UserInfoModify />} />

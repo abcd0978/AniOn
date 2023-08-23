@@ -2,15 +2,17 @@ import { useQuery } from "@tanstack/react-query";
 import { getAnimeById, getAnimePreview } from "../api/laftel";
 import { useParams } from "react-router-dom";
 import VideoPlayer from "../components/anime-detail/VideoPlayer";
+import { S } from "../components/anime-detail/anime-detail.style";
+import AnimeDetailComments from "../components/anime-detail/AnimeDetailComments";
 
 type Props = {};
 
 function AnimeDetail({}: Props) {
   //parameter 가져오기
-  const { aniId } = useParams() as { aniId: string };
+  const { ani_id } = useParams() as { ani_id: string };
 
   // 해당 aniId 상세 내용 가져오기
-  // "41496" 주술회전 임의 아이디 값
+  // "41558" 좀비100 임의 아이디 값
   const {
     isLoading: isDetailLoading,
     isError: isDetailError,
@@ -18,7 +20,7 @@ function AnimeDetail({}: Props) {
   } = useQuery({
     queryKey: ["animeDetail"],
     queryFn: () => {
-      return getAnimeById("41496");
+      return getAnimeById(ani_id);
     },
   });
   // 해당 aniId 영상 가져오기
@@ -29,9 +31,11 @@ function AnimeDetail({}: Props) {
   } = useQuery({
     queryKey: ["animeVideo"],
     queryFn: () => {
-      return getAnimePreview("41496");
+      return getAnimePreview(ani_id);
     },
   });
+
+  console.log("<<<<<>>>>", animeDetail);
 
   if (isDetailLoading || isVideoLoading) {
     return <h3>데이터를 가져오는 중입니다.</h3>;
@@ -40,36 +44,46 @@ function AnimeDetail({}: Props) {
     console.log("데이터를 가져올 수 없습니다.");
   }
 
-  console.log(
-    "data💫💫",
-    animeDetail,
-    animeVideo.public_streaming_info.hls_preview_url
-  );
-
   return (
-    <div>
-      <div>
-        <div>
+    <>
+      <S.DetailContainer>
+        <S.ContentsContainer>
           <div>
-            {animeDetail.name}
-            <p>{animeDetail.content}</p>
-            <p>{animeDetail.genres}</p>
+            <S.AniDetailTagBox>
+              {animeDetail.tags.map((tag: string) => {
+                return <S.AniDetailTag key={tag}>#{tag}</S.AniDetailTag>;
+              })}
+            </S.AniDetailTagBox>
+            <S.ContentsText>
+              <S.AniLabel>{animeDetail.name}</S.AniLabel>
+              <S.ContentsText>장르: {animeDetail.genres}</S.ContentsText>
+              <S.ContentsText>{animeDetail.content}</S.ContentsText>
+            </S.ContentsText>
+            <S.StarBox>
+              <S.ContentsStar>평점:</S.ContentsStar> {animeDetail.avg_rating}/5
+            </S.StarBox>
           </div>
-          <div>{animeDetail.avg_rating}/5</div>
-        </div>
-        <div>
           <div>
-            <img src={animeDetail.img} />
+            <S.ContentsImg>
+              {animeDetail?.images[0].img_url ? (
+                <img src={animeDetail?.images[0].img_url} />
+              ) : (
+                <img src={animeDetail.img} />
+              )}
+            </S.ContentsImg>
           </div>
-        </div>
-      </div>
-      <div>
-        <VideoPlayer
-          src={animeVideo.public_streaming_info.hls_preview_url}
-          type="m3u8"
-        />
-      </div>
-    </div>
+        </S.ContentsContainer>
+        <S.DetailLabel>1화 맛보기</S.DetailLabel>
+        <S.ContentVideoLayout>
+          <VideoPlayer
+            src={animeVideo.public_streaming_info.hls_preview_url}
+            type="m3u8"
+          />
+        </S.ContentVideoLayout>
+      </S.DetailContainer>
+      <S.DetailLabel>리뷰</S.DetailLabel>
+      <AnimeDetailComments />
+    </>
   );
 }
 
