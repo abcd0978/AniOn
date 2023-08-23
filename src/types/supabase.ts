@@ -11,25 +11,31 @@ export interface Database {
     Tables: {
       ani_comments: {
         Row: {
-          ani_id: number;
+          ani_id: string;
           created_at: string;
           deleted_at: string | null;
           id: string;
           user_id: string;
+          comment: string;
+          users: {
+            nickname: string;
+            profile_img_url: string;
+          };
         };
         Insert: {
-          ani_id: number;
+          ani_id: string;
           created_at?: string;
           deleted_at?: string | null;
-          id?: string;
           user_id: string;
+          comment: string;
         };
         Update: {
-          ani_id?: number;
+          ani_id?: string;
           created_at?: string;
           deleted_at?: string | null;
           id?: string;
           user_id?: string;
+          comment: string;
         };
         Relationships: [
           {
@@ -40,21 +46,7 @@ export interface Database {
           }
         ];
       };
-      categories: {
-        Row: {
-          id: string;
-          name: string;
-        };
-        Insert: {
-          id?: string;
-          name: string;
-        };
-        Update: {
-          id?: string;
-          name?: string;
-        };
-        Relationships: [];
-      };
+
       characters: {
         Row: {
           character_name: string;
@@ -224,16 +216,20 @@ export interface Database {
           id: string;
           post_id: string;
           user_id: string;
+          users: {
+            nickname: string;
+            profile_img_url: string;
+          };
         };
         Insert: {
           comment: string;
           created_at?: string;
-          id?: string;
           post_id: string;
           user_id: string;
         };
+
         Update: {
-          comment?: string;
+          comment: string;
           created_at?: string;
           id?: string;
           post_id?: string;
@@ -254,20 +250,21 @@ export interface Database {
           }
         ];
       };
+
       posts: {
         Row: {
-          category_id: string | null;
-          content: string | null;
+          category: string;
+          content: string;
           created_at: string;
           deleted_at: string | null;
-          id: string;
+          id?: string;
           title: string;
           updated_at: string | null;
           user_id: string;
         };
         Insert: {
-          category_id?: string | null;
-          content?: string | null;
+          category?: string;
+          content?: string;
           created_at?: string;
           deleted_at?: string | null;
           id?: string;
@@ -276,22 +273,16 @@ export interface Database {
           user_id: string;
         };
         Update: {
-          category_id?: string | null;
-          content?: string | null;
+          category: string;
+          content: string;
           created_at?: string;
           deleted_at?: string | null;
           id?: string;
-          title?: string;
+          title: string;
           updated_at?: string | null;
-          user_id?: string;
+          user_id: string;
         };
         Relationships: [
-          {
-            foreignKeyName: "posts_category_id_fkey";
-            columns: ["category_id"];
-            referencedRelation: "categories";
-            referencedColumns: ["id"];
-          },
           {
             foreignKeyName: "posts_user_id_fkey";
             columns: ["user_id"];
