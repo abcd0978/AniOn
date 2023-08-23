@@ -11,7 +11,6 @@ import {
 } from "../../api/commentapi";
 import { Database } from "../../types/supabase";
 import { atom, useAtom } from "jotai";
-import { v4 as uuidv4 } from "uuid";
 type ReadPostComment = Database["public"]["Tables"]["post_comments"]["Row"];
 type InsertPostComment =
   Database["public"]["Tables"]["post_comments"]["Insert"];
@@ -139,9 +138,9 @@ const Comments = () => {
           {postCommentsData?.data?.map((comment: ReadPostComment) => (
             <S.Comment key={comment.id}>
               <div>
-                <div>
-                  <img src={comment.users.profile_img_url} />
-                </div>
+                <S.profile>
+                  <S.Img src={comment.users.profile_img_url} />
+                </S.profile>
                 <div>{comment.users.nickname}</div>
                 <S.CommentDate>
                   {new Date(comment.created_at).toLocaleString()}

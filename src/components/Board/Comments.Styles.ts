@@ -122,3 +122,9 @@ export const EditInput = styled.input`
   margin-top: 5px;
   border-radius: 5px;
 `;
+
+export const profile = styled.div``;
+export const Img = styled.img`
+  width: 40px;
+  height: 40px;
+`;

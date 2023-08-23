@@ -1,8 +1,22 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { getPosts } from "../api/boardapi";
 
-type Props = {};
+function Board() {
+  const { data: posts = [] } = useQuery(["posts"], getPosts);
 
-const Board = (props: Props) => {
-  return <div>글 불러오는 곳</div>;
-};
+  return (
+    <div>
+      <h1>게시판</h1>
+      <ul>
+        {posts.map((post) => (
+          <li key={post.id}>{post.title}</li>
+        ))}
+      </ul>
+      <Link to="/board/write">글 작성</Link>
+    </div>
+  );
+}
+
 export default Board;

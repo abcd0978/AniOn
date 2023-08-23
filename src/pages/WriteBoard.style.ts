@@ -8,7 +8,7 @@ const S = {
     padding: 0 auto;
   `,
 
-  FormContainer: styled.form`
+  Form: styled.form`
     display: flex;
     align-items: center;
     flex-direction: column;
