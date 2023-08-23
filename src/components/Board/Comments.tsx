@@ -78,14 +78,11 @@ const Comments = () => {
   });
 
   const handleCommentEdit = (comment: UpdatePostComment) => {
-    console.log('Editing comment:', comment);
-
     if (editingCommentId === comment.id) {
       const editComment = {
         ...comment,
         comment: editedCommentText,
       };
-      console.log('Updating comment with:', editComment);
 
       editMutation.mutate(editComment);
       setEditingCommentId(null);
