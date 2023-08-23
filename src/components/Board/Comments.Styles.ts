@@ -19,7 +19,7 @@ export const CommentContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: #efefef;
+  // background-color: #efefef;
   margin-top: 10px;
   height: 540px;
   border-radius: 30px;
