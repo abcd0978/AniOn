@@ -1,7 +1,7 @@
 import React from 'react';
-import AnimeCategory from './AnimeCategory';
+import AnimeCategoryButtons from './AnimeCategoryButtons';
 import AnimeSearch from './AnimeSearch';
-import AnimeTag from './AnimeTag';
+import AnimeCategory from './AnimeCategory';
 import { S } from './styled.animeFilter';
 
 const AnimeFilter = () => {
@@ -9,10 +9,10 @@ const AnimeFilter = () => {
     <>
       <S.FilterContainer>
         <section style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <AnimeCategory />
+          <AnimeCategoryButtons />
           <AnimeSearch />
         </section>
-        <AnimeTag />
+        <AnimeCategory />
       </S.FilterContainer>
     </>
   );

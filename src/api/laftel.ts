@@ -1,5 +1,5 @@
 import api from './index';
-import { laftelParamsM } from './../consts';
+import { laftelParamsM } from './../types/anime';
 
 export const fetchAnimeList = async (laftelParams: laftelParamsM) => {
   // 배열 형태로 받기 때문에 ',' 단위로 join을 해준다.
@@ -15,12 +15,12 @@ export const fetchAnimeList = async (laftelParams: laftelParamsM) => {
       size: laftelParams.size,
     },
   });
-  console.log(result);
+  console.log('fetch anime 실행', laftelParams);
   return {
-    animeList: result!.data!.results!,
-    isNextPage: result.data.next ? true : false,
+    animeList: result!.data!.results!, // 애니 리스트
+    isNextPage: result.data.next ? true : false, // 다음 페이지 유무
+    count: result.data.count, // 필터링된 애니 개수
   };
-  // return result;
 };
 
 export const getAnimePreview = async (animeId: string) => {

@@ -5,7 +5,7 @@ export const S = {
   FilterContainer: styled.div`
     display: flex;
     flex-direction: column;
-    margin-top: 20px;
+    margin: 30px 0px;
     height: 94px;
   `,
 };

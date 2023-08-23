@@ -1,5 +1,16 @@
 import styled from 'styled-components';
 
+export const HoverInfo = styled.div`
+  display: none;
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  padding: 3px;
+  z-index: 20;
+  line-height: 25px;
+  color: #fff;
+`;
+
 export const S = {
   AnimeContainer: styled.div`
     display: grid;
@@ -30,6 +41,7 @@ export const S = {
 
   // 이 아래로 카드
   CardDiv: styled.div`
+    position: relative; // hover 요소들을 absolute로 사용하기 위해 사용
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -37,6 +49,23 @@ export const S = {
     gap: 4px;
     width: 220px;
     height: 400px;
+
+    :hover img {
+      -webkit-transition: 0.3s ease-in-out;
+      transition: 0.3s ease-in-out;
+      filter: brightness(0.3);
+    }
+
+    :hover ${HoverInfo} {
+      display: block;
+      gap: 5px;
+    }
+  `,
+
+  HoverTitle: styled.div`
+    margin-top: 20px;
+    font-weight: 600;
+    font-size: 17px;
   `,
 
   CardInfo: styled.div`
@@ -47,6 +76,7 @@ export const S = {
     gap: 8px;
     width: 220px;
     height: 347px;
+    cursor: pointer;
   `,
 
   CardThumbnail: styled.img`
@@ -58,12 +88,12 @@ export const S = {
   CardTitle: styled.div`
     width: 220px;
     height: 19px;
-    font-family: 'Pretendard Variable';
-    font-style: normal;
     font-weight: 600;
     font-size: 16px;
     line-height: 19px;
-    color: #000000;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   `,
 
   CardGenres: styled.div`
@@ -72,8 +102,9 @@ export const S = {
     align-items: flex-start;
     padding: 0px;
     gap: 4px;
-    width: 152px;
-    height: 24px;
+    width: 100%;
+    height: 20px;
+    margin: 0px 5px 10px 0px;
     flex: none;
     order: 1;
     flex-grow: 0;
@@ -84,29 +115,18 @@ export const S = {
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    padding: 2px;
-    width: 72px;
-    height: 24px;
+    padding: 4px 12px;
+    height: 16px;
     background: #efefef;
     border-radius: 999px;
-    flex: none;
-    order: 0;
-    flex-grow: 0;
   `,
 
   GenreText: styled.div`
-    width: 56px;
-    height: 16px;
-    font-family: 'Pretendard Variable';
-    font-style: normal;
     font-weight: 400;
     font-size: 13px;
     line-height: 16px;
     letter-spacing: -0.015em;
     color: #000000;
-    flex: none;
-    order: 0;
-    flex-grow: 0;
   `,
 
   Target: styled.div`

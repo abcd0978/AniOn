@@ -1,44 +1,63 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useAtom, useAtomValue } from 'jotai';
 import { S } from './styled.animeCategory';
-import { atom, useAtom } from 'jotai';
 
-export const selectedCategoryAtom = atom('전체');
+import { selectedCategoryAtom, selectedGenresAtom } from '../../../jotai/jotai';
+import { Genres, Years } from '../../../types/anime';
 
-const AnimeCategory = () => {
-  const [selectedCategory, setSelectedCategory] = useAtom(selectedCategoryAtom);
+const AnimeTag = () => {
+  const category = useAtomValue(selectedCategoryAtom);
+  const [genres, setGenres] = useAtom(selectedGenresAtom);
 
-  const handleCategoryClick = (category: string) => {
-    setSelectedCategory(category);
+  const toggleGenre = (genre: Genres) => {
+    if (genres?.includes(genre)) {
+      // 이미 선택된 장르라면 제거
+      setGenres(genres.filter((g) => g !== genre));
+    } else {
+      // 선택되지 않은 장르라면 추가
+      setGenres([...genres!, genre]);
+    }
   };
 
-  return (
-    <S.CategoryContainer>
-      <S.CategoryButton
-        $isSelected={selectedCategory === '전체'}
-        onClick={() => handleCategoryClick('전체')}
-      >
-        전체
-      </S.CategoryButton>
-      <S.CategoryButton
-        $isSelected={selectedCategory === '장르'}
-        onClick={() => handleCategoryClick('장르')}
-      >
-        장르별
-      </S.CategoryButton>
-      <S.CategoryButton
-        $isSelected={selectedCategory === '분기'}
-        onClick={() => handleCategoryClick('분기')}
-      >
-        분기별
-      </S.CategoryButton>
-      <S.CategoryButton
-        $isSelected={selectedCategory === '방영'}
-        onClick={() => handleCategoryClick('방영')}
-      >
-        방영중
-      </S.CategoryButton>
-    </S.CategoryContainer>
-  );
+  let enumToShow;
+
+  switch (category) {
+    case '분기':
+      enumToShow = Years; // 분기 카테고리에서는 분기 enum
+      break;
+    case '장르':
+      enumToShow = Genres; // 장르 카테고리에서는 장르 enum
+      break;
+    case '방영중':
+      enumToShow = null; // 방영중 카테고리에서는 태그 enum
+      break;
+    default:
+      enumToShow = null; // 다른 카테고리가 들어온 경우 null을 할당
+  }
+
+  if (enumToShow) {
+    // enumToShow가 null이 아닌 경우 해당 enum의 값을 보여줌
+    return (
+      <>
+        <S.CategorySection>
+          {Object.values(enumToShow).map((item) => (
+            <S.CategoryDiv
+              key={item}
+              onClick={() => {
+                // 장르를 클릭하면 toggleGenre 함수 호출
+                toggleGenre(item);
+              }}
+              className={genres?.includes(item) ? 'selected' : ''}
+            >
+              # {item}
+            </S.CategoryDiv>
+          ))}
+        </S.CategorySection>
+      </>
+    );
+  }
+
+  return null;
 };
 
-export default AnimeCategory;
+export default AnimeTag;
