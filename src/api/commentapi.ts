@@ -1,22 +1,27 @@
 import supabase from "../supabaseClient";
 import { Database } from "../types/supabase";
-type PostComment = Database["public"]["Tables"]["post_comments"]["Row"];
+
+type InsertPostComment =
+  Database["public"]["Tables"]["post_comments"]["Insert"];
+type UpdatePostComment =
+  Database["public"]["Tables"]["post_comments"]["Update"];
 
 const fetchComments = async (post_id: string, page: number): Promise<any> => {
   const itemsPerPage = 4;
-
   const startIndex = (page - 1) * itemsPerPage;
 
   const { data } = await supabase
     .from("post_comments")
-    .select("*")
-    .eq("post_id", post_id) // post_id 값을 변수 post_id로 변경
-    .range(startIndex, startIndex + itemsPerPage - 1);
+    .select("*,users(nickname,profile_img_url)")
+    .eq("post_id", post_id)
+    .range(startIndex, startIndex + itemsPerPage - 1)
+    .order("created_at", { ascending: false });
+  console.log("----", data);
 
   const { count } = await supabase
     .from("post_comments")
     .select("count", { count: "exact" })
-    .eq("post_id", post_id); // post_id 값을 변수 post_id로 변경
+    .eq("post_id", post_id);
 
   const totalPages = Math.ceil(count! / itemsPerPage);
 
@@ -24,7 +29,7 @@ const fetchComments = async (post_id: string, page: number): Promise<any> => {
 };
 
 // 작성
-const addComment = async (createComment: PostComment) => {
+const addComment = async (createComment: InsertPostComment) => {
   await supabase.from("post_comments").insert(createComment);
 };
 
@@ -34,7 +39,7 @@ const deleteComment = async (id: string) => {
 };
 
 // 수정
-const updateComment = async (editComment: PostComment) => {
+const updateComment = async (editComment: UpdatePostComment) => {
   await supabase
     .from("post_comments")
     .update(editComment)

@@ -45,8 +45,8 @@ const buttonStyle: CSSProperties = {
 const slideStyle: CSSProperties = {
   height: "300px",
   backgroundColor: "#D9D9D9",
-  border: "solid 1px",
   flex: "0 0 100%",
+  overflow: "hidden",
 };
 
 export const Banner = (props: PropType) => {
@@ -94,7 +94,7 @@ export const Banner = (props: PropType) => {
   }, [emblaApi, onInit, onSelect]);
 
   return (
-    <div className="embla" ref={emblaRef}>
+    <div className="embla" ref={emblaRef} style={{ overflow: "hidden" }}>
       <div className="embla__container" style={{ display: "flex" }}>
         {slides.map((slide, index) => (
           <div className="embla__slide" style={slideStyle} key={index}>

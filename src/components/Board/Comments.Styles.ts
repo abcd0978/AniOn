@@ -19,7 +19,7 @@ export const CommentContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: #efefef;
+  // background-color: #efefef;
   margin-top: 10px;
   height: 540px;
   border-radius: 30px;
@@ -73,6 +73,8 @@ export const ButtonBox = styled.div`
   margin: 5px;
 `;
 
+export const CommentAuthor = styled.div``;
+
 export const button = styled.button`
   background-color: #a593e0;
   border: none;
@@ -119,4 +121,10 @@ export const EditInput = styled.input`
   height: 25px;
   margin-top: 5px;
   border-radius: 5px;
+`;
+
+export const profile = styled.div``;
+export const Img = styled.img`
+  width: 40px;
+  height: 40px;
 `;
