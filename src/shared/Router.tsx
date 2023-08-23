@@ -11,12 +11,18 @@ import UserInfoModify from "../pages/UserInfoModify";
 import WorldCup from "../pages/WorldCup";
 import WriteBoard from "../pages/WriteBoard";
 import Header from "../components/Header";
+<<<<<<< HEAD
 import NotFoundPage from "../pages/NotFoundPage";
 import WithAuth from "../hoc/WithAuth";
+=======
+import { GlobalStyle } from "../styles/globalstyle";
+>>>>>>> bb2d959729616be4c4cc065bbc879f420b04ad38
 const Router = () => {
   return (
     <BrowserRouter>
       <Header />
+
+      <GlobalStyle />
       <Routes>
         <Route path="/" element={<Main />} />
         <Route path="/recommend" element={WithAuth(AnimeRecommend, true)} />
