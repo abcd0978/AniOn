@@ -11,6 +11,7 @@ import WriteBoard from '../pages/WriteBoard';
 import Header from '../components/Header';
 import NotFoundPage from '../pages/NotFoundPage';
 import WithAuth from '../hoc/WithAuth';
+import AnimeDetail from '../pages/AnimeDetail';
 import BoardDetail from '../pages/BoardDetail';
 import BoardAni from '../pages/BoardAni';
 import BoardFree from '../pages/BoardFree';
@@ -24,8 +25,12 @@ const Router = () => {
       <GlobalStyle />
       <Routes>
         <Route path="/" element={<Main />} />
-        <Route path="/recommend" element={WithAuth(AnimeRecommend, true)} />
+        <Route path="/recommend" element={WithAuth(AnimeRecommend, null)} />
         <Route path="/board" element={WithAuth(Board, null)} />
+        <Route
+          path="/recommend/:ani_id"
+          element={WithAuth(AnimeDetail, null)}
+        />
         <Route path="/myPage/:user_id" element={WithAuth(MyPage, true)} />
         <Route path="/shop/:category" element={WithAuth(Shop, true)} />
         <Route
