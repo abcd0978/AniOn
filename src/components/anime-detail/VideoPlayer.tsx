@@ -1,6 +1,6 @@
-import { useEffect, useRef } from "react";
-import Hls from "hls.js";
-import { styled } from "styled-components";
+import { useEffect, useRef } from 'react';
+import Hls from 'hls.js';
+import { styled } from 'styled-components';
 
 interface VideoPlayerType {
   src: string;
@@ -11,14 +11,14 @@ function VideoPlayer({ src, type }: VideoPlayerType) {
   const videoRef = useRef<any>();
 
   useEffect(() => {
-    if (type === "m3u8" && Hls.isSupported()) {
+    if (type === 'm3u8' && Hls.isSupported()) {
       const hls = new Hls();
       hls.loadSource(src);
       hls.attachMedia(videoRef.current!);
     }
   }, [src, type]);
 
-  return type === "m3u8" ? (
+  return type === 'm3u8' ? (
     <ContentVideo ref={videoRef} controls autoPlay muted />
   ) : (
     <ContentVideo ref={videoRef} src={src} controls autoPlay muted />
