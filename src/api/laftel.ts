@@ -13,6 +13,8 @@ export const fetchAnimeList = async (laftelParams: laftelParamsM) => {
       genres: genresParam,
       offset: laftelParams.offset,
       size: laftelParams.size,
+      years: laftelParams.years,
+      ending: laftelParams.ending,
     },
   });
   console.log('fetch anime 실행', laftelParams);
