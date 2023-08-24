@@ -131,30 +131,20 @@ const Comments = () => {
   return (
     <S.Outer>
       <S.CommentContainer>
-        <S.CommentTop>
-          <S.WriteInput
-            type="text"
-            value={newComment}
-            onChange={(e) => setNewComment(e.target.value)}
-            onKeyPress={(e) => {
-              if (e.key === 'Enter') {
-                handleCommentSubmit();
-              }
-            }}
-            placeholder="댓글을 작성해주세요!"
-          />
-          <S.WriteButton onClick={handleCommentSubmit}>작성</S.WriteButton>
-        </S.CommentTop>
         <S.CommentBot>
           {postCommentsData?.data?.map((comment: ReadPostComment) => (
             <S.Comment key={comment.id}>
               <div>
-                <S.profile>
-                  {comment.users && (
-                    <S.Img src={comment.users.profile_img_url} />
-                  )}
-                </S.profile>
-                <div>{comment.users?.nickname}</div>
+                {comment.users && (
+                  <S.profile>
+                    <S.Img
+                      src={comment.users.profile_img_url}
+                      alt="Profile Image"
+                    />
+                    <S.Ninkname>{comment.users?.nickname}</S.Ninkname>
+                  </S.profile>
+                )}
+
                 <S.CommentDate>
                   {new Date(comment.created_at).toLocaleString()}
                 </S.CommentDate>
@@ -186,6 +176,20 @@ const Comments = () => {
             onClick={onClickPage}
           />
         </S.CommentBot>
+        <S.CommentTop>
+          <S.WriteInput
+            type="text"
+            value={newComment}
+            onChange={(e) => setNewComment(e.target.value)}
+            onKeyPress={(e) => {
+              if (e.key === 'Enter') {
+                handleCommentSubmit();
+              }
+            }}
+            placeholder="댓글을 작성해주세요!"
+          />
+          <S.WriteButton onClick={handleCommentSubmit}>작성</S.WriteButton>
+        </S.CommentTop>
       </S.CommentContainer>
     </S.Outer>
   );
