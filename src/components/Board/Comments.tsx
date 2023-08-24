@@ -10,23 +10,27 @@ import {
   updateComment,
 } from '../../api/commentapi';
 import { Database } from '../../types/supabase';
-import { atom, useAtom } from 'jotai';
+import * as userStore from '../../store/userStore';
+import { atom, useAtom, useAtomValue } from 'jotai';
+import { isError } from 'lodash';
 type ReadPostComment = Database['public']['Tables']['post_comments']['Row'];
 type InsertPostComment =
   Database['public']['Tables']['post_comments']['Insert'];
 type UpdatePostComment =
   Database['public']['Tables']['post_comments']['Update'];
 
-const userAtom = atom<null | any>(null);
-
 const Comments = () => {
   const { post_id } = useParams() as { post_id: string };
 
-  const [user, setUser] = useAtom(userAtom);
+  // const [user, setUser] = useAtom(userAtom);
+  const user = useAtomValue(userStore.user);
+  console.log('------', user);
 
-  useEffect(() => {
-    setUser({ user_id: '7bd7fde5-17e2-407c-8e70-3b3fb178d761' });
-  }, []);
+  // useEffect(() => {
+  //   setUser({ user_id: '7bd7fde5-17e2-407c-8e70-3b3fb178d761' });
+  // }, []);
+  //확인 주소
+  // http://localhost:3000/board/a7b5bef1-8973-4c1a-b1d2-33e44ea1cce2
 
   const queryClient = useQueryClient();
 
@@ -41,16 +45,20 @@ const Comments = () => {
   });
 
   const handleCommentSubmit = () => {
-    const currentTime = new Date();
-    const formattedDate = currentTime.toISOString();
+    if (!user) {
+      alert('로그인 후에 댓글을 작성할 수 있습니다! 로그인해주세요.');
+      return;
+    }
+    if (!newComment) {
+      alert('댓글 내용을 입력해주세요.');
+      return;
+    }
 
     //생성
     const createComment: InsertPostComment = {
-      created_at: formattedDate,
       comment: newComment,
-      post_id: 'a7b5bef1-8973-4c1a-b1d2-33e44ea1cce2',
-      user_id: '7bd7fde5-17e2-407c-8e70-3b3fb178d761',
-      // user_id: user?.userid as string,
+      post_id: post_id as string,
+      user_id: user.id,
     };
 
     console.log('Creating comment:', createComment);
@@ -120,38 +128,28 @@ const Comments = () => {
     }
   };
 
-  // console.log("postCommentsData:", postCommentsData);
-
   return (
     <S.Outer>
       <S.CommentContainer>
-        <S.CommentTop>
-          <S.WriteInput
-            type="text"
-            value={newComment}
-            onChange={(e) => setNewComment(e.target.value)}
-            onKeyPress={(e) => {
-              if (e.key === 'Enter') {
-                handleCommentSubmit();
-              }
-            }}
-            placeholder="댓글을 작성해주세요!"
-          />
-          <S.WriteButton onClick={handleCommentSubmit}>작성</S.WriteButton>
-        </S.CommentTop>
         <S.CommentBot>
           {postCommentsData?.data?.map((comment: ReadPostComment) => (
             <S.Comment key={comment.id}>
               <div>
-                <S.profile>
-                  <S.Img src={comment.users.profile_img_url} />
-                </S.profile>
-                <div>{comment.users.nickname}</div>
+                {comment.users && (
+                  <S.profile>
+                    <S.Img
+                      src={comment.users.profile_img_url}
+                      alt="Profile Image"
+                    />
+                    <S.Ninkname>{comment.users?.nickname}</S.Ninkname>
+                  </S.profile>
+                )}
+
                 <S.CommentDate>
                   {new Date(comment.created_at).toLocaleString()}
                 </S.CommentDate>
               </div>
-              {user?.user_id === comment.user_id && (
+              {user?.id === comment.user_id && (
                 <S.ButtonBox>
                   <S.button onClick={() => handleCommentEdit(comment)}>
                     {comment.id === editingCommentId ? '저장' : '수정'}
@@ -178,6 +176,20 @@ const Comments = () => {
             onClick={onClickPage}
           />
         </S.CommentBot>
+        <S.CommentTop>
+          <S.WriteInput
+            type="text"
+            value={newComment}
+            onChange={(e) => setNewComment(e.target.value)}
+            onKeyPress={(e) => {
+              if (e.key === 'Enter') {
+                handleCommentSubmit();
+              }
+            }}
+            placeholder="댓글을 작성해주세요!"
+          />
+          <S.WriteButton onClick={handleCommentSubmit}>작성</S.WriteButton>
+        </S.CommentTop>
       </S.CommentContainer>
     </S.Outer>
   );
