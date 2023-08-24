@@ -19,8 +19,6 @@ type InsertPostComment =
 type UpdatePostComment =
   Database['public']['Tables']['post_comments']['Update'];
 
-// const userAtom = atom<null | any>(null);
-
 const Comments = () => {
   const { post_id } = useParams() as { post_id: string };
 
@@ -31,6 +29,8 @@ const Comments = () => {
   // useEffect(() => {
   //   setUser({ user_id: '7bd7fde5-17e2-407c-8e70-3b3fb178d761' });
   // }, []);
+  //확인 주소
+  // http://localhost:3000/board/a7b5bef1-8973-4c1a-b1d2-33e44ea1cce2
 
   const queryClient = useQueryClient();
 
@@ -57,7 +57,7 @@ const Comments = () => {
     //생성
     const createComment: InsertPostComment = {
       comment: newComment,
-      post_id: 'a7b5bef1-8973-4c1a-b1d2-33e44ea1cce2',
+      post_id: post_id as string,
       user_id: user.id,
     };
 
@@ -128,8 +128,6 @@ const Comments = () => {
     }
   };
 
-  // console.log("postCommentsData:", postCommentsData);
-
   return (
     <S.Outer>
       <S.CommentContainer>
@@ -152,9 +150,11 @@ const Comments = () => {
             <S.Comment key={comment.id}>
               <div>
                 <S.profile>
-                  <S.Img src={comment.users.profile_img_url} />
+                  {comment.users && (
+                    <S.Img src={comment.users.profile_img_url} />
+                  )}
                 </S.profile>
-                <div>{comment.users.nickname}</div>
+                <div>{comment.users?.nickname}</div>
                 <S.CommentDate>
                   {new Date(comment.created_at).toLocaleString()}
                 </S.CommentDate>
