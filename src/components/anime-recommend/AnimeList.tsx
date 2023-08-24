@@ -16,8 +16,10 @@ import {
   selectedGenresAtom,
   selectedCategoryAtom,
 } from '../../jotai/jotai';
+import { useNavigate } from 'react-router';
 
 const AnimeList = () => {
+  const navigate = useNavigate();
   const genres = useAtomValue(selectedGenresAtom);
   const cateogry = useAtomValue(selectedCategoryAtom);
 
@@ -89,7 +91,7 @@ const AnimeList = () => {
         ) : (
           animeList.map((anime: AnimeG) => (
             <S.CardDiv key={anime.id}>
-              <S.CardInfo>
+              <S.CardInfo onClick={() => navigate(`/recommend/${anime.id}`)}>
                 <S.CardThumbnail
                   src={
                     anime.images?.length !== 0

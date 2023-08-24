@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const S = {
   DetailContainer: styled.div`
@@ -20,6 +20,17 @@ export const S = {
       width: 464px;
       height: 662px;
     }
+  `,
+
+  PreviewBox: styled.div`
+    background-color: #efefef;
+    padding: 20px;
+    width: 105px;
+    border-radius: 10px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    font-weight: 700;
+    cursor: pointer;
   `,
 
   ContentsText: styled.p`
