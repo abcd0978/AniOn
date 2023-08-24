@@ -1,5 +1,9 @@
 import styled from 'styled-components';
 
+interface Props {
+  $isSelected: boolean;
+}
+
 export const S = {
   CategorySection: styled.div`
     display: flex;
@@ -11,8 +15,8 @@ export const S = {
     margin: 10px 0px;
   `,
 
-  CategoryDiv: styled.div`
-    background-color: #efefef;
+  CategoryDiv: styled.div<Props>`
+    color: ${(props) => (props.$isSelected ? 'white' : 'black')};
     display: inline-flex;
     justify-content: center;
     align-items: center;
@@ -20,6 +24,11 @@ export const S = {
     font-size: 12px;
     height: 18px;
     padding: 4px 12px;
+    color: ${(props) => (props.$isSelected ? 'white' : 'black')};
+    background-color: ${(props) => (props.$isSelected ? '#838383' : '#EFEFEF')};
     cursor: pointer;
+    :hover {
+      background-color: #c2c2c2;
+    }
   `,
 };

@@ -11,51 +11,67 @@ import useIntersect from '../../hooks/useIntersect';
 
 // import type { laftelParamsM } from '../../types/anime';
 import type { AnimeG } from '../../types/anime';
-import { offsetAtom, selectedGenresAtom } from '../../jotai/jotai';
+import {
+  offsetAtom,
+  selectedGenresAtom,
+  selectedCategoryAtom,
+  selectedYearsAtom,
+  isEndingAtom,
+} from '../../store/animeRecommendStore';
 import { useNavigate } from 'react-router';
 
 const AnimeList = () => {
   const navigate = useNavigate();
   const genres = useAtomValue(selectedGenresAtom);
+  const category = useAtomValue(selectedCategoryAtom);
+  const years = useAtomValue(selectedYearsAtom);
+  const ending = useAtomValue(isEndingAtom);
 
+  const size = 18;
   const sort = 'rank';
+
   // const [sort, setSort] = useState<laftelParamsM['sort']>('rank');
   // const [tags, setTags] = useState<laftelParamsM['tags']>([]);
+
+  const [prevCategory, setPrevCategory] = useState(category); // 무한 스크롤 이슈 해결을 위해. 최적화가 필요할 듯.
   const [offset, setOffset] = useAtom(offsetAtom);
   const [animeList, setAnimeList] = useState<AnimeG[]>([]);
   const [isNextPage, setIsNextPage] = useState(false);
   const [count, setCount] = useState(0);
-  const size = 18;
 
   const defaultQueryOptions = {
-    queryKey: ['animeList', genres, offset],
-    queryFn: () => fetchAnimeList({ sort, genres, offset, size }),
+    queryKey: ['animeList', genres, offset, years, ending, category],
+    queryFn: () =>
+      fetchAnimeList({ sort, genres, offset, size, years, ending }),
     refetchOnWindowFocus: false,
   };
 
-  const { isLoading, isError, isFetching, refetch, data } =
+  const { isLoading, isError, isFetching, data } =
     useQuery(defaultQueryOptions);
 
   // 스로틀링된 무한 스크롤 콜백 함수
+  // 카테고리를 변경할 때 무한스크롤 실행되는 이슈 발견 > 해결
   const throttledLoadMore = throttle(() => {
     if (isNextPage && !isFetching) {
       // 이전 offset에 size를 더하여 다음 페이지 데이터를 가져오도록 설정
       setOffset((prevOffset) => prevOffset! + size);
-      refetch();
     }
   }, 2000); // 1초에 한 번만 호출되도록 설정
 
   const ref = useIntersect(async (entry, observer) => {
     observer.unobserve(entry.target);
-    throttledLoadMore();
+    if (category === prevCategory) {
+      throttledLoadMore();
+      // 이전 카테고리를 현재 카테고리로 업데이트
+      setPrevCategory(category);
+    }
   });
 
   // 장르 선택 시 변경, 추후 분기, 방영 중 여부 추가
 
   useEffect(() => {
-    setOffset(0);
     setAnimeList([]);
-  }, [genres]);
+  }, [genres, category, years]);
 
   useEffect(() => {
     if (!data) {
@@ -75,10 +91,7 @@ const AnimeList = () => {
 
   return (
     <>
-      <AnimeFilter />
-      <h1 style={{ marginBottom: '20px', fontWeight: '600' }}>
-        {count}개의 작품이 검색되었습니다!
-      </h1>
+      <AnimeFilter count={count} />
       <S.AnimeContainer>
         {/* 스켈레톤으로 변경하기! */}
         {isLoading && !animeList.length ? (
@@ -116,8 +129,8 @@ const AnimeList = () => {
             </S.CardDiv>
           ))
         )}
-        {isNextPage && <S.Target ref={ref} />}
       </S.AnimeContainer>
+      {isNextPage && !isLoading && <S.Target ref={ref} />}
     </>
   );
 };
