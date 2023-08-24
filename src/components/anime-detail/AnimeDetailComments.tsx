@@ -27,7 +27,7 @@ const AnimeDetailComments = () => {
   // 테스트용 user
   useEffect(() => {
     setUser({
-      user_id: '7bd7fde5-17e2-407c-8e70-3b3fb178d761',
+      user_id: '59787dcd-cc16-4f05-8072-3d7a410b3722',
     });
   }, []);
 
@@ -48,12 +48,12 @@ const AnimeDetailComments = () => {
   const handleCommentSubmit = () => {
     const currentTime = new Date();
 
-    // 생성
+    // 댓글 생성
     const createComment: InsertAniComment = {
       ani_id,
       comment: newComment,
       // user_id: user?.userid as string,
-      user_id: '7bd7fde5-17e2-407c-8e70-3b3fb178d761', //테스트용
+      user_id: '59787dcd-cc16-4f05-8072-3d7a410b3722', //테스트용
       deleted_at: null, //확인
     };
 
@@ -69,7 +69,7 @@ const AnimeDetailComments = () => {
     },
   });
 
-  // 삭제시
+  // 댓글 삭제시
   const handleCommentDelete = async (commentId: string) => {
     const shouldDelete = window.confirm('삭제 하시겠습니까?');
     if (shouldDelete) {
@@ -83,7 +83,7 @@ const AnimeDetailComments = () => {
     },
   });
 
-  // 수정시
+  // 댓글 수정시
   const handleCommentEdit = (comment: UpdateAniComment) => {
     if (editingCommentId === comment.id) {
       const editComment = {
@@ -128,7 +128,7 @@ const AnimeDetailComments = () => {
     }
   };
 
-  console.log('AniCommentsData:', aniCommentsData);
+  // console.log('AniCommentsData:', aniCommentsData);
 
   return (
     <div>
@@ -164,7 +164,7 @@ const AnimeDetailComments = () => {
               )}
 
               {comment.id === editingCommentId ? (
-                <input
+                <S.AniEditCommentInput
                   type="text"
                   value={editedCommentText}
                   onChange={(e) => setEditedCommentText(e.target.value)}
@@ -192,11 +192,13 @@ const AnimeDetailComments = () => {
               등록
             </S.AniCommentInputButton>
           </S.AniCommentInputBox>
-          <Pagination
-            currentPage={page}
-            totalPages={aniCommentsData?.totalPages ?? 1}
-            onClick={onClickPage}
-          />
+          <S.AniCommentPageBox>
+            <Pagination
+              currentPage={page}
+              totalPages={aniCommentsData?.totalPages ?? 1}
+              onClick={onClickPage}
+            />
+          </S.AniCommentPageBox>
         </S.AniCommentContainer>
       </div>
     </div>
