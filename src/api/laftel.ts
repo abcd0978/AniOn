@@ -1,5 +1,5 @@
 import api from './index';
-import { laftelParamsM } from './../types/anime';
+import { laftelParamsM, recommendType } from './../types/anime';
 
 export const fetchAnimeList = async (laftelParams: laftelParamsM) => {
   // 배열 형태로 받기 때문에 ',' 단위로 join을 해준다.
@@ -36,4 +36,12 @@ export const getAnimeById = async (animeId: string) => {
   const result = await api.get(`/items/v2/${animeId}/`);
   // console.log(result);
   return result!.data!;
+};
+export const getAnimeRankings = async (type: recommendType) => {
+  const result = await api.get(`/home/v1/recommend/ranking?size=10`, {
+    params: {
+      type: type,
+    },
+  });
+  return result.data.slice(0, 10) as any[];
 };

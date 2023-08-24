@@ -6,7 +6,6 @@ import { v4 as uuidv4 } from 'uuid';
 import { Database } from '../../types/supabase';
 import { atom, useAtom } from 'jotai';
 import { useParams } from 'react-router';
-import axios from 'axios';
 //1. supabase
 const supabaseUrl = process.env.REACT_APP_SUPABASE_URL;
 const supabaseAnonKey = process.env.REACT_APP_ANON_KEY;
