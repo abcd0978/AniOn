@@ -125,6 +125,7 @@ const BoardDetail = () => {
               <S.Content>{posts.content}</S.Content>
             )}
           </S.PostContainer>
+          <Comments />
         </>
       ) : (
         <div>Loading...</div>
