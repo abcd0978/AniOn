@@ -9,6 +9,7 @@ export interface AnimeG {
   }[];
   genres?: string[];
 }
+export type recommendType = 'history' | 'week' | 'quarter';
 
 export interface laftelParamsM {
   sort?: 'rank' | 'name' | 'recent' | 'cnt_eval' | 'avg_rating';

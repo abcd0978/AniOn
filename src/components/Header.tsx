@@ -11,16 +11,28 @@ import logout from '../assets/logout.svg';
 import account from '../assets/account.svg';
 import type { DropdownContentsType } from './DropDown/DropDown';
 import DropDown from './DropDown/DropDown';
+import Modal from './Modal/Modal';
+import LoginModalContents from './Modal/LoginModalContents';
+import RegisterModalContents from './Modal/RegisterModalContents';
 type Props = {};
 
 function Header({}: Props) {
   const [isDropdownOn, setIsDowpdownOn] = useState(false);
-  const [modal, setisModalOpened] = useAtom(modalStore.isModalOpened);
-  const [modalContents, setModalContents] = useAtom(modalStore.modalContents);
   const [__, logoutStore] = useAtom(userStore.logoutUser);
   const { width, height, isMobile, isLoaded } = useViewport();
   const [user, setUser] = useAtom(userStore.user);
-
+  const [isModalOpened, setIsModalOpened] = useAtom(modalStore.isModalOpened);
+  const [modalContents, setModalContents] = useAtom(modalStore.modalContents);
+  const modalContentsFunc = (name: string) => {
+    switch (name) {
+      case 'login': {
+        return <LoginModalContents />;
+      }
+      case 'register': {
+        return <RegisterModalContents />;
+      }
+    }
+  };
   const dropdownContents: DropdownContentsType[] = [
     {
       content: '프로필설정',
@@ -37,64 +49,67 @@ function Header({}: Props) {
     },
   ];
   return (
-    <StHeader>
-      <StHeaderContainer>
-        <StHeaderLogoSection>로고</StHeaderLogoSection>
-        <StHeaderMenuSection>
-          <StHeaderMenu>둘러보기</StHeaderMenu>
-          <StHeaderMenu>애니추천</StHeaderMenu>
-          <StHeaderMenu>게시판</StHeaderMenu>
-          <StHeaderMenu>상점</StHeaderMenu>
-        </StHeaderMenuSection>
-        <StHeaderUserInfoSection>
-          {user ? (
-            <StHeaderUserInfoContainer>
-              <StHeaderUserProfile
-                src={user.profile_img_url!}
-                alt="프사"
-                mediaWidth={width}
-              />
-              <StHeaderUserInfo>
-                <StHeaderUserName>{user.nickname}</StHeaderUserName>
-                <StHeaderUserAppellation>칭호</StHeaderUserAppellation>
-              </StHeaderUserInfo>
-              <StHeaderDropDownImgContainer
-                onClick={() => setIsDowpdownOn(!isDropdownOn)}
-              >
-                {isDropdownOn ? (
-                  <img src={dropdownUp} alt="dropdownImg" />
-                ) : (
-                  <img src={dropdown} alt="dropdownImg" />
-                )}
-              </StHeaderDropDownImgContainer>
-              {isDropdownOn && <DropDown children={dropdownContents} />}
-            </StHeaderUserInfoContainer>
-          ) : (
-            <StHeaderLoginRegister>
-              <p
-                onClick={() => {
-                  setModalContents('login');
-                  setisModalOpened(true);
-                }}
-                style={{ cursor: 'pointer' }}
-              >
-                로그인
-              </p>
-              <StblackBar></StblackBar>
-              <p
-                onClick={() => {
-                  setModalContents('register');
-                  setisModalOpened(true);
-                }}
-                style={{ cursor: 'pointer' }}
-              >
-                회원가입
-              </p>
-            </StHeaderLoginRegister>
-          )}
-        </StHeaderUserInfoSection>
-      </StHeaderContainer>
-    </StHeader>
+    <>
+      {isModalOpened && <Modal>{modalContentsFunc(modalContents)}</Modal>}
+      <StHeader>
+        <StHeaderContainer>
+          <StHeaderLogoSection>로고</StHeaderLogoSection>
+          <StHeaderMenuSection>
+            <StHeaderMenu>둘러보기</StHeaderMenu>
+            <StHeaderMenu>애니추천</StHeaderMenu>
+            <StHeaderMenu>게시판</StHeaderMenu>
+            <StHeaderMenu>상점</StHeaderMenu>
+          </StHeaderMenuSection>
+          <StHeaderUserInfoSection>
+            {user ? (
+              <StHeaderUserInfoContainer>
+                <StHeaderUserProfile
+                  src={user.profile_img_url!}
+                  alt="프사"
+                  mediaWidth={width}
+                />
+                <StHeaderUserInfo>
+                  <StHeaderUserName>{user.nickname}</StHeaderUserName>
+                  <StHeaderUserAppellation>칭호</StHeaderUserAppellation>
+                </StHeaderUserInfo>
+                <StHeaderDropDownImgContainer
+                  onClick={() => setIsDowpdownOn(!isDropdownOn)}
+                >
+                  {isDropdownOn ? (
+                    <img src={dropdownUp} alt="dropdownImg" />
+                  ) : (
+                    <img src={dropdown} alt="dropdownImg" />
+                  )}
+                </StHeaderDropDownImgContainer>
+                {isDropdownOn && <DropDown children={dropdownContents} />}
+              </StHeaderUserInfoContainer>
+            ) : (
+              <StHeaderLoginRegister>
+                <p
+                  onClick={() => {
+                    setModalContents('login');
+                    setIsModalOpened(true);
+                  }}
+                  style={{ cursor: 'pointer' }}
+                >
+                  로그인
+                </p>
+                <StblackBar></StblackBar>
+                <p
+                  onClick={() => {
+                    setModalContents('register');
+                    setIsModalOpened(true);
+                  }}
+                  style={{ cursor: 'pointer' }}
+                >
+                  회원가입
+                </p>
+              </StHeaderLoginRegister>
+            )}
+          </StHeaderUserInfoSection>
+        </StHeaderContainer>
+      </StHeader>
+    </>
   );
 }
 
