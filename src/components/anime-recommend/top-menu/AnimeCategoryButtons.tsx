@@ -18,11 +18,12 @@ const AnimeCategory = () => {
       return;
     }
 
-    if (category === '전체') {
+    if (category !== '장르') {
       setGenres([]);
     }
-    setOffset(0);
+    console.log('카테고리 버튼');
     setSelectedCategory(category);
+    setOffset(0);
   };
 
   return (

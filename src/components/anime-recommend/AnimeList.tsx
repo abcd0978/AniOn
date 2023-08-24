@@ -11,10 +11,15 @@ import useIntersect from '../../hooks/useIntersect';
 
 // import type { laftelParamsM } from '../../types/anime';
 import type { AnimeG } from '../../types/anime';
-import { offsetAtom, selectedGenresAtom } from '../../jotai/jotai';
+import {
+  offsetAtom,
+  selectedGenresAtom,
+  selectedCategoryAtom,
+} from '../../jotai/jotai';
 
 const AnimeList = () => {
   const genres = useAtomValue(selectedGenresAtom);
+  const cateogry = useAtomValue(selectedCategoryAtom);
 
   const sort = 'rank';
   // const [sort, setSort] = useState<laftelParamsM['sort']>('rank');
@@ -35,9 +40,11 @@ const AnimeList = () => {
     useQuery(defaultQueryOptions);
 
   // 스로틀링된 무한 스크롤 콜백 함수
+  // 카테고리를 변경할 때 무한스크롤 실행되는 이슈 발견
   const throttledLoadMore = throttle(() => {
     if (isNextPage && !isFetching) {
       // 이전 offset에 size를 더하여 다음 페이지 데이터를 가져오도록 설정
+      console.log('실행');
       setOffset((prevOffset) => prevOffset! + size);
     }
   }, 2000); // 1초에 한 번만 호출되도록 설정
@@ -50,9 +57,8 @@ const AnimeList = () => {
   // 장르 선택 시 변경, 추후 분기, 방영 중 여부 추가
 
   useEffect(() => {
-    setOffset(0);
     setAnimeList([]);
-  }, [genres]);
+  }, [genres, cateogry]);
 
   useEffect(() => {
     if (!data) {
@@ -113,8 +119,9 @@ const AnimeList = () => {
             </S.CardDiv>
           ))
         )}
-        {isNextPage && <S.Target ref={ref} />}
+        {isNextPage && !isLoading && <S.Target ref={ref} />}
       </S.AnimeContainer>
+      \
     </>
   );
 };

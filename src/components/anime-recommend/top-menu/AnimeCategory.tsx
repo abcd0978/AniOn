@@ -9,6 +9,8 @@ const AnimeTag = () => {
   const category = useAtomValue(selectedCategoryAtom);
   const [genres, setGenres] = useAtom(selectedGenresAtom);
 
+  const handleClick = () => {};
+
   const toggleGenre = (genre: Genres) => {
     if (genres?.includes(genre)) {
       // 이미 선택된 장르라면 제거
@@ -27,9 +29,6 @@ const AnimeTag = () => {
       break;
     case '장르':
       enumToShow = Genres; // 장르 카테고리에서는 장르 enum
-      break;
-    case '방영중':
-      enumToShow = null; // 방영중 카테고리에서는 태그 enum
       break;
     default:
       enumToShow = null; // 다른 카테고리가 들어온 경우 null을 할당
