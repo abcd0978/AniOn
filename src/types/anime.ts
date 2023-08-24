@@ -78,7 +78,7 @@ export interface laftelParamsM {
     | '퇴마'
     | '학교'
   )[];
-  years?: (
+  years?:
     | '2023년 3분기'
     | '2023년 2분기'
     | '2023년 1분기'
@@ -100,9 +100,9 @@ export interface laftelParamsM {
     | '2010년'
     | '2000년대'
     | '2000년대 이전'
-  )[];
+    | null;
   viewable?: true | false;
-  ending?: true | false;
+  ending?: 'false' | null;
   medium?: ('TVA' | '극장판' | 'OVA')[];
   offset?: number;
   size?: number;

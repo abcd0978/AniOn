@@ -8,4 +8,9 @@ export const S = {
     margin: 30px 0px;
     height: 94px;
   `,
+
+  CountDiv: styled.div`
+    margin: 20px 0px;
+    font-weight: 600;
+  `,
 };
