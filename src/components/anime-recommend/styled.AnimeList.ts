@@ -49,7 +49,6 @@ export const S = {
     gap: 4px;
     width: 220px;
     height: 400px;
-
     :hover img {
       -webkit-transition: 0.3s ease-in-out;
       transition: 0.3s ease-in-out;
@@ -131,5 +130,7 @@ export const S = {
 
   Target: styled.div`
     height: 1px;
+    position: relative;
+    transform: translateY(-100%);
   `,
 };
