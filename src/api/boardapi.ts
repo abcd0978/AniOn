@@ -29,4 +29,20 @@ const updatePost = async (editPost: UpdatePosts): Promise<void> => {
   await supabase.from('posts').update(editPost).eq('id', editPost.id);
 };
 
-export { createPost, deletePost, updatePost, getPost };
+//Post 전체 목록 불러오기
+const getPosts = async () => {
+  try {
+    const { data, error } = await supabase.from('posts').select('*'); // posts 테이블에서 모든 열을 선택
+
+    if (error) {
+      throw error;
+    }
+
+    return data;
+  } catch (error) {
+    console.error('Error fetching posts:', error);
+    throw error;
+  }
+};
+
+export { createPost, deletePost, updatePost, getPost, getPosts };
