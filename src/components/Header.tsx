@@ -5,6 +5,7 @@ import * as modalStore from '../store/modalStore';
 import useViewport from '../hooks/useViewPort';
 import * as userStore from '../store/userStore';
 import dropdown from '../assets/dropdown.svg';
+import dropdownUp from '../assets/dropdownUp.svg';
 import * as authApi from '../api/auth';
 import logout from '../assets/logout.svg';
 import account from '../assets/account.svg';
@@ -58,9 +59,13 @@ function Header({}: Props) {
                 <StHeaderUserAppellation>칭호</StHeaderUserAppellation>
               </StHeaderUserInfo>
               <StHeaderDropDownImgContainer
-                onClick={() => setIsDowpdownOn(true)}
+                onClick={() => setIsDowpdownOn(!isDropdownOn)}
               >
-                <img src={dropdown} alt="dropdownImg" />
+                {isDropdownOn ? (
+                  <img src={dropdownUp} alt="dropdownImg" />
+                ) : (
+                  <img src={dropdown} alt="dropdownImg" />
+                )}
               </StHeaderDropDownImgContainer>
               {isDropdownOn && <DropDown children={dropdownContents} />}
             </StHeaderUserInfoContainer>
