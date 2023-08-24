@@ -80,15 +80,21 @@ export const S = {
   `,
 
   AniCommentButton: styled.button`
-    width: 50px;
-    height: 30px;
+    width: 64px;
+    height: 24px;
     border-radius: 10px;
     border: 1px solid #d9d9d9;
     margin-right: 5px;
+    cursor: pointer;
+    background-color: #efefef;
+
+    &:hover {
+      background-color: #c2c2c2;
+    }
   `,
 
   AniCommentButtonBox: styled.div`
-    margin-left: 60px;
+    float: right;
   `,
 
   AniEditCommentInput: styled.input`

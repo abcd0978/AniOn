@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
 import Pagination from '../Pagenation';
-import * as userStore from '../../store/userStore';
 import { S } from '../anime-detail/animeDetailComments.style';
+import * as userStore from '../../store/userStore';
 import {
   fetchComments,
   addComment,
@@ -12,30 +12,22 @@ import {
 } from '../../api/aniComment';
 import { Database } from '../../types/supabase';
 import { atom, useAtomValue } from 'jotai';
+import { Modal } from 'antd';
+
 type ReadAniComment = Database['public']['Tables']['ani_comments']['Row'];
 type InsertAniComment = Database['public']['Tables']['ani_comments']['Insert'];
 type UpdateAniComment = Database['public']['Tables']['ani_comments']['Update'];
 
 // TODO:현재 user 값 넣어야함
 
-const userAtom = atom<null | any>(null);
-
-console.log('!!!!!!!!', userStore.user);
+// const userAtom = atom<null | any>(null);
+// console.log('!!!!!!!!!!!!!', localStorage.getItem('user'));
 
 const AnimeDetailComments = () => {
   const { ani_id } = useParams() as { ani_id: string };
   // console.log("현재id!!!", ani_id);
 
-  const user = useAtomValue(userAtom);
-  // console.log("user>>>", user); //null
-  // 테스트용 user
-  // useEffect(() => {
-  //   setUser({
-  //     user_id: '59787dcd-cc16-4f05-8072-3d7a410b3722',
-  //   });
-  // }, []);
-
-  // user의 정보 가져오기
+  const user = useAtomValue(userStore.user);
 
   const queryClient = useQueryClient();
 
@@ -50,14 +42,21 @@ const AnimeDetailComments = () => {
   });
 
   const handleCommentSubmit = () => {
-    const currentTime = new Date();
+    if (!user) {
+      alert('댓글은 로그인/회원가입 후 이용해주세요.');
+      return;
+    }
+
+    if (!newComment) {
+      alert('작성한 댓글이 없습니다. 댓글을 입력해주세요.');
+      return;
+    }
 
     // 댓글 생성
     const createComment: InsertAniComment = {
       ani_id,
       comment: newComment,
-      // user_id: user?.userid as string,
-      user_id: '59787dcd-cc16-4f05-8072-3d7a410b3722', //테스트용
+      user_id: user.id,
       deleted_at: null, //확인
     };
 
@@ -75,7 +74,7 @@ const AnimeDetailComments = () => {
 
   // 댓글 삭제시
   const handleCommentDelete = async (commentId: string) => {
-    const shouldDelete = window.confirm('삭제 하시겠습니까?');
+    const shouldDelete = window.confirm('댓글을 삭제 하시겠습니까?');
     if (shouldDelete) {
       deleteMutation.mutate(commentId);
     }
@@ -94,6 +93,11 @@ const AnimeDetailComments = () => {
         ...comment,
         comment: editedCommentText,
       };
+
+      if (!editedCommentText) {
+        alert('댓글을 입력해주세요.');
+        return;
+      }
       editMutation.mutate(editComment);
       setEditingCommentId(null);
     } else {
@@ -137,22 +141,31 @@ const AnimeDetailComments = () => {
   return (
     <S.AniCommentContainer>
       <S.Outer>
-        <S.AniCommentInputBox>
-          <S.AniCommentInput
-            type="text"
-            value={newComment}
-            onChange={(e) => setNewComment(e.target.value)}
-            onKeyPress={(e) => {
-              if (e.key === 'Enter') {
-                handleCommentSubmit();
-              }
-            }}
-            placeholder="댓글을 남겨보세요. "
-          />
-          <S.AniCommentInputButton onClick={handleCommentSubmit}>
-            등록
-          </S.AniCommentInputButton>
-        </S.AniCommentInputBox>
+        {user ? (
+          <S.AniCommentInputBox>
+            <S.AniCommentInput
+              type="text"
+              value={newComment}
+              onChange={(e) => setNewComment(e.target.value)}
+              onKeyPress={(e) => {
+                if (e.key === 'Enter') {
+                  handleCommentSubmit();
+                }
+              }}
+              placeholder="댓글을 남겨보세요. "
+            />
+            <S.AniCommentInputButton onClick={handleCommentSubmit}>
+              등록
+            </S.AniCommentInputButton>
+          </S.AniCommentInputBox>
+        ) : (
+          <S.AniCommentInputBox>
+            <S.AniCommentInput
+              placeholder="댓글은 로그인/회원가입 후 이용해주세요. "
+              readOnly
+            />
+          </S.AniCommentInputBox>
+        )}
 
         <S.CommentSpace>
           {aniCommentsData?.data?.map((comment: ReadAniComment) => (
@@ -169,7 +182,18 @@ const AnimeDetailComments = () => {
                 </S.AniCommentUser>
                 <S.date>{new Date(comment.created_at).toLocaleString()}</S.date>
               </S.AniCommentUp>
-              {user?.user_id === comment.user_id && (
+              {comment.id === editingCommentId ? (
+                <S.AniEditCommentInput
+                  type="text"
+                  value={editedCommentText}
+                  onChange={(e) => setEditedCommentText(e.target.value)}
+                />
+              ) : (
+                <div>
+                  <S.AniCommentText>{comment.comment}</S.AniCommentText>
+                </div>
+              )}
+              {user?.id === comment.user_id && (
                 <S.AniCommentButtonBox>
                   <S.AniCommentButton
                     onClick={() => handleCommentEdit(comment)}
@@ -182,18 +206,6 @@ const AnimeDetailComments = () => {
                     삭제
                   </S.AniCommentButton>
                 </S.AniCommentButtonBox>
-              )}
-
-              {comment.id === editingCommentId ? (
-                <S.AniEditCommentInput
-                  type="text"
-                  value={editedCommentText}
-                  onChange={(e) => setEditedCommentText(e.target.value)}
-                />
-              ) : (
-                <div>
-                  <S.AniCommentText>{comment.comment}</S.AniCommentText>
-                </div>
               )}
             </S.AniCommentBox>
           ))}
