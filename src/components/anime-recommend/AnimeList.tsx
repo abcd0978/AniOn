@@ -17,7 +17,7 @@ import {
   selectedCategoryAtom,
   selectedYearsAtom,
   isEndingAtom,
-} from '../../jotai/jotai';
+} from '../../store/animeRecommendStore';
 import { useNavigate } from 'react-router';
 
 const AnimeList = () => {

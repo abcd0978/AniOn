@@ -6,7 +6,7 @@ import {
   selectedCategoryAtom,
   selectedGenresAtom,
   selectedYearsAtom,
-} from '../../../jotai/jotai';
+} from '../../../store/animeRecommendStore';
 import { Genres, Years } from '../../../types/anime';
 
 const AnimeTag = () => {

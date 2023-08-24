@@ -8,7 +8,7 @@ import {
   selectedCategoryAtom,
   selectedGenresAtom,
   selectedYearsAtom,
-} from '../../../jotai/jotai';
+} from '../../../store/animeRecommendStore';
 
 const AnimeCategory = () => {
   const [selectedCategory, setSelectedCategory] = useAtom(selectedCategoryAtom);
