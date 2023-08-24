@@ -3,12 +3,12 @@ import styled from 'styled-components';
 export const HoverInfo = styled.div`
   display: none;
   position: absolute;
-  top: 5px;
-  left: 5px;
-  padding: 3px;
+  top: 0px;
+  /* padding: 3px; */
   z-index: 20;
   line-height: 25px;
-  color: #fff;
+  color: #ffffff;
+  height: 100%;
 `;
 
 export const S = {
@@ -47,7 +47,7 @@ export const S = {
     align-items: flex-start;
     padding: 0px;
     gap: 4px;
-    width: 220px;
+    width: 10vw;
     height: 400px;
     :hover img {
       -webkit-transition: 0.3s ease-in-out;
@@ -56,15 +56,68 @@ export const S = {
     }
 
     :hover ${HoverInfo} {
-      display: block;
-      gap: 5px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
     }
   `,
 
+  HoverDiv: styled.div`
+    position: relative;
+  `,
+
+  HoverGenre: styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+    max-width: 60px;
+    margin-left: 10px;
+    padding: 4px 8px;
+    height: 16px;
+    background: #efefef;
+    border-radius: 999px;
+  `,
+
+  HoverTitleAndDetail: styled.div`
+    width: 220px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+    align-items: center;
+  `,
+
   HoverTitle: styled.div`
-    margin-top: 20px;
+    margin-top: 10px;
+    width: 90%;
+    height: 60px;
     font-weight: 600;
     font-size: 17px;
+    white-space: normal;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  `,
+
+  HoverViewDetail: styled.button`
+    position: relative;
+    padding: 6px 6px 6px 12px;
+    border-radius: 999px;
+    border: 1px solid white;
+    gap: 4px;
+    background-color: rgba(255, 255, 255, 0);
+    color: white;
+    cursor: pointer;
+  `,
+
+  HoverLikeBox: styled.div`
+    position: absolute;
+    display: flex;
+    gap: 3px;
+    right: 0px;
+    bottom: 0px;
   `,
 
   CardInfo: styled.div`
@@ -110,8 +163,6 @@ export const S = {
   `,
 
   Genre: styled.div`
-    display: flex;
-    flex-direction: row;
     justify-content: center;
     align-items: center;
     padding: 4px 12px;
