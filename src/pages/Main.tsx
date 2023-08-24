@@ -5,6 +5,7 @@ import MainCard from '../components/MainCard';
 import useViewport from '../hooks/useViewPort';
 import { getAnimeRankings } from '../api/laftel';
 import { useQuery } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
 import useEmblaCarousel, {
   EmblaCarouselType,
   EmblaOptionsType,
@@ -15,6 +16,7 @@ import useEmblaCarousel, {
 const testNodes: ReactNode[] = ['슬라이드1', '슬라이드2', '슬라이드3'];
 
 const Main = () => {
+  const navigate = useNavigate();
   const { width } = useViewport();
   const [historyEmblaRef, historyEmblaApi] = useEmblaCarousel({}, []);
   const [weeklyEmblaRef, weeklyEmblaApi] = useEmblaCarousel({}, []);
@@ -64,9 +66,24 @@ const Main = () => {
           <StMainCardContainer mediaWidth={width}>
             {dataH ? (
               <>
-                <MainCard index={1} data={dataH[0]} width={464} />
-                <MainCard index={2} data={dataH[1]} width={464} />
-                <MainCard index={3} data={dataH[2]} width={464} />
+                <div
+                  style={{ cursor: 'pointer' }}
+                  onClick={() => navigate(`/recommend/${dataH[0].id}`)}
+                >
+                  <MainCard index={1} data={dataH[0]} width={464} />
+                </div>
+                <div
+                  style={{ cursor: 'pointer' }}
+                  onClick={() => navigate(`/recommend/${dataH[1].id}`)}
+                >
+                  <MainCard index={2} data={dataH[1]} width={464} />
+                </div>
+                <div
+                  style={{ cursor: 'pointer' }}
+                  onClick={() => navigate(`/recommend/${dataH[2].id}`)}
+                >
+                  <MainCard index={3} data={dataH[2]} width={464} />
+                </div>
               </>
             ) : (
               <></>
@@ -84,7 +101,14 @@ const Main = () => {
             {dataW ? (
               <>
                 {dataW.map((data, index) => {
-                  return <MainCard index={index + 1} data={data} width={272} />;
+                  return (
+                    <div
+                      style={{ cursor: 'pointer' }}
+                      onClick={() => navigate(`/recommend/${data.id}`)}
+                    >
+                      <MainCard index={index + 1} data={data} width={272} />
+                    </div>
+                  );
                 })}
               </>
             ) : (
@@ -103,7 +127,14 @@ const Main = () => {
             {dataQ ? (
               <>
                 {dataQ.map((data, index) => {
-                  return <MainCard index={index + 1} data={data} width={272} />;
+                  return (
+                    <div
+                      style={{ cursor: 'pointer' }}
+                      onClick={() => navigate(`/recommend/${data.id}`)}
+                    >
+                      <MainCard index={index + 1} data={data} width={272} />
+                    </div>
+                  );
                 })}
               </>
             ) : (
