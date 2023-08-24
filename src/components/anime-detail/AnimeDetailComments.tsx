@@ -131,9 +131,26 @@ const AnimeDetailComments = () => {
   // console.log('AniCommentsData:', aniCommentsData);
 
   return (
-    <div>
-      <div>
-        <S.AniCommentContainer>
+    <S.AniCommentContainer>
+      <S.Outer>
+        <S.AniCommentInputBox>
+          <S.AniCommentInput
+            type="text"
+            value={newComment}
+            onChange={(e) => setNewComment(e.target.value)}
+            onKeyPress={(e) => {
+              if (e.key === 'Enter') {
+                handleCommentSubmit();
+              }
+            }}
+            placeholder="댓글을 남겨보세요. "
+          />
+          <S.AniCommentInputButton onClick={handleCommentSubmit}>
+            등록
+          </S.AniCommentInputButton>
+        </S.AniCommentInputBox>
+
+        <S.CommentSpace>
           {aniCommentsData?.data?.map((comment: ReadAniComment) => (
             <S.AniCommentBox key={comment.id}>
               <S.AniCommentUp>
@@ -146,7 +163,7 @@ const AnimeDetailComments = () => {
                     {comment.users.nickname}
                   </S.AniUserNickname>
                 </S.AniCommentUser>
-                <div>{new Date(comment.created_at).toLocaleString()}</div>
+                <S.date>{new Date(comment.created_at).toLocaleString()}</S.date>
               </S.AniCommentUp>
               {user?.user_id === comment.user_id && (
                 <S.AniCommentButtonBox>
@@ -176,22 +193,6 @@ const AnimeDetailComments = () => {
               )}
             </S.AniCommentBox>
           ))}
-          <S.AniCommentInputBox>
-            <S.AniCommentInput
-              type="text"
-              value={newComment}
-              onChange={(e) => setNewComment(e.target.value)}
-              onKeyPress={(e) => {
-                if (e.key === 'Enter') {
-                  handleCommentSubmit();
-                }
-              }}
-              placeholder="댓글을 남겨보세요. "
-            />
-            <S.AniCommentInputButton onClick={handleCommentSubmit}>
-              등록
-            </S.AniCommentInputButton>
-          </S.AniCommentInputBox>
           <S.AniCommentPageBox>
             <Pagination
               currentPage={page}
@@ -199,9 +200,9 @@ const AnimeDetailComments = () => {
               onClick={onClickPage}
             />
           </S.AniCommentPageBox>
-        </S.AniCommentContainer>
-      </div>
-    </div>
+        </S.CommentSpace>
+      </S.Outer>
+    </S.AniCommentContainer>
   );
 };
 

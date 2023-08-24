@@ -3,6 +3,9 @@ import styled from 'styled-components';
 export const S = {
   AniCommentContainer: styled.div`
     margin-top: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   `,
 
   AniCommentBox: styled.div`
@@ -45,17 +48,16 @@ export const S = {
   `,
 
   AniCommentInputBox: styled.div`
-    margin-top: 12px;
-    position: relative;
+    width: 1376px;
+    border: 1px solid #d9d9d9;
+    border-radius: 10px;
   `,
 
   AniCommentInput: styled.input`
-    width: 1277px;
-    height: 108px;
+    width: 1317px;
+    height: 60px;
     padding: 20px;
-    border-radius: 10px;
-    border: 1px solid #d9d9d9;
-    display: inline;
+    border: none;
     outline: none;
   `,
   AniCommentInputButton: styled.button`
@@ -63,20 +65,26 @@ export const S = {
     background: #757575;
     color: white;
     cursor: pointer;
-    width: 80px;
+    width: 70px;
     height: 40px;
     padding: 4px 14px;
     font-size: 15px;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
     font-weight: 400;
-    position: absolute;
+    display: flex;
+    float: right;
+    margin-right: 15px;
+    margin-bottom: 12px;
   `,
 
   AniCommentButton: styled.button`
-    width: 64px;
-    height: 24px;
-    border-radius: 4px;
+    width: 50px;
+    height: 30px;
+    border-radius: 10px;
     border: 1px solid #d9d9d9;
-    padding: 0px, 8px, 0px, 8px;
+    margin-right: 5px;
   `,
 
   AniCommentButtonBox: styled.div`
@@ -95,5 +103,16 @@ export const S = {
   AniCommentPageBox: styled.div`
     text-align: center;
     margin-top: 20px;
+  `,
+  CommentSpace: styled.div`
+    margin-top: 50px;
+  `,
+  Outer: styled.div`
+    display: flex;
+    flex-direction: column;
+  `,
+  date: styled.div`
+    color: #6e6c69;
+    font-size: 12px;
   `,
 };
