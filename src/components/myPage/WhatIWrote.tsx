@@ -11,12 +11,13 @@ if (!supabaseUrl || !supabaseAnonKey) {
 }
 
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
+type Post = Database['public']['Tables']['ani_comments']['Row'];
 
-type Post = {
-  id: string;
-  title: string;
-  content: string | null;
-};
+// // type Post = {
+//   id: string;
+//   title: string;
+//   content: string | null;
+// };
 
 const userPostsAtom = atom<Database['public']['Tables']['users']['Row'] | null>(
   null,
