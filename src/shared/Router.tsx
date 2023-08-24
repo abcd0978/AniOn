@@ -16,10 +16,12 @@ import BoardDetail from '../pages/BoardDetail';
 import BoardAni from '../pages/BoardAni';
 import BoardFree from '../pages/BoardFree';
 import { GlobalStyle } from '../styles/globalstyle';
+import ScrollToTop from '../components/ScrollTop';
 
 const Router = () => {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <Header />
 
       <GlobalStyle />
