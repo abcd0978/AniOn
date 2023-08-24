@@ -24,7 +24,7 @@ const Router = () => {
 
       <GlobalStyle />
       <Routes>
-        <Route path="/" element={<Main />} />
+        <Route path="/" element={WithAuth(Main, null)} />
         <Route path="/recommend" element={WithAuth(AnimeRecommend, null)} />
         <Route path="/board" element={WithAuth(Board, null)} />
         <Route

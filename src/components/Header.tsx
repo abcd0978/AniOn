@@ -1,19 +1,41 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useAtom } from 'jotai';
 import * as modalStore from '../store/modalStore';
 import useViewport from '../hooks/useViewPort';
 import * as userStore from '../store/userStore';
 import dropdown from '../assets/dropdown.svg';
+import dropdownUp from '../assets/dropdownUp.svg';
 import * as authApi from '../api/auth';
+import logout from '../assets/logout.svg';
+import account from '../assets/account.svg';
+import type { DropdownContentsType } from './DropDown/DropDown';
+import DropDown from './DropDown/DropDown';
 type Props = {};
 
 function Header({}: Props) {
+  const [isDropdownOn, setIsDowpdownOn] = useState(false);
   const [modal, setisModalOpened] = useAtom(modalStore.isModalOpened);
   const [modalContents, setModalContents] = useAtom(modalStore.modalContents);
+  const [__, logoutStore] = useAtom(userStore.logoutUser);
   const { width, height, isMobile, isLoaded } = useViewport();
   const [user, setUser] = useAtom(userStore.user);
 
+  const dropdownContents: DropdownContentsType[] = [
+    {
+      content: '프로필설정',
+      img_src: account,
+      func: () => {},
+    },
+    {
+      content: '로그아웃',
+      img_src: logout,
+      func: async () => {
+        await authApi.logout();
+        logoutStore();
+      },
+    },
+  ];
   return (
     <StHeader>
       <StHeaderContainer>
@@ -27,16 +49,25 @@ function Header({}: Props) {
         <StHeaderUserInfoSection>
           {user ? (
             <StHeaderUserInfoContainer>
-              <StHeaderUserProfile mediaWidth={width} />
+              <StHeaderUserProfile
+                src={user.profile_img_url!}
+                alt="프사"
+                mediaWidth={width}
+              />
               <StHeaderUserInfo>
-                <StHeaderUserName>이름fffff</StHeaderUserName>
-                <StHeaderUserAppellation>
-                  칭ffffffffffff호
-                </StHeaderUserAppellation>
+                <StHeaderUserName>{user.nickname}</StHeaderUserName>
+                <StHeaderUserAppellation>칭호</StHeaderUserAppellation>
               </StHeaderUserInfo>
-              <StHeaderDropDownImgContainer>
-                <img src={dropdown} alt="dropdownImg" />
+              <StHeaderDropDownImgContainer
+                onClick={() => setIsDowpdownOn(!isDropdownOn)}
+              >
+                {isDropdownOn ? (
+                  <img src={dropdownUp} alt="dropdownImg" />
+                ) : (
+                  <img src={dropdown} alt="dropdownImg" />
+                )}
               </StHeaderDropDownImgContainer>
+              {isDropdownOn && <DropDown children={dropdownContents} />}
             </StHeaderUserInfoContainer>
           ) : (
             <StHeaderLoginRegister>
@@ -58,15 +89,6 @@ function Header({}: Props) {
                 style={{ cursor: 'pointer' }}
               >
                 회원가입
-              </p>
-              <StblackBar></StblackBar>
-              <p
-                onClick={async () => {
-                  await authApi.logout();
-                }}
-                style={{ cursor: 'pointer' }}
-              >
-                로그아웃
               </p>
             </StHeaderLoginRegister>
           )}
@@ -166,6 +188,7 @@ const StHeaderUserAppellation = styled.p`
   white-space: nowrap;
 `;
 const StHeaderDropDownImgContainer = styled.div`
+  cursor: pointer;
   display: flex;
   width: 24px;
   height: 24px;
