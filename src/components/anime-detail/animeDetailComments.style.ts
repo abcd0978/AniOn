@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const S = {
   AniCommentContainer: styled.div`
@@ -55,6 +55,8 @@ export const S = {
     padding: 20px;
     border-radius: 10px;
     border: 1px solid #d9d9d9;
+    display: inline;
+    outline: none;
   `,
   AniCommentInputButton: styled.button`
     border-radius: 10px;
@@ -64,9 +66,9 @@ export const S = {
     width: 80px;
     height: 40px;
     padding: 4px 14px;
-    position: absolute;
     font-size: 15px;
     font-weight: 400;
+    position: absolute;
   `,
 
   AniCommentButton: styled.button`
@@ -79,5 +81,19 @@ export const S = {
 
   AniCommentButtonBox: styled.div`
     margin-left: 60px;
+  `,
+
+  AniEditCommentInput: styled.input`
+    width: 1277px;
+    height: 25px;
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid #d9d9d9;
+    margin: 10px 0px 0px 60px;
+  `,
+
+  AniCommentPageBox: styled.div`
+    text-align: center;
+    margin-top: 20px;
   `,
 };

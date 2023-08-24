@@ -231,9 +231,9 @@ export interface Database {
         Update: {
           comment: string;
           created_at?: string;
-          id?: string;
-          post_id?: string;
-          user_id?: string;
+          id: string;
+          post_id: string;
+          user_id: string;
         };
         Relationships: [
           {
