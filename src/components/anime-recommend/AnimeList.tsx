@@ -12,8 +12,10 @@ import useIntersect from '../../hooks/useIntersect';
 // import type { laftelParamsM } from '../../types/anime';
 import type { AnimeG } from '../../types/anime';
 import { offsetAtom, selectedGenresAtom } from '../../jotai/jotai';
+import { useNavigate } from 'react-router';
 
 const AnimeList = () => {
+  const navigate = useNavigate();
   const genres = useAtomValue(selectedGenresAtom);
 
   const sort = 'rank';
@@ -84,7 +86,7 @@ const AnimeList = () => {
         ) : (
           animeList.map((anime: AnimeG) => (
             <S.CardDiv key={anime.id}>
-              <S.CardInfo>
+              <S.CardInfo onClick={() => navigate(`/recommend/${anime.id}`)}>
                 <S.CardThumbnail
                   src={
                     anime.images?.length !== 0

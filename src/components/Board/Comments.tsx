@@ -1,21 +1,21 @@
-import React, { useState } from "react";
-import { useParams } from "react-router-dom";
-import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
-import Pagination from "../Pagenation";
-import * as S from "./Comments.Styles";
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
+import Pagination from '../Pagenation';
+import * as S from './Comments.Styles';
 import {
   fetchComments,
   addComment,
   deleteComment,
   updateComment,
-} from "../../api/commentapi";
-import { Database } from "../../types/supabase";
-import { atom, useAtom } from "jotai";
-type ReadPostComment = Database["public"]["Tables"]["post_comments"]["Row"];
+} from '../../api/commentapi';
+import { Database } from '../../types/supabase';
+import { atom, useAtom } from 'jotai';
+type ReadPostComment = Database['public']['Tables']['post_comments']['Row'];
 type InsertPostComment =
-  Database["public"]["Tables"]["post_comments"]["Insert"];
+  Database['public']['Tables']['post_comments']['Insert'];
 type UpdatePostComment =
-  Database["public"]["Tables"]["post_comments"]["Update"];
+  Database['public']['Tables']['post_comments']['Update'];
 
 const userAtom = atom<null | any>(null);
 
@@ -24,15 +24,19 @@ const Comments = () => {
 
   const [user, setUser] = useAtom(userAtom);
 
+  useEffect(() => {
+    setUser({ user_id: '7bd7fde5-17e2-407c-8e70-3b3fb178d761' });
+  }, []);
+
   const queryClient = useQueryClient();
 
-  const [newComment, setNewComment] = useState<string>("");
-  const [editingCommentId, setEditingCommentId] = useState<string | null>("");
-  const [editedCommentText, setEditedCommentText] = useState<string>("");
+  const [newComment, setNewComment] = useState<string>('');
+  const [editingCommentId, setEditingCommentId] = useState<string | null>('');
+  const [editedCommentText, setEditedCommentText] = useState<string>('');
 
   const addMutation = useMutation(addComment, {
     onSuccess: () => {
-      queryClient.invalidateQueries(["post_comments"]);
+      queryClient.invalidateQueries(['post_comments']);
     },
   });
 
@@ -44,24 +48,24 @@ const Comments = () => {
     const createComment: InsertPostComment = {
       created_at: formattedDate,
       comment: newComment,
-      post_id: "dc0f768b-1d31-41c2-8ec2-7e80edd43396",
-      user_id: "2fb03ff7-9993-458b-8740-317a04b36c65",
+      post_id: 'a7b5bef1-8973-4c1a-b1d2-33e44ea1cce2',
+      user_id: '7bd7fde5-17e2-407c-8e70-3b3fb178d761',
       // user_id: user?.userid as string,
     };
 
-    console.log("Creating comment:", createComment);
+    console.log('Creating comment:', createComment);
 
     addMutation.mutate(createComment);
-    setNewComment("");
+    setNewComment('');
   };
 
   const deleteMutation = useMutation(deleteComment, {
     onSuccess: () => {
-      queryClient.invalidateQueries(["post_comments"]);
+      queryClient.invalidateQueries(['post_comments']);
     },
   });
   const handleCommentDelete = async (commentId: string) => {
-    const shouldDelete = window.confirm("삭제 하시겠습니까?");
+    const shouldDelete = window.confirm('삭제 하시겠습니까?');
     if (shouldDelete) {
       deleteMutation.mutate(commentId);
     }
@@ -69,7 +73,7 @@ const Comments = () => {
 
   const editMutation = useMutation(updateComment, {
     onSuccess: () => {
-      queryClient.invalidateQueries(["post_comments"]);
+      queryClient.invalidateQueries(['post_comments']);
     },
   });
 
@@ -79,6 +83,7 @@ const Comments = () => {
         ...comment,
         comment: editedCommentText,
       };
+
       editMutation.mutate(editComment);
       setEditingCommentId(null);
     } else {
@@ -89,27 +94,27 @@ const Comments = () => {
 
   const [page, setPage] = useState<number>(1);
   const { data: postCommentsData } = useQuery<any>(
-    ["post_comments", post_id, page],
+    ['post_comments', post_id, page],
     () => {
       if (post_id) {
         return fetchComments(post_id, page);
       }
       return Promise.resolve({ data: [], totalPages: 1 });
     },
-    { keepPreviousData: true }
+    { keepPreviousData: true },
   );
 
   const onClickPage = (selected: number | string) => {
     if (page === selected) return;
-    if (typeof selected === "number") {
+    if (typeof selected === 'number') {
       setPage(selected);
       return;
     }
-    if (selected === "prev" && page > 1) {
+    if (selected === 'prev' && page > 1) {
       setPage((prev: any) => prev - 1);
       return;
     }
-    if (selected === "next" && page < postCommentsData.totalPages) {
+    if (selected === 'next' && page < postCommentsData.totalPages) {
       setPage((prev: any) => prev + 1);
       return;
     }
@@ -126,7 +131,7 @@ const Comments = () => {
             value={newComment}
             onChange={(e) => setNewComment(e.target.value)}
             onKeyPress={(e) => {
-              if (e.key === "Enter") {
+              if (e.key === 'Enter') {
                 handleCommentSubmit();
               }
             }}
@@ -149,7 +154,7 @@ const Comments = () => {
               {user?.user_id === comment.user_id && (
                 <S.ButtonBox>
                   <S.button onClick={() => handleCommentEdit(comment)}>
-                    {comment.id === editingCommentId ? "저장" : "수정"}
+                    {comment.id === editingCommentId ? '저장' : '수정'}
                   </S.button>
                   <S.button onClick={() => handleCommentDelete(comment.id)}>
                     삭제
