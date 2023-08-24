@@ -14,9 +14,11 @@ import DropDown from './DropDown/DropDown';
 import Modal from './Modal/Modal';
 import LoginModalContents from './Modal/LoginModalContents';
 import RegisterModalContents from './Modal/RegisterModalContents';
+import { useNavigate } from 'react-router-dom';
 type Props = {};
 
 function Header({}: Props) {
+  const navigate = useNavigate();
   const [isDropdownOn, setIsDowpdownOn] = useState(false);
   const [__, logoutStore] = useAtom(userStore.logoutUser);
   const { width, height, isMobile, isLoaded } = useViewport();
@@ -53,12 +55,20 @@ function Header({}: Props) {
       {isModalOpened && <Modal>{modalContentsFunc(modalContents)}</Modal>}
       <StHeader>
         <StHeaderContainer>
-          <StHeaderLogoSection>로고</StHeaderLogoSection>
+          <StHeaderLogoSection onClick={() => navigate('/')}>
+            로고
+          </StHeaderLogoSection>
           <StHeaderMenuSection>
-            <StHeaderMenu>둘러보기</StHeaderMenu>
-            <StHeaderMenu>애니추천</StHeaderMenu>
-            <StHeaderMenu>게시판</StHeaderMenu>
-            <StHeaderMenu>상점</StHeaderMenu>
+            <StHeaderMenu onClick={() => navigate('/')}>둘러보기</StHeaderMenu>
+            <StHeaderMenu onClick={() => navigate('/recommend')}>
+              애니추천
+            </StHeaderMenu>
+            <StHeaderMenu onClick={() => navigate('/board')}>
+              게시판
+            </StHeaderMenu>
+            <StHeaderMenu onClick={() => navigate('/shop/item')}>
+              상점
+            </StHeaderMenu>
           </StHeaderMenuSection>
           <StHeaderUserInfoSection>
             {user ? (
@@ -132,6 +142,7 @@ const StHeaderContainer = styled.div`
   align-items: center;
 `;
 const StHeaderLogoSection = styled.div`
+  cursor: 'pointer';
   min-width: 126px;
   max-width: 10%;
   height: 100%;
