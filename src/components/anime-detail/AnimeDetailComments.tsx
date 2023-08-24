@@ -12,7 +12,6 @@ import {
 } from '../../api/aniComment';
 import { Database } from '../../types/supabase';
 import { atom, useAtomValue } from 'jotai';
-import { Modal } from 'antd';
 
 type ReadAniComment = Database['public']['Tables']['ani_comments']['Row'];
 type InsertAniComment = Database['public']['Tables']['ani_comments']['Insert'];
@@ -56,7 +55,9 @@ const AnimeDetailComments = () => {
     const createComment: InsertAniComment = {
       ani_id,
       comment: newComment,
+
       user_id: user.id,
+
       deleted_at: null, //확인
     };
 
