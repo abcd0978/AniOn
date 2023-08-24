@@ -24,9 +24,9 @@ const Comments = () => {
 
   const [user, setUser] = useAtom(userAtom);
 
-  useEffect(() => {
-    setUser({ user_id: '7bd7fde5-17e2-407c-8e70-3b3fb178d761' });
-  }, []);
+  // useEffect(() => {
+  //   setUser({ user_id: '7bd7fde5-17e2-407c-8e70-3b3fb178d761' });
+  // }, []);
 
   const queryClient = useQueryClient();
 
@@ -49,15 +49,12 @@ const Comments = () => {
       alert('댓글 내용을 입력해주세요.');
       return;
     }
-    const currentTime = new Date();
-    const formattedDate = currentTime.toISOString();
 
     //생성
     const createComment: InsertPostComment = {
-      created_at: formattedDate,
       comment: newComment,
-      post_id: 'a7b5bef1-8973-4c1a-b1d2-33e44ea1cce2',
-      user_id: '7bd7fde5-17e2-407c-8e70-3b3fb178d761',
+      post_id: post_id as string,
+      user_id: user?.userid as string,
     };
 
     console.log('Creating comment:', createComment);
