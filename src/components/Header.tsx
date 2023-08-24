@@ -1,11 +1,11 @@
-import React from "react";
-import styled from "styled-components";
-import { useAtom } from "jotai";
-import * as modalStore from "../store/modalStore";
-import useViewport from "../hooks/useViewPort";
-import * as userStore from "../store/userStore";
-import dropdown from "../assets/dropdown.svg";
-import * as authApi from "../api/auth";
+import React from 'react';
+import styled from 'styled-components';
+import { useAtom } from 'jotai';
+import * as modalStore from '../store/modalStore';
+import useViewport from '../hooks/useViewPort';
+import * as userStore from '../store/userStore';
+import dropdown from '../assets/dropdown.svg';
+import * as authApi from '../api/auth';
 type Props = {};
 
 function Header({}: Props) {
@@ -42,20 +42,20 @@ function Header({}: Props) {
             <StHeaderLoginRegister>
               <p
                 onClick={() => {
-                  setModalContents("login");
+                  setModalContents('login');
                   setisModalOpened(true);
                 }}
-                style={{ cursor: "pointer" }}
+                style={{ cursor: 'pointer' }}
               >
                 로그인
               </p>
               <StblackBar></StblackBar>
               <p
                 onClick={() => {
-                  setModalContents("register");
+                  setModalContents('register');
                   setisModalOpened(true);
                 }}
-                style={{ cursor: "pointer" }}
+                style={{ cursor: 'pointer' }}
               >
                 회원가입
               </p>
@@ -64,7 +64,7 @@ function Header({}: Props) {
                 onClick={async () => {
                   await authApi.logout();
                 }}
-                style={{ cursor: "pointer" }}
+                style={{ cursor: 'pointer' }}
               >
                 로그아웃
               </p>
@@ -76,8 +76,8 @@ function Header({}: Props) {
   );
 }
 
-const headerMenuColor = "#999999";
-const headerMenuColorActivated = "#4f4f4f";
+const headerMenuColor = '#999999';
+const headerMenuColorActivated = '#4f4f4f';
 
 const StHeader = styled.div`
   max-width: 1920px;
