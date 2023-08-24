@@ -12,17 +12,7 @@ const MyInfoMenu = () => {
       case 'DecoProfile':
         return <DecoProfile />;
       case 'EditProfile':
-        return (
-          <EditProfile
-            user={{
-              created_at: '',
-              id: '',
-              last_sign_i: null,
-              nickname: '',
-              profile_img_url: null,
-            }}
-          />
-        );
+        return <EditProfile />;
       case 'LikedAnime':
         return <LikedAnime />;
       case 'WhatIWrote':
