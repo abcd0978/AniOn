@@ -56,7 +56,10 @@ function AnimeDetail({}: Props) {
             </S.AniDetailTagBox>
             <S.ContentsText>
               <S.AniLabel>{animeDetail.name}</S.AniLabel>
-              <S.PreviewBox>▶ 1화 맛보기</S.PreviewBox>
+              <div>
+                <S.PreviewBox href="#preview">▶ 1화 맛보기</S.PreviewBox>
+              </div>
+
               <S.ContentsText>장르: {animeDetail.genres}</S.ContentsText>
               <S.ContentsText>{animeDetail.content}</S.ContentsText>
             </S.ContentsText>
@@ -74,12 +77,16 @@ function AnimeDetail({}: Props) {
             </S.ContentsImg>
           </div>
         </S.ContentsContainer>
-        <S.DetailLabel>1화 맛보기</S.DetailLabel>
+        <S.DetailLabel id="preview">1화 맛보기</S.DetailLabel>
         <S.ContentVideoLayout>
-          <VideoPlayer
-            src={animeVideo.public_streaming_info.hls_preview_url}
-            type="m3u8"
-          />
+          {animeVideo.public_streaming_info.hls_preview_url ? (
+            <VideoPlayer
+              src={animeVideo.public_streaming_info.hls_preview_url}
+              type="m3u8"
+            />
+          ) : (
+            <S.NonPreview>맛보기 영상이 없습니다😭</S.NonPreview>
+          )}
         </S.ContentVideoLayout>
       </S.DetailContainer>
       <S.DetailLabel>리뷰</S.DetailLabel>
