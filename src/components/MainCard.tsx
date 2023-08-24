@@ -1,49 +1,57 @@
-import React from "react";
-import styled from "styled-components";
-type Props = {};
+import React from 'react';
+import styled from 'styled-components';
+import useViewport from '../hooks/useViewPort';
+type Props = {
+  width: number;
+  data: any;
+  index: number;
+};
 
-const MainCard = (props: Props) => {
+const MainCard = ({ width, data, index }: Props) => {
+  const { width: mediaWidth } = useViewport();
   return (
-    <StMainCard>
-      <StMainCardImgContainer>
+    <StMainCard width={width} mediaWidth={mediaWidth}>
+      <StMainCardImgContainer img_url={data.images[1].img_url}>
         <StMainCardImgIndex>
-          <p style={{ fontSize: "16px", fontWeight: "bold" }}>TOP 1</p>
+          <p style={{ fontSize: '16px', fontWeight: 'bold' }}>TOP {index}</p>
         </StMainCardImgIndex>
       </StMainCardImgContainer>
       <StCardInfoContainer>
         <StCardInfo>
-          <StCardTitle>애니메이션 이름</StCardTitle>
-          <StCardSubtitle>
+          <StCardTitle>{data.name}</StCardTitle>
+          {/* <StCardSubtitle>
             애니메이션 한줄 소개 애니메이션 한줄 소개
-          </StCardSubtitle>
+          </StCardSubtitle> */}
         </StCardInfo>
         <StCardHashTagContainer>
-          <StCardHashTag>
-            <StCardHashTagTypo>#카테고리</StCardHashTagTypo>
-          </StCardHashTag>
-          <StCardHashTag>
-            <StCardHashTagTypo>#카테고리</StCardHashTagTypo>
-          </StCardHashTag>
-          <StCardHashTag>
-            <StCardHashTagTypo>#카테고리</StCardHashTagTypo>
-          </StCardHashTag>
+          {data.genres.map((g: string) => {
+            return (
+              <StCardHashTag>
+                <StCardHashTagTypo mediaWidth={mediaWidth}>
+                  # {g!}
+                </StCardHashTagTypo>
+              </StCardHashTag>
+            );
+          })}
         </StCardHashTagContainer>
       </StCardInfoContainer>
     </StMainCard>
   );
 };
-const StMainCard = styled.div`
+const StMainCard = styled.div<{ width: number; mediaWidth: number }>`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 12px;
-  width: 272px;
-  height: 283px;
+  width: ${(props) => (props.width * props.mediaWidth) / 1920}px;
+
   flex-shrink: 0;
 `;
-const StMainCardImgContainer = styled.div`
+const StMainCardImgContainer = styled.div<{ img_url: string }>`
+  background-image: ${(props) => `url(${props.img_url})`};
+  background-size: cover;
   width: 100%;
-  height: 180px;
+  aspect-ratio: 100 / 66;
   background-color: #d9d9d9;
   border-radius: 10px;
 `;
@@ -61,7 +69,6 @@ const StMainCardImgIndex = styled.div`
 `;
 const StCardInfoContainer = styled.div`
   display: flex;
-  width: 272px;
   flex-direction: column;
   align-items: flex-start;
   gap: 16px;
@@ -104,10 +111,12 @@ const StCardHashTag = styled.div`
   border-radius: 999px;
   background: #efefef;
 `;
-const StCardHashTagTypo = styled.p`
+const StCardHashTagTypo = styled.p<{ mediaWidth: number }>`
   color: #000;
   font-family: Pretendard Variable;
-  font-size: 13px;
+  //font-size: ${(props) => 13 * (props.mediaWidth / 1920)}px;
+  font-size: 0.5em;
+  text-size-adjust: auto;
   font-style: normal;
   font-weight: 400;
   line-height: normal;

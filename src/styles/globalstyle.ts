@@ -1,5 +1,5 @@
-import { createGlobalStyle } from "styled-components";
-import reset from "styled-reset";
+import { createGlobalStyle } from 'styled-components';
+import reset from 'styled-reset';
 
 export const GlobalStyle = createGlobalStyle`
 ${reset};  
@@ -7,6 +7,7 @@ ${reset};
 body{
     margin:0 auto;
     max-width: 75%;
+    overflow-x: hidden;
 }
 
 .embla{
