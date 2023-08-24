@@ -163,6 +163,31 @@ export interface Database {
           },
         ];
       };
+      anime_likes: {
+        Row: {
+          id: string;
+          anime_id: string;
+          user_id: string;
+        };
+        Insert: {
+          id?: string;
+          anime_id: string;
+          user_id: string;
+        };
+        Update: {
+          id?: string;
+          post_id?: string;
+          user_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'anime_likes_user_id_fkey';
+            columns: ['user_id'];
+            referencedRelation: 'users';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
       one_pick: {
         Row: {
           ani_list: Json;
