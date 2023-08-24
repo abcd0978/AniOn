@@ -27,7 +27,7 @@ const AnimeDetailComments = () => {
   // 테스트용 user
   useEffect(() => {
     setUser({
-      user_id: '59787dcd-cc16-4f05-8072-3d7a410b3722',
+      user_id: '7bd7fde5-17e2-407c-8e70-3b3fb178d761',
     });
   }, []);
 
@@ -53,7 +53,7 @@ const AnimeDetailComments = () => {
       ani_id,
       comment: newComment,
       // user_id: user?.userid as string,
-      user_id: '59787dcd-cc16-4f05-8072-3d7a410b3722', //테스트용
+      user_id: '7bd7fde5-17e2-407c-8e70-3b3fb178d761', //테스트용
       deleted_at: null, //확인
     };
 
