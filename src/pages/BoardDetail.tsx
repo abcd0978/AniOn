@@ -92,10 +92,12 @@ const BoardDetail = () => {
           {user?.id === posts.user_id && (
             <S.ButtonContainer>
               <div>
-                <button onClick={() => deleteButton(posts.id!)}>삭제</button>
-                <button onClick={() => editButton(posts)}>
+                <S.Button onClick={() => deleteButton(posts.id!)}>
+                  삭제
+                </S.Button>
+                <S.Button onClick={() => editButton(posts)}>
                   {isEdit ? '저장' : '수정'}
-                </button>
+                </S.Button>
               </div>
             </S.ButtonContainer>
           )}
@@ -103,7 +105,6 @@ const BoardDetail = () => {
             <S.Category>{posts.category}</S.Category>
             {isEdit ? (
               <S.Box>
-                <S.Info>(수정중)&nbsp;{posts.created_at}</S.Info>
                 <S.Input
                   value={title}
                   onChange={onChangeTitle}
@@ -112,7 +113,7 @@ const BoardDetail = () => {
               </S.Box>
             ) : (
               <S.Box>
-                <S.Info>{posts.created_at}</S.Info>
+                <S.Date> {new Date(posts.created_at).toLocaleString()}</S.Date>
                 <S.Title>{posts.title}</S.Title>
               </S.Box>
             )}

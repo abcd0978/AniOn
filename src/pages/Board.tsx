@@ -1,26 +1,28 @@
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { QueryKey } from '@tanstack/react-query';
 import * as S from './Board.style';
 import { getPosts } from '../api/boardapi';
 import { Database } from '../types/supabase';
 type ReadPosts = Database['public']['Tables']['posts']['Row'];
 
-function Board() {
+const Board = () => {
   const navigate = useNavigate();
 
   const handleWriteClick = () => {
     navigate('/board/write');
   };
-
-  const { data: posts, isLoading } = useQuery<ReadPosts[], unknown>(
+  const { data: posts, isLoading } = useQuery<ReadPosts[]>(
     ['posts'],
     getPosts,
+    {
+      onError: (error) => {
+        console.error('Error fetching posts:', error);
+      },
+    },
   );
 
   const handlePostClick = (postId: string) => {
-    navigate(`/board/${postId}`); // 게시글을 클릭했을 때 해당 게시글의 상세 페이지로 이동합니다.
+    navigate(`/board/${postId}`);
   };
 
   return (
@@ -44,11 +46,11 @@ function Board() {
             ))}
           </ul>
         ) : (
-          <div>No posts available.</div>
+          <div>로딩중</div>
         )}
       </div>
     </div>
   );
-}
+};
 
 export default Board;
