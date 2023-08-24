@@ -41,6 +41,14 @@ const Comments = () => {
   });
 
   const handleCommentSubmit = () => {
+    // if (!user) {
+    //   alert('로그인 후에 댓글을 작성할 수 있습니다! 로그인해주세요.');
+    //   return;
+    // }
+    if (!newComment) {
+      alert('댓글 내용을 입력해주세요.');
+      return;
+    }
     const currentTime = new Date();
     const formattedDate = currentTime.toISOString();
 
@@ -50,7 +58,6 @@ const Comments = () => {
       comment: newComment,
       post_id: 'a7b5bef1-8973-4c1a-b1d2-33e44ea1cce2',
       user_id: '7bd7fde5-17e2-407c-8e70-3b3fb178d761',
-      // user_id: user?.userid as string,
     };
 
     console.log('Creating comment:', createComment);
