@@ -60,11 +60,12 @@ const AnimeList = () => {
 
   const ref = useIntersect(async (entry, observer) => {
     observer.unobserve(entry.target);
-    if (category === prevCategory) {
-      throttledLoadMore();
-      // 이전 카테고리를 현재 카테고리로 업데이트
-      setPrevCategory(category);
-    }
+    //if (category === prevCategory) {
+    throttledLoadMore();
+    // 이전 카테고리를 현재 카테고리로 업데이트
+    setPrevCategory(category);
+    observer.observe(entry.target);
+    //}
   });
 
   // 장르 선택 시 변경, 추후 분기, 방영 중 여부 추가
