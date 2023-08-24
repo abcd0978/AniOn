@@ -81,7 +81,6 @@ const WriteBoard = () => {
         created_at: formattedDateTime,
       };
 
-      console.log('💛💛💛', newPost);
       // DB 추가
       createMutation.mutate(newPost, {
         onSuccess: () => {
@@ -93,9 +92,6 @@ const WriteBoard = () => {
           console.error('Error adding post:', error);
         },
       });
-
-      // 페이지 이동
-      // navigate(`/board/${newPost.id}`);
     }
   };
 

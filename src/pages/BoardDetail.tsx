@@ -19,7 +19,6 @@ const BoardDetail = () => {
 
   // Post id 가져오기
   const { post_id } = useParams<{ post_id: string }>();
-  console.log('가져와지져저자', post_id);
 
   // Post 상세조회
   const { data: posts } = useQuery<ReadPosts>(['posts'], () =>
