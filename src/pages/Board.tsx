@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { QueryKey } from '@tanstack/react-query'; // QueryKey 타입을 불러옵니다.
+import { QueryKey } from '@tanstack/react-query';
 import * as S from './Board.style';
 import { getPosts } from '../api/boardapi';
 import { Database } from '../types/supabase';
@@ -19,6 +19,10 @@ function Board() {
     getPosts,
   );
 
+  const handlePostClick = (postId: string) => {
+    navigate(`/board/${postId}`); // 게시글을 클릭했을 때 해당 게시글의 상세 페이지로 이동합니다.
+  };
+
   return (
     <div>
       <h1>게시판</h1>
@@ -30,7 +34,10 @@ function Board() {
         ) : posts ? (
           <ul>
             {posts.map((post: ReadPosts) => (
-              <S.Postbox key={post.id}>
+              <S.Postbox
+                key={post.id}
+                onClick={() => post.id && handlePostClick(post.id.toString())}
+              >
                 <h2>{post.title}</h2>
                 <p>{post.content}</p>
               </S.Postbox>
