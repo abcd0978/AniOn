@@ -1,30 +1,50 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { createClient } from '@supabase/supabase-js';
 import { useDropzone, Accept, FileRejection } from 'react-dropzone';
 import { v4 as uuidv4 } from 'uuid';
 import { Database } from '../../types/supabase';
+import { atom, useAtom } from 'jotai';
+import { useParams } from 'react-router';
+import axios from 'axios';
 //1. supabase
 const supabaseUrl = process.env.REACT_APP_SUPABASE_URL;
 const supabaseAnonKey = process.env.REACT_APP_ANON_KEY;
-
+const bucketName = 'Profile_Images';
 if (!supabaseUrl || !supabaseAnonKey) {
   throw new Error('supabase의 환경변수가 없습니다.');
 }
 
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
 //2
-export type Users = Database['public']['Tables']['users']['Row'];
-
-const EditProfile = ({ user }: { user: Users }) => {
+const userAtom = atom<Database['public']['Tables']['users']['Row'] | null>(
+  null,
+);
+const EditProfile = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [editMode, setEditMode] = useState<string>('');
+  const [user, setUser] = useAtom(userAtom);
+  const { user_id } = useParams() as { user_id: string };
+
+  useEffect(() => {
+    setUser((prevUser) => {
+      if (prevUser) {
+        return {
+          ...prevUser,
+          user_id: '3d3c5c93-c72b-463a-8a42-014dbf0ae06b',
+        };
+      }
+      return prevUser;
+    });
+  }, []);
+
   //3. drop-zone
   const onDrop = (acceptedFiles: File[], fileRejections: FileRejection[]) => {
     if (acceptedFiles.length > 0) {
       setSelectedFile(acceptedFiles[0]);
     }
   };
+
   //4. 사진 업로드
   const handleUpload = async () => {
     console.log('handleUpload started');
@@ -33,93 +53,46 @@ const EditProfile = ({ user }: { user: Users }) => {
       return;
     }
 
-    // const fileExists = await checkIfFileExists(selectedFile);
-
-    // if (fileExists) {
-    //   console.log('File already exists in storage. Skipping upload.');
-    //   return;
-    // }
-    //4-1. 사진UUID생성
-    const fileExtension = selectedFile.name.split('.').pop(); // 파일 확장자 추출
+    // 4-1. 사진UUID생성
+    const fileExtension = selectedFile.name.split('.').pop(); //파일확장자추출
     const newFileName = `${uuidv4()}.${fileExtension}`;
-    const profileFilePath = `public/${newFileName}`;
+    const profileFilePath = `${newFileName}`;
+    const profileImageUrl = `${supabaseUrl}/storage/v1/object/${bucketName}/${profileFilePath}?token=${supabaseAnonKey}
+`;
 
-    console.log(selectedFile);
+    https: console.log(selectedFile);
 
     try {
       const { data, error: uploadError } = await supabase.storage
         .from('Profile Images')
-        .upload(profileFilePath, selectedFile);
+        .upload(profileImageUrl, selectedFile);
 
       if (uploadError) {
         console.error('Upload error:', uploadError);
         return;
       }
+      console.log('User ID:', user_id);
 
-      console.log('File uploaded successfully!');
-      //4-2. 파일 users테이블에 업로드
-      try {
-        const { data, error: uploadError } = await supabase.storage
-          .from('Profile Images')
-          .upload(profileFilePath, selectedFile);
+      console.log('File uploaded successfully!'); //여기까지만 콘솔에 찍힘
 
-        if (uploadError) {
-          console.error(uploadError);
-          return;
-        }
-
-        console.log('File uploaded successfully!');
-
-        const { data: userData, error: userUpdateError } = await supabase
-          .from('users')
-          .update({ profile_img_url: profileFilePath }) // 업데이트 쿼리
-          .eq('id', user.id);
-
-        if (userUpdateError) {
-          console.error(userUpdateError);
-          return;
-        }
-
-        console.log('User profile updated successfully!!!!');
-      } catch (error) {
-        console.error(error);
-      }
-
+      //사용자 프로필 이미지 업데이트
       const { data: userData, error: userUpdateError } = await supabase
         .from('users')
-        .update({ profile_img_url: profileFilePath }) // 업데이트 쿼리
-        .eq('id', user.id);
+        .update({ profile_img_url: profileImageUrl }) // 업데이트 쿼리
+        .eq('id', user_id);
 
       if (userUpdateError) {
-        console.error('User update error:', userUpdateError);
+        console.error(userUpdateError);
+
+        //1.profileFilePath변수 확인 2. user.id확인
         return;
       }
 
-      console.log('User profile updated successfully!!!!~~');
+      console.log('User profile updated successfully!!!!');
     } catch (error) {
       console.error(error);
     }
-    //5. 중복된 파일 업로드
-    // const checkIfFileExists = async (file: File): Promise<boolean> => {
-    //   const { data: files, error } = await supabase.storage
-    //     .from('Profile Images')
-    //     .list(`${user.id}/`);
-
-    //   if (error) {
-    //     console.error(error);
-    //     return false;
-    //   }
-
-    //   return files.some((existingFile: any) => existingFile.size === file.size);
-    // };
   };
-  // insert into users (profile_img_url)
-  // select profileFilePath
-  // From
-  // where
-  // const { error } = await supabase
-  //   .from('countries')
-  //   .insert('users')
 
   //(번외)드롭존
   const { getRootProps, getInputProps } = useDropzone({
@@ -136,7 +109,14 @@ const EditProfile = ({ user }: { user: Users }) => {
           {editMode === 'photo' ? (
             <>
               <div {...getRootProps()}>
-                <Input type="file" {...getInputProps()} />
+                <Item>
+                  {/* 프로필 이미지를 표시하는 부분 */}
+                  <img
+                    src={user?.profile_img_url || '기본 이미지 URL'}
+                    alt="프로필 이미지"
+                    style={{ width: '100px', height: '100px' }}
+                  />
+                </Item>
               </div>
               <Input
                 type="file"
@@ -160,6 +140,7 @@ const EditProfile = ({ user }: { user: Users }) => {
             <Button onClick={() => setEditMode('photo')}>변경</Button>
           )}
         </Item>
+
         {/* 여기에 이메일이랑 비번 변경 들어감 */}
       </Container>
     );
