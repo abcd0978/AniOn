@@ -1,6 +1,7 @@
-import React, { FC, useEffect } from "react";
-import supabase from "../supabaseClient";
-import { useNavigate } from "react-router-dom";
+import React, { FC, useEffect, useState } from 'react';
+import supabase from '../supabaseClient';
+import { useAtom } from 'jotai';
+import * as userStore from '../store/userStore';
 /**
  *
  * @param Component 컴포넌트
@@ -11,18 +12,23 @@ import { useNavigate } from "react-router-dom";
 const WithAuth = (
   Component: React.ComponentType,
   option: boolean | null,
-  adminRoute: boolean | null = null
+  adminRoute: boolean | null = null,
 ) => {
+  const [__, writeUser] = useAtom(userStore.writeUser);
+  async function authCheck() {
+    const result = await writeUser();
+    // if (option === true && (result === false || result == null)) {
+    //   alert('접근하실수 없습니다');
+    //   window.history.pushState(null, '', '/');
+    // } else if (option === null) {
+    //   return;
+    // } else if (option === false && result) {
+    //   alert('잘못된 경로입니다.');
+    //   window.history.pushState(null, '', '/');
+    // }
+  }
   useEffect(() => {
-    const setUserInfo = async () => {
-      const session = await supabase.auth.getSession();
-      console.log(session);
-    };
-    setUserInfo();
-    if (option) {
-    } else if (option === false) {
-    } else if (option === null) {
-    }
+    if (option !== undefined && Component) authCheck();
   }, []);
   return <Component />;
 };

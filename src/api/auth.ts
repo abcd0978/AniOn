@@ -1,11 +1,11 @@
-import supabase from "../supabaseClient";
-import type { Database } from "../types/supabase";
-type userTypeInsert = Database["public"]["Tables"]["users"]["Insert"];
+import supabase from '../supabaseClient';
+import type { Database } from '../types/supabase';
+type userTypeInsert = Database['public']['Tables']['users']['Insert'];
 enum AuthProvider {
-  Google = "google",
-  Kakao = "kakao",
-  GitHub = "github",
-  Discord = "discord",
+  Google = 'google',
+  Kakao = 'kakao',
+  GitHub = 'github',
+  Discord = 'discord',
 }
 export type FormData = {
   email: string;
@@ -16,42 +16,42 @@ export const logout = async () => {
   window.location.reload();
 };
 export const addUser = async (user: userTypeInsert) => {
-  const result = await supabase.from("users").insert(user);
-  console.log(result);
+  const { data } = await supabase.from('users').insert(user).select();
+  return data![0];
 };
 export const checkUser = async (user_id: string) => {
   const result = await supabase
-    .from("users")
-    .select("count")
-    .eq("id", user_id!);
+    .from('users')
+    .select('count')
+    .eq('id', user_id!);
   return result.data![0].count;
 };
 export const nicknameValidate = async (nickname: string) => {
   const result = await supabase
-    .from("users")
-    .select("count")
-    .eq("nickname", nickname);
+    .from('users')
+    .select('count')
+    .eq('nickname', nickname);
   console.log(result);
   return true;
 };
 export const loginHandler = async (
   Logindata?: FormData,
   isOAuth?: boolean,
-  provider?: AuthProvider
+  provider?: AuthProvider,
 ) => {
   if (!isOAuth) {
     //email login
     try {
       const { data, error } = await supabase.auth.signInWithPassword(
-        Logindata!
+        Logindata!,
       );
       if (data.user) {
-        alert("성공");
+        alert('성공');
         return true;
       }
       if (error) {
         console.error((error as any).message);
-        alert("로그인 정보를 다시 확인해주세요");
+        alert('로그인 정보를 다시 확인해주세요');
         return false;
       }
     } catch (error) {

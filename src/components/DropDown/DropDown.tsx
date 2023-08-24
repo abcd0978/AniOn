@@ -1,6 +1,6 @@
-import React from "react";
-import styled from "styled-components";
-import DropDownContents from "./DropDownContents";
+import React, { useRef } from 'react';
+import styled from 'styled-components';
+import DropDownContents from './DropDownContents';
 export type DropdownContentsType = {
   content: string;
   img_src?: string;
@@ -9,14 +9,13 @@ export type DropdownContentsType = {
 type Props = {
   children: DropdownContentsType[];
 };
-
 function DropDown({ children }: Props) {
   return (
     <StDropdownContainer>
       {children.map((child, index) => (
         <DropDownContents
           NumOfChildren={children.length}
-          index={index}
+          index={index + 1}
           key={index}
           data={child}
         />
@@ -28,6 +27,8 @@ const StDropdownContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.14);
+  position: relative;
+  z-index: 3;
+  top: 30px;
 `;
 export default DropDown;

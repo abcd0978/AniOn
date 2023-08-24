@@ -1,40 +1,42 @@
-import React, { useState } from "react";
-import styled from "styled-components";
-import useViewport from "../../hooks/useViewPort";
-import { useAtom } from "jotai";
-import goBack from "../../assets/goBack.svg";
-import * as modalStore from "../../store/modalStore";
-import useInput from "../../hooks/useInput";
-import supabase from "../../supabaseClient";
-import * as authApi from "../../api/auth";
-import { Database } from "../../types/supabase";
-import loadingSpinner from "../../assets/loadingSpinner.svg";
-type userType = Database["public"]["Tables"]["users"]["Insert"];
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import useViewport from '../../hooks/useViewPort';
+import { useAtom } from 'jotai';
+import goBack from '../../assets/goBack.svg';
+import * as modalStore from '../../store/modalStore';
+import * as userStore from '../../store/userStore';
+import useInput from '../../hooks/useInput';
+import supabase from '../../supabaseClient';
+import { Database } from '../../types/supabase';
+import loadingSpinner from '../../assets/loadingSpinner.svg';
+type userType = Database['public']['Tables']['users']['Insert'];
 type Props = {};
 const LoginModalContents = (props: Props) => {
   const [checked, setChecked] = useState(false);
   const [modal, setModal] = useAtom(modalStore.isModalOpened);
+  const [user, setUser] = useAtom(userStore.user);
+  const [__, writeUser] = useAtom(userStore.writeUser);
   const [modalContents, setModalContents] = useAtom(modalStore.modalContents);
-  const [email, setEmail, onChangeEmail, resetEmail] = useInput("");
-  const [nickname, setNickname, onChangeNickname, resetNickname] = useInput("");
-  const [password, setPassword, onChangePassword, resetPassword] = useInput("");
-  const [error, setError] = useState("");
+  const [email, setEmail, onChangeEmail, resetEmail] = useInput('');
+  const [nickname, setNickname, onChangeNickname, resetNickname] = useInput('');
+  const [password, setPassword, onChangePassword, resetPassword] = useInput('');
+  const [error, setError] = useState('');
   const [
     passwordConfirm,
     setPasswordConfirm,
     onChangePasswordConfirm,
     resetPasswordConfirm,
-  ] = useInput("");
+  ] = useInput('');
   const [loading, setLoading] = useState<boolean>(false);
   const { width, height, isMobile, isLoaded } = useViewport();
   const joinUsHandler = async (e: any) => {
     e.preventDefault();
     if (!email || !password || !nickname || !passwordConfirm) {
-      setError("모든 칸을 입력하세요.");
+      setError('모든 칸을 입력하세요.');
       return;
     }
     if (password !== passwordConfirm) {
-      setError("비밀번호가 일치하지 않습니다.");
+      setError('비밀번호가 일치하지 않습니다.');
       return;
     }
     try {
@@ -56,27 +58,17 @@ const LoginModalContents = (props: Props) => {
 
       if (signUpResult.error) {
         console.error(signUpResult.error);
-        if (signUpResult.error.message.includes("User already registered")) {
-          alert("동일한 이메일로 가입한 이력이 있습니다.");
+        if (signUpResult.error.message.includes('User already registered')) {
+          alert('동일한 이메일로 가입한 이력이 있습니다.');
         }
-        if (signUpResult.error.message.includes("Email rate limit exceeded")) {
-          alert("이메일 발송 제한이 초과되었습니다. 나중에 다시 시도해주세요.");
+        if (signUpResult.error.message.includes('Email rate limit exceeded')) {
+          alert('이메일 발송 제한이 초과되었습니다. 나중에 다시 시도해주세요.');
         }
         return;
       }
-      alert("가입 되었습니다.");
+      alert('가입 되었습니다.');
       setModal(false);
-      const { data } = await supabase.auth.getUser();
-      const userData: userType = {
-        nickname: userMetadata.nickname,
-        profile_img_url: userMetadata.profile_img_url,
-        id: data.user!.id,
-      };
-      if (data) {
-        console.log("User registered:", data);
-        await authApi.addUser(userData);
-        setError("");
-      }
+      writeUser();
     } catch (error) {
       console.error(error);
     } finally {
@@ -91,9 +83,9 @@ const LoginModalContents = (props: Props) => {
             src={goBack}
             alt="뒤로가기"
             onClick={() => {
-              setModalContents("login");
+              setModalContents('login');
             }}
-            style={{ cursor: "pointer" }}
+            style={{ cursor: 'pointer' }}
           />
           <StRegisterTitleTypo>회원가입</StRegisterTitleTypo>
           <div className="nothing" />
@@ -165,9 +157,9 @@ const LoginModalContents = (props: Props) => {
         >
           {loading ? (
             <StRegisterButtonTypo>
-              가입중{" "}
+              가입중{' '}
               <img
-                style={{ width: "15px", height: "15px" }}
+                style={{ width: '15px', height: '15px' }}
                 src={loadingSpinner}
                 alt="로딩스피너"
               />

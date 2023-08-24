@@ -39,11 +39,11 @@ export interface Database {
         };
         Relationships: [
           {
-            foreignKeyName: "ani_comments_user_id_fkey";
-            columns: ["user_id"];
-            referencedRelation: "users";
-            referencedColumns: ["id"];
-          }
+            foreignKeyName: 'ani_comments_user_id_fkey';
+            columns: ['user_id'];
+            referencedRelation: 'users';
+            referencedColumns: ['id'];
+          },
         ];
       };
 
@@ -92,17 +92,17 @@ export interface Database {
         };
         Relationships: [
           {
-            foreignKeyName: "inventory_item_id_fkey";
-            columns: ["item_id"];
-            referencedRelation: "items";
-            referencedColumns: ["id"];
+            foreignKeyName: 'inventory_item_id_fkey';
+            columns: ['item_id'];
+            referencedRelation: 'items';
+            referencedColumns: ['id'];
           },
           {
-            foreignKeyName: "inventory_user_id_fkey";
-            columns: ["user_id"];
-            referencedRelation: "users";
-            referencedColumns: ["id"];
-          }
+            foreignKeyName: 'inventory_user_id_fkey';
+            columns: ['user_id'];
+            referencedRelation: 'users';
+            referencedColumns: ['id'];
+          },
         ];
       };
       items: {
@@ -150,17 +150,17 @@ export interface Database {
         };
         Relationships: [
           {
-            foreignKeyName: "likes_post_id_fkey";
-            columns: ["post_id"];
-            referencedRelation: "posts";
-            referencedColumns: ["id"];
+            foreignKeyName: 'likes_post_id_fkey';
+            columns: ['post_id'];
+            referencedRelation: 'posts';
+            referencedColumns: ['id'];
           },
           {
-            foreignKeyName: "likes_user_id_fkey";
-            columns: ["user_id"];
-            referencedRelation: "users";
-            referencedColumns: ["id"];
-          }
+            foreignKeyName: 'likes_user_id_fkey';
+            columns: ['user_id'];
+            referencedRelation: 'users';
+            referencedColumns: ['id'];
+          },
         ];
       };
       one_pick: {
@@ -202,11 +202,11 @@ export interface Database {
         };
         Relationships: [
           {
-            foreignKeyName: "point_user_id_fkey";
-            columns: ["user_id"];
-            referencedRelation: "users";
-            referencedColumns: ["id"];
-          }
+            foreignKeyName: 'point_user_id_fkey';
+            columns: ['user_id'];
+            referencedRelation: 'users';
+            referencedColumns: ['id'];
+          },
         ];
       };
       post_comments: {
@@ -237,17 +237,17 @@ export interface Database {
         };
         Relationships: [
           {
-            foreignKeyName: "post_comments_post_id_fkey";
-            columns: ["post_id"];
-            referencedRelation: "posts";
-            referencedColumns: ["id"];
+            foreignKeyName: 'post_comments_post_id_fkey';
+            columns: ['post_id'];
+            referencedRelation: 'posts';
+            referencedColumns: ['id'];
           },
           {
-            foreignKeyName: "post_comments_user_id_fkey";
-            columns: ["user_id"];
-            referencedRelation: "users";
-            referencedColumns: ["id"];
-          }
+            foreignKeyName: 'post_comments_user_id_fkey';
+            columns: ['user_id'];
+            referencedRelation: 'users';
+            referencedColumns: ['id'];
+          },
         ];
       };
 
@@ -284,11 +284,11 @@ export interface Database {
         };
         Relationships: [
           {
-            foreignKeyName: "posts_user_id_fkey";
-            columns: ["user_id"];
-            referencedRelation: "users";
-            referencedColumns: ["id"];
-          }
+            foreignKeyName: 'posts_user_id_fkey';
+            columns: ['user_id'];
+            referencedRelation: 'users';
+            referencedColumns: ['id'];
+          },
         ];
       };
       tags: {
@@ -423,42 +423,40 @@ export interface Database {
         };
         Relationships: [
           {
-            foreignKeyName: "user_tags_user_id_fkey";
-            columns: ["user_id"];
-            referencedRelation: "users";
-            referencedColumns: ["id"];
-          }
+            foreignKeyName: 'user_tags_user_id_fkey';
+            columns: ['user_id'];
+            referencedRelation: 'users';
+            referencedColumns: ['id'];
+          },
         ];
       };
       users: {
         Row: {
           created_at: string;
           id: string;
-          last_sign_i: string | null;
           nickname: string;
           profile_img_url: string | null;
         };
         Insert: {
           created_at?: string;
           id: string;
-          last_sign_i?: string | null;
           nickname: string;
           profile_img_url?: string | null;
         };
         Update: {
           created_at?: string;
           id?: string;
-          last_sign_i?: string | null;
+
           nickname?: string;
           profile_img_url?: string | null;
         };
         Relationships: [
           {
-            foreignKeyName: "users_id_fkey";
-            columns: ["id"];
-            referencedRelation: "users";
-            referencedColumns: ["id"];
-          }
+            foreignKeyName: 'users_id_fkey';
+            columns: ['id'];
+            referencedRelation: 'users';
+            referencedColumns: ['id'];
+          },
         ];
       };
       worldcup: {
@@ -479,11 +477,11 @@ export interface Database {
         };
         Relationships: [
           {
-            foreignKeyName: "worldcup_character_id_fkey";
-            columns: ["character_id"];
-            referencedRelation: "characters";
-            referencedColumns: ["id"];
-          }
+            foreignKeyName: 'worldcup_character_id_fkey';
+            columns: ['character_id'];
+            referencedRelation: 'characters';
+            referencedColumns: ['id'];
+          },
         ];
       };
     };
