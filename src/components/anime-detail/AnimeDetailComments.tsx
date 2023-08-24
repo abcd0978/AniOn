@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
 import Pagination from '../Pagenation';
+import * as userStore from '../../store/userStore';
 import { S } from '../anime-detail/animeDetailComments.style';
 import {
   fetchComments,
@@ -10,26 +11,29 @@ import {
   updateComment,
 } from '../../api/aniComment';
 import { Database } from '../../types/supabase';
-import { atom, useAtom } from 'jotai';
+import { atom, useAtomValue } from 'jotai';
 type ReadAniComment = Database['public']['Tables']['ani_comments']['Row'];
 type InsertAniComment = Database['public']['Tables']['ani_comments']['Insert'];
 type UpdateAniComment = Database['public']['Tables']['ani_comments']['Update'];
 
 // TODO:현재 user 값 넣어야함
+
 const userAtom = atom<null | any>(null);
+
+console.log('!!!!!!!!', userStore.user);
 
 const AnimeDetailComments = () => {
   const { ani_id } = useParams() as { ani_id: string };
   // console.log("현재id!!!", ani_id);
 
-  const [user, setUser] = useAtom(userAtom);
+  const user = useAtomValue(userAtom);
   // console.log("user>>>", user); //null
   // 테스트용 user
-  useEffect(() => {
-    setUser({
-      user_id: '59787dcd-cc16-4f05-8072-3d7a410b3722',
-    });
-  }, []);
+  // useEffect(() => {
+  //   setUser({
+  //     user_id: '59787dcd-cc16-4f05-8072-3d7a410b3722',
+  //   });
+  // }, []);
 
   // user의 정보 가져오기
 
