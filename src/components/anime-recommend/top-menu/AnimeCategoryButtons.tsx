@@ -3,26 +3,41 @@ import { S } from './styled.animeCategoryButtons';
 import { useAtom, useSetAtom } from 'jotai';
 
 import {
+  isEndingAtom,
   offsetAtom,
   selectedCategoryAtom,
   selectedGenresAtom,
-} from '../../../jotai/jotai';
+  selectedYearsAtom,
+} from '../../../store/animeRecommendStore';
 
 const AnimeCategory = () => {
   const [selectedCategory, setSelectedCategory] = useAtom(selectedCategoryAtom);
+
   const setGenres = useSetAtom(selectedGenresAtom);
+  const setYears = useSetAtom(selectedYearsAtom);
   const setOffset = useSetAtom(offsetAtom);
+
+  const setIsEnding = useSetAtom(isEndingAtom);
 
   const handleCategoryClick = (category: string) => {
     if (selectedCategory === category) {
       return;
     }
 
-    if (category === '전체') {
+    if (category === '방영') {
+      setIsEnding('false');
+    } else {
+      setIsEnding(null);
+    }
+
+    if (category !== selectedCategory) {
+      setYears(null);
       setGenres([]);
     }
-    setOffset(0);
+
+    console.log('카테고리', category);
     setSelectedCategory(category);
+    setOffset(0);
   };
 
   return (

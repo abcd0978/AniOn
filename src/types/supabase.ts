@@ -434,21 +434,19 @@ export interface Database {
         Row: {
           created_at: string;
           id: string;
-          last_sign_i: string | null;
           nickname: string;
           profile_img_url: string | null;
         };
         Insert: {
           created_at?: string;
           id: string;
-          last_sign_i?: string | null;
           nickname: string;
           profile_img_url?: string | null;
         };
         Update: {
           created_at?: string;
           id?: string;
-          last_sign_i?: string | null;
+
           nickname?: string;
           profile_img_url?: string | null;
         };

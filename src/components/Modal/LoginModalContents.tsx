@@ -1,33 +1,33 @@
-import React, { useState } from "react";
-import styled from "styled-components";
-import checkBox from "../../assets/checkBox.svg";
-import checkBoxChecked from "../../assets/checkBoxChecked.svg";
-import useViewport from "../../hooks/useViewPort";
-import { useAtom } from "jotai";
-import useInput from "../../hooks/useInput";
-import * as authApi from "../../api/auth";
-import * as userStore from "../../store/userStore";
-import google from "../../assets/google.svg";
-import kakao from "../../assets/kakao.svg";
-import github from "../../assets/github.svg";
-import discord from "../../assets/discord.svg";
-import * as modalStore from "../../store/modalStore";
-import loadingSpinner from "../../assets/loadingSpinner.svg";
-import horizontalLineForLoginModal from "../../assets/horzontalLineForLoginModal.svg";
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import checkBox from '../../assets/checkBox.svg';
+import checkBoxChecked from '../../assets/checkBoxChecked.svg';
+import useViewport from '../../hooks/useViewPort';
+import { useAtom } from 'jotai';
+import useInput from '../../hooks/useInput';
+import * as authApi from '../../api/auth';
+import * as userStore from '../../store/userStore';
+import google from '../../assets/google.svg';
+import kakao from '../../assets/kakao.svg';
+import github from '../../assets/github.svg';
+import discord from '../../assets/discord.svg';
+import * as modalStore from '../../store/modalStore';
+import loadingSpinner from '../../assets/loadingSpinner.svg';
+import horizontalLineForLoginModal from '../../assets/horzontalLineForLoginModal.svg';
 type Props = {};
 enum AuthProvider {
-  Google = "google",
-  Kakao = "kakao",
-  GitHub = "github",
-  Discord = "discord",
+  Google = 'google',
+  Kakao = 'kakao',
+  GitHub = 'github',
+  Discord = 'discord',
 }
 const LoginModalContents = (props: Props) => {
-  const [email, setEmail, onChangeEmail, resetEmail] = useInput("");
-  const [password, setPassword, onChangePassword, resetPassword] = useInput("");
+  const [email, setEmail, onChangeEmail, resetEmail] = useInput('');
+  const [password, setPassword, onChangePassword, resetPassword] = useInput('');
   const [checked, setChecked] = useState(false);
   const [modalContents, setModalContents] = useAtom(modalStore.modalContents);
-  const [user, setUser] = useAtom(userStore.user);
   const [isModalOpened, setIsModalOpened] = useAtom(modalStore.isModalOpened);
+  const [__, writeUser] = useAtom(userStore.writeUser);
   const [loading, setLoading] = useState(false);
   const { width, height, isMobile, isLoaded } = useViewport();
   const validationFunc = (e: any) => {
@@ -75,19 +75,20 @@ const LoginModalContents = (props: Props) => {
                   email: email,
                   password: password,
                 },
-                false
+                false,
               );
               setLoading(false);
               if (result) {
+                writeUser();
                 setIsModalOpened(false);
               }
             }}
           >
             {loading ? (
               <StLoginButtonTypo>
-                로그인중{" "}
+                로그인중{' '}
                 <img
-                  style={{ width: "15px", height: "15px" }}
+                  style={{ width: '15px', height: '15px' }}
                   src={loadingSpinner}
                   alt="스피너"
                 />
@@ -99,19 +100,19 @@ const LoginModalContents = (props: Props) => {
         </StLoginInputContainer>
         <StLoginOptions mediaWidth={width}>
           <StLoginOptionsTypo
-            onClick={() => setModalContents("findId")}
+            onClick={() => setModalContents('findId')}
             mediaWidth={width}
           >
             아이디찾기
           </StLoginOptionsTypo>
           <StLoginOptionsTypo
-            onClick={() => setModalContents("findPass")}
+            onClick={() => setModalContents('findPass')}
             mediaWidth={width}
           >
             비밀번호 찾기
           </StLoginOptionsTypo>
           <StLoginOptionsTypo
-            onClick={() => setModalContents("register")}
+            onClick={() => setModalContents('register')}
             mediaWidth={width}
           >
             회원가입
