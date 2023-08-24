@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { throttle } from 'lodash';
 
 import { useAtom, useAtomValue } from 'jotai';
+import * as userStore from '../../store/userStore';
 import { HoverInfo, S } from './styled.AnimeList';
 import AnimeFilter from './top-menu/AnimeFilter';
 
@@ -19,9 +20,11 @@ import {
   isEndingAtom,
 } from '../../store/animeRecommendStore';
 import { useNavigate } from 'react-router';
+import LikeSvg from './LikeSvg';
 
 const AnimeList = () => {
   const navigate = useNavigate();
+  const user = useAtomValue(userStore.user);
   const genres = useAtomValue(selectedGenresAtom);
   const category = useAtomValue(selectedCategoryAtom);
   const years = useAtomValue(selectedYearsAtom);
@@ -33,7 +36,7 @@ const AnimeList = () => {
   // const [sort, setSort] = useState<laftelParamsM['sort']>('rank');
   // const [tags, setTags] = useState<laftelParamsM['tags']>([]);
 
-  const [prevCategory, setPrevCategory] = useState(category); // 무한 스크롤 이슈 해결을 위해. 최적화가 필요할 듯.
+  // const [prevCategory, setPrevCategory] = useState(category); // 무한 스크롤 이슈 해결을 위해. 최적화가 필요할 듯.
   const [offset, setOffset] = useAtom(offsetAtom);
   const [animeList, setAnimeList] = useState<AnimeG[]>([]);
   const [isNextPage, setIsNextPage] = useState(false);
@@ -60,11 +63,9 @@ const AnimeList = () => {
 
   const ref = useIntersect(async (entry, observer) => {
     observer.unobserve(entry.target);
-    if (category === prevCategory) {
-      throttledLoadMore();
-      // 이전 카테고리를 현재 카테고리로 업데이트
-      setPrevCategory(category);
-    }
+    throttledLoadMore();
+    // 이전 카테고리를 현재 카테고리로 업데이트
+    // setPrevCategory(category);
   });
 
   // 장르 선택 시 변경, 추후 분기, 방영 중 여부 추가
@@ -100,21 +101,30 @@ const AnimeList = () => {
           animeList.map((anime: AnimeG) => (
             <S.CardDiv key={anime.id}>
               <S.CardInfo onClick={() => navigate(`/recommend/${anime.id}`)}>
-                <S.CardThumbnail
-                  src={
-                    anime.images?.length !== 0
-                      ? anime.images![0].img_url
-                      : anime.img
-                  }
-                ></S.CardThumbnail>
-                <HoverInfo>
-                  <S.CardGenres>
-                    <S.Genre key={anime.id}>
+                <S.HoverDiv>
+                  <S.CardThumbnail
+                    src={
+                      anime.images?.length !== 0
+                        ? anime.images![0].img_url
+                        : anime.img
+                    }
+                    alt={`${anime.name} 이미지`}
+                  />
+                  <HoverInfo>
+                    <S.HoverGenre key={anime.id}>
                       <S.GenreText>{anime.genres![0]}</S.GenreText>
-                    </S.Genre>
-                  </S.CardGenres>
-                  <S.HoverTitle>{anime.name}</S.HoverTitle>
-                </HoverInfo>
+                    </S.HoverGenre>
+                    <S.HoverTitleAndDetail>
+                      <S.HoverTitle>{anime.name}</S.HoverTitle>
+                      <S.HoverViewDetail>자세히 보기</S.HoverViewDetail>
+                    </S.HoverTitleAndDetail>
+
+                    <S.HoverLikeBox>
+                      <LikeSvg onClick={() => alert('안녕!')} is_like={true} />
+                      <div>30</div>
+                    </S.HoverLikeBox>
+                  </HoverInfo>
+                </S.HoverDiv>
                 <S.CardTitle>{anime.name}</S.CardTitle>
               </S.CardInfo>
               <S.CardGenres>
