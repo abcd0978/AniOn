@@ -1,3 +1,4 @@
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import * as S from './Board.style';
@@ -10,6 +11,15 @@ const Board = () => {
 
   const handleWriteClick = () => {
     navigate('/board/write');
+  };
+  const handleAniClick = () => {
+    navigate('/ani');
+  };
+  const handleFreeClick = () => {
+    navigate('/free');
+  };
+  const handleErrorClick = () => {
+    navigate('/error');
   };
   const { data: posts, isLoading } = useQuery<ReadPosts[]>(
     ['posts'],
@@ -25,10 +35,20 @@ const Board = () => {
     navigate(`/board/${postId}`);
   };
 
+  const handleMenuClick = (menu: string) => {
+    navigate(`/menu/${menu}`);
+  };
+
   return (
     <div>
       <h1>게시판</h1>
       <S.Button onClick={handleWriteClick}>글 작성</S.Button>
+
+      <div>
+        <button onClick={handleAniClick}>애니</button>
+        <button onClick={() => handleFreeClick}>자유</button>
+        <button onClick={() => handleErrorClick}>오류 신고</button>
+      </div>
 
       <div>
         {isLoading ? (
