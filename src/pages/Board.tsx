@@ -21,6 +21,7 @@ const Board = () => {
   const handleErrorClick = () => {
     navigate('/error');
   };
+
   const { data: posts, isLoading } = useQuery<ReadPosts[]>(
     ['posts'],
     getPosts,
@@ -41,13 +42,13 @@ const Board = () => {
 
   return (
     <div>
-      <h1>게시판</h1>
-      <S.Button onClick={handleWriteClick}>글 작성</S.Button>
+      <S.Title>게시판</S.Title>
+      <S.WriteButton onClick={handleWriteClick}>글 작성</S.WriteButton>
 
       <div>
-        <button onClick={handleAniClick}>애니</button>
-        <button onClick={() => handleFreeClick}>자유</button>
-        <button onClick={() => handleErrorClick}>오류 신고</button>
+        <S.Button onClick={handleAniClick}>애니</S.Button>
+        <S.Button onClick={handleFreeClick}>자유</S.Button>
+        <S.Button onClick={handleErrorClick}>오류 신고</S.Button>
       </div>
 
       <div>

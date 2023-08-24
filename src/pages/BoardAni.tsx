@@ -1,4 +1,4 @@
-import Board from "../pages/Board";
+import Board from '../pages/Board';
 
 const Freeboard = () => {
   return (
