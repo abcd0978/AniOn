@@ -30,7 +30,7 @@ const Comments = () => {
   //   setUser({ user_id: '7bd7fde5-17e2-407c-8e70-3b3fb178d761' });
   // }, []);
   //확인 주소
-  // http://localhost:3000/board/a7b5bef1-8973-4c1a-b1d2-33e44ea1cce2
+  // http://localhost:3000/board/5ac36c41-3591-48f0-b5b1-5fdb68a798f2
 
   const queryClient = useQueryClient();
 

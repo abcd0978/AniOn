@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 const S = {
   Layout: styled.div`
@@ -81,7 +81,13 @@ const S = {
     justify-content: center;
   `,
   Button: styled.button`
-    color: #red;
+    background-color: #757575;
+    border: none;
+    width: 62px;
+    height: 28px;
+    font-size: 13px;
+    color: white;
+    margin-right: 5px;
   `,
 };
 

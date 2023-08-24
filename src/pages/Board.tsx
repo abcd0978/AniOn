@@ -1,10 +1,16 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
-import { getPosts } from "../api/boardapi";
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
+import { getPosts } from '../api/boardapi';
+import { S } from '../pages/Board.style';
 
 function Board() {
-  const { data: posts = [] } = useQuery(["posts"], getPosts);
+  const navigate = useNavigate(); // useNavigate hook 사용
+  const { data: posts = [] } = useQuery(['posts'], getPosts);
+
+  const handleWriteClick = () => {
+    navigate('/board/write'); // 버튼 클릭 시 페이지 이동
+  };
 
   return (
     <div>
@@ -14,7 +20,7 @@ function Board() {
           <li key={post.id}>{post.title}</li>
         ))}
       </ul>
-      <Link to="/board/write">글 작성</Link>
+      <S.Button onClick={handleWriteClick}>글 작성</S.Button>
     </div>
   );
 }
