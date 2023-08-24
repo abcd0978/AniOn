@@ -52,16 +52,22 @@ export interface Database {
           character_name: string;
           id: string;
           img_url: string;
+          ani_title: string;
+          gender: number;
         };
         Insert: {
           character_name: string;
           id?: string;
           img_url: string;
+          ani_title: string;
+          gender: number;
         };
         Update: {
           character_name?: string;
           id?: string;
           img_url?: string;
+          ani_title?: string;
+          gender?: number;
         };
         Relationships: [];
       };
