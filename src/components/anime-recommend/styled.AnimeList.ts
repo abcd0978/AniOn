@@ -91,7 +91,7 @@ export const S = {
   HoverTitle: styled.div`
     margin-top: 10px;
     width: 90%;
-    height: 60px;
+    height: 80px;
     font-weight: 600;
     font-size: 17px;
     white-space: normal;
