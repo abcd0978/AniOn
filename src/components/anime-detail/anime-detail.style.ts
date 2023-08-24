@@ -22,20 +22,21 @@ export const S = {
     }
   `,
 
-  PreviewBox: styled.div`
+  PreviewBox: styled.a`
+    text-decoration: none;
+    color: #000000;
+    font-weight: 700;
+    font-size: 20px;
     background-color: #efefef;
     padding: 20px;
-    width: 105px;
     border-radius: 10px;
-    margin-top: 30px;
-    margin-bottom: 30px;
-    font-weight: 700;
+
     cursor: pointer;
   `,
 
   ContentsText: styled.p`
     line-height: 25px;
-    margin-top: 20px;
+    margin-top: 40px;
   `,
 
   ContentsStar: styled.label`
@@ -57,6 +58,7 @@ export const S = {
     font-weight: 700;
     font-size: 44px;
     line-height: 52.8px;
+    margin-bottom: 30px;
   `,
 
   DetailLabel: styled.p`
@@ -88,6 +90,12 @@ export const S = {
     border-radius: 2px;
     font-size: 12px;
     padding: 4px 12px;
+  `,
+
+  NonPreview: styled.div`
+    font-size: 14px;
+    font-weight: 700;
+    margin-top: 20px;
   `,
 };
 
