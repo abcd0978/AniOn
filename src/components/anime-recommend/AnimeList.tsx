@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { throttle } from 'lodash';
 
 import { useAtom, useAtomValue } from 'jotai';
@@ -21,9 +21,12 @@ import {
 } from '../../store/animeRecommendStore';
 import { useNavigate } from 'react-router';
 import LikeSvg from './LikeSvg';
+import { fetchAnimeLikes, toggleAnimeLike } from '../../api/likeApi';
+import { ReadAnimeLikeG } from '../../types/likes';
 
 const AnimeList = () => {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const user = useAtomValue(userStore.user);
   const genres = useAtomValue(selectedGenresAtom);
   const category = useAtomValue(selectedCategoryAtom);
@@ -52,6 +55,55 @@ const AnimeList = () => {
   const { isLoading, isError, isFetching, data } =
     useQuery(defaultQueryOptions);
 
+  const likesQueryOptions = {
+    queryKey: ['animeLikes'],
+    queryFn: () => fetchAnimeLikes(),
+    refetchOnWindowFocus: false,
+  };
+
+  const {
+    isLoading: likesLoading,
+    isError: likesError,
+    data: likesData,
+  } = useQuery(likesQueryOptions);
+
+  const likesCount = (anime_id: string) => {
+    return likesData?.filter(
+      (like: ReadAnimeLikeG) => like.anime_id === anime_id,
+    ).length;
+  };
+
+  const toggleLikeMutation = useMutation(toggleAnimeLike, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(['animeLikes']);
+    },
+    onError: (error) => {
+      alert(`toggleAnimeLike 오류가 발생했습니다. : ${error}`);
+    },
+  });
+
+  const handleLike = (anime_id: string) => {
+    if (!user) {
+      alert('로그인 후 사용 가능합니다.');
+      return;
+    }
+
+    const data = {
+      user_id: user.id,
+      anime_id,
+    };
+    toggleLikeMutation.mutate(data);
+  };
+
+  const isLike = (anime_id: string) => {
+    const likedAnime = likesData?.find(
+      (like: ReadAnimeLikeG) =>
+        like.anime_id === anime_id && like.user_id === user?.id,
+    );
+    return !!likedAnime;
+  };
+
+  console.log(likesData);
   // 스로틀링된 무한 스크롤 콜백 함수
   // 카테고리를 변경할 때 무한스크롤 실행되는 이슈 발견 > 해결
   const throttledLoadMore = throttle(() => {
@@ -68,9 +120,9 @@ const AnimeList = () => {
     // setPrevCategory(category);
   });
 
-  // 장르 선택 시 변경, 추후 분기, 방영 중 여부 추가
-
+  // 장르, 카테고리, 분기 선택 시 변경.
   useEffect(() => {
+    setOffset(0);
     setAnimeList([]);
   }, [genres, category, years]);
 
@@ -80,7 +132,6 @@ const AnimeList = () => {
     }
     setIsNextPage(data.isNextPage);
     setCount(data.count);
-    // 새로운 데이터를 현재 데이터 뒤에 추가
     setAnimeList((prevAnimeList) => [...prevAnimeList, ...data.animeList]);
   }, [data]);
 
@@ -120,8 +171,11 @@ const AnimeList = () => {
                     </S.HoverTitleAndDetail>
 
                     <S.HoverLikeBox>
-                      <LikeSvg onClick={() => alert('안녕!')} is_like={true} />
-                      <div>30</div>
+                      <LikeSvg
+                        onClick={() => handleLike(String(anime.id))}
+                        is_like={isLike(String(anime.id))}
+                      />
+                      <div>{likesCount(String(anime.id))}</div>
                     </S.HoverLikeBox>
                   </HoverInfo>
                 </S.HoverDiv>
