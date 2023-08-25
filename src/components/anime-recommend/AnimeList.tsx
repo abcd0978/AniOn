@@ -61,11 +61,7 @@ const AnimeList = () => {
     refetchOnWindowFocus: false,
   };
 
-  const {
-    isLoading: likesLoading,
-    isError: likesError,
-    data: likesData,
-  } = useQuery(likesQueryOptions);
+  const { data: likesData } = useQuery(likesQueryOptions);
 
   const likesCount = (anime_id: string) => {
     return likesData?.filter(

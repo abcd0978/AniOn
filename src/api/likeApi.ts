@@ -18,25 +18,53 @@ export const fetchAnimeLikes = async (): Promise<ReadAnimeLikeG[]> => {
   }
 };
 
-export const toggleAnimeLike = async (data: InsertAnimeLikeG) => {
+// 내가 좋아요한 데이터들 가져오기
+export const fetchAllAnimeMyLikes = async (params: ReadAnimeLikeG) => {
   try {
-    const { data: isLike, error: isLikeError } = await supabase
+    const { data, error } = await supabase
       .from('anime_likes')
-      .select('*', { count: 'exact' })
-      .eq('anime_id', data.anime_id)
-      .eq('user_id', data.user_id);
-
-    if (isLikeError) {
-      console.log('Error fetching toggleLike:', isLikeError);
-      return;
+      .select('*')
+      .eq('user_id', params.user_id);
+    if (error) {
+      console.log('error fetching AnimeMyLikes > ', error);
+      return [];
     }
-    console.log(isLike);
-    if (isLike.length > 0) {
+    return data;
+  } catch (error) {
+    console.log('error fetching AnimeMyLikes > ', error);
+    return [];
+  }
+};
+
+// 내가 좋아요한 데이터 하나! 가져오기
+export const fetchAnimeMyLiked = async (params: Omit<ReadAnimeLikeG, 'id'>) => {
+  try {
+    const { data, error } = await supabase
+      .from('anime_likes')
+      .select('*')
+      .eq('anime_id', params.anime_id)
+      .eq('user_id', params.user_id);
+    if (error) {
+      console.log('error fetching AnimeMyLikes > ', error);
+      return [];
+    }
+    return data;
+  } catch (error) {
+    console.log('error fetching AnimeMyLikes > ', error);
+    return [];
+  }
+};
+
+export const toggleAnimeLike = async (params: InsertAnimeLikeG) => {
+  try {
+    const data = await fetchAnimeMyLiked(params);
+
+    if (data.length > 0) {
       const { error: deleteError } = await supabase
         .from('anime_likes')
         .delete()
-        .eq('anime_id', data.anime_id)
-        .eq('user_id', data.user_id);
+        .eq('anime_id', params.anime_id)
+        .eq('user_id', params.user_id);
 
       if (deleteError) {
         console.log('Error deleting anime_likes:', deleteError);
@@ -46,7 +74,7 @@ export const toggleAnimeLike = async (data: InsertAnimeLikeG) => {
     } else {
       const { error: insertError } = await supabase
         .from('anime_likes')
-        .insert([{ anime_id: data.anime_id, user_id: data.user_id }]);
+        .insert([{ anime_id: params.anime_id, user_id: params.user_id }]);
 
       if (insertError) {
         console.log('Error inserting anime_likes:', insertError);
