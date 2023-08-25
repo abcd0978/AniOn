@@ -49,9 +49,9 @@ const LikedAnime = () => {
         if (error) {
           console.error('fetchLikedAnime에서 에러', error);
         } else {
-          console.log('Supabase data:', data);
           console.log('Liked anime fetched:', data);
           setLikedAnime(data);
+          console.log('setLikedAnime:', data);
         }
       } catch (error) {
         console.error('fetchLikedAnime 에러', error);
@@ -60,6 +60,7 @@ const LikedAnime = () => {
 
     fetchLikedAnime();
   }, [user, setLikedAnime]);
+  console.log('likedAnime:', animeList);
 
   const handleAnimeClick = (animeId: string) => {
     navigate(`/recommend/${animeId}`);
