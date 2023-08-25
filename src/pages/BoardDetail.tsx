@@ -145,6 +145,8 @@ const BoardDetail = () => {
             ) : (
               <S.Box>
                 <S.Date> {new Date(posts.created_at).toLocaleString()}</S.Date>
+                <p>{posts.users?.nickname}</p>
+                <img src={posts.users?.profile_img_url} alt="프로필 이미지" />
                 <S.Title>{posts.title}</S.Title>
               </S.Box>
             )}
