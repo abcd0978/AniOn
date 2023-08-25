@@ -19,6 +19,7 @@ import { GlobalStyle } from '../styles/globalstyle';
 import ScrollToTop from '../components/ScrollTop';
 import AniWorldCup from '../components/worldcup/AniWorldCup';
 import BoardError from '../pages/BoardError';
+import WorldCupResult from '../pages/WorldCupResult';
 
 const Router = () => {
   return (
@@ -43,6 +44,7 @@ const Router = () => {
         />
         <Route path="/worldcup" element={WithAuth(WorldCup, true)} />
         <Route path="/worldcup/:gender" element={<AniWorldCup />} />
+        <Route path="/worldcup/result/:gender" element={<WorldCupResult />} />
         <Route path="/board/write" element={WithAuth(WriteBoard, true)} />
         <Route path="/*" element={<NotFoundPage />} />
         <Route path="/board/:post_id" element={WithAuth(BoardDetail, null)} />

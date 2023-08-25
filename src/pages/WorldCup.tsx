@@ -17,8 +17,8 @@ function WorldCup({}: Props) {
             <S.WorldCupUp>
               <div>
                 <S.WorldCupGender>남자 캐릭터</S.WorldCupGender>
-                <S.WorldCupTitle>애니메이션 캐릭터</S.WorldCupTitle>
-                <S.WorldCupTitle>이상형 월드컵</S.WorldCupTitle>
+                <S.WorldCupTitles>애니메이션 캐릭터</S.WorldCupTitles>
+                <S.WorldCupTitles>이상형 월드컵</S.WorldCupTitles>
               </div>
               <S.WorldCupImgs>
                 <img src={questionMark} />
@@ -36,8 +36,8 @@ function WorldCup({}: Props) {
             <S.WorldCupUp>
               <div>
                 <S.WorldCupGender>여자 캐릭터</S.WorldCupGender>
-                <S.WorldCupTitle>애니메이션 캐릭터</S.WorldCupTitle>
-                <S.WorldCupTitle>이상형 월드컵</S.WorldCupTitle>
+                <S.WorldCupTitles>애니메이션 캐릭터</S.WorldCupTitles>
+                <S.WorldCupTitles>이상형 월드컵</S.WorldCupTitles>
               </div>
               <S.WorldCupImgs>
                 <img src={questionMark} />
