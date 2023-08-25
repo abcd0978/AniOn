@@ -11,7 +11,7 @@ import {
   updateComment,
 } from '../../api/aniComment';
 import { Database } from '../../types/supabase';
-import { atom, useAtomValue } from 'jotai';
+import { useAtomValue } from 'jotai';
 
 type ReadAniComment = Database['public']['Tables']['ani_comments']['Row'];
 type InsertAniComment = Database['public']['Tables']['ani_comments']['Insert'];
