@@ -50,7 +50,6 @@ const MyReviews = () => {
   const handleReviewClick = (animeId: string) => {
     navigate(`/recommend/${animeId}`);
   };
-
   return (
     <div>
       <h2>작성한 리뷰들</h2>
