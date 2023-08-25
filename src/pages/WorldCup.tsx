@@ -20,9 +20,9 @@ function WorldCup({}: Props) {
                 <S.WorldCupTitle>애니메이션 캐릭터</S.WorldCupTitle>
                 <S.WorldCupTitle>이상형 월드컵</S.WorldCupTitle>
               </div>
-              <S.WorldCupImg>
+              <S.WorldCupImgs>
                 <img src={questionMark} />
-              </S.WorldCupImg>
+              </S.WorldCupImgs>
             </S.WorldCupUp>
             <S.WorldCupTestButton
               onClick={() => {
@@ -39,9 +39,9 @@ function WorldCup({}: Props) {
                 <S.WorldCupTitle>애니메이션 캐릭터</S.WorldCupTitle>
                 <S.WorldCupTitle>이상형 월드컵</S.WorldCupTitle>
               </div>
-              <S.WorldCupImg>
+              <S.WorldCupImgs>
                 <img src={questionMark} />
-              </S.WorldCupImg>
+              </S.WorldCupImgs>
             </S.WorldCupUp>
             <S.WorldCupTestButton
               onClick={() => {

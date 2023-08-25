@@ -25,6 +25,7 @@ export const S = {
     width: 1440px;
     justify-content: space-between;
     align-items: center;
+    margin-top: 35px;
   `,
 
   WorldCupTest: styled.div`
@@ -65,6 +66,15 @@ export const S = {
   WorldCupTitle: styled.p`
     color: #000;
     text-align: center;
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 150%; /* 36px */
+    letter-spacing: -0.36px;
+    width: 600px;
+  `,
+  WorldCupName: styled.p`
+    color: #000;
+    text-align: center;
     font-size: 28px;
     font-weight: 700;
     line-height: 150%; /* 42px */
@@ -81,11 +91,25 @@ export const S = {
 
     img {
       position: relative;
-      left: 171px;
-      top: 137px;
+      width: 400px;
+      height: 400px;
+      border-radius: 400px;
     }
   `,
 
+  WorldCupImgs: styled.div`
+    margin-top: 32px;
+    width: 400px;
+    height: 400px;
+    border-radius: 400px;
+    background: #d9d9d9;
+
+    img {
+      position: relative;
+      left: 169px;
+      top: 140px;
+    }
+  `,
   WorldCupTestButton: styled.button`
     display: flex;
     width: 278px;
