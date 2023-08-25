@@ -1,14 +1,16 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-
+import * as userStore from '../store/userStore';
 import * as S from './Board.style';
 import { getPosts } from '../api/boardapi';
 import { Database } from '../types/supabase';
 import { useState } from 'react';
+import { atom, useAtom, useAtomValue } from 'jotai';
 type ReadPosts = Database['public']['Tables']['posts']['Row'];
 
 const Board = () => {
+  const user = useAtomValue(userStore.user);
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
@@ -96,6 +98,8 @@ const Board = () => {
               key={post.id}
               onClick={() => post.id && handlePostClick(post.id.toString())}
             >
+              <p>{post.users?.nickname}</p>
+              <img src={post.users?.profile_img_url} alt="프로필 이미지" />
               <h2>{post.title}</h2>
               <p>{post.content}</p>
               <p> {new Date(post.created_at).toLocaleString()}</p>

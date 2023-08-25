@@ -11,7 +11,7 @@ const getPosts = async (category?: string) => {
       .from('posts')
       .select('*,users(nickname,profile_img_url)')
       .order('created_at', { ascending: false });
-
+    console.log('data', data);
     if (error) {
       throw error;
     }
