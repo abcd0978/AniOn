@@ -1,6 +1,6 @@
 import Board from '../pages/Board';
 
-const Freeboard = () => {
+const BoardError = () => {
   return (
     <div>
       <Board />
@@ -8,4 +8,4 @@ const Freeboard = () => {
   );
 };
 
-export default Freeboard;
+export default BoardError;

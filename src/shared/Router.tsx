@@ -18,6 +18,7 @@ import BoardFree from '../pages/BoardFree';
 import { GlobalStyle } from '../styles/globalstyle';
 import ScrollToTop from '../components/ScrollTop';
 import AniWorldCup from '../components/worldcup/AniWorldCup';
+import BoardError from '../pages/BoardError';
 
 const Router = () => {
   return (
@@ -47,6 +48,7 @@ const Router = () => {
         <Route path="/board/:post_id" element={WithAuth(BoardDetail, null)} />
         <Route path="/ani" element={WithAuth(BoardAni, null)} />
         <Route path="/free" element={WithAuth(BoardFree, null)} />
+        <Route path="/error" element={WithAuth(BoardError, null)} />
       </Routes>
     </BrowserRouter>
   );

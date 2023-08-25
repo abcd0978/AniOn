@@ -10,6 +10,7 @@ export const S = {
     align-items: flex-start;
     gap: 40px;
     flex-shrink: 0;
+    margin: 0 auto;
   `,
 
   WorldCupMainTitle: styled.p`

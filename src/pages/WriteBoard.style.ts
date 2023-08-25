@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 const S = {
   Layout: styled.div`
@@ -6,6 +6,8 @@ const S = {
     min-width: 800px;
     margin: 0 auto;
     padding: 0 auto;
+    box-shadow: 5px 5px 5px 5px #0000001a;
+    margin-top: 25px;
   `,
 
   Form: styled.form`
@@ -24,38 +26,48 @@ const S = {
     max-width: 1200px;
     width: 800px;
     margin: 10px;
+    display: flex;
   `,
 
   Label: styled.div`
     font-size: 15px;
-    padding: 0 0 10px 5px;
+    height: 18px;
+    width: 100px;
+    margin-left: 20px;
+  `,
+  LabelContent: styled.div`
+    font-size: 15px;
+    height: 18px;
+    width: 100px;
+    margin-left: 20px;
   `,
 
   Select: styled.select`
-    width: 798px;
+    width: 200px;
     padding: 8px;
     border: none;
     border-radius: 8px;
-    border: 1px #ffffff solid;
+    border: 1px #f5f5f5 solid;
   `,
 
   Input: styled.input`
     max-width: 1200px;
-    width: 780px;
+    width: 500px;
     padding: 10px;
     outline: none;
     border-radius: 8px;
-    border: 1px #ffffff; solid;
-  
+    background-color: #f5f5f5;
+    border: none;
   `,
 
   Textarea: styled.textarea`
     max-width: 1200px;
-    width: 780px;
-    height: 400px;
+    width: 500px;
+    height: 300px;
     padding: 10px;
     font-size: 14px;
-    border: 1px #ffffff solid;
+    background-color: #f5f5f5;
+    border: none;
     outline: none;
     border-radius: 8px;
   `,
@@ -81,7 +93,13 @@ const S = {
     justify-content: center;
   `,
   Button: styled.button`
-    color: #red;
+    background-color: #757575;
+    border: none;
+    width: 62px;
+    height: 28px;
+    font-size: 13px;
+    color: white;
+    margin-right: 5px;
   `,
 };
 
