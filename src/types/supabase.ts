@@ -298,7 +298,7 @@ export interface Database {
           user_id: string;
         };
         Update: {
-          category: string;
+          category?: string;
           content: string;
           created_at?: string;
           deleted_at?: string | null;

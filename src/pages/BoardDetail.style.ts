@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 const S = {
   Layout: styled.div`
@@ -12,6 +12,14 @@ const S = {
     display: flex;
     justify-content: right;
   `,
+  Button: styled.button`
+    background-color: #757575;
+    color: white;
+    border: none;
+    width: 50px;
+    margin-top: 6px;
+    margin-right: 5px;
+  `,
 
   PostContainer: styled.div`
     display: flex;
@@ -24,23 +32,13 @@ const S = {
   `,
 
   Category: styled.div`
-    font-size: 20px;
-    max-width: 1200px;
+    font-size: 16px;
     width: 800px;
     margin-left: 5px;
-    padding: 0 auto;
+    color: gray;
   `,
 
-  Name: styled.div`
-    color: #red;
-    font-size: 16px;
-    max-width: 1200px;
-    width: 800px;
-    margin-bottom: 50px;
-    padding: 0 auto;
-  `,
-
-  Info: styled.div`
+  Date: styled.div`
     font-size: 16px;
     max-width: 1200px;
     width: 800px;
@@ -73,20 +71,6 @@ const S = {
     width: 800px;
     margin: 20px;
     padding: 0 auto;
-  `,
-
-  Tag: styled.span`
-    color:  #red 
-    background-color:  #blue;
-    border-radius: 8px;
-    padding: 3px 10px 3px 10px;
-    margin-right: 5px;
-  `,
-
-  TagContainer: styled.div`
-    display: inline-block;
-    flex-wrap: wrap;
-    padding: 10px 5px 10px 5px;
   `,
 
   Input: styled.input`

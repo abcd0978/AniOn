@@ -4,19 +4,17 @@ import { useNavigate } from 'react-router-dom';
 import { useQueryClient, useMutation } from '@tanstack/react-query';
 import { createPost } from '../api/boardapi';
 import { Database } from '../types/supabase';
-import { v4 as uuidv4 } from 'uuid';
+
 import { S } from './WriteBoard.style';
 import { atom, useAtom, useAtomValue } from 'jotai';
 import * as userStore from '../store/userStore';
+import { v4 as uuidv4 } from 'uuid';
 type InsertPosts = Database['public']['Tables']['posts']['Insert'];
-type ReadPosts = Database['public']['Tables']['posts']['Row'];
-type UpdatePosts = Database['public']['Tables']['posts']['Update'];
 
 const WriteBoard = () => {
   const navigate = useNavigate();
   // 유저 정보 가져오기
   const user = useAtomValue(userStore.user);
-  const user_id = ' 2fb03ff7-9993-458b-8740-317a04b36c65';
 
   // 입력값 받기
   const [category, setCategory] = useState<string>('');
@@ -37,18 +35,19 @@ const WriteBoard = () => {
   const cancellButton = () => {
     navigate('/board');
   };
+
   // Post 추가
   const queryClient = useQueryClient();
   const createMutation = useMutation(createPost, {
     onSuccess: () => {
-      queryClient.invalidateQueries(['posts']);
+      queryClient.invalidateQueries({ queryKey: ['posts'] });
     },
   });
 
   const onSubmitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (user_id) {
+    if (user) {
       // 유효성 검사
       if (!category) {
         alert('카테고리를 선택해주세요.');
@@ -74,26 +73,25 @@ const WriteBoard = () => {
       const formattedDateTime = `${year}-${month}-${day} ${hours}:${minutes}`;
 
       const newPost: InsertPosts = {
-        user_id,
-        category,
+        id: uuidv4(),
+        user_id: user.id,
+        category: category as string,
         title,
         content,
+        created_at: formattedDateTime,
       };
 
       // DB 추가
       createMutation.mutate(newPost, {
         onSuccess: () => {
           queryClient.invalidateQueries(['posts']);
-          // 글 작성 후 게시판 페이지로 이동
-          navigate('/board');
+          // // 글 작성 후 게시판 페이지로 이동
+          navigate(`/board/${newPost.id}`);
         },
         onError: (error) => {
           console.error('Error adding post:', error);
         },
       });
-
-      // 페이지 이동
-      navigate(`/board/${newPost.id}`);
     }
   };
 
@@ -118,7 +116,7 @@ const WriteBoard = () => {
           />
         </S.InputContainer>
         <S.InputContainer>
-          <S.Label>내용</S.Label>
+          <S.LabelContent>내용</S.LabelContent>
           <S.Textarea
             value={content}
             onChange={onChangeContent}
