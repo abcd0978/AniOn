@@ -5,12 +5,20 @@ export const S = {
   FilterContainer: styled.div`
     display: flex;
     flex-direction: column;
-    margin: 30px 0px;
-    height: 94px;
+    margin: 10px 0px 24px 0px;
+  `,
+
+  FilterOptions: styled.div`
+    display: flex;
+    justify-content: space-between;
+
+    @media (max-width: 870px) {
+      flex-direction: column;
+    }
   `,
 
   CountDiv: styled.div`
-    margin: 20px 0px;
+    margin: 40px 0px 20px 0px;
     font-weight: 600;
   `,
 };
