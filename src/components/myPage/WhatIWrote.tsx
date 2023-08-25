@@ -3,6 +3,7 @@ import { createClient } from '@supabase/supabase-js';
 import { atom, useAtom, useAtomValue } from 'jotai';
 import { Database } from '../../types/supabase';
 import * as userStore from '../../store/userStore';
+import { useNavigate } from 'react-router-dom';
 
 const supabaseUrl = process.env.REACT_APP_SUPABASE_URL;
 const supabaseAnonKey = process.env.REACT_APP_ANON_KEY;
@@ -18,7 +19,7 @@ const userPostsAtom = atom<ReadMyBoard[]>([]);
 
 const WhatIWrote = () => {
   const [userPosts, setUserPosts] = useAtom(userPostsAtom); //1. 빈배열로 초기화 되어 있음
-
+  const navigate = useNavigate();
   const user = useAtomValue(userStore.user);
 
   useEffect(() => {
@@ -50,7 +51,9 @@ const WhatIWrote = () => {
       console.log('검사합니다.', userPosts);
     });
   }, [setUserPosts, user]);
-
+  const handlePostClick = (id: string) => {
+    navigate(`/board/${id}`);
+  };
   return (
     <div>
       <ul>
@@ -58,7 +61,10 @@ const WhatIWrote = () => {
           (
             posts, //3. userPosts배열이 아직 업로드 되지 않아서 빈배열을 가지고 매핑중임
           ) => (
-            <li key={posts.id}>
+            <li
+              key={posts.id}
+              onClick={() => posts.id && handlePostClick(posts.id.toString())}
+            >
               <div>카테고리:{posts.category}</div>
               <h3>제목:{posts.title}</h3>
             </li>

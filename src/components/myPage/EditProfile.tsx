@@ -5,7 +5,7 @@ import { useDropzone, Accept, FileRejection } from 'react-dropzone';
 import { v4 as uuidv4 } from 'uuid';
 import { Database } from '../../types/supabase';
 import { atom, useAtom, useAtomValue } from 'jotai';
-import { useParams } from 'react-router';
+
 import * as userStore from '../../store/userStore';
 
 //1. supabase
@@ -17,9 +17,14 @@ if (!supabaseUrl || !supabaseAnonKey) {
 }
 
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
-//2
+//2 프로필 변경
 type ChangeMyProfile = Database['public']['Tables']['users']['Row'];
+// type myInfo = {
+//   email: string;
+//   password: string;
+// };
 const usersAtom = atom<ChangeMyProfile[]>([]);
+// const userInfoAtom = atom<myInfo[]>([]);
 
 const EditProfile = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -27,7 +32,10 @@ const EditProfile = () => {
   const [userProfile, setUserProfile] = useAtom(usersAtom);
   const user = useAtomValue(userStore.user);
   const [newNickname, setNewNickname] = useState('');
-  //const { user_id } = useParams() as { user_id: string };
+
+  // const [newPassword, setNewpPassword] = useAtom(userInfoAtom);
+  // const [userEmail, setUserEmail] = useAtom(userInfoAtom);
+  //2-1. 이미지 변경
   useEffect(() => {
     const updateUserImage = async () => {
       try {
@@ -58,14 +66,14 @@ const EditProfile = () => {
     });
   }, [setUserProfile, user]);
 
-  //3. drop-zone
+  //2-1-번외.drop-zone
   const onDrop = (acceptedFiles: File[], fileRejections: FileRejection[]) => {
     if (acceptedFiles.length > 0) {
       setSelectedFile(acceptedFiles[0]);
     }
   };
 
-  //4. 사진 업로드
+  //2-1-1. 사진 업로드
   const handleUpload = async () => {
     console.log('handleUpload started');
     if (!selectedFile) {
@@ -73,7 +81,7 @@ const EditProfile = () => {
       return;
     }
 
-    // 4-1. 사진UUID생성
+    // 2-1-2. 사진UUID생성
     const fileExtension = selectedFile.name.split('.').pop(); //파일확장자추출
     const newFileName = `${uuidv4()}.${fileExtension}`;
     const profileFilePath = `${newFileName}`;
@@ -95,7 +103,7 @@ const EditProfile = () => {
 
       console.log('File uploaded successfully!'); //여기까지만 콘솔에 찍힘
 
-      //사용자 프로필 이미지 업데이트
+      //2-1-3. 사용자 프로필 이미지 업데이트
       const { data: userData, error: userUpdateError } = await supabase
         .from('users')
         .update({ profile_img_url: profileImageUrl }) // 업데이트 쿼리
@@ -120,7 +128,7 @@ const EditProfile = () => {
     accept: 'image/*' as unknown as Accept,
     multiple: false,
   });
-  //닉넴변경
+  //2-2. 닉넴변경
   const handleNicknameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNewNickname(event.target.value);
   };
@@ -144,6 +152,11 @@ const EditProfile = () => {
       console.error(error);
     }
   };
+
+  //2-3.비번 변경
+  //a. 현재 비밀번호 입력 -> 다른 비밀번호면 비번변경불가
+  //-> 같은 비밀번호면 새비밀번호 입력창과 새 비밀번호 확인창 나타나기
+
   const renderContent = () => {
     return (
       <Container>
@@ -203,7 +216,30 @@ const EditProfile = () => {
             </>
           )}
         </Item>
-        {/* 여기에 이메일이랑 비번 변경 들어감 */}
+        <Item>
+          <Label>이메일</Label>
+          {/* //<div>{user ? user.email : '이메일을 불러올 수 없습니다.'}</div> */}
+        </Item>
+        {/* <Item>
+          <Label>비밀번호</Label>
+          {editMode === 'password' ? (
+            <form onSubmit={handleSubmitPassword}>
+              <Input
+                type="text"
+                value={newPassword}
+                onChange={handlePasswordChange}
+                placeholder="New Password"
+              />
+              <Button type="submit">완료</Button>
+              <Button onClick={() => setEditMode('')}>취소</Button>
+            </form>
+          ) : (
+            <>
+              <div>{user?.password}</div>
+              <Button onClick={() => setEditMode('password')}>변경</Button>
+            </>
+          )}
+        </Item> */}
       </Container>
     );
   };

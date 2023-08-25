@@ -3,7 +3,7 @@ import { createClient } from '@supabase/supabase-js';
 import { atom, useAtom, useAtomValue } from 'jotai';
 import { Database } from '../../types/supabase';
 import * as userStore from '../../store/userStore';
-
+import { useNavigate } from 'react-router-dom';
 const supabaseUrl = process.env.REACT_APP_SUPABASE_URL;
 const supabaseAnonKey = process.env.REACT_APP_ANON_KEY;
 
@@ -18,9 +18,8 @@ const userReviewAtom = atom<ReadAniComment[]>([]);
 
 const MyReviews = () => {
   const [userReview, setUserReview] = useAtom(userReviewAtom);
-
   const user = useAtomValue(userStore.user);
-
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchUserReview = async () => {
       try {
@@ -48,6 +47,9 @@ const MyReviews = () => {
 
     fetchUserReview();
   }, [setUserReview, user]);
+  const handleReviewClick = (animeId: string) => {
+    navigate(`/recommend/${animeId}`);
+  };
 
   return (
     <div>
@@ -55,9 +57,8 @@ const MyReviews = () => {
 
       <ul>
         {userReview.map((review) => (
-          <li key={review.id}>
+          <li key={review.id} onClick={() => handleReviewClick(review.ani_id)}>
             <div>{review.comment}</div>
-            {/* <h3>{review.title}</h3> */}
           </li>
         ))}
       </ul>
