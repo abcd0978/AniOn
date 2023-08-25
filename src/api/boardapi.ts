@@ -9,7 +9,7 @@ const getPosts = async () => {
   try {
     const { data, error } = await supabase
       .from('posts')
-      .select('*,users(nickname,profile_img_url)')
+      .select('*')
       .order('created_at', { ascending: false });
 
     if (error) {
@@ -23,16 +23,16 @@ const getPosts = async () => {
   }
 };
 
-/// Post 상세조회
+// Post 상세조회
 const getPost = async (id: string) => {
   const { data } = await supabase
     .from('posts')
-    .select('*,users(nickname,profile_img_url)')
+    .select('*')
     .eq('id', id)
     .single();
-
   return data;
 };
+
 // Post 추가
 const createPost = async (newPost: InsertPosts) => {
   await supabase.from('posts').insert(newPost);
