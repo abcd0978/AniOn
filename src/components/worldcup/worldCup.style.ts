@@ -78,6 +78,12 @@ export const S = {
     height: 400px;
     border-radius: 400px;
     background: #d9d9d9;
+
+    img {
+      position: relative;
+      left: 171px;
+      top: 137px;
+    }
   `,
 
   WorldCupTestButton: styled.button`
