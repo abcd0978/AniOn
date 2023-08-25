@@ -2,10 +2,27 @@ import api from './index';
 import { laftelParamsM, recommendType } from './../types/anime';
 
 export const fetchAnimeList = async (laftelParams: laftelParamsM) => {
+  console.log('fetch anime 실행', laftelParams);
+
+  if (laftelParams.keyword) {
+    const result = await api.get(`/search/v3/keyword/?viewing_only=false&`, {
+      params: {
+        keyword: laftelParams.keyword,
+        offset: laftelParams.offset,
+        size: laftelParams.size,
+      },
+    });
+    console.log('검색 실행', laftelParams);
+    return {
+      animeList: result!.data!.results!, // 애니 리스트
+      isNextPage: result.data.next ? true : false, // 다음 페이지 유무
+      count: result.data.count, // 필터링된 애니 개수
+    };
+  }
+
   // 배열 형태로 받기 때문에 ',' 단위로 join을 해준다.
   const genresParam = laftelParams.genres ? laftelParams.genres.join(',') : '';
   const tagsParam = laftelParams.tags ? laftelParams.tags.join(',') : '';
-  // https://laftel.net/api/search/v3/keyword/?keyword=%EB%82%98&viewing_only=true&offset=0&size=24 < 검색 api
   const result = await api.get(`/search/v1/discover/?`, {
     params: {
       sort: laftelParams.sort,
@@ -17,7 +34,23 @@ export const fetchAnimeList = async (laftelParams: laftelParamsM) => {
       ending: laftelParams.ending,
     },
   });
-  console.log('fetch anime 실행', laftelParams);
+  return {
+    animeList: result!.data!.results!, // 애니 리스트
+    isNextPage: result.data.next ? true : false, // 다음 페이지 유무
+    count: result.data.count, // 필터링된 애니 개수
+  };
+};
+
+// https://laftel.net/api/search/v3/keyword/?keyword=%EB%82%98&viewing_only=true&offset=0&size=24
+export const fetchSearchedAnime = async (laftelParams: laftelParamsM) => {
+  const result = await api.get(`/search/v3/keyword/?`, {
+    params: {
+      keyword: laftelParams.keyword,
+      offset: laftelParams.offset,
+      size: laftelParams.size,
+    },
+  });
+  console.log('검색 실행', laftelParams);
   return {
     animeList: result!.data!.results!, // 애니 리스트
     isNextPage: result.data.next ? true : false, // 다음 페이지 유무

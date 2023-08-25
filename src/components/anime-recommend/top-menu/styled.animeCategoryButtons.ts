@@ -21,7 +21,7 @@ export const S = {
     border-radius: 999px;
     font-weight: bold;
     color: ${(props) => (props.$isSelected ? 'white' : 'black')};
-    background-color: ${(props) => (props.$isSelected ? '#757575' : '#e2e2e2')};
+    background-color: ${(props) => (props.$isSelected ? '#8200FF' : '#F3E7FF')};
     cursor: pointer;
   `,
 };
