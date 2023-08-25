@@ -16,7 +16,6 @@ const fetchComments = async (post_id: string, page: number): Promise<any> => {
     .eq('post_id', post_id)
     .range(startIndex, startIndex + itemsPerPage - 1)
     .order('created_at', { ascending: false });
-  // console.log('----', data);
 
   const { count } = await supabase
     .from('post_comments')
@@ -38,9 +37,8 @@ const deleteComment = async (id: string) => {
   try {
     await supabase.from('post_comments').delete().eq('id', id);
   } catch (error) {
-    // 삭제 실패 시 오류 처리 로직 추가
     console.error('Error deleting comment:', error);
-    throw error; // 오류 재전파
+    throw error;
   }
 };
 
