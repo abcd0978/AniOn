@@ -14,25 +14,16 @@ const Board = () => {
   const handleWriteClick = () => {
     navigate('/board/write');
   };
-  const handleAniClick = () => {
-    navigate('/ani');
-  };
-  const handleFreeClick = () => {
-    navigate('/free');
-  };
-  const handleErrorClick = () => {
-    navigate('/error');
+
+  const handleAllClick = () => {
+    setSelectedCategory(null);
   };
 
   const handleCategoryClick = (category: string) => {
     setSelectedCategory(category);
   };
 
-  const {
-    data: posts,
-    isLoading,
-    isFetching,
-  } = useQuery<ReadPosts[]>(
+  const { data: posts, isFetching } = useQuery<ReadPosts[]>(
     ['posts', selectedCategory],
     () => getPosts(selectedCategory || ''),
     {
@@ -56,6 +47,7 @@ const Board = () => {
       <S.WriteButton onClick={handleWriteClick}>글 작성</S.WriteButton>
 
       <div>
+        <S.Button onClick={handleAllClick}>전체</S.Button>
         <S.Button onClick={() => handleCategoryClick('애니')}>애니</S.Button>
         <S.Button onClick={() => handleCategoryClick('자유')}>자유</S.Button>
         <S.Button onClick={() => handleCategoryClick('오류 신고')}>
@@ -72,7 +64,7 @@ const Board = () => {
               .filter(
                 (post) =>
                   !selectedCategory || post.category === selectedCategory,
-              ) // 필터링 추가
+              )
               .map((post: ReadPosts) => (
                 <S.Postbox
                   key={post.id}
