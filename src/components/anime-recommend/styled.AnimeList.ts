@@ -70,9 +70,8 @@ export const S = {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 10px;
+    margin: 15px 15px 0px 15px;
     max-width: 60px;
-    margin-left: 10px;
     padding: 4px 8px;
     height: 16px;
     background: #efefef;
@@ -89,7 +88,8 @@ export const S = {
   `,
 
   HoverTitle: styled.div`
-    margin-top: 10px;
+    /* margin-top: 10px; */
+    margin-left: 15px;
     width: 90%;
     height: 80px;
     font-weight: 600;
@@ -103,7 +103,7 @@ export const S = {
 
   HoverViewDetail: styled.button`
     position: relative;
-    padding: 6px 6px 6px 12px;
+    padding: 6px 12px;
     border-radius: 999px;
     border: 1px solid white;
     gap: 4px;
@@ -116,8 +116,8 @@ export const S = {
     position: absolute;
     display: flex;
     gap: 3px;
-    right: 0px;
-    bottom: 0px;
+    right: 10px;
+    bottom: 10px;
   `,
 
   CardInfo: styled.div`
