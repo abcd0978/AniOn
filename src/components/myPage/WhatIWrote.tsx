@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import { createClient } from '@supabase/supabase-js';
-import { atom, useAtom } from 'jotai';
+import { atom, useAtom, useAtomValue } from 'jotai';
 import { Database } from '../../types/supabase';
+import * as userStore from '../../store/userStore';
 
 const supabaseUrl = process.env.REACT_APP_SUPABASE_URL;
 const supabaseAnonKey = process.env.REACT_APP_ANON_KEY;
@@ -11,24 +12,21 @@ if (!supabaseUrl || !supabaseAnonKey) {
 }
 
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
+type ReadMyBoard = Database['public']['Tables']['ani_comments']['Row'];
 
-type Post = {
-  id: string;
-  title: string;
-  content: string | null;
-  category: string | null;
-};
-
-const userPostsAtom = atom<Post[]>([]);
+const userPostsAtom = atom<ReadMyBoard[]>([]);
 
 const WhatIWrote = () => {
   const [userPosts, setUserPosts] = useAtom(userPostsAtom); //1. 빈배열로 초기화 되어 있음
 
-  const userId = '5be67933-6e49-44ba-9a01-e9e04d9d20d7';
+  const user = useAtomValue(userStore.user);
 
   useEffect(() => {
     const fetchUserPosts = async () => {
       try {
+        if (!user) {
+          return;
+        }
         console.log('Fetching user posts for user ID:', userId);
         const { data, error } = await supabase
           .from('posts')
