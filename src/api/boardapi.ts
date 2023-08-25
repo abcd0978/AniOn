@@ -9,7 +9,7 @@ const getPosts = async () => {
   try {
     const { data, error } = await supabase
       .from('posts')
-      .select('*')
+      .select('*,users(nickname,profile_img_url)')
       .order('created_at', { ascending: false });
 
     if (error) {
@@ -27,7 +27,7 @@ const getPosts = async () => {
 const getPost = async (id: string) => {
   const { data } = await supabase
     .from('posts')
-    .select('*')
+    .select('*,users(nickname,profile_img_url)')
     .eq('id', id)
     .single();
 
