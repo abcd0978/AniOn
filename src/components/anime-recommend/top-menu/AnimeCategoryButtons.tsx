@@ -4,6 +4,7 @@ import { useAtom, useSetAtom } from 'jotai';
 
 import {
   isEndingAtom,
+  keywordAtom,
   offsetAtom,
   selectedCategoryAtom,
   selectedGenresAtom,
@@ -13,16 +14,17 @@ import {
 const AnimeCategory = () => {
   const [selectedCategory, setSelectedCategory] = useAtom(selectedCategoryAtom);
 
+  const [keyword, setKeyword] = useAtom(keywordAtom);
   const setGenres = useSetAtom(selectedGenresAtom);
   const setYears = useSetAtom(selectedYearsAtom);
   const setOffset = useSetAtom(offsetAtom);
-
   const setIsEnding = useSetAtom(isEndingAtom);
 
   const handleCategoryClick = (category: string) => {
-    if (selectedCategory === category) {
+    if (selectedCategory === category && !keyword) {
       return;
     }
+    setKeyword('');
 
     if (category === '방영') {
       setIsEnding('false');
