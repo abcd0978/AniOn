@@ -71,7 +71,8 @@ export const S = {
     gap: 4px;
     width: 100%;
     height: 100%;
-    :hover img :not(.viewDetail) {
+
+    :hover img:not(.viewDetail) {
       -webkit-transition: 0.3s ease-in-out;
       transition: 0.3s ease-in-out;
       filter: brightness(0.2);

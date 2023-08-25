@@ -172,7 +172,6 @@ const AnimeList = () => {
                           className="viewDetail"
                           src={viewDetail}
                           alt="viewdetail"
-                          style={{ zIndex: '99' }}
                         />
                       </S.HoverViewDetail>
                     </S.HoverTitleAndDetail>
