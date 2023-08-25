@@ -12,7 +12,7 @@ const Board = () => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const [searchKeyword, setSearchKeyword] = useState<string>(''); // 추가된 부분
+  const [searchKeyword, setSearchKeyword] = useState<string>('');
 
   const handleWriteClick = () => {
     navigate('/board/write');
@@ -31,7 +31,7 @@ const Board = () => {
     isLoading,
     isFetching,
   } = useQuery<ReadPosts[]>(
-    ['posts', selectedCategory, searchKeyword], // 검색 키워드 추가된 부분
+    ['posts', selectedCategory, searchKeyword],
     () => getPosts(selectedCategory || ''),
     {
       onError: (error) => {
@@ -51,12 +51,14 @@ const Board = () => {
     navigate(`/board/${postId}`);
   };
 
-  const handleMenuClick = (menu: string) => {
-    navigate(`/menu/${menu}`);
-  };
-
   const handleSearchSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (!searchKeyword.trim()) {
+      // 검색어가 공백이라면
+      alert('검색어를 입력해주세요.');
+      return;
+    }
 
     setSelectedCategory(null);
     queryClient.invalidateQueries(['posts', null, searchKeyword]);

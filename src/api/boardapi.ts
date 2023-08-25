@@ -9,7 +9,7 @@ const getPosts = async (category?: string) => {
   try {
     const { data, error } = await supabase
       .from('posts')
-      .select('*')
+      .select('*,users(nickname,profile_img_url)')
       .order('created_at', { ascending: false });
 
     if (error) {
