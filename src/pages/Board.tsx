@@ -22,15 +22,15 @@ const Board = () => {
     navigate('/error');
   };
 
-  const { data: posts, isLoading } = useQuery<ReadPosts[]>(
-    ['posts'],
-    getPosts,
-    {
-      onError: (error) => {
-        console.error('Error fetching posts:', error);
-      },
+  const {
+    data: posts,
+    isLoading,
+    isFetching,
+  } = useQuery<ReadPosts[]>(['posts'], getPosts, {
+    onError: (error) => {
+      console.error('Error fetching posts:', error);
     },
-  );
+  });
 
   const handlePostClick = (postId: string) => {
     navigate(`/board/${postId}`);
@@ -52,19 +52,20 @@ const Board = () => {
       </div>
 
       <div>
-        {isLoading ? (
+        {isFetching ? (
           <div>Loading...</div>
         ) : posts ? (
           <ul>
-            {posts.map((post: ReadPosts) => (
-              <S.Postbox
-                key={post.id}
-                onClick={() => post.id && handlePostClick(post.id.toString())}
-              >
-                <h2>{post.title}</h2>
-                <p>{post.content}</p>
-              </S.Postbox>
-            ))}
+            {posts &&
+              posts.map((post: ReadPosts) => (
+                <S.Postbox
+                  key={post.id}
+                  onClick={() => post.id && handlePostClick(post.id.toString())}
+                >
+                  <h2>{post.title}</h2>
+                  <p>{post.content}</p>
+                </S.Postbox>
+              ))}
           </ul>
         ) : (
           <div>로딩중</div>
