@@ -80,7 +80,7 @@ const Board = () => {
       <form onSubmit={handleSearchSubmit}>
         <input
           type="text"
-          placeholder="검색어 입력"
+          placeholder="검색어를 입력해주세요!"
           value={searchKeyword}
           onChange={(e) => setSearchKeyword(e.target.value)}
         />
@@ -98,6 +98,7 @@ const Board = () => {
             >
               <h2>{post.title}</h2>
               <p>{post.content}</p>
+              <p> {new Date(post.created_at).toLocaleString()}</p>
             </S.Postbox>
           ))
         ) : (

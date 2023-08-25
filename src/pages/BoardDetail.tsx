@@ -29,7 +29,7 @@ const BoardDetail = () => {
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const [title, setTitle] = useState<string>('');
   const [content, setContent] = useState<string>('');
-  const [category, setCategory] = useState<string>(''); // 추가된 부분
+  const [category, setCategory] = useState<string>('');
   // 수정 버튼을 눌렀을 때 수정할 카테고리를 관리하는 상태 추가
   const [editCategory, setEditCategory] = useState<string>('');
 
@@ -89,13 +89,13 @@ const BoardDetail = () => {
     if (!isEdit) {
       setTitle(posts.title);
       setContent(posts.content);
-      setEditCategory(posts.category || ''); // 수정 버튼 클릭 시 기존 카테고리 값 설정
+      setEditCategory(posts.category || '');
     } else {
       const editPost = {
         ...posts,
         title,
         content,
-        category: editCategory, // 수정된 카테고리 값 사용
+        category: editCategory,
       };
       updateMutation.mutate(editPost);
       setIsEdit(!isEdit);
