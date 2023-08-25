@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Comments from '../components/Board/Comments';
 import { useNavigate, useParams } from 'react-router-dom';
 import { atom, useAtom, useAtomValue } from 'jotai';
@@ -29,6 +29,9 @@ const BoardDetail = () => {
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const [title, setTitle] = useState<string>('');
   const [content, setContent] = useState<string>('');
+  const [category, setCategory] = useState<string>('');
+  // 수정 버튼을 눌렀을 때 수정할 카테고리를 관리하는 상태 추가
+  const [editCategory, setEditCategory] = useState<string>('');
 
   const onChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
@@ -36,6 +39,16 @@ const BoardDetail = () => {
   const onChangeContent = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setContent(e.target.value);
   };
+
+  useEffect(() => {
+    if (posts) {
+      setTitle(posts.title);
+      setContent(posts.content);
+      if (posts.category) {
+        setCategory(posts.category);
+      }
+    }
+  }, [posts]);
 
   // // 뒤로가기
   // const backButton = () => {
@@ -69,22 +82,26 @@ const BoardDetail = () => {
       queryClient.invalidateQueries({ queryKey: ['posts'] });
     },
   });
+
   const editButton = (posts: UpdatePosts) => {
     setIsEdit(!isEdit);
-    // 수정된 Post 선언
+
     if (!isEdit) {
       setTitle(posts.title);
       setContent(posts.content);
+      setEditCategory(posts.category || '');
     } else {
       const editPost = {
         ...posts,
         title,
         content,
+        category: editCategory,
       };
       updateMutation.mutate(editPost);
       setIsEdit(!isEdit);
     }
   };
+
   return (
     <S.Layout>
       {posts ? (
@@ -102,7 +119,21 @@ const BoardDetail = () => {
             </S.ButtonContainer>
           )}
           <S.PostContainer key={posts.id}>
-            <S.Category>{posts.category}</S.Category>
+            {isEdit ? (
+              <S.Box>
+                <select
+                  value={editCategory}
+                  onChange={(e) => setEditCategory(e.target.value)}
+                >
+                  <option value="">카테고리 선택</option>
+                  <option value="애니">애니</option>
+                  <option value="자유">자유</option>
+                  <option value="오류 신고">오류 신고</option>
+                </select>
+              </S.Box>
+            ) : (
+              <S.Category>{posts.category}</S.Category>
+            )}
             {isEdit ? (
               <S.Box>
                 <S.Input

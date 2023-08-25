@@ -12,7 +12,6 @@ import {
 import { Database } from '../../types/supabase';
 import * as userStore from '../../store/userStore';
 import { atom, useAtom, useAtomValue } from 'jotai';
-import { isError } from 'lodash';
 type ReadPostComment = Database['public']['Tables']['post_comments']['Row'];
 type InsertPostComment =
   Database['public']['Tables']['post_comments']['Insert'];
@@ -22,15 +21,7 @@ type UpdatePostComment =
 const Comments = () => {
   const { post_id } = useParams() as { post_id: string };
 
-  // const [user, setUser] = useAtom(userAtom);
   const user = useAtomValue(userStore.user);
-  console.log('------', user);
-
-  // useEffect(() => {
-  //   setUser({ user_id: '7bd7fde5-17e2-407c-8e70-3b3fb178d761' });
-  // }, []);
-  //확인 주소
-  // http://localhost:3000/board/5ac36c41-3591-48f0-b5b1-5fdb68a798f2
 
   const queryClient = useQueryClient();
 
