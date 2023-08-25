@@ -13,7 +13,6 @@ type ReadPosts = Database['public']['Tables']['posts']['Row'];
 type UpdatePosts = Database['public']['Tables']['posts']['Update'];
 
 const BoardDetail = () => {
-  //유저 가져오기
   const user = useAtomValue(userStore.user);
 
   const navigate = useNavigate();
@@ -37,6 +36,11 @@ const BoardDetail = () => {
   const onChangeContent = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setContent(e.target.value);
   };
+
+  // // 뒤로가기
+  // const backButton = () => {
+  //   navigate(-1);
+  // };
 
   // Post 삭제
   const queryClient = useQueryClient();
@@ -81,7 +85,6 @@ const BoardDetail = () => {
       setIsEdit(!isEdit);
     }
   };
-
   return (
     <S.Layout>
       {posts ? (
@@ -89,12 +92,10 @@ const BoardDetail = () => {
           {user?.id === posts.user_id && (
             <S.ButtonContainer>
               <div>
-                <S.Button onClick={() => deleteButton(posts.id!)}>
-                  삭제
-                </S.Button>
-                <S.Button onClick={() => editButton(posts)}>
+                <button onClick={() => deleteButton(posts.id!)}>삭제</button>
+                <button onClick={() => editButton(posts)}>
                   {isEdit ? '저장' : '수정'}
-                </S.Button>
+                </button>
               </div>
             </S.ButtonContainer>
           )}
@@ -102,11 +103,15 @@ const BoardDetail = () => {
             <S.Category>{posts.category}</S.Category>
             {isEdit ? (
               <S.Box>
-                <S.Input value={title} onChange={onChangeTitle} />
+                <S.Input
+                  value={title}
+                  onChange={onChangeTitle}
+                  style={{ fontSize: '24px', fontWeight: '500' }}
+                />
               </S.Box>
             ) : (
               <S.Box>
-                <S.Date>{new Date(posts.created_at).toLocaleString()}</S.Date>
+                <S.Izz>{posts.created_at}</S.Izz>
                 <S.Title>{posts.title}</S.Title>
               </S.Box>
             )}
