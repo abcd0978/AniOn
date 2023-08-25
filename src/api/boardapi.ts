@@ -5,7 +5,7 @@ type ReadPosts = Database['public']['Tables']['posts']['Row'];
 type UpdatePosts = Database['public']['Tables']['posts']['Update'];
 
 //Post 전체 목록 불러오기
-const getPosts = async () => {
+const getPosts = async (category?: string) => {
   try {
     const { data, error } = await supabase
       .from('posts')
@@ -14,6 +14,10 @@ const getPosts = async () => {
 
     if (error) {
       throw error;
+    }
+
+    if (category) {
+      return data.filter((post: ReadPosts) => post.category === category);
     }
 
     return data;
