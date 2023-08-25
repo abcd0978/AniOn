@@ -53,21 +53,21 @@ export interface Database {
           id: string;
           img_url: string;
           ani_title: string;
-          gender: number;
+          gender: string;
         };
         Insert: {
           character_name: string;
           id?: string;
           img_url: string;
           ani_title: string;
-          gender: number;
+          gender: string;
         };
         Update: {
           character_name?: string;
           id?: string;
           img_url?: string;
           ani_title?: string;
-          gender?: number;
+          gender?: string;
         };
         Relationships: [];
       };

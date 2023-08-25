@@ -1,7 +1,7 @@
 import supabase from '../supabaseClient';
 import { Database } from '../types/supabase';
 
-const fetchCharacter = async (gender: number) => {
+const fetchCharacter = async (gender: string) => {
   const { data } = await supabase
     .from('characters')
     .select('*')
