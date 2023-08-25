@@ -26,6 +26,7 @@ const EditProfile = () => {
   const [editMode, setEditMode] = useState<string>('');
   const [userProfile, setUserProfile] = useAtom(usersAtom);
   const user = useAtomValue(userStore.user);
+  const [newNickname, setNewNickname] = useState('');
   //const { user_id } = useParams() as { user_id: string };
   useEffect(() => {
     const updateUserImage = async () => {
@@ -37,7 +38,7 @@ const EditProfile = () => {
         const { data, error } = await supabase
           .from('users')
           .select('*')
-          .eq('id', user.id)
+          .eq('user_id', user.id)
           .order('created_at', { ascending: false });
 
         if (error) {
@@ -119,7 +120,30 @@ const EditProfile = () => {
     accept: 'image/*' as unknown as Accept,
     multiple: false,
   });
+  //닉넴변경
+  const handleNicknameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setNewNickname(event.target.value);
+  };
 
+  const handleSubmitNickname = async (event: React.FormEvent) => {
+    event.preventDefault();
+
+    try {
+      const { data, error } = await supabase
+        .from('users')
+        .update({ nickname: newNickname })
+        .eq('id', user?.id);
+
+      if (error) {
+        console.error(error);
+      } else if (data && Array.isArray(data)) {
+        setUserProfile(data); // 데이터 업데이트
+        setEditMode(''); // 닉네임 변경 모드 종료
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
   const renderContent = () => {
     return (
       <Container>
@@ -159,7 +183,26 @@ const EditProfile = () => {
             <Button onClick={() => setEditMode('photo')}>변경</Button>
           )}
         </Item>
-
+        <Item>
+          <Label>닉네임</Label>
+          {editMode === 'nickname' ? (
+            <form onSubmit={handleSubmitNickname}>
+              <Input
+                type="text"
+                value={newNickname}
+                onChange={handleNicknameChange}
+                placeholder="New Nickname"
+              />
+              <Button type="submit">완료</Button>
+              <Button onClick={() => setEditMode('')}>취소</Button>
+            </form>
+          ) : (
+            <>
+              <div>{user?.nickname}</div>
+              <Button onClick={() => setEditMode('nickname')}>변경</Button>
+            </>
+          )}
+        </Item>
         {/* 여기에 이메일이랑 비번 변경 들어감 */}
       </Container>
     );
