@@ -1,28 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { throttle } from 'lodash';
-
 import { useAtom, useAtomValue } from 'jotai';
-import * as userStore from '../../store/userStore';
-import { HoverInfo, S } from './styled.AnimeList';
-import AnimeFilter from './top-menu/AnimeFilter';
-
-import { fetchAnimeList } from '../../api/laftel';
+import { useNavigate } from 'react-router';
+import { throttle } from 'lodash';
 import useIntersect from '../../hooks/useIntersect';
-
-// import type { laftelParamsM } from '../../types/anime';
-import type { AnimeG } from '../../types/anime';
+import AnimeFilter from './top-menu/AnimeFilter';
+import { HoverInfo, S } from './styled.AnimeList';
+import { fetchAnimeLikes, toggleAnimeLike } from '../../api/likeApi';
+import { fetchAnimeList } from '../../api/laftel';
 import {
   offsetAtom,
   selectedGenresAtom,
   selectedCategoryAtom,
   selectedYearsAtom,
   isEndingAtom,
+  keywordAtom,
 } from '../../store/animeRecommendStore';
-import { useNavigate } from 'react-router';
+import * as userStore from '../../store/userStore';
 import LikeSvg from './LikeSvg';
-import { fetchAnimeLikes, toggleAnimeLike } from '../../api/likeApi';
+import viewDetail from '../../assets/viewdetail.svg';
+
 import { ReadAnimeLikeG } from '../../types/likes';
+import type { AnimeG } from '../../types/anime';
 
 const AnimeList = () => {
   const navigate = useNavigate();
@@ -32,6 +31,7 @@ const AnimeList = () => {
   const category = useAtomValue(selectedCategoryAtom);
   const years = useAtomValue(selectedYearsAtom);
   const ending = useAtomValue(isEndingAtom);
+  const keyword = useAtomValue(keywordAtom);
 
   const size = 18;
   const sort = 'rank';
@@ -46,9 +46,9 @@ const AnimeList = () => {
   const [count, setCount] = useState(0);
 
   const defaultQueryOptions = {
-    queryKey: ['animeList', genres, offset, years, ending, category],
+    queryKey: ['animeList', genres, offset, years, ending, category, keyword],
     queryFn: () =>
-      fetchAnimeList({ sort, genres, offset, size, years, ending }),
+      fetchAnimeList({ sort, genres, offset, size, years, ending, keyword }),
     refetchOnWindowFocus: false,
   };
 
@@ -63,12 +63,6 @@ const AnimeList = () => {
 
   const { data: likesData } = useQuery(likesQueryOptions);
 
-  const likesCount = (anime_id: string) => {
-    return likesData?.filter(
-      (like: ReadAnimeLikeG) => like.anime_id === anime_id,
-    ).length;
-  };
-
   const toggleLikeMutation = useMutation(toggleAnimeLike, {
     onSuccess: () => {
       queryClient.invalidateQueries(['animeLikes']);
@@ -77,6 +71,12 @@ const AnimeList = () => {
       alert(`toggleAnimeLike 오류가 발생했습니다. : ${error}`);
     },
   });
+
+  const likesCount = (anime_id: string) => {
+    return likesData?.filter(
+      (like: ReadAnimeLikeG) => like.anime_id === anime_id,
+    ).length;
+  };
 
   const handleLike = (anime_id: string) => {
     if (!user) {
@@ -99,7 +99,6 @@ const AnimeList = () => {
     return !!likedAnime;
   };
 
-  console.log(likesData);
   // 스로틀링된 무한 스크롤 콜백 함수
   // 카테고리를 변경할 때 무한스크롤 실행되는 이슈 발견 > 해결
   const throttledLoadMore = throttle(() => {
@@ -138,8 +137,12 @@ const AnimeList = () => {
   // console.log(animeList);
 
   return (
-    <>
-      <AnimeFilter count={count} />
+    <div style={{ display: 'flex', flexDirection: 'column' }}>
+      <S.PageNameDiv>
+        <S.PageNameSpan>애니 </S.PageNameSpan>
+        <S.PageNameBold>추천</S.PageNameBold>
+      </S.PageNameDiv>
+      <AnimeFilter count={count} setAnimeList={setAnimeList} />
       <S.AnimeContainer>
         {/* 스켈레톤으로 변경하기! */}
         {isLoading && !animeList.length ? (
@@ -155,7 +158,7 @@ const AnimeList = () => {
                         ? anime.images![0].img_url
                         : anime.img
                     }
-                    alt={`${anime.name} 이미지`}
+                    alt={anime.name}
                   />
                   <HoverInfo>
                     <S.HoverGenre key={anime.id}>
@@ -163,7 +166,15 @@ const AnimeList = () => {
                     </S.HoverGenre>
                     <S.HoverTitleAndDetail>
                       <S.HoverTitle>{anime.name}</S.HoverTitle>
-                      <S.HoverViewDetail>자세히 보기</S.HoverViewDetail>
+                      <S.HoverViewDetail>
+                        자세히 보기
+                        <img
+                          className="viewDetail"
+                          src={viewDetail}
+                          alt="viewdetail"
+                          style={{ zIndex: '99' }}
+                        />
+                      </S.HoverViewDetail>
                     </S.HoverTitleAndDetail>
 
                     <S.HoverLikeBox>
@@ -191,7 +202,7 @@ const AnimeList = () => {
         )}
       </S.AnimeContainer>
       {isNextPage && !isLoading && <S.Target ref={ref} />}
-    </>
+    </div>
   );
 };
 

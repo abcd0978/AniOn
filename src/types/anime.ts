@@ -107,6 +107,7 @@ export interface laftelParamsM {
   medium?: ('TVA' | '극장판' | 'OVA')[];
   offset?: number;
   size?: number;
+  keyword?: string;
 }
 
 // genres enum

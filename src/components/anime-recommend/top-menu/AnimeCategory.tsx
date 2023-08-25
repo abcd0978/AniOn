@@ -1,5 +1,5 @@
 import React from 'react';
-import { useAtom, useAtomValue, useSetAtom } from 'jotai';
+import { useAtom, useAtomValue } from 'jotai';
 import { S } from './styled.animeCategory';
 
 import {
@@ -9,10 +9,9 @@ import {
 } from '../../../store/animeRecommendStore';
 import { Genres, Years } from '../../../types/anime';
 
-const AnimeTag = () => {
+const AnimeCategory = () => {
   const [genres, setGenres] = useAtom(selectedGenresAtom);
   const category = useAtomValue(selectedCategoryAtom);
-  // const setYears = useSetAtom(selectedYearsAtom);
   const [years, setYears] = useAtom(selectedYearsAtom);
   const handleClick = (item: Genres | Years) => {
     if (category === '분기') {
@@ -55,6 +54,8 @@ const AnimeTag = () => {
           <S.CategoryDiv
             key={item}
             onClick={() => handleClick(item)}
+            // category가 분기이면 years === item이면 true.
+            // category가 분기가 아니면 genres에 item이 있으면 true.
             $isSelected={
               category === '분기'
                 ? years === item
@@ -68,7 +69,7 @@ const AnimeTag = () => {
     );
   }
 
-  return <div></div>;
+  return <></>;
 };
 
-export default AnimeTag;
+export default AnimeCategory;
