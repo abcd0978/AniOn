@@ -1,9 +1,14 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { fetchAnimeList } from '../../api/laftel';
+import { fetchAnimeLikes, toggleAnimeLike } from '../../api/likeApi';
 import { createClient } from '@supabase/supabase-js';
-import { atom, useAtom } from 'jotai';
+import { atom, useAtom, useAtomValue } from 'jotai';
+import * as userStore from '../../store/userStore';
+import { useNavigate } from 'react-router-dom';
 import type { AnimeG } from '../../types/anime';
-import LikeSvg from '../anime-recommend/LikeSvg';
-import { useParams } from 'react-router-dom';
+import { Database } from '../../types/supabase';
+import { ReadAnimeLikeG } from '../../types/likes';
 
 const supabaseUrl = process.env.REACT_APP_SUPABASE_URL;
 const supabaseAnonKey = process.env.REACT_APP_ANON_KEY;
@@ -14,64 +19,65 @@ if (!supabaseUrl || !supabaseAnonKey) {
 
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
-type clickedHeartAnime = {
-  id: string;
-  title: string;
-  content: string | null;
-  category: string | null;
-  comment: string | null;
-  image: string | null;
-};
-
-const clickedHeartAnimeAtom = atom<clickedHeartAnime[]>([]);
+const likedAnimeAtom = atom<AnimeG[]>([]);
 
 const LikedAnime = () => {
-  const [clickedHeartAnime, setClickedHeartAnime] = useAtom(
-    clickedHeartAnimeAtom,
-  );
+  const [likedAnime, setLikedAnime] = useAtom(likedAnimeAtom);
+  const user = useAtomValue(userStore.user);
+  const navigate = useNavigate();
+  const [animeList, setAnimeList] = useState<AnimeG[]>([]);
+  const likesQueryOptions = {
+    queryKey: ['animeLikes'],
+    queryFn: () => fetchAnimeLikes(),
+    refetchOnWindowFocus: false,
+  };
 
-  const { ani_id } = useParams() as { ani_id: string };
-  const user_id = '5be67933-6e49-44ba-9a01-e9e04d9d20d7';
+  const { data: likesData } = useQuery(likesQueryOptions);
 
   useEffect(() => {
-    const fetchClickedHeartAnime = async () => {
+    const fetchLikedAnime = async () => {
       try {
-        console.log(
-          'Fetching liked anime for user ID:',
-          user_id,
-          'anime ID:',
-          ani_id,
-        );
+        if (!user) {
+          return;
+        }
+        console.log('사용자아이디:', user.id);
         const { data, error } = await supabase
           .from('anime_likes')
           .select('*')
-          .eq('user_id', user_id)
-          .eq('anime_id', ani_id);
+          .eq('user_id', user.id);
 
         if (error) {
-          console.error('fetchClickedHeartAnime에서 에러', error);
+          console.error('fetchLikedAnime에서 에러', error);
         } else {
           console.log('Liked anime fetched:', data);
-          setClickedHeartAnime(data);
+          setLikedAnime(data);
+          console.log('setLikedAnime:', data);
         }
       } catch (error) {
-        console.error('fetchClickedHeartAnime 에러', error);
+        console.error('fetchLikedAnime 에러', error);
       }
     };
 
-    fetchClickedHeartAnime();
-  }, [user_id, ani_id, setClickedHeartAnime]);
+    fetchLikedAnime();
+  }, [user, setLikedAnime]);
+  console.log('likedAnime:', animeList);
 
+  const handleAnimeClick = (animeId: string) => {
+    navigate(`/recommend/${animeId}`);
+  };
   return (
     <div>
       <h2>Liked Anime</h2>
       <ul>
-        {clickedHeartAnime.map((anime) => (
-          <li key={anime.id}>
-            <h3>{anime.title}</h3>
-            {anime.image && (
-              <img src={anime.image} alt={`${anime.title} 이미지`} />
+        {likedAnime.map((anime: AnimeG) => (
+          <li
+            key={anime.id}
+            onClick={() => handleAnimeClick(anime.id.toString())}
+          >
+            {anime.images && anime.images.length !== 0 && (
+              <img src={anime.images[0].img_url} alt={`${anime.name} 이미지`} />
             )}
+            <h3>{anime.name}</h3>
           </li>
         ))}
       </ul>
