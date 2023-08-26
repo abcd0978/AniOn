@@ -1,34 +1,37 @@
 import React, { useEffect, useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
-import { throttle } from 'lodash';
-
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useAtom, useAtomValue } from 'jotai';
-import * as userStore from '../../store/userStore';
-import { HoverInfo, S } from './styled.AnimeList';
-import AnimeFilter from './top-menu/AnimeFilter';
-
-import { fetchAnimeList } from '../../api/laftel';
+import { useNavigate } from 'react-router';
+import { throttle } from 'lodash';
 import useIntersect from '../../hooks/useIntersect';
-
-// import type { laftelParamsM } from '../../types/anime';
-import type { AnimeG } from '../../types/anime';
+import AnimeFilter from './top-menu/AnimeFilter';
+import { HoverInfo, S } from './styled.AnimeList';
+import { fetchAnimeLikes, toggleAnimeLike } from '../../api/likeApi';
+import { fetchAnimeList } from '../../api/laftel';
 import {
   offsetAtom,
   selectedGenresAtom,
   selectedCategoryAtom,
   selectedYearsAtom,
   isEndingAtom,
+  keywordAtom,
 } from '../../store/animeRecommendStore';
-import { useNavigate } from 'react-router';
+import * as userStore from '../../store/userStore';
 import LikeSvg from './LikeSvg';
+import viewDetail from '../../assets/viewdetail.svg';
+
+import { ReadAnimeLikeG } from '../../types/likes';
+import type { AnimeG } from '../../types/anime';
 
 const AnimeList = () => {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const user = useAtomValue(userStore.user);
   const genres = useAtomValue(selectedGenresAtom);
   const category = useAtomValue(selectedCategoryAtom);
   const years = useAtomValue(selectedYearsAtom);
   const ending = useAtomValue(isEndingAtom);
+  const keyword = useAtomValue(keywordAtom);
 
   const size = 18;
   const sort = 'rank';
@@ -43,14 +46,58 @@ const AnimeList = () => {
   const [count, setCount] = useState(0);
 
   const defaultQueryOptions = {
-    queryKey: ['animeList', genres, offset, years, ending, category],
+    queryKey: ['animeList', genres, offset, years, ending, category, keyword],
     queryFn: () =>
-      fetchAnimeList({ sort, genres, offset, size, years, ending }),
+      fetchAnimeList({ sort, genres, offset, size, years, ending, keyword }),
     refetchOnWindowFocus: false,
   };
 
   const { isLoading, isError, isFetching, data } =
     useQuery(defaultQueryOptions);
+
+  const likesQueryOptions = {
+    queryKey: ['animeLikes'],
+    queryFn: () => fetchAnimeLikes(),
+    refetchOnWindowFocus: false,
+  };
+
+  const { data: likesData } = useQuery(likesQueryOptions);
+
+  const toggleLikeMutation = useMutation(toggleAnimeLike, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(['animeLikes']);
+    },
+    onError: (error) => {
+      alert(`toggleAnimeLike 오류가 발생했습니다. : ${error}`);
+    },
+  });
+
+  const likesCount = (anime_id: string) => {
+    return likesData?.filter(
+      (like: ReadAnimeLikeG) => like.anime_id === anime_id,
+    ).length;
+  };
+
+  const handleLike = (anime_id: string) => {
+    if (!user) {
+      alert('로그인 후 사용 가능합니다.');
+      return;
+    }
+
+    const data = {
+      user_id: user.id,
+      anime_id,
+    };
+    toggleLikeMutation.mutate(data);
+  };
+
+  const isLike = (anime_id: string) => {
+    const likedAnime = likesData?.find(
+      (like: ReadAnimeLikeG) =>
+        like.anime_id === anime_id && like.user_id === user?.id,
+    );
+    return !!likedAnime;
+  };
 
   // 스로틀링된 무한 스크롤 콜백 함수
   // 카테고리를 변경할 때 무한스크롤 실행되는 이슈 발견 > 해결
@@ -68,9 +115,9 @@ const AnimeList = () => {
     // setPrevCategory(category);
   });
 
-  // 장르 선택 시 변경, 추후 분기, 방영 중 여부 추가
-
+  // 장르, 카테고리, 분기 선택 시 변경.
   useEffect(() => {
+    setOffset(0);
     setAnimeList([]);
   }, [genres, category, years]);
 
@@ -80,7 +127,6 @@ const AnimeList = () => {
     }
     setIsNextPage(data.isNextPage);
     setCount(data.count);
-    // 새로운 데이터를 현재 데이터 뒤에 추가
     setAnimeList((prevAnimeList) => [...prevAnimeList, ...data.animeList]);
   }, [data]);
 
@@ -91,8 +137,12 @@ const AnimeList = () => {
   // console.log(animeList);
 
   return (
-    <>
-      <AnimeFilter count={count} />
+    <div style={{ display: 'flex', flexDirection: 'column' }}>
+      <S.PageNameDiv>
+        <S.PageNameSpan>애니 </S.PageNameSpan>
+        <S.PageNameBold>추천</S.PageNameBold>
+      </S.PageNameDiv>
+      <AnimeFilter count={count} setAnimeList={setAnimeList} />
       <S.AnimeContainer>
         {/* 스켈레톤으로 변경하기! */}
         {isLoading && !animeList.length ? (
@@ -108,7 +158,7 @@ const AnimeList = () => {
                         ? anime.images![0].img_url
                         : anime.img
                     }
-                    alt={`${anime.name} 이미지`}
+                    alt={anime.name}
                   />
                   <HoverInfo>
                     <S.HoverGenre key={anime.id}>
@@ -116,12 +166,22 @@ const AnimeList = () => {
                     </S.HoverGenre>
                     <S.HoverTitleAndDetail>
                       <S.HoverTitle>{anime.name}</S.HoverTitle>
-                      <S.HoverViewDetail>자세히 보기</S.HoverViewDetail>
+                      <S.HoverViewDetail>
+                        자세히 보기
+                        <img
+                          className="viewDetail"
+                          src={viewDetail}
+                          alt="viewdetail"
+                        />
+                      </S.HoverViewDetail>
                     </S.HoverTitleAndDetail>
 
                     <S.HoverLikeBox>
-                      <LikeSvg onClick={() => alert('안녕!')} is_like={true} />
-                      <div>30</div>
+                      <LikeSvg
+                        onClick={() => handleLike(String(anime.id))}
+                        is_like={isLike(String(anime.id))}
+                      />
+                      <div>{likesCount(String(anime.id))}</div>
                     </S.HoverLikeBox>
                   </HoverInfo>
                 </S.HoverDiv>
@@ -141,7 +201,7 @@ const AnimeList = () => {
         )}
       </S.AnimeContainer>
       {isNextPage && !isLoading && <S.Target ref={ref} />}
-    </>
+    </div>
   );
 };
 

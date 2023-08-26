@@ -1,7 +1,9 @@
 import React, { useEffect } from 'react';
 import { createClient } from '@supabase/supabase-js';
-import { atom, useAtom } from 'jotai';
+import { atom, useAtom, useAtomValue } from 'jotai';
 import { Database } from '../../types/supabase';
+import * as userStore from '../../store/userStore';
+import { useNavigate } from 'react-router-dom';
 
 const supabaseUrl = process.env.REACT_APP_SUPABASE_URL;
 const supabaseAnonKey = process.env.REACT_APP_ANON_KEY;
@@ -11,29 +13,26 @@ if (!supabaseUrl || !supabaseAnonKey) {
 }
 
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
+type ReadMyBoard = Database['public']['Tables']['posts']['Row'];
 
-type Post = {
-  id: string;
-  title: string;
-  content: string | null;
-  category: string | null;
-};
-
-const userPostsAtom = atom<Post[]>([]);
+const userPostsAtom = atom<ReadMyBoard[]>([]);
 
 const WhatIWrote = () => {
   const [userPosts, setUserPosts] = useAtom(userPostsAtom); //1. 빈배열로 초기화 되어 있음
-
-  const userId = '5be67933-6e49-44ba-9a01-e9e04d9d20d7';
+  const navigate = useNavigate();
+  const user = useAtomValue(userStore.user);
 
   useEffect(() => {
     const fetchUserPosts = async () => {
       try {
-        console.log('Fetching user posts for user ID:', userId);
+        if (!user) {
+          return;
+        }
+        console.log('Fetching user posts for user ID:', user.id);
         const { data, error } = await supabase
           .from('posts')
           .select('*')
-          .eq('user_id', userId)
+          .eq('user_id', user.id)
           .order('created_at', { ascending: false });
 
         if (error) {
@@ -51,21 +50,23 @@ const WhatIWrote = () => {
     fetchUserPosts().then(() => {
       console.log('검사합니다.', userPosts);
     });
-  }, [setUserPosts]);
-
+  }, [setUserPosts, user]);
+  const handlePostClick = (id: string) => {
+    navigate(`/board/${id}`);
+  };
   return (
     <div>
-      <h2>작성한 글 제목</h2>
-
       <ul>
-        <h2>작성한 글 카테고리</h2>
         {userPosts.map(
           (
             posts, //3. userPosts배열이 아직 업로드 되지 않아서 빈배열을 가지고 매핑중임
           ) => (
-            <li key={posts.id}>
-              <div>{posts.category}</div>
-              <h3>{posts.title}</h3>
+            <li
+              key={posts.id}
+              onClick={() => posts.id && handlePostClick(posts.id.toString())}
+            >
+              <div>카테고리:{posts.category}</div>
+              <h3>제목:{posts.title}</h3>
             </li>
           ),
         )}

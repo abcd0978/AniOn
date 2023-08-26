@@ -52,16 +52,22 @@ export interface Database {
           character_name: string;
           id: string;
           img_url: string;
+          ani_title: string;
+          gender: string;
         };
         Insert: {
           character_name: string;
           id?: string;
           img_url: string;
+          ani_title: string;
+          gender: string;
         };
         Update: {
           character_name?: string;
           id?: string;
           img_url?: string;
+          ani_title?: string;
+          gender?: string;
         };
         Relationships: [];
       };
@@ -157,6 +163,31 @@ export interface Database {
           },
           {
             foreignKeyName: 'likes_user_id_fkey';
+            columns: ['user_id'];
+            referencedRelation: 'users';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      anime_likes: {
+        Row: {
+          id: string;
+          anime_id: string;
+          user_id: string;
+        };
+        Insert: {
+          id?: string;
+          anime_id: string;
+          user_id: string;
+        };
+        Update: {
+          id?: string;
+          post_id?: string;
+          user_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'anime_likes_user_id_fkey';
             columns: ['user_id'];
             referencedRelation: 'users';
             referencedColumns: ['id'];
