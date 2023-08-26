@@ -1,7 +1,7 @@
-import React from "react";
-import styled from "styled-components";
-import { useAtom } from "jotai";
-import * as modalStore from "../../store/modalStore";
+import React from 'react';
+import styled from 'styled-components';
+import { useAtom } from 'jotai';
+import * as modalStore from '../../store/modalStore';
 
 type Props = {
   children: React.ReactNode;
@@ -13,8 +13,8 @@ const Modal = (props: Props) => {
   return (
     <StModalBackGround
       onClick={() => {
+        setModalContents('login');
         setModal(false);
-        setModalContents("login");
       }}
     >
       <StModalContent onClick={(e) => e.stopPropagation()}>
@@ -34,7 +34,6 @@ const StModalBackGround = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  backdrop-filter: blur(7px);
 `;
 const StModalContent = styled.div`
   background-color: #fff;
@@ -43,5 +42,6 @@ const StModalContent = styled.div`
   flex-direction: column;
   align-items: flex-start;
   gap: 80px;
+  border-radius: 20px;
 `;
 export default Modal;

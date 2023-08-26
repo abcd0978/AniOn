@@ -26,9 +26,7 @@ export const writeUser = atom(null, async (get, set) => {
       nickname: userData?.user_metadata.nickname
         ? userData?.user_metadata.nickname
         : userData?.user_metadata.name,
-      email: userData?.user_metadata.email
-        ? userData?.user_metadata.email
-        : userData?.user_metadata.name,
+      email: userData?.user_metadata.email,
     };
     set(accessTokenAtom, accessToken);
     set(user, currentUser);

@@ -479,7 +479,7 @@ export interface Database {
         Update: {
           created_at?: string;
           id?: string;
-
+          email: string;
           nickname?: string;
           profile_img_url?: string | null;
         };

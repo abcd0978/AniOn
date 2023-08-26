@@ -58,7 +58,7 @@ const LikedAnime = () => {
             onClick={() => navigate(`/recommend/${anime.animeId}`)}
             className="anime-card"
           >
-            <img src={anime.preview.img_url} />
+            <img src={anime.preview} />
             <p>{anime.anime.name}</p>
           </div>
         ))}

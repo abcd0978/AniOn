@@ -27,12 +27,21 @@ export const checkUser = async (user_id: string) => {
   return result.data![0].count;
 };
 export const nicknameValidate = async (nickname: string) => {
+  console.log(nickname);
   const result = await supabase
     .from('users')
     .select('count')
-    .eq('nickname', nickname);
+    .eq('nickname', `${nickname}`);
   console.log(result);
-  return true;
+  console.log(result.data![0].count);
+  return result.data![0].count > 0 ? false : true;
+};
+export const emailValidate = async (nickname: string) => {
+  const result = await supabase
+    .from('users')
+    .select('count')
+    .eq('email', nickname);
+  return result.data![0].count > 0 ? false : true;
 };
 export const loginHandler = async (
   Logindata?: FormData,

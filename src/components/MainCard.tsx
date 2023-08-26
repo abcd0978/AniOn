@@ -13,7 +13,19 @@ const MainCard = ({ width, data, index }: Props) => {
     <StMainCard width={width} mediaWidth={mediaWidth}>
       <StMainCardImgContainer img_url={data.images[1].img_url}>
         <StMainCardImgIndex>
-          <p style={{ fontSize: '16px', fontWeight: 'bold' }}>TOP {index}</p>
+          <p
+            style={{
+              fontSize: '16px',
+              fontWeight: 'bold',
+              color: 'var(--achromatic-colors-white, #FFF)',
+              fontFamily: 'Pretendard Variable',
+              fontStyle: 'normal',
+              lineHeight: 'normal',
+              letterSpacing: '-0.24px',
+            }}
+          >
+            TOP {index}
+          </p>
         </StMainCardImgIndex>
       </StMainCardImgContainer>
       <StCardInfoContainer>
@@ -65,7 +77,7 @@ const StMainCardImgIndex = styled.div`
   left: 8px;
   position: relative;
   border-radius: 8px;
-  background: #efefef;
+  background: rgba(0, 0, 0, 0.6);
 `;
 const StCardInfoContainer = styled.div`
   display: flex;
@@ -87,15 +99,6 @@ const StCardTitle = styled.p`
   font-weight: 700;
   line-height: normal;
   letter-spacing: -0.3px;
-`;
-const StCardSubtitle = styled.p`
-  color: #4f4f4f;
-  font-family: Pretendard Variable;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-  letter-spacing: -0.24px;
 `;
 const StCardHashTagContainer = styled.div`
   display: flex;
