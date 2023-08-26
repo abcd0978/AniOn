@@ -17,7 +17,7 @@ export const writeUser = atom(null, async (get, set) => {
   if (session.data.session) {
     const accessToken = session?.data?.session?.access_token;
     const userData = session?.data?.session?.user;
-    const currnetUser: Usertype = {
+    const currentUser: Usertype = {
       id: userData!.id,
       created_at: userData!.created_at,
       profile_img_url: userData?.user_metadata.profile_img_url
@@ -26,12 +26,15 @@ export const writeUser = atom(null, async (get, set) => {
       nickname: userData?.user_metadata.nickname
         ? userData?.user_metadata.nickname
         : userData?.user_metadata.name,
+      email: userData?.user_metadata.email
+        ? userData?.user_metadata.email
+        : userData?.user_metadata.name,
     };
     set(accessTokenAtom, accessToken);
-    set(user, currnetUser);
+    set(user, currentUser);
     if ((await authApi.checkUser(userData!.id)) <= 0) {
       //db에 있으면 안넣고 db에있으면 넣는다
-      await authApi.addUser(currnetUser);
+      await authApi.addUser(currentUser);
     }
     return true;
   }

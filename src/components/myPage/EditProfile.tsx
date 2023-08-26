@@ -156,7 +156,7 @@ const EditProfile = () => {
   //2-3.비번 변경
   //a. 현재 비밀번호 입력 -> 다른 비밀번호면 비번변경불가
   //-> 같은 비밀번호면 새비밀번호 입력창과 새 비밀번호 확인창 나타나기
-
+  console.log('user email', user?.email);
   const renderContent = () => {
     return (
       <Container>
@@ -218,7 +218,7 @@ const EditProfile = () => {
         </Item>
         <Item>
           <Label>이메일</Label>
-          {/* //<div>{user ? user.email : '이메일을 불러올 수 없습니다.'}</div> */}
+          <div>{user?.email}</div>
         </Item>
         {/* <Item>
           <Label>비밀번호</Label>
