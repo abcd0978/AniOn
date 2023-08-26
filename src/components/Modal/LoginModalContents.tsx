@@ -86,7 +86,7 @@ const LoginModalContents = (props: Props) => {
           >
             {loading ? (
               <StLoginButtonTypo>
-                로그인중{' '}
+                로그인중
                 <img
                   style={{ width: '15px', height: '15px' }}
                   src={loadingSpinner}

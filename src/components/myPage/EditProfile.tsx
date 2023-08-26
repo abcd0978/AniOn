@@ -79,7 +79,9 @@ const EditProfile = () => {
         .from('users')
         .update({ profile_img_url: profileImageUrl }) // 업데이트 쿼리
         .eq('id', user_id);
-
+      await supabase.auth.updateUser({
+        data: { profile_img_url: profileImageUrl },
+      });
       if (userUpdateError) {
         console.error(userUpdateError);
 
