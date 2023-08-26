@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { createClient } from '@supabase/supabase-js';
-import { useDropzone, Accept, FileRejection } from 'react-dropzone';
 import { v4 as uuidv4 } from 'uuid';
 import { Database } from '../../types/supabase';
 import { atom, useAtom, useAtomValue } from 'jotai';
 
 import * as userStore from '../../store/userStore';
+import { useLocation } from 'react-router-dom';
 
 //1. supabase
 const supabaseUrl = process.env.REACT_APP_SUPABASE_URL;
@@ -19,12 +19,8 @@ if (!supabaseUrl || !supabaseAnonKey) {
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
 //2 프로필 변경
 type ChangeMyProfile = Database['public']['Tables']['users']['Row'];
-// type myInfo = {
-//   email: string;
-//   password: string;
-// };
+
 const usersAtom = atom<ChangeMyProfile[]>([]);
-// const userInfoAtom = atom<myInfo[]>([]);
 
 const EditProfile = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -33,8 +29,6 @@ const EditProfile = () => {
   const user = useAtomValue(userStore.user);
   const [newNickname, setNewNickname] = useState('');
 
-  // const [newPassword, setNewpPassword] = useAtom(userInfoAtom);
-  // const [userEmail, setUserEmail] = useAtom(userInfoAtom);
   //2-1. 이미지 변경
   useEffect(() => {
     const updateUserImage = async () => {
@@ -42,37 +36,27 @@ const EditProfile = () => {
         if (!user) {
           return;
         }
-        console.log('Updating user images for user ID:', user.id);
+        console.log('업데이트되는 유저 아이디', user.id);
         const { data, error } = await supabase
           .from('users')
           .select('*')
-          .eq('user_id', user.id)
+          .eq('id', user.id)
           .order('created_at', { ascending: false });
 
         if (error) {
           console.error('updateUserImage에서 에러', error);
         } else {
           console.log('User image Updated:', data);
-          setUserProfile(data); // 데이터를 받아온 후에 상태 업데이트
-          console.log('데이터가 업데이트 된 후에 로그 출력.', user);
+          setUserProfile(data);
         }
       } catch (error) {
         console.error('fetchUserPosts 에러', error);
       }
     };
 
-    updateUserImage().then(() => {
-      console.log('검사합니다.', userProfile);
-    });
+    updateUserImage().then(() => {});
   }, [setUserProfile, user]);
-
-  //2-1-번외.drop-zone
-  const onDrop = (acceptedFiles: File[], fileRejections: FileRejection[]) => {
-    if (acceptedFiles.length > 0) {
-      setSelectedFile(acceptedFiles[0]);
-    }
-  };
-
+  console.log('데이터가 업데이트 된 후에 로그 출력.', userProfile);
   //2-1-1. 사진 업로드
   const handleUpload = async () => {
     console.log('handleUpload started');
@@ -84,35 +68,46 @@ const EditProfile = () => {
     // 2-1-2. 사진UUID생성
     const fileExtension = selectedFile.name.split('.').pop(); //파일확장자추출
     const newFileName = `${uuidv4()}.${fileExtension}`;
-    const profileFilePath = `${newFileName}`;
-    const profileImageUrl = `${supabaseUrl}/storage/v1/object/${bucketName}/${profileFilePath}?token=${supabaseAnonKey}
-`;
-
-    https: console.log(selectedFile);
+    const sanitizedFileName = newFileName.replace(/[^a-zA-Z0-9]/g, ''); // 잘못된 문자 제거
+    const profileFilePath = `public/Profile_Images/${sanitizedFileName}`;
 
     try {
       const { data, error: uploadError } = await supabase.storage
         .from('Profile Images')
-        .upload(profileImageUrl, selectedFile);
+        .upload(profileFilePath, selectedFile);
 
       if (uploadError) {
         console.error('Upload error:', uploadError);
         return;
       }
-      console.log('User ID:', user?.id);
+      console.log('File uploaded successfully!');
 
-      console.log('File uploaded successfully!'); //여기까지만 콘솔에 찍힘
+      const response = supabase.storage
+        .from('Profile Images')
+        .getPublicUrl(profileFilePath);
+
+      if (response.data) {
+        const publicUrl = response.data.publicUrl;
+        console.log('Public URL:', publicUrl);
+      } else {
+        console.error('No public URL found in response data.');
+      }
+
+      const publicUrl = response.data.publicUrl;
+
+      console.log('Public URL:', publicUrl);
 
       //2-1-3. 사용자 프로필 이미지 업데이트
       const { data: userData, error: userUpdateError } = await supabase
         .from('users')
-        .update({ profile_img_url: profileImageUrl }) // 업데이트 쿼리
+        .update({
+          profile_img_url: publicUrl,
+        }) // 업데이트 쿼리
         .eq('id', user?.id);
 
       if (userUpdateError) {
         console.error(userUpdateError);
 
-        //1.profileFilePath변수 확인 2. user.id확인
         return;
       }
 
@@ -122,12 +117,6 @@ const EditProfile = () => {
     }
   };
 
-  //(번외)드롭존
-  const { getRootProps, getInputProps } = useDropzone({
-    onDrop,
-    accept: 'image/*' as unknown as Accept,
-    multiple: false,
-  });
   //2-2. 닉넴변경
   const handleNicknameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNewNickname(event.target.value);
@@ -145,8 +134,8 @@ const EditProfile = () => {
       if (error) {
         console.error(error);
       } else if (data && Array.isArray(data)) {
-        setUserProfile(data); // 데이터 업데이트
-        setEditMode(''); // 닉네임 변경 모드 종료
+        setUserProfile(data);
+        setEditMode('');
       }
     } catch (error) {
       console.error(error);
@@ -156,24 +145,32 @@ const EditProfile = () => {
   //2-3.비번 변경
   //a. 현재 비밀번호 입력 -> 다른 비밀번호면 비번변경불가
   //-> 같은 비밀번호면 새비밀번호 입력창과 새 비밀번호 확인창 나타나기
-  console.log('user email', user?.email);
+
+  const authHeaders = { Authorization: `Bearer ${supabaseAnonKey}` };
   const renderContent = () => {
     return (
       <Container>
         <Item>
           <Label>사진</Label>
-          {user && editMode === 'photo' ? ( // null 체크 추가
+          {userProfile && editMode === 'photo' ? (
             <>
-              <div {...getRootProps()}>
-                <Item>
-                  {/* 프로필 이미지를 표시하는 부분 */}
-                  <img
-                    src={user.profile_img_url || '기본 이미지 URL'}
-                    alt="프로필 이미지"
-                    style={{ width: '100px', height: '100px' }}
-                  />
-                </Item>
-              </div>
+              <Item>
+                {/* 프로필 이미지를 표시하는 부분 */}
+                {userProfile.map((profile) => (
+                  <div key={profile.id}>
+                    {profile.profile_img_url ? (
+                      <img
+                        src={profile.profile_img_url}
+                        alt="Profile picture"
+                        style={{ width: '100px', height: '100px' }}
+                      />
+                    ) : (
+                      <div>프로필 이미지 없음</div>
+                    )}
+                  </div>
+                ))}
+              </Item>
+              {/* </div> */}
               <Input
                 type="file"
                 onChange={(event) => {
@@ -211,14 +208,14 @@ const EditProfile = () => {
             </form>
           ) : (
             <>
-              <div>{user?.nickname}</div>
+              <div>{userProfile[0]?.nickname}</div>
               <Button onClick={() => setEditMode('nickname')}>변경</Button>
             </>
           )}
         </Item>
         <Item>
           <Label>이메일</Label>
-          <div>{user?.email}</div>
+          <div>{userProfile[0]?.email}</div>
         </Item>
         {/* <Item>
           <Label>비밀번호</Label>
