@@ -4,15 +4,8 @@ import { atom, useAtom, useAtomValue } from 'jotai';
 import { Database } from '../../types/supabase';
 import * as userStore from '../../store/userStore';
 import { useNavigate } from 'react-router-dom';
+import supabase from '../../supabaseClient';
 
-const supabaseUrl = process.env.REACT_APP_SUPABASE_URL;
-const supabaseAnonKey = process.env.REACT_APP_ANON_KEY;
-
-if (!supabaseUrl || !supabaseAnonKey) {
-  throw new Error('supabase의 환경변수가 없습니다.');
-}
-
-const supabase = createClient(supabaseUrl, supabaseAnonKey);
 type ReadMyBoard = Database['public']['Tables']['posts']['Row'];
 
 const userPostsAtom = atom<ReadMyBoard[]>([]);
@@ -28,7 +21,6 @@ const WhatIWrote = () => {
         if (!user) {
           return;
         }
-        console.log('Fetching user posts for user ID:', user.id);
         const { data, error } = await supabase
           .from('posts')
           .select('*')

@@ -1,38 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { fetchAnimeList } from '../../api/laftel';
-import { fetchAnimeLikes, toggleAnimeLike } from '../../api/likeApi';
-import { createClient } from '@supabase/supabase-js';
+import { fetchAllAnimeMyLikes } from '../../api/likeApi';
+import { getAnimePreview, getAnimeById } from '../../api/laftel';
 import { atom, useAtom, useAtomValue } from 'jotai';
 import * as userStore from '../../store/userStore';
-import { useNavigate } from 'react-router-dom';
-import type { AnimeG } from '../../types/anime';
 import { Database } from '../../types/supabase';
-import { ReadAnimeLikeG } from '../../types/likes';
+import { useNavigate } from 'react-router-dom';
+type ReadMyLike = Database['public']['Tables']['anime_likes']['Row'];
 
-const supabaseUrl = process.env.REACT_APP_SUPABASE_URL;
-const supabaseAnonKey = process.env.REACT_APP_ANON_KEY;
-
-if (!supabaseUrl || !supabaseAnonKey) {
-  throw new Error('supabase의 환경변수가 없습니다.');
-}
-
-const supabase = createClient(supabaseUrl, supabaseAnonKey);
-
-const likedAnimeAtom = atom<AnimeG[]>([]);
+const userLikesAtom = atom<ReadMyLike[]>([]);
 
 const LikedAnime = () => {
-  const [likedAnime, setLikedAnime] = useAtom(likedAnimeAtom);
-  const user = useAtomValue(userStore.user);
-  const navigate = useNavigate();
-  const [animeList, setAnimeList] = useState<AnimeG[]>([]);
-  const likesQueryOptions = {
-    queryKey: ['animeLikes'],
-    queryFn: () => fetchAnimeLikes(),
-    refetchOnWindowFocus: false,
-  };
+  const [likedAnime, setLikedAnime] = useState<
+    { animeId: string; preview: any; anime: any }[]
+  >([]);
 
-  const { data: likesData } = useQuery(likesQueryOptions);
+  const user = useAtomValue(userStore.user);
+  const userLikes = useAtomValue(userLikesAtom);
+  const navigate = useNavigate(); // Move useNavigate here
 
   useEffect(() => {
     const fetchLikedAnime = async () => {
@@ -40,47 +24,45 @@ const LikedAnime = () => {
         if (!user) {
           return;
         }
-        console.log('사용자아이디:', user.id);
-        const { data, error } = await supabase
-          .from('anime_likes')
-          .select('*')
-          .eq('user_id', user.id);
 
-        if (error) {
-          console.error('fetchLikedAnime에서 에러', error);
-        } else {
-          console.log('Liked anime fetched:', data);
-          setLikedAnime(data);
-          console.log('setLikedAnime:', data);
-        }
+        const likes = await fetchAllAnimeMyLikes({
+          user_id: user.id,
+          id: '',
+          anime_id: '',
+        });
+
+        const animeDataPromises = likes.map(async (like) => {
+          const animeId = like.anime_id;
+          const preview = await getAnimePreview(animeId);
+          const anime = await getAnimeById(animeId);
+          return { animeId, preview, anime };
+        });
+
+        const animeData = await Promise.all(animeDataPromises);
+        setLikedAnime(animeData);
       } catch (error) {
-        console.error('fetchLikedAnime 에러', error);
+        console.error('Error fetching liked anime:', error);
       }
     };
 
     fetchLikedAnime();
-  }, [user, setLikedAnime]);
-  console.log('likedAnime:', animeList);
+  }, [user]);
 
-  const handleAnimeClick = (animeId: string) => {
-    navigate(`/recommend/${animeId}`);
-  };
   return (
-    <div>
+    <div className="liked-anime-container">
       <h2>Liked Anime</h2>
-      <ul>
-        {likedAnime.map((anime: AnimeG) => (
-          <li
-            key={anime.id}
-            onClick={() => handleAnimeClick(anime.id.toString())}
+      <div className="anime-list">
+        {likedAnime.map((anime) => (
+          <div
+            key={anime.animeId}
+            onClick={() => navigate(`/recommend/${anime.animeId}`)}
+            className="anime-card"
           >
-            {anime.images && anime.images.length !== 0 && (
-              <img src={anime.images[0].img_url} alt={`${anime.name} 이미지`} />
-            )}
-            <h3>{anime.name}</h3>
-          </li>
+            <img src={anime.preview.img_url} />
+            <p>{anime.anime.name}</p>
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   );
 };
