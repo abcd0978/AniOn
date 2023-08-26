@@ -9,6 +9,7 @@ import dropdownUp from '../assets/dropdownUp.svg';
 import * as authApi from '../api/auth';
 import logout from '../assets/logout.svg';
 import account from '../assets/account.svg';
+import logo from '../assets/logo.svg';
 import type { DropdownContentsType } from './DropDown/DropDown';
 import DropDown from './DropDown/DropDown';
 import Modal from './Modal/Modal';
@@ -56,7 +57,7 @@ function Header({}: Props) {
       <StHeader>
         <StHeaderContainer>
           <StHeaderLogoSection onClick={() => navigate('/')}>
-            로고
+            <img src={logo} alt="로고" />
           </StHeaderLogoSection>
           <StHeaderMenuSection>
             <StHeaderMenu onClick={() => navigate('/')}>둘러보기</StHeaderMenu>
@@ -142,7 +143,7 @@ const StHeaderContainer = styled.div`
   align-items: center;
 `;
 const StHeaderLogoSection = styled.div`
-  cursor: 'pointer';
+  cursor: pointer;
   min-width: 126px;
   max-width: 10%;
   height: 100%;

@@ -467,17 +467,19 @@ export interface Database {
           id: string;
           nickname: string;
           profile_img_url: string | null;
+          email: string;
         };
         Insert: {
           created_at?: string;
           id: string;
           nickname: string;
           profile_img_url?: string | null;
+          email: string;
         };
         Update: {
           created_at?: string;
           id?: string;
-
+          email: string;
           nickname?: string;
           profile_img_url?: string | null;
         };

@@ -87,9 +87,6 @@ const EditProfile = () => {
     const profileFilePath = `${newFileName}`;
     const profileImageUrl = `${supabaseUrl}/storage/v1/object/${bucketName}/${profileFilePath}?token=${supabaseAnonKey}
 `;
-
-    https: console.log(selectedFile);
-
     try {
       const { data, error: uploadError } = await supabase.storage
         .from('Profile Images')
@@ -108,7 +105,9 @@ const EditProfile = () => {
         .from('users')
         .update({ profile_img_url: profileImageUrl }) // 업데이트 쿼리
         .eq('id', user?.id);
-
+      await supabase.auth.updateUser({
+        data: { profile_img_url: profileImageUrl },
+      });
       if (userUpdateError) {
         console.error(userUpdateError);
 
