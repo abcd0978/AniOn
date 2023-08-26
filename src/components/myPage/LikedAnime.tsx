@@ -23,7 +23,7 @@ const LikedAnime = () => {
 
   const user = useAtomValue(userStore.user);
   const userLikes = useAtomValue(userLikesAtom);
-  const navigate = useNavigate();
+  const navigate = useNavigate(); // Move useNavigate here
 
   useEffect(() => {
     const fetchLikedAnime = async () => {

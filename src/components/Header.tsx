@@ -40,7 +40,11 @@ function Header({}: Props) {
     {
       content: '프로필설정',
       img_src: account,
-      func: () => {},
+      func: () => {
+        if (user) {
+          navigate(`/myPage/${user.id}`);
+        }
+      },
     },
     {
       content: '로그아웃',
