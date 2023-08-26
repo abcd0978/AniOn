@@ -11,12 +11,19 @@ const userLikesAtom = atom<ReadMyLike[]>([]);
 
 const LikedAnime = () => {
   const [likedAnime, setLikedAnime] = useState<
-    { animeId: string; preview: any; anime: any }[]
+    {
+      images: any;
+      img: string | undefined;
+      name: string | undefined;
+      animeId: string;
+      preview: any;
+      anime: any;
+    }[]
   >([]);
 
   const user = useAtomValue(userStore.user);
   const userLikes = useAtomValue(userLikesAtom);
-  const navigate = useNavigate(); // Move useNavigate here
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchLikedAnime = async () => {
@@ -35,7 +42,11 @@ const LikedAnime = () => {
           const animeId = like.anime_id;
           const preview = await getAnimePreview(animeId);
           const anime = await getAnimeById(animeId);
-          return { animeId, preview, anime };
+          const images = anime.images || [];
+          const img = images.length !== 0 ? images[0].img_url : undefined;
+          const name = anime.name;
+
+          return { animeId, preview, anime, images, img, name };
         });
 
         const animeData = await Promise.all(animeDataPromises);
@@ -58,7 +69,14 @@ const LikedAnime = () => {
             onClick={() => navigate(`/recommend/${anime.animeId}`)}
             className="anime-card"
           >
-            <img src={anime.preview} />
+            <img
+              src={
+                anime.images?.length !== 0
+                  ? anime.images![0].img_url
+                  : anime.img
+              }
+              alt={anime.name}
+            />
             <p>{anime.anime.name}</p>
           </div>
         ))}
