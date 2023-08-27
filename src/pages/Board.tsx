@@ -7,6 +7,7 @@ import { getPosts } from '../api/boardapi';
 import { Database } from '../types/supabase';
 import { useState } from 'react';
 import { atom, useAtom, useAtomValue } from 'jotai';
+import Pagination from '../components/Pagenation';
 type ReadPosts = Database['public']['Tables']['posts']['Row'];
 
 const Board = () => {
@@ -15,6 +16,7 @@ const Board = () => {
   const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [searchKeyword, setSearchKeyword] = useState<string>('');
+  const [page, setPage] = useState<number>(1);
 
   const handleWriteClick = () => {
     navigate('/board/write');
@@ -29,12 +31,12 @@ const Board = () => {
   };
 
   const {
-    data: posts,
+    data: postsAndTotalPages,
     isLoading,
     isFetching,
-  } = useQuery<ReadPosts[]>(
-    ['posts', selectedCategory, searchKeyword],
-    () => getPosts(selectedCategory || ''),
+  } = useQuery<{ data: ReadPosts[]; totalPages: number }>(
+    ['posts', selectedCategory, searchKeyword, page],
+    () => getPosts(selectedCategory || '', page),
     {
       onError: (error) => {
         console.error('Error fetching posts:', error);
@@ -42,12 +44,29 @@ const Board = () => {
     },
   );
 
+  const onClickPage = (selected: number | string) => {
+    if (page === selected) return;
+    if (typeof selected === 'number') {
+      setPage(selected);
+      return;
+    }
+    if (selected === 'prev' && page > 1) {
+      setPage((prev: any) => prev - 1);
+      return;
+    }
+    if (selected === 'next' && postsAndTotalPages?.totalPages) {
+      setPage((prev: any) => prev + 1);
+      return;
+    }
+  };
+
   // 검색 결과에 따라 게시물 리스트를 필터링
-  const filteredPosts = posts?.filter(
-    (post) =>
-      post.title.includes(searchKeyword) ||
-      post.content.includes(searchKeyword),
-  );
+  const filteredPosts: ReadPosts[] | undefined =
+    postsAndTotalPages?.data?.filter(
+      (post: any) =>
+        post.title.includes(searchKeyword) ||
+        post.content.includes(searchKeyword),
+    );
 
   const handlePostClick = (postId: string) => {
     navigate(`/board/${postId}`);
@@ -57,7 +76,6 @@ const Board = () => {
     e.preventDefault();
 
     if (!searchKeyword.trim()) {
-      // 검색어가 공백이라면
       alert('검색어를 입력해주세요.');
       return;
     }
@@ -142,6 +160,11 @@ const Board = () => {
           <div>검색 결과 없음</div>
         )}
       </ul>
+      <Pagination
+        currentPage={page}
+        totalPages={postsAndTotalPages?.totalPages || 1}
+        onClick={onClickPage}
+      />
     </div>
   );
 };
