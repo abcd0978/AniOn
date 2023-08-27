@@ -8,7 +8,7 @@ type UpdatePosts = Database['public']['Tables']['posts']['Update'];
 const getPosts = async (
   category?: string,
   page: number = 1,
-  itemsPerPage: number = 8,
+  itemsPerPage: number = 12,
 ) => {
   try {
     const startIndex = (page - 1) * itemsPerPage;

@@ -8,6 +8,8 @@ import { Database } from '../types/supabase';
 import { useState } from 'react';
 import { atom, useAtom, useAtomValue } from 'jotai';
 import Pagination from '../components/Pagenation';
+import { PiPencilDuotone } from 'react-icons/pi';
+import { AiOutlineSearch } from 'react-icons/ai';
 type ReadPosts = Database['public']['Tables']['posts']['Row'];
 
 const Board = () => {
@@ -82,11 +84,6 @@ const Board = () => {
   const handleSearchSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!searchKeyword.trim()) {
-      alert('검색어를 입력해주세요.');
-      return;
-    }
-
     setSelectedCategory(null);
     queryClient.invalidateQueries(['posts', null, searchKeyword]);
   };
@@ -94,61 +91,67 @@ const Board = () => {
   return (
     <div>
       <S.Title>게시판</S.Title>
-      <S.WriteButton onClick={handleWriteClick}>글 작성</S.WriteButton>
-      <div>
-        <S.Button
-          onClick={handleAllClick}
-          style={{
-            backgroundColor: selectedCategory === null ? '#8200FF' : '#f3e7ff',
-            color: selectedCategory === null ? '#ffffff' : 'black',
-          }}
-        >
-          전체
-        </S.Button>
-        <S.Button
-          onClick={() => handleCategoryClick('애니')}
-          style={{
-            backgroundColor:
-              selectedCategory === '애니' ? '#8200FF' : '#f3e7ff',
-            color: selectedCategory === '애니' ? '#ffffff' : 'black',
-          }}
-        >
-          애니
-        </S.Button>
-        <S.Button
-          onClick={() => handleCategoryClick('자유')}
-          style={{
-            backgroundColor:
-              selectedCategory === '자유' ? '#8200FF' : '#f3e7ff',
-            color: selectedCategory === '자유' ? '#ffffff' : 'black',
-          }}
-        >
-          자유
-        </S.Button>
-        <S.Button
-          onClick={() => handleCategoryClick('오류 신고')}
-          style={{
-            backgroundColor:
-              selectedCategory === '오류 신고' ? '#8200FF' : '#f3e7ff',
-            color: selectedCategory === '오류 신고' ? '#ffffff' : 'black',
-          }}
-        >
-          오류 신고
-        </S.Button>
-      </div>
+      <S.Post>
+        <S.Search>
+          <S.Button
+            onClick={handleAllClick}
+            style={{
+              backgroundColor:
+                selectedCategory === null ? '#8200FF' : '#f3e7ff',
+              color: selectedCategory === null ? '#ffffff' : 'black',
+            }}
+          >
+            전체
+          </S.Button>
+          <S.Button
+            onClick={() => handleCategoryClick('애니')}
+            style={{
+              backgroundColor:
+                selectedCategory === '애니' ? '#8200FF' : '#f3e7ff',
+              color: selectedCategory === '애니' ? '#ffffff' : 'black',
+            }}
+          >
+            애니
+          </S.Button>
+          <S.Button
+            onClick={() => handleCategoryClick('자유')}
+            style={{
+              backgroundColor:
+                selectedCategory === '자유' ? '#8200FF' : '#f3e7ff',
+              color: selectedCategory === '자유' ? '#ffffff' : 'black',
+            }}
+          >
+            자유
+          </S.Button>
 
-      <form onSubmit={handleSearchSubmit}>
-        <input
-          type="text"
-          placeholder="검색어를 입력해주세요!"
-          value={searchKeyword}
-          onChange={(e) => setSearchKeyword(e.target.value)}
-        />
-        <button type="submit">검색</button>
-      </form>
+          <S.Button
+            onClick={() => handleCategoryClick('오류 신고')}
+            style={{
+              backgroundColor:
+                selectedCategory === '오류 신고' ? '#8200FF' : '#f3e7ff',
+              color: selectedCategory === '오류 신고' ? '#ffffff' : 'black',
+            }}
+          >
+            오류 신고
+          </S.Button>
+        </S.Search>
+        <S.Write>
+          <form onSubmit={handleSearchSubmit}>
+            <S.SearchInput
+              type="text"
+              placeholder="검색어를 입력해주세요! "
+              value={searchKeyword}
+              onChange={(e) => setSearchKeyword(e.target.value)}
+            />
+          </form>
+          <S.WriteButton onClick={handleWriteClick}>
+            <PiPencilDuotone size="20px" /> 작성하기
+          </S.WriteButton>
+        </S.Write>
+      </S.Post>
 
       <ul>
-        <S.Header className="post-header">
+        <S.Header>
           <span> NO.</span>
           <span> 게시글 제목</span>
           <span>유저 닉네임</span>
@@ -157,7 +160,10 @@ const Board = () => {
         </S.Header>
 
         {isFetching ? (
-          <div>Loading...</div>
+          <div>
+            로딩중...
+            <AiOutlineSearch />
+          </div>
         ) : filteredPosts ? (
           filteredPosts.map((post: ReadPosts, index: number) => (
             <S.Postbox
@@ -166,10 +172,8 @@ const Board = () => {
             >
               <div>{index + 1}</div>
               <div>{post.title}</div>
+              <S.Img src={post.users?.profile_img_url} alt="프로필 이미지" />
               <div>{post.users?.nickname}</div>
-              <div>
-                <S.Img src={post.users?.profile_img_url} alt="프로필 이미지" />
-              </div>
               <div>{new Date(post.created_at).toLocaleString()}</div>
               <div>0</div>
             </S.Postbox>
@@ -178,6 +182,7 @@ const Board = () => {
           <div>검색 결과 없음</div>
         )}
       </ul>
+
       <Pagination
         currentPage={page}
         totalPages={postsAndTotalPages?.totalPages || 1}
