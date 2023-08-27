@@ -46,10 +46,19 @@ const createPost = async (newPost: InsertPosts) => {
 const deletePost = async (id: string): Promise<void> => {
   await supabase.from('posts').delete().eq('id', id);
 };
-
-// Post 수정
+//post 수정
 const updatePost = async (editPost: UpdatePosts): Promise<void> => {
-  await supabase.from('posts').update(editPost).eq('id', editPost.id);
-};
+  try {
+    const updatedFields = {
+      title: editPost.title,
+      content: editPost.content,
+      category: editPost.category,
+    };
 
+    await supabase.from('posts').update(updatedFields).eq('id', editPost.id);
+  } catch (error) {
+    console.error('Error updating post:', error);
+    throw error;
+  }
+};
 export { createPost, deletePost, updatePost, getPost, getPosts };

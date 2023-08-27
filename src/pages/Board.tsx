@@ -99,7 +99,7 @@ const Board = () => {
               onClick={() => post.id && handlePostClick(post.id.toString())}
             >
               <p>{post.users?.nickname}</p>
-              <img src={post.users?.profile_img_url} alt="프로필 이미지" />
+              <S.Img src={post.users?.profile_img_url} alt="프로필 이미지" />
               <h2>{post.title}</h2>
               <p>{post.content}</p>
               <p> {new Date(post.created_at).toLocaleString()}</p>

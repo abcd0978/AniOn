@@ -30,3 +30,7 @@ export const Postbox = styled.div`
   margin-bottom: 10px;
   margin-top: 10px;
 `;
+export const Img = styled.img`
+  width: 50px;
+  height: 50px;
+`;

@@ -100,6 +100,10 @@ const S = {
       color: #red;
     }
   `,
+  Img: styled.img`
+    width: 50px;
+    height: 50px;
+  `,
 };
 
 export { S };
