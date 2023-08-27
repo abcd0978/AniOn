@@ -7,21 +7,21 @@ export const Title = styled.div`
 `;
 
 export const Button = styled.button`
-  background-color: #757575;
   border: none;
   width: 62px;
   height: 28px;
   font-size: 13px;
-  color: white;
   margin-top: 5px;
   margin-right: 3px;
   font-size: 11px;
+  border-radius: 999px;
 `;
 export const WriteButton = styled.button`
   background-color: #757575;
   border: none;
-  width: 62px;
-  height: 28px;
+  width: 100px;
+  height: 36px;
+  padding: 8px;
   font-size: 13px;
   color: white;
 `;

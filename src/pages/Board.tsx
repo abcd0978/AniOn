@@ -71,10 +71,43 @@ const Board = () => {
       <S.Title>게시판</S.Title>
       <S.WriteButton onClick={handleWriteClick}>글 작성</S.WriteButton>
       <div>
-        <S.Button onClick={handleAllClick}>전체</S.Button>
-        <S.Button onClick={() => handleCategoryClick('애니')}>애니</S.Button>
-        <S.Button onClick={() => handleCategoryClick('자유')}>자유</S.Button>
-        <S.Button onClick={() => handleCategoryClick('오류 신고')}>
+        <S.Button
+          onClick={handleAllClick}
+          style={{
+            backgroundColor: selectedCategory === null ? '#8200FF' : '#f3e7ff',
+            color: selectedCategory === null ? '#ffffff' : 'black',
+          }}
+        >
+          전체
+        </S.Button>
+        <S.Button
+          onClick={() => handleCategoryClick('애니')}
+          style={{
+            backgroundColor:
+              selectedCategory === '애니' ? '#8200FF' : '#f3e7ff',
+            color: selectedCategory === '애니' ? '#ffffff' : 'black',
+          }}
+        >
+          애니
+        </S.Button>
+        <S.Button
+          onClick={() => handleCategoryClick('자유')}
+          style={{
+            backgroundColor:
+              selectedCategory === '자유' ? '#8200FF' : '#f3e7ff',
+            color: selectedCategory === '자유' ? '#ffffff' : 'black',
+          }}
+        >
+          자유
+        </S.Button>
+        <S.Button
+          onClick={() => handleCategoryClick('오류 신고')}
+          style={{
+            backgroundColor:
+              selectedCategory === '오류 신고' ? '#8200FF' : '#f3e7ff',
+            color: selectedCategory === '오류 신고' ? '#ffffff' : 'black',
+          }}
+        >
           오류 신고
         </S.Button>
       </div>
