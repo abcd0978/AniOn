@@ -174,11 +174,27 @@ export const S = {
   `,
 
   WorldCupResultButtonBox: styled.div`
-    width: 710px;
+    width: 673px;
     display: flex;
     align-items: center;
     text-align: center;
     justify-content: center;
     gap: 20px;
+  `,
+
+  WorldCupResultButton: styled.button<{ background: string }>`
+    background: ${(props) => props.background || '#838383'};
+    display: flex;
+    width: 160px;
+    padding: 12px 24px;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    border-radius: 999px;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 150%; /* 24px */
+    letter-spacing: -0.24px;
   `,
 };

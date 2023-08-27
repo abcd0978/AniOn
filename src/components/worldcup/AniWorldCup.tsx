@@ -55,7 +55,7 @@ function AniWorldCup({}: Props) {
     if (characters.length <= 2) {
       if (winners.length === 0) {
         setDisplays([character]);
-        console.log('r u winner???', character);
+        // console.log('r u winner???', character);
         navigate(`/worldcup/result/${gender}`, { state: character });
       } else {
         let updatedCharacter = [...winners, character];

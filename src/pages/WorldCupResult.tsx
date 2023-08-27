@@ -1,15 +1,33 @@
+import { useState, useEffect } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { S } from '../components/worldcup/worldCup.style';
-
-type Props = {};
+import { useQuery } from '@tanstack/react-query';
+import { countNumOfWin, fetchWinnerResult } from '../api/aniCharacters';
 
 const WorldCupResult = () => {
-  const { gender } = useParams() as { gender: string };
   const navigate = useNavigate();
-
+  const { gender } = useParams() as { gender: string };
   const { state: winner } = useLocation();
 
-  console.log('?????????', winner);
+  const {
+    isLoading: isWinnerLoading,
+    isError: isWinnerError,
+    data: winnerCount,
+  } = useQuery({
+    queryKey: ['winner'],
+    queryFn: () => {
+      return fetchWinnerResult(winner.id);
+    },
+  });
+
+  useEffect(() => {
+    if (!isWinnerLoading && !isWinnerError) {
+      countNumOfWin(winner.id);
+    }
+  }, [isWinnerLoading, isWinnerError, winner.id]);
+
+  // console.log('😑😐', winnerCount[0]?.num_of_win);
+  // console.log('?????????', winner);
   return (
     <S.WorldCupContainer>
       <S.WorldCupMainTitle>
@@ -30,14 +48,17 @@ const WorldCupResult = () => {
         </S.WorldCupTest>
       </S.WorldCupWinnerCard>
       <S.WorldCupResultButtonBox>
-        <button
+        <S.WorldCupResultButton
+          background="#EFEFEF"
           onClick={() => {
             navigate('/worldcup');
           }}
         >
           다시하기
-        </button>
-        <button>결과 공유 하기</button>
+        </S.WorldCupResultButton>
+        <S.WorldCupResultButton background="">
+          결과 공유 하기
+        </S.WorldCupResultButton>
       </S.WorldCupResultButtonBox>
     </S.WorldCupContainer>
   );
