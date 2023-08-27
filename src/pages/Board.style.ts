@@ -26,11 +26,32 @@ export const WriteButton = styled.button`
   color: white;
 `;
 export const Postbox = styled.div`
-  border: 1px solid black;
+  border-bottom: 1px solid black;
   margin-bottom: 10px;
   margin-top: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 `;
 export const Img = styled.img`
   width: 50px;
   height: 50px;
+`;
+
+export const Header = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 16px;
+  border-bottom: 1px solid black;
+  border-top: 1px solid black;
+  font-size: 15px;
+  margin-top: 20px;
+`;
+export const Form = styled.form`
+  display: flex;
+  justify-content: space-between;
+`;
+export const Search = styled.div`
+  display: flex;
 `;

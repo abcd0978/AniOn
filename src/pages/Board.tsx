@@ -62,11 +62,18 @@ const Board = () => {
 
   // 검색 결과에 따라 게시물 리스트를 필터링
   const filteredPosts: ReadPosts[] | undefined =
-    postsAndTotalPages?.data?.filter(
-      (post: any) =>
-        post.title.includes(searchKeyword) ||
-        post.content.includes(searchKeyword),
-    );
+    postsAndTotalPages?.data?.filter((post: any) => {
+      const postTitleIncludesKeyword = post.title.includes(searchKeyword);
+      const postContentIncludesKeyword = post.content.includes(searchKeyword);
+      const postUserNicknameIncludesKeyword =
+        post.users?.nickname.includes(searchKeyword);
+
+      return (
+        postTitleIncludesKeyword ||
+        postContentIncludesKeyword ||
+        postUserNicknameIncludesKeyword
+      );
+    });
 
   const handlePostClick = (postId: string) => {
     navigate(`/board/${postId}`);
@@ -141,19 +148,30 @@ const Board = () => {
       </form>
 
       <ul>
+        <S.Header className="post-header">
+          <span> NO.</span>
+          <span> 게시글 제목</span>
+          <span>유저 닉네임</span>
+          <span>작성일자</span>
+          <span> 추천수</span>
+        </S.Header>
+
         {isFetching ? (
           <div>Loading...</div>
         ) : filteredPosts ? (
-          filteredPosts.map((post: ReadPosts) => (
+          filteredPosts.map((post: ReadPosts, index: number) => (
             <S.Postbox
               key={post.id}
               onClick={() => post.id && handlePostClick(post.id.toString())}
             >
-              <p>{post.users?.nickname}</p>
-              <S.Img src={post.users?.profile_img_url} alt="프로필 이미지" />
-              <h2>{post.title}</h2>
-              <p>{post.content}</p>
-              <p> {new Date(post.created_at).toLocaleString()}</p>
+              <div>{index + 1}</div>
+              <div>{post.title}</div>
+              <div>{post.users?.nickname}</div>
+              <div>
+                <S.Img src={post.users?.profile_img_url} alt="프로필 이미지" />
+              </div>
+              <div>{new Date(post.created_at).toLocaleString()}</div>
+              <div>0</div>
             </S.Postbox>
           ))
         ) : (
