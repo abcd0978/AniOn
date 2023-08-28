@@ -7,6 +7,7 @@ import { useAtom } from 'jotai';
 import useInput from '../../hooks/useInput';
 import * as authApi from '../../api/auth';
 import * as userStore from '../../store/userStore';
+import logo from '../../assets/logo.svg';
 import google from '../../assets/google.svg';
 import kakao from '../../assets/kakao.svg';
 import github from '../../assets/github.svg';
@@ -15,15 +16,25 @@ import * as modalStore from '../../store/modalStore';
 import loadingSpinner from '../../assets/loadingSpinner.svg';
 import horizontalLineForLoginModal from '../../assets/horzontalLineForLoginModal.svg';
 type Props = {};
+type ErrorType = {
+  error: boolean;
+  errorMsg: string;
+};
+const initialError: ErrorType = { error: false, errorMsg: '' };
 enum AuthProvider {
   Google = 'google',
   Kakao = 'kakao',
   GitHub = 'github',
   Discord = 'discord',
 }
+
 const LoginModalContents = (props: Props) => {
   const [email, setEmail, onChangeEmail, resetEmail] = useInput('');
   const [password, setPassword, onChangePassword, resetPassword] = useInput('');
+  const [emailError, setEmailError] = useState<ErrorType>(initialError);
+  const [passwordError, setPasswordError] = useState<ErrorType>(initialError);
+  const [emailAndPasswordError, setEmailAndPasswordError] =
+    useState<ErrorType>(initialError);
   const [checked, setChecked] = useState(false);
   const [modalContents, setModalContents] = useAtom(modalStore.modalContents);
   const [isModalOpened, setIsModalOpened] = useAtom(modalStore.isModalOpened);
@@ -32,29 +43,77 @@ const LoginModalContents = (props: Props) => {
   const { width, height, isMobile, isLoaded } = useViewport();
   const validationFunc = (e: any) => {
     e.preventDefault();
-    return;
+    let eErrorFlag = false;
+    let pErrorFlag = false;
+    setEmailAndPasswordError(initialError);
+    if (password.length < 1) {
+      setPasswordError({
+        error: true,
+        errorMsg: '비밀번호를 입력해주세요',
+      });
+      pErrorFlag = true;
+    } else setPasswordError(initialError);
+
+    if (email.length < 1) {
+      setEmailError({
+        error: true,
+        errorMsg: '이메일을 입력해주세요',
+      });
+      eErrorFlag = true;
+    } else setEmailError(initialError);
+    if (eErrorFlag === false && pErrorFlag === false) {
+      return false;
+    }
+    return true;
   };
   return (
     <StLoginContainer mediaWidth={width} mediaHeight={height}>
       <StLoginUpperContents>
         <StLoginInfoContainer>
-          <StLoginInfoLogo mediaWidth={width}>로고</StLoginInfoLogo>
+          <StLoginInfoLogo mediaWidth={width}>
+            <img src={logo} alt="로고" />
+          </StLoginInfoLogo>
           <StLoginInfoTypo mediaWidth={width}>
             다양한 애니메이션 팬들과 소통해보세요!
           </StLoginInfoTypo>
         </StLoginInfoContainer>
         <StLoginInputContainer mediaWidth={width}>
           <StLoginInput
+            error={emailError.error}
+            loginError={emailAndPasswordError.error}
             onChange={onChangeEmail}
             placeholder="EMAIL"
             mediaWidth={width}
           />
           <StLoginInput
+            error={passwordError.error}
+            loginError={emailAndPasswordError.error}
             type="password"
             onChange={onChangePassword}
             placeholder="PASSWORD"
             mediaWidth={width}
           />
+          <p
+            style={{
+              color: 'var(--error, #FF535D)',
+              fontFamily: 'Pretendard Variable',
+              fontSize: '13px',
+              fontStyle: 'normal',
+              fontWeight: '400',
+              lineHeight: 'normal',
+              letterSpacing: '-0.195px',
+            }}
+          >
+            {/*둘다안됨->이메일안됨->비밀번호안됨*/}
+            {emailAndPasswordError.error
+              ? emailAndPasswordError.errorMsg
+              : emailError.error
+              ? emailError.errorMsg
+              : passwordError.error
+              ? passwordError.errorMsg
+              : ''}
+          </p>
+
           <StLoginCheckBoxContianer>
             <StLoginCheckBoxContents>
               <StLoginCheckBox onClick={() => setChecked(!checked)}>
@@ -68,7 +127,9 @@ const LoginModalContents = (props: Props) => {
           </StLoginCheckBoxContianer>
           <StLoginButton
             onClick={async (e) => {
-              validationFunc(e);
+              if (validationFunc(e)) {
+                return;
+              }
               setLoading(true);
               const result = await authApi.loginHandler(
                 {
@@ -81,6 +142,11 @@ const LoginModalContents = (props: Props) => {
               if (result) {
                 writeUser();
                 setIsModalOpened(false);
+              } else {
+                setEmailAndPasswordError({
+                  error: true,
+                  errorMsg: '이메일또는 비밀번호가 유효하지 않습니다.',
+                });
               }
             }}
           >
@@ -226,15 +292,23 @@ const StLoginInputContainer = styled.div<{ mediaWidth: number }>`
   align-items: flex-start;
   gap: 8px;
 `;
-const StLoginInput = styled.input<{ mediaWidth: number }>`
+const StLoginInput = styled.input<{
+  mediaWidth: number;
+  error: boolean;
+  loginError: boolean;
+}>`
   display: flex;
+  border-radius: 10px;
+  background: var(--main-light-3, #f9f3ff);
   height: ${(props) => 44 * (props.mediaWidth / 1920)}px;
+  border:${(props) =>
+    props.loginError || props.error
+      ? '1px solid var(--error, #FF535D);'
+      : 'none;'}
   padding: 8px;
   align-items: center;
   gap: 10px;
   align-self: stretch;
-  background: #f5f5f5;
-  border: none;
   &:focus {
     outline: none;
   }
@@ -271,9 +345,10 @@ const StLoginButton = styled.div`
   height: 44px;
   padding: 8px 0;
   justify-content: center;
+  border-radius: 10px;
+  background: var(--sub-1, #ffa8dc);
   align-items: center;
   gap: 8px;
-  background: #838383;
   cursor: pointer;
 `;
 const StLoginButtonTypo = styled.p`
