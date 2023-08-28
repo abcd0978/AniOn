@@ -58,32 +58,42 @@ const WorldCupResult = () => {
         {gender === 'man' ? '남자' : '여자'} 애니메이션 캐릭터 이상형 월드컵
         결과
       </S.WorldCupMainTitle>
-      <S.WorldCupWinnerCard>
-        <S.WorldCupTest key={winner.id}>
-          <S.WorldCupUp>
-            <S.WorldCupWinnerImg>
-              <img src={winner.img_url} />
-            </S.WorldCupWinnerImg>
-            <S.WorldCupResultText>
-              <S.WorldCupTitle>{winner.ani_title}</S.WorldCupTitle>
-              <S.WorldCupName>{winner.character_name}</S.WorldCupName>
-            </S.WorldCupResultText>
-          </S.WorldCupUp>
-        </S.WorldCupTest>
-      </S.WorldCupWinnerCard>
-      <S.WorldCupResultButtonBox>
-        <S.WorldCupResultButton
-          background="#EFEFEF"
-          onClick={() => {
-            navigate('/worldcup');
-          }}
-        >
-          다시하기
-        </S.WorldCupResultButton>
-        <S.WorldCupResultButton background="">
-          결과 공유 하기
-        </S.WorldCupResultButton>
-      </S.WorldCupResultButtonBox>
+      <div>
+        <S.WorldCupWinnerCard>
+          <S.WorldCupTest key={winner.id}>
+            <S.WorldCupUp>
+              <S.WorldCupWinnerImg>
+                <img src={winner.img_url} />
+              </S.WorldCupWinnerImg>
+              <S.WorldCupResultText>
+                <S.WorldCupTitle>{winner.ani_title}</S.WorldCupTitle>
+                <S.WorldCupName>{winner.character_name}</S.WorldCupName>
+              </S.WorldCupResultText>
+            </S.WorldCupUp>
+          </S.WorldCupTest>
+        </S.WorldCupWinnerCard>
+        <S.WorldCupResultButtonBox>
+          <S.WorldCupResultButton
+            background="#EFEFEF"
+            onClick={() => {
+              navigate('/worldcup');
+            }}
+          >
+            다시하기
+          </S.WorldCupResultButton>
+          <S.WorldCupResultButton background="">
+            결과 공유 하기
+          </S.WorldCupResultButton>
+        </S.WorldCupResultButtonBox>
+        {/* -------------------------------- 결과*/}
+        <div>
+          <div>
+            <div>순위</div>
+            <div>카드</div>
+          </div>
+          <div></div>
+        </div>
+      </div>
     </S.WorldCupContainer>
   );
 };
