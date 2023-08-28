@@ -55,12 +55,11 @@ export const loginHandler = async (
         Logindata!,
       );
       if (data.user) {
-        alert('성공');
+        alert('안녕하세요!');
         return true;
       }
       if (error) {
         console.error((error as any).message);
-        alert('로그인 정보를 다시 확인해주세요');
         return false;
       }
     } catch (error) {
