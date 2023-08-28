@@ -1,8 +1,8 @@
 import React, { SetStateAction } from 'react';
 import { S } from './styled.animeSearch';
 import useInput from '../../../hooks/useInput';
-import { useQuery } from '@tanstack/react-query';
-import { fetchSearchedAnime } from '../../../api/laftel';
+// import { useQuery } from '@tanstack/react-query';
+// import { fetchSearchedAnime } from '../../../api/laftel';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import {
   keywordAtom,
@@ -17,7 +17,8 @@ interface Props {
 
 const AnimeSearch = ({ setAnimeList }: Props) => {
   const [keyword, setKeyword, onChangeKeyword] = useInput('');
-  const [offset, setOffset] = useAtom(offsetAtom);
+  // const [offset, setOffset] = useAtom(offsetAtom);
+  const setOffset = useSetAtom(offsetAtom);
   const setCategory = useSetAtom(selectedCategoryAtom);
   const setKeywordAtom = useSetAtom(keywordAtom);
 
