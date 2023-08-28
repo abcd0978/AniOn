@@ -1,5 +1,9 @@
 import styled from 'styled-components';
 
+export const Container = styled.div`
+  margin-bottom: 40px;
+`;
+
 export const Title = styled.div`
   font-size: 22px;
   font-weight: bold;
@@ -22,7 +26,7 @@ export const Button = styled.button`
   cursor: pointer;
 `;
 export const WriteButton = styled.button`
-  background-color: #757575;
+  background-color: #8200ff;
   border: none;
   border-radius: 10px;
   width: 120px;
@@ -39,10 +43,9 @@ export const Postbox = styled.div`
   margin-top: 10px;
   display: flex;
   width: 1440px;
-  height: 26px;
+  height: 45px;
   align-items: center;
   cursor: pointer;
-  justify-content: space-between;
 `;
 export const Header = styled.div`
   display: flex;
@@ -52,13 +55,59 @@ export const Header = styled.div`
   font-size: 15px;
   margin-top: 20px;
   width: 1440px;
-  height: 26px;
-  justify-content: space-between;
+  height: 44px;
 `;
+export const HeaderNo = styled.div`
+  font-size: 15px;
+  width: 72px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+`;
+export const HeaderTitle = styled.div`
+  font-size: 15px;
+  width: 936px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+`;
+export const BottomTitle = styled.div`
+  font-size: 15px;
+  width: 936px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+`;
+export const HeaderNick = styled.div`
+  font-size: 15px;
+  width: 220px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+`;
+export const Headerdate = styled.div`
+  font-size: 15px;
+  width: 270px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+`;
+export const HeaderLike = styled.div`
+  font-size: 15px;
+  width: 90px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
 export const Img = styled.img`
   width: 30px;
   height: 30px;
   border-radius: 100px;
+  margin-right: 10px;
 `;
 export const User = styled.div`
   display: flex;

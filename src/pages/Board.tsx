@@ -90,7 +90,7 @@ const Board = () => {
   };
 
   return (
-    <div>
+    <S.Container>
       <S.Title>게시판</S.Title>
       <S.Post>
         <S.Search>
@@ -156,11 +156,11 @@ const Board = () => {
 
       <ul>
         <S.Header>
-          <span> NO.</span>
-          <span> 게시글 제목</span>
-          <span>유저 닉네임</span>
-          <span>작성일자</span>
-          <span> 추천수</span>
+          <S.HeaderNo> NO.</S.HeaderNo>
+          <S.HeaderTitle> 게시글 제목</S.HeaderTitle>
+          <S.HeaderNick>유저 닉네임</S.HeaderNick>
+          <S.Headerdate>작성일자</S.Headerdate>
+          <S.HeaderLike> 추천수</S.HeaderLike>
         </S.Header>
 
         {isFetching ? (
@@ -171,15 +171,17 @@ const Board = () => {
               key={post.id}
               onClick={() => post.id && handlePostClick(post.id.toString())}
             >
-              <div>{index + 1}</div>
-              <div>{post.title}</div>
+              <S.HeaderNo>{index + 1}</S.HeaderNo>
+              <S.BottomTitle>{post.title}</S.BottomTitle>
 
-              <S.User>
+              <S.HeaderNick>
                 <S.Img src={post.users?.profile_img_url} alt="프로필 이미지" />
                 <div>{post.users?.nickname}</div>
-              </S.User>
-              <div>{new Date(post.created_at).toLocaleString()}</div>
-              <div>0</div>
+              </S.HeaderNick>
+              <S.Headerdate>
+                {new Date(post.created_at).toLocaleString()}
+              </S.Headerdate>
+              <S.HeaderLike>💜</S.HeaderLike>
             </S.Postbox>
           ))
         ) : (
@@ -192,7 +194,7 @@ const Board = () => {
         totalPages={postsAndTotalPages?.totalPages || 1}
         onClick={onClickPage}
       />
-    </div>
+    </S.Container>
   );
 };
 

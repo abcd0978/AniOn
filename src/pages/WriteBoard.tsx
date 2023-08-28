@@ -131,7 +131,7 @@ const WriteBoard = () => {
           </S.ContentInput>
           <S.ButtonContainer>
             <S.Button onClick={cancellButton}>취소</S.Button>
-            <S.Button type="submit">등록</S.Button>
+            <S.SubmitButton type="submit">등록</S.SubmitButton>
           </S.ButtonContainer>
         </S.Form>
       </S.Layout>
