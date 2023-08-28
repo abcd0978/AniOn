@@ -26,6 +26,9 @@ import type { AnimeG } from '../../types/anime';
 const AnimeList = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+
+  // const [category, setCategory] = useAtom(selectedCategoryAtom);
+
   const user = useAtomValue(userStore.user);
   const genres = useAtomValue(selectedGenresAtom);
   const category = useAtomValue(selectedCategoryAtom);
@@ -100,7 +103,7 @@ const AnimeList = () => {
   };
 
   // 스로틀링된 무한 스크롤 콜백 함수
-  // 카테고리를 변경할 때 무한스크롤 실행되는 이슈 발견 > 해결
+  // 카테고리를 변경할 때 무한스크롤 실행되는 이슈 발견 > 아래 useEffect를 clean-up 함수로 변경.
   const throttledLoadMore = throttle(() => {
     if (isNextPage && !isFetching) {
       // 이전 offset에 size를 더하여 다음 페이지 데이터를 가져오도록 설정
@@ -111,14 +114,15 @@ const AnimeList = () => {
   const ref = useIntersect(async (entry, observer) => {
     observer.unobserve(entry.target);
     throttledLoadMore();
-    // 이전 카테고리를 현재 카테고리로 업데이트
-    // setPrevCategory(category);
   });
 
   // 장르, 카테고리, 분기 선택 시 변경.
   useEffect(() => {
-    setOffset(0);
-    setAnimeList([]);
+    return () => {
+      // console.log('클린업', offset);
+      setOffset(0);
+      setAnimeList([]);
+    };
   }, [genres, category, years]);
 
   useEffect(() => {
@@ -129,6 +133,17 @@ const AnimeList = () => {
     setCount(data.count);
     setAnimeList((prevAnimeList) => [...prevAnimeList, ...data.animeList]);
   }, [data]);
+
+  // useEffect(() => {
+  //   console.log('마운트');
+  //   console.log(animeList);
+  //   return () => {
+  //     console.log('언마운트');
+  //     setCategory('전체');
+  //     setOffset(0);
+  //     setAnimeList([]);
+  //   };
+  // }, []);
 
   if (isError) {
     return <div>Anime List를 가져오는 중 오류가 발생했습니다.</div>;
@@ -144,7 +159,7 @@ const AnimeList = () => {
       </S.PageNameDiv>
       <AnimeFilter count={count} setAnimeList={setAnimeList} />
       <S.AnimeContainer>
-        {/* 스켈레톤으로 변경하기! */}
+        {/* 스켈레톤으로 변경하기! > mvp 종료 후에 */}
         {isLoading && !animeList.length ? (
           <div>로딩중입니다.</div>
         ) : (
@@ -167,7 +182,7 @@ const AnimeList = () => {
                     <S.HoverTitleAndDetail>
                       <S.HoverTitle>{anime.name}</S.HoverTitle>
                       <S.HoverViewDetail>
-                        자세히 보기
+                        <p>자세히 보기</p>
                         <img
                           className="viewDetail"
                           src={viewDetail}
