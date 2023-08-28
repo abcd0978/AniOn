@@ -6,9 +6,12 @@ import hoverwrite from '../../assets/edit_note (1).png';
 import hoverfavorite from '../../assets/favorite (1).png';
 export const Profile = {
   BasicImage: styled.img`
-    border-radius: 50%;
     width: 120px;
-    height: auto;
+    height: 120px;
+    border-radius: 50%;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center;
   `,
   MyPageText: styled.div`
     color: #000;
@@ -20,40 +23,24 @@ export const Profile = {
   `,
   MyNickname: styled.div`
     margin-left: 30px;
-    widht: 120px;
+    width: 120px;
+    color: #000;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    letter-spacing: -0.36px;
   `,
   MyContainer: styled.div`
-    border: solid;
+    border-radius: 20px;
+    background: #fff;
+    box-shadow: 0px 0px 25px 0px rgba(0, 0, 0, 0.1);
+    width: 250px;
   `,
-};
-export const EditProfile = {
-  Container: styled.div`
+  MyProfileContainer: styled.div`
     display: flex;
     flex-direction: column;
-    gap: 16px;
-  `,
-
-  Item: styled.div`
-    display: flex;
     align-items: center;
-    gap: 8px;
-  `,
-
-  Label: styled.div`
-    font-size: 16px;
-    font-weight: bold;
-  `,
-
-  Input: styled.input`
-    padding: 8px;
-    border-radius: 4px;
-    border: none;
-  `,
-
-  Button: styled.button`
-    padding: 8px;
-    border-radius: 4px;
-    border: none;
   `,
 };
 
@@ -179,5 +166,29 @@ export const InfoMenu = {
     &:hover {
       background-image: url(${hoverwrite});
     }
+  `,
+};
+
+export const MyAward = {
+  MyProfileAward: styled.div`
+    display: flex;
+    width: 200px;
+    padding: 8px;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    border-radius: 20px;
+    border: 1px solid #d9d9d9;
+  `,
+};
+export const MyProfilePoint = {
+  RenderPoint: styled.div`
+    display: flex;
+    width: 106px;
+    padding: 8px;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 8px;
+    background: #d9d9d9;
   `,
 };

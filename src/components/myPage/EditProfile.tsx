@@ -7,6 +7,7 @@ import { atom, useAtom, useAtomValue } from 'jotai';
 
 import * as userStore from '../../store/userStore';
 import { useLocation } from 'react-router-dom';
+import { Profile } from './MyPage.styles';
 
 //1. supabase
 const supabaseUrl = process.env.REACT_APP_SUPABASE_URL;
@@ -75,7 +76,7 @@ const EditProfile = () => {
       const { data, error: uploadError } = await supabase.storage
         .from('Profile Images')
         .upload(profileFilePath, selectedFile);
-      console.log(profileFilePath);
+
       if (uploadError) {
         console.error('Upload error:', uploadError);
         return;
@@ -104,10 +105,7 @@ const EditProfile = () => {
           profile_img_url: publicUrl,
         }) // 업데이트 쿼리
         .eq('id', user?.id);
-      await supabase.auth.updateUser({
-        data: { profile_img_url: publicUrl },
-      });
-      console.log(publicUrl, '수정함');
+
       if (userUpdateError) {
         console.error(userUpdateError);
 
@@ -115,8 +113,6 @@ const EditProfile = () => {
       }
 
       console.log('User profile updated successfully!!!!');
-      alert('수정되었습니다');
-      window.location.reload();
     } catch (error) {
       console.error(error);
     }
@@ -155,7 +151,7 @@ const EditProfile = () => {
   const renderContent = () => {
     return (
       <Container>
-        <>프로필 수정</>
+        <EditTitle>프로필 수정</EditTitle>
         <Item>
           <Label>사진</Label>
           {userProfile && editMode === 'photo' ? (
@@ -165,7 +161,7 @@ const EditProfile = () => {
                 {userProfile.map((profile) => (
                   <div key={profile.id}>
                     {profile.profile_img_url ? (
-                      <img
+                      <Profile.BasicImage
                         src={profile.profile_img_url}
                         alt="Profile picture"
                         style={{ width: '100px', height: '100px' }}
@@ -199,6 +195,9 @@ const EditProfile = () => {
             <Button onClick={() => setEditMode('photo')}>변경</Button>
           )}
         </Item>
+        <TextBelowPhoto>
+          등록된 사진은 회원님의 게시물이나 댓글들에 사용됩니다.
+        </TextBelowPhoto>
         <Item>
           <Label>이메일</Label>
           <div>{userProfile[0]?.email}</div>
@@ -249,7 +248,7 @@ const EditProfile = () => {
     );
   };
 
-  return <div>{renderContent()}</div>;
+  return <>{renderContent()}</>;
 };
 
 export default EditProfile;
@@ -258,6 +257,10 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
+  align-items: flex-start;
+  position: fixed;
+  top: 110px;
+  margin-left: 100px;
 `;
 
 const Item = styled.div`
@@ -281,4 +284,19 @@ const Button = styled.button`
   padding: 8px;
   border-radius: 4px;
   border: none;
+`;
+const EditTitle = styled.div`
+  width: 150px;
+  height: 32px;
+  color: #000;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: -0.36px;
+`;
+const TextBelowPhoto = styled.div`
+  color: #838383;
+  font-size: 14px;
+  margin-top: 8px;
 `;

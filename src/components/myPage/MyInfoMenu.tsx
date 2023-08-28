@@ -9,7 +9,6 @@ import EditProfile from './EditProfile';
 import LikedAnime from './LikedAnime';
 import WhatIWrote from './WhatIWrote';
 import MyReviews from './MyReviews';
-import { styled } from 'styled-components';
 import { InfoMenu } from './MyPage.styles';
 const MyInfoMenu = () => {
   const [selectedComponent, setSelectedComponent] = useState('EditProfile');
@@ -63,6 +62,9 @@ const MyInfoMenu = () => {
           <InfoMenu.WriteButtonIcon src={write} />
           작성한 글
         </InfoMenu.WriteButton>
+        <div>로그아웃</div>
+        <div>|</div>
+        <div>회원탈퇴</div>
       </InfoMenu.Container>
       <div>{renderSelectedComponent()}</div>
     </InfoMenu.FullScreen>
