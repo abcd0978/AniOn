@@ -9,7 +9,6 @@ type Props = {
 
 const MainCard = ({ width, data, index }: Props) => {
   const { width: mediaWidth } = useViewport();
-  console.log(data);
   return (
     <StMainCard width={width} mediaWidth={mediaWidth}>
       <StMainCardImgContainer

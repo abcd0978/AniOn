@@ -115,6 +115,8 @@ const EditProfile = () => {
       }
 
       console.log('User profile updated successfully!!!!');
+      alert('수정되었습니다');
+      window.location.reload();
     } catch (error) {
       console.error(error);
     }
