@@ -150,6 +150,7 @@ const EditProfile = () => {
   const renderContent = () => {
     return (
       <Container>
+        <>프로필 수정</>
         <Item>
           <Label>사진</Label>
           {userProfile && editMode === 'photo' ? (

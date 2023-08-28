@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from 'react';
-
+import badge from '../../assets/badge (1).png';
+import deco from '../../assets/palette.png';
+import review from '../../assets/rate_review.png';
+import write from '../../assets/edit_note.png';
+import favorite from '../../assets/favorite.png';
 import DecoProfile from './DecoProfile';
 import EditProfile from './EditProfile';
 import LikedAnime from './LikedAnime';
@@ -28,22 +32,26 @@ const MyInfoMenu = () => {
 
   return (
     <InfoMenu.Container>
-      <InfoMenu.Button onClick={() => setSelectedComponent('EditProfile')}>
+      <InfoMenu.EditButton onClick={() => setSelectedComponent('EditProfile')}>
+        <InfoMenu.EditButtonIcon src={badge} />
         프로필 수정
-      </InfoMenu.Button>
-      <InfoMenu.Button onClick={() => setSelectedComponent('DecoProfile')}>
+      </InfoMenu.EditButton>
+      <InfoMenu.DecoButton onClick={() => setSelectedComponent('DecoProfile')}>
+        <InfoMenu.DecoButtonIcon src={deco} />
         프로필 꾸미기
-      </InfoMenu.Button>
-
-      <InfoMenu.Button onClick={() => setSelectedComponent('LikedAnime')}>
+      </InfoMenu.DecoButton>
+      <InfoMenu.LikedButton onClick={() => setSelectedComponent('LikedAnime')}>
+        <InfoMenu.LikedButtonIcon src={favorite} />
         찜한 목록
-      </InfoMenu.Button>
-      <InfoMenu.Button onClick={() => setSelectedComponent('MyReviews')}>
+      </InfoMenu.LikedButton>
+      <InfoMenu.ReviewButton onClick={() => setSelectedComponent('MyReviews')}>
+        <InfoMenu.ReviewButtonIcon src={review} />
         리뷰 관리
-      </InfoMenu.Button>
-      <InfoMenu.Button onClick={() => setSelectedComponent('WhatIWrote')}>
+      </InfoMenu.ReviewButton>
+      <InfoMenu.WriteButton onClick={() => setSelectedComponent('WhatIWrote')}>
+        <InfoMenu.WriteButtonIcon src={write} />
         작성한 글
-      </InfoMenu.Button>
+      </InfoMenu.WriteButton>
       {renderSelectedComponent()}
     </InfoMenu.Container>
   );

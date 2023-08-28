@@ -1,9 +1,13 @@
 import { styled } from 'styled-components';
-
+import hoverbadge from '../../assets/badge.png';
+import hoverdeco from '../../assets/palette (1).png';
+import hoverreview from '../../assets/rate_review (1).png';
+import hoverwrite from '../../assets/edit_note (1).png';
+import hoverfavorite from '../../assets/favorite (1).png';
 export const Profile = {
   BasicImage: styled.img`
     border-radius: 50%;
-    width: 150px;
+    width: 120px;
     height: auto;
   `,
 };
@@ -44,12 +48,118 @@ export const InfoMenu = {
     flex-direction: column;
     gap: 16px;
   `,
-  Button: styled.button`
+  EditButton: styled.button`
     display: flex;
     align-items: center;
     gap: 8px;
-    width: 100px;
+    width: 170px;
     background-color: transparent;
     border-color: transparent;
+    color: #838383;
+    text-align: center;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: -0.24px;
+    &:hover {
+      color: #000;
+    }
+  `,
+  EditButtonIcon: styled.img`
+    height: 36px;
+    width: 36px;
+  `,
+  DecoButton: styled.button`
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 170px;
+    background-color: transparent;
+    border-color: transparent;
+    color: #838383;
+    text-align: center;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: -0.24px;
+    &:hover {
+      color: #000;
+    }
+  `,
+  DecoButtonIcon: styled.img`
+    height: 36px;
+    width: 36px;
+  `,
+  LikedButton: styled.button`
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 170px;
+    background-color: transparent;
+    border-color: transparent;
+    color: #838383;
+    text-align: center;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: -0.24px;
+    &:hover {
+      color: #000;
+    }
+  `,
+  LikedButtonIcon: styled.img`
+    height: 36px;
+    width: 36px;
+  `,
+  ReviewButton: styled.button`
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 170px;
+    background-color: transparent;
+    border-color: transparent;
+    color: #838383;
+    text-align: center;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: -0.24px;
+    &:hover {
+      color: #000;
+    }
+  `,
+  ReviewButtonIcon: styled.img`
+    height: 36px;
+    width: 36px;
+  `,
+  WriteButtonContainer: styled.button`
+    width: 150px;
+    background-color: transparent;
+  `,
+  WriteButton: styled.button`
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 170px;
+    background-color: transparent;
+    border-color: transparent;
+    color: #838383;
+    text-align: center;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: -0.24px;
+  `,
+  WriteButtonIcon: styled.img`
+    height: 36px;
+    width: 36px;
+    &:hover {
+      background-image: url(${hoverwrite});
+    }
   `,
 };
