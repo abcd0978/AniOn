@@ -292,6 +292,10 @@ export interface Database {
           title: string;
           updated_at: string | null;
           user_id: string;
+          users?: {
+            nickname?: string;
+            profile_img_url?: string;
+          };
         };
         Insert: {
           category?: string;

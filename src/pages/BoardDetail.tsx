@@ -47,13 +47,11 @@ const BoardDetail = () => {
       if (posts.category) {
         setCategory(posts.category);
       }
+      if (isEdit) {
+        setEditCategory(posts.category || ''); // 수정 모드에서 카테고리 초기화
+      }
     }
-  }, [posts]);
-
-  // // 뒤로가기
-  // const backButton = () => {
-  //   navigate(-1);
-  // };
+  }, [isEdit, posts]);
 
   // Post 삭제
   const queryClient = useQueryClient();
@@ -132,7 +130,7 @@ const BoardDetail = () => {
                 </select>
               </S.Box>
             ) : (
-              <S.Category>{posts.category}</S.Category>
+              <S.Category>{category}</S.Category>
             )}
             {isEdit ? (
               <S.Box>
@@ -145,6 +143,8 @@ const BoardDetail = () => {
             ) : (
               <S.Box>
                 <S.Date> {new Date(posts.created_at).toLocaleString()}</S.Date>
+                <p>{posts.users?.nickname}</p>
+                <S.Img src={posts.users?.profile_img_url} alt="프로필 이미지" />
                 <S.Title>{posts.title}</S.Title>
               </S.Box>
             )}
