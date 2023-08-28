@@ -22,6 +22,9 @@ export const Profile = {
     margin-left: 30px;
     widht: 120px;
   `,
+  MyContainer: styled.div`
+    border: solid;
+  `,
 };
 export const EditProfile = {
   Container: styled.div`

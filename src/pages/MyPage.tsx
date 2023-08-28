@@ -11,8 +11,10 @@ const MyPage = (props: Props) => {
   return (
     <>
       <Profile.MyPageText> 마이페이지</Profile.MyPageText>
-      <MyProfile />
-      <MyInfoMenu />
+      <Profile.MyContainer>
+        <MyProfile />
+        <MyInfoMenu />
+      </Profile.MyContainer>
     </>
   );
 };
