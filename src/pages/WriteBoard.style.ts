@@ -105,9 +105,10 @@ const S = {
   Button: styled.button`
     background-color: #757575;
     border: none;
-    width: 62px;
-    height: 28px;
-    font-size: 13px;
+    width: 50px;
+    height: 30px;
+    border-radius: 10px;
+    font-size: 15px;
     color: white;
     margin-right: 5px;
   `,

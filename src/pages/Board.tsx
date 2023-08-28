@@ -10,6 +10,7 @@ import { atom, useAtom, useAtomValue } from 'jotai';
 import Pagination from '../components/Pagenation';
 
 import pencil from '../assets/pencil.svg';
+import search from '../assets/search.svg';
 type ReadPosts = Database['public']['Tables']['posts']['Row'];
 
 const Board = () => {
@@ -137,12 +138,15 @@ const Board = () => {
         </S.Search>
         <S.Write>
           <form onSubmit={handleSearchSubmit}>
-            <S.SearchInput
-              type="text"
-              placeholder="검색어를 입력해주세요! "
-              value={searchKeyword}
-              onChange={(e) => setSearchKeyword(e.target.value)}
-            />
+            <S.SearchInputContainer>
+              <S.SearchInput
+                type="text"
+                placeholder="검색어를 입력해주세요!"
+                value={searchKeyword}
+                onChange={(e) => setSearchKeyword(e.target.value)}
+              />
+              <S.SearchIcon src={search} alt="Search Icon" />
+            </S.SearchInputContainer>
           </form>
           <S.WriteButton onClick={handleWriteClick}>
             <img src={pencil} /> 작성하기

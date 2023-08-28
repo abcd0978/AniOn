@@ -134,7 +134,7 @@ const Comments = () => {
             }}
             placeholder="댓글을 작성해주세요!"
           />
-          <S.WriteButton onClick={handleCommentSubmit}>작성</S.WriteButton>
+          <S.WriteButton onClick={handleCommentSubmit}>등록</S.WriteButton>
         </S.CommentTop>
         <S.CommentBot>
           {postCommentsData?.data?.map((comment: ReadPostComment) => (
@@ -171,7 +171,7 @@ const Comments = () => {
                   onChange={(e) => setEditedCommentText(e.target.value)}
                 />
               ) : (
-                comment.comment
+                <S.CommentBox>{comment.comment}</S.CommentBox>
               )}
             </S.Comment>
           ))}
