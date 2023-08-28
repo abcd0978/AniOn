@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { fetchCharacter } from '../../api/aniCharacters';
+import { fetchCharacter, updateNumOfWin } from '../../api/aniCharacters';
 import { useParams } from 'react-router';
 import { S } from './worldCup.style';
 import { useEffect, useState } from 'react';
@@ -54,7 +54,7 @@ function AniWorldCup({}: Props) {
   const SelectWinnerhandler = (character: ReadCharacters) => () => {
     if (characters.length <= 2) {
       if (winners.length === 0) {
-        setDisplays([character]);
+        // setDisplays([character]);
         // console.log('r u winner???', character);
         navigate(`/worldcup/result/${gender}`, { state: character });
       } else {

@@ -3,7 +3,7 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { S } from '../components/worldcup/worldCup.style';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import {
-  countNumOfWin,
+  updateNumOfWin,
   fetchWinnerResult,
   winnerResult,
 } from '../api/aniCharacters';
@@ -14,6 +14,7 @@ const WorldCupResult = () => {
   const { state: winner } = useLocation();
   const queryClient = useQueryClient();
 
+  // 이게 필요한가...?...
   const {
     isLoading: isWinnerLoading,
     isError: isWinnerError,
@@ -25,15 +26,31 @@ const WorldCupResult = () => {
     },
   });
 
-  useEffect(() => {
-    if (!isWinnerLoading && !isWinnerError) {
-      countNumOfWin(winner.id);
-      // queryClient.invalidateQueries(['winner']);
-    }
-  }, [isWinnerLoading, isWinnerError, winner.id]);
+  // 월드컵 전체 결과 가져오기
+  const {
+    isLoading: isResultLoading,
+    isError: isResultError,
+    data: totalResult,
+  } = useQuery({
+    queryKey: ['worldcupResult'],
+    queryFn: () => {
+      return winnerResult(gender, winner.id);
+    },
+    // onSuccess: () => {
+    //   console.log('Result!!!!!');
+    // },
+  });
 
-  // winnerResult();
-  // console.log('😑😐', winnerCount[0]?.num_of_win);
+  if (isWinnerLoading || isResultLoading) {
+    return <div>데이터를 가져오는 중입니다..!</div>;
+  }
+
+  if (isResultError || isWinnerError) {
+    return <div>데이터를 가져오지 못했습니다..😥</div>;
+  }
+
+  console.log('🙉🙉', totalResult);
+  // console.log('😑😐', winnerCount[0]);
   // console.log('?????????', winner);
   return (
     <S.WorldCupContainer>
