@@ -75,7 +75,7 @@ const EditProfile = () => {
       const { data, error: uploadError } = await supabase.storage
         .from('Profile Images')
         .upload(profileFilePath, selectedFile);
-
+      console.log(profileFilePath);
       if (uploadError) {
         console.error('Upload error:', uploadError);
         return;
@@ -104,7 +104,10 @@ const EditProfile = () => {
           profile_img_url: publicUrl,
         }) // 업데이트 쿼리
         .eq('id', user?.id);
-
+      await supabase.auth.updateUser({
+        data: { profile_img_url: publicUrl },
+      });
+      console.log(publicUrl, '수정함');
       if (userUpdateError) {
         console.error(userUpdateError);
 
@@ -112,6 +115,8 @@ const EditProfile = () => {
       }
 
       console.log('User profile updated successfully!!!!');
+      alert('수정되었습니다');
+      window.location.reload();
     } catch (error) {
       console.error(error);
     }

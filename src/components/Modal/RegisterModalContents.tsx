@@ -7,7 +7,6 @@ import * as modalStore from '../../store/modalStore';
 import * as userStore from '../../store/userStore';
 import useInput from '../../hooks/useInput';
 import supabase from '../../supabaseClient';
-import { Database } from '../../types/supabase';
 import loadingSpinner from '../../assets/loadingSpinner.svg';
 import * as authApi from '../../api/auth';
 /******************상수와 타입들****************/

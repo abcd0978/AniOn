@@ -4,7 +4,7 @@ import { InsertAnimeLikeG, ReadAnimeLikeG } from '../types/likes';
 // const query = supabase.from('movies').select(`id, title`)
 // const movies: DbResult<typeof query> = await query
 
-export const fetchAnimeLikes = async (): Promise<ReadAnimeLikeG[]> => {
+export const fetchAllAnimeLikes = async (): Promise<ReadAnimeLikeG[]> => {
   try {
     const { data, error } = await supabase.from('anime_likes').select(' * ');
     if (error) {
@@ -36,6 +36,24 @@ export const fetchAllAnimeMyLikes = async (params: ReadAnimeLikeG) => {
   }
 };
 
+// 애니 한개 좋아요 가져오기
+export const fetchAnimeLikes = async (anime_id: string) => {
+  try {
+    const { data, error } = await supabase
+      .from('anime_likes')
+      .select('*')
+      .eq('anime_id', anime_id);
+    if (error) {
+      console.log('error fetching AnimeMyLikes > ', error);
+      return [];
+    }
+    return data;
+  } catch (error) {
+    console.log('error fetching AnimeMyLikes > ', error);
+    return [];
+  }
+};
+
 // 내가 좋아요한 데이터 하나! 가져오기
 export const fetchAnimeMyLiked = async (params: Omit<ReadAnimeLikeG, 'id'>) => {
   try {
@@ -55,6 +73,7 @@ export const fetchAnimeMyLiked = async (params: Omit<ReadAnimeLikeG, 'id'>) => {
   }
 };
 
+// 좋아요 클릭
 export const toggleAnimeLike = async (params: InsertAnimeLikeG) => {
   try {
     const data = await fetchAnimeMyLiked(params);
