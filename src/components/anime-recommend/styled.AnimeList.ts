@@ -128,14 +128,18 @@ export const S = {
   //  wordWrap: 'break-word'
 
   HoverViewDetail: styled.button`
+    display: flex;
+    align-items: center;
     position: relative;
     padding: 6px 12px;
     border-radius: 999px;
     border: 1px solid white;
-    gap: 4px;
     background-color: rgba(255, 255, 255, 0);
     color: white;
     cursor: pointer;
+    p {
+      margin-left: 12px;
+    }
   `,
 
   HoverLikeBox: styled.div`
