@@ -18,7 +18,7 @@ const AnimeCard = ({ anime, likesCount, isLike, handleLike }: Props) => {
   const navigate = useNavigate();
 
   return (
-    <S.CardDiv key={anime.id}>
+    <S.CardDiv>
       <S.CardInfo onClick={() => navigate(`/recommend/${anime.id}`)}>
         <S.HoverDiv>
           <S.CardThumbnail

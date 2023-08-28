@@ -147,6 +147,7 @@ const AnimeList = () => {
         ) : (
           animeList.map((anime: AnimeG) => (
             <AnimeCard
+              key={anime.id}
               anime={anime}
               likesCount={likesCount}
               isLike={isLike}
