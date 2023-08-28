@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { S } from './styled.animeCategoryButtons';
 import { useAtom, useSetAtom } from 'jotai';
 
@@ -41,6 +41,13 @@ const AnimeCategory = () => {
     setSelectedCategory(category);
     setOffset(0);
   };
+
+  useEffect(() => {
+    return () => {
+      setSelectedCategory('전체');
+      setIsEnding(null);
+    };
+  }, []);
 
   return (
     <S.CategoryContainer>
