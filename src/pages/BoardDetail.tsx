@@ -30,7 +30,6 @@ const BoardDetail = () => {
   const [title, setTitle] = useState<string>('');
   const [content, setContent] = useState<string>('');
   const [category, setCategory] = useState<string>('');
-  // 수정 버튼을 눌렀을 때 수정할 카테고리를 관리하는 상태 추가
   const [editCategory, setEditCategory] = useState<string>('');
 
   const onChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -106,14 +105,10 @@ const BoardDetail = () => {
         <>
           {user?.id === posts.user_id && (
             <S.ButtonContainer>
-              <div>
-                <S.Button onClick={() => deleteButton(posts.id!)}>
-                  삭제
-                </S.Button>
-                <S.Button onClick={() => editButton(posts)}>
-                  {isEdit ? '저장' : '수정'}
-                </S.Button>
-              </div>
+              <S.Button onClick={() => deleteButton(posts.id!)}>삭제</S.Button>
+              <S.Button onClick={() => editButton(posts)}>
+                {isEdit ? '저장' : '수정'}
+              </S.Button>
             </S.ButtonContainer>
           )}
           <S.PostContainer key={posts.id}>
@@ -134,20 +129,22 @@ const BoardDetail = () => {
             )}
             {isEdit ? (
               <S.Box>
-                <S.Input
-                  value={title}
-                  onChange={onChangeTitle}
-                  style={{ fontSize: '24px', fontWeight: '500' }}
-                />
+                <S.Input value={title} onChange={onChangeTitle} />
               </S.Box>
             ) : (
               <S.Box>
                 <S.Date> {new Date(posts.created_at).toLocaleString()}</S.Date>
-                <p>{posts.users?.nickname}</p>
-                <S.Img src={posts.users?.profile_img_url} alt="프로필 이미지" />
                 <S.Title>{posts.title}</S.Title>
+                <S.User>
+                  <S.Img
+                    src={posts.users?.profile_img_url}
+                    alt="프로필 이미지"
+                  />
+                  <S.Nickname>{posts.users?.nickname}</S.Nickname>
+                </S.User>
               </S.Box>
             )}
+
             {isEdit ? (
               <S.Box>
                 <S.Textarea value={content} onChange={onChangeContent} />
@@ -156,7 +153,7 @@ const BoardDetail = () => {
               <S.Content>{posts.content}</S.Content>
             )}
           </S.PostContainer>
-          <Comments />
+          {!isEdit && <Comments />}
         </>
       ) : (
         <div>Loading...</div>

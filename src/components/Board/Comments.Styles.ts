@@ -1,37 +1,50 @@
 import styled from 'styled-components';
 
 export const Outer = styled.div`
-  max-width: 1200px;
-  min-width: 800px;
+  width: 1360px;
   margin: 0 auto;
   padding: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 18px;
+  margin-bottom: 80px;
 `;
 export const CommentContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
   margin-top: 10px;
-  // height: 540px;
+  height: auto;
   border-radius: 30px;
 `;
 
 export const CommentTop = styled.div`
-  display: flex;
+  width: 1360px;
+  height: auto;
+  border: 1px solid #d9d9d9;
+  border-radius: 10px;
+  align-items: center;
+  flex-direction: row;
 `;
+
 export const CommentBot = styled.div`
   display: flex;
   flex-direction: column;
+  margin-left: 2px;
 `;
 
 export const WriteInput = styled.input`
   display: flex;
-  border: none;
-  width: 800px;
-  height: 60px;
   margin-top: 10px;
   border-radius: 10px;
   border: 1px solid #d9d9d9;
+  width: 1277px;
+  height: 48px;
+  padding: 20px;
+  border: none;
+  outline: none;
+  flex-grow: 1;
 `;
 
 export const WriteButton = styled.button`
@@ -40,16 +53,12 @@ export const WriteButton = styled.button`
   color: white;
   border-radius: 10px;
   cursor: pointer;
-  width: 65px;
-  height: 38px;
-  margin-left: 20px;
-  margin-top: 13px;
-  font-size: 16px;
-  &:hover {
-    background-color: rgb(0, 0, 0, 0.5);
-    color: rgb(255, 255, 255, 100);
-    font-weight: bold;
-  }
+  width: 80px;
+  height: 40px;
+  font-size: 15px;
+  margin-bottom: 10px;
+  margin-right: 10px;
+  float: right;
 `;
 
 export const ButtonBox = styled.div`
@@ -61,19 +70,14 @@ export const ButtonBox = styled.div`
 `;
 
 export const button = styled.button`
-  background-color: #757575;
+  background-color: #dddddd;
+  color: black;
   border: none;
   border-radius: 10px;
-  color: white;
-  width: 40px;
-  height: 20px;
+  width: 50px;
+  height: 25px;
   margin-right: 5px;
   cursor: pointer;
-  &:hover {
-    background-color: rgba(0, 0, 0, 0.5);
-    color: rgba(255, 255, 255, 1);
-    font-weight: bold;
-  }
 `;
 
 export const Comment = styled.div`
@@ -81,16 +85,18 @@ export const Comment = styled.div`
   flex-direction: column;
   position: relative;
   border-bottom: 2px solid #d9d9d9;
-  margin: 10px 0;
-  padding: 10px;
-  width: 800px;
+  margin-top: 28px;
   background-color: #ffffff;
+  width: 1360px;
+  height: 153px;
 `;
 
 export const CommentDate = styled.div`
   font-size: 12px;
   color: #807b85;
-  margin-bottom: 5px;
+  margin-bottom: 33px;
+  margin-top: -36px;
+  float: right;
 `;
 export const EditInput = styled.input`
   display: flex;
@@ -105,11 +111,15 @@ export const profile = styled.div`
   display: flex;
 `;
 export const Img = styled.img`
-  width: 40px;
-  height: 40px;
+  width: 48px;
+  height: 48px;
 `;
 export const Ninkname = styled.div`
   margin-left: 5px;
   display: flex;
   align-items: center;
+`;
+export const CommentBox = styled.div`
+  width: 1308px;
+  margin-left: 55px;
 `;
