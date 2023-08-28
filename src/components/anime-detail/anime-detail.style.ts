@@ -39,6 +39,21 @@ export const S = {
     margin-top: 40px;
   `,
 
+  ContentsOptions: styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    img {
+      cursor: pointer;
+    }
+  `,
+
+  LikeBox: styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  `,
+
   ContentsStar: styled.label`
     font-size: 20px;
     font-weight: 700;
