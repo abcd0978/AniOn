@@ -38,30 +38,30 @@ export const Postbox = styled.div`
   margin-bottom: 10px;
   margin-top: 10px;
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
   width: 1440px;
   height: 26px;
+  align-items: center;
+  cursor: pointer;
+  justify-content: space-between;
 `;
-export const Img = styled.img`
-  width: 30px;
-  height: 30px;
-  border-radius: 100px;
-  margin-top: -6px;
-  margin-right: -200px;
-`;
-
 export const Header = styled.div`
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 8px 16px;
   border-bottom: 1px solid #d9d9d9;
   border-top: 1px solid #d9d9d9;
   font-size: 15px;
   margin-top: 20px;
   width: 1440px;
   height: 26px;
+  justify-content: space-between;
+`;
+export const Img = styled.img`
+  width: 30px;
+  height: 30px;
+  border-radius: 100px;
+`;
+export const User = styled.div`
+  display: flex;
 `;
 
 export const Post = styled.div`

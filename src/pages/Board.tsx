@@ -172,8 +172,11 @@ const Board = () => {
             >
               <div>{index + 1}</div>
               <div>{post.title}</div>
-              <S.Img src={post.users?.profile_img_url} alt="프로필 이미지" />
-              <div>{post.users?.nickname}</div>
+
+              <S.User>
+                <S.Img src={post.users?.profile_img_url} alt="프로필 이미지" />
+                <div>{post.users?.nickname}</div>
+              </S.User>
               <div>{new Date(post.created_at).toLocaleString()}</div>
               <div>0</div>
             </S.Postbox>
