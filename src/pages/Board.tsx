@@ -8,8 +8,8 @@ import { Database } from '../types/supabase';
 import { useState } from 'react';
 import { atom, useAtom, useAtomValue } from 'jotai';
 import Pagination from '../components/Pagenation';
-import { PiPencilDuotone } from 'react-icons/pi';
-import { AiOutlineSearch } from 'react-icons/ai';
+
+import pencil from '../assets/pencil.svg';
 type ReadPosts = Database['public']['Tables']['posts']['Row'];
 
 const Board = () => {
@@ -145,7 +145,7 @@ const Board = () => {
             />
           </form>
           <S.WriteButton onClick={handleWriteClick}>
-            <PiPencilDuotone size="20px" /> 작성하기
+            <img src={pencil} /> 작성하기
           </S.WriteButton>
         </S.Write>
       </S.Post>
@@ -160,10 +160,7 @@ const Board = () => {
         </S.Header>
 
         {isFetching ? (
-          <div>
-            로딩중...
-            <AiOutlineSearch />
-          </div>
+          <div>로딩중...</div>
         ) : filteredPosts ? (
           filteredPosts.map((post: ReadPosts, index: number) => (
             <S.Postbox
