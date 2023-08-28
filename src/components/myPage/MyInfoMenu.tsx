@@ -5,8 +5,10 @@ import EditProfile from './EditProfile';
 import LikedAnime from './LikedAnime';
 import WhatIWrote from './WhatIWrote';
 import MyReviews from './MyReviews';
+import { styled } from 'styled-components';
+import { InfoMenu } from './MyPage.styles';
 const MyInfoMenu = () => {
-  const [selectedComponent, setSelectedComponent] = useState('');
+  const [selectedComponent, setSelectedComponent] = useState('EditProfile');
   const renderSelectedComponent = () => {
     switch (selectedComponent) {
       case 'DecoProfile':
@@ -25,24 +27,25 @@ const MyInfoMenu = () => {
   };
 
   return (
-    <div>
-      <button onClick={() => setSelectedComponent('DecoProfile')}>
-        프로필 꾸미기
-      </button>
-      <button onClick={() => setSelectedComponent('EditProfile')}>
+    <InfoMenu.Container>
+      <InfoMenu.Button onClick={() => setSelectedComponent('EditProfile')}>
         프로필 수정
-      </button>
-      <button onClick={() => setSelectedComponent('LikedAnime')}>
+      </InfoMenu.Button>
+      <InfoMenu.Button onClick={() => setSelectedComponent('DecoProfile')}>
+        프로필 꾸미기
+      </InfoMenu.Button>
+
+      <InfoMenu.Button onClick={() => setSelectedComponent('LikedAnime')}>
         찜한 목록
-      </button>
-      <button onClick={() => setSelectedComponent('MyReviews')}>
+      </InfoMenu.Button>
+      <InfoMenu.Button onClick={() => setSelectedComponent('MyReviews')}>
         리뷰 관리
-      </button>
-      <button onClick={() => setSelectedComponent('WhatIWrote')}>
+      </InfoMenu.Button>
+      <InfoMenu.Button onClick={() => setSelectedComponent('WhatIWrote')}>
         작성한 글
-      </button>
+      </InfoMenu.Button>
       {renderSelectedComponent()}
-    </div>
+    </InfoMenu.Container>
   );
 };
 export default MyInfoMenu;

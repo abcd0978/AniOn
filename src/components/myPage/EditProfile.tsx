@@ -194,6 +194,11 @@ const EditProfile = () => {
           )}
         </Item>
         <Item>
+          <Label>이메일</Label>
+          <div>{userProfile[0]?.email}</div>
+        </Item>
+        <Label>비밀번호</Label>
+        <Item>
           <Label>닉네임</Label>
           {editMode === 'nickname' ? (
             <form onSubmit={handleSubmitNickname}>
@@ -213,10 +218,7 @@ const EditProfile = () => {
             </>
           )}
         </Item>
-        <Item>
-          <Label>이메일</Label>
-          <div>{userProfile[0]?.email}</div>
-        </Item>
+
         {/* <Item>
           <Label>비밀번호</Label>
           {editMode === 'password' ? (

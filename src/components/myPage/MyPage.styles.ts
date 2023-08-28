@@ -1,4 +1,4 @@
-import { styled } from "styled-components";
+import { styled } from 'styled-components';
 
 export const Profile = {
   BasicImage: styled.img`
@@ -35,5 +35,21 @@ export const EditProfile = {
     padding: 8px;
     border-radius: 4px;
     border: none;
+  `,
+};
+
+export const InfoMenu = {
+  Container: styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  `,
+  Button: styled.button`
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100px;
+    background-color: transparent;
+    border-color: transparent;
   `,
 };
