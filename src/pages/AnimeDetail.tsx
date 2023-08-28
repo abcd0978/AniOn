@@ -7,6 +7,7 @@ import AnimeDetailComments from '../components/anime-detail/AnimeDetailComments'
 import { useRef } from 'react';
 import filled from '../assets/filledLike.svg';
 import unfilled from '../assets/unfilledLike.svg';
+import share from '../assets/share.svg';
 import { fetchAnimeLikes, toggleAnimeLike } from '../api/likeApi';
 import { useAtomValue } from 'jotai';
 import * as userStore from '../store/userStore';
@@ -17,6 +18,7 @@ type Props = {};
 function AnimeDetail({}: Props) {
   const previewRef = useRef<HTMLDivElement>(null);
   const queryClient = useQueryClient();
+  const currentUrl = window.location.href;
 
   const user = useAtomValue(userStore.user);
 
@@ -91,7 +93,14 @@ function AnimeDetail({}: Props) {
     return !!likedAnime;
   };
 
-  console.log('<<<<<>>>>', likesData);
+  // console.log('<<<<<>>>>', likesData);
+
+  //URL 복사 공유
+  const isShare = () => {
+    window.navigator.clipboard.writeText(currentUrl).then(() => {
+      alert('복사 완료!');
+    });
+  };
 
   if (isDetailLoading || isVideoLoading) {
     return <h3>데이터를 가져오는 중입니다.</h3>;
@@ -117,14 +126,20 @@ function AnimeDetail({}: Props) {
                 <S.PreviewBox onClick={scrollToPreview}>
                   ▶ 1화 맛보기
                 </S.PreviewBox>
-                <S.LikeBox>
-                  {isLike() ? (
-                    <img src={filled} alt="like" onClick={handleLike} />
-                  ) : (
-                    <img src={unfilled} alt="like" onClick={handleLike} />
-                  )}
-                  찜
-                </S.LikeBox>
+                <S.LikeShareBox>
+                  <S.LikeBox>
+                    {isLike() ? (
+                      <img src={filled} alt="like" onClick={handleLike} />
+                    ) : (
+                      <img src={unfilled} alt="like" onClick={handleLike} />
+                    )}
+                    찜
+                  </S.LikeBox>
+                  <S.ShareBox>
+                    <img src={share} alt="share" onClick={isShare}></img>
+                    <p>공유하기</p>
+                  </S.ShareBox>
+                </S.LikeShareBox>
               </S.ContentsOptions>
               <S.ContentsText>장르: {animeDetail.genres}</S.ContentsText>
               <S.ContentsText>{animeDetail.content}</S.ContentsText>
