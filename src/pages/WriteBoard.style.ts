@@ -1,32 +1,56 @@
 import styled from 'styled-components';
 
 const S = {
+  Title: styled.div`
+    font-size: 22px;
+    font-weight: 700;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: 30px;
+  `,
+  Container: styled.div`
+    width: 1440px;
+    height: 827px;
+    border-radius: 20px;
+  `,
   Layout: styled.div`
-    max-width: 1200px;
-    min-width: 800px;
+    width: 1376px;
+    height: 604px;
+    border-radius: 20px;
+    box-shadow: 5px 5px 5px 5px #0000001a;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     margin: 0 auto;
     padding: 0 auto;
-    box-shadow: 5px 5px 5px 5px #0000001a;
-    margin-top: 25px;
   `,
 
   Form: styled.form`
     display: flex;
     align-items: center;
     flex-direction: column;
+    margin-top: 25px;
   `,
 
-  Container: styled.div`
+  CateInput: styled.div`
+    width: 1376px;
+    height: 40px;
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    margin-bottom: 15px;
+  `,
+  TitleInput: styled.div`
+    width: 1376px;
+    height: 44px;
+    display: flex;
+    margin-bottom: 5px;
   `,
 
-  InputContainer: styled.div`
-    max-width: 1200px;
-    width: 800px;
+  ContentInput: styled.div`
+    width: 1376px;
+    height: 360px;
     margin: 10px;
     display: flex;
+    margin-bottom: 5px;
   `,
 
   Label: styled.div`
@@ -47,12 +71,11 @@ const S = {
     padding: 8px;
     border: none;
     border-radius: 8px;
-    border: 1px #f5f5f5 solid;
+    border: 1px #dbdbdb solid;
   `,
 
   Input: styled.input`
-    max-width: 1200px;
-    width: 500px;
+    width: 1196px;
     padding: 10px;
     outline: none;
     border-radius: 8px;
@@ -61,36 +84,23 @@ const S = {
   `,
 
   Textarea: styled.textarea`
-    max-width: 1200px;
-    width: 500px;
-    height: 300px;
-    padding: 10px;
+    width: 1196px;
+    height: 360px;
+    padding: 16px;
     font-size: 14px;
     background-color: #f5f5f5;
     border: none;
     outline: none;
-    border-radius: 8px;
-  `,
-
-  Tag: styled.span`
-    color: #ffffff;
-    background-color: #ffffff;
-    border-radius: 8px;
-    padding: 3px 10px 3px 10px;
-  `,
-
-  TagContainer: styled.div`
-    display: inline-block;
-    flex-wrap: wrap;
-    padding: 10px 5px 10px 5px;
+    border-radius: 10px;
   `,
 
   ButtonContainer: styled.div`
-    max-width: 1200px;
-    width: 200px;
-    margin: 10px;
+    width: 1376px;
+    height: 40px;
+    margin-top: 40px;
+    margin-right: 40px;
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
   `,
   Button: styled.button`
     background-color: #757575;
