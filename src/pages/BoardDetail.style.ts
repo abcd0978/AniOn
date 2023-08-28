@@ -4,11 +4,7 @@ const S = {
   Layout: styled.div`
     width: 1360px;
     max-height: 4355px;
-    margin: 0 auto;
-    padding: 0 auto;
-
-    align-items: center;
-    justify-content: center;
+    margin-left: 30px;
   `,
 
   ButtonContainer: styled.div`
@@ -21,9 +17,9 @@ const S = {
     border: none;
     width: 50px;
     height: 30px;
+    border-radius: 10px;
     margin-top: 6px;
     margin-right: 5px;
-    border-radius: 10px;
     cursor: pointer;
   `,
 
@@ -32,6 +28,7 @@ const S = {
     flex-direction: column;
     width: 1360px;
     max-height: 1954px;
+    margin-top: 20px;
   `,
 
   Category: styled.div`
@@ -59,16 +56,16 @@ const S = {
     line-height: 1.5;
     max-width: 1360px;
     width: 800px;
-    margin-top: 20px;
     padding: 0 auto;
-    font-size: 28px;
+    font-size: 26px;
     font-weight: bold;
+    margin: -5px;
   `,
 
   Content: styled.div`
     white-space: wrap;
     // word-wrap: break-word;
-    font-size: 17px;
+    font-size: 16px;
     line-height: 1.6;
     width: 1360px;
     max-height: 1000px;
@@ -77,7 +74,6 @@ const S = {
 
   Input: styled.input`
     width: 1360px;
-    margin-top: 20px;
     padding: 10px;
     outline: none;
     border-radius: 8px;
@@ -85,7 +81,7 @@ const S = {
 
   Textarea: styled.textarea`
     width: 1360px;
-    height: 600px;
+    height: 450px;
     max-height: 4355px;
 
     line-height: 1.5;
@@ -101,12 +97,13 @@ const S = {
     display: flex;
     flex-direction: row;
     align-items: center;
-    margin-top: 5px;
+    margin-top: 15px;
     font-size: 15px;
   `,
 
   Nickname: styled.div`
     margin-left: 5px;
+    white-space: nowrap;
   `,
 };
 

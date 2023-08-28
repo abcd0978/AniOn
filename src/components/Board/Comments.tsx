@@ -171,7 +171,7 @@ const Comments = () => {
                   onChange={(e) => setEditedCommentText(e.target.value)}
                 />
               ) : (
-                comment.comment
+                <S.CommentBox>{comment.comment}</S.CommentBox>
               )}
             </S.Comment>
           ))}

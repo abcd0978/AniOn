@@ -8,6 +8,7 @@ export const Outer = styled.div`
   align-items: center;
   justify-content: center;
   margin-left: 18px;
+  margin-bottom: 80px;
 `;
 export const CommentContainer = styled.div`
   display: flex;
@@ -19,7 +20,7 @@ export const CommentContainer = styled.div`
 `;
 
 export const CommentTop = styled.div`
-  width: 1317px;
+  width: 1360px;
   height: auto;
   border: 1px solid #d9d9d9;
   border-radius: 10px;
@@ -30,7 +31,7 @@ export const CommentTop = styled.div`
 export const CommentBot = styled.div`
   display: flex;
   flex-direction: column;
-  margin-left: 25px;
+  margin-left: 2px;
 `;
 
 export const WriteInput = styled.input`
@@ -58,11 +59,6 @@ export const WriteButton = styled.button`
   margin-bottom: 10px;
   margin-right: 10px;
   float: right;
-  &:hover {
-    background-color: rgb(0, 0, 0, 0.5);
-    color: rgb(255, 255, 255, 100);
-    font-weight: bold;
-  }
 `;
 
 export const ButtonBox = styled.div`
@@ -79,7 +75,7 @@ export const button = styled.button`
   border: none;
   border-radius: 10px;
   width: 50px;
-  height: 30px;
+  height: 25px;
   margin-right: 5px;
   cursor: pointer;
 `;
@@ -91,14 +87,15 @@ export const Comment = styled.div`
   border-bottom: 2px solid #d9d9d9;
   margin-top: 28px;
   background-color: #ffffff;
-  width: 1277px;
+  width: 1360px;
   height: 153px;
 `;
 
 export const CommentDate = styled.div`
   font-size: 12px;
   color: #807b85;
-  margin-bottom: 5px;
+  margin-bottom: 33px;
+  margin-top: -36px;
   float: right;
 `;
 export const EditInput = styled.input`
@@ -121,4 +118,8 @@ export const Ninkname = styled.div`
   margin-left: 5px;
   display: flex;
   align-items: center;
+`;
+export const CommentBox = styled.div`
+  width: 1308px;
+  margin-left: 55px;
 `;
