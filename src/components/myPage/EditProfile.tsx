@@ -91,7 +91,7 @@ const EditProfile = () => {
       const { data, error: uploadError } = await supabase.storage
         .from('Profile Images')
         .upload(profileImageUrl, selectedFile);
-
+      console.log(profileImageUrl);
       if (uploadError) {
         console.error('Upload error:', uploadError);
         return;
@@ -108,6 +108,7 @@ const EditProfile = () => {
       await supabase.auth.updateUser({
         data: { profile_img_url: profileImageUrl },
       });
+      console.log(profileImageUrl, '수정함');
       if (userUpdateError) {
         console.error(userUpdateError);
 

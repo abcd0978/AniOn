@@ -9,9 +9,16 @@ type Props = {
 
 const MainCard = ({ width, data, index }: Props) => {
   const { width: mediaWidth } = useViewport();
+  console.log(data);
   return (
     <StMainCard width={width} mediaWidth={mediaWidth}>
-      <StMainCardImgContainer img_url={data.images[1].img_url}>
+      <StMainCardImgContainer
+        img_url={
+          data.images.length > 1
+            ? data.images[1].img_url
+            : data.images[0].img_url
+        }
+      >
         <StMainCardImgIndex>
           <p
             style={{
