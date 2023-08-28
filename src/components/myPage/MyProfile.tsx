@@ -56,7 +56,10 @@ const MyProfile = () => {
   return (
     <div>
       {user.profile_img_url ? (
-        <Profile.BasicImage src={user.profile_img_url} alt="Profile picture" />
+        <Profile.BasicImage
+          src={process.env.PUBLIC_URL + user.profile_img_url}
+          alt="Profile picture"
+        />
       ) : (
         <Profile.BasicImage src={myAnonymousImg} />
       )}
