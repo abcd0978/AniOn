@@ -1,13 +1,18 @@
 import { useState, useEffect } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { S } from '../components/worldcup/worldCup.style';
-import { useQuery } from '@tanstack/react-query';
-import { countNumOfWin, fetchWinnerResult } from '../api/aniCharacters';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import {
+  countNumOfWin,
+  fetchWinnerResult,
+  winnerResult,
+} from '../api/aniCharacters';
 
 const WorldCupResult = () => {
   const navigate = useNavigate();
   const { gender } = useParams() as { gender: string };
   const { state: winner } = useLocation();
+  const queryClient = useQueryClient();
 
   const {
     isLoading: isWinnerLoading,
@@ -23,9 +28,11 @@ const WorldCupResult = () => {
   useEffect(() => {
     if (!isWinnerLoading && !isWinnerError) {
       countNumOfWin(winner.id);
+      // queryClient.invalidateQueries(['winner']);
     }
   }, [isWinnerLoading, isWinnerError, winner.id]);
 
+  // winnerResult();
   // console.log('😑😐', winnerCount[0]?.num_of_win);
   // console.log('?????????', winner);
   return (

@@ -40,7 +40,11 @@ const countNumOfWin = async (id: string): Promise<void> => {
 };
 
 // 이상형 월드컵 결과  가져오기
+const winnerResult = async () => {
+  const { data } = await supabase.from('worldcup').select('*,characters(*)');
+  return data;
+};
 
-export { fetchCharacter, fetchWinnerResult, countNumOfWin };
+export { fetchCharacter, fetchWinnerResult, countNumOfWin, winnerResult };
 
 // character_id
