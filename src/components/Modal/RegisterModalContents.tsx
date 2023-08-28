@@ -121,10 +121,10 @@ const LoginModalContents = (props: Props) => {
 
       const userMetadata = {
         nickname: nickname,
+        email: email,
         profile_img_url: `http://gravatar.com/avatar/${
           nickname + Math.random().toString()
         }?d=identicon`,
-        email: email,
       };
       const signUpResult: any = await supabase.auth.signUp({
         email,
