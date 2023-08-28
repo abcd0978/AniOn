@@ -96,39 +96,46 @@ const WriteBoard = () => {
   };
 
   return (
-    <S.Layout>
-      <S.Form onSubmit={onSubmitHandler}>
-        <S.InputContainer>
-          <S.Label>카테고리</S.Label>
-          <S.Select onChange={onChangeCategory}>
-            <option value={''}>카테고리를 선택해주세요.</option>
-            <option value={'자유'}>자유</option>
-            <option value={'애니'}>애니</option>
-            <option value={'오류 신고'}>오류 신고</option>
-          </S.Select>
-        </S.InputContainer>
-        <S.InputContainer>
-          <S.Label>제목</S.Label>
-          <S.Input
-            value={title}
-            onChange={onChangeTitle}
-            placeholder="제목을 입력해주세요."
-          />
-        </S.InputContainer>
-        <S.InputContainer>
-          <S.LabelContent>내용</S.LabelContent>
-          <S.Textarea
-            value={content}
-            onChange={onChangeContent}
-            placeholder="내용을 입력해주세요. "
-          />
-        </S.InputContainer>
-        <S.ButtonContainer>
-          <S.Button onClick={cancellButton}>취소</S.Button>
-          <S.Button type="submit">등록</S.Button>
-        </S.ButtonContainer>
-      </S.Form>
-    </S.Layout>
+    <S.Container>
+      <S.Title>게시글 작성하기</S.Title>
+      <S.Layout>
+        <S.Form onSubmit={onSubmitHandler}>
+          <S.CateInput>
+            <S.Label>카테고리</S.Label>
+            <S.Select onChange={onChangeCategory}>
+              <option value={''}>카테고리를 선택해주세요.</option>
+              <option value={'자유'}>자유</option>
+              <option value={'애니'}>애니</option>
+              <option value={'오류 신고'}>오류 신고</option>
+            </S.Select>
+          </S.CateInput>
+          <S.TitleInput>
+            <S.Label>제목</S.Label>
+            <S.Input
+              value={title}
+              onChange={onChangeTitle}
+              placeholder="제목을 입력해주세요."
+            />
+          </S.TitleInput>
+          <S.ContentInput>
+            <S.LabelContent>
+              내용
+              <br />
+              (10자 이상)
+            </S.LabelContent>
+            <S.Textarea
+              value={content}
+              onChange={onChangeContent}
+              placeholder="내용을 입력해주세요."
+            />
+          </S.ContentInput>
+          <S.ButtonContainer>
+            <S.Button onClick={cancellButton}>취소</S.Button>
+            <S.Button type="submit">등록</S.Button>
+          </S.ButtonContainer>
+        </S.Form>
+      </S.Layout>
+    </S.Container>
   );
 };
 

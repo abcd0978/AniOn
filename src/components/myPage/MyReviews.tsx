@@ -4,6 +4,8 @@ import { atom, useAtom, useAtomValue } from 'jotai';
 import { Database } from '../../types/supabase';
 import * as userStore from '../../store/userStore';
 import { useNavigate } from 'react-router-dom';
+import { deleteComment } from '../../api/aniComment';
+
 const supabaseUrl = process.env.REACT_APP_SUPABASE_URL;
 const supabaseAnonKey = process.env.REACT_APP_ANON_KEY;
 
@@ -12,6 +14,7 @@ if (!supabaseUrl || !supabaseAnonKey) {
 }
 
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
+
 type ReadAniComment = Database['public']['Tables']['ani_comments']['Row'];
 
 const userReviewAtom = atom<ReadAniComment[]>([]);
@@ -20,6 +23,7 @@ const MyReviews = () => {
   const [userReview, setUserReview] = useAtom(userReviewAtom);
   const user = useAtomValue(userStore.user);
   const navigate = useNavigate();
+
   useEffect(() => {
     const fetchUserReview = async () => {
       try {
@@ -47,17 +51,32 @@ const MyReviews = () => {
 
     fetchUserReview();
   }, [setUserReview, user]);
-  const handleReviewClick = (animeId: string) => {
+  const handleReviewClick = async (animeId: string) => {
     navigate(`/recommend/${animeId}`);
+  };
+
+  const handleRemoveReview = async (reviewId: string) => {
+    try {
+      await deleteComment(reviewId); // 주어진 함수를 사용하여 리뷰 삭제
+      const updatedUserReview = userReview.filter(
+        (review) => review.id !== reviewId,
+      );
+      setUserReview(updatedUserReview);
+    } catch (error) {
+      console.error('리뷰 삭제 중 에러', error);
+    }
   };
   return (
     <div>
       <h2>작성한 리뷰들</h2>
-
       <ul>
         {userReview.map((review) => (
-          <li key={review.id} onClick={() => handleReviewClick(review.ani_id)}>
+          <li key={review.id}>
             <div>{review.comment}</div>
+            <button onClick={() => handleReviewClick(review.ani_id)}>
+              이동
+            </button>
+            <button onClick={() => handleRemoveReview(review.id)}>제거</button>
           </li>
         ))}
       </ul>
