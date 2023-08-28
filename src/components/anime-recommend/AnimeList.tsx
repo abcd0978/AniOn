@@ -6,7 +6,7 @@ import { throttle } from 'lodash';
 import useIntersect from '../../hooks/useIntersect';
 import AnimeFilter from './top-menu/AnimeFilter';
 import { HoverInfo, S } from './styled.AnimeList';
-import { fetchAnimeLikes, toggleAnimeLike } from '../../api/likeApi';
+import { fetchAllAnimeLikes, toggleAnimeLike } from '../../api/likeApi';
 import { fetchAnimeList } from '../../api/laftel';
 import {
   offsetAtom,
@@ -60,7 +60,7 @@ const AnimeList = () => {
 
   const likesQueryOptions = {
     queryKey: ['animeLikes'],
-    queryFn: () => fetchAnimeLikes(),
+    queryFn: () => fetchAllAnimeLikes(),
     refetchOnWindowFocus: false,
   };
 
