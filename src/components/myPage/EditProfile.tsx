@@ -152,6 +152,8 @@ const EditProfile = () => {
     return (
       <Container>
         <EditTitle>프로필 수정</EditTitle>
+        <Divider />
+
         <Item>
           <Label>사진</Label>
           {userProfile && editMode === 'photo' ? (
@@ -198,11 +200,16 @@ const EditProfile = () => {
         <TextBelowPhoto>
           등록된 사진은 회원님의 게시물이나 댓글들에 사용됩니다.
         </TextBelowPhoto>
+        <Divider />
         <Item>
           <Label>이메일</Label>
           <div>{userProfile[0]?.email}</div>
         </Item>
+        <Divider />
+
         <Label>비밀번호</Label>
+        <Divider />
+
         <Item>
           <Label>닉네임</Label>
           {editMode === 'nickname' ? (
@@ -244,6 +251,7 @@ const EditProfile = () => {
             </>
           )}
         </Item> */}
+        <Divider />
       </Container>
     );
   };
@@ -258,9 +266,9 @@ const Container = styled.div`
   flex-direction: column;
   gap: 16px;
   align-items: flex-start;
-  position: fixed;
-  top: 110px;
-  margin-left: 100px;
+  position: relative;
+  top: -230px;
+  margin-left: 150px;
 `;
 
 const Item = styled.div`
@@ -272,6 +280,7 @@ const Item = styled.div`
 const Label = styled.div`
   font-size: 16px;
   font-weight: bold;
+  width: 70px;
 `;
 
 const Input = styled.input`
@@ -282,8 +291,13 @@ const Input = styled.input`
 
 const Button = styled.button`
   padding: 8px;
-  border-radius: 4px;
-  border: none;
+  border: 1px solid lightgray;
+  border-radius: 12px;
+  background-color: transparent;
+  width: 80px;
+  height: 30px;
+  text-align: center;
+  margin-left: 700px;
 `;
 const EditTitle = styled.div`
   width: 150px;
@@ -299,4 +313,12 @@ const TextBelowPhoto = styled.div`
   color: #838383;
   font-size: 14px;
   margin-top: 8px;
+  width: 400px;
+`;
+const Divider = styled.div`
+  width: 250%;
+  height: 1px;
+  background-color: #ccc;
+  margin-top: 8px;
+  margin-bottom: 8px;
 `;

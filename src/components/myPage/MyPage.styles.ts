@@ -36,6 +36,7 @@ export const Profile = {
     background: #fff;
     box-shadow: 0px 0px 25px 0px rgba(0, 0, 0, 0.1);
     width: 250px;
+    padding: 20px;
   `,
   MyProfileContainer: styled.div`
     display: flex;
@@ -179,6 +180,8 @@ export const MyAward = {
     gap: 8px;
     border-radius: 20px;
     border: 1px solid #d9d9d9;
+    margin-top: 20px;
+    margin-bottom: 20px;
   `,
 };
 export const MyProfilePoint = {
@@ -190,5 +193,6 @@ export const MyProfilePoint = {
     align-items: flex-start;
     gap: 8px;
     background: #d9d9d9;
+    margin-bottom: 20px;
   `,
 };
