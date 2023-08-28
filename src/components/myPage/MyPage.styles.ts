@@ -10,6 +10,18 @@ export const Profile = {
     width: 120px;
     height: auto;
   `,
+  MyPageText: styled.div`
+    color: #000;
+    font-size: 25px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    letter-spacing: -0.48px;
+  `,
+  MyNickname: styled.div`
+    margin-left: 30px;
+    widht: 120px;
+  `,
 };
 export const EditProfile = {
   Container: styled.div`
@@ -43,6 +55,9 @@ export const EditProfile = {
 };
 
 export const InfoMenu = {
+  FullScreen: styled.div`
+    display: flex;
+  `,
   Container: styled.div`
     display: flex;
     flex-direction: column;

@@ -31,29 +31,41 @@ const MyInfoMenu = () => {
   };
 
   return (
-    <InfoMenu.Container>
-      <InfoMenu.EditButton onClick={() => setSelectedComponent('EditProfile')}>
-        <InfoMenu.EditButtonIcon src={badge} />
-        프로필 수정
-      </InfoMenu.EditButton>
-      <InfoMenu.DecoButton onClick={() => setSelectedComponent('DecoProfile')}>
-        <InfoMenu.DecoButtonIcon src={deco} />
-        프로필 꾸미기
-      </InfoMenu.DecoButton>
-      <InfoMenu.LikedButton onClick={() => setSelectedComponent('LikedAnime')}>
-        <InfoMenu.LikedButtonIcon src={favorite} />
-        찜한 목록
-      </InfoMenu.LikedButton>
-      <InfoMenu.ReviewButton onClick={() => setSelectedComponent('MyReviews')}>
-        <InfoMenu.ReviewButtonIcon src={review} />
-        리뷰 관리
-      </InfoMenu.ReviewButton>
-      <InfoMenu.WriteButton onClick={() => setSelectedComponent('WhatIWrote')}>
-        <InfoMenu.WriteButtonIcon src={write} />
-        작성한 글
-      </InfoMenu.WriteButton>
-      {renderSelectedComponent()}
-    </InfoMenu.Container>
+    <InfoMenu.FullScreen>
+      <InfoMenu.Container>
+        <InfoMenu.EditButton
+          onClick={() => setSelectedComponent('EditProfile')}
+        >
+          <InfoMenu.EditButtonIcon src={badge} />
+          프로필 수정
+        </InfoMenu.EditButton>
+        <InfoMenu.DecoButton
+          onClick={() => setSelectedComponent('DecoProfile')}
+        >
+          <InfoMenu.DecoButtonIcon src={deco} />
+          프로필 꾸미기
+        </InfoMenu.DecoButton>
+        <InfoMenu.LikedButton
+          onClick={() => setSelectedComponent('LikedAnime')}
+        >
+          <InfoMenu.LikedButtonIcon src={favorite} />
+          찜한 목록
+        </InfoMenu.LikedButton>
+        <InfoMenu.ReviewButton
+          onClick={() => setSelectedComponent('MyReviews')}
+        >
+          <InfoMenu.ReviewButtonIcon src={review} />
+          리뷰 관리
+        </InfoMenu.ReviewButton>
+        <InfoMenu.WriteButton
+          onClick={() => setSelectedComponent('WhatIWrote')}
+        >
+          <InfoMenu.WriteButtonIcon src={write} />
+          작성한 글
+        </InfoMenu.WriteButton>
+      </InfoMenu.Container>
+      <div>{renderSelectedComponent()}</div>
+    </InfoMenu.FullScreen>
   );
 };
 export default MyInfoMenu;

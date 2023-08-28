@@ -63,7 +63,7 @@ const MyProfile = () => {
       ) : (
         <Profile.BasicImage src={myAnonymousImg} />
       )}
-      <div>{user.nickname}님</div>
+      <Profile.MyNickname>{user.nickname}님</Profile.MyNickname>
     </div>
   );
 };
