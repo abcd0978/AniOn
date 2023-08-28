@@ -30,7 +30,6 @@ const BoardDetail = () => {
   const [title, setTitle] = useState<string>('');
   const [content, setContent] = useState<string>('');
   const [category, setCategory] = useState<string>('');
-  // 수정 버튼을 눌렀을 때 수정할 카테고리를 관리하는 상태 추가
   const [editCategory, setEditCategory] = useState<string>('');
 
   const onChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -143,8 +142,13 @@ const BoardDetail = () => {
             ) : (
               <S.Box>
                 <S.Date> {new Date(posts.created_at).toLocaleString()}</S.Date>
-                <p>{posts.users?.nickname}</p>
-                <S.Img src={posts.users?.profile_img_url} alt="프로필 이미지" />
+                <S.User>
+                  <S.Img
+                    src={posts.users?.profile_img_url}
+                    alt="프로필 이미지"
+                  />
+                  <S.Nickname>{posts.users?.nickname}</S.Nickname>
+                </S.User>
                 <S.Title>{posts.title}</S.Title>
               </S.Box>
             )}
@@ -156,7 +160,7 @@ const BoardDetail = () => {
               <S.Content>{posts.content}</S.Content>
             )}
           </S.PostContainer>
-          <Comments />
+          {!isEdit && <Comments />}
         </>
       ) : (
         <div>Loading...</div>

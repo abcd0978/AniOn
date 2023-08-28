@@ -74,9 +74,24 @@ export const Search = styled.div`
 export const Write = styled.div`
   display: flex;
 `;
+export const SearchInputContainer = styled.div`
+  position: relative;
+`;
+
 export const SearchInput = styled.input`
   width: 260px;
   height: 40px;
   border: 1px solid #cfcfcf;
   border-radius: 20px;
+  padding-right: 30px;
+  padding-left: 15px;
+`;
+
+export const SearchIcon = styled.img`
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
 `;
