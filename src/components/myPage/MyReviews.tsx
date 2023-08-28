@@ -5,6 +5,8 @@ import { Database } from '../../types/supabase';
 import * as userStore from '../../store/userStore';
 import { useNavigate } from 'react-router-dom';
 import { deleteComment } from '../../api/aniComment';
+import { Review } from './Wrote.styles';
+import { Button, Divider, EditTitle } from './EditProfile';
 
 const supabaseUrl = process.env.REACT_APP_SUPABASE_URL;
 const supabaseAnonKey = process.env.REACT_APP_ANON_KEY;
@@ -67,20 +69,22 @@ const MyReviews = () => {
     }
   };
   return (
-    <div>
-      <h2>작성한 리뷰들</h2>
+    <Review.Container>
+      <EditTitle>리뷰 이력</EditTitle>
+      <Divider />
       <ul>
         {userReview.map((review) => (
           <li key={review.id}>
             <div>{review.comment}</div>
-            <button onClick={() => handleReviewClick(review.ani_id)}>
+            <Button onClick={() => handleReviewClick(review.ani_id)}>
               이동
-            </button>
-            <button onClick={() => handleRemoveReview(review.id)}>제거</button>
+            </Button>
+            <Button onClick={() => handleRemoveReview(review.id)}>제거</Button>
+            <Divider />
           </li>
         ))}
       </ul>
-    </div>
+    </Review.Container>
   );
 };
 

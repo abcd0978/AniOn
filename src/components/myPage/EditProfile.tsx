@@ -289,7 +289,7 @@ const Input = styled.input`
   border: none;
 `;
 
-const Button = styled.button`
+export const Button = styled.button`
   padding: 8px;
   border: 1px solid lightgray;
   border-radius: 12px;
@@ -299,7 +299,7 @@ const Button = styled.button`
   text-align: center;
   margin-left: 700px;
 `;
-const EditTitle = styled.div`
+export const EditTitle = styled.div`
   width: 150px;
   height: 32px;
   color: #000;
@@ -315,7 +315,7 @@ const TextBelowPhoto = styled.div`
   margin-top: 8px;
   width: 400px;
 `;
-const Divider = styled.div`
+export const Divider = styled.div`
   width: 250%;
   height: 1px;
   background-color: #ccc;
