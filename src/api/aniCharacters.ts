@@ -57,7 +57,7 @@ const winnerResult = async (gender: string, id: string) => {
     return bNumOfWin - aNumOfWin;
   });
 
-  console.log('winner api!!!!');
+  // console.log('winner api!!!!');
   return sortedData;
 };
 

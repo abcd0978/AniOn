@@ -8,16 +8,14 @@ import { Database } from '../../types/supabase';
 import { useNavigate } from 'react-router-dom';
 type ReadCharacters = Database['public']['Tables']['characters']['Row'];
 
-type Props = {};
-
-function AniWorldCup({}: Props) {
+function AniWorldCup() {
   const { gender } = useParams() as { gender: string };
 
   const navigate = useNavigate();
 
-  const [characters, setCharacters] = useState<any>([]);
-  const [displays, setDisplays] = useState<any>([]); //any 말고 다시 생각해보기
-  const [winners, setWinners] = useState<any>([]);
+  const [characters, setCharacters] = useState<ReadCharacters[]>([]);
+  const [displays, setDisplays] = useState<ReadCharacters[]>([]); //any 말고 다시 생각해보기
+  const [winners, setWinners] = useState<ReadCharacters[]>([]);
   const [isDataLoaded, setIsDataLoaded] = useState(false);
 
   const {

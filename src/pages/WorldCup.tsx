@@ -1,16 +1,13 @@
-import React from 'react';
 import questionMark from '../assets/question_mark.svg';
 import { S } from '../components/worldcup/worldCup.style';
 import { useNavigate } from 'react-router';
 
-type Props = {};
-
-function WorldCup({}: Props) {
+function WorldCup() {
   const navigate = useNavigate();
 
   return (
     <>
-      <S.WorldCupContainer>
+      <S.WorldCupContainer2>
         <S.WorldCupMainTitle>이상형 월드컵</S.WorldCupMainTitle>
         <S.WorldCupTestContainer>
           <S.WorldCupTest>
@@ -52,7 +49,7 @@ function WorldCup({}: Props) {
             </S.WorldCupTestButton>
           </S.WorldCupTest>
         </S.WorldCupTestContainer>
-      </S.WorldCupContainer>
+      </S.WorldCupContainer2>
     </>
   );
 }
