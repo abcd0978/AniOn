@@ -42,6 +42,7 @@ function AnimeDetail({}: Props) {
     queryFn: () => {
       return getAnimeById(ani_id);
     },
+    refetchOnWindowFocus: false,
   });
   // 해당 aniId 영상 가져오기
   const {
@@ -53,6 +54,7 @@ function AnimeDetail({}: Props) {
     queryFn: () => {
       return getAnimePreview(ani_id);
     },
+    refetchOnWindowFocus: false,
   });
 
   const likesQueryOptions = {
@@ -81,6 +83,7 @@ function AnimeDetail({}: Props) {
     const data = {
       user_id: user.id,
       anime_id: ani_id,
+      isDetailPage: true,
     };
     toggleLikeMutation.mutate(data);
   };
@@ -160,7 +163,8 @@ function AnimeDetail({}: Props) {
         </S.ContentsContainer>
         <S.DetailLabel ref={previewRef}>1화 맛보기</S.DetailLabel>
         <S.ContentVideoLayout>
-          {animeVideo.public_streaming_info.hls_preview_url ? (
+          {animeVideo.public_streaming_info &&
+          animeVideo.public_streaming_info.hls_preview_url ? (
             <VideoPlayer
               src={animeVideo.public_streaming_info.hls_preview_url}
               type="m3u8"
