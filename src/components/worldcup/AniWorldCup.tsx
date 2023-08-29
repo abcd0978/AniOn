@@ -3,7 +3,7 @@ import { fetchCharacter, updateNumOfWin } from '../../api/aniCharacters';
 import { useParams } from 'react-router';
 import { S } from './worldCup.style';
 import { useEffect, useState } from 'react';
-// import vs from '../../assets/vs.svg';
+import vs from '../../assets/vs.svg';
 import { Database } from '../../types/supabase';
 import { useNavigate } from 'react-router-dom';
 type ReadCharacters = Database['public']['Tables']['characters']['Row'];
@@ -24,9 +24,8 @@ function AniWorldCup() {
     data: aniCharacter,
   } = useQuery({
     queryKey: ['aniCharacter', gender],
-    queryFn: () => {
-      return fetchCharacter(gender);
-    },
+    queryFn: () => fetchCharacter(gender),
+    refetchOnWindowFocus: false,
   });
 
   useEffect(() => {
@@ -49,10 +48,11 @@ function AniWorldCup() {
   // console.log('이건가!!!', aniCharacter);
 
   // 이상형 월드컵 캐릭터 선택
-  const SelectWinnerhandler = (character: ReadCharacters) => () => {
+  const SelectWinnerhandler = (character: ReadCharacters) => async () => {
     if (characters.length <= 2) {
       if (winners.length === 0) {
-        // setDisplays([character]);
+        await updateNumOfWin(character.id);
+        setDisplays([character]);
         // console.log('r u winner???', character);
         navigate(`/worldcup/result/${gender}`, { state: character });
       } else {
@@ -73,9 +73,11 @@ function AniWorldCup() {
       <S.WorldCupContainer>
         <S.WorldCupMainTitle>
           {gender === 'man' ? '남자' : '여자'} 애니메이션 캐릭터 이상형 월드컵
-          8강
+          16강
           <S.WorldCupTestContainer>
             {displays.map((character: ReadCharacters) => {
+              console.log(character);
+              console.log(characters);
               return (
                 <S.WorldCupTest key={character.id}>
                   <S.WorldCupUp>
@@ -98,6 +100,7 @@ function AniWorldCup() {
               );
             })}
           </S.WorldCupTestContainer>
+          <S.WorldcupVS src={vs} alt="vs" />
         </S.WorldCupMainTitle>
       </S.WorldCupContainer>
     </>

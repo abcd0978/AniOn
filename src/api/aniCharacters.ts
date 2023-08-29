@@ -1,3 +1,4 @@
+import { ResultCharacterType } from '../pages/WorldCupResult';
 import supabase from '../supabaseClient';
 // import { Database } from '../types/supabase';
 
@@ -14,7 +15,7 @@ const fetchCharacter = async (gender: string) => {
 const fetchWinnerResult = async (id: string): Promise<any> => {
   const { data } = await supabase
     .from('worldcup')
-    .select('*,characters(*)')
+    .select('num_of_win')
     .eq('character_id', id);
   return data;
 };
@@ -42,23 +43,29 @@ const updateNumOfWin = async (id: string): Promise<void> => {
 };
 
 // 이상형 월드컵 결과 가져오기
-const winnerResult = async (gender: string, id: string) => {
-  await updateNumOfWin(id);
-
+const winnerResult = async (gender: string) => {
   const { data } = await supabase
     .from('characters')
     .select('*,worldcup(num_of_win)')
     .eq('gender', gender);
 
+  if (!data) {
+    return;
+  }
   // num_of_win 값을 추출 후 내림차순 //배열안 객체 안 배열에 num_of_win이 있어서
-  const sortedData = data?.sort((a, b) => {
+  const sortedData: ResultCharacterType[] = data.sort((a, b) => {
     const aNumOfWin = a.worldcup[0]?.num_of_win || 0;
     const bNumOfWin = b.worldcup[0]?.num_of_win || 0;
     return bNumOfWin - aNumOfWin;
   });
 
+  const num_of_win = data?.map((d) => d.worldcup[0].num_of_win);
+  const total: number = num_of_win?.reduce(
+    (acc: number, curr: number) => acc + curr,
+    0,
+  );
   // console.log('winner api!!!!');
-  return sortedData;
+  return [sortedData, total];
 };
 
 export { fetchCharacter, fetchWinnerResult, updateNumOfWin, winnerResult };

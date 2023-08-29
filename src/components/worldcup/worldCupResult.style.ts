@@ -133,6 +133,7 @@ export const R = {
   `,
 
   ResultTopTextBox: styled.div`
+    width: 100%;
     height: 89px;
     display: flex;
     flex-direction: column;
@@ -140,18 +141,25 @@ export const R = {
     gap: 12px;
   `,
 
+  ResultAniText: styled.div`
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  `,
+
+  // 말줄임표 or 줄 넘기기
   ResultTopTextAni: styled.p`
+    width: 80%;
     color: #000;
-    text-align: center;
     font-size: 16px;
     font-weight: 400;
     line-height: 150%; /* 24px */
     letter-spacing: -0.24px;
 
-    overflow: hidden;
     white-space: nowrap;
+    overflow: hidden;
     text-overflow: ellipsis;
-    word-break: break-all;
   `,
 
   ResultTopTextCha: styled.p`

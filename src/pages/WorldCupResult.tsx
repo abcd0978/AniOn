@@ -3,9 +3,9 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { S } from '../components/worldcup/worldCup.style';
 import { R } from '../components/worldcup/worldCupResult.style';
 import { useQuery } from '@tanstack/react-query';
-import { fetchWinnerResult, winnerResult } from '../api/aniCharacters';
+import { winnerResult } from '../api/aniCharacters';
 
-type ResultCharacterType = {
+export type ResultCharacterType = {
   ani_title: string;
   character_name: string;
   id: string;
@@ -19,47 +19,47 @@ type ResultCharacterType = {
 
 const WorldCupResult = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  // 1. gender를 useEffcet의 의존성 배열에 넣고, 받아온 resultData를 state로 관리하면? 새로고침시 데이터는 그대로이나 update는 발동?
+  // 2. 새로고침을 막으면 ?
+  // 3. 그냥 이동하기 전에 비동기로 실행 시간을 주자. > 채택
   const { gender } = useParams() as { gender: string };
   const { state: winner } = useLocation();
 
   const [topRank, setTopRank] = useState<ResultCharacterType[]>();
   const [otherRank, setOtherRank] = useState<ResultCharacterType[]>();
-
-  // 이게 필요한가...?...
-  const {
-    isLoading: isWinnerLoading,
-    isError: isWinnerError,
-    data: winnerCount,
-  } = useQuery({
-    queryKey: ['winner'],
-    queryFn: () => {
-      return fetchWinnerResult(winner.id);
-    },
-  });
+  const [total, setTotal] = useState<number>(0);
 
   // 월드컵 전체 결과 가져오기
   const {
     isLoading: isResultLoading,
     isError: isResultError,
     data: totalResult,
-  } = useQuery(['worldcupResult'], () => {
-    return winnerResult(gender, winner.id);
+  } = useQuery({
+    queryKey: ['worldcupResult'],
+    queryFn: () => winnerResult(gender),
+    refetchOnWindowFocus: false,
   });
 
   useEffect(() => {
-    if (totalResult) {
-      const topRanks = totalResult?.slice(0, 3);
-      const otherRanks = totalResult?.slice(3);
+    if (!totalResult) {
+      return;
+    }
+    if (Array.isArray(totalResult[0])) {
+      //요소의 값 / total * 100
+      setTotal(totalResult[1] as number);
+      const topRanks = totalResult[0]!.slice(0, 3);
+      const otherRanks = totalResult[0]!.slice(3, 10);
       setTopRank(topRanks);
       setOtherRank(otherRanks);
     }
-  }, [totalResult]); //TODO: totalResult가 바뀔때마다 렌더링 되면 안됨.
+  }, [totalResult]);
 
-  if (isWinnerLoading || isResultLoading) {
+  if (isResultLoading) {
     return <div>데이터를 가져오는 중입니다..!</div>;
   }
 
-  if (isResultError || isWinnerError) {
+  if (isResultError) {
     return <div>데이터를 가져오지 못했습니다..😥</div>;
   }
 
@@ -118,15 +118,20 @@ const WorldCupResult = () => {
                     ></R.ResultTopCardImg>
                   </R.TopImgRankBox>
                   <R.ResultTopTextBox>
-                    <div>
+                    <R.ResultAniText>
                       <R.ResultTopTextAni>
                         {character.ani_title}
                       </R.ResultTopTextAni>
                       <R.ResultTopTextCha>
                         {character.character_name}
                       </R.ResultTopTextCha>
+                    </R.ResultAniText>
+                    <div>
+                      {Math.round(
+                        (character.worldcup[0].num_of_win / total) * 100,
+                      )}
+                      %
                     </div>
-                    <div>20%</div>
                   </R.ResultTopTextBox>
                 </R.ResultTopCard>
               );
@@ -146,7 +151,12 @@ const WorldCupResult = () => {
                     </R.otherRankName>
                     <R.otherRankAni>{character.ani_title}</R.otherRankAni>
                   </R.otherRankText>
-                  <div>10.9%</div>
+                  <div>
+                    {Math.round(
+                      (character.worldcup[0].num_of_win / total) * 100,
+                    )}
+                    %
+                  </div>
                 </R.otherRankTextBox>
               </R.OtherRankBox>
             );
