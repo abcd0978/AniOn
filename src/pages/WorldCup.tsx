@@ -18,7 +18,7 @@ function WorldCup() {
                 <S.WorldCupTitles>이상형 월드컵</S.WorldCupTitles>
               </div>
               <S.WorldCupImgs>
-                <img src={questionMark} />
+                <img src={questionMark} alt="questionMark" />
               </S.WorldCupImgs>
             </S.WorldCupUp>
             <S.WorldCupTestButton
@@ -37,7 +37,7 @@ function WorldCup() {
                 <S.WorldCupTitles>이상형 월드컵</S.WorldCupTitles>
               </div>
               <S.WorldCupImgs>
-                <img src={questionMark} />
+                <img src={questionMark} alt="questionMark" />
               </S.WorldCupImgs>
             </S.WorldCupUp>
             <S.WorldCupTestButton
