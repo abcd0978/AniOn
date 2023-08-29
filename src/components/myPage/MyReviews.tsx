@@ -8,8 +8,7 @@ import { deleteComment } from '../../api/aniComment';
 import { Review } from './Wrote.styles';
 import { Button, Divider, EditTitle } from './EditProfile';
 import goReview from '../../assets/next (1).png';
-import { useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
+
 const supabaseUrl = process.env.REACT_APP_SUPABASE_URL;
 const supabaseAnonKey = process.env.REACT_APP_ANON_KEY;
 
@@ -28,22 +27,7 @@ const MyReviews = () => {
   const [userReview, setUserReview] = useAtom(userReviewAtom);
   const user = useAtomValue(userStore.user);
   const navigate = useNavigate();
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const [searchKeyword, setSearchKeyword] = useState<string>('');
 
-  const {
-    data: postsAndTotalPages,
-    isLoading,
-    isFetching,
-  } = useQuery<{ data: ReadAniComment[]; totalPages: number }>(
-    ['ani_comments', selectedCategory, searchKeyword, page],
-    () => getAnime(selectedCategory || ''),
-    {
-      onError: (error) => {
-        console.error('Error fetching posts:', error);
-      },
-    },
-  );
   useEffect(() => {
     const fetchUserReview = async () => {
       try {
