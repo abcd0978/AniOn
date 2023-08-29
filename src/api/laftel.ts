@@ -41,6 +41,7 @@ export const fetchAnimeList = async (laftelParams: laftelParamsM) => {
   };
 };
 
+// 검색 API
 // https://laftel.net/api/search/v3/keyword/?keyword=%EB%82%98&viewing_only=true&offset=0&size=24
 export const fetchSearchedAnime = async (laftelParams: laftelParamsM) => {
   const result = await api.get(`/search/v3/keyword/?`, {
@@ -58,18 +59,21 @@ export const fetchSearchedAnime = async (laftelParams: laftelParamsM) => {
   };
 };
 
+// preview (1화 3분)
 export const getAnimePreview = async (animeId: string) => {
   const result = await api.get(`/episodes/v1/${animeId}/recent-video/`);
   // console.log(result);
   return result.data;
 };
 
-//애니 상세 내용 가져오기
+// 애니 상세 내용 가져오기
 export const getAnimeById = async (animeId: string) => {
   const result = await api.get(`/items/v2/${animeId}/`);
   // console.log(result);
   return result!.data!;
 };
+
+// 메인 페이지
 export const getAnimeRankings = async (type: recommendType) => {
   const result = await api.get(`/home/v1/recommend/ranking?size=10`, {
     params: {
