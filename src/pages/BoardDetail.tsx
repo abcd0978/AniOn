@@ -98,17 +98,16 @@ const BoardDetail = () => {
       navigate('/board');
     }
   };
-
   // Post 수정
   const updateMutation = useMutation(updatePost, {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['posts'] });
+      refetchPost(); // 수정 후 데이터 리패치
+      setIsEdit(false); // 수정 모드 종료
     },
   });
 
   const editButton = (posts: UpdatePosts) => {
-    setIsEdit(!isEdit);
-
     if (!isEdit) {
       setTitle(posts.title);
       setContent(posts.content);
@@ -121,10 +120,8 @@ const BoardDetail = () => {
         category: editCategory,
       };
       updateMutation.mutate(editPost);
-      setIsEdit(!isEdit);
-
-      refetchPost();
     }
+    setIsEdit(!isEdit);
   };
 
   const insertLikeMutation = useMutation(createLike, {
