@@ -8,7 +8,8 @@ import { deleteComment } from '../../api/aniComment';
 import { Review } from './Wrote.styles';
 import { Button, Divider, EditTitle } from './EditProfile';
 import goReview from '../../assets/next (1).png';
-
+import { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 const supabaseUrl = process.env.REACT_APP_SUPABASE_URL;
 const supabaseAnonKey = process.env.REACT_APP_ANON_KEY;
 
@@ -19,6 +20,7 @@ if (!supabaseUrl || !supabaseAnonKey) {
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 type ReadAniComment = Database['public']['Tables']['ani_comments']['Row'];
+const itemsPerPage = 4;
 
 const userReviewAtom = atom<ReadAniComment[]>([]);
 
@@ -26,19 +28,34 @@ const MyReviews = () => {
   const [userReview, setUserReview] = useAtom(userReviewAtom);
   const user = useAtomValue(userStore.user);
   const navigate = useNavigate();
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [searchKeyword, setSearchKeyword] = useState<string>('');
 
+  const {
+    data: postsAndTotalPages,
+    isLoading,
+    isFetching,
+  } = useQuery<{ data: ReadAniComment[]; totalPages: number }>(
+    ['ani_comments', selectedCategory, searchKeyword, page],
+    () => getAnime(selectedCategory || ''),
+    {
+      onError: (error) => {
+        console.error('Error fetching posts:', error);
+      },
+    },
+  );
   useEffect(() => {
     const fetchUserReview = async () => {
       try {
         if (!user) {
-          return; // 사용자가 로그인하지 않은 경우 아무것도 하지 않음
+          return;
         }
 
-        console.log('사용자 아이디에 따른 리뷰', user.id); // user.id를 사용하여 사용자 ID를 가져옴
+        console.log('사용자 아이디에 따른 리뷰', user.id);
         const { data, error } = await supabase
           .from('ani_comments')
           .select('*')
-          .eq('user_id', user.id) // user.id를 사용하여 사용자 ID에 해당하는 리뷰를 가져옴
+          .eq('user_id', user.id)
           .order('created_at', { ascending: false });
 
         if (error) {
@@ -60,7 +77,7 @@ const MyReviews = () => {
 
   const handleRemoveReview = async (reviewId: string) => {
     try {
-      await deleteComment(reviewId); // 주어진 함수를 사용하여 리뷰 삭제
+      await deleteComment(reviewId);
       const updatedUserReview = userReview.filter(
         (review) => review.id !== reviewId,
       );
