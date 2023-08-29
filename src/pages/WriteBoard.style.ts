@@ -10,7 +10,6 @@ const S = {
   `,
   Container: styled.div<{ width?: number }>`
     max-width: 1440px;
-    width: ${(props) => `${(props.width! / 1920) * 100}%`};
     height: 827px;
     border-radius: 20px;
   `,
@@ -78,12 +77,13 @@ const S = {
   `,
 
   Input: styled.input<{ width?: number }>`
-    width: 100%;
+    width: calc(100% - 120px);
     padding: 10px;
     outline: none;
     border-radius: 8px;
     background-color: #f5f5f5;
     border: none;
+    margin-right: 40px;
   `,
 
   Textarea: styled.textarea<{ width?: number }>`
@@ -98,7 +98,7 @@ const S = {
   `,
 
   ButtonContainer: styled.div<{ width?: number }>`
-    width: 1376px;
+    width: 100%;
     height: 40px;
     margin-top: 40px;
     margin-right: 40px;
