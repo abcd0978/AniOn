@@ -82,6 +82,7 @@ const AnimeList = () => {
     const data = {
       user_id: user.id,
       anime_id,
+      isDetailPage: false,
     };
     toggleLikeMutation.mutate(data);
   };

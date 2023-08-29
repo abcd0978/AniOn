@@ -179,6 +179,7 @@ export interface Database {
           id?: string;
           anime_id: string;
           user_id: string;
+          isDetailPage: boolean;
         };
         Update: {
           id?: string;

@@ -1,5 +1,6 @@
 import supabase from '../supabaseClient';
 import { InsertAnimeLikeG, ReadAnimeLikeG } from '../types/likes';
+import { getAnimeById } from './laftel';
 
 // const query = supabase.from('movies').select(`id, title`)
 // const movies: DbResult<typeof query> = await query
@@ -75,6 +76,11 @@ export const fetchAnimeMyLiked = async (params: Omit<ReadAnimeLikeG, 'id'>) => {
 
 // 좋아요 클릭
 export const toggleAnimeLike = async (params: InsertAnimeLikeG) => {
+  if (!params.isDetailPage) {
+    const ani = await getAnimeById(params.anime_id);
+    console.log('애니 추천 페이지 좋아요 fetch', ani);
+  }
+
   try {
     const data = await fetchAnimeMyLiked(params);
 
