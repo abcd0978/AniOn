@@ -5,6 +5,8 @@ import * as userStore from '../../store/userStore';
 import { useNavigate } from 'react-router-dom';
 import supabase from '../../supabaseClient'; // Import supabase client
 import { deletePost } from '../../api/boardapi';
+import { Review } from './Wrote.styles';
+import { Button, EditTitle } from './EditProfile';
 
 type ReadMyBoard = Database['public']['Tables']['posts']['Row'];
 
@@ -71,8 +73,9 @@ const WhatIWrote = () => {
   };
 
   return (
-    <div>
-      <button onClick={handleDeleteSelectedPosts}>선택한 게시물 삭제</button>
+    <Review.Container>
+      <EditTitle>작성한 글</EditTitle>
+      <Button onClick={handleDeleteSelectedPosts}>선택한 게시물 삭제</Button>
       <ul>
         {userPosts.map((post) => (
           <li key={post.id}>
@@ -81,15 +84,15 @@ const WhatIWrote = () => {
               checked={selectedPosts.includes(post.id?.toString() ?? '')}
               onChange={() => handleCheckboxChange(post.id?.toString() ?? '')}
             />
-            <div>카테고리: {post.category}</div>
+            <div>{post.category}</div>
             <h3 onClick={() => handlePostClick(post.id?.toString() ?? '')}>
               {' '}
-              제목: {post.title}
+              {post.title}
             </h3>
           </li>
         ))}
       </ul>
-    </div>
+    </Review.Container>
   );
 };
 
