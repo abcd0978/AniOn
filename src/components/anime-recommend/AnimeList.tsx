@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useAtom, useAtomValue } from 'jotai';
-import { useNavigate } from 'react-router';
 import { throttle } from 'lodash';
 import useIntersect from '../../hooks/useIntersect';
 import AnimeFilter from './top-menu/AnimeFilter';
-import { HoverInfo, S } from './styled.AnimeList';
+import { S } from './styled.AnimeList';
 import { fetchAllAnimeLikes, toggleAnimeLike } from '../../api/likeApi';
 import { fetchAnimeList } from '../../api/laftel';
 import {
@@ -17,17 +16,13 @@ import {
   keywordAtom,
 } from '../../store/animeRecommendStore';
 import * as userStore from '../../store/userStore';
-import LikeSvg from './LikeSvg';
-import viewDetail from '../../assets/viewdetail.svg';
 
 import { ReadAnimeLikeG } from '../../types/likes';
 import type { AnimeG } from '../../types/anime';
+import AnimeCard from './AnimeCard';
 
 const AnimeList = () => {
-  const navigate = useNavigate();
   const queryClient = useQueryClient();
-
-  // const [category, setCategory] = useAtom(selectedCategoryAtom);
 
   const user = useAtomValue(userStore.user);
   const genres = useAtomValue(selectedGenresAtom);
@@ -39,10 +34,6 @@ const AnimeList = () => {
   const size = 18;
   const sort = 'rank';
 
-  // const [sort, setSort] = useState<laftelParamsM['sort']>('rank');
-  // const [tags, setTags] = useState<laftelParamsM['tags']>([]);
-
-  // const [prevCategory, setPrevCategory] = useState(category); // 무한 스크롤 이슈 해결을 위해. 최적화가 필요할 듯.
   const [offset, setOffset] = useAtom(offsetAtom);
   const [animeList, setAnimeList] = useState<AnimeG[]>([]);
   const [isNextPage, setIsNextPage] = useState(false);
@@ -75,10 +66,11 @@ const AnimeList = () => {
     },
   });
 
-  const likesCount = (anime_id: string) => {
-    return likesData?.filter(
-      (like: ReadAnimeLikeG) => like.anime_id === anime_id,
-    ).length;
+  const likesCount = (anime_id: string): number => {
+    return likesData
+      ? likesData.filter((like: ReadAnimeLikeG) => like.anime_id === anime_id)
+          .length
+      : 0;
   };
 
   const handleLike = (anime_id: string) => {
@@ -94,6 +86,7 @@ const AnimeList = () => {
     toggleLikeMutation.mutate(data);
   };
 
+  // 여기서 find 하는것과 Card에서 db통신 고르기.
   const isLike = (anime_id: string) => {
     const likedAnime = likesData?.find(
       (like: ReadAnimeLikeG) =>
@@ -134,17 +127,6 @@ const AnimeList = () => {
     setAnimeList((prevAnimeList) => [...prevAnimeList, ...data.animeList]);
   }, [data]);
 
-  // useEffect(() => {
-  //   console.log('마운트');
-  //   console.log(animeList);
-  //   return () => {
-  //     console.log('언마운트');
-  //     setCategory('전체');
-  //     setOffset(0);
-  //     setAnimeList([]);
-  //   };
-  // }, []);
-
   if (isError) {
     return <div>Anime List를 가져오는 중 오류가 발생했습니다.</div>;
   }
@@ -164,54 +146,13 @@ const AnimeList = () => {
           <div>로딩중입니다.</div>
         ) : (
           animeList.map((anime: AnimeG) => (
-            <S.CardDiv key={anime.id}>
-              <S.CardInfo onClick={() => navigate(`/recommend/${anime.id}`)}>
-                <S.HoverDiv>
-                  <S.CardThumbnail
-                    src={
-                      anime.images?.length !== 0
-                        ? anime.images![0].img_url
-                        : anime.img
-                    }
-                    alt={anime.name}
-                  />
-                  <HoverInfo>
-                    <S.HoverGenre key={anime.id}>
-                      <S.GenreText>{anime.genres![0]}</S.GenreText>
-                    </S.HoverGenre>
-                    <S.HoverTitleAndDetail>
-                      <S.HoverTitle>{anime.name}</S.HoverTitle>
-                      <S.HoverViewDetail>
-                        <p>자세히 보기</p>
-                        <img
-                          className="viewDetail"
-                          src={viewDetail}
-                          alt="viewdetail"
-                        />
-                      </S.HoverViewDetail>
-                    </S.HoverTitleAndDetail>
-
-                    <S.HoverLikeBox>
-                      <LikeSvg
-                        onClick={() => handleLike(String(anime.id))}
-                        is_like={isLike(String(anime.id))}
-                      />
-                      <div>{likesCount(String(anime.id))}</div>
-                    </S.HoverLikeBox>
-                  </HoverInfo>
-                </S.HoverDiv>
-                <S.CardTitle>{anime.name}</S.CardTitle>
-              </S.CardInfo>
-              <S.CardGenres>
-                {anime.genres?.slice(0, 2).map((genre, index) => {
-                  return (
-                    <S.Genre key={index}>
-                      <S.GenreText># {genre}</S.GenreText>
-                    </S.Genre>
-                  );
-                })}
-              </S.CardGenres>
-            </S.CardDiv>
+            <AnimeCard
+              key={anime.id}
+              anime={anime}
+              likesCount={likesCount}
+              isLike={isLike}
+              handleLike={handleLike}
+            />
           ))
         )}
       </S.AnimeContainer>

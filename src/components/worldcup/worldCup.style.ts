@@ -1,8 +1,21 @@
 import styled from 'styled-components';
 
+// ------------- 월드컵 공통
 export const S = {
   WorldCupContainer: styled.div`
     display: flex;
+    width: 1440px;
+    height: 999px;
+    padding: 32px 0px;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 40px;
+    flex-shrink: 0;
+    margin: 0 auto;
+  `,
+
+  WorldCupContainer2: styled.div`
+    /* display: flex; */
     width: 1440px;
     height: 999px;
     padding: 32px 0px;
@@ -18,6 +31,7 @@ export const S = {
     font-size: 32px;
     font-weight: 700;
     letter-spacing: -0.48px;
+    margin-bottom: 32px;
   `,
 
   WorldCupTestContainer: styled.div`
@@ -106,7 +120,7 @@ export const S = {
       border-radius: 400px;
     }
   `,
-  //------------------------------------------
+  //----------------------------------------------Test쪽
   WorldCupImgs: styled.div`
     margin-top: 32px;
     width: 400px;
@@ -136,49 +150,5 @@ export const S = {
     line-height: 150%; /* 30px */
     letter-spacing: -0.3px;
     cursor: pointer;
-  `,
-  //------------------------------------------
-  WorldCupWinnerImg: styled.div`
-    margin-top: 72px;
-    width: 440px;
-    height: 440px;
-    flex-shrink: 0;
-    border-radius: 440px;
-    background: #d9d9d9;
-
-    img {
-      position: relative;
-      width: 440px;
-      height: 440px;
-      border-radius: 440px;
-    }
-  `,
-  WorldCupWinnerCard: styled.div`
-    display: flex;
-    width: 584px;
-    height: 746px;
-    padding: 40px;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 100px;
-  `,
-
-  WorldCupResultText: styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    align-self: stretch;
-    margin-top: 32px;
-    margin-bottom: 72px;
-  `,
-
-  WorldCupResultButtonBox: styled.div`
-    width: 710px;
-    display: flex;
-    align-items: center;
-    text-align: center;
-    justify-content: center;
-    gap: 20px;
   `,
 };
