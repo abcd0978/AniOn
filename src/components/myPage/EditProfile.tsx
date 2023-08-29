@@ -298,9 +298,9 @@ export const Button = styled.button`
   border: 1px solid lightgray;
   border-radius: 12px;
   background-color: transparent;
-  width: 80px;
-  height: 30px;
-  text-align: center;
+  width: auto;
+  height: auto;
+  // text-align: center;
   margin-left: 700px;
 `;
 export const EditTitle = styled.div`

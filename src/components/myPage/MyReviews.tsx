@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { deleteComment } from '../../api/aniComment';
 import { Review } from './Wrote.styles';
 import { Button, Divider, EditTitle } from './EditProfile';
+import goReview from '../../assets/next (1).png';
 
 const supabaseUrl = process.env.REACT_APP_SUPABASE_URL;
 const supabaseAnonKey = process.env.REACT_APP_ANON_KEY;
@@ -75,11 +76,21 @@ const MyReviews = () => {
       <ul>
         {userReview.map((review) => (
           <li key={review.id}>
-            <div>{review.comment}</div>
-            <Button onClick={() => handleReviewClick(review.ani_id)}>
-              이동
-            </Button>
-            <Button onClick={() => handleRemoveReview(review.id)}>제거</Button>
+            <Review.ReviewComments>{review.comment}</Review.ReviewComments>
+            <Review.ButtonContainer>
+              <Review.Date>
+                {new Date(review.created_at).toLocaleString()}
+              </Review.Date>
+              <Review.ButtonArray>
+                <Review.Button onClick={() => handleRemoveReview(review.id)}>
+                  삭제
+                </Review.Button>
+                <Review.Button onClick={() => handleReviewClick(review.ani_id)}>
+                  보러가기
+                  <Review.ButtonIcon src={goReview} />
+                </Review.Button>
+              </Review.ButtonArray>
+            </Review.ButtonContainer>
             <Divider />
           </li>
         ))}

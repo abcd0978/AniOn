@@ -168,6 +168,13 @@ export const InfoMenu = {
       background-image: url(${hoverwrite});
     }
   `,
+  InfoButtonContainer: styled.div`
+    display: flex;
+  `,
+  InfoButton: styled.button`
+    background-color: transparent;
+    border: transparent;
+  `,
 };
 
 export const MyAward = {
