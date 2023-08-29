@@ -10,6 +10,7 @@ export const accessTokenAtom = atomWithStorage<string | null>(
   null,
 );
 export const logoutUser = atom(null, (__, set) => {
+  set(accessTokenAtom, null);
   set(user, null);
 });
 export const writeUser = atom(null, async (get, set) => {

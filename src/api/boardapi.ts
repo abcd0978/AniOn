@@ -3,6 +3,8 @@ import { Database } from '../types/supabase';
 type InsertPosts = Database['public']['Tables']['posts']['Insert'];
 type ReadPosts = Database['public']['Tables']['posts']['Row'];
 type UpdatePosts = Database['public']['Tables']['posts']['Update'];
+type InsertLike = Database['public']['Tables']['likes']['Insert'];
+type users = Database['public']['Tables']['users']['Row'];
 
 //전체 post 불러오기 + 페이지네이션
 const getPosts = async (
@@ -15,7 +17,7 @@ const getPosts = async (
 
     const { data, error } = await supabase
       .from('posts')
-      .select('*,users(nickname,profile_img_url)')
+      .select('*,users(nickname,profile_img_url),likes(*)')
       .order('created_at', { ascending: false })
       .range(startIndex, startIndex + itemsPerPage - 1);
 
@@ -28,7 +30,7 @@ const getPosts = async (
       .select('count', { count: 'exact' });
 
     const totalPages = Math.ceil(count! / itemsPerPage);
-
+    console.log('보드', data);
     if (category) {
       const filteredData = data.filter(
         (post: ReadPosts) => post.category === category,
@@ -62,6 +64,7 @@ const createPost = async (newPost: InsertPosts) => {
 const deletePost = async (id: string): Promise<void> => {
   await supabase.from('posts').delete().eq('id', id);
 };
+
 //post 수정
 const updatePost = async (editPost: UpdatePosts): Promise<void> => {
   try {
@@ -77,4 +80,59 @@ const updatePost = async (editPost: UpdatePosts): Promise<void> => {
     throw error;
   }
 };
-export { createPost, deletePost, updatePost, getPost, getPosts };
+
+// 좋아요 목록을 가져오는 함수
+const getLikesForPost = async (postId: string) => {
+  const { data } = await supabase
+    .from('likes')
+    .select('*')
+    .eq('post_id', postId);
+  return data;
+};
+
+const getLikeForPost = async (params: {
+  post_id: string | undefined;
+  user_id: string | undefined;
+}) => {
+  try {
+    const { data, error } = await supabase
+      .from('likes')
+      .select('id')
+      .eq('post_id', params.post_id)
+      .eq('user_id', params.user_id);
+    if (error) {
+      console.log('api / boardApi / getLikesForPost Error > ', error);
+    }
+    return data;
+  } catch (error) {
+    console.log('api / boardApi / getLikesForPost Error > ', error);
+    return [];
+  }
+};
+
+// 좋아요 추가 함수
+const createLike = async (params: { post_id: string; user_id: string }) => {
+  // 함수 매개변수 이름 수정
+  const newLike: InsertLike = {
+    post_id: params.post_id,
+    user_id: params.user_id,
+  };
+  await supabase.from('likes').insert(newLike);
+};
+
+// 좋아요 삭제 함수
+const deleteLike = async (likeId: string) => {
+  await supabase.from('likes').delete().eq('id', likeId);
+};
+
+export {
+  createPost,
+  deletePost,
+  updatePost,
+  getPost,
+  getPosts,
+  getLikesForPost,
+  createLike,
+  deleteLike,
+  getLikeForPost,
+};

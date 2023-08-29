@@ -296,6 +296,13 @@ export interface Database {
             nickname?: string;
             profile_img_url?: string;
           };
+          likes?: [
+            {
+              id: string;
+              post_id: string;
+              user_id: string;
+            },
+          ];
         };
         Insert: {
           category?: string;

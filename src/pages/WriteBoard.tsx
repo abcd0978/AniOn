@@ -131,7 +131,7 @@ const WriteBoard = () => {
             <S.Textarea
               value={content}
               onChange={onChangeContent}
-              placeholder="내용을 입력해주세요.&#13;&#10; 커뮤니티 가이드라인에 맞지 않는 콘텐츠는 통보없이 숨겨질 수 있습니다."
+              placeholder="내용을 입력해주세요.&#13;&#10;커뮤니티 가이드라인에 맞지 않는 콘텐츠는 통보없이 숨겨질 수 있습니다."
             />
           </S.ContentInput>
           <S.ButtonContainer>

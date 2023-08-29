@@ -181,7 +181,7 @@ const Board = () => {
               <S.Bottomdate>
                 {new Date(post.created_at).toLocaleString()}
               </S.Bottomdate>
-              <S.BottomLike>💜</S.BottomLike>
+              <S.BottomLike>{post.likes?.length}</S.BottomLike>
             </S.Postbox>
           ))
         ) : (
