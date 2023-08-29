@@ -8,6 +8,7 @@ export const S = {
   ContentsContainer: styled.div`
     display: flex;
     gap: 146px;
+    /* background-color: #4f4f4f; */
     @media screen and (max-width: 1219px) {
       display: flex;
       flex-direction: column;
@@ -37,6 +38,37 @@ export const S = {
   ContentsText: styled.p`
     line-height: 25px;
     margin-top: 40px;
+  `,
+
+  ContentsOptions: styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    img {
+      cursor: pointer;
+    }
+  `,
+
+  LikeShareBox: styled.div`
+    width: 113px;
+    height: 56px;
+    display: flex;
+    align-items: flex-start;
+    gap: 32px;
+  `,
+
+  LikeBox: styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  `,
+
+  ShareBox: styled.div`
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    width: 45px;
+    height: 56px;
   `,
 
   ContentsStar: styled.label`

@@ -5,6 +5,8 @@ import { atom, useAtom, useAtomValue } from 'jotai';
 import * as userStore from '../../store/userStore';
 import { Database } from '../../types/supabase';
 import { useNavigate } from 'react-router-dom';
+import { Anime } from './LikedAnime.styles';
+import { EditTitle } from './EditProfile';
 type ReadMyLike = Database['public']['Tables']['anime_likes']['Row'];
 
 const userLikesAtom = atom<ReadMyLike[]>([]);
@@ -60,16 +62,16 @@ const LikedAnime = () => {
   }, [user]);
 
   return (
-    <div className="liked-anime-container">
-      <h2>Liked Anime</h2>
-      <div className="anime-list">
+    <Anime.Container className="liked-anime-container">
+      <EditTitle>찜한 목록</EditTitle>
+      <Anime.PosterContainer className="anime-list">
         {likedAnime.map((anime) => (
           <div
             key={anime.animeId}
             onClick={() => navigate(`/recommend/${anime.animeId}`)}
             className="anime-card"
           >
-            <img
+            <Anime.Poster
               src={
                 anime.images?.length !== 0
                   ? anime.images![0].img_url
@@ -77,11 +79,11 @@ const LikedAnime = () => {
               }
               alt={anime.name}
             />
-            <p>{anime.anime.name}</p>
+            <Anime.AnimeTitle>{anime.anime.name}</Anime.AnimeTitle>
           </div>
         ))}
-      </div>
-    </div>
+      </Anime.PosterContainer>
+    </Anime.Container>
   );
 };
 

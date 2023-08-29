@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { fetchCharacter } from '../../api/aniCharacters';
+import { fetchCharacter, updateNumOfWin } from '../../api/aniCharacters';
 import { useParams } from 'react-router';
 import { S } from './worldCup.style';
 import { useEffect, useState } from 'react';
@@ -8,16 +8,14 @@ import { Database } from '../../types/supabase';
 import { useNavigate } from 'react-router-dom';
 type ReadCharacters = Database['public']['Tables']['characters']['Row'];
 
-type Props = {};
-
-function AniWorldCup({}: Props) {
+function AniWorldCup() {
   const { gender } = useParams() as { gender: string };
 
   const navigate = useNavigate();
 
-  const [characters, setCharacters] = useState<any>([]);
-  const [displays, setDisplays] = useState<any>([]); //any 말고 다시 생각해보기
-  const [winners, setWinners] = useState<any>([]);
+  const [characters, setCharacters] = useState<ReadCharacters[]>([]);
+  const [displays, setDisplays] = useState<ReadCharacters[]>([]); //any 말고 다시 생각해보기
+  const [winners, setWinners] = useState<ReadCharacters[]>([]);
   const [isDataLoaded, setIsDataLoaded] = useState(false);
 
   const {
@@ -54,8 +52,8 @@ function AniWorldCup({}: Props) {
   const SelectWinnerhandler = (character: ReadCharacters) => () => {
     if (characters.length <= 2) {
       if (winners.length === 0) {
-        setDisplays([character]);
-        console.log('r u winner???', character);
+        // setDisplays([character]);
+        // console.log('r u winner???', character);
         navigate(`/worldcup/result/${gender}`, { state: character });
       } else {
         let updatedCharacter = [...winners, character];

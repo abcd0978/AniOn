@@ -10,6 +10,7 @@ import { atom, useAtom, useAtomValue } from 'jotai';
 import Pagination from '../components/Pagenation';
 
 import pencil from '../assets/pencil.svg';
+import search from '../assets/search.svg';
 type ReadPosts = Database['public']['Tables']['posts']['Row'];
 
 const Board = () => {
@@ -89,7 +90,7 @@ const Board = () => {
   };
 
   return (
-    <div>
+    <S.Container>
       <S.Title>게시판</S.Title>
       <S.Post>
         <S.Search>
@@ -137,12 +138,15 @@ const Board = () => {
         </S.Search>
         <S.Write>
           <form onSubmit={handleSearchSubmit}>
-            <S.SearchInput
-              type="text"
-              placeholder="검색어를 입력해주세요! "
-              value={searchKeyword}
-              onChange={(e) => setSearchKeyword(e.target.value)}
-            />
+            <S.SearchInputContainer>
+              <S.SearchInput
+                type="text"
+                placeholder="검색어를 입력해주세요!"
+                value={searchKeyword}
+                onChange={(e) => setSearchKeyword(e.target.value)}
+              />
+              <S.SearchIcon src={search} alt="Search Icon" />
+            </S.SearchInputContainer>
           </form>
           <S.WriteButton onClick={handleWriteClick}>
             <img src={pencil} /> 작성하기
@@ -152,11 +156,11 @@ const Board = () => {
 
       <ul>
         <S.Header>
-          <span> NO.</span>
-          <span> 게시글 제목</span>
-          <span>유저 닉네임</span>
-          <span>작성일자</span>
-          <span> 추천수</span>
+          <S.HeaderNo> NO.</S.HeaderNo>
+          <S.HeaderTitle> 게시글 제목</S.HeaderTitle>
+          <S.HeaderNick>유저 닉네임</S.HeaderNick>
+          <S.Headerdate>작성일자</S.Headerdate>
+          <S.HeaderLike> 추천수</S.HeaderLike>
         </S.Header>
 
         {isFetching ? (
@@ -167,15 +171,17 @@ const Board = () => {
               key={post.id}
               onClick={() => post.id && handlePostClick(post.id.toString())}
             >
-              <div>{index + 1}</div>
-              <div>{post.title}</div>
+              <S.BottomNo>{index + 1}</S.BottomNo>
+              <S.BottomTitle>{post.title}</S.BottomTitle>
 
-              <S.User>
+              <S.BottomNick>
                 <S.Img src={post.users?.profile_img_url} alt="프로필 이미지" />
                 <div>{post.users?.nickname}</div>
-              </S.User>
-              <div>{new Date(post.created_at).toLocaleString()}</div>
-              <div>0</div>
+              </S.BottomNick>
+              <S.Bottomdate>
+                {new Date(post.created_at).toLocaleString()}
+              </S.Bottomdate>
+              <S.BottomLike>💜</S.BottomLike>
             </S.Postbox>
           ))
         ) : (
@@ -188,7 +194,7 @@ const Board = () => {
         totalPages={postsAndTotalPages?.totalPages || 1}
         onClick={onClickPage}
       />
-    </div>
+    </S.Container>
   );
 };
 

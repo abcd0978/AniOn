@@ -72,6 +72,7 @@ const S = {
     border: none;
     border-radius: 8px;
     border: 1px #dbdbdb solid;
+    cursor: pointer;
   `,
 
   Input: styled.input`
@@ -105,11 +106,24 @@ const S = {
   Button: styled.button`
     background-color: #757575;
     border: none;
-    width: 62px;
-    height: 28px;
-    font-size: 13px;
+    width: 80px;
+    height: 40px;
+    border-radius: 10px;
+    font-size: 15px;
     color: white;
     margin-right: 5px;
+    cursor: pointer;
+  `,
+  SubmitButton: styled.button`
+    background-color: #8200ff;
+    border: none;
+    width: 80px;
+    height: 40px;
+    border-radius: 10px;
+    font-size: 15px;
+    color: white;
+    margin-right: 5px;
+    cursor: pointer;
   `,
 };
 

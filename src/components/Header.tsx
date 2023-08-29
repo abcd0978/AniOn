@@ -19,6 +19,7 @@ import { useNavigate } from 'react-router-dom';
 type Props = {};
 
 function Header({}: Props) {
+  const [activeMenu, setActiveMenu] = useState<string | null>(null);
   const navigate = useNavigate();
   const [isDropdownOn, setIsDowpdownOn] = useState(false);
   const [__, logoutStore] = useAtom(userStore.logoutUser);
@@ -60,21 +61,57 @@ function Header({}: Props) {
       {isModalOpened && <Modal>{modalContentsFunc(modalContents)}</Modal>}
       <StHeader>
         <StHeaderContainer>
-          <StHeaderLogoSection onClick={() => navigate('/')}>
+          <StHeaderLogoSection
+            onClick={() => {
+              navigate('/');
+              setActiveMenu('둘러보기');
+            }}
+          >
             <img src={logo} alt="로고" />
           </StHeaderLogoSection>
           <StHeaderMenuSection>
-            <StHeaderMenu onClick={() => navigate('/')}>둘러보기</StHeaderMenu>
-            <StHeaderMenu onClick={() => navigate('/recommend')}>
+            <StHeaderMenu
+              onClick={() => {
+                navigate('/');
+                setActiveMenu('둘러보기');
+              }}
+              isActive={activeMenu === '둘러보기'}
+              color="#8200FF"
+            >
+              둘러보기
+            </StHeaderMenu>
+            <StHeaderMenu
+              onClick={() => {
+                navigate('/recommend');
+                setActiveMenu('애니추천');
+              }}
+              isActive={activeMenu === '애니추천'}
+              color="#8200FF"
+            >
               애니추천
             </StHeaderMenu>
-            <StHeaderMenu onClick={() => navigate('/board')}>
+            <StHeaderMenu
+              onClick={() => {
+                navigate('/board');
+                setActiveMenu('게시판');
+              }}
+              isActive={activeMenu === '게시판'}
+              color="#8200FF"
+            >
               게시판
             </StHeaderMenu>
-            <StHeaderMenu onClick={() => navigate('/shop/item')}>
+            <StHeaderMenu
+              onClick={() => {
+                navigate('/shop/item');
+                setActiveMenu('상점');
+              }}
+              isActive={activeMenu === '상점'}
+              color="#8200FF"
+            >
               상점
             </StHeaderMenu>
           </StHeaderMenuSection>
+
           <StHeaderUserInfoSection>
             {user ? (
               <StHeaderUserInfoContainer>
@@ -159,15 +196,19 @@ const StHeaderMenuSection = styled.div`
   align-items: center;
   gap: 40px;
 `;
-const StHeaderMenu = styled.div`
+const StHeaderMenu = styled.div<{ isActive: boolean; color?: string }>`
   width: 72px;
   text-align: center;
+  font-weight: 700;
   cursor: pointer;
-  color: ${headerMenuColor};
-  &:hover {
-    color: ${headerMenuColorActivated};
+  color: ${({ isActive }) =>
+    isActive ? headerMenuColorActivated : headerMenuColor};
+  ${({ isActive, color }) => isActive && color && `color: ${color};`}
+  &:active {
+    color: ${({ color }) => color || headerMenuColorActivated};
   }
 `;
+
 const StHeaderUserInfoSection = styled.div`
   display: flex;
   align-items: center;
