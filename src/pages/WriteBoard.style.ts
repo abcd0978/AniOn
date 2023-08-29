@@ -104,6 +104,7 @@ const S = {
     margin-right: 40px;
     display: flex;
     justify-content: flex-end;
+    // margin-top: 5px;
   `,
   Button: styled.button<{ width?: number }>`
     background-color: #757575;
@@ -124,7 +125,7 @@ const S = {
     border-radius: 10px;
     font-size: 15px;
     color: white;
-    margin-right: 5px;
+    margin-right: 18px;
     cursor: pointer;
   `,
 };

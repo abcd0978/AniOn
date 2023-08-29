@@ -126,6 +126,7 @@ const WriteBoard = () => {
               <br />
               (10자 이상)
             </S.LabelContent>
+
             <EditorComponent onChange={setContent} />
           </S.ContentInput>
           <S.ButtonContainer>
