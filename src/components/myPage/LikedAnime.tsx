@@ -7,6 +7,8 @@ import { Database } from '../../types/supabase';
 import { useNavigate } from 'react-router-dom';
 import { Anime } from './LikedAnime.styles';
 import { EditTitle } from './EditProfile';
+import { S } from '../anime-recommend/styled.AnimeCard';
+
 type ReadMyLike = Database['public']['Tables']['anime_likes']['Row'];
 
 const userLikesAtom = atom<ReadMyLike[]>([]);
@@ -66,7 +68,7 @@ const LikedAnime = () => {
       <EditTitle>찜한 목록</EditTitle>
       <Anime.PosterContainer className="anime-list">
         {likedAnime.map((anime) => (
-          <div
+          <Anime.OnePoster
             key={anime.animeId}
             onClick={() => navigate(`/recommend/${anime.animeId}`)}
             className="anime-card"
@@ -79,8 +81,8 @@ const LikedAnime = () => {
               }
               alt={anime.name}
             />
-            <Anime.AnimeTitle>{anime.anime.name}</Anime.AnimeTitle>
-          </div>
+            <S.CardTitle>{anime.anime.name}</S.CardTitle>
+          </Anime.OnePoster>
         ))}
       </Anime.PosterContainer>
     </Anime.Container>
