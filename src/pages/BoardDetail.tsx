@@ -16,6 +16,8 @@ import {
 import { useState } from 'react';
 import { S } from '../pages/BoardDetail.style';
 import * as userStore from '../store/userStore';
+import filledLike from '../assets/filledLike.svg';
+import unfilledLike from '../assets/unfilledLike.svg';
 
 type ReadPosts = Database['public']['Tables']['posts']['Row'];
 type UpdatePosts = Database['public']['Tables']['posts']['Update'];
@@ -42,10 +44,12 @@ const BoardDetail = () => {
   const [likes, setLikes] = useState<Like[]>([]);
 
   // Post 상세조회
-  const { data: posts } = useQuery<ReadPosts>(['post'], () =>
-    getPost(post_id!),
+  const { data: posts, refetch: refetchPost } = useQuery<ReadPosts>(
+    ['post'],
+    () => getPost(post_id!),
   );
 
+  //전에 좋아요를 눌렀는지 확인
   const { data: like } = useQuery(
     ['like', user],
     () => getLikeForPost({ post_id, user_id: user?.id }),
@@ -65,22 +69,12 @@ const BoardDetail = () => {
   };
 
   useEffect(() => {
-    if (posts) {
-      // 게시물 정보와 좋아요 정보를 함께 가져옴
-      // const fetchLikes = async () => {
-      //   const likesData = await getLikesForPost(post_id!);
-      //   setLikes(likesData as Like[]);
-      // };
+    if (posts && !isEdit) {
+      // 수정 중이 아닐 때만 게시물 정보 업데이트
       setTitle(posts.title);
       setContent(posts.content);
-      if (posts.category) {
-        setCategory(posts.category);
-      }
-      if (isEdit) {
-        setEditCategory(posts.category || '');
-      }
-
-      // fetchLikes();
+      setCategory(posts.category);
+      setEditCategory(posts.category);
     }
   }, [isEdit, posts]);
 
@@ -128,6 +122,8 @@ const BoardDetail = () => {
       };
       updateMutation.mutate(editPost);
       setIsEdit(!isEdit);
+
+      refetchPost();
     }
   };
 
@@ -146,11 +142,8 @@ const BoardDetail = () => {
       return;
     }
 
-    // const userLike = likes.find((like) => like.user_id === user.id);
-
     // mutation 추가
     if (like?.length !== 0) {
-      // await deleteLike(user.id);
       if (!like) {
         return;
       }
@@ -194,15 +187,7 @@ const BoardDetail = () => {
               </S.Button>
             </S.ButtonContainer>
           )}
-          <S.Button
-            onClick={toggleLike}
-            style={{
-              backgroundColor: '#dddddd',
-              color: existingLike ? 'red' : 'black',
-            }}
-          >
-            {like?.length ? '좋아요 취소' : '좋아요'}
-          </S.Button>
+
           <S.PostContainer key={posts.id}>
             {isEdit ? (
               <S.Box>
@@ -225,6 +210,13 @@ const BoardDetail = () => {
             ) : (
               <S.Box>
                 <S.Date> {new Date(posts.created_at).toLocaleString()}</S.Date>
+                <S.Like onClick={toggleLike}>
+                  {like?.length ? (
+                    <img src={filledLike} alt="좋아요" />
+                  ) : (
+                    <img src={unfilledLike} alt="좋아요 취소" />
+                  )}
+                </S.Like>
                 <S.Title>{title}</S.Title>
                 <S.User>
                   <S.Img

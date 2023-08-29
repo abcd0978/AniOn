@@ -114,6 +114,12 @@ const S = {
     margin-left: 5px;
     white-space: nowrap;
   `,
+  Like: styled.div`
+    background-color: white;
+    cursor: pointer;
+    float: right;
+    margin-top: 5px;
+  `,
 };
 
 export { S };
