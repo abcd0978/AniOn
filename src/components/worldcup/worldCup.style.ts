@@ -3,6 +3,7 @@ import styled from 'styled-components';
 // ------------- 월드컵 공통
 export const S = {
   WorldCupContainer: styled.div`
+    // position: relative;
     display: flex;
     width: 1440px;
     height: 999px;
@@ -12,6 +13,13 @@ export const S = {
     gap: 40px;
     flex-shrink: 0;
     margin: 0 auto;
+  `,
+
+  WorldcupVS: styled.img`
+    position: absolute;
+    top: 55%;
+    left: 50%;
+    transform: translate(-50%, -50%);
   `,
 
   WorldCupContainer2: styled.div`
