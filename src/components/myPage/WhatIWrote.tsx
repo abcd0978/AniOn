@@ -12,17 +12,21 @@ import { useQuery } from '@tanstack/react-query';
 import { getPosts } from '../../api/boardapi';
 
 type ReadMyBoard = Database['public']['Tables']['posts']['Row'];
-
+type ReadMyBoardLikes = Database['public']['Tables']['likes']['Row'];
 const userPostsAtom = atom<ReadMyBoard[]>([]);
+const userPostLikeAtom = atom<ReadMyBoardLikes[]>([]);
 
 const WhatIWrote = () => {
   const [userPosts, setUserPosts] = useAtom(userPostsAtom);
+  const [userPostLike, setUserPostLike] = useAtom(userPostLikeAtom);
+
   const navigate = useNavigate();
   const user = useAtomValue(userStore.user);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [searchKeyword, setSearchKeyword] = useState<string>('');
   const [selectedPosts, setSelectedPosts] = useState<string[]>([]);
   const [page, setPage] = useState<number>(1);
+  const itemsPerPage = 12;
   const {
     data: postsAndTotalPages,
     isLoading,
@@ -76,6 +80,35 @@ const WhatIWrote = () => {
   useEffect(() => {
     fetchUserPosts();
   }, [setUserPosts, user]);
+  const fetchUserPostLikes = async () => {
+    try {
+      if (!user) {
+        return;
+      }
+      const { data, error } = await supabase
+        .from('likes')
+        .select('post_id')
+        .eq('user_id', user.id);
+
+      if (error) {
+        console.error('fetchUserPostLikes에서 에러', error);
+      } else {
+        const userLikes = data.map((like) => ({
+          id: '',
+          post_id: like.post_id,
+          user_id: user.id,
+        }));
+        console.log('User post likes fetched:', userLikes);
+        setUserPostLike(userLikes);
+      }
+    } catch (error) {
+      console.error('fetchUserPostLikes 에러', error);
+    }
+  };
+  useEffect(() => {
+    fetchUserPosts();
+    fetchUserPostLikes();
+  }, [setUserPosts, setUserPostLike, user]);
 
   const handlePostClick = (id: string) => {
     navigate(`/board/${id}`);
@@ -118,22 +151,33 @@ const WhatIWrote = () => {
       <Divider />
 
       <ul>
-        {userPosts.map((post) => (
-          <li key={post.id}>
-            <input
-              type="checkbox"
-              checked={selectedPosts.includes(post.id?.toString() ?? '')}
-              onChange={() => handleCheckboxChange(post.id?.toString() ?? '')}
-            />
-            <Post.Category>{post.category}</Post.Category>
-            <h3 onClick={() => handlePostClick(post.id?.toString() ?? '')}>
-              {' '}
-              {post.title}
-            </h3>
-            <div>{new Date(post.created_at).toLocaleString()}</div>
-            <Divider />
-          </li>
-        ))}
+        {userPosts
+          .slice((page - 1) * itemsPerPage, page * itemsPerPage)
+          .map((post) => {
+            const likesForPost = userPostLike.filter(
+              (like) => like.post_id === post.id,
+            ).length;
+
+            return (
+              <li key={post.id}>
+                <input
+                  type="checkbox"
+                  checked={selectedPosts.includes(post.id?.toString() ?? '')}
+                  onChange={() =>
+                    handleCheckboxChange(post.id?.toString() ?? '')
+                  }
+                />
+                <Post.Category>{post.category}</Post.Category>
+                <h3 onClick={() => handlePostClick(post.id?.toString() ?? '')}>
+                  {' '}
+                  {post.title}
+                </h3>
+                <div>{new Date(post.created_at).toLocaleString()}</div>
+                <div>받은 추천 수: {likesForPost}</div> {/* 추천 수 렌더링 */}
+                <Divider />
+              </li>
+            );
+          })}
       </ul>
       <Button onClick={handleDeleteSelectedPosts}>선택한 게시물 삭제</Button>
       <Button onClick={handleSelectAll}>

@@ -4,10 +4,11 @@ import { createClient } from '@supabase/supabase-js';
 import { v4 as uuidv4 } from 'uuid';
 import { Database } from '../../types/supabase';
 import { atom, useAtom, useAtomValue } from 'jotai';
-
+import * as authApi from '../../api/auth';
 import * as userStore from '../../store/userStore';
 import { useLocation } from 'react-router-dom';
 import { Profile } from './MyPage.styles';
+import useInput from '../../hooks/useInput';
 
 //1. supabase
 const supabaseUrl = process.env.REACT_APP_SUPABASE_URL;
@@ -126,11 +127,43 @@ const EditProfile = () => {
   const handleNicknameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNewNickname(event.target.value);
   };
+  //2-2-1.닉넴중복확인
+  type ErrorType = {
+    error: boolean;
+    errorMsg: string;
+  };
+  const initialError: ErrorType = { error: false, errorMsg: '' };
 
+  const [nickname, setNickname, onChangeNickname, resetNickname] = useInput('');
+  const [nicknameError, setNicknameError] = useState<ErrorType>(initialError);
+  const [nicknameDupChecked, setNicknameDupChecked] = useState(false);
+
+  const nicknameDupCheck = async (nickname: string) => {
+    return await authApi.nicknameValidate(nickname);
+  };
+  const validateNickname = (nickname: string) => {
+    let result: ErrorType = { error: false, errorMsg: '' };
+    if (nickname.length < 2 || nickname.length > 8) {
+      result.error = true;
+      result.errorMsg = '닉네임은 2~8자 사이로해주세요.';
+      return result;
+    }
+    return result;
+  };
   const handleSubmitNickname = async (event: React.FormEvent) => {
     event.preventDefault();
+    if (!nicknameDupChecked) {
+      alert('닉네임 중복 확인을 먼저 해주세요.');
+      return;
+    }
 
     try {
+      const validationResult = validateNickname(newNickname);
+      if (validationResult.error) {
+        setNicknameError(validationResult);
+        return;
+      }
+
       const { data, error } = await supabase
         .from('users')
         .update({ nickname: newNickname })
@@ -224,6 +257,35 @@ const EditProfile = () => {
                 onChange={handleNicknameChange}
                 placeholder="New Nickname"
               />
+              <Button
+                onClick={async () => {
+                  const val = validateNickname(newNickname);
+                  if (val.error) {
+                    setNicknameError(val);
+                    return;
+                  }
+                  try {
+                    const isNicknameAvailable = await nicknameDupCheck(
+                      newNickname,
+                    );
+                    if (isNicknameAvailable) {
+                      alert('사용 가능한 닉네임입니다.');
+                      setNicknameDupChecked(true);
+                      setNicknameError(initialError);
+                    } else {
+                      setNicknameError({
+                        error: true,
+                        errorMsg: '중복되는 닉네임입니다.',
+                      });
+                      setNicknameDupChecked(false); // 중복확인 실패 시 초기화
+                    }
+                  } catch (error) {
+                    console.error(error);
+                  }
+                }}
+              >
+                중복확인
+              </Button>
               <Button type="submit">완료</Button>
               <Button onClick={() => setEditMode('')}>취소</Button>
             </form>
