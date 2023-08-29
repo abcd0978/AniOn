@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { fetchAllAnimeMyLikes } from '../../api/likeApi';
 import { getAnimePreview, getAnimeById } from '../../api/laftel';
-import { atom, useAtom, useAtomValue } from 'jotai';
+import { atom, useAtomValue } from 'jotai'; // Removed unused import
 import * as userStore from '../../store/userStore';
-import { Database } from '../../types/supabase';
 import { useNavigate } from 'react-router-dom';
 import { Anime } from './LikedAnime.styles';
 import { EditTitle } from './EditProfile';
 import { S } from '../anime-recommend/styled.AnimeCard';
-
+import Pagination from '../Pagenation';
+import { useQuery } from '@tanstack/react-query';
+import { Database } from '../../types/supabase';
 type ReadMyLike = Database['public']['Tables']['anime_likes']['Row'];
 
-const userLikesAtom = atom<ReadMyLike[]>([]);
-
+const itemsPerPage = 6;
 const LikedAnime = () => {
   const [likedAnime, setLikedAnime] = useState<
     {
@@ -26,8 +26,24 @@ const LikedAnime = () => {
   >([]);
 
   const user = useAtomValue(userStore.user);
-  const userLikes = useAtomValue(userLikesAtom);
-  const navigate = useNavigate(); // Move useNavigate here
+  const navigate = useNavigate();
+  const [page, setPage] = useState<number>(1);
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [searchKeyword, setSearchKeyword] = useState<string>('');
+
+  const {
+    data: postsAndTotalPages,
+    isLoading,
+    isFetching,
+  } = useQuery<{ data: ReadMyLike[]; totalPages: number }>(
+    ['posts', selectedCategory, searchKeyword, page],
+    () => getAnimeById(selectedCategory || ''),
+    {
+      onError: (error) => {
+        console.error('Error fetching posts:', error);
+      },
+    },
+  );
 
   useEffect(() => {
     const fetchLikedAnime = async () => {
@@ -63,11 +79,21 @@ const LikedAnime = () => {
     fetchLikedAnime();
   }, [user]);
 
+  const handlePageChange = (selected: number | string) => {
+    if (typeof selected === 'number') {
+      setPage(selected);
+    }
+  };
+
+  const startIndex = (page - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const displayedAnime = likedAnime.slice(startIndex, endIndex);
+
   return (
     <Anime.Container className="liked-anime-container">
       <EditTitle>찜한 목록</EditTitle>
       <Anime.PosterContainer className="anime-list">
-        {likedAnime.map((anime) => (
+        {displayedAnime.map((anime) => (
           <Anime.OnePoster
             key={anime.animeId}
             onClick={() => navigate(`/recommend/${anime.animeId}`)}
@@ -85,6 +111,11 @@ const LikedAnime = () => {
           </Anime.OnePoster>
         ))}
       </Anime.PosterContainer>
+      <Pagination
+        currentPage={page}
+        totalPages={Math.ceil(likedAnime.length / itemsPerPage)}
+        onClick={handlePageChange}
+      />
     </Anime.Container>
   );
 };

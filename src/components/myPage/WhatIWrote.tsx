@@ -7,6 +7,9 @@ import supabase from '../../supabaseClient'; // Import supabase client
 import { deletePost } from '../../api/boardapi';
 import { Post, Review } from './Wrote.styles';
 import { Button, Divider, EditTitle } from './EditProfile';
+import Pagination from '../Pagenation';
+import { useQuery } from '@tanstack/react-query';
+import { getPosts } from '../../api/boardapi';
 
 type ReadMyBoard = Database['public']['Tables']['posts']['Row'];
 
@@ -16,8 +19,38 @@ const WhatIWrote = () => {
   const [userPosts, setUserPosts] = useAtom(userPostsAtom);
   const navigate = useNavigate();
   const user = useAtomValue(userStore.user);
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [searchKeyword, setSearchKeyword] = useState<string>('');
   const [selectedPosts, setSelectedPosts] = useState<string[]>([]);
-
+  const [page, setPage] = useState<number>(1);
+  const {
+    data: postsAndTotalPages,
+    isLoading,
+    isFetching,
+  } = useQuery<{ data: ReadMyBoard[]; totalPages: number }>(
+    ['posts', selectedCategory, searchKeyword, page],
+    () => getPosts(selectedCategory || '', page),
+    {
+      onError: (error) => {
+        console.error('Error fetching posts:', error);
+      },
+    },
+  );
+  const onClickPage = (selected: number | string) => {
+    if (page === selected) return;
+    if (typeof selected === 'number') {
+      setPage(selected);
+      return;
+    }
+    if (selected === 'prev' && page > 1) {
+      setPage((prev: any) => prev - 1);
+      return;
+    }
+    if (selected === 'next' && postsAndTotalPages?.totalPages) {
+      setPage((prev: any) => prev + 1);
+      return;
+    }
+  };
   const fetchUserPosts = async () => {
     try {
       if (!user) {
@@ -108,6 +141,11 @@ const WhatIWrote = () => {
           ? '전체 선택 해제'
           : '전체 선택'}
       </Button>
+      <Pagination
+        currentPage={page}
+        totalPages={postsAndTotalPages?.totalPages || 1}
+        onClick={onClickPage}
+      />
     </Review.Container>
   );
 };
