@@ -72,6 +72,7 @@ const S = {
     border: none;
     border-radius: 8px;
     border: 1px #dbdbdb solid;
+    cursor: pointer;
   `,
 
   Input: styled.input`
@@ -111,6 +112,7 @@ const S = {
     font-size: 15px;
     color: white;
     margin-right: 5px;
+    cursor: pointer;
   `,
   SubmitButton: styled.button`
     background-color: #8200ff;
@@ -121,6 +123,7 @@ const S = {
     font-size: 15px;
     color: white;
     margin-right: 5px;
+    cursor: pointer;
   `,
 };
 

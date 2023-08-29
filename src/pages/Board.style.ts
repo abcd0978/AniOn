@@ -63,6 +63,14 @@ export const HeaderNo = styled.div`
   height: 44px;
   display: flex;
   align-items: center;
+  font-weight: 600;
+`;
+export const BottomNo = styled.div`
+  font-size: 15px;
+  width: 72px;
+  height: 44px;
+  display: flex;
+  align-items: center;
 `;
 export const HeaderTitle = styled.div`
   font-size: 15px;
@@ -86,6 +94,14 @@ export const HeaderNick = styled.div`
   height: 44px;
   display: flex;
   align-items: center;
+  font-weight: 600;
+`;
+export const BottomNick = styled.div`
+  font-size: 15px;
+  width: 220px;
+  height: 44px;
+  display: flex;
+  align-items: center;
 `;
 export const Headerdate = styled.div`
   font-size: 15px;
@@ -93,8 +109,25 @@ export const Headerdate = styled.div`
   height: 44px;
   display: flex;
   align-items: center;
+  font-weight: 600;
+`;
+export const Bottomdate = styled.div`
+  font-size: 15px;
+  width: 270px;
+  height: 44px;
+  display: flex;
+  align-items: center;
 `;
 export const HeaderLike = styled.div`
+  font-size: 15px;
+  width: 90px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+`;
+export const BottomLike = styled.div`
   font-size: 15px;
   width: 90px;
   height: 44px;

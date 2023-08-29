@@ -70,9 +70,9 @@ export const ButtonBox = styled.div`
 `;
 
 export const button = styled.button`
-  background-color: #dddddd;
+  background-color: #efefef;
   color: black;
-  border: none;
+  border: 1px solid #d9d9d9;
   border-radius: 10px;
   width: 50px;
   height: 25px;
@@ -88,7 +88,7 @@ export const Comment = styled.div`
   margin-top: 28px;
   background-color: #ffffff;
   width: 1360px;
-  height: 153px;
+  max-height: 300px;
 `;
 
 export const CommentDate = styled.div`
@@ -101,8 +101,8 @@ export const CommentDate = styled.div`
 export const EditInput = styled.input`
   display: flex;
   border: 1px solid #566270;
-  width: 75%;
-  height: 25px;
+  width: 80%;
+  height: 30px;
   margin-top: 5px;
   border-radius: 5px;
 `;
@@ -122,4 +122,5 @@ export const Ninkname = styled.div`
 export const CommentBox = styled.div`
   width: 1308px;
   margin-left: 55px;
+  line-height: 1.6;
 `;

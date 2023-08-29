@@ -171,17 +171,17 @@ const Board = () => {
               key={post.id}
               onClick={() => post.id && handlePostClick(post.id.toString())}
             >
-              <S.HeaderNo>{index + 1}</S.HeaderNo>
+              <S.BottomNo>{index + 1}</S.BottomNo>
               <S.BottomTitle>{post.title}</S.BottomTitle>
 
-              <S.HeaderNick>
+              <S.BottomNick>
                 <S.Img src={post.users?.profile_img_url} alt="프로필 이미지" />
                 <div>{post.users?.nickname}</div>
-              </S.HeaderNick>
-              <S.Headerdate>
+              </S.BottomNick>
+              <S.Bottomdate>
                 {new Date(post.created_at).toLocaleString()}
-              </S.Headerdate>
-              <S.HeaderLike>💜</S.HeaderLike>
+              </S.Bottomdate>
+              <S.BottomLike>💜</S.BottomLike>
             </S.Postbox>
           ))
         ) : (
