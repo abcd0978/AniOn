@@ -105,8 +105,19 @@ const BoardDetail = () => {
         <>
           {user?.id === posts.user_id && (
             <S.ButtonContainer>
-              <S.Button onClick={() => deleteButton(posts.id!)}>삭제</S.Button>
-              <S.Button onClick={() => editButton(posts)}>
+              <S.Button
+                onClick={() => deleteButton(posts.id!)}
+                style={{ backgroundColor: '#dddddd' }}
+              >
+                삭제
+              </S.Button>
+              <S.Button
+                onClick={() => editButton(posts)}
+                style={{
+                  backgroundColor: isEdit ? '#8200FF' : '#dddddd',
+                  color: isEdit ? 'white' : 'black',
+                }}
+              >
                 {isEdit ? '저장' : '수정'}
               </S.Button>
             </S.ButtonContainer>
@@ -114,15 +125,14 @@ const BoardDetail = () => {
           <S.PostContainer key={posts.id}>
             {isEdit ? (
               <S.Box>
-                <select
+                <S.Select
                   value={editCategory}
                   onChange={(e) => setEditCategory(e.target.value)}
                 >
-                  <option value="">카테고리 선택</option>
                   <option value="애니">애니</option>
                   <option value="자유">자유</option>
                   <option value="오류 신고">오류 신고</option>
-                </select>
+                </S.Select>
               </S.Box>
             ) : (
               <S.Category>{category}</S.Category>
@@ -153,6 +163,7 @@ const BoardDetail = () => {
               <S.Content>{posts.content}</S.Content>
             )}
           </S.PostContainer>
+
           {!isEdit && <Comments />}
         </>
       ) : (

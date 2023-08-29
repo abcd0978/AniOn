@@ -72,10 +72,19 @@ const S = {
     margin: 20px;
   `,
 
+  Select: styled.select`
+    width: 200px;
+    height: 44px;
+    outline: none;
+    border-radius: 8px;
+    box-shadow: 5px 5px 5px 5px #0000001a;
+  `,
   Input: styled.input`
     width: 1360px;
-    padding: 10px;
+    height: 44px;
     outline: none;
+    border: 1px solid gray;
+    box-shadow: 5px 5px 5px 5px #0000001a;
     border-radius: 8px;
   `,
 
@@ -83,11 +92,11 @@ const S = {
     width: 1360px;
     height: 450px;
     max-height: 4355px;
-
     line-height: 1.5;
-    font-size: 14px;
+    font-size: 16px;
     outline: none;
     border-radius: 8px;
+    box-shadow: 5px 5px 5px 5px #0000001a;
   `,
   Img: styled.img`
     width: 60px;
