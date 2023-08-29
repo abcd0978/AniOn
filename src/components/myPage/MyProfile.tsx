@@ -6,6 +6,8 @@ import { styled } from 'styled-components';
 import { useParams } from 'react-router-dom';
 import { atom, useAtom } from 'jotai'; // Import from jotai
 import { Profile } from './MyPage.styles';
+import MyProfileAward from './MyProfileAward';
+import MyPoint from './MyPoint';
 
 const supabaseUrl = process.env.REACT_APP_SUPABASE_URL;
 const supabaseAnonKey = process.env.REACT_APP_ANON_KEY;
@@ -54,7 +56,7 @@ const MyProfile = () => {
   }
 
   return (
-    <div>
+    <Profile.MyProfileContainer>
       {user.profile_img_url ? (
         <Profile.BasicImage
           src={process.env.PUBLIC_URL + user.profile_img_url}
@@ -63,8 +65,10 @@ const MyProfile = () => {
       ) : (
         <Profile.BasicImage src={myAnonymousImg} />
       )}
-      <div>{user.nickname}님</div>
-    </div>
+      <Profile.MyNickname>{user.nickname}</Profile.MyNickname>
+      <MyProfileAward />
+      <MyPoint />
+    </Profile.MyProfileContainer>
   );
 };
 
