@@ -1,20 +1,20 @@
 import styled from 'styled-components';
 
 const S = {
-  Title: styled.div`
+  Title: styled.div<{ width?: number }>`
     font-size: 22px;
     font-weight: 700;
     margin-top: 20px;
     margin-bottom: 20px;
     margin-left: 30px;
   `,
-  Container: styled.div`
-    width: 1440px;
+  Container: styled.div<{ width?: number }>`
+    max-width: 1440px;
     height: 827px;
     border-radius: 20px;
   `,
-  Layout: styled.div`
-    width: 1376px;
+  Layout: styled.div<{ width?: number }>`
+    width: 100%;
     height: 604px;
     border-radius: 20px;
     box-shadow: 5px 5px 5px 5px #0000001a;
@@ -25,48 +25,49 @@ const S = {
     padding: 0 auto;
   `,
 
-  Form: styled.form`
+  Form: styled.form<{ width?: number }>`
+    width: 100%;
     display: flex;
     align-items: center;
     flex-direction: column;
     margin-top: 25px;
   `,
 
-  CateInput: styled.div`
-    width: 1376px;
+  CateInput: styled.div<{ width?: number }>`
+    width: 100%;
     height: 40px;
     display: flex;
     margin-bottom: 15px;
   `,
-  TitleInput: styled.div`
-    width: 1376px;
+  TitleInput: styled.div<{ width?: number }>`
+    width: 100%;
     height: 44px;
     display: flex;
     margin-bottom: 5px;
   `,
 
-  ContentInput: styled.div`
-    width: 1376px;
+  ContentInput: styled.div<{ width?: number }>`
+    width: 100%;
     height: 360px;
     margin: 10px;
     display: flex;
     margin-bottom: 5px;
   `,
 
-  Label: styled.div`
+  Label: styled.div<{ width?: number }>`
     font-size: 15px;
     height: 18px;
     width: 100px;
     margin-left: 20px;
   `,
-  LabelContent: styled.div`
+  LabelContent: styled.div<{ width?: number }>`
     font-size: 15px;
     height: 18px;
     width: 100px;
     margin-left: 20px;
   `,
 
-  Select: styled.select`
+  Select: styled.select<{ width?: number }>`
     width: 200px;
     padding: 8px;
     border: none;
@@ -75,16 +76,17 @@ const S = {
     cursor: pointer;
   `,
 
-  Input: styled.input`
-    width: 1196px;
+  Input: styled.input<{ width?: number }>`
+    width: calc(100% - 120px);
     padding: 10px;
     outline: none;
     border-radius: 8px;
     background-color: #f5f5f5;
     border: none;
+    margin-right: 40px;
   `,
 
-  Textarea: styled.textarea`
+  Textarea: styled.textarea<{ width?: number }>`
     width: 1196px;
     height: 360px;
     padding: 16px;
@@ -95,15 +97,15 @@ const S = {
     border-radius: 10px;
   `,
 
-  ButtonContainer: styled.div`
-    width: 1376px;
+  ButtonContainer: styled.div<{ width?: number }>`
+    width: 100%;
     height: 40px;
     margin-top: 40px;
     margin-right: 40px;
     display: flex;
     justify-content: flex-end;
   `,
-  Button: styled.button`
+  Button: styled.button<{ width?: number }>`
     background-color: #757575;
     border: none;
     width: 80px;
@@ -114,7 +116,7 @@ const S = {
     margin-right: 5px;
     cursor: pointer;
   `,
-  SubmitButton: styled.button`
+  SubmitButton: styled.button<{ width?: number }>`
     background-color: #8200ff;
     border: none;
     width: 80px;

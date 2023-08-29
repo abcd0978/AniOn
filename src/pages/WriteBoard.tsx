@@ -1,17 +1,18 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
 import { useQueryClient, useMutation } from '@tanstack/react-query';
 import { createPost } from '../api/boardapi';
 import { Database } from '../types/supabase';
-
+import EditorComponent from '../components/editor/EditorComponent';
 import { S } from './WriteBoard.style';
-import { atom, useAtom, useAtomValue } from 'jotai';
+import { useAtomValue } from 'jotai';
 import * as userStore from '../store/userStore';
 import { v4 as uuidv4 } from 'uuid';
+import useViewport from '../hooks/useViewPort';
 type InsertPosts = Database['public']['Tables']['posts']['Insert'];
 
 const WriteBoard = () => {
+  const { width } = useViewport();
   const navigate = useNavigate();
   // 유저 정보 가져오기
   const user = useAtomValue(userStore.user);
@@ -26,9 +27,6 @@ const WriteBoard = () => {
   };
   const onChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
-  };
-  const onChangeContent = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setContent(e.target.value);
   };
 
   // 취소
@@ -101,7 +99,7 @@ const WriteBoard = () => {
   };
 
   return (
-    <S.Container>
+    <S.Container width={width}>
       <S.Title>게시글 작성하기</S.Title>
       <S.Layout>
         <S.Form onSubmit={onSubmitHandler}>
@@ -128,11 +126,7 @@ const WriteBoard = () => {
               <br />
               (10자 이상)
             </S.LabelContent>
-            <S.Textarea
-              value={content}
-              onChange={onChangeContent}
-              placeholder="내용을 입력해주세요.&#13;&#10; 커뮤니티 가이드라인에 맞지 않는 콘텐츠는 통보없이 숨겨질 수 있습니다."
-            />
+            <EditorComponent onChange={setContent} />
           </S.ContentInput>
           <S.ButtonContainer>
             <S.Button onClick={cancellButton}>취소</S.Button>
