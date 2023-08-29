@@ -10,8 +10,13 @@ import LikedAnime from './LikedAnime';
 import WhatIWrote from './WhatIWrote';
 import MyReviews from './MyReviews';
 import { InfoMenu } from './MyPage.styles';
+import { logout } from '../../api/auth';
+
 const MyInfoMenu = () => {
   const [selectedComponent, setSelectedComponent] = useState('EditProfile');
+  const handleLogout = async () => {
+    await logout();
+  };
   const renderSelectedComponent = () => {
     switch (selectedComponent) {
       case 'DecoProfile':
@@ -62,9 +67,13 @@ const MyInfoMenu = () => {
           <InfoMenu.WriteButtonIcon src={write} />
           작성한 글
         </InfoMenu.WriteButton>
-        <div>로그아웃</div>
-        <div>|</div>
-        <div>회원탈퇴</div>
+        <InfoMenu.InfoButtonContainer>
+          <InfoMenu.InfoButton onClick={handleLogout}>
+            로그아웃
+          </InfoMenu.InfoButton>
+          <div>|</div>
+          <InfoMenu.InfoButton>회원탈퇴</InfoMenu.InfoButton>
+        </InfoMenu.InfoButtonContainer>
       </InfoMenu.Container>
       <div>{renderSelectedComponent()}</div>
     </InfoMenu.FullScreen>

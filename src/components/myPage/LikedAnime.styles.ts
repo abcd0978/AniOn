@@ -9,12 +9,16 @@ export const Anime = {
     top: -290px;
     margin-left: 150px;
   `,
+  OnePoster: styled.div`
+    margin-bottom: -10px;
+  `,
   Poster: styled.img`
     width: 220px;
     height: 320px;
     border-radius: 10px;
     flex-direction: column;
     gap: 12px;
+    margin-top: 0px;
   `,
   Title: styled.div`
     display: flex;
@@ -30,6 +34,8 @@ export const Anime = {
     gap: 30px;
     row-gap: 40px;
     margin-left: 0px;
+    margin-top: 10px;
+    margin-bottom: 0px;
 
     @media (max-width: 1600px) {
       /* 화면 크기가 1600px 이하인 경우 */

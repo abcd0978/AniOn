@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { deleteComment } from '../../api/aniComment';
 import { Review } from './Wrote.styles';
 import { Button, Divider, EditTitle } from './EditProfile';
+import goReview from '../../assets/next (1).png';
 
 const supabaseUrl = process.env.REACT_APP_SUPABASE_URL;
 const supabaseAnonKey = process.env.REACT_APP_ANON_KEY;
@@ -18,6 +19,7 @@ if (!supabaseUrl || !supabaseAnonKey) {
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 type ReadAniComment = Database['public']['Tables']['ani_comments']['Row'];
+const itemsPerPage = 4;
 
 const userReviewAtom = atom<ReadAniComment[]>([]);
 
@@ -30,14 +32,14 @@ const MyReviews = () => {
     const fetchUserReview = async () => {
       try {
         if (!user) {
-          return; // 사용자가 로그인하지 않은 경우 아무것도 하지 않음
+          return;
         }
 
-        console.log('사용자 아이디에 따른 리뷰', user.id); // user.id를 사용하여 사용자 ID를 가져옴
+        console.log('사용자 아이디에 따른 리뷰', user.id);
         const { data, error } = await supabase
           .from('ani_comments')
           .select('*')
-          .eq('user_id', user.id) // user.id를 사용하여 사용자 ID에 해당하는 리뷰를 가져옴
+          .eq('user_id', user.id)
           .order('created_at', { ascending: false });
 
         if (error) {
@@ -59,7 +61,7 @@ const MyReviews = () => {
 
   const handleRemoveReview = async (reviewId: string) => {
     try {
-      await deleteComment(reviewId); // 주어진 함수를 사용하여 리뷰 삭제
+      await deleteComment(reviewId);
       const updatedUserReview = userReview.filter(
         (review) => review.id !== reviewId,
       );
@@ -75,11 +77,21 @@ const MyReviews = () => {
       <ul>
         {userReview.map((review) => (
           <li key={review.id}>
-            <div>{review.comment}</div>
-            <Button onClick={() => handleReviewClick(review.ani_id)}>
-              이동
-            </Button>
-            <Button onClick={() => handleRemoveReview(review.id)}>제거</Button>
+            <Review.ReviewComments>{review.comment}</Review.ReviewComments>
+            <Review.ButtonContainer>
+              <Review.Date>
+                {new Date(review.created_at).toLocaleString()}
+              </Review.Date>
+              <Review.ButtonArray>
+                <Review.Button onClick={() => handleRemoveReview(review.id)}>
+                  삭제
+                </Review.Button>
+                <Review.Button onClick={() => handleReviewClick(review.ani_id)}>
+                  보러가기
+                  <Review.ButtonIcon src={goReview} />
+                </Review.Button>
+              </Review.ButtonArray>
+            </Review.ButtonContainer>
             <Divider />
           </li>
         ))}

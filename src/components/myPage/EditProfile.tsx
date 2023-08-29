@@ -105,7 +105,10 @@ const EditProfile = () => {
           profile_img_url: publicUrl,
         }) // 업데이트 쿼리
         .eq('id', user?.id);
-
+      await supabase.auth.updateUser({
+        data: { profile_img_url: publicUrl },
+      });
+      console.log(publicUrl, '수정함');
       if (userUpdateError) {
         console.error(userUpdateError);
 
@@ -113,6 +116,7 @@ const EditProfile = () => {
       }
 
       console.log('User profile updated successfully!!!!');
+      alert('수정되었습니다.');
     } catch (error) {
       console.error(error);
     }
@@ -294,9 +298,9 @@ export const Button = styled.button`
   border: 1px solid lightgray;
   border-radius: 12px;
   background-color: transparent;
-  width: 80px;
-  height: 30px;
-  text-align: center;
+  width: auto;
+  height: auto;
+  // text-align: center;
   margin-left: 700px;
 `;
 export const EditTitle = styled.div`
