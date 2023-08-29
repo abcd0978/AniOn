@@ -160,7 +160,9 @@ const BoardDetail = () => {
                 <S.Textarea value={content} onChange={onChangeContent} />
               </S.Box>
             ) : (
-              <S.Content>{posts.content}</S.Content>
+              <S.Content
+                dangerouslySetInnerHTML={{ __html: posts.content }}
+              ></S.Content>
             )}
           </S.PostContainer>
 
