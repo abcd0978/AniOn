@@ -64,6 +64,7 @@ export const HeaderNo = styled.div`
   display: flex;
   align-items: center;
   font-weight: 600;
+  justify-content: center;
 `;
 export const BottomNo = styled.div`
   font-size: 15px;
@@ -71,6 +72,7 @@ export const BottomNo = styled.div`
   height: 44px;
   display: flex;
   align-items: center;
+  justify-content: center;
 `;
 export const HeaderTitle = styled.div`
   font-size: 15px;

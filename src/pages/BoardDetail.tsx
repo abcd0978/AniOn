@@ -1,29 +1,33 @@
 import React, { useEffect } from 'react';
 import Comments from '../components/Board/Comments';
 import { useNavigate, useParams } from 'react-router-dom';
-import { atom, useAtom, useAtomValue } from 'jotai';
+import { useAtomValue } from 'jotai';
 import { Database } from '../types/supabase';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { deletePost, updatePost, getPost } from '../api/boardapi';
+import {
+  deletePost,
+  updatePost,
+  getPost,
+  getLikesForPost,
+  createLike,
+  deleteLike,
+  getLikeForPost,
+} from '../api/boardapi';
 import { useState } from 'react';
 import { S } from '../pages/BoardDetail.style';
 import * as userStore from '../store/userStore';
+import filledLike from '../assets/filledLike.svg';
+import unfilledLike from '../assets/unfilledLike.svg';
 
 type ReadPosts = Database['public']['Tables']['posts']['Row'];
 type UpdatePosts = Database['public']['Tables']['posts']['Update'];
+type Like = Database['public']['Tables']['likes']['Row'];
 
 const BoardDetail = () => {
   const user = useAtomValue(userStore.user);
 
+  const queryClient = useQueryClient();
   const navigate = useNavigate();
-
-  // Post id 가져오기
-  const { post_id } = useParams<{ post_id: string }>();
-
-  // Post 상세조회
-  const { data: posts } = useQuery<ReadPosts>(['posts'], () =>
-    getPost(post_id!),
-  );
 
   // 수정 여부 및 수정 입력값 받기
   const [isEdit, setIsEdit] = useState<boolean>(false);
@@ -31,6 +35,31 @@ const BoardDetail = () => {
   const [content, setContent] = useState<string>('');
   const [category, setCategory] = useState<string>('');
   const [editCategory, setEditCategory] = useState<string>('');
+  const [existingLike, setExistingLike] = useState<boolean>(false);
+
+  // Post id 가져오기
+  const { post_id } = useParams<{ post_id: string }>();
+
+  // Likes 상태 추가
+  const [likes, setLikes] = useState<Like[]>([]);
+
+  // Post 상세조회
+  const { data: posts, refetch: refetchPost } = useQuery<ReadPosts>(
+    ['post'],
+    () => getPost(post_id!),
+  );
+
+  //전에 좋아요를 눌렀는지 확인
+  const { data: like } = useQuery(
+    ['like', user],
+    () => getLikeForPost({ post_id, user_id: user?.id }),
+    {
+      enabled: !!user,
+      refetchOnWindowFocus: false,
+    },
+  );
+
+  console.log('보드 디테일 like', like);
 
   const onChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
@@ -40,23 +69,20 @@ const BoardDetail = () => {
   };
 
   useEffect(() => {
-    if (posts) {
+    if (posts && !isEdit) {
+      // 수정 중이 아닐 때만 게시물 정보 업데이트
       setTitle(posts.title);
       setContent(posts.content);
-      if (posts.category) {
-        setCategory(posts.category);
-      }
-      if (isEdit) {
-        setEditCategory(posts.category || ''); // 수정 모드에서 카테고리 초기화
-      }
+      setCategory(posts.category);
+      setEditCategory(posts.category);
     }
   }, [isEdit, posts]);
 
   // Post 삭제
-  const queryClient = useQueryClient();
   const deleteMutation = useMutation(deletePost, {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['posts'] });
+      queryClient.invalidateQueries({ queryKey: ['post'] });
     },
   });
 
@@ -96,7 +122,46 @@ const BoardDetail = () => {
       };
       updateMutation.mutate(editPost);
       setIsEdit(!isEdit);
+
+      refetchPost();
     }
+  };
+
+  const insertLikeMutation = useMutation(createLike, {
+    onSuccess: () => queryClient.invalidateQueries(['like']),
+  });
+
+  const deleteLikeMutation = useMutation(deleteLike, {
+    onSuccess: () => queryClient.invalidateQueries(['like']),
+  });
+
+  //좋아요
+  const toggleLike = async () => {
+    if (!user) {
+      alert('로그인이 필요한 서비스입니다.');
+      return;
+    }
+
+    // mutation 추가
+    if (like?.length !== 0) {
+      if (!like) {
+        return;
+      }
+      deleteLikeMutation.mutate(like[0].id);
+    } else {
+      insertLikeMutation.mutate({ post_id: post_id!, user_id: user.id });
+    }
+
+    // 좋아요 정보 업데이트
+    if (posts) {
+      const updatedLikes = await getLikesForPost(posts.id!);
+      setLikes(updatedLikes as Like[]);
+    }
+
+    // 새로운 게시물 정보를 불러와 업데이트
+    const updatedPosts = await getPost(post_id!);
+    queryClient.setQueryData(['posts', post_id], updatedPosts);
+    // setExistingLike(!existingLike);
   };
 
   return (
@@ -122,6 +187,7 @@ const BoardDetail = () => {
               </S.Button>
             </S.ButtonContainer>
           )}
+
           <S.PostContainer key={posts.id}>
             {isEdit ? (
               <S.Box>
@@ -144,7 +210,14 @@ const BoardDetail = () => {
             ) : (
               <S.Box>
                 <S.Date> {new Date(posts.created_at).toLocaleString()}</S.Date>
-                <S.Title>{posts.title}</S.Title>
+                <S.Like onClick={toggleLike}>
+                  {like?.length ? (
+                    <img src={filledLike} alt="좋아요" />
+                  ) : (
+                    <img src={unfilledLike} alt="좋아요 취소" />
+                  )}
+                </S.Like>
+                <S.Title>{title}</S.Title>
                 <S.User>
                   <S.Img
                     src={posts.users?.profile_img_url}
