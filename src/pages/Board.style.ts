@@ -10,6 +10,7 @@ export const Title = styled.div`
   margin-bottom: 10px;
   margin-top: 30px;
   margin-left: 5px;
+  color: #8200ff;
 `;
 
 export const Button = styled.button`
