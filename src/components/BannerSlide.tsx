@@ -1,11 +1,16 @@
-import bannerWorldcup from '../assets/bannerWorldcup.svg';
 import styled from 'styled-components';
 // import Banner from '../components/Banner';
-import { ReactNode } from 'react';
+import { ReactNode, CSSProperties } from 'react';
 import aa from '../assets/aa.svg';
-
-const SlideContainer = styled.div`
-  position: relative; /* 상대적 위치 설정 */
+import jusul from '../assets/jusul.svg';
+import jjang from '../assets/jjang.svg';
+import choiai from '../assets/최애.jpg';
+import ju from '../assets/주술.jpg';
+const StGredient = styled.div`
+  z-index: 5;
+  position: relative;
+  width: 1920px;
+  height: 700px;
   background: linear-gradient(
     89deg,
     #000 0%,
@@ -13,16 +18,25 @@ const SlideContainer = styled.div`
     rgba(0, 0, 0, 0) 67.19%,
     #000 100%
   );
-
-  img {
-    // position: absolute; /* 절대 위치 설정 */
-    // z-index: -1; /* 이미지를 그라디언트 배경 뒤에 위치시킴 */
-  }
 `;
-
+const SlideContainer = styled.div<{ image?: string }>`
+  background-image: ${(props) => `url(${props.image});`};
+`;
+const imgStyle: CSSProperties = {
+  zIndex: -1,
+};
 const BannerSlide: ReactNode[] = [
-  <SlideContainer>
-    <img src={aa} alt="Slide 1" />
+  <SlideContainer image={choiai}>
+    <StGredient />
+  </SlideContainer>,
+  <SlideContainer image={jusul}>
+    <StGredient />
+  </SlideContainer>,
+  <SlideContainer image={jjang}>
+    <StGredient />
+  </SlideContainer>,
+  <SlideContainer image={ju.j}>
+    <StGredient />
   </SlideContainer>,
 
   // 다른 슬라이드들 추가

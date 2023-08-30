@@ -36,7 +36,7 @@ body{
 
 
 .embla{
-    width:100vw;
+    width:1920px;
     margin-left: calc(-50vw + 50%);
     overflow: hidden;
 }
