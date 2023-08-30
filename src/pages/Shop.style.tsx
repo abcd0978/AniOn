@@ -13,7 +13,7 @@ export const Top = styled.div`
 export const Title = styled.div`
   color: #8200ff;
   font-weight: 700;
-  font-size: 24px;
+  font-size: 32px;
   margin-bottom: 10px;
 `;
 
@@ -90,7 +90,7 @@ export const BuyButton = styled.button`
   margin-top: -30px;
   background-color: white;
   border-radius: 6px;
-  border: 1px solid #d9d9d9;
+  border: 1px solid #c88fff;
   float: right;
   cursor: pointer;
 `;
