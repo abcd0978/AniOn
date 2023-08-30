@@ -98,7 +98,7 @@ const Board = () => {
             onClick={handleAllClick}
             style={{
               backgroundColor:
-                selectedCategory === null ? '#8200FF' : '#f3e7ff',
+                selectedCategory === null ? '#FF96DB' : '#FFEBF7',
               color: selectedCategory === null ? '#ffffff' : 'black',
             }}
           >
@@ -108,7 +108,7 @@ const Board = () => {
             onClick={() => handleCategoryClick('애니')}
             style={{
               backgroundColor:
-                selectedCategory === '애니' ? '#8200FF' : '#f3e7ff',
+                selectedCategory === '애니' ? '#FF96DB' : '#FFEBF7',
               color: selectedCategory === '애니' ? '#ffffff' : 'black',
             }}
           >
@@ -118,7 +118,7 @@ const Board = () => {
             onClick={() => handleCategoryClick('자유')}
             style={{
               backgroundColor:
-                selectedCategory === '자유' ? '#8200FF' : '#f3e7ff',
+                selectedCategory === '자유' ? '#FF96DB' : '#FFEBF7',
               color: selectedCategory === '자유' ? '#ffffff' : 'black',
             }}
           >
@@ -129,7 +129,7 @@ const Board = () => {
             onClick={() => handleCategoryClick('오류 신고')}
             style={{
               backgroundColor:
-                selectedCategory === '오류 신고' ? '#8200FF' : '#f3e7ff',
+                selectedCategory === '오류 신고' ? '#FF96DB' : '#FFEBF7',
               color: selectedCategory === '오류 신고' ? '#ffffff' : 'black',
             }}
           >
