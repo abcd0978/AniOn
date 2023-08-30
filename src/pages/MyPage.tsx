@@ -7,7 +7,7 @@ import { Profile } from '../components/myPage/MyPage.styles';
 type Props = {};
 
 const MyPage = (props: Props) => {
-  const { user_id } = useParams();
+  // const { user_id } = useParams();
   return (
     <>
       <Profile.MyPageText> 마이페이지</Profile.MyPageText>

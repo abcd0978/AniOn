@@ -15,7 +15,7 @@ import viewDetail from '../../assets/viewdetail.svg';
 import LikeSvg from '../anime-recommend/LikeSvg';
 import { AnimeG } from '../../types/anime';
 import { styled } from 'styled-components';
-
+import { Container } from './EditProfile';
 type ReadMyLike = Database['public']['Tables']['anime_likes']['Row'];
 interface Props {
   anime: AnimeG;
@@ -101,7 +101,7 @@ const LikedAnime = () => {
   const displayedAnime = likedAnime.slice(startIndex, endIndex);
 
   return (
-    <Anime.Container className="liked-anime-container">
+    <Container className="liked-anime-container">
       <EditTitle>찜한 목록</EditTitle>
       <Anime.PosterContainer className="anime-list">
         {displayedAnime.map((anime) => (
@@ -143,7 +143,7 @@ const LikedAnime = () => {
         totalPages={Math.ceil(likedAnime.length / itemsPerPage)}
         onClick={handlePageChange}
       />
-    </Anime.Container>
+    </Container>
   );
 };
 
