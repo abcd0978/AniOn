@@ -3,14 +3,15 @@ import styled from 'styled-components';
 export const S = {
   PageNameDiv: styled.div`
     margin-top: 30px;
+    letter-spacing: -2px;
   `,
 
-  PageNameSpan: styled.span`
+  PageNameFisrt: styled.span`
     color: #8200ff;
     font-size: 32px;
     font-weight: 400;
   `,
-  PageNameBold: styled.span`
+  PageNameSecond: styled.span`
     color: #8200ff;
     font-size: 32px;
     font-weight: 700;
