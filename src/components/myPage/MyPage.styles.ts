@@ -16,6 +16,7 @@ export const Profile = {
     font-weight: 700;
     line-height: normal;
     letter-spacing: -0.48px;
+    margin-top: 20px;
   `,
   MyNickname: styled.div`
     margin-left: 30px;
@@ -29,10 +30,12 @@ export const Profile = {
   `,
   MyContainer: styled.div`
     border-radius: 20px;
-    background: #fff;
+    background: #fdfbff;
     box-shadow: 0px 0px 25px 0px rgba(0, 0, 0, 0.1);
-    width: 250px;
+    width: 300px;
+    height: 628.5px;
     padding: 20px;
+    margin-top: 20px;
   `,
   MyProfileContainer: styled.div`
     display: flex;
@@ -65,9 +68,6 @@ export const InfoMenu = {
     font-weight: 400;
     line-height: normal;
     letter-spacing: -0.24px;
-    &:hover {
-      color: #000;
-    }
   `,
   DecoButtonIcon: styled.img`
     height: 36px;
@@ -146,6 +146,7 @@ export const InfoMenu = {
   InfoButton: styled.button`
     background-color: transparent;
     border: transparent;
+    color: #999;
   `,
 };
 

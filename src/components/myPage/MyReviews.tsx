@@ -6,7 +6,7 @@ import * as userStore from '../../store/userStore';
 import { useNavigate } from 'react-router-dom';
 import { deleteComment } from '../../api/aniComment';
 import { Review } from './Wrote.styles';
-import { Button, Divider, EditTitle } from './EditProfile';
+import { Button, Container, Divider, EditTitle } from './EditProfile';
 import goReview from '../../assets/next (1).png';
 import Pagination from '../Pagenation';
 import { AnimeG } from '../../types/anime';
@@ -81,11 +81,15 @@ const MyReviews = () => {
 
   const handleRemoveReview = async (reviewId: string) => {
     try {
-      await deleteComment(reviewId);
-      const updatedUserReview = userReview.filter(
-        (review) => review.id !== reviewId,
-      );
-      setUserReview(updatedUserReview);
+      const shouldDelete = window.confirm('삭제하시겠습니까?');
+
+      if (shouldDelete) {
+        await deleteComment(reviewId);
+        const updatedUserReview = userReview.filter(
+          (review) => review.id !== reviewId,
+        );
+        setUserReview(updatedUserReview);
+      }
     } catch (error) {
       console.error('리뷰 삭제 중 에러', error);
     }
@@ -105,28 +109,32 @@ const MyReviews = () => {
   const endIndex = startIndex + reviewsPerPage;
 
   return (
-    <Review.Container>
+    <Container>
       <EditTitle>리뷰 이력</EditTitle>
       <Divider />
       <ul>
         {userReview.slice(startIndex, endIndex).map((review) => (
           <li key={review.id}>
             {/* <div>{animeDetail.name}</div> */}
-            <Review.ReviewComments>{review.comment}</Review.ReviewComments>
-            <Review.ButtonContainer>
-              <Review.Date>
-                {new Date(review.created_at).toLocaleString()}
-              </Review.Date>
-              <Review.ButtonArray>
-                <Review.Button onClick={() => handleRemoveReview(review.id)}>
-                  삭제
-                </Review.Button>
-                <Review.Button onClick={() => handleReviewClick(review.ani_id)}>
-                  보러가기
-                  <Review.ButtonIcon src={goReview} />
-                </Review.Button>
-              </Review.ButtonArray>
-            </Review.ButtonContainer>
+            <Review.Divide>
+              <Review.ReviewComments>{review.comment}</Review.ReviewComments>
+              <Review.ButtonContainer>
+                <Review.Date>
+                  {new Date(review.created_at).toLocaleString()}
+                </Review.Date>
+                <Review.ButtonArray>
+                  <Review.Button onClick={() => handleRemoveReview(review.id)}>
+                    삭제
+                  </Review.Button>
+                  <Review.Button
+                    onClick={() => handleReviewClick(review.ani_id)}
+                  >
+                    보러가기
+                    <Review.ButtonIcon src={goReview} />
+                  </Review.Button>
+                </Review.ButtonArray>
+              </Review.ButtonContainer>
+            </Review.Divide>
             <Divider />
           </li>
         ))}
@@ -136,7 +144,7 @@ const MyReviews = () => {
         totalPages={totalPages}
         onClick={handlePageChange}
       />
-    </Review.Container>
+    </Container>
   );
 };
 

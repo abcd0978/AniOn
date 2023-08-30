@@ -134,7 +134,7 @@ const MyInfoMenu = () => {
           <InfoMenu.InfoButton onClick={handleLogout}>
             로그아웃
           </InfoMenu.InfoButton>
-          <div>|</div>
+          <InfoMenu.InfoButton>|</InfoMenu.InfoButton>
           <InfoMenu.InfoButton>회원탈퇴</InfoMenu.InfoButton>
         </InfoMenu.InfoButtonContainer>
       </InfoMenu.Container>

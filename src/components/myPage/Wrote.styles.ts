@@ -1,5 +1,8 @@
 import styled from 'styled-components';
 export const Review = {
+  Divide: styled.div`
+    height: 120px;
+  `,
   Container: styled.div`
     display: flex;
     flex-direction: column;
@@ -13,6 +16,7 @@ export const Review = {
     position: relative;
     flex-direction: column;
     left: 800px;
+    margin-top: -50px;
   `,
   ButtonArray: styled.div`
     display: flex;
