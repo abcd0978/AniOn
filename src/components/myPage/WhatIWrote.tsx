@@ -10,6 +10,7 @@ import { Button, Divider, EditTitle } from './EditProfile';
 import Pagination from '../Pagenation';
 import { useQuery } from '@tanstack/react-query';
 import { getPosts } from '../../api/boardapi';
+import { StyledPostCategory } from './Wrote.styles';
 
 type ReadMyBoard = Database['public']['Tables']['posts']['Row'];
 type ReadMyBoardLikes = Database['public']['Tables']['likes']['Row'];
@@ -167,24 +168,29 @@ const WhatIWrote = () => {
                     handleCheckboxChange(post.id?.toString() ?? '')
                   }
                 />
-                <Post.Category>{post.category}</Post.Category>
-                <h3 onClick={() => handlePostClick(post.id?.toString() ?? '')}>
-                  {' '}
-                  {post.title}
-                </h3>
-                <div>{new Date(post.created_at).toLocaleString()}</div>
-                <div>받은 추천 수: {likesForPost}</div> {/* 추천 수 렌더링 */}
+                <StyledPostCategory category={post.category}>
+                  {post.category}
+                </StyledPostCategory>
+                <Review.Content>
+                  <h3
+                    onClick={() => handlePostClick(post.id?.toString() ?? '')}
+                  >
+                    {post.title}
+                  </h3>
+                  <div>{new Date(post.created_at).toLocaleString()}</div>
+                  <div>받은 추천 수: {likesForPost}</div>
+                </Review.Content>
                 <Divider />
               </li>
             );
           })}
       </ul>
-      <Button onClick={handleDeleteSelectedPosts}>선택한 게시물 삭제</Button>
-      <Button onClick={handleSelectAll}>
+      <Button onClick={handleDeleteSelectedPosts}>선택삭제</Button>
+      <Review.ButtonAll onClick={handleSelectAll}>
         {selectedPosts.length === userPosts.length
           ? '전체 선택 해제'
           : '전체 선택'}
-      </Button>
+      </Review.ButtonAll>
       <Pagination
         currentPage={page}
         totalPages={postsAndTotalPages?.totalPages || 1}
