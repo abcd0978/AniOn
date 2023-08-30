@@ -10,8 +10,19 @@ import { S } from '../anime-recommend/styled.AnimeCard';
 import Pagination from '../Pagenation';
 import { useQuery } from '@tanstack/react-query';
 import { Database } from '../../types/supabase';
-type ReadMyLike = Database['public']['Tables']['anime_likes']['Row'];
+import { HoverInfo } from '../anime-recommend/styled.AnimeCard';
+import viewDetail from '../../assets/viewdetail.svg';
+import LikeSvg from '../anime-recommend/LikeSvg';
+import { AnimeG } from '../../types/anime';
+import { styled } from 'styled-components';
 
+type ReadMyLike = Database['public']['Tables']['anime_likes']['Row'];
+interface Props {
+  anime: AnimeG;
+  likesCount: (anime_id: string) => number;
+  isLike: (anime_id: string) => boolean;
+  handleLike: (anime_id: string) => void;
+}
 const itemsPerPage = 6;
 const LikedAnime = () => {
   const [likedAnime, setLikedAnime] = useState<
@@ -108,10 +119,26 @@ const LikedAnime = () => {
               alt={anime.name}
             />
             <S.CardTitle>{anime.anime.name}</S.CardTitle>
+            <HoverInfo>
+              <S.HoverGenre key={anime.anime.id}>
+                <S.GenreText>{anime.anime.genres![0]}</S.GenreText>
+              </S.HoverGenre>
+              <S.HoverTitleAndDetail>
+                <S.HoverTitle>{anime.name}</S.HoverTitle>
+                <S.HoverViewDetail>
+                  <p>자세히 보기</p>
+                  <img
+                    className="viewDetail"
+                    src={viewDetail}
+                    alt="viewdetail"
+                  />
+                </S.HoverViewDetail>
+              </S.HoverTitleAndDetail>
+            </HoverInfo>
           </Anime.OnePoster>
         ))}
       </Anime.PosterContainer>
-      <Pagination
+      <StyledPagination
         currentPage={page}
         totalPages={Math.ceil(likedAnime.length / itemsPerPage)}
         onClick={handlePageChange}
@@ -121,3 +148,12 @@ const LikedAnime = () => {
 };
 
 export default LikedAnime;
+const StyledPagination = styled(Pagination)`
+  color: pink;
+  font-size: 100px;
+  margin: 10px;
+
+  .pagination-item {
+    color: blue;
+  }
+`;

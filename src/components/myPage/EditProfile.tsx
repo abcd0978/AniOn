@@ -195,9 +195,15 @@ const EditProfile = () => {
           <Label>사진</Label>
           {userProfile && editMode === 'photo' ? (
             <>
-              <Item>
-                {/* 프로필 이미지를 표시하는 부분 */}
-                {userProfile.map((profile) => (
+              {/* 프로필 이미지를 표시하는 부분 */}
+              {selectedFile ? (
+                <Profile.BasicImage
+                  src={URL.createObjectURL(selectedFile)}
+                  alt="Selected profile picture"
+                  style={{ width: '100px', height: '100px' }}
+                />
+              ) : (
+                userProfile.map((profile) => (
                   <div key={profile.id}>
                     {profile.profile_img_url ? (
                       <Profile.BasicImage
@@ -209,9 +215,8 @@ const EditProfile = () => {
                       <div>프로필 이미지 없음</div>
                     )}
                   </div>
-                ))}
-              </Item>
-              {/* </div> */}
+                ))
+              )}
               <Input
                 type="file"
                 onChange={(event) => {
@@ -231,7 +236,23 @@ const EditProfile = () => {
               </Button>
             </>
           ) : (
-            <Button onClick={() => setEditMode('photo')}>변경</Button>
+            <>
+              {/* 변경 버튼을 누르기 전에 현재 프로필 이미지를 표시하는 부분 */}
+              {userProfile.map((profile) => (
+                <div key={profile.id}>
+                  {profile.profile_img_url ? (
+                    <Profile.BasicImage
+                      src={profile.profile_img_url}
+                      alt="Profile picture"
+                      style={{ width: '100px', height: '100px' }}
+                    />
+                  ) : (
+                    <div>프로필 이미지 없음</div>
+                  )}
+                </div>
+              ))}
+              <Button onClick={() => setEditMode('photo')}>변경</Button>
+            </>
           )}
         </Item>
         <TextBelowPhoto>
@@ -296,27 +317,6 @@ const EditProfile = () => {
             </>
           )}
         </Item>
-
-        {/* <Item>
-          <Label>비밀번호</Label>
-          {editMode === 'password' ? (
-            <form onSubmit={handleSubmitPassword}>
-              <Input
-                type="text"
-                value={newPassword}
-                onChange={handlePasswordChange}
-                placeholder="New Password"
-              />
-              <Button type="submit">완료</Button>
-              <Button onClick={() => setEditMode('')}>취소</Button>
-            </form>
-          ) : (
-            <>
-              <div>{user?.password}</div>
-              <Button onClick={() => setEditMode('password')}>변경</Button>
-            </>
-          )}
-        </Item> */}
         <Divider />
       </Container>
     );
