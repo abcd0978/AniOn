@@ -58,7 +58,6 @@ const EditProfile = () => {
 
     updateUserImage().then(() => {});
   }, [setUserProfile, user]);
-  console.log('데이터가 업데이트 된 후에 로그 출력.', userProfile);
   //2-1-1. 사진 업로드
   const handleUpload = async () => {
     console.log('handleUpload started');
