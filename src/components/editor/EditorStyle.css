@@ -3,3 +3,10 @@
   padding-right: 40px;
   height: 360px;
 }
+
+.ql-snow * {
+  box-sizing: border-box;
+  background-color: #f9f3ff;
+  /* border: 1px #c88fff solid; */
+  /* background-color: white; */
+}
