@@ -4,20 +4,22 @@ import React, {
   useCallback,
   useEffect,
   useState,
-} from "react";
+} from 'react';
 import useEmblaCarousel, {
   EmblaCarouselType,
   EmblaOptionsType,
   EmblaPluginType,
   EmblaEventType,
   UseEmblaCarouselType,
-} from "embla-carousel-react";
-import next from "../assets/next.svg";
-import prev from "../assets/prev.svg";
-import dot from "../assets/dot.svg";
-import dotDeactivated from "../assets/dotDeactivated.svg";
-import styled from "styled-components";
-import Autoplay from "embla-carousel-autoplay";
+} from 'embla-carousel-react';
+import next from '../assets/next.svg';
+import useViewport from '../hooks/useViewPort';
+import prev from '../assets/prev.svg';
+import dot from '../assets/dot.svg';
+import dotDeactivated from '../assets/dotDeactivated.svg';
+import styled from 'styled-components';
+import Autoplay from 'embla-carousel-autoplay';
+
 type PropType = {
   options?: EmblaOptionsType;
   slides: ReactNode[];
@@ -31,22 +33,21 @@ interface DotButtonProps extends ButtonProps {
   clicked: boolean;
 }
 const buttonStyle: CSSProperties = {
-  zIndex: "1",
-  WebkitAppearance: "none",
-  backgroundColor: "transparent",
-  touchAction: "manipulation",
-  display: "inline-flex",
-  textDecoration: "none",
-  cursor: "pointer",
-  border: "0",
-  padding: "0",
-  margin: "0",
+  zIndex: '1',
+  WebkitAppearance: 'none',
+  backgroundColor: 'transparent',
+  touchAction: 'manipulation',
+  display: 'inline-flex',
+  textDecoration: 'none',
+  cursor: 'pointer',
+  border: '0',
+  padding: '0',
+  margin: '0',
 };
-const slideStyle: CSSProperties = {
-  height: "300px",
-  backgroundColor: "#D9D9D9",
-  border: "solid 1px",
-  flex: "0 0 100%",
+let slideStyle: CSSProperties = {
+  backgroundColor: '#D9D9D9',
+  flex: '0 0 100%',
+  overflow: 'hidden',
 };
 
 export const Banner = (props: PropType) => {
@@ -56,6 +57,8 @@ export const Banner = (props: PropType) => {
   const [prevButtonDisabled, setPrevButtonDisabled] = useState(true);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [scrollSnaps, setScrollSnaps] = useState<number[]>([]);
+  const { width } = useViewport();
+
   const scrollPrev = useCallback(() => {
     if (emblaApi) {
       emblaApi.scrollPrev();
@@ -73,7 +76,7 @@ export const Banner = (props: PropType) => {
         emblaApi.scrollTo(index);
       }
     },
-    [emblaApi]
+    [emblaApi],
   );
   const onInit = useCallback((emblaApi: EmblaCarouselType) => {
     setScrollSnaps(emblaApi.scrollSnapList());
@@ -88,16 +91,20 @@ export const Banner = (props: PropType) => {
     if (!emblaApi) return;
     onInit(emblaApi);
     onSelect(emblaApi);
-    emblaApi.on("reInit", onInit);
-    emblaApi.on("reInit", onSelect);
-    emblaApi.on("select", onSelect);
+    emblaApi.on('reInit', onInit);
+    emblaApi.on('reInit', onSelect);
+    emblaApi.on('select', onSelect);
   }, [emblaApi, onInit, onSelect]);
 
   return (
-    <div className="embla" ref={emblaRef}>
-      <div className="embla__container" style={{ display: "flex" }}>
+    <div className="embla" ref={emblaRef} style={{ overflow: 'hidden' }}>
+      <div className="embla__container" style={{ display: 'flex' }}>
         {slides.map((slide, index) => (
-          <div className="embla__slide" style={slideStyle} key={index}>
+          <div
+            className="embla__slide"
+            style={{ ...slideStyle, height: `${width * 0.36}px` }}
+            key={index}
+          >
             {slide}
           </div>
         ))}
@@ -148,7 +155,7 @@ const DotButton = (props: DotButtonProps) => {
       onClick={props.onClickfunc}
       style={{
         ...props.buttonStyle,
-        ...{ paddingLeft: "6px", paddingRight: "6px" },
+        ...{ paddingLeft: '8px', paddingRight: '8px' },
       }}
     >
       <img src={props.clicked ? dot : dotDeactivated} alt="dot" />
