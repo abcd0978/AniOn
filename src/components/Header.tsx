@@ -187,7 +187,8 @@ const StHeaderLogoSection = styled.div`
   cursor: pointer;
   min-width: 126px;
   max-width: 10%;
-  height: 100%;
+  // height: 100%;
+  margin-right: 40px;
 `;
 const StHeaderMenuSection = styled.div`
   width: 75%;
