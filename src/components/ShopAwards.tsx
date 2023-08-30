@@ -4,7 +4,7 @@ import { styled } from 'styled-components';
 
 const ShopAwards = () => {
   return (
-    <div>
+    <GridContainer>
       <Container>
         <AwardName>칭호명</AwardName>
         <ShopMenu>
@@ -12,13 +12,56 @@ const ShopAwards = () => {
           <BuyButton>구매하기</BuyButton>
         </ShopMenu>
       </Container>
-    </div>
+      <Container>
+        <AwardName>칭호명</AwardName>
+        <ShopMenu>
+          <AwardPrice>포인트</AwardPrice>
+          <BuyButton>구매하기</BuyButton>
+        </ShopMenu>
+      </Container>
+      <Container>
+        <AwardName>칭호명</AwardName>
+        <ShopMenu>
+          <AwardPrice>포인트</AwardPrice>
+          <BuyButton>구매하기</BuyButton>
+        </ShopMenu>
+      </Container>
+      <Container>
+        <AwardName>칭호명</AwardName>
+        <ShopMenu>
+          <AwardPrice>포인트</AwardPrice>
+          <BuyButton>구매하기</BuyButton>
+        </ShopMenu>
+      </Container>
+      <Container>
+        <AwardName>칭호명</AwardName>
+        <ShopMenu>
+          <AwardPrice>포인트</AwardPrice>
+          <BuyButton>구매하기</BuyButton>
+        </ShopMenu>
+      </Container>
+      <Container>
+        <AwardName>칭호명</AwardName>
+        <ShopMenu>
+          <AwardPrice>포인트</AwardPrice>
+          <BuyButton>구매하기</BuyButton>
+        </ShopMenu>
+      </Container>
+    </GridContainer>
   );
 };
 
 export default ShopAwards;
+const GridContainer = styled.div`
+display: grid;
+  grid-template-columns: auto auto auto auto;
+  gap: 10px;
+  padding: 10px;
+}
+`;
 const Container = styled.div`
-  width: 350px;
+  width: 280px;
+
   margin-top: 40px;
 `;
 const AwardName = styled.div`
