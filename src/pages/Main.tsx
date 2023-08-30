@@ -6,6 +6,8 @@ import React, {
   useEffect,
 } from 'react';
 import Banner from '../components/Banner';
+import Footer from '../components/Footer';
+import logo from '../assets/logo.svg';
 import styled from 'styled-components';
 import next from '../assets/next.svg';
 import prev from '../assets/prev.svg';
@@ -154,8 +156,20 @@ const Main = () => {
       <StMainCardContainerContainer>
         <StMainCardContainerWithTypo>
           <div>
-            <p style={{ display: 'inline', ...boldFontStyle }}>종합</p>
-            <p style={{ display: 'inline', ...RegularFontStyle }}>순위</p>
+            <p
+              style={{ display: 'inline', ...boldFontStyle, color: '#8200FF' }}
+            >
+              종합
+            </p>
+            <p
+              style={{
+                display: 'inline',
+                ...RegularFontStyle,
+                color: '#8200FF',
+              }}
+            >
+              순위
+            </p>
           </div>
           <StMainCardContainer mediaWidth={width}>
             {dataH ? (
@@ -188,8 +202,20 @@ const Main = () => {
       <StMainCardContainerContainer>
         <StMainCardContainerWithTypo>
           <div>
-            <p style={{ display: 'inline', ...boldFontStyle }}>이번주</p>
-            <p style={{ display: 'inline', ...RegularFontStyle }}>순위</p>
+            <p
+              style={{ display: 'inline', ...boldFontStyle, color: '#8200FF' }}
+            >
+              이번주
+            </p>
+            <p
+              style={{
+                display: 'inline',
+                ...RegularFontStyle,
+                color: '#8200FF',
+              }}
+            >
+              순위
+            </p>
           </div>
           <StMainCardContainer
             mediaWidth={width}
@@ -251,8 +277,20 @@ const Main = () => {
       <StMainCardContainerContainer>
         <StMainCardContainerWithTypo>
           <div>
-            <p style={{ display: 'inline', ...boldFontStyle }}>신작</p>
-            <p style={{ display: 'inline', ...RegularFontStyle }}>순위</p>
+            <p
+              style={{ display: 'inline', ...boldFontStyle, color: '#8200FF' }}
+            >
+              신작
+            </p>
+            <p
+              style={{
+                display: 'inline',
+                ...RegularFontStyle,
+                color: '#8200FF',
+              }}
+            >
+              순위
+            </p>
           </div>
           <StMainCardContainer
             mediaWidth={width}
@@ -311,9 +349,19 @@ const Main = () => {
           </StMainCardContainer>
         </StMainCardContainerWithTypo>
       </StMainCardContainerContainer>
+      <Footer />
     </>
   );
 };
+
+// const Stfooter = styled.div`
+//   width: 100%;
+//   height: 200px;
+//   background-color: #f9f3ff;
+//   display: flex;
+//   flex-direction: row;
+// `;
+
 const PrevButton = (props: ButtonProps) => {
   const { disabled, buttonStyle, onClickfunc } = props;
   const visibilty: CSSProperties = disabled ? { visibility: 'hidden' } : {};

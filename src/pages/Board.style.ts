@@ -5,7 +5,7 @@ export const Container = styled.div`
 `;
 
 export const Title = styled.div`
-  font-size: 22px;
+  font-size: 32px;
   font-weight: bold;
   margin-bottom: 10px;
   margin-top: 30px;
