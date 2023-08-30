@@ -19,10 +19,10 @@ import dot from '../assets/dot.svg';
 import dotDeactivated from '../assets/dotDeactivated.svg';
 import styled from 'styled-components';
 import Autoplay from 'embla-carousel-autoplay';
-
+import BannerSlide from './BannerSlide';
 type PropType = {
   options?: EmblaOptionsType;
-  slides: ReactNode[];
+  slides: any[];
 };
 interface ButtonProps {
   onClickfunc: () => void;
@@ -104,7 +104,15 @@ export const Banner = (props: PropType) => {
             style={{ ...slideStyle, height: `${width * 0.36}px` }}
             key={index}
           >
-            {slide}
+            <BannerSlide
+              buttonText={slide.buttonText}
+              desc={slide.desc}
+              image={slide.image}
+              name={slide.name}
+              onClick={slide.onClick}
+              title={slide.title}
+              key={'fewa'}
+            />
           </div>
         ))}
       </div>

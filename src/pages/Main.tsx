@@ -22,6 +22,10 @@ import useEmblaCarousel, {
   EmblaEventType,
   UseEmblaCarouselType,
 } from 'embla-carousel-react';
+import hosino from '../assets/hosihoii.jpg';
+import gil from '../assets/gil.jpg';
+import cha from '../assets/cha.jpg';
+import jusul from '../assets/jusulgg.png';
 // const BannerSlide: ReactNode[] = ['슬라이드1', '슬라이드2', '슬라이드3'];
 const smallCardHeight = 272;
 const BigCardHeight = 464;
@@ -149,9 +153,45 @@ const Main = () => {
     weeklyEmblaApi!.on('select', onSelectW);
   }, [newEmblaApi, weeklyEmblaApi, onSelectN, onSelectW]);
 
+  const bannerInfo = [
+    {
+      image: hosino,
+      name: '애니-온',
+      title: '이상형 월드컵',
+      desc: '나만의 이상형을 애니에서 만나볼 수 있다고?',
+      buttonText: '테스트하기',
+      onClick: () => navigate('/worldcup'),
+    },
+    {
+      image: jusul,
+      name: '애니-온',
+      title: '주술회전 1기 part 1',
+      desc: '마법으로 펼쳐지는 모험, 화끈한 주문 대결의 시작',
+      buttonText: '알아보기',
+      onClick: () => navigate('/recommend/39986'),
+    },
+    {
+      image: gil,
+      name: '애니-온',
+      title: '길모퉁이 마족',
+      desc: '화끈한 마법세계 속, 귀엽고 야심찬 마족들의 독특한 모험!',
+      buttonText: '알아보기',
+      onClick: () => navigate('/recommend/39524'),
+    },
+    {
+      image: cha,
+      name: '애니-온',
+      title: '체인소 맨',
+      desc: '악마와 맞서는 데빌 헌터들을 만날 시간',
+      buttonText: '알아보기',
+      onClick: () => navigate('/recommend/41105'),
+    },
+  ];
+
   return (
     <>
-      <Banner options={{ loop: true, duration: 20 }} slides={BannerSlide} />
+      <Banner options={{ loop: true, duration: 20 }} slides={bannerInfo} />
+
       <StMainCardContainerContainer>
         <StMainCardContainerWithTypo>
           <div>
