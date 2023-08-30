@@ -1,19 +1,40 @@
+import { tSTypeAliasDeclaration } from '@babel/types';
 import styled from 'styled-components';
 
 export const S = {
   DetailContainer: styled.div`
-    margin-top: 20px;
+    display: flex;
+    padding: 93px 240px 60px 240px;
+    align-items: flex-start;
+    gap: 146px;
+    width: 100vw;
+    height: 662px;
+    margin-left: calc(-50vw + 50%);
+    background: #4f4f4f;
   `,
 
   ContentsContainer: styled.div`
     display: flex;
-    gap: 146px;
-    /* background-color: #4f4f4f; */
-    @media screen and (max-width: 1219px) {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 40px;
+    height: 627px;
+    weight: 830px;
+
+    // @media screen and (max-width: 1219px) {
+    //   display: flex;
+    //   flex-direction: column;
+    //   align-items: center;
+    // }
+  `,
+
+  ContentsBox: styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 40px;
+    width: 830px;
+    height: 983px;
   `,
 
   ContentsImg: styled.div`
@@ -25,61 +46,198 @@ export const S = {
   `,
 
   PreviewBox: styled.a`
-    text-decoration: none;
-    color: #ffffff;
-    font-weight: 700;
-    font-size: 20px;
-    background-color: #8200ff;
-    padding: 20px;
+    display: flex;
+    padding: 16px 16px 16px 8px;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
     border-radius: 10px;
-
+    background: #a649ff;
     cursor: pointer;
+
+    color: #fff;
+    /* 소타이틀/1 */
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    letter-spacing: -0.3px;
   `,
 
   ContentsText: styled.p`
-    line-height: 25px;
-    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  `,
+
+  ContentsTextUp: styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  `,
+
+  ContentsGenrePro: styled.div`
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #fff;
+    /* 본문/2 */
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%; /* 24px */
+    letter-spacing: -0.24px;
+  `,
+
+  ContentsEtc: styled.p`
+    color: #fff;
+    /* 본문/1 */
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    letter-spacing: -0.24px;
+  `,
+
+  ContentsEx: styled.p`
+    color: #fff;
+    /* 본문/2 */
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%; /* 24px */
+    letter-spacing: -0.24px;
+    width: 830px;
+    flex-shrink: 0;
   `,
 
   ContentsOptions: styled.div`
     display: flex;
+    width: 829px;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
     img {
       cursor: pointer;
     }
   `,
 
   LikeShareBox: styled.div`
-    width: 113px;
-    height: 56px;
     display: flex;
     align-items: flex-start;
     gap: 32px;
+    width: 116px;
+    heigth: 57px;
   `,
 
   LikeBox: styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+    gap: 4px;
+    width: 36px;
+    height: 57px;
+
+    p {
+      color: #fff;
+      /* 최소 */
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: normal;
+      letter-spacing: -0.21px;
+    }
   `,
 
   ShareBox: styled.div`
+    display: flex;
     flex-direction: column;
     align-items: center;
     gap: 4px;
-    width: 45px;
-    height: 56px;
+    width: 48px;
+    height: 57px;
+
+    p {
+      color: #fff;
+      /* 최소 */
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: normal;
+      letter-spacing: -0.21px;
+    }
   `,
 
-  ContentsStar: styled.label`
-    font-size: 20px;
-    font-weight: 700;
-    line-height: 150%; /* 30px */
+  ContentsStarTitleBox: styled.div`
+    display: flex;
+    align-items: center;
+    gap: 12px;
   `,
+
+  ContentsStarLabel: styled.label`
+    color: #fff;
+    /* 소타이틀/1 */
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    letter-spacing: -0.3px;
+  `,
+
+  ContentsStarCount: styled.p`
+    color: #fff;
+    /* 최소 */
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: -0.21px;
+  `,
+
+  TotlaStarBox: styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 160px;
+    align-self: stretch;
+    width: 830px;
+    height: 132px;
+  `,
+
+  StarNumBox: styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    width: 192px;
+    height: 86px;
+
+    p {
+      color: #fff;
+      /* 중타이틀/1 */
+      font-size: 28px;
+      font-style: normal;
+      font-weight: 700;
+      line-height: 150%; /* 42px */
+      letter-spacing: -0.42px;
+    }
+  `,
+
+  // RealStar: styled.div`
+  //   display: flex;
+  //   align-items: flex-start;
+  //   gap: 8px;
+  //   height: 32px;
+  // `,
 
   StarBox: styled.div`
-    margin-top: 40px;
+    display: flex;
+    width: 830px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+    height: 176px;
   `,
 
   ContentVideoLayout: styled.div`
@@ -91,8 +249,9 @@ export const S = {
     font-family: 'Cafe24Ssurround';
     font-weight: 700;
     font-size: 44px;
-    line-height: 52.8px;
-    margin-bottom: 30px;
+    color: #fff;
+    font-style: normal;
+    line-height: normal;
   `,
 
   DetailLabel: styled.p`
@@ -103,6 +262,21 @@ export const S = {
     @media screen and (max-width: 1295px) {
       line-height: 32px;
     }
+  `,
+
+  AniTextLayoutTop: styled.div`
+    display: flex;
+    width: 830px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  `,
+
+  AniTextLayoutToptoTop: styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
   `,
 
   AniDetailTagBox: styled.div`
@@ -120,7 +294,7 @@ export const S = {
     border-radius: 6px;
     justify-content: center;
     align-items: center;
-    background-color: #ffebf7;
+    background: #f4f4f4;
     display: inline-flex;
     font-size: 12px;
     padding: 4px 12px;
@@ -137,6 +311,14 @@ export const S = {
     font-size: 14px;
     font-weight: 700;
     margin-top: 20px;
+  `,
+  ReviewContainer: styled.div`
+    display: flex;
+    padding: 60px 240px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 32px;
+    background: #fdfbff;
   `,
 };
 

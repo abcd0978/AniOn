@@ -167,7 +167,7 @@ const EditProfile = () => {
                   />
                 </div>
               )}
-              <Input
+              <FileInput
                 type="file"
                 onChange={(event) => {
                   if (event.target.files) {
@@ -175,15 +175,15 @@ const EditProfile = () => {
                   }
                 }}
               />
-              <Button onClick={() => setEditMode('')}>취소</Button>
-              <Button
+              <CancelButton onClick={() => setEditMode('')}>취소</CancelButton>
+              <DoneButton
                 onClick={() => {
                   handleUpload();
                   setEditMode('');
                 }}
               >
                 완료
-              </Button>
+              </DoneButton>
             </>
           ) : (
             <>
@@ -196,7 +196,9 @@ const EditProfile = () => {
                 />
               </div>
 
-              <Button onClick={() => setEditMode('photo')}>변경</Button>
+              <ChangeButton onClick={() => setEditMode('photo')}>
+                변경
+              </ChangeButton>
             </>
           )}
         </Item>
@@ -217,13 +219,18 @@ const EditProfile = () => {
           <Label>닉네임</Label>
           {editMode === 'nickname' ? (
             <form onSubmit={handleSubmitNickname}>
+              <TextBelowPhoto>
+                • 중복 닉네임 불가합니다.
+                <br /> • 2~8자 이내로 작성해주세요.
+              </TextBelowPhoto>
+
               <Input
                 type="text"
                 value={newNickname}
                 onChange={handleNicknameChange}
                 placeholder={user?.nickname}
               />
-              <Button
+              <NickNameCheck
                 onClick={async (e) => {
                   e.preventDefault();
                   const val = validateNickname(newNickname);
@@ -252,14 +259,16 @@ const EditProfile = () => {
                 }}
               >
                 중복확인
-              </Button>
-              <Button type="submit">완료</Button>
-              <Button onClick={() => setEditMode('')}>취소</Button>
+              </NickNameCheck>
+              <DoneButton type="submit">완료</DoneButton>
+              <CancelButton onClick={() => setEditMode('')}>취소</CancelButton>
             </form>
           ) : (
             <>
               <div>{user?.nickname}</div>
-              <Button onClick={() => setEditMode('nickname')}>변경</Button>
+              <ChangeButton onClick={() => setEditMode('nickname')}>
+                변경
+              </ChangeButton>
             </>
           )}
         </Item>
@@ -273,14 +282,14 @@ const EditProfile = () => {
 
 export default EditProfile;
 
-const Container = styled.div`
+export const Container = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
   align-items: flex-start;
   position: relative;
-  top: -230px;
-  margin-left: 150px;
+  top: -270px;
+  margin-left: 160px;
 `;
 
 const Item = styled.div`
@@ -299,17 +308,51 @@ const Input = styled.input`
   padding: 8px;
   border-radius: 4px;
   border: none;
+  background-color: #f9f3ff;
 `;
-
+const FileInput = styled.input`
+  padding: 8px;
+  border-radius: 4px;
+  border: none;
+  background-color: transparent;
+`;
+const CancelButton = styled.button`
+  background-color: #dbdbdb;
+  border-radius: 12px;
+  width: 72px;
+  height: 32px;
+  border: transparent;
+`;
+const DoneButton = styled.button`
+  background-color: #8200ff;
+  border-radius: 12px;
+  width: 72px;
+  height: 32px;
+  border: transparent;
+  color: #fff;
+`;
+const ChangeButton = styled.button`
+  background-color: #fdfbff;
+  border-radius: 12px;
+  width: 72px;
+  height: 32px;
+  border-color: #c88fff;
+  border-style: solid;
+  color: #000;
+`;
+const NickNameCheck = styled.button`
+  background-color: #ff96db;
+  border-radius: 12px;
+  width: 72px;
+  height: 32px;
+  border-color: transparent;
+  // border-style: solid;
+  color: #fff;
+`;
 export const Button = styled.button`
   padding: 8px;
-  border: 1px solid lightgray;
-  border-radius: 12px;
-  background-color: transparent;
-  width: auto;
-  height: auto;
   // text-align: center;
-  margin-left: 700px;
+  //margin-left: 700px;
 `;
 export const EditTitle = styled.div`
   width: 150px;
@@ -328,7 +371,7 @@ const TextBelowPhoto = styled.div`
   width: 400px;
 `;
 export const Divider = styled.div`
-  width: 250%;
+  width: 900px;
   height: 1px;
   background-color: #ccc;
   margin-top: 8px;
