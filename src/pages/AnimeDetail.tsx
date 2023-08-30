@@ -14,6 +14,7 @@ import * as userStore from '../store/userStore';
 import { ReadAnimeLikeG } from '../types/likes';
 import play_arrow from '../assets/play_arrow.svg';
 import StarRating from '../components/anime-detail/StarRating';
+import detaillike from '../assets/detaillike.svg';
 
 function AnimeDetail() {
   const previewRef = useRef<HTMLDivElement>(null);
@@ -153,7 +154,7 @@ function AnimeDetail() {
                 <S.LikeShareBox>
                   <S.LikeBox>
                     {isLike() ? (
-                      <img src={filled} alt="like" onClick={handleLike} />
+                      <img src={detaillike} alt="like" onClick={handleLike} />
                     ) : (
                       <img src={unfilled} alt="like" onClick={handleLike} />
                     )}
@@ -188,7 +189,11 @@ function AnimeDetail() {
               <S.ContentsStarTitleBox>
                 <S.ContentsStarLabel>별점</S.ContentsStarLabel>
                 <S.ContentsStarCount>
-                  ({animeStar.count_score.toLocaleString()}개의 별점)
+                  (
+                  {animeStar.count_score
+                    ? animeStar.count_score.toLocaleString()
+                    : '별점 정보가 없습니다.'}{' '}
+                  개의 별점)
                 </S.ContentsStarCount>
               </S.ContentsStarTitleBox>
               <S.TotlaStarBox>
