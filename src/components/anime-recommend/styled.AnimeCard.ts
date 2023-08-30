@@ -44,7 +44,6 @@ export const S = {
     display: flex;
     justify-content: center;
     align-items: center;
-    /* margin: 15px 15px 0px 0px; */
     max-width: 60px;
     padding: 4px 8px;
     height: 16px;
@@ -62,8 +61,6 @@ export const S = {
   `,
 
   HoverTitle: styled.div`
-    /* margin-top: 10px; */
-    /* margin-left: 25px; */
     width: 100%;
     height: 100px;
     font-weight: 700;
@@ -112,7 +109,6 @@ export const S = {
     height: 350px;
     cursor: pointer;
     @media (max-width: 540px) {
-      /* 화면 크기가 800px 이하인 경우 */
       width: 100%;
       height: 100%;
     }
@@ -123,7 +119,6 @@ export const S = {
     height: 320px;
     border-radius: 10px;
     @media (max-width: 540px) {
-      /* 화면 크기가 800px 이하인 경우 */
       width: 100%;
       height: 100%;
     }

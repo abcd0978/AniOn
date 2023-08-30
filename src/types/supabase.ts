@@ -73,24 +73,18 @@ export interface Database {
       };
       inventory: {
         Row: {
-          category: number;
-          deleted_at: string | null;
           id: string;
           is_equipped: boolean;
           item_id: string;
           user_id: string;
         };
         Insert: {
-          category: number;
-          deleted_at?: string | null;
           id?: string;
           is_equipped: boolean;
           item_id: string;
           user_id: string;
         };
         Update: {
-          category?: number;
-          deleted_at?: string | null;
           id?: string;
           is_equipped?: boolean;
           item_id?: string;
