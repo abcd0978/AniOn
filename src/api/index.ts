@@ -10,6 +10,7 @@ instance.interceptors.request.use(
   (config) => {
     // 개발 시 확인용
     const { url, method, params, data } = config;
+    console.log(url,method,params,data);
     return config;
   },
   (error) => {
