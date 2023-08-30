@@ -4,6 +4,7 @@ import { S } from '../components/worldcup/worldCup.style';
 import { R } from '../components/worldcup/worldCupResult.style';
 import { useQuery } from '@tanstack/react-query';
 import { winnerResult } from '../api/aniCharacters';
+import navigate_next from '../assets/navigate_next.svg';
 
 export type ResultCharacterType = {
   ani_title: string;
@@ -76,7 +77,7 @@ const WorldCupResult = () => {
           결과
         </S.WorldCupMainTitle>
         <R.WorldCupWinnerCard>
-          <S.WorldCupTest key={winner.id}>
+          <S.WorldCupTest key={winner.id} height={666}>
             <S.WorldCupUp>
               <R.WorldCupWinnerImg>
                 <img src={winner.img_url} />
@@ -97,7 +98,8 @@ const WorldCupResult = () => {
           >
             다시하기
           </R.WorldCupResultButton>
-          <R.WorldCupResultButton background="" color="#FFFFFF">
+          <R.WorldCupResultButton background="#8200FF" color="#FFFFFF">
+            <img src={navigate_next} />
             결과 공유 하기
           </R.WorldCupResultButton>
         </R.WorldCupResultButtonBox>

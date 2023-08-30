@@ -3,13 +3,14 @@ import { atom, useAtom, useAtomValue } from 'jotai';
 import { Database } from '../../types/supabase';
 import * as userStore from '../../store/userStore';
 import { useNavigate } from 'react-router-dom';
-import supabase from '../../supabaseClient'; // Import supabase client
+import supabase from '../../supabaseClient';
 import { deletePost } from '../../api/boardapi';
 import { Post, Review } from './Wrote.styles';
-import { Button, Divider, EditTitle } from './EditProfile';
+import { Button, Container, Divider, EditTitle } from './EditProfile';
 import Pagination from '../Pagenation';
 import { useQuery } from '@tanstack/react-query';
 import { getPosts } from '../../api/boardapi';
+import { StyledPostCategory } from './Wrote.styles';
 
 type ReadMyBoard = Database['public']['Tables']['posts']['Row'];
 type ReadMyBoardLikes = Database['public']['Tables']['likes']['Row'];
@@ -132,23 +133,29 @@ const WhatIWrote = () => {
     }
   };
   const handleDeleteSelectedPosts = async () => {
-    try {
-      for (const postId of selectedPosts) {
-        await deletePost(postId); // Call the deletePost function
-      }
+    if (selectedPosts.length === 0) {
+      alert('선택된 항목이 없습니다');
+      return;
+    }
 
-      // 선택 상태 초기화 및 게시물 다시 불러오기
-      setSelectedPosts([]);
-      fetchUserPosts(); // Corrected function name
-    } catch (error) {
-      console.error('Error deleting selected posts:', error);
+    const shouldDelete = window.confirm('삭제하시겠습니까?');
+    if (shouldDelete) {
+      try {
+        for (const postId of selectedPosts) {
+          await deletePost(postId);
+        }
+
+        setSelectedPosts([]);
+        fetchUserPosts();
+      } catch (error) {
+        console.error('Error deleting selected posts:', error);
+      }
     }
   };
 
   return (
-    <Review.Container>
-      <EditTitle>작성한 글</EditTitle>
-      <Divider />
+    <Container>
+      <Post.line>작성한 글</Post.line>
 
       <ul>
         {userPosts
@@ -160,37 +167,52 @@ const WhatIWrote = () => {
 
             return (
               <li key={post.id}>
-                <input
-                  type="checkbox"
-                  checked={selectedPosts.includes(post.id?.toString() ?? '')}
-                  onChange={() =>
-                    handleCheckboxChange(post.id?.toString() ?? '')
-                  }
-                />
-                <Post.Category>{post.category}</Post.Category>
-                <h3 onClick={() => handlePostClick(post.id?.toString() ?? '')}>
-                  {' '}
-                  {post.title}
-                </h3>
-                <div>{new Date(post.created_at).toLocaleString()}</div>
-                <div>받은 추천 수: {likesForPost}</div> {/* 추천 수 렌더링 */}
+                <Post.Box>
+                  <Post.input
+                    type="checkbox"
+                    checked={selectedPosts.includes(post.id?.toString() ?? '')}
+                    onChange={() =>
+                      handleCheckboxChange(post.id?.toString() ?? '')
+                    }
+                  />
+                  <StyledPostCategory category={post.category}>
+                    {post.category}
+                  </StyledPostCategory>
+                  <Post.Content>
+                    <Post.title
+                      onClick={() => handlePostClick(post.id?.toString() ?? '')}
+                    >
+                      {post.title}
+                      <Post.Date>
+                        {' '}
+                        {new Date(post.created_at).toLocaleString()}{' '}
+                      </Post.Date>
+                    </Post.title>
+
+                    {/* <div>받은 추천 수: {likesForPost}</div> */}
+                  </Post.Content>
+                </Post.Box>
                 <Divider />
               </li>
             );
           })}
       </ul>
-      <Button onClick={handleDeleteSelectedPosts}>선택한 게시물 삭제</Button>
-      <Button onClick={handleSelectAll}>
-        {selectedPosts.length === userPosts.length
-          ? '전체 선택 해제'
-          : '전체 선택'}
-      </Button>
+      <Review.ButtonBox>
+        <Review.Button onClick={handleDeleteSelectedPosts}>
+          선택삭제
+        </Review.Button>
+        <Review.ButtonAll onClick={handleSelectAll}>
+          {selectedPosts.length === userPosts.length
+            ? '전체 선택 해제'
+            : '전체 선택'}
+        </Review.ButtonAll>
+      </Review.ButtonBox>
       <Pagination
         currentPage={page}
         totalPages={postsAndTotalPages?.totalPages || 1}
         onClick={onClickPage}
       />
-    </Review.Container>
+    </Container>
   );
 };
 
