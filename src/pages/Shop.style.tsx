@@ -87,10 +87,13 @@ export const BottomArea = styled.div`
 export const BuyButton = styled.button`
   width: 80px;
   height: 30px;
-  margin-top: -6px;
+  margin-top: -30px;
   background-color: white;
   border-radius: 6px;
   border: 1px solid #d9d9d9;
   float: right;
   cursor: pointer;
+`;
+export const Number = styled.div`
+  font-weight: 700;
 `;

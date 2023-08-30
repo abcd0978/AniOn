@@ -45,7 +45,7 @@ const Shop = () => {
               <S.TopArea />
               <S.BottomArea>
                 테두리 명<br />
-                150포인트
+                <S.Number>150포인트</S.Number>
                 <S.BuyButton>구매하기</S.BuyButton>
               </S.BottomArea>
             </S.Item>
