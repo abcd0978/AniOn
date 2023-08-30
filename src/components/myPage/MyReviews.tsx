@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { createClient } from '@supabase/supabase-js';
 import { atom, useAtom, useAtomValue } from 'jotai';
 import { Database } from '../../types/supabase';
@@ -8,6 +8,7 @@ import { deleteComment } from '../../api/aniComment';
 import { Review } from './Wrote.styles';
 import { Button, Divider, EditTitle } from './EditProfile';
 import goReview from '../../assets/next (1).png';
+import Pagination from '../Pagenation';
 
 const supabaseUrl = process.env.REACT_APP_SUPABASE_URL;
 const supabaseAnonKey = process.env.REACT_APP_ANON_KEY;
@@ -19,7 +20,6 @@ if (!supabaseUrl || !supabaseAnonKey) {
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 type ReadAniComment = Database['public']['Tables']['ani_comments']['Row'];
-const itemsPerPage = 4;
 
 const userReviewAtom = atom<ReadAniComment[]>([]);
 
@@ -27,7 +27,7 @@ const MyReviews = () => {
   const [userReview, setUserReview] = useAtom(userReviewAtom);
   const user = useAtomValue(userStore.user);
   const navigate = useNavigate();
-
+  const [currentPage, setCurrentPage] = useState(1);
   useEffect(() => {
     const fetchUserReview = async () => {
       try {
@@ -54,7 +54,7 @@ const MyReviews = () => {
     };
 
     fetchUserReview();
-  }, [setUserReview, user]);
+  }, [setUserReview, user, currentPage]);
   const handleReviewClick = async (animeId: string) => {
     navigate(`/recommend/${animeId}`);
   };
@@ -70,12 +70,26 @@ const MyReviews = () => {
       console.error('리뷰 삭제 중 에러', error);
     }
   };
+  const reviewsPerPage = 4;
+  const totalPages = Math.ceil(userReview.length / reviewsPerPage);
+  const handlePageChange = (page: number | 'prev' | 'next') => {
+    if (page === 'prev' && currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    } else if (page === 'next' && currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    } else if (typeof page === 'number' && page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
+    }
+  };
+  const startIndex = (currentPage - 1) * reviewsPerPage;
+  const endIndex = startIndex + reviewsPerPage;
+
   return (
     <Review.Container>
       <EditTitle>리뷰 이력</EditTitle>
       <Divider />
       <ul>
-        {userReview.map((review) => (
+        {userReview.slice(startIndex, endIndex).map((review) => (
           <li key={review.id}>
             <Review.ReviewComments>{review.comment}</Review.ReviewComments>
             <Review.ButtonContainer>
@@ -96,6 +110,11 @@ const MyReviews = () => {
           </li>
         ))}
       </ul>
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onClick={handlePageChange}
+      />
     </Review.Container>
   );
 };
