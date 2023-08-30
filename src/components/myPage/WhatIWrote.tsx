@@ -3,7 +3,7 @@ import { atom, useAtom, useAtomValue } from 'jotai';
 import { Database } from '../../types/supabase';
 import * as userStore from '../../store/userStore';
 import { useNavigate } from 'react-router-dom';
-import supabase from '../../supabaseClient'; // Import supabase client
+import supabase from '../../supabaseClient';
 import { deletePost } from '../../api/boardapi';
 import { Post, Review } from './Wrote.styles';
 import { Button, Container, Divider, EditTitle } from './EditProfile';
@@ -133,6 +133,11 @@ const WhatIWrote = () => {
     }
   };
   const handleDeleteSelectedPosts = async () => {
+    if (selectedPosts.length === 0) {
+      alert('선택된 항목이 없습니다');
+      return;
+    }
+
     const shouldDelete = window.confirm('삭제하시겠습니까?');
     if (shouldDelete) {
       try {
@@ -150,8 +155,7 @@ const WhatIWrote = () => {
 
   return (
     <Container>
-      <EditTitle>작성한 글</EditTitle>
-      <Divider />
+      <Post.line>작성한 글</Post.line>
 
       <ul>
         {userPosts
@@ -163,36 +167,46 @@ const WhatIWrote = () => {
 
             return (
               <li key={post.id}>
-                <input
-                  type="checkbox"
-                  checked={selectedPosts.includes(post.id?.toString() ?? '')}
-                  onChange={() =>
-                    handleCheckboxChange(post.id?.toString() ?? '')
-                  }
-                />
-                <StyledPostCategory category={post.category}>
-                  {post.category}
-                </StyledPostCategory>
-                <Review.Content>
-                  <h3
-                    onClick={() => handlePostClick(post.id?.toString() ?? '')}
-                  >
-                    {post.title}
-                  </h3>
-                  <div>{new Date(post.created_at).toLocaleString()}</div>
-                  <div>받은 추천 수: {likesForPost}</div>
-                </Review.Content>
+                <Post.Box>
+                  <Post.input
+                    type="checkbox"
+                    checked={selectedPosts.includes(post.id?.toString() ?? '')}
+                    onChange={() =>
+                      handleCheckboxChange(post.id?.toString() ?? '')
+                    }
+                  />
+                  <StyledPostCategory category={post.category}>
+                    {post.category}
+                  </StyledPostCategory>
+                  <Post.Content>
+                    <Post.title
+                      onClick={() => handlePostClick(post.id?.toString() ?? '')}
+                    >
+                      {post.title}
+                      <Post.Date>
+                        {' '}
+                        {new Date(post.created_at).toLocaleString()}{' '}
+                      </Post.Date>
+                    </Post.title>
+
+                    {/* <div>받은 추천 수: {likesForPost}</div> */}
+                  </Post.Content>
+                </Post.Box>
                 <Divider />
               </li>
             );
           })}
       </ul>
-      <Button onClick={handleDeleteSelectedPosts}>선택삭제</Button>
-      <Review.ButtonAll onClick={handleSelectAll}>
-        {selectedPosts.length === userPosts.length
-          ? '전체 선택 해제'
-          : '전체 선택'}
-      </Review.ButtonAll>
+      <Review.ButtonBox>
+        <Review.Button onClick={handleDeleteSelectedPosts}>
+          선택삭제
+        </Review.Button>
+        <Review.ButtonAll onClick={handleSelectAll}>
+          {selectedPosts.length === userPosts.length
+            ? '전체 선택 해제'
+            : '전체 선택'}
+        </Review.ButtonAll>
+      </Review.ButtonBox>
       <Pagination
         currentPage={page}
         totalPages={postsAndTotalPages?.totalPages || 1}
