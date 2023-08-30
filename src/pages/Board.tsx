@@ -188,12 +188,13 @@ const Board = () => {
           <div>검색 결과 없음</div>
         )}
       </ul>
-
-      <Pagination
-        currentPage={page}
-        totalPages={postsAndTotalPages?.totalPages || 1}
-        onClick={onClickPage}
-      />
+      <S.Page>
+        <Pagination
+          currentPage={page}
+          totalPages={postsAndTotalPages?.totalPages || 1}
+          onClick={onClickPage}
+        />
+      </S.Page>
     </S.Container>
   );
 };

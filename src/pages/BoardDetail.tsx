@@ -17,7 +17,7 @@ import { useState } from 'react';
 import { S } from '../pages/BoardDetail.style';
 import * as userStore from '../store/userStore';
 import filledLike from '../assets/filledLike.svg';
-import unfilledLike from '../assets/unfilledLike.svg';
+import borderLike from '../assets/borderLike.svg';
 
 type ReadPosts = Database['public']['Tables']['posts']['Row'];
 type UpdatePosts = Database['public']['Tables']['posts']['Update'];
@@ -159,6 +159,8 @@ const BoardDetail = () => {
     const updatedPosts = await getPost(post_id!);
     queryClient.setQueryData(['posts', post_id], updatedPosts);
     // setExistingLike(!existingLike);
+    refetchPost();
+    queryClient.invalidateQueries(['like']);
   };
 
   return (
@@ -211,7 +213,7 @@ const BoardDetail = () => {
                   {like?.length ? (
                     <img src={filledLike} alt="좋아요" />
                   ) : (
-                    <img src={unfilledLike} alt="좋아요 취소" />
+                    <img src={borderLike} alt="좋아요 취소" />
                   )}
                 </S.Like>
                 <S.Title>{title}</S.Title>
