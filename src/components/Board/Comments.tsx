@@ -176,11 +176,13 @@ const Comments = () => {
               )}
             </S.Comment>
           ))}
-          <Pagination
-            currentPage={page}
-            totalPages={postCommentsData?.totalPages ?? 1}
-            onClick={onClickPage}
-          />
+          <S.Page>
+            <Pagination
+              currentPage={page}
+              totalPages={postCommentsData?.totalPages ?? 1}
+              onClick={onClickPage}
+            />
+          </S.Page>
         </S.CommentBot>
       </S.CommentContainer>
     </S.Outer>
