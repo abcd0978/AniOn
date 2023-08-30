@@ -13,7 +13,6 @@ import { AnimeG } from '../../types/anime';
 import { useQuery } from '@tanstack/react-query';
 import { getAnimeById } from '../../api/laftel';
 import { useParams } from 'react-router-dom';
-import AnimeDetail from '../../pages/AnimeDetail';
 const supabaseUrl = process.env.REACT_APP_SUPABASE_URL;
 const supabaseAnonKey = process.env.REACT_APP_ANON_KEY;
 
@@ -29,24 +28,12 @@ const userReviewAtom = atom<ReadAniComment[]>([]);
 interface Props {
   anime: AnimeG;
 }
-
 const MyReviews = () => {
-  const { ani_id } = useParams() as { ani_id: string };
   const [userReview, setUserReview] = useAtom(userReviewAtom);
   const user = useAtomValue(userStore.user);
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
-  const {
-    isLoading: isDetailLoading,
-    isError: isDetailError,
-    data: animeDetail,
-  } = useQuery({
-    queryKey: ['animeDetail'],
-    queryFn: () => {
-      return getAnimeById(ani_id);
-    },
-    refetchOnWindowFocus: false,
-  });
+  const [animeTitles, setAnimeTitles] = useState<Record<string, AnimeG>>({});
   useEffect(() => {
     const fetchUserReview = async () => {
       try {
@@ -55,17 +42,26 @@ const MyReviews = () => {
         }
 
         console.log('사용자 아이디에 따른 리뷰', user.id);
-        const { data, error } = await supabase
+        const { data: reviewData, error: reviewError } = await supabase
           .from('ani_comments')
           .select('*')
           .eq('user_id', user.id)
           .order('created_at', { ascending: false });
 
-        if (error) {
-          console.error('fetchUserPosts에서 에러', error);
+        if (reviewError) {
+          console.error('fetchUserPosts에서 에러', reviewError);
         } else {
-          console.log('User reviews fetched:', data);
-          setUserReview(data);
+          console.log('User reviews fetched:', reviewData);
+          setUserReview(reviewData);
+
+          const animeIds = reviewData.map((review) => review.ani_id);
+          const animeDetails: Record<string, AnimeG> = {};
+          for (const animeId of animeIds) {
+            const animeDetail = await getAnimeById(animeId);
+            animeDetails[animeId] = animeDetail.name;
+          }
+
+          setAnimeTitles(animeDetails);
         }
       } catch (error) {
         console.error('fetchUserPosts 에러', error);
@@ -107,7 +103,7 @@ const MyReviews = () => {
   };
   const startIndex = (currentPage - 1) * reviewsPerPage;
   const endIndex = startIndex + reviewsPerPage;
-
+  console.log(animeTitles);
   return (
     <Container>
       <EditTitle>리뷰 이력</EditTitle>
@@ -115,7 +111,9 @@ const MyReviews = () => {
       <ul>
         {userReview.slice(startIndex, endIndex).map((review) => (
           <li key={review.id}>
-            {/* <div>{animeDetail.name}</div> */}
+            <div>
+              <div>{animeTitles[review.ani_id]}</div>
+            </div>
             <Review.Divide>
               <Review.ReviewComments>{review.comment}</Review.ReviewComments>
               <Review.ButtonContainer>

@@ -23,7 +23,7 @@ interface Props {
   isLike: (anime_id: string) => boolean;
   handleLike: (anime_id: string) => void;
 }
-const itemsPerPage = 6;
+const itemsPerPage = 8;
 const LikedAnime = () => {
   const [likedAnime, setLikedAnime] = useState<
     {
@@ -41,7 +41,6 @@ const LikedAnime = () => {
   const [page, setPage] = useState<number>(1);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [searchKeyword, setSearchKeyword] = useState<string>('');
-
   const {
     data: postsAndTotalPages,
     isLoading,
@@ -138,7 +137,7 @@ const LikedAnime = () => {
           </Anime.OnePoster>
         ))}
       </Anime.PosterContainer>
-      <StyledPagination
+      <Pagination
         currentPage={page}
         totalPages={Math.ceil(likedAnime.length / itemsPerPage)}
         onClick={handlePageChange}
