@@ -197,16 +197,14 @@ const WhatIWrote = () => {
             );
           })}
       </ul>
-      <Review.ButtonBox>
-        <Review.Button onClick={handleDeleteSelectedPosts}>
-          선택삭제
-        </Review.Button>
-        <Review.ButtonAll onClick={handleSelectAll}>
+      <Post.ButtonBox>
+        <Post.Button onClick={handleDeleteSelectedPosts}>선택삭제</Post.Button>
+        <Post.ButtonAll onClick={handleSelectAll}>
           {selectedPosts.length === userPosts.length
             ? '전체 선택 해제'
             : '전체 선택'}
-        </Review.ButtonAll>
-      </Review.ButtonBox>
+        </Post.ButtonAll>
+      </Post.ButtonBox>
       <Pagination
         currentPage={page}
         totalPages={postsAndTotalPages?.totalPages || 1}
