@@ -1,6 +1,7 @@
 import questionMark from '../assets/question_mark.svg';
 import { S } from '../components/worldcup/worldCup.style';
 import { useNavigate } from 'react-router';
+import navigate_next from '../assets/navigate_next.svg';
 
 function WorldCup() {
   const navigate = useNavigate();
@@ -25,8 +26,10 @@ function WorldCup() {
               onClick={() => {
                 navigate('/worldcup/man');
               }}
+              width={278}
             >
-              테스트하러 가기 ▶
+              <img src={navigate_next} />
+              테스트하러 가기
             </S.WorldCupTestButton>
           </S.WorldCupTest>
           <S.WorldCupTest>
@@ -44,8 +47,10 @@ function WorldCup() {
               onClick={() => {
                 navigate('/worldcup/woman');
               }}
+              width={278}
             >
-              테스트하러 가기 ▶
+              <img src={navigate_next} />
+              테스트하러 가기
             </S.WorldCupTestButton>
           </S.WorldCupTest>
         </S.WorldCupTestContainer>

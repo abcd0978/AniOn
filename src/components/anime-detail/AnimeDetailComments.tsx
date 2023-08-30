@@ -144,6 +144,7 @@ const AnimeDetailComments = () => {
       <S.Outer>
         {user ? (
           <S.AniCommentInputBox>
+            {/* <p>{user.nickname}</p> */}
             <S.AniCommentInput
               type="text"
               value={newComment}
