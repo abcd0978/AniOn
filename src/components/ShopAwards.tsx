@@ -5,7 +5,6 @@ import { atom, useAtom, useAtomValue } from 'jotai';
 import React, { useEffect, useState } from 'react';
 import * as userStore from '../store/userStore';
 import supabase from '../supabaseClient';
-import { fetchTitles } from '../api/items';
 type ReadAwards = Database['public']['Tables']['items']['Row'];
 const awardsAtom = atom<ReadAwards[]>([]);
 
@@ -37,7 +36,7 @@ const ShopAwardList = () => {
   };
   useEffect(() => {
     fetchAwards();
-  }, [setAwards, user]);
+  }, [user]);
 
   return (
     <GridContainer>
