@@ -157,7 +157,11 @@ function AnimeDetail({}: Props) {
                   <S.ContentsEtc>장르</S.ContentsEtc> {animeDetail.genres}
                 </S.ContentsGenrePro>
               </S.ContentsTextUp>
-              <S.ContentsEx>{animeDetail.content}</S.ContentsEx>
+              <S.ContentsEx>
+                {animeDetail.content
+                  ? animeDetail.content
+                  : '애니메이션 설명 정보가 없습니다.'}
+              </S.ContentsEx>
             </S.ContentsText>
             <S.StarBox>
               <S.ContentsStar>별점</S.ContentsStar> {animeDetail.avg_rating}/5
