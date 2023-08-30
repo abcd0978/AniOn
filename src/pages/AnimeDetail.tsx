@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { getAnimeById, getAnimePreview } from '../api/laftel';
+import { getAnimeById, getAnimePreview, getAnimeStars } from '../api/laftel';
 import { useParams } from 'react-router-dom';
 import VideoPlayer from '../components/anime-detail/VideoPlayer';
 import { S } from '../components/anime-detail/anime-detail.style';
@@ -14,9 +14,7 @@ import * as userStore from '../store/userStore';
 import { ReadAnimeLikeG } from '../types/likes';
 import play_arrow from '../assets/play_arrow.svg';
 
-type Props = {};
-
-function AnimeDetail({}: Props) {
+function AnimeDetail() {
   const previewRef = useRef<HTMLDivElement>(null);
   const queryClient = useQueryClient();
   const currentUrl = window.location.href;
@@ -56,6 +54,19 @@ function AnimeDetail({}: Props) {
     },
     refetchOnWindowFocus: false,
   });
+
+  const {
+    isLoading: isStarLoading,
+    isError: isStarError,
+    data: animeStar,
+  } = useQuery({
+    queryKey: ['animeStar'],
+    queryFn: () => {
+      return getAnimeStars(ani_id);
+    },
+  });
+
+  console.log('star🌟🌟', animeStar);
 
   const likesQueryOptions = {
     queryKey: ['animeDetailLikes'],
@@ -164,7 +175,18 @@ function AnimeDetail({}: Props) {
               </S.ContentsEx>
             </S.ContentsText>
             <S.StarBox>
-              <S.ContentsStar>별점</S.ContentsStar> {animeDetail.avg_rating}/5
+              <S.ContentsStarTitleBox>
+                <S.ContentsStarLabel>별점</S.ContentsStarLabel>
+                <S.ContentsStarCount>
+                  ({animeStar.count_score.toLocaleString()}개의 별점)
+                </S.ContentsStarCount>
+              </S.ContentsStarTitleBox>
+              <S.TotlaStarBox>
+                <S.StarNumBox>
+                  <p>{animeStar.average_score}</p>
+                </S.StarNumBox>
+                <div></div>
+              </S.TotlaStarBox>
             </S.StarBox>
           </S.ContentsBox>
         </S.ContentsContainer>
