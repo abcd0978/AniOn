@@ -77,7 +77,7 @@ const WorldCupResult = () => {
           결과
         </S.WorldCupMainTitle>
         <R.WorldCupWinnerCard>
-          <S.WorldCupTest key={winner.id}>
+          <S.WorldCupTest key={winner.id} height={666}>
             <S.WorldCupUp>
               <R.WorldCupWinnerImg>
                 <img src={winner.img_url} />
