@@ -49,6 +49,7 @@ export const R = {
 
   WorldCupResultButton: styled.button<{ background: string }>`
     background: ${(props) => props.background || '#838383'};
+    position: relative;
     display: flex;
     width: 160px;
     padding: 12px 24px;
@@ -64,6 +65,12 @@ export const R = {
     letter-spacing: -0.24px;
     cursor: pointer;
     color: ${(props) => props.color || '#000000'};
+
+    img {
+      position: absolute;
+      right: 2px;
+      vertical-align: top;
+    }
   `,
 
   ResultBox: styled.div`
