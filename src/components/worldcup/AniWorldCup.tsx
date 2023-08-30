@@ -28,6 +28,8 @@ function AniWorldCup() {
     refetchOnWindowFocus: false,
   });
 
+  // console.log('!@@!@!@!@!@!', aniCharacter);
+
   useEffect(() => {
     if (!isDataLoaded && aniCharacter) {
       setCharacters(aniCharacter);
@@ -76,8 +78,8 @@ function AniWorldCup() {
           16강
           <S.WorldCupTestContainer>
             {displays.map((character: ReadCharacters) => {
-              console.log(character);
-              console.log(characters);
+              // console.log(character);
+              // console.log(characters);
               return (
                 <S.WorldCupTest key={character.id}>
                   <S.WorldCupUp>
@@ -93,6 +95,7 @@ function AniWorldCup() {
                   </S.WorldCupUp>
                   <S.WorldCupTestButton
                     onClick={SelectWinnerhandler(character)}
+                    width={278}
                   >
                     선택하기
                   </S.WorldCupTestButton>

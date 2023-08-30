@@ -1,63 +1,29 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-import { createClient } from '@supabase/supabase-js';
+import supabase from '../../supabaseClient';
 import { v4 as uuidv4 } from 'uuid';
 import { Database } from '../../types/supabase';
-import { atom, useAtom, useAtomValue } from 'jotai';
-
+import { useAtomValue, useSetAtom } from 'jotai';
+import * as authApi from '../../api/auth';
 import * as userStore from '../../store/userStore';
-import { useLocation } from 'react-router-dom';
 import { Profile } from './MyPage.styles';
 
-//1. supabase
-const supabaseUrl = process.env.REACT_APP_SUPABASE_URL;
-const supabaseAnonKey = process.env.REACT_APP_ANON_KEY;
-const bucketName = 'Profile_Images';
-if (!supabaseUrl || !supabaseAnonKey) {
-  throw new Error('supabase의 환경변수가 없습니다.');
-}
-
-const supabase = createClient(supabaseUrl, supabaseAnonKey);
+//2-2-1.닉넴중복확인
+type ErrorType = {
+  error: boolean;
+  errorMsg: string;
+};
 //2 프로필 변경
 type ChangeMyProfile = Database['public']['Tables']['users']['Row'];
-
-const usersAtom = atom<ChangeMyProfile[]>([]);
-
+const initialError: ErrorType = { error: false, errorMsg: '' };
 const EditProfile = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [editMode, setEditMode] = useState<string>('');
-  const [userProfile, setUserProfile] = useAtom(usersAtom);
   const user = useAtomValue(userStore.user);
+  const writeUser = useSetAtom(userStore.writeUser);
   const [newNickname, setNewNickname] = useState('');
-
-  //2-1. 이미지 변경
-  useEffect(() => {
-    const updateUserImage = async () => {
-      try {
-        if (!user) {
-          return;
-        }
-        console.log('업데이트되는 유저 아이디', user.id);
-        const { data, error } = await supabase
-          .from('users')
-          .select('*')
-          .eq('id', user.id)
-          .order('created_at', { ascending: false });
-
-        if (error) {
-          console.error('updateUserImage에서 에러', error);
-        } else {
-          console.log('User image Updated:', data);
-          setUserProfile(data);
-        }
-      } catch (error) {
-        console.error('fetchUserPosts 에러', error);
-      }
-    };
-
-    updateUserImage().then(() => {});
-  }, [setUserProfile, user]);
-  console.log('데이터가 업데이트 된 후에 로그 출력.', userProfile);
+  const [nicknameError, setNicknameError] = useState<ErrorType>(initialError);
+  const [nicknameDupChecked, setNicknameDupChecked] = useState(false);
   //2-1-1. 사진 업로드
   const handleUpload = async () => {
     console.log('handleUpload started');
@@ -108,7 +74,7 @@ const EditProfile = () => {
       await supabase.auth.updateUser({
         data: { profile_img_url: publicUrl },
       });
-      console.log(publicUrl, '수정함');
+      await writeUser();
       if (userUpdateError) {
         console.error(userUpdateError);
 
@@ -127,21 +93,47 @@ const EditProfile = () => {
     setNewNickname(event.target.value);
   };
 
+  const nicknameDupCheck = async (nickname: string) => {
+    return await authApi.nicknameValidate(nickname);
+  };
+  const validateNickname = (nickname: string) => {
+    let result: ErrorType = { error: false, errorMsg: '' };
+    if (nickname.length < 2 || nickname.length > 8) {
+      result.error = true;
+      result.errorMsg = '닉네임은 2~8자 사이로해주세요.';
+      return result;
+    }
+    return result;
+  };
   const handleSubmitNickname = async (event: React.FormEvent) => {
     event.preventDefault();
+    if (!nicknameDupChecked) {
+      alert('닉네임 중복 확인을 먼저 해주세요.');
+      return;
+    }
 
     try {
+      const validationResult = validateNickname(newNickname);
+      if (validationResult.error) {
+        setNicknameError(validationResult);
+        return;
+      }
+
       const { data, error } = await supabase
         .from('users')
         .update({ nickname: newNickname })
         .eq('id', user?.id);
+      await supabase.auth.updateUser({
+        data: { nickname: newNickname },
+      });
 
+      alert('닉네임이 변경되었습니다.');
+      setEditMode('');
       if (error) {
         console.error(error);
-      } else if (data && Array.isArray(data)) {
-        setUserProfile(data);
-        setEditMode('');
       }
+      await writeUser();
+      setEditMode('');
     } catch (error) {
       console.error(error);
     }
@@ -151,7 +143,6 @@ const EditProfile = () => {
   //a. 현재 비밀번호 입력 -> 다른 비밀번호면 비번변경불가
   //-> 같은 비밀번호면 새비밀번호 입력창과 새 비밀번호 확인창 나타나기
 
-  const authHeaders = { Authorization: `Bearer ${supabaseAnonKey}` };
   const renderContent = () => {
     return (
       <Container>
@@ -160,25 +151,22 @@ const EditProfile = () => {
 
         <Item>
           <Label>사진</Label>
-          {userProfile && editMode === 'photo' ? (
+          {user && editMode === 'photo' ? (
             <>
-              <Item>
-                {/* 프로필 이미지를 표시하는 부분 */}
-                {userProfile.map((profile) => (
-                  <div key={profile.id}>
-                    {profile.profile_img_url ? (
-                      <Profile.BasicImage
-                        src={profile.profile_img_url}
-                        alt="Profile picture"
-                        style={{ width: '100px', height: '100px' }}
-                      />
-                    ) : (
-                      <div>프로필 이미지 없음</div>
-                    )}
-                  </div>
-                ))}
-              </Item>
-              {/* </div> */}
+              {/* 프로필 이미지를 표시하는 부분 */}
+              {selectedFile ? (
+                <Profile.BasicImage
+                  src={URL.createObjectURL(selectedFile)}
+                  alt="Selected profile picture"
+                />
+              ) : (
+                <div key={user?.id}>
+                  <Profile.BasicImage
+                    src={user?.profile_img_url!}
+                    alt="Profile picture"
+                  />
+                </div>
+              )}
               <Input
                 type="file"
                 onChange={(event) => {
@@ -198,7 +186,18 @@ const EditProfile = () => {
               </Button>
             </>
           ) : (
-            <Button onClick={() => setEditMode('photo')}>변경</Button>
+            <>
+              {/* 변경 버튼을 누르기 전에 현재 프로필 이미지를 표시하는 부분 */}
+
+              <div key={user?.id}>
+                <Profile.BasicImage
+                  src={user?.profile_img_url!}
+                  alt="Profile picture"
+                />
+              </div>
+
+              <Button onClick={() => setEditMode('photo')}>변경</Button>
+            </>
           )}
         </Item>
         <TextBelowPhoto>
@@ -207,7 +206,7 @@ const EditProfile = () => {
         <Divider />
         <Item>
           <Label>이메일</Label>
-          <div>{userProfile[0]?.email}</div>
+          <div>{user?.email}</div>
         </Item>
         <Divider />
 
@@ -222,39 +221,48 @@ const EditProfile = () => {
                 type="text"
                 value={newNickname}
                 onChange={handleNicknameChange}
-                placeholder="New Nickname"
+                placeholder={user?.nickname}
               />
+              <Button
+                onClick={async (e) => {
+                  e.preventDefault();
+                  const val = validateNickname(newNickname);
+                  if (val.error) {
+                    setNicknameError(val);
+                    return;
+                  }
+                  try {
+                    const isNicknameAvailable = await nicknameDupCheck(
+                      newNickname,
+                    );
+                    if (isNicknameAvailable) {
+                      alert('사용 가능한 닉네임입니다.');
+                      setNicknameDupChecked(true);
+                      setNicknameError(initialError);
+                    } else {
+                      setNicknameError({
+                        error: true,
+                        errorMsg: '중복되는 닉네임입니다.',
+                      });
+                      setNicknameDupChecked(false); // 중복확인 실패 시 초기화
+                    }
+                  } catch (error) {
+                    console.error(error);
+                  }
+                }}
+              >
+                중복확인
+              </Button>
               <Button type="submit">완료</Button>
               <Button onClick={() => setEditMode('')}>취소</Button>
             </form>
           ) : (
             <>
-              <div>{userProfile[0]?.nickname}</div>
+              <div>{user?.nickname}</div>
               <Button onClick={() => setEditMode('nickname')}>변경</Button>
             </>
           )}
         </Item>
-
-        {/* <Item>
-          <Label>비밀번호</Label>
-          {editMode === 'password' ? (
-            <form onSubmit={handleSubmitPassword}>
-              <Input
-                type="text"
-                value={newPassword}
-                onChange={handlePasswordChange}
-                placeholder="New Password"
-              />
-              <Button type="submit">완료</Button>
-              <Button onClick={() => setEditMode('')}>취소</Button>
-            </form>
-          ) : (
-            <>
-              <div>{user?.password}</div>
-              <Button onClick={() => setEditMode('password')}>변경</Button>
-            </>
-          )}
-        </Item> */}
         <Divider />
       </Container>
     );

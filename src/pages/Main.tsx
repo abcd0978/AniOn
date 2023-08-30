@@ -5,6 +5,7 @@ import React, {
   useState,
   useEffect,
 } from 'react';
+import BannerSlide from '../components/BannerSlide';
 import Banner from '../components/Banner';
 import styled from 'styled-components';
 import next from '../assets/next.svg';
@@ -21,7 +22,7 @@ import useEmblaCarousel, {
   EmblaEventType,
   UseEmblaCarouselType,
 } from 'embla-carousel-react';
-const testNodes: ReactNode[] = ['슬라이드1', '슬라이드2', '슬라이드3'];
+// const BannerSlide: ReactNode[] = ['슬라이드1', '슬라이드2', '슬라이드3'];
 const smallCardHeight = 272;
 const BigCardHeight = 464;
 interface ButtonProps {
@@ -150,7 +151,7 @@ const Main = () => {
 
   return (
     <>
-      <Banner options={{ loop: true, duration: 20 }} slides={testNodes} />
+      <Banner options={{ loop: true, duration: 20 }} slides={BannerSlide} />
       <StMainCardContainerContainer>
         <StMainCardContainerWithTypo>
           <div>

@@ -23,12 +23,17 @@ ${reset};
     font-family: 'Pretendard-Regular';
 }
 
+
 body{
     margin:0 auto;
     max-width: 75%;
     overflow-x: hidden;
     font-family: 'Pretendard-Regular';
+
+
 }
+
+
 
 .embla{
     width:100vw;

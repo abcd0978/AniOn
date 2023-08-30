@@ -8,7 +8,7 @@ import { atom, useAtom } from 'jotai'; // Import from jotai
 import { Profile } from './MyPage.styles';
 import MyProfileAward from './MyProfileAward';
 import MyPoint from './MyPoint';
-
+import * as userStore from '../../store/userStore';
 const supabaseUrl = process.env.REACT_APP_SUPABASE_URL;
 const supabaseAnonKey = process.env.REACT_APP_ANON_KEY;
 
@@ -18,38 +18,11 @@ if (!supabaseUrl || !supabaseAnonKey) {
 
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
-const getUser = async (userId: string): Promise<Users | null> => {
-  const { data, error } = await supabase
-    .from('users')
-    .select('*')
-    .eq('id', userId)
-    .single();
-
-  if (error) {
-    console.error(error);
-    return null;
-  }
-  return data;
-};
-
 export type Users = Database['public']['Tables']['users']['Row'];
 
-const userAtom = atom<Users | null>(null);
-
 const MyProfile = () => {
-  const [user, setUser] = useAtom(userAtom);
+  const [user, setUser] = useAtom(userStore.user);
   const { user_id } = useParams();
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      if (!user_id) {
-        return;
-      }
-      const fetchedUser = await getUser(user_id);
-      setUser(fetchedUser);
-    };
-    fetchUser();
-  }, [user_id]);
 
   if (!user) {
     return <div>로딩중...</div>;
@@ -57,15 +30,15 @@ const MyProfile = () => {
 
   return (
     <Profile.MyProfileContainer>
-      {user.profile_img_url ? (
+      {user?.profile_img_url ? (
         <Profile.BasicImage
-          src={process.env.PUBLIC_URL + user.profile_img_url}
+          src={process.env.PUBLIC_URL + user?.profile_img_url}
           alt="Profile picture"
         />
       ) : (
         <Profile.BasicImage src={myAnonymousImg} />
       )}
-      <Profile.MyNickname>{user.nickname}</Profile.MyNickname>
+      <Profile.MyNickname>{user?.nickname}</Profile.MyNickname>
       <MyProfileAward />
       <MyPoint />
     </Profile.MyProfileContainer>
