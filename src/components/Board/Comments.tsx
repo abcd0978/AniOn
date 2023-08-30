@@ -122,6 +122,7 @@ const Comments = () => {
   return (
     <S.Outer>
       <S.CommentContainer>
+        <S.CommentTitle>댓글</S.CommentTitle>
         <S.CommentTop>
           <S.WriteInput
             type="text"

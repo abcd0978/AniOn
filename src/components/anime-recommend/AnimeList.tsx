@@ -137,8 +137,8 @@ const AnimeList = () => {
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
       <S.PageNameDiv>
-        <S.PageNameSpan>애니 </S.PageNameSpan>
-        <S.PageNameBold>추천</S.PageNameBold>
+        <S.PageNameFisrt>애니 </S.PageNameFisrt>
+        <S.PageNameSecond>추천</S.PageNameSecond>
       </S.PageNameDiv>
       <AnimeFilter count={count} setAnimeList={setAnimeList} />
       <S.AnimeContainer>

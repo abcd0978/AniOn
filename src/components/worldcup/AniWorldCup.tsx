@@ -93,6 +93,7 @@ function AniWorldCup() {
                   </S.WorldCupUp>
                   <S.WorldCupTestButton
                     onClick={SelectWinnerhandler(character)}
+                    width={278}
                   >
                     선택하기
                   </S.WorldCupTestButton>

@@ -62,10 +62,11 @@ const ShopAwardList = () => {
 
 export default ShopAwardList;
 const GridContainer = styled.div`
-  display: grid;
+display: grid;
   grid-template-columns: auto auto auto auto;
   gap: 10px;
   padding: 10px;
+}
 `;
 const Container = styled.div`
   width: 280px;

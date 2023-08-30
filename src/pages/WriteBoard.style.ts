@@ -7,6 +7,7 @@ const S = {
     margin-top: 20px;
     margin-bottom: 20px;
     margin-left: 30px;
+    color: #8200ff;
   `,
   Container: styled.div<{ width?: number }>`
     max-width: 1440px;

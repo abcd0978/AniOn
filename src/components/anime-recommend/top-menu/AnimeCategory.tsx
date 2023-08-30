@@ -54,7 +54,7 @@ const AnimeCategory = () => {
           <S.CategoryDiv
             key={item}
             onClick={() => handleClick(item)}
-            // category가 분기이면 years === item이면 true.
+            // category가 분기이고 years === item이면 true.
             // category가 분기가 아니면 genres에 item이 있으면 true.
             $isSelected={
               category === '분기'
