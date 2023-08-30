@@ -289,7 +289,7 @@ export const Container = styled.div`
   align-items: flex-start;
   position: relative;
   top: -270px;
-  margin-left: 200px;
+  margin-left: 160px;
 `;
 
 const Item = styled.div`

@@ -19,7 +19,7 @@ export const Profile = {
     margin-top: 20px;
   `,
   MyNickname: styled.div`
-    margin-left: 30px;
+    margin-left: 80px;
     width: 120px;
     color: #000;
     font-size: 24px;
@@ -27,6 +27,7 @@ export const Profile = {
     font-weight: 700;
     line-height: normal;
     letter-spacing: -0.36px;
+    margin-top: 8px;
   `,
   MyContainer: styled.div`
     border-radius: 20px;
@@ -68,6 +69,8 @@ export const InfoMenu = {
     font-weight: 400;
     line-height: normal;
     letter-spacing: -0.24px;
+    margin-bottom: 10px;
+    cursor: pointer;
   `,
   DecoButtonIcon: styled.img`
     height: 36px;
@@ -87,6 +90,8 @@ export const InfoMenu = {
     font-weight: 400;
     line-height: normal;
     letter-spacing: -0.24px;
+    margin-bottom: 10px;
+    cursor: pointer;
     &:hover {
       color: #000;
     }
@@ -109,6 +114,8 @@ export const InfoMenu = {
     font-weight: 400;
     line-height: normal;
     letter-spacing: -0.24px;
+    margin-bottom: 10px;
+    cursor: pointer;
     &:hover {
       color: #000;
     }
@@ -135,6 +142,8 @@ export const InfoMenu = {
     font-weight: 400;
     line-height: normal;
     letter-spacing: -0.24px;
+    margin-bottom: 10px;
+    cursor: pointer;
   `,
   WriteButtonIcon: styled.img`
     height: 36px;
@@ -142,11 +151,15 @@ export const InfoMenu = {
   `,
   InfoButtonContainer: styled.div`
     display: flex;
+    margin-left: 25px;
+    margin-top: 30px;
   `,
   InfoButton: styled.button`
     background-color: transparent;
     border: transparent;
     color: #999;
+    width: 60px;
+    cursor: pointer;
   `,
 };
 
