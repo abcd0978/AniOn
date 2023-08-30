@@ -12,11 +12,18 @@ import MyReviews from './MyReviews';
 import { InfoMenu } from './MyPage.styles';
 import { logout } from '../../api/auth';
 import { styled } from 'styled-components';
+import { useAtom } from 'jotai';
+import * as userStore from '../../store/userStore';
+import { useNavigate } from 'react-router-dom';
 
 const MyInfoMenu = () => {
+  const [__, logoutStore] = useAtom(userStore.logoutUser);
+  const navigate = useNavigate();
   const [selectedComponent, setSelectedComponent] = useState('EditProfile');
   const handleLogout = async () => {
     await logout();
+    logoutStore();
+    navigate(`/`);
   };
   const renderSelectedComponent = () => {
     switch (selectedComponent) {

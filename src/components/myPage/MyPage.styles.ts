@@ -60,7 +60,6 @@ export const InfoMenu = {
       ${EditButton} {
         color: red;
       }
-    &:hover {
       ${EditButtonIcon} {
         background-image: url(${hoverbadge});
       }
