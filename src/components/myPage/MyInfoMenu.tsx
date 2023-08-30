@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import badge from '../../assets/badge (1).png';
 import hoverbadge from '../../assets/badge (2).png';
 import hoverdeco from '../../assets/palette (2).png';

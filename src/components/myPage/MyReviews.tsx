@@ -74,6 +74,7 @@ const MyReviews = () => {
 
     fetchUserReview();
   }, [setUserReview, user, currentPage]);
+
   const handleReviewClick = async (animeId: string) => {
     navigate(`/recommend/${animeId}`);
   };
