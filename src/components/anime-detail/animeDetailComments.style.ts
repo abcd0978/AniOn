@@ -54,7 +54,7 @@ export const S = {
     border: 1px solid #d9d9d9;
     border-radius: 10px;
     border: 1px solid #c88fff;
-    background-color: #ffebf7;
+    background-color: #f9f3ff;
   `,
 
   AniCommentInput: styled.input`
@@ -63,7 +63,7 @@ export const S = {
     padding: 20px;
     border: none;
     outline: none;
-    background-color: #ffebf7;
+    background-color: #f9f3ff;
   `,
   AniCommentInputButton: styled.button`
     border-radius: 10px;
