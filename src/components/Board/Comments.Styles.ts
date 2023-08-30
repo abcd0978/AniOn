@@ -22,12 +22,19 @@ export const CommentContainer = styled.div`
 export const CommentTop = styled.div`
   width: 1360px;
   height: auto;
-  border: 1px solid #d9d9d9;
+  border: 1px solid #c88fff;
+  background-color: #f9f3ff;
   border-radius: 10px;
   align-items: center;
   flex-direction: row;
 `;
 
+export const CommentTitle = styled.div`
+  color: #8200ff;
+  font-weight: 700;
+  font-size: 24px;
+  margin-bottom: 10px;
+`;
 export const CommentBot = styled.div`
   display: flex;
   flex-direction: column;
@@ -39,6 +46,7 @@ export const WriteInput = styled.input`
   margin-top: 10px;
   border-radius: 10px;
   border: 1px solid #d9d9d9;
+  background-color: #f9f3ff;
   width: 1277px;
   height: 48px;
   padding: 20px;
@@ -48,7 +56,7 @@ export const WriteInput = styled.input`
 `;
 
 export const WriteButton = styled.button`
-  background-color: #757575;
+  background-color: #ff96db;
   border: none;
   color: white;
   border-radius: 10px;
