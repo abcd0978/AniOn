@@ -1,5 +1,6 @@
 import api from './index';
 import { laftelParamsM, recommendType } from './../types/anime';
+import { async } from 'q';
 
 export const fetchAnimeList = async (laftelParams: laftelParamsM) => {
   console.log('fetch anime 실행', laftelParams);
@@ -81,4 +82,10 @@ export const getAnimeRankings = async (type: recommendType) => {
     },
   });
   return result.data.slice(0, 10) as any[];
+};
+
+// 라프텔 상세 별점 가져오기
+export const getAnimeStars = async (animeId: string) => {
+  const result = await api.get(`/items/v1/${animeId}/statistics/`);
+  return result.data;
 };

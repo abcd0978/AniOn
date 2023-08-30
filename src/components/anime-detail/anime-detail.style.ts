@@ -1,3 +1,4 @@
+import { tSTypeAliasDeclaration } from '@babel/types';
 import styled from 'styled-components';
 
 export const S = {
@@ -168,7 +169,13 @@ export const S = {
     }
   `,
 
-  ContentsStar: styled.label`
+  ContentsStarTitleBox: styled.div`
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  `,
+
+  ContentsStarLabel: styled.label`
     color: #fff;
     /* 소타이틀/1 */
     font-size: 20px;
@@ -178,12 +185,59 @@ export const S = {
     letter-spacing: -0.3px;
   `,
 
+  ContentsStarCount: styled.p`
+    color: #fff;
+    /* 최소 */
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: -0.21px;
+  `,
+
+  TotlaStarBox: styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 160px;
+    align-self: stretch;
+    width: 830px;
+    height: 132px;
+  `,
+
+  StarNumBox: styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    width: 192px;
+    height: 86px;
+
+    p {
+      color: #fff;
+      /* 중타이틀/1 */
+      font-size: 28px;
+      font-style: normal;
+      font-weight: 700;
+      line-height: 150%; /* 42px */
+      letter-spacing: -0.42px;
+    }
+  `,
+
+  // RealStar: styled.div`
+  //   display: flex;
+  //   align-items: flex-start;
+  //   gap: 8px;
+  //   height: 32px;
+  // `,
+
   StarBox: styled.div`
     display: flex;
     width: 830px;
     flex-direction: column;
     align-items: flex-start;
     gap: 20px;
+    height: 176px;
   `,
 
   ContentVideoLayout: styled.div`

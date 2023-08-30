@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { getAnimeById, getAnimePreview } from '../api/laftel';
+import { getAnimeById, getAnimePreview, getAnimeStars } from '../api/laftel';
 import { useParams } from 'react-router-dom';
 import VideoPlayer from '../components/anime-detail/VideoPlayer';
 import { S } from '../components/anime-detail/anime-detail.style';
@@ -13,10 +13,10 @@ import { useAtomValue } from 'jotai';
 import * as userStore from '../store/userStore';
 import { ReadAnimeLikeG } from '../types/likes';
 import play_arrow from '../assets/play_arrow.svg';
+import StarRating from '../components/anime-detail/StarRating';
+import detaillike from '../assets/detaillike.svg';
 
-type Props = {};
-
-function AnimeDetail({}: Props) {
+function AnimeDetail() {
   const previewRef = useRef<HTMLDivElement>(null);
   const queryClient = useQueryClient();
   const currentUrl = window.location.href;
@@ -57,6 +57,19 @@ function AnimeDetail({}: Props) {
     refetchOnWindowFocus: false,
   });
 
+  const {
+    isLoading: isStarLoading,
+    isError: isStarError,
+    data: animeStar,
+  } = useQuery({
+    queryKey: ['animeStar'],
+    queryFn: () => {
+      return getAnimeStars(ani_id);
+    },
+  });
+
+  console.log('star🌟🌟', animeStar);
+
   const likesQueryOptions = {
     queryKey: ['animeDetailLikes'],
     queryFn: () => fetchAnimeLikes(ani_id),
@@ -96,6 +109,15 @@ function AnimeDetail({}: Props) {
     return !!likedAnime;
   };
 
+  //별점
+
+  // return (
+  //   <div>
+  //     <h1>애니메이션 별점</h1>
+  //     <StarRating rating={animeStar.count_score} maxRating={animeStar.max_rating} />
+  //   </div>
+  // );
+
   //URL 복사 공유
   const isShare = () => {
     window.navigator.clipboard.writeText(currentUrl).then(() => {
@@ -132,7 +154,7 @@ function AnimeDetail({}: Props) {
                 <S.LikeShareBox>
                   <S.LikeBox>
                     {isLike() ? (
-                      <img src={filled} alt="like" onClick={handleLike} />
+                      <img src={detaillike} alt="like" onClick={handleLike} />
                     ) : (
                       <img src={unfilled} alt="like" onClick={handleLike} />
                     )}
@@ -164,7 +186,22 @@ function AnimeDetail({}: Props) {
               </S.ContentsEx>
             </S.ContentsText>
             <S.StarBox>
-              <S.ContentsStar>별점</S.ContentsStar> {animeDetail.avg_rating}/5
+              <S.ContentsStarTitleBox>
+                <S.ContentsStarLabel>별점</S.ContentsStarLabel>
+                <S.ContentsStarCount>
+                  (
+                  {animeStar.count_score
+                    ? animeStar.count_score.toLocaleString()
+                    : '별점 정보가 없습니다.'}{' '}
+                  개의 별점)
+                </S.ContentsStarCount>
+              </S.ContentsStarTitleBox>
+              <S.TotlaStarBox>
+                <S.StarNumBox>
+                  <p>{animeStar.average_score}</p>
+                  <StarRating rating={animeStar.average_score} maxRating={5} />
+                </S.StarNumBox>
+              </S.TotlaStarBox>
             </S.StarBox>
           </S.ContentsBox>
         </S.ContentsContainer>
