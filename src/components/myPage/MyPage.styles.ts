@@ -1,9 +1,4 @@
 import { styled } from 'styled-components';
-import hoverbadge from '../../assets/badge.png';
-import hoverdeco from '../../assets/palette (1).png';
-import hoverreview from '../../assets/rate_review (1).png';
-import hoverwrite from '../../assets/edit_note (1).png';
-import hoverfavorite from '../../assets/favorite (1).png';
 import { EditButton, EditButtonIcon } from './MyInfoMenu';
 export const Profile = {
   BasicImage: styled.img`
@@ -55,17 +50,7 @@ export const InfoMenu = {
     flex-direction: column;
     gap: 16px;
   `,
-  EditMenu: styled.div`
-    &:hover {
-      ${EditButton} {
-        color: red;
-      }
-    &:hover {
-      ${EditButtonIcon} {
-        background-image: url(${hoverbadge});
-      }
-    }
-  `,
+  EditMenu: styled.div``,
   DecoButton: styled.button`
     display: flex;
     align-items: center;
@@ -154,9 +139,6 @@ export const InfoMenu = {
   WriteButtonIcon: styled.img`
     height: 36px;
     width: 36px;
-    &:hover {
-      background-image: url(${hoverwrite});
-    }
   `,
   InfoButtonContainer: styled.div`
     display: flex;

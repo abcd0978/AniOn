@@ -6,7 +6,6 @@ import { Database } from '../../types/supabase';
 import { atom, useAtom, useAtomValue } from 'jotai';
 import * as authApi from '../../api/auth';
 import * as userStore from '../../store/userStore';
-import { useLocation } from 'react-router-dom';
 import { Profile } from './MyPage.styles';
 import useInput from '../../hooks/useInput';
 
@@ -133,7 +132,6 @@ const EditProfile = () => {
   };
   const initialError: ErrorType = { error: false, errorMsg: '' };
 
-  const [nickname, setNickname, onChangeNickname, resetNickname] = useInput('');
   const [nicknameError, setNicknameError] = useState<ErrorType>(initialError);
   const [nicknameDupChecked, setNicknameDupChecked] = useState(false);
 

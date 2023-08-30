@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import badge from '../../assets/badge (1).png';
+import hoverbadge from '../../assets/badge (2).png';
+import hoverdeco from '../../assets/palette (2).png';
+import hoverreview from '../../assets/rate_review (2).png';
+import hoverwrite from '../../assets/edit_note (2).png';
+import hoverfavorite from '../../assets/favorite (2).png';
 import deco from '../../assets/palette.png';
 import review from '../../assets/rate_review.png';
 import write from '../../assets/edit_note.png';
@@ -12,11 +17,18 @@ import MyReviews from './MyReviews';
 import { InfoMenu } from './MyPage.styles';
 import { logout } from '../../api/auth';
 import { styled } from 'styled-components';
+import { useAtom } from 'jotai';
+import { useNavigate } from 'react-router-dom';
+import * as userStore from '../../store/userStore';
 
 const MyInfoMenu = () => {
   const [selectedComponent, setSelectedComponent] = useState('EditProfile');
+  const [__, logoutStore] = useAtom(userStore.logoutUser);
+  const navigate = useNavigate();
   const handleLogout = async () => {
     await logout();
+    logoutStore();
+    navigate(`/`);
   };
   const renderSelectedComponent = () => {
     switch (selectedComponent) {
@@ -39,40 +51,82 @@ const MyInfoMenu = () => {
     <InfoMenu.FullScreen>
       <InfoMenu.Container>
         <InfoMenu.EditMenu>
-          <EditButton onClick={() => setSelectedComponent('EditProfile')}>
-            <EditButtonIcon src={badge} />
+          <EditButton
+            onClick={() => setSelectedComponent('EditProfile')}
+            style={{
+              color: selectedComponent === 'EditProfile' ? '#8200FF' : '#999',
+            }}
+          >
+            {selectedComponent === 'EditProfile' ? (
+              <EditButtonIcon src={hoverbadge} />
+            ) : (
+              <EditButtonIcon src={badge} />
+            )}
             프로필 수정
           </EditButton>
         </InfoMenu.EditMenu>
         <div className="DecoMenu">
           <InfoMenu.DecoButton
             onClick={() => setSelectedComponent('DecoProfile')}
+            style={{
+              color: selectedComponent === 'DecoProfile' ? '#8200FF' : '#999',
+            }}
           >
-            <InfoMenu.DecoButtonIcon src={deco} />
+            {selectedComponent === 'DecoProfile' ? (
+              <InfoMenu.DecoButtonIcon src={hoverdeco} />
+            ) : (
+              <InfoMenu.DecoButtonIcon src={deco} />
+            )}
             프로필 꾸미기
           </InfoMenu.DecoButton>
         </div>
         <div className="LikedMenu">
           <InfoMenu.LikedButton
             onClick={() => setSelectedComponent('LikedAnime')}
+            style={{
+              color: selectedComponent === 'LikedAnime' ? '#8200FF' : '#999',
+
+              // imageRendering:selectedComponent==='LikedAnime'?'':''
+            }}
           >
-            <InfoMenu.LikedButtonIcon src={favorite} />
+            {selectedComponent === 'LikedAnime' ? (
+              <InfoMenu.LikedButtonIcon src={hoverfavorite} />
+            ) : (
+              <InfoMenu.LikedButtonIcon src={favorite} />
+            )}
             찜한 목록
           </InfoMenu.LikedButton>
         </div>
         <div className="ReviewMenu">
           <InfoMenu.ReviewButton
             onClick={() => setSelectedComponent('MyReviews')}
+            style={{
+              color: selectedComponent === 'MyReviews' ? '#8200FF' : '#999',
+              // imageRendering:selectedComponent==='MyReviews'?'':''
+            }}
           >
-            <InfoMenu.ReviewButtonIcon src={review} />
+            {selectedComponent === 'MyReviews' ? (
+              <InfoMenu.ReviewButtonIcon src={hoverreview} />
+            ) : (
+              <InfoMenu.ReviewButtonIcon src={review} />
+            )}
             리뷰 관리
           </InfoMenu.ReviewButton>
         </div>
         <div className="WriteMenu">
           <InfoMenu.WriteButton
             onClick={() => setSelectedComponent('WhatIWrote')}
+            style={{
+              color: selectedComponent === 'WhatIWrote' ? '#8200FF' : '#999',
+              // imageRendering:selectedComponent==='WhatIWrote'?'':''
+            }}
           >
-            <InfoMenu.WriteButtonIcon src={write} />
+            {' '}
+            {selectedComponent === 'WhatIWrote' ? (
+              <InfoMenu.WriteButtonIcon src={hoverwrite} />
+            ) : (
+              <InfoMenu.WriteButtonIcon src={write} />
+            )}
             작성한 글
           </InfoMenu.WriteButton>
         </div>
