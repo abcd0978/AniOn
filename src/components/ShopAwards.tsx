@@ -104,7 +104,7 @@ const AwardPrice = styled.div`
 `;
 const BuyButton = styled.button`
   border-radius: 6px;
-  border: 1px solid #d9d9d9;
+  border: 1px solid #c88fff;
   background-color: white;
   width: 70px;
   height: 26px;
