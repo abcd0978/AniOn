@@ -1,9 +1,9 @@
-import React from "react";
+import React from 'react';
 
 type Props = {};
 
 function Register({}: Props) {
-  return <div>Register</div>;
+  return <div>회원가입</div>;
 }
 
 export default Register;
