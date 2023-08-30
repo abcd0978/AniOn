@@ -88,6 +88,7 @@ export const S = {
   `,
 
   AniLabel: styled.p`
+    font-family: 'Cafe24Ssurround';
     font-weight: 700;
     font-size: 44px;
     line-height: 52.8px;
