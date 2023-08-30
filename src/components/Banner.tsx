@@ -108,7 +108,7 @@ export const Banner = (props: PropType) => {
           </div>
         ))}
       </div>
-      <StButtonContainer carouselHeight={700}>
+      <StButtonContainer carouselHeight={width * 0.36}>
         <PrevButton
           onClickfunc={scrollPrev}
           buttonStyle={buttonStyle}
@@ -120,7 +120,7 @@ export const Banner = (props: PropType) => {
           disabled={nextButtonDisabled}
         />
       </StButtonContainer>
-      <StDotContainer carouselHeight={700}>
+      <StDotContainer carouselHeight={width * 0.36}>
         {scrollSnaps.map((__, index) => (
           <DotButton
             onClickfunc={() => {
@@ -174,6 +174,7 @@ const StDotContainer = styled.div<{ carouselHeight: number }>`
   display: flex;
   position: relative;
   justify-content: center;
-  bottom: ${(props) => props.carouselHeight / 2 - 250}px;
+  // bottom: ${(props) => props.carouselHeight / 2}px;
+  bottom: 100px;
 `;
 export default Banner;

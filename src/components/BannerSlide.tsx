@@ -1,16 +1,17 @@
 import styled from 'styled-components';
 // import Banner from '../components/Banner';
 import { ReactNode, CSSProperties } from 'react';
-import aa from '../assets/aa.svg';
-import jusul from '../assets/jusul.svg';
-import jjang from '../assets/jjang.svg';
-import choiai from '../assets/최애.jpg';
-import ju from '../assets/주술.jpg';
+// import jusul from '../assets/jusul.svg';
+import jusul from '../assets/jusulgg.png';
+import hosino from '../assets/hosihoii.jpg';
+import gil from '../assets/gil.jpg';
+import cha from '../assets/cha.jpg';
+
 const StGredient = styled.div`
   z-index: 5;
   position: relative;
-  width: 1920px;
-  height: 700px;
+  width: 100%;
+  height: 100%;
   background: linear-gradient(
     89deg,
     #000 0%,
@@ -21,21 +22,24 @@ const StGredient = styled.div`
 `;
 const SlideContainer = styled.div<{ image?: string }>`
   background-image: ${(props) => `url(${props.image});`};
+  background-size: 100%;
+  height: 100%;
 `;
 const imgStyle: CSSProperties = {
   zIndex: -1,
 };
+
 const BannerSlide: ReactNode[] = [
-  <SlideContainer image={choiai}>
+  <SlideContainer image={hosino}>
     <StGredient />
   </SlideContainer>,
   <SlideContainer image={jusul}>
     <StGredient />
   </SlideContainer>,
-  <SlideContainer image={jjang}>
+  <SlideContainer image={gil}>
     <StGredient />
   </SlideContainer>,
-  <SlideContainer image={ju.j}>
+  <SlideContainer image={cha}>
     <StGredient />
   </SlideContainer>,
 
