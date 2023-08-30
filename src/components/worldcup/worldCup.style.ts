@@ -50,10 +50,10 @@ export const S = {
     margin-top: 35px;
   `,
 
-  WorldCupTest: styled.div`
+  WorldCupTest: styled.div<{ height: number }>`
     width: 600px;
     display: flex;
-    height: 816px;
+    height: ${(props) => props.height}px;
     padding: 40px;
     flex-direction: column;
     align-items: center;
@@ -137,10 +137,10 @@ export const S = {
     border-radius: 400px;
     background: #d9d9d9;
 
-    img {
+    #question {
       position: relative;
-      left: 169px;
-      top: 140px;
+      left: 163px;
+      bottom: 250px;
     }
   `,
   WorldCupTestButton: styled.button<{ width: number }>`
@@ -152,7 +152,7 @@ export const S = {
     align-items: center;
     gap: 12px;
     border-radius: 999px;
-    background: var(--main-default, #8200ff);
+    background: #8200ff;
     color: #fff;
     text-align: center;
     font-size: 20px;
@@ -161,11 +161,41 @@ export const S = {
     letter-spacing: -0.3px;
     cursor: pointer;
     border: none;
+    height: 75px;
 
-    img {
-      position: absolute;
-      right: 28px;
-      vertical-align: top;
-    }
+    // img {
+    //   position: absolute;
+    //   right: 28px;
+    //   vertical-align: top;
+    // }
+  `,
+
+  WorldCupTestPickButton: styled.button<{ width: number }>`
+    display: flex;
+    position: relative;
+    width: ${(props) => props.width}px;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    border-radius: 999px;
+    background: #8200ff;
+    color: #fff;
+    text-align: center;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 150%; /* 30px */
+    letter-spacing: -0.3px;
+    cursor: pointer;
+    border: none;
+    height: 75px;
+  `,
+
+  WorldCupTestButtonTextBox: styled.div`
+    display: flex;
+    width: 278px;
+    padding: 16px 20px 16px 32px;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
   `,
 };

@@ -12,6 +12,7 @@ import { fetchAnimeLikes, toggleAnimeLike } from '../api/likeApi';
 import { useAtomValue } from 'jotai';
 import * as userStore from '../store/userStore';
 import { ReadAnimeLikeG } from '../types/likes';
+import play_arrow from '../assets/play_arrow.svg';
 
 type Props = {};
 
@@ -32,7 +33,6 @@ function AnimeDetail({}: Props) {
   const { ani_id } = useParams() as { ani_id: string };
 
   // 해당 aniId 상세 내용 가져오기
-  // "41558" 좀비100 임의 아이디 값
   const {
     isLoading: isDetailLoading,
     isError: isDetailError,
@@ -96,8 +96,6 @@ function AnimeDetail({}: Props) {
     return !!likedAnime;
   };
 
-  // console.log('<<<<<>>>>', likesData);
-
   //URL 복사 공유
   const isShare = () => {
     window.navigator.clipboard.writeText(currentUrl).then(() => {
@@ -116,18 +114,20 @@ function AnimeDetail({}: Props) {
     <>
       <S.DetailContainer>
         <S.ContentsContainer>
-          <div>
-            <S.AniDetailTagBox>
-              {animeDetail.tags.map((tag: string) => {
-                return <S.AniDetailTag key={tag}>#{tag}</S.AniDetailTag>;
-              })}
-            </S.AniDetailTagBox>
-            <S.ContentsText>
-              <S.AniLabel>{animeDetail.name}</S.AniLabel>
+          <S.ContentsBox>
+            <S.AniTextLayoutTop>
+              <S.AniTextLayoutToptoTop>
+                <S.AniDetailTagBox>
+                  {animeDetail.tags.map((tag: string) => {
+                    return <S.AniDetailTag key={tag}>#{tag}</S.AniDetailTag>;
+                  })}
+                </S.AniDetailTagBox>
+                <S.AniLabel>{animeDetail.name}</S.AniLabel>
+              </S.AniTextLayoutToptoTop>
               <S.ContentsOptions>
-                {/* <S.PreviewBox href="#preview">▶ 1화 맛보기</S.PreviewBox> */}
                 <S.PreviewBox onClick={scrollToPreview}>
-                  ▶ 1화 맛보기
+                  <img src={play_arrow} />
+                  1화 맛보기
                 </S.PreviewBox>
                 <S.LikeShareBox>
                   <S.LikeBox>
@@ -136,7 +136,7 @@ function AnimeDetail({}: Props) {
                     ) : (
                       <img src={unfilled} alt="like" onClick={handleLike} />
                     )}
-                    찜
+                    <p>찜</p>
                   </S.LikeBox>
                   <S.ShareBox>
                     <img src={share} alt="share" onClick={isShare}></img>
@@ -144,23 +144,35 @@ function AnimeDetail({}: Props) {
                   </S.ShareBox>
                 </S.LikeShareBox>
               </S.ContentsOptions>
-              <S.ContentsText>장르: {animeDetail.genres}</S.ContentsText>
-              <S.ContentsText>{animeDetail.content}</S.ContentsText>
+            </S.AniTextLayoutTop>
+            <S.ContentsText>
+              <S.ContentsTextUp>
+                <S.ContentsGenrePro>
+                  <S.ContentsEtc>제작 </S.ContentsEtc>
+                  {animeDetail.production
+                    ? animeDetail.production
+                    : '제작사 정보가 없습니다.'}
+                </S.ContentsGenrePro>
+                <S.ContentsGenrePro>
+                  <S.ContentsEtc>장르</S.ContentsEtc> {animeDetail.genres}
+                </S.ContentsGenrePro>
+              </S.ContentsTextUp>
+              <S.ContentsEx>{animeDetail.content}</S.ContentsEx>
             </S.ContentsText>
             <S.StarBox>
               <S.ContentsStar>별점</S.ContentsStar> {animeDetail.avg_rating}/5
             </S.StarBox>
-          </div>
-          <div>
-            <S.ContentsImg>
-              {animeDetail?.images[0].img_url ? (
-                <img src={animeDetail?.images[0].img_url} alt="포스터" />
-              ) : (
-                <img src={animeDetail.img} alt="포스터" />
-              )}
-            </S.ContentsImg>
-          </div>
+          </S.ContentsBox>
         </S.ContentsContainer>
+        <S.ContentsImg>
+          {animeDetail?.images[0].img_url ? (
+            <img src={animeDetail?.images[0].img_url} alt="포스터" />
+          ) : (
+            <img src={animeDetail.img} alt="포스터" />
+          )}
+        </S.ContentsImg>
+      </S.DetailContainer>
+      <div>
         <S.DetailLabel ref={previewRef}>1화 맛보기</S.DetailLabel>
         <S.ContentVideoLayout>
           {animeVideo.public_streaming_info &&
@@ -173,7 +185,7 @@ function AnimeDetail({}: Props) {
             <S.NonPreview>맛보기 영상이 없습니다😭</S.NonPreview>
           )}
         </S.ContentVideoLayout>
-      </S.DetailContainer>
+      </div>
       <S.DetailLabel>리뷰</S.DetailLabel>
       <AnimeDetailComments />
     </>

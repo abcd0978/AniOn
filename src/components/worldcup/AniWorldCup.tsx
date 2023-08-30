@@ -81,7 +81,7 @@ function AniWorldCup() {
               // console.log(character);
               // console.log(characters);
               return (
-                <S.WorldCupTest key={character.id}>
+                <S.WorldCupTest key={character.id} height={748}>
                   <S.WorldCupUp>
                     <S.WorldCupImg>
                       <img src={character.img_url} />
@@ -93,12 +93,12 @@ function AniWorldCup() {
                       </S.WorldCupName>
                     </div>
                   </S.WorldCupUp>
-                  <S.WorldCupTestButton
+                  <S.WorldCupTestPickButton
                     onClick={SelectWinnerhandler(character)}
                     width={278}
                   >
                     선택하기
-                  </S.WorldCupTestButton>
+                  </S.WorldCupTestPickButton>
                 </S.WorldCupTest>
               );
             })}
