@@ -109,15 +109,6 @@ function AnimeDetail() {
     return !!likedAnime;
   };
 
-  //별점
-
-  // return (
-  //   <div>
-  //     <h1>애니메이션 별점</h1>
-  //     <StarRating rating={animeStar.count_score} maxRating={animeStar.max_rating} />
-  //   </div>
-  // );
-
   //URL 복사 공유
   const isShare = () => {
     window.navigator.clipboard.writeText(currentUrl).then(() => {
@@ -190,9 +181,9 @@ function AnimeDetail() {
                 <S.ContentsStarLabel>별점</S.ContentsStarLabel>
                 <S.ContentsStarCount>
                   (
-                  {animeStar.count_score
-                    ? animeStar.count_score.toLocaleString()
-                    : '별점 정보가 없습니다.'}{' '}
+                  {animeStar?.count_score
+                    ? animeStar?.count_score.toLocaleString()
+                    : '별점 정보가 없습니다.'}
                   개의 별점)
                 </S.ContentsStarCount>
               </S.ContentsStarTitleBox>
