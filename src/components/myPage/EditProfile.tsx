@@ -31,6 +31,8 @@ const EditProfile = () => {
   const user = useAtomValue(userStore.user);
   const [newNickname, setNewNickname] = useState('');
 
+  console.log('!!!!!!!!!', user);
+
   //2-1. 이미지 변경
   useEffect(() => {
     const updateUserImage = async () => {

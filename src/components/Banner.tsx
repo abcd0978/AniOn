@@ -45,7 +45,6 @@ const buttonStyle: CSSProperties = {
   margin: '0',
 };
 let slideStyle: CSSProperties = {
-  backgroundColor: '#D9D9D9',
   flex: '0 0 100%',
   overflow: 'hidden',
 };
