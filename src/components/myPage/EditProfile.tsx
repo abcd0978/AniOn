@@ -1,32 +1,21 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-import { createClient } from '@supabase/supabase-js';
+import supabase from '../../supabaseClient';
 import { v4 as uuidv4 } from 'uuid';
 import { Database } from '../../types/supabase';
-import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai';
+import { useAtomValue, useSetAtom } from 'jotai';
 import * as authApi from '../../api/auth';
 import * as userStore from '../../store/userStore';
-import { useLocation } from 'react-router-dom';
 import { Profile } from './MyPage.styles';
-import useInput from '../../hooks/useInput';
 
-//1. supabase
-const supabaseUrl = process.env.REACT_APP_SUPABASE_URL;
-const supabaseAnonKey = process.env.REACT_APP_ANON_KEY;
-const bucketName = 'Profile_Images';
-if (!supabaseUrl || !supabaseAnonKey) {
-  throw new Error('supabase의 환경변수가 없습니다.');
-}
 //2-2-1.닉넴중복확인
 type ErrorType = {
   error: boolean;
   errorMsg: string;
 };
-const supabase = createClient(supabaseUrl, supabaseAnonKey);
 //2 프로필 변경
 type ChangeMyProfile = Database['public']['Tables']['users']['Row'];
 const initialError: ErrorType = { error: false, errorMsg: '' };
-
 const EditProfile = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [editMode, setEditMode] = useState<string>('');
@@ -103,12 +92,6 @@ const EditProfile = () => {
   const handleNicknameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNewNickname(event.target.value);
   };
-  //2-2-1.닉넴중복확인
-  type ErrorType = {
-    error: boolean;
-    errorMsg: string;
-  };
-  const initialError: ErrorType = { error: false, errorMsg: '' };
 
   const nicknameDupCheck = async (nickname: string) => {
     return await authApi.nicknameValidate(nickname);

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import badge from '../../assets/badge (1).png';
 import deco from '../../assets/palette.png';
 import review from '../../assets/rate_review.png';
