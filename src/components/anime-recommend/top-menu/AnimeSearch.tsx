@@ -3,7 +3,7 @@ import { S } from './styled.animeSearch';
 import useInput from '../../../hooks/useInput';
 // import { useQuery } from '@tanstack/react-query';
 // import { fetchSearchedAnime } from '../../../api/laftel';
-import { useAtom, useAtomValue, useSetAtom } from 'jotai';
+import { useSetAtom } from 'jotai';
 import {
   keywordAtom,
   offsetAtom,
@@ -16,12 +16,12 @@ interface Props {
 }
 
 const AnimeSearch = ({ setAnimeList }: Props) => {
-  const [keyword, setKeyword, onChangeKeyword] = useInput('');
-  // const [offset, setOffset] = useAtom(offsetAtom);
+  const [keyword, __, onChangeKeyword] = useInput('');
   const setOffset = useSetAtom(offsetAtom);
   const setCategory = useSetAtom(selectedCategoryAtom);
   const setKeywordAtom = useSetAtom(keywordAtom);
 
+  // 자동완성의 흔적.
   // const searchQueryOptions = {
   //   queryKey: ['searchAnime', offset],
   //   queryFn: () => fetchSearchedAnime({ keyword, offset, size: 18 }),
@@ -35,6 +35,12 @@ const AnimeSearch = ({ setAnimeList }: Props) => {
   //   refetch,
   // } = useQuery(searchQueryOptions);
 
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      handleSearch();
+    }
+  };
+
   const handleSearch = () => {
     setKeywordAtom(keyword);
     if (!keyword) {
@@ -43,12 +49,6 @@ const AnimeSearch = ({ setAnimeList }: Props) => {
     setCategory('전체');
     setAnimeList([]);
     setOffset(0);
-    // refetch();
-    // if (!searchData) {
-    //   return <div>데이터가 없습니다.</div>;
-    // }
-    // setAnimeList(searchData.animeList);
-    // console.log(searchData);
   };
 
   return (
@@ -58,6 +58,7 @@ const AnimeSearch = ({ setAnimeList }: Props) => {
           placeholder="검색어를 입력해보세요!"
           onChange={onChangeKeyword}
           value={keyword}
+          onKeyDown={handleKeyPress}
         />
         <S.SearchSVG
           xmlns="http://www.w3.org/2000/svg"

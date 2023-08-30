@@ -109,14 +109,24 @@ export const S = {
     padding: 0px;
     gap: 8px;
     width: 220px;
-    height: 347px;
+    height: 350px;
     cursor: pointer;
+    @media (max-width: 540px) {
+      /* 화면 크기가 800px 이하인 경우 */
+      width: 100%;
+      height: 100%;
+    }
   `,
 
   CardThumbnail: styled.img`
-    width: 220px;
+    width: 100%;
     height: 320px;
     border-radius: 10px;
+    @media (max-width: 540px) {
+      /* 화면 크기가 800px 이하인 경우 */
+      width: 100%;
+      height: 100%;
+    }
   `,
 
   GenreText: styled.div`
@@ -135,7 +145,6 @@ export const S = {
     gap: 4px;
     width: 100%;
     height: 20px;
-    margin: 8px 8px 0px 0px;
     flex: none;
     order: 1;
     flex-grow: 0;
