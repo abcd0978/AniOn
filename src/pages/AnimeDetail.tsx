@@ -148,7 +148,7 @@ function AnimeDetail({}: Props) {
               <S.ContentsText>{animeDetail.content}</S.ContentsText>
             </S.ContentsText>
             <S.StarBox>
-              <S.ContentsStar>평점:</S.ContentsStar> {animeDetail.avg_rating}/5
+              <S.ContentsStar>별점</S.ContentsStar> {animeDetail.avg_rating}/5
             </S.StarBox>
           </div>
           <div>

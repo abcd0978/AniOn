@@ -20,15 +20,16 @@ export const S = {
     img {
       width: 464px;
       height: 662px;
+      border-radius: 20px;
     }
   `,
 
   PreviewBox: styled.a`
     text-decoration: none;
-    color: #000000;
+    color: #ffffff;
     font-weight: 700;
     font-size: 20px;
-    background-color: #efefef;
+    background-color: #8200ff;
     padding: 20px;
     border-radius: 10px;
 
@@ -87,6 +88,7 @@ export const S = {
   `,
 
   AniLabel: styled.p`
+    font-family: 'Cafe24Ssurround';
     font-weight: 700;
     font-size: 44px;
     line-height: 52.8px;
@@ -97,6 +99,7 @@ export const S = {
     font-weight: 700;
     font-size: 24px;
     margin-top: 100px;
+    color: #8200ff;
     @media screen and (max-width: 1295px) {
       line-height: 32px;
     }
@@ -114,14 +117,20 @@ export const S = {
 
   AniDetailTag: styled.div`
     height: 26px;
-    border-radius: 2px;
+    border-radius: 6px;
     justify-content: center;
     align-items: center;
-    background-color: #efefef;
+    background-color: #ffebf7;
     display: inline-flex;
-    border-radius: 2px;
     font-size: 12px;
     padding: 4px 12px;
+    gap: 8px;
+
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 18px;
+    letter-spacing: -0.015em;
+    text-align: left;
   `,
 
   NonPreview: styled.div`

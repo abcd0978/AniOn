@@ -6,10 +6,11 @@ export const S = {
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color: #fdfbff;
   `,
 
   AniCommentBox: styled.div`
-    width: 1376px;
+    width: 1440px;
     height: 153px;
     border-bottom: 2px solid #d9d9d9;
   `,
@@ -40,17 +41,20 @@ export const S = {
   `,
 
   AniCommentText: styled.div`
-    width: 1376px;
+    width: 1380px;
     height: 48px;
     padding: 0px, 0px, 0px, 60px;
     margin-top: 8px;
     margin-left: 60px;
+    max-width: 1380px;
   `,
 
   AniCommentInputBox: styled.div`
-    width: 1376px;
+    width: 1440px;
     border: 1px solid #d9d9d9;
     border-radius: 10px;
+    border: 1px solid #c88fff;
+    background-color: #ffebf7;
   `,
 
   AniCommentInput: styled.input`
@@ -59,13 +63,14 @@ export const S = {
     padding: 20px;
     border: none;
     outline: none;
+    background-color: #ffebf7;
   `,
   AniCommentInputButton: styled.button`
     border-radius: 10px;
-    background: #757575;
+    background-color: #ffa8dc;
     color: white;
     cursor: pointer;
-    width: 70px;
+    width: 80px;
     height: 40px;
     padding: 4px 14px;
     font-size: 15px;
@@ -77,6 +82,7 @@ export const S = {
     float: right;
     margin-right: 15px;
     margin-bottom: 12px;
+    border: none;
   `,
 
   AniCommentButton: styled.button`
