@@ -1,4 +1,15 @@
 import { styled } from 'styled-components';
+export const HoverInfo = styled.div`
+  display: none;
+  position: absolute;
+  top: 0px;
+  z-index: 20;
+  line-height: 25px;
+  color: #ffffff;
+  height: 90%;
+  width: 86%;
+  padding: 16px;
+`;
 export const Anime = {
   Container: styled.div`
     display: flex;
@@ -28,6 +39,7 @@ export const Anime = {
 
     margin-left: 150px;
   `,
+
   PosterContainer: styled.div`
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -36,7 +48,17 @@ export const Anime = {
     margin-left: 0px;
     margin-top: 10px;
     margin-bottom: 0px;
+    :hover img:not(.viewDetail) {
+      -webkit-transition: 0.3s ease-in-out;
+      transition: 0.3s ease-in-out;
+      filter: brightness(0.2);
+    }
 
+    :hover ${HoverInfo} {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
     @media (max-width: 1600px) {
       /* 화면 크기가 1600px 이하인 경우 */
       grid-template-columns: repeat(3, 1fr); /* 3개의 컬럼으로 변경 */

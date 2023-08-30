@@ -4,6 +4,7 @@ import hoverdeco from '../../assets/palette (1).png';
 import hoverreview from '../../assets/rate_review (1).png';
 import hoverwrite from '../../assets/edit_note (1).png';
 import hoverfavorite from '../../assets/favorite (1).png';
+import { EditButton, EditButtonIcon } from './MyInfoMenu';
 export const Profile = {
   BasicImage: styled.img`
     width: 120px;
@@ -54,27 +55,16 @@ export const InfoMenu = {
     flex-direction: column;
     gap: 16px;
   `,
-  EditButton: styled.button`
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    width: 170px;
-    background-color: transparent;
-    border-color: transparent;
-    color: #838383;
-    text-align: center;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-    letter-spacing: -0.24px;
+  EditMenu: styled.div`
     &:hover {
-      color: #000;
+      ${EditButton} {
+        color: red;
+      }
+    &:hover {
+      ${EditButtonIcon} {
+        background-image: url(${hoverbadge});
+      }
     }
-  `,
-  EditButtonIcon: styled.img`
-    height: 36px;
-    width: 36px;
   `,
   DecoButton: styled.button`
     display: flex;
