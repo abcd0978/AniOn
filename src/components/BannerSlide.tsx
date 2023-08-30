@@ -1,26 +1,20 @@
-import React from 'react';
 import bannerWorldcup from '../assets/bannerWorldcup.svg';
 import styled from 'styled-components';
-import Banner from '../components/Banner';
-
-const BannerSlide = () => {
-  return (
-    <Banner
-      options={{ loop: true, duration: 20 }}
-      slides={[
-        <SlideContainer>
-          <img src={bannerWorldcup} alt="Slide 1" />
-        </SlideContainer>,
-      ]}
-    />
-  );
-};
-export default BannerSlide;
+// import Banner from '../components/Banner';
+import { ReactNode } from 'react';
 
 const SlideContainer = styled.div`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
+  background: linear-gradient(89deg, #000 0%, rgba(0, 0, 0, 0.02) 36.46%, rgba(0, 0, 0, 0.00) 67.19%, #000 100%);
+
+
+  );`;
+
+const BannerSlide: ReactNode[] = [
+  <SlideContainer>
+    <img src={bannerWorldcup} alt="Slide 1" />
+  </SlideContainer>,
+
+  // 다른 슬라이드들 추가
+];
+
+export default BannerSlide;
