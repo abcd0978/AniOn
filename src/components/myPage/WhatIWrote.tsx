@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import supabase from '../../supabaseClient'; // Import supabase client
 import { deletePost } from '../../api/boardapi';
 import { Post, Review } from './Wrote.styles';
-import { Button, Divider, EditTitle } from './EditProfile';
+import { Button, Container, Divider, EditTitle } from './EditProfile';
 import Pagination from '../Pagenation';
 import { useQuery } from '@tanstack/react-query';
 import { getPosts } from '../../api/boardapi';
@@ -133,21 +133,23 @@ const WhatIWrote = () => {
     }
   };
   const handleDeleteSelectedPosts = async () => {
-    try {
-      for (const postId of selectedPosts) {
-        await deletePost(postId); // Call the deletePost function
-      }
+    const shouldDelete = window.confirm('삭제하시겠습니까?');
+    if (shouldDelete) {
+      try {
+        for (const postId of selectedPosts) {
+          await deletePost(postId);
+        }
 
-      // 선택 상태 초기화 및 게시물 다시 불러오기
-      setSelectedPosts([]);
-      fetchUserPosts(); // Corrected function name
-    } catch (error) {
-      console.error('Error deleting selected posts:', error);
+        setSelectedPosts([]);
+        fetchUserPosts();
+      } catch (error) {
+        console.error('Error deleting selected posts:', error);
+      }
     }
   };
 
   return (
-    <Review.Container>
+    <Container>
       <EditTitle>작성한 글</EditTitle>
       <Divider />
 
@@ -196,7 +198,7 @@ const WhatIWrote = () => {
         totalPages={postsAndTotalPages?.totalPages || 1}
         onClick={onClickPage}
       />
-    </Review.Container>
+    </Container>
   );
 };
 
