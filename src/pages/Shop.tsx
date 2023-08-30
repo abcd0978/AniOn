@@ -1,12 +1,24 @@
 import React from 'react';
 import * as S from './Shop.style';
 import { useState } from 'react';
+import ShopAwardList from '../components/ShopAwards';
+import ShopBorder from './ShopBorder';
 
 const Shop = () => {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
   const handleCategoryClick = (category: string) => {
     setSelectedCategory(category);
+  };
+  const renderSelectedCategory = () => {
+    switch (selectedCategory) {
+      case 'Border':
+        return <ShopBorder />;
+      case 'Awards':
+        return <ShopAwardList />;
+      default:
+        return null;
+    }
   };
   return (
     <S.Outer>
@@ -15,21 +27,21 @@ const Shop = () => {
         <S.ButtonContainer>
           <S.ButtonBox>
             <S.Button
-              onClick={() => handleCategoryClick('테두리')}
+              onClick={() => handleCategoryClick('Border')}
               style={{
                 backgroundColor:
-                  selectedCategory === '테두리' ? '#FF96DB' : '#FFEBF7',
-                color: selectedCategory === '테두리' ? '#ffffff' : 'black',
+                  selectedCategory === 'Border' ? '#FF96DB' : '#FFEBF7',
+                color: selectedCategory === 'Border' ? '#ffffff' : 'black',
               }}
             >
               테두리
             </S.Button>
             <S.Button
-              onClick={() => handleCategoryClick('칭호')}
+              onClick={() => handleCategoryClick('Awards')}
               style={{
                 backgroundColor:
-                  selectedCategory === '칭호' ? '#FF96DB' : '#FFEBF7',
-                color: selectedCategory === '칭호' ? '#ffffff' : 'black',
+                  selectedCategory === 'Awards' ? '#FF96DB' : '#FFEBF7',
+                color: selectedCategory === 'Awards' ? '#ffffff' : 'black',
               }}
             >
               칭호
@@ -38,20 +50,7 @@ const Shop = () => {
           <S.Point>보유 P 1,500</S.Point>
         </S.ButtonContainer>
       </S.Top>
-      <S.Bottom>
-        <S.ItemBox>
-          {[...Array(10)].map((_, index) => (
-            <S.Item key={index}>
-              <S.TopArea />
-              <S.BottomArea>
-                테두리 명<br />
-                <S.Number>150포인트</S.Number>
-                <S.BuyButton>구매하기</S.BuyButton>
-              </S.BottomArea>
-            </S.Item>
-          ))}
-        </S.ItemBox>
-      </S.Bottom>
+      {renderSelectedCategory()}
     </S.Outer>
   );
 };
