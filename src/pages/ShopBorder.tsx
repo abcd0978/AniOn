@@ -3,7 +3,6 @@ import * as S from './Shop.style';
 const ShopBorder = () => {
   return (
     <S.Outer>
-      border
       <S.Bottom>
         <S.ItemBox>
           {[...Array(10)].map((_, index) => (
