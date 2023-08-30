@@ -153,7 +153,7 @@ const AnimeDetailComments = () => {
                   handleCommentSubmit();
                 }
               }}
-              placeholder="댓글을 남겨보세요. "
+              placeholder="작품에 대한 나의 리뷰를 남겨 보세요. "
             />
             <S.AniCommentInputButton onClick={handleCommentSubmit}>
               등록
