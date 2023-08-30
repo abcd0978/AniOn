@@ -15,19 +15,20 @@ export const S = {
   `,
 
   CategoryDiv: styled.div<Props>`
-    /* gap: 12px; */
     display: inline-flex;
     justify-content: center;
     align-items: center;
-    border-radius: 2px;
+    border-radius: 6px;
     font-size: 12px;
-    height: 18px;
+    height: 17px;
     padding: 4px 12px;
-    color: ${(props) => (props.$isSelected ? 'white' : 'black')};
-    background-color: ${(props) => (props.$isSelected ? '#FFA8DC' : '#FFF3FA')};
+    border: 1px solid;
+    border-color: ${(props) => (props.$isSelected ? '#FF96DB' : '#F4F4F4')};
+    /* color: ${(props) => (props.$isSelected ? 'white' : 'black')}; */
+    background-color: ${(props) => (props.$isSelected ? '#FFEBF7' : '#F4F4F4')};
     cursor: pointer;
     &:hover {
-      background-color: #ffdef2;
+      background-color: #dbdbdb;
       color: black;
     }
   `,
