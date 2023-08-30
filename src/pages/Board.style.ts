@@ -180,3 +180,8 @@ export const SearchIcon = styled.img`
   width: 20px;
   height: 20px;
 `;
+export const Page = styled.div`
+  justify-content: center;
+  display: flex;
+  cursor: pointer;
+`;
