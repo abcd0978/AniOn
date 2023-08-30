@@ -22,9 +22,9 @@ import { useNavigate } from 'react-router-dom';
 import * as userStore from '../../store/userStore';
 
 const MyInfoMenu = () => {
-  const [selectedComponent, setSelectedComponent] = useState('EditProfile');
   const [__, logoutStore] = useAtom(userStore.logoutUser);
   const navigate = useNavigate();
+  const [selectedComponent, setSelectedComponent] = useState('EditProfile');
   const handleLogout = async () => {
     await logout();
     logoutStore();
