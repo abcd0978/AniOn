@@ -22,9 +22,9 @@ import { useNavigate } from 'react-router-dom';
 import * as userStore from '../../store/userStore';
 
 const MyInfoMenu = () => {
-  const [selectedComponent, setSelectedComponent] = useState('EditProfile');
   const [__, logoutStore] = useAtom(userStore.logoutUser);
   const navigate = useNavigate();
+  const [selectedComponent, setSelectedComponent] = useState('EditProfile');
   const handleLogout = async () => {
     await logout();
     logoutStore();
@@ -48,101 +48,120 @@ const MyInfoMenu = () => {
   };
 
   return (
-    <InfoMenu.FullScreen>
-      <InfoMenu.Container>
-        <InfoMenu.EditMenu>
-          <EditButton
-            onClick={() => setSelectedComponent('EditProfile')}
-            style={{
-              color: selectedComponent === 'EditProfile' ? '#8200FF' : '#999',
-            }}
-          >
-            {selectedComponent === 'EditProfile' ? (
-              <EditButtonIcon src={hoverbadge} />
-            ) : (
-              <EditButtonIcon src={badge} />
-            )}
-            프로필 수정
-          </EditButton>
-        </InfoMenu.EditMenu>
-        <div className="DecoMenu">
-          <InfoMenu.DecoButton
-            onClick={() => setSelectedComponent('DecoProfile')}
-            style={{
-              color: selectedComponent === 'DecoProfile' ? '#8200FF' : '#999',
-            }}
-          >
-            {selectedComponent === 'DecoProfile' ? (
-              <InfoMenu.DecoButtonIcon src={hoverdeco} />
-            ) : (
-              <InfoMenu.DecoButtonIcon src={deco} />
-            )}
-            프로필 꾸미기
-          </InfoMenu.DecoButton>
-        </div>
-        <div className="LikedMenu">
-          <InfoMenu.LikedButton
-            onClick={() => setSelectedComponent('LikedAnime')}
-            style={{
-              color: selectedComponent === 'LikedAnime' ? '#8200FF' : '#999',
+    <>
+      <InfoMenu.FullScreen>
+        <InfoMenu.Container>
+          <Outer>
+            <InfoMenu.EditMenu>
+              <EditButton
+                onClick={() => setSelectedComponent('EditProfile')}
+                style={{
+                  color:
+                    selectedComponent === 'EditProfile' ? '#8200FF' : '#999',
+                }}
+              >
+                {selectedComponent === 'EditProfile' ? (
+                  <EditButtonIcon src={hoverbadge} />
+                ) : (
+                  <EditButtonIcon src={badge} />
+                )}
+                프로필 수정
+              </EditButton>
+            </InfoMenu.EditMenu>
+            <div className="DecoMenu">
+              <InfoMenu.DecoButton
+                onClick={() => setSelectedComponent('DecoProfile')}
+                style={{
+                  color:
+                    selectedComponent === 'DecoProfile' ? '#8200FF' : '#999',
+                }}
+              >
+                {selectedComponent === 'DecoProfile' ? (
+                  <InfoMenu.DecoButtonIcon src={hoverdeco} />
+                ) : (
+                  <InfoMenu.DecoButtonIcon src={deco} />
+                )}
+                프로필 꾸미기
+              </InfoMenu.DecoButton>
+            </div>
+            <div className="LikedMenu">
+              <InfoMenu.LikedButton
+                onClick={() => setSelectedComponent('LikedAnime')}
+                style={{
+                  color:
+                    selectedComponent === 'LikedAnime' ? '#8200FF' : '#999',
 
-              // imageRendering:selectedComponent==='LikedAnime'?'':''
-            }}
-          >
-            {selectedComponent === 'LikedAnime' ? (
-              <InfoMenu.LikedButtonIcon src={hoverfavorite} />
-            ) : (
-              <InfoMenu.LikedButtonIcon src={favorite} />
-            )}
-            찜한 목록
-          </InfoMenu.LikedButton>
-        </div>
-        <div className="ReviewMenu">
-          <InfoMenu.ReviewButton
-            onClick={() => setSelectedComponent('MyReviews')}
-            style={{
-              color: selectedComponent === 'MyReviews' ? '#8200FF' : '#999',
-              // imageRendering:selectedComponent==='MyReviews'?'':''
-            }}
-          >
-            {selectedComponent === 'MyReviews' ? (
-              <InfoMenu.ReviewButtonIcon src={hoverreview} />
-            ) : (
-              <InfoMenu.ReviewButtonIcon src={review} />
-            )}
-            리뷰 관리
-          </InfoMenu.ReviewButton>
-        </div>
-        <div className="WriteMenu">
-          <InfoMenu.WriteButton
-            onClick={() => setSelectedComponent('WhatIWrote')}
-            style={{
-              color: selectedComponent === 'WhatIWrote' ? '#8200FF' : '#999',
-              // imageRendering:selectedComponent==='WhatIWrote'?'':''
-            }}
-          >
-            {' '}
-            {selectedComponent === 'WhatIWrote' ? (
-              <InfoMenu.WriteButtonIcon src={hoverwrite} />
-            ) : (
-              <InfoMenu.WriteButtonIcon src={write} />
-            )}
-            작성한 글
-          </InfoMenu.WriteButton>
-        </div>
-        <InfoMenu.InfoButtonContainer>
-          <InfoMenu.InfoButton onClick={handleLogout}>
-            로그아웃
-          </InfoMenu.InfoButton>
-          <InfoMenu.InfoButton>|</InfoMenu.InfoButton>
-          <InfoMenu.InfoButton>회원탈퇴</InfoMenu.InfoButton>
-        </InfoMenu.InfoButtonContainer>
-      </InfoMenu.Container>
-      <div>{renderSelectedComponent()}</div>
-    </InfoMenu.FullScreen>
+                  // imageRendering:selectedComponent==='LikedAnime'?'':''
+                }}
+              >
+                {selectedComponent === 'LikedAnime' ? (
+                  <InfoMenu.LikedButtonIcon src={hoverfavorite} />
+                ) : (
+                  <InfoMenu.LikedButtonIcon src={favorite} />
+                )}
+                찜한 목록
+              </InfoMenu.LikedButton>
+            </div>
+            <div className="ReviewMenu">
+              <InfoMenu.ReviewButton
+                onClick={() => setSelectedComponent('MyReviews')}
+                style={{
+                  color: selectedComponent === 'MyReviews' ? '#8200FF' : '#999',
+                  // imageRendering:selectedComponent==='MyReviews'?'':''
+                }}
+              >
+                {selectedComponent === 'MyReviews' ? (
+                  <InfoMenu.ReviewButtonIcon src={hoverreview} />
+                ) : (
+                  <InfoMenu.ReviewButtonIcon src={review} />
+                )}
+                리뷰 관리
+              </InfoMenu.ReviewButton>
+            </div>
+            <div className="WriteMenu">
+              <InfoMenu.WriteButton
+                onClick={() => setSelectedComponent('WhatIWrote')}
+                style={{
+                  color:
+                    selectedComponent === 'WhatIWrote' ? '#8200FF' : '#999',
+                  // imageRendering:selectedComponent==='WhatIWrote'?'':''
+                }}
+              >
+                {' '}
+                {selectedComponent === 'WhatIWrote' ? (
+                  <InfoMenu.WriteButtonIcon src={hoverwrite} />
+                ) : (
+                  <InfoMenu.WriteButtonIcon src={write} />
+                )}
+                작성한 글
+              </InfoMenu.WriteButton>
+            </div>
+            <InfoMenu.InfoButtonContainer>
+              <InfoMenu.InfoButton onClick={handleLogout}>
+                로그아웃
+              </InfoMenu.InfoButton>
+              <InfoMenu.InfoButton>|</InfoMenu.InfoButton>
+              <InfoMenu.InfoButton>회원탈퇴</InfoMenu.InfoButton>
+            </InfoMenu.InfoButtonContainer>
+          </Outer>
+        </InfoMenu.Container>
+        <ProfileEdit>{renderSelectedComponent()}</ProfileEdit>
+      </InfoMenu.FullScreen>
+    </>
   );
 };
 export default MyInfoMenu;
+
+const Outer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-contents: center;
+  margin-left: 30px;
+  margin-top: 18px;
+`;
+const ProfileEdit = styled.div`
+  margin-left: -30px;
+`;
 
 export const EditButton = styled.button`
   display: flex;
@@ -158,6 +177,9 @@ export const EditButton = styled.button`
   font-weight: 400;
   line-height: normal;
   letter-spacing: -0.24px;
+  margin-bottom: 10px;
+  margin-top: 25px;
+  cursor: pointer;
 `;
 export const EditButtonIcon = styled.img`
   height: 36px;

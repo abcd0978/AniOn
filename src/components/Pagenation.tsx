@@ -1,3 +1,5 @@
+import { styled } from 'styled-components';
+
 export default function Pagination({
   currentPage,
   totalPages,
@@ -5,46 +7,66 @@ export default function Pagination({
 }: {
   currentPage: number;
   totalPages: number;
-  onClick: (page: number | "prev" | "next") => void;
+  onClick: (page: number | 'prev' | 'next') => void;
 }) {
   return (
-    <div>
-      <span className="page-click" onClick={() => onClick("prev")}>
-        {"<"}
-      </span>
+    <Container>
+      <Before className="page-click" onClick={() => onClick('prev')}>
+        {'< 이전 '}
+      </Before>
       {Array.from({ length: totalPages }).map((_, idx) => {
-        if (idx < 5) {
+        if (
+          idx === 0 ||
+          idx === totalPages - 1 ||
+          (idx >= currentPage - 2 && idx <= currentPage + 2)
+        ) {
           return (
-            <span
+            <Number
               className={`page-click ${
-                currentPage === idx + 1 && "active-page"
+                currentPage === idx + 1 && 'active-page'
               }`}
               key={idx}
               onClick={() => onClick(idx + 1)}
             >
               {idx + 1}
-            </span>
+            </Number>
           );
-        } else if (idx === 5) {
+        } else if (idx === currentPage - 3 || idx === currentPage + 3) {
           return (
             <span key={idx}>
               <span style={{ marginLeft: 5, marginRight: 5 }}>...</span>
-              <span
-                className={`page-click ${
-                  currentPage === totalPages && "active-page"
-                }`}
-                onClick={() => onClick(totalPages)}
-              >
-                {totalPages}
-              </span>
             </span>
           );
         }
-        return null; // 추가된 부분
+        return null;
       })}
-      <span className="page-click" onClick={() => onClick("next")}>
-        {">"}
-      </span>
-    </div>
+      <After className="page-click" onClick={() => onClick('next')}>
+        {'다음 >'}
+      </After>
+    </Container>
   );
 }
+const Before = styled.span`
+  border: 1px solid;
+  border-color: #f3e7ff;
+  border-radius: 6px;
+  padding: 10px;
+  color: #767676;
+  margin: 10px;
+`;
+const After = styled.span`
+  border: 1px solid;
+  border-color: #f3e7ff;
+  border-radius: 6px;
+  padding: 10px;
+  color: #767676;
+  margin: 10px;
+`;
+const Number = styled.span`
+  color: #767676;
+`;
+const Container = styled.div`
+  margin: 30px;
+
+  display: space-between;
+`;

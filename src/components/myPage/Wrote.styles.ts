@@ -36,25 +36,9 @@ export const Review = {
     width: auto;
     height: 30px;
     text-align: center;
+    cursor: pointer;
   `,
-  ButtonAll: styled.button`
-    padding: 8px;
-    margin-right: 40px;
-    border: 1px solid #c88fff;
-    border-radius: 12px;
-    background-color: #8200ff;
-    color: white;
-    width: auto;
-    height: 30px;
-    text-align: center;
-    float: right;
-  `,
-  ButtonBox: styled.div`
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    align-self: stretch;
-  `,
+
   ReviewComments: styled.div`
     width: 600px;
     height: 100px;
@@ -91,6 +75,7 @@ export const Post = {
     float: right;
     width: 200px;
     display: flex;
+    margin-right: 10px;
   `,
   title: styled.div`
     width: 830px;
@@ -102,10 +87,12 @@ export const Post = {
   Box: styled.div`
     display: flex;
     flex-direction: row;
+    cursor: pointer;
   `,
   input: styled.input`
     width: 24px;
     height: 24px;
+    cursor: pointer;
   `,
   Content: styled.div`
     align-items: center;
@@ -126,6 +113,36 @@ export const Post = {
     line-height: normal;
     letter-spacing: -0.36px;
     margin-bottom: -7px;
+  `,
+  Button: styled.button`
+    padding: 8px;
+    margin: 2px;
+    border: 1px solid #c88fff;
+    border-radius: 12px;
+    background-color: white;
+    width: auto;
+    height: 30px;
+    text-align: center;
+    cursor: pointer;
+  `,
+  ButtonAll: styled.button`
+    padding: 8px;
+    margin-right: 55px;
+    border: 1px solid #c88fff;
+    border-radius: 12px;
+    background-color: #8200ff;
+    color: white;
+    width: auto;
+    height: 30px;
+    text-align: center;
+    float: right;
+    cursor: pointer;
+  `,
+  ButtonBox: styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    align-self: stretch;
   `,
 };
 
