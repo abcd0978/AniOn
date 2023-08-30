@@ -13,6 +13,7 @@ import { useAtomValue } from 'jotai';
 import * as userStore from '../store/userStore';
 import { ReadAnimeLikeG } from '../types/likes';
 import play_arrow from '../assets/play_arrow.svg';
+import StarRating from '../components/anime-detail/StarRating';
 
 function AnimeDetail() {
   const previewRef = useRef<HTMLDivElement>(null);
@@ -107,6 +108,15 @@ function AnimeDetail() {
     return !!likedAnime;
   };
 
+  //별점
+
+  // return (
+  //   <div>
+  //     <h1>애니메이션 별점</h1>
+  //     <StarRating rating={animeStar.count_score} maxRating={animeStar.max_rating} />
+  //   </div>
+  // );
+
   //URL 복사 공유
   const isShare = () => {
     window.navigator.clipboard.writeText(currentUrl).then(() => {
@@ -184,8 +194,8 @@ function AnimeDetail() {
               <S.TotlaStarBox>
                 <S.StarNumBox>
                   <p>{animeStar.average_score}</p>
+                  <StarRating rating={animeStar.average_score} maxRating={5} />
                 </S.StarNumBox>
-                <div></div>
               </S.TotlaStarBox>
             </S.StarBox>
           </S.ContentsBox>

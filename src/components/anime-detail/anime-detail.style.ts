@@ -224,7 +224,12 @@ export const S = {
     }
   `,
 
-  // RealStar: styled.div``,
+  // RealStar: styled.div`
+  //   display: flex;
+  //   align-items: flex-start;
+  //   gap: 8px;
+  //   height: 32px;
+  // `,
 
   StarBox: styled.div`
     display: flex;
@@ -232,6 +237,7 @@ export const S = {
     flex-direction: column;
     align-items: flex-start;
     gap: 20px;
+    height: 176px;
   `,
 
   ContentVideoLayout: styled.div`
