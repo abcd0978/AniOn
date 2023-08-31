@@ -1,7 +1,9 @@
-import React from 'react';
 import * as S from '../pages/Shop.style';
 import * as modalStore from '../store/modalStore';
-import { useSetAtom } from 'jotai';
+import { useAtomValue, useSetAtom } from 'jotai';
+import * as userStore from '../store/userStore';
+import { fetchMyBorders } from '../api/items';
+import { useQuery } from '@tanstack/react-query';
 type Props = {
   id: string;
   index: number;
@@ -11,9 +13,25 @@ type Props = {
 };
 
 const BorderCard = (props: Props) => {
+  const user = useAtomValue(userStore.user);
   const setModal = useSetAtom(modalStore.modalContents);
   const isModalOpened = useSetAtom(modalStore.isModalOpened);
   const setBorderModalContent = useSetAtom(modalStore.borderModalContent);
+
+  // 보유중인 테두리 불러오기
+  const inventoryQueryOptions = {
+    queryKey: ['myBorders'],
+    queryFn: () => fetchMyBorders(user!.id),
+    refetchOnWindowFocus: false,
+    enabled: !!user,
+  };
+
+  const { data: myBorders } = useQuery(inventoryQueryOptions);
+  // console.log('내가가진테두리:', myBorders);
+
+  const purchasedBorder = myBorders?.map((item) => item.item_id) || [];
+  // console.log('구매한 테두리 아이디들', purchasedBorder);
+
   return (
     <S.Item key={props.index}>
       <S.TopArea img_url={props.img_url} />
@@ -33,6 +51,7 @@ const BorderCard = (props: Props) => {
             isModalOpened(true);
             setModal('border');
           }}
+          disabled={purchasedBorder?.includes(props.id) || !user}
         >
           구매하기
         </S.BuyButton>

@@ -57,7 +57,7 @@ const PurchaseAwardModalContents = (props: Props) => {
             <p
               style={{
                 color: '#000',
-                fontFamily: 'Pretendard Variable',
+                fontFamily: 'Pretendard-Regular',
                 fontSize: '15px',
                 fontStyle: 'normal',
                 fontWeight: '400',
@@ -146,7 +146,7 @@ const StPurchaseTitle = styled.div`
 const StBorderNameTypo = styled.p`
   color: #9b00e4;
   /* 본문/3 */
-  font-family: Inter;
+  font-family: Pretendard-Regular;
   font-size: 15px;
   font-style: normal;
   font-weight: 700;
@@ -155,7 +155,7 @@ const StBorderNameTypo = styled.p`
 const StPrice = styled.p`
   text-align: -webkit-center;
   color: #000;
-  font-family: Pretendard Variable;
+  font-family: Pretendard-Regular;
   font-size: 16px;
   font-style: normal;
   font-weight: 700;

@@ -4,9 +4,11 @@ import { useAtomValue, useSetAtom } from 'jotai';
 import * as itemApi from '../../api/items';
 import * as userStore from '../../store/userStore';
 import * as modalStore from '../../store/modalStore';
+import { useQueryClient } from '@tanstack/react-query';
 type Props = {};
 
 const PurchaseConfirmContents = (props: Props) => {
+  const queryClient = useQueryClient();
   const user = useAtomValue(userStore.user);
   const isModalOpened = useSetAtom(modalStore.isModalOpened);
   const borderContents = useAtomValue(modalStore.borderModalContent);
@@ -46,7 +48,7 @@ const PurchaseConfirmContents = (props: Props) => {
               <p
                 style={{
                   color: '#000',
-                  fontFamily: 'Pretendard Variable',
+                  fontFamily: 'Pretendard-Regular',
                   fontSize: '15px',
                   fontStyle: 'normal',
                   fontWeight: '400',
@@ -62,7 +64,7 @@ const PurchaseConfirmContents = (props: Props) => {
               <p
                 style={{
                   color: '#000',
-                  fontFamily: 'Pretendard Variable',
+                  fontFamily: 'Pretendard-Regular',
                   fontSize: '15px',
                   fontStyle: 'normal',
                   fontWeight: '400',
@@ -93,8 +95,10 @@ const PurchaseConfirmContents = (props: Props) => {
               user_id: user?.id!,
               item_id: borderContents?.id!,
             });
-            if (result.success) setModalContents('afterPurchase');
-            else alert(result.msg);
+            if (result.success) {
+              queryClient.invalidateQueries(['myBorders']);
+              setModalContents('afterPurchase');
+            } else alert(result.msg);
           }}
         >
           구매
@@ -158,7 +162,7 @@ const StBorderNameTypo = styled.p`
   color: #9b00e4;
 
   /* 본문/3 */
-  font-family: Inter;
+  font-family: Pretendard-Regular;
   font-size: 15px;
   font-style: normal;
   font-weight: 700;
@@ -167,7 +171,7 @@ const StBorderNameTypo = styled.p`
 const StPrice = styled.p`
   text-align: -webkit-center;
   color: #000;
-  font-family: Pretendard Variable;
+  font-family: Pretendard-Regular
   font-size: 16px;
   font-style: normal;
   font-weight: 700;
