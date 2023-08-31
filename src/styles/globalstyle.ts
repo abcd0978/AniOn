@@ -24,7 +24,7 @@ ${reset};
 }
 
 
-body{
+body:not(header){
     margin:0 auto;
     max-width: 75%;
     overflow-x: hidden;
@@ -32,8 +32,10 @@ body{
 
 
 }
-
-
+header{
+    width:100vw;
+    margin-left: calc(-50vw + 50%);
+}
 
 .embla{
     width:100vw;
