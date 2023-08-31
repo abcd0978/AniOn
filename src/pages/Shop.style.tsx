@@ -71,10 +71,11 @@ export const Item = styled.div`
   margin-bottom: 5px;
 `;
 
-export const TopArea = styled.div`
+export const TopArea = styled.div<{ img_url: string }>`
   width: 100%;
   height: 80%;
-  background-color: #d9d9d9;
+  background-size: cover;
+  background-image: url(${(props) => props.img_url});
 `;
 
 export const BottomArea = styled.div`

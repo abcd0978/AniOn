@@ -301,10 +301,10 @@ const StLoginInput = styled.input<{
   border-radius: 10px;
   background: var(--main-light-3, #f9f3ff);
   height: ${(props) => 44 * (props.mediaWidth / 1920)}px;
-  border:${(props) =>
+  border: ${(props) =>
     props.loginError || props.error
-      ? '1px solid var(--error, #FF535D);'
-      : 'none;'}
+      ? '1px solid var(--error, #FF535D)'
+      : 'none'};
   padding: 8px;
   align-items: center;
   gap: 10px;

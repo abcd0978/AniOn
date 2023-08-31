@@ -59,7 +59,7 @@ export const fetchMyBorders = async (user_id: string) => {
   try {
     const { data, error } = await supabase
       .from('inventory')
-      .select('*, items(name)')
+      .select('*, items(*)')
       .eq('items.category', 0)
       .eq('user_id', user_id);
     if (error) {
@@ -68,7 +68,7 @@ export const fetchMyBorders = async (user_id: string) => {
     }
     const item: ItemRow[] = data;
     // console.log(item);
-    return item;
+    return data;
   } catch (error) {
     console.log('items.ts fetchMyBorders error > ', error);
     return [];
