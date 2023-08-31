@@ -16,7 +16,7 @@ import LikeSvg from '../anime-recommend/LikeSvg';
 import { AnimeG } from '../../types/anime';
 import { styled } from 'styled-components';
 
-type ReadMyLike = Database['public']['Tables']['anime_likes']['Row'];
+// type ReadMyLike = Database['public']['Tables']['anime_likes']['Row'];
 interface Props {
   anime: AnimeG;
   likesCount: (anime_id: string) => number;
@@ -39,22 +39,23 @@ const LikedAnime = () => {
   const user = useAtomValue(userStore.user);
   const navigate = useNavigate();
   const [page, setPage] = useState<number>(1);
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const [searchKeyword, setSearchKeyword] = useState<string>('');
+  // const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  // const [searchKeyword, setSearchKeyword] = useState<string>('');
 
-  const {
-    data: postsAndTotalPages,
-    isLoading,
-    isFetching,
-  } = useQuery<{ data: ReadMyLike[]; totalPages: number }>(
-    ['posts', selectedCategory, searchKeyword, page],
-    () => getAnimeById(selectedCategory || ''),
-    {
-      onError: (error) => {
-        console.error('Error fetching posts:', error);
-      },
-    },
-  );
+  // 리액트 쿼리로 수정해보기.
+  // const {
+  //   data: postsAndTotalPages,
+  //   isLoading,
+  //   isFetching,
+  // } = useQuery<{ data: ReadMyLike[]; totalPages: number }>(
+  //   ['posts', selectedCategory, searchKeyword, page],
+  //   () => getAnimeById(selectedCategory || ''),
+  //   {
+  //     onError: (error) => {
+  //       console.error('Error fetching posts:', error);
+  //     },
+  //   },
+  // );
 
   useEffect(() => {
     const fetchLikedAnime = async () => {
@@ -63,15 +64,11 @@ const LikedAnime = () => {
           return;
         }
 
-        const likes = await fetchAllAnimeMyLikes({
-          user_id: user.id,
-          id: '',
-          anime_id: '',
-        });
+        const likes = await fetchAllAnimeMyLikes(user.id);
 
         const animeDataPromises = likes.map(async (like) => {
           const animeId = like.anime_id;
-          const preview = await getAnimePreview(animeId);
+          const preview = '';
           const anime = await getAnimeById(animeId);
           const images = anime.images || [];
           const img = images.length !== 0 ? images[0].img_url : undefined;

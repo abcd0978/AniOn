@@ -1,8 +1,8 @@
 import supabase from '../supabaseClient';
 import type { Database } from '../types/supabase';
 type ItemRow = Database['public']['Tables']['items']['Row'] | null;
-type PointRow = Database['public']['Tables']['point']['Row'];
-type InventoryInsert = Database['public']['Tables']['inventory']['Insert'];
+// type PointRow = Database['public']['Tables']['point']['Row'];
+// type InventoryInsert = Database['public']['Tables']['inventory']['Insert'];
 
 type purchaseRes = {
   success: boolean;
@@ -196,17 +196,6 @@ export const fetchItem = async (itemId: string): Promise<ItemRow> => {
   }
 };
 
-// enum ErrorMsg{
-//   noMoney = "돈이 부족합니다",
-//   noItem = "아이템이 존재하지 않습니다.",
-//   alreadyH = "보유중인 아이템입니다.",
-//   unknown = "서버 에러입니다."
-// }
-// type purchaseRes = {
-//   success:boolean;
-//   msg:ErrorMsg;
-// }
-
 // 구매 ( 포인트 차감 )
 export const purchase = async (
   user_id: string,
@@ -284,14 +273,3 @@ export const fetchMyPoint = async (user_id: string) => {
     console.log('items.ts fetchMyPoint error > ', error);
   }
 };
-
-// export const testUserTwo = async (params: any) => {
-//   const { data, error } = await supabase
-//     .from('items.name')
-//     .select('inventory')
-//     .eq('category', 1)
-//     .eq('inventory.user_id', params.user_id);
-//   // .eq('inventory.is_equipped', true);
-//   console.log('test', data);
-//   return data;
-// };
