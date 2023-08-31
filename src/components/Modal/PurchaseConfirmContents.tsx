@@ -89,10 +89,10 @@ const PurchaseConfirmContents = (props: Props) => {
         </StCancelButton>
         <StConfirmButton
           onClick={async () => {
-            const result = await itemApi.purchase(
-              user?.id!,
-              borderContents?.id!,
-            );
+            const result = await itemApi.purchase({
+              user_id: user?.id!,
+              item_id: borderContents?.id!,
+            });
             if (result.success) setModalContents('afterPurchase');
             else alert(result.msg);
           }}
