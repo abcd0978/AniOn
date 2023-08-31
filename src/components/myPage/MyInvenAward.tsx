@@ -35,7 +35,7 @@ const MyInvenAward = () => {
   const awardsList = Array.isArray(awards) ? (
     <ul>
       {awards.map((awards, index) => (
-        <li key={index}>{awards.items.name}</li>
+        <li key={index}>{awards.items?.name}</li>
       ))}
     </ul>
   ) : null;
