@@ -47,17 +47,21 @@ export const fetchMyItems = async (user_id: string) => {
 // 인벤토리 칭호 불러오기
 export const fetchMyAwards = async (user_id: string) => {
   try {
-    const { data, error } = await supabase
+    let { data, error } = await supabase
       .from('inventory')
-      .select('*, items(name)')
-      .eq('items.category', 1)
-      .eq('user_id', user_id);
+      .select(`*,items!inner(name)`)
+      .eq('user_id', user_id)
+      .eq('items.category', 1);
+
     if (error) {
       console.log('items.ts fetchMyAwards error > ', error);
       return [];
     }
+
+    if (!data) {
+      return [];
+    }
     const item: AwardsRow[] = data;
-    // console.log(item);
     return item;
   } catch (error) {
     console.log('items.ts fetchMyAwards error > ', error);
@@ -144,6 +148,7 @@ export const fetchEquippedBorder = async (user_id: string) => {
   }
 };
 
+// 칭호 착용하기
 // ------------------------- 상점 -----------------------
 
 // 판매중인 칭호 목록 불러오기
@@ -158,7 +163,7 @@ export const fetchAwards = async () => {
       console.log('items.ts fetchAwards error > ', error);
       return;
     }
-    console.log(data);
+    // console.log(data);
     // const items:ItemRow[] = data[0];
     return data;
   } catch (error) {
@@ -179,7 +184,7 @@ export const fetchBorders = async () => {
       console.log('items.ts fetchTitles error > ', error);
       return [];
     }
-    console.log(data);
+    // console.log(data);
     // const items:ItemRow[] = data[0];
     return data;
   } catch (error) {
