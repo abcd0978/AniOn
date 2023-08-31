@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { MyProfilePoint } from './MyPage.styles';
-import { fetchMyPoint } from '../../api/items';
+// import { fetchMyPoint } from '../../api/items';
 import supabase from '../../supabaseClient';
 import * as userStore from '../../store/userStore';
 import { useAtomValue, useSetAtom } from 'jotai';
