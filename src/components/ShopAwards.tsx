@@ -2,7 +2,8 @@
 import React, { useState } from 'react';
 import { Database } from '../types/supabase';
 import { styled } from 'styled-components';
-import { useAtomValue } from 'jotai';
+import * as modalStore from '../store/modalStore';
+import { useAtomValue, useSetAtom } from 'jotai';
 import * as userStore from '../store/userStore';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
@@ -17,7 +18,9 @@ const ShopAwardList = () => {
   const queryClient = useQueryClient();
   const [page, setPage] = useState<number>(1);
   const user = useAtomValue(userStore.user);
-
+  const isModalOpened = useSetAtom(modalStore.isModalOpened);
+  const setModalContents = useSetAtom(modalStore.modalContents);
+  const setAwardfModalContents = useSetAtom(modalStore.awardModalContent);
   const itemsPerPage = 16;
 
   // 상점에 판매중인 칭호 불러오기
@@ -81,14 +84,23 @@ const ShopAwardList = () => {
             ]
           : awards
               ?.slice((page - 1) * itemsPerPage, page * itemsPerPage)
-              .map((item) => {
+              .map((item, index) => {
                 return (
                   <div key={item.id}>
                     <AwardName>{item.name}</AwardName>
                     <ShopMenu>
                       <AwardPrice>{item.price}포인트</AwardPrice>
                       <BuyButton
-                        onClick={() => handleBuyClick(item.id)}
+                        onClick={() => {
+                          setModalContents('award');
+                          setAwardfModalContents({
+                            id: item.id,
+                            index: index,
+                            title: item.name,
+                            price: item.price,
+                          });
+                          isModalOpened(true);
+                        }}
                         disabled={purchasedItemIds?.includes(item.id) || !user}
                       >
                         구매하기

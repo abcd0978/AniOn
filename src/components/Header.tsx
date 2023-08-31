@@ -17,6 +17,7 @@ import LoginModalContents from './Modal/LoginModalContents';
 import RegisterModalContents from './Modal/RegisterModalContents';
 import PurchaseConfirmContents from './Modal/PurchaseConfirmContents';
 import AfterPurchaseModalContents from './Modal/AfterPurchaseModalContents';
+import PurchaseAwardModalContents from './Modal/PurchaseAwardModalContents';
 import { useNavigate } from 'react-router-dom';
 type Props = {};
 
@@ -39,6 +40,9 @@ function Header({}: Props) {
       }
       case 'border': {
         return <PurchaseConfirmContents />;
+      }
+      case 'award': {
+        return <PurchaseAwardModalContents />;
       }
       case 'afterPurchase': {
         return <AfterPurchaseModalContents />;
@@ -164,7 +168,7 @@ function Header({}: Props) {
                 <StblackBar></StblackBar>
                 <p
                   onClick={() => {
-                    setModalContents('register');
+                    setModalContents('award');
                     setIsModalOpened(true);
                   }}
                   style={{ cursor: 'pointer' }}

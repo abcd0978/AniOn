@@ -94,6 +94,17 @@ export const BuyButton = styled.button`
   border: 1px solid #c88fff;
   float: right;
   cursor: pointer;
+
+  &:hover {
+    background-color: #c88fff;
+    color: white;
+  }
+
+  &:disabled:hover {
+    background-color: white;
+    color: #cccccc;
+    cursor: not-allowed;
+  }
 `;
 export const Number = styled.div`
   font-weight: 700;
