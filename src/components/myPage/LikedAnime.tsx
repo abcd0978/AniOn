@@ -62,15 +62,11 @@ const LikedAnime = () => {
           return;
         }
 
-        const likes = await fetchAllAnimeMyLikes({
-          user_id: user.id,
-          id: '',
-          anime_id: '',
-        });
+        const likes = await fetchAllAnimeMyLikes(user.id);
 
         const animeDataPromises = likes.map(async (like) => {
           const animeId = like.anime_id;
-          const preview = await getAnimePreview(animeId);
+          const preview = '';
           const anime = await getAnimeById(animeId);
           const images = anime.images || [];
           const img = images.length !== 0 ? images[0].img_url : undefined;

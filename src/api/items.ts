@@ -1,10 +1,21 @@
+import { iteratee } from 'lodash';
 import supabase from '../supabaseClient';
 import type { Database } from '../types/supabase';
 type ItemRow = Database['public']['Tables']['items']['Row'] | null;
-type PointRow = Database['public']['Tables']['point']['Row'];
-type InventoryInsert = Database['public']['Tables']['inventory']['Insert'];
+// type PointRow = Database['public']['Tables']['point']['Row'];
+// type InventoryInsert = Database['public']['Tables']['inventory']['Insert'];
 
-type purchaseRes = {
+export type AwardsRow = {
+  id: string;
+  item_id: string;
+  user_id: string;
+  is_equipped: boolean;
+  items: {
+    name: string;
+  };
+};
+
+export type purchaseRes = {
   success: boolean;
   msg: string | null;
 };
@@ -34,7 +45,7 @@ export const fetchMyItems = async (user_id: string) => {
 };
 
 // 인벤토리 칭호 불러오기
-export const fetchMyTitles = async (user_id: string) => {
+export const fetchMyAwards = async (user_id: string) => {
   try {
     const { data, error } = await supabase
       .from('inventory')
@@ -42,14 +53,14 @@ export const fetchMyTitles = async (user_id: string) => {
       .eq('items.category', 1)
       .eq('user_id', user_id);
     if (error) {
-      console.log('items.ts fetchMyTitles error > ', error);
+      console.log('items.ts fetchMyAwards error > ', error);
       return [];
     }
-    const item: ItemRow[] = data;
+    const item: AwardsRow[] = data;
     // console.log(item);
     return item;
   } catch (error) {
-    console.log('items.ts fetchMyTitles error > ', error);
+    console.log('items.ts fetchMyAwards error > ', error);
     return [];
   }
 };
@@ -136,7 +147,7 @@ export const fetchEquippedBorder = async (user_id: string) => {
 // ------------------------- 상점 -----------------------
 
 // 판매중인 칭호 목록 불러오기
-export const fetchTitles = async () => {
+export const fetchAwards = async () => {
   try {
     const { data, error } = await supabase
       .from('items')
@@ -144,7 +155,7 @@ export const fetchTitles = async () => {
       .eq('category', 1)
       .eq('is_on_sale', true);
     if (error) {
-      console.log('items.ts fetchTitles error > ', error);
+      console.log('items.ts fetchAwards error > ', error);
       return;
     }
     console.log(data);
@@ -196,31 +207,20 @@ export const fetchItem = async (itemId: string): Promise<ItemRow> => {
   }
 };
 
-// enum ErrorMsg{
-//   noMoney = "돈이 부족합니다",
-//   noItem = "아이템이 존재하지 않습니다.",
-//   alreadyH = "보유중인 아이템입니다.",
-//   unknown = "서버 에러입니다."
-// }
-// type purchaseRes = {
-//   success:boolean;
-//   msg:ErrorMsg;
-// }
-
 // 구매 ( 포인트 차감 )
-export const purchase = async (
-  user_id: string,
-  item_id: string,
-): Promise<purchaseRes> => {
+export const purchase = async (params: {
+  user_id: string;
+  item_id: string;
+}): Promise<purchaseRes> => {
   try {
     //아이템받아오기
-    const item: ItemRow = await fetchItem(item_id);
+    const item: ItemRow = await fetchItem(params.item_id);
     if (!item) {
       return { success: false, msg: '아이템이 존재하지 않습니다.' };
     }
 
     //포인트차감
-    const myPoint = await fetchMyPoint(user_id);
+    const myPoint = await fetchMyPoint(params.user_id);
     if (!myPoint || myPoint < 0) {
       return { success: false, msg: '서버에러 입니다.' };
     }
@@ -230,7 +230,7 @@ export const purchase = async (
 
     const { error: rpcError } = await supabase.rpc('updatePoint', {
       price: item.price * -1,
-      userid: user_id,
+      userid: params.user_id,
     });
 
     if (rpcError) {
@@ -244,7 +244,7 @@ export const purchase = async (
     const { error: inventoryError } = await supabase.from('inventory').insert({
       is_equipped: false,
       item_id: item.id,
-      user_id: user_id,
+      user_id: params.user_id,
     });
 
     if (inventoryError) {
@@ -284,14 +284,3 @@ export const fetchMyPoint = async (user_id: string) => {
     console.log('items.ts fetchMyPoint error > ', error);
   }
 };
-
-// export const testUserTwo = async (params: any) => {
-//   const { data, error } = await supabase
-//     .from('items.name')
-//     .select('inventory')
-//     .eq('category', 1)
-//     .eq('inventory.user_id', params.user_id);
-//   // .eq('inventory.is_equipped', true);
-//   console.log('test', data);
-//   return data;
-// };
