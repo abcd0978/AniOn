@@ -7,7 +7,7 @@ import { getAnimeById } from './laftel';
 
 export const fetchAllAnimeLikes = async (): Promise<ReadAnimeLikeG[]> => {
   try {
-    const { data, error } = await supabase.from('anime_likes').select(' * ');
+    const { data, error } = await supabase.from('anime_likes').select('*');
     if (error) {
       console.log('error fetching anime_likes > ', error);
       return [];
@@ -20,12 +20,12 @@ export const fetchAllAnimeLikes = async (): Promise<ReadAnimeLikeG[]> => {
 };
 
 // 내가 좋아요한 데이터들 가져오기
-export const fetchAllAnimeMyLikes = async (params: ReadAnimeLikeG) => {
+export const fetchAllAnimeMyLikes = async (user_id: string) => {
   try {
     const { data, error } = await supabase
       .from('anime_likes')
       .select('*')
-      .eq('user_id', params.user_id);
+      .eq('user_id', user_id);
     if (error) {
       console.log('error fetching AnimeMyLikes > ', error);
       return [];
