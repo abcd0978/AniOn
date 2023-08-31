@@ -77,13 +77,16 @@ const S = {
     height: 44px;
     outline: none;
     border-radius: 8px;
+    border: none;
+    background-color: #f9f3ff;
     box-shadow: 5px 5px 5px 5px #0000001a;
   `,
   Input: styled.input`
     width: 1360px;
     height: 44px;
     outline: none;
-    border: 1px solid gray;
+    border: none;
+    background-color: #f9f3ff;
     box-shadow: 5px 5px 5px 5px #0000001a;
     border-radius: 8px;
   `,
@@ -97,6 +100,8 @@ const S = {
     outline: none;
     border-radius: 8px;
     box-shadow: 5px 5px 5px 5px #0000001a;
+    border: none;
+    background-color: #f9f3ff;
   `,
   Img: styled.img`
     width: 60px;
