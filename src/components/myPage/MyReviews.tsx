@@ -9,7 +9,7 @@ import { Review } from './Wrote.styles';
 import { Button, Container, Divider, EditTitle } from './EditProfile';
 import goReview from '../../assets/next (1).png';
 import Pagination from '../Pagenation';
-import { AnimeG } from '../../types/anime';
+// import { AnimeG } from '../../types/anime';
 import { useQuery } from '@tanstack/react-query';
 import { getAnimeById } from '../../api/laftel';
 import { useParams } from 'react-router-dom';
@@ -25,15 +25,15 @@ const supabase = createClient(supabaseUrl, supabaseAnonKey);
 type ReadAniComment = Database['public']['Tables']['ani_comments']['Row'];
 
 const userReviewAtom = atom<ReadAniComment[]>([]);
-interface Props {
-  anime: AnimeG;
-}
+type AnimeG = JSX.Element;
+
 const MyReviews = () => {
   const [userReview, setUserReview] = useAtom(userReviewAtom);
   const user = useAtomValue(userStore.user);
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
   const [animeTitles, setAnimeTitles] = useState<Record<string, AnimeG>>({});
+
   useEffect(() => {
     const fetchUserReview = async () => {
       try {
@@ -42,6 +42,7 @@ const MyReviews = () => {
         }
 
         console.log('사용자 아이디에 따른 리뷰', user.id);
+
         const { data: reviewData, error: reviewError } = await supabase
           .from('ani_comments')
           .select('*')
@@ -55,10 +56,14 @@ const MyReviews = () => {
           setUserReview(reviewData);
 
           const animeIds = reviewData.map((review) => review.ani_id);
-          const animeDetails: Record<string, AnimeG> = {};
+          const animeDetails: Record<string, JSX.Element> = {};
           for (const animeId of animeIds) {
-            const animeDetail = await getAnimeById(animeId);
-            animeDetails[animeId] = animeDetail.name;
+            try {
+              const animeDetail = await getAnimeById(animeId);
+              animeDetails[animeId] = <span>{animeDetail.name}</span>;
+            } catch (animeError) {
+              console.error('getAnimeById 에러', animeError);
+            }
           }
 
           setAnimeTitles(animeDetails);
@@ -108,38 +113,37 @@ const MyReviews = () => {
     <Container>
       <EditTitle>리뷰 이력</EditTitle>
       <Divider />
-      <ul>
+      <Review.Outer>
         {userReview.slice(startIndex, endIndex).map((review) => (
           <li key={review.id}>
-            <div>{/* <div>{animeTitles[review.ani_id]}</div> */}</div>
-            <Review.Divide>
-              <Review.ReviewComments>{review.comment}</Review.ReviewComments>
-              <Review.ButtonContainer>
-                <Review.Date>
-                  {new Date(review.created_at).toLocaleString()}
-                </Review.Date>
-                <Review.ButtonArray>
-                  <Review.Button onClick={() => handleRemoveReview(review.id)}>
-                    삭제
-                  </Review.Button>
-                  <Review.Button
-                    onClick={() => handleReviewClick(review.ani_id)}
-                  >
-                    보러가기
-                    <Review.ButtonIcon src={goReview} />
-                  </Review.Button>
-                </Review.ButtonArray>
-              </Review.ButtonContainer>
-            </Review.Divide>
+            <Review.Top>
+              <Review.Title>{animeTitles[review.ani_id]}</Review.Title>
+              <Review.Date>
+                {new Date(review.created_at).toLocaleString()}
+              </Review.Date>
+            </Review.Top>
+
+            <Review.ReviewComments>{review.comment}</Review.ReviewComments>
+
+            <Review.ButtonArray>
+              <Review.GoButton onClick={() => handleReviewClick(review.ani_id)}>
+                보러가기
+                <Review.ButtonIcon src={goReview} />
+              </Review.GoButton>
+              <Review.Button onClick={() => handleRemoveReview(review.id)}>
+                삭제
+              </Review.Button>
+            </Review.ButtonArray>
+
             <Divider />
           </li>
         ))}
-      </ul>
-      <Pagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        onClick={handlePageChange}
-      />
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onClick={handlePageChange}
+        />
+      </Review.Outer>
     </Container>
   );
 };

@@ -1,47 +1,69 @@
 import styled, { CSSProp } from 'styled-components';
 
+//리뷰 관리 css
 export const Review = {
-  Divide: styled.div`
-    width: 1000px;
-    height: 36px;
-  `,
   Container: styled.div`
     display: flex;
     flex-direction: column;
     gap: 16px;
-    align-items: flex-start;
+    // align-items: flex-start;
     position: relative;
     top: -290px;
     margin-left: 150px;
   `,
-  ButtonContainer: styled.div`
-    position: relative;
-    flex-direction: column;
-    left: 800px;
-    margin-top: -50px;
+  Top: styled.div`
+    display: flex;
+    justify-content: space-between;
+    width: 900px;
+    height: 19px;
   `,
+  Outer: styled.div`
+    list-style-type: none;
+    width: 900px;
+    height: 132px;
+  `,
+  Title: styled.div`
+    font-weight: 700;
+    font-size: 16px;
+  `,
+
   ButtonArray: styled.div`
     display: flex;
+    justify-content: space-between;
+    margin-top: 5px;
   `,
   ButtonIcon: styled.img`
     width: 12px;
     height: 12px;
+    color: white;
+  `,
+  GoButton: styled.button`
+    border: 1px solid #c88fff;
+    border-radius: 12px;
+    background-color: #8200ff;
+    color: white;
+    width: 78px;
+    height: 28px;
+    text-align: center;
+    cursor: pointer;
+    font-size: 14px;
   `,
   Button: styled.button`
-    padding: 8px;
-    margin: 2px;
     border: 1px solid #c88fff;
     border-radius: 12px;
     background-color: white;
-    width: auto;
-    height: 30px;
+    width: 64px;
+    height: 28px;
     text-align: center;
     cursor: pointer;
+    font-size: 14px;
   `,
 
   ReviewComments: styled.div`
-    width: 600px;
-    height: 100px;
+    width: 900px;
+    min-height: 48px;
+    margin-top: 10px;
+    line-height: 24px;
   `,
   Date: styled.div`
     color: #999;
@@ -57,6 +79,7 @@ export const Review = {
   `,
 };
 
+//작성한 글 css
 export const Post = {
   Category: styled.div`
     width: auto;
@@ -73,13 +96,12 @@ export const Post = {
     font-size: 14px;
     color: #757575;
     float: right;
-    width: 200px;
-    display: flex;
-    margin-right: 10px;
+    max-width: 160px;
+    // display: flex;
   `,
   title: styled.div`
-    width: 830px;
-    height: 35px;
+    min-width: 780px;
+    min-height: 40px;
     align-items: center;
     display: flex;
     justify-content: space-between;
@@ -90,7 +112,7 @@ export const Post = {
     cursor: pointer;
   `,
   input: styled.input`
-    width: 24px;
+    min-width: 24px;
     height: 24px;
     cursor: pointer;
   `,
@@ -105,7 +127,7 @@ export const Post = {
   line: styled.div`
     border-bottom: 1px solid #ccc;
     width: 900px;
-    height: 35px;
+    height: 57px;
     color: #000;
     font-size: 24px;
     font-style: normal;
@@ -113,6 +135,7 @@ export const Post = {
     line-height: normal;
     letter-spacing: -0.36px;
     margin-bottom: -7px;
+    gap: 16px;
   `,
   Button: styled.button`
     padding: 8px;
@@ -127,7 +150,6 @@ export const Post = {
   `,
   ButtonAll: styled.button`
     padding: 8px;
-    margin-right: 55px;
     border: 1px solid #c88fff;
     border-radius: 12px;
     background-color: #8200ff;
@@ -154,7 +176,7 @@ interface StyledPostCategoryProps {
 
 export const StyledPostCategory = styled.span<StyledPostCategoryProps>`
   display: inline-block;
-  width: 84px;
+  min-width: 84px;
   height: 26px;
   line-height: 26px;
   text-align: center;
