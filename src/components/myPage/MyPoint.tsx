@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { useAtomValue } from 'jotai';
 import { user as userAtom } from '../../store/userStore';
 import { fetchMyPoint } from '../../api/items';
+import { MyProfilePoint } from './MyPage.styles';
+// import { fetchMyPoint } from '../../api/items';
+import supabase from '../../supabaseClient';
+import * as userStore from '../../store/userStore';
+import { useAtomValue, useSetAtom } from 'jotai';
+import { Deco } from './Deco.styles';
+import { useQuery } from '@tanstack/react-query';
 
 const MyProfile = () => {
   const user = useAtomValue(userAtom);
