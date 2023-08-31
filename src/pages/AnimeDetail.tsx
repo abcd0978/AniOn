@@ -189,8 +189,15 @@ function AnimeDetail() {
               </S.ContentsStarTitleBox>
               <S.TotlaStarBox>
                 <S.StarNumBox>
-                  <p>{animeStar.average_score}</p>
-                  <StarRating rating={animeStar.average_score} maxRating={5} />
+                  {animeStar?.average_score && (
+                    <>
+                      <p>{animeStar?.average_score}</p>
+                      <StarRating
+                        rating={animeStar?.average_score}
+                        maxRating={5}
+                      />
+                    </>
+                  )}
                 </S.StarNumBox>
               </S.TotlaStarBox>
             </S.StarBox>

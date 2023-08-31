@@ -54,8 +54,8 @@ const S = {
 
   Title: styled.div`
     line-height: 1.5;
-    max-width: 1360px;
-    width: 800px;
+    //max-width: 1360px;
+    width: 90%;
     padding: 0 auto;
     font-size: 26px;
     font-weight: bold;
@@ -82,7 +82,7 @@ const S = {
     box-shadow: 5px 5px 5px 5px #0000001a;
   `,
   Input: styled.input`
-    width: 1360px;
+    width: calc(90% - 5px);
     height: 44px;
     outline: none;
     border: none;
