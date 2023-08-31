@@ -44,7 +44,14 @@ const WriteBoard = () => {
 
   const onSubmitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
+    const processBody = (bodyStr: string) => {
+      let result = '';
+      result = bodyStr
+        .replace(/\n/g, '')
+        .replace(/<[^>]*>?/g, '')
+        .replace(/&nbsp;/gi, '');
+      return result;
+    };
     if (user) {
       // 유효성 검사
       if (!category) {
@@ -60,7 +67,7 @@ const WriteBoard = () => {
         return;
       }
 
-      if (content.length < 10) {
+      if (processBody(content).length < 10) {
         alert('내용은 10자 이상 입력해주세요.');
         return;
       }
