@@ -5,7 +5,7 @@ export const Container = styled.div`
 `;
 
 export const Title = styled.div`
-  font-size: 22px;
+  font-size: 32px;
   font-weight: bold;
   margin-bottom: 10px;
   margin-top: 30px;
@@ -179,4 +179,9 @@ export const SearchIcon = styled.img`
   transform: translateY(-50%);
   width: 20px;
   height: 20px;
+`;
+export const Page = styled.div`
+  justify-content: center;
+  display: flex;
+  cursor: pointer;
 `;

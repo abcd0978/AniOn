@@ -12,8 +12,9 @@ export type FormData = {
   password: string;
 };
 export const logout = async () => {
+  console.log('러그아웃');
   await supabase.auth.signOut();
-  window.location.reload();
+  //window.location.reload();
 };
 export const addUser = async (user: userTypeInsert) => {
   const { data } = await supabase.from('users').insert(user).select();

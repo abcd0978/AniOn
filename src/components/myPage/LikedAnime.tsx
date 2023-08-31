@@ -10,9 +10,20 @@ import { S } from '../anime-recommend/styled.AnimeCard';
 import Pagination from '../Pagenation';
 import { useQuery } from '@tanstack/react-query';
 import { Database } from '../../types/supabase';
+import { HoverInfo } from '../anime-recommend/styled.AnimeCard';
+import viewDetail from '../../assets/viewdetail.svg';
+import LikeSvg from '../anime-recommend/LikeSvg';
+import { AnimeG } from '../../types/anime';
+import { styled } from 'styled-components';
+import { Container } from './EditProfile';
 type ReadMyLike = Database['public']['Tables']['anime_likes']['Row'];
-
-const itemsPerPage = 6;
+interface Props {
+  anime: AnimeG;
+  likesCount: (anime_id: string) => number;
+  isLike: (anime_id: string) => boolean;
+  handleLike: (anime_id: string) => void;
+}
+const itemsPerPage = 8;
 const LikedAnime = () => {
   const [likedAnime, setLikedAnime] = useState<
     {
@@ -90,7 +101,7 @@ const LikedAnime = () => {
   const displayedAnime = likedAnime.slice(startIndex, endIndex);
 
   return (
-    <Anime.Container className="liked-anime-container">
+    <Container className="liked-anime-container">
       <EditTitle>찜한 목록</EditTitle>
       <Anime.PosterContainer className="anime-list">
         {displayedAnime.map((anime) => (
@@ -116,7 +127,7 @@ const LikedAnime = () => {
         totalPages={Math.ceil(likedAnime.length / itemsPerPage)}
         onClick={handlePageChange}
       />
-    </Anime.Container>
+    </Container>
   );
 };
 

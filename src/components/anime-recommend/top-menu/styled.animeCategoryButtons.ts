@@ -19,9 +19,27 @@ export const S = {
     padding: 8px;
     border: none;
     border-radius: 999px;
+    position: relative;
     font-weight: bold;
     color: ${(props) => (props.$isSelected ? 'white' : 'black')};
     background-color: ${(props) => (props.$isSelected ? '#FF96DB' : '#FFEBF7')};
     cursor: pointer;
+    ${(props) =>
+      props.$isSelected &&
+      `
+    &::after {
+      content: '';
+	    position: absolute;
+  	  bottom: 0;
+  	  left: 50%;
+    	width: 0;
+	    height: 0;
+	    border: 7px solid transparent;
+	    border-top-color: #FF96DB;
+	    border-bottom: 0;
+	    margin-left: -7px;
+	    margin-bottom: -7px;
+    }
+  `}
   `,
 };

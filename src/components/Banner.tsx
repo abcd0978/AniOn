@@ -19,10 +19,10 @@ import dot from '../assets/dot.svg';
 import dotDeactivated from '../assets/dotDeactivated.svg';
 import styled from 'styled-components';
 import Autoplay from 'embla-carousel-autoplay';
-
+import BannerSlide from './BannerSlide';
 type PropType = {
   options?: EmblaOptionsType;
-  slides: ReactNode[];
+  slides: any[];
 };
 interface ButtonProps {
   onClickfunc: () => void;
@@ -45,7 +45,6 @@ const buttonStyle: CSSProperties = {
   margin: '0',
 };
 let slideStyle: CSSProperties = {
-  backgroundColor: '#D9D9D9',
   flex: '0 0 100%',
   overflow: 'hidden',
 };
@@ -105,11 +104,19 @@ export const Banner = (props: PropType) => {
             style={{ ...slideStyle, height: `${width * 0.36}px` }}
             key={index}
           >
-            {slide}
+            <BannerSlide
+              buttonText={slide.buttonText}
+              desc={slide.desc}
+              image={slide.image}
+              name={slide.name}
+              onClick={slide.onClick}
+              title={slide.title}
+              key={'fewa'}
+            />
           </div>
         ))}
       </div>
-      <StButtonContainer carouselHeight={300}>
+      <StButtonContainer carouselHeight={width * 0.36}>
         <PrevButton
           onClickfunc={scrollPrev}
           buttonStyle={buttonStyle}
@@ -121,7 +128,7 @@ export const Banner = (props: PropType) => {
           disabled={nextButtonDisabled}
         />
       </StButtonContainer>
-      <StDotContainer carouselHeight={300}>
+      <StDotContainer carouselHeight={width * 0.36}>
         {scrollSnaps.map((__, index) => (
           <DotButton
             onClickfunc={() => {
@@ -167,6 +174,7 @@ const StButtonContainer = styled.div<{ carouselHeight: number }>`
   display: flex;
   position: relative;
   justify-content: space-between;
+  align-items: center;
   bottom: ${(props) => props.carouselHeight / 2 + 30}px;
 `;
 const StDotContainer = styled.div<{ carouselHeight: number }>`
@@ -174,6 +182,7 @@ const StDotContainer = styled.div<{ carouselHeight: number }>`
   display: flex;
   position: relative;
   justify-content: center;
-  bottom: ${(props) => props.carouselHeight / 2 - 80}px;
+  // bottom: ${(props) => props.carouselHeight / 2}px;
+  bottom: 100px;
 `;
 export default Banner;

@@ -59,7 +59,7 @@ function Header({}: Props) {
   return (
     <>
       {isModalOpened && <Modal>{modalContentsFunc(modalContents)}</Modal>}
-      <StHeader>
+      <StHeader className="header">
         <StHeaderContainer>
           <StHeaderLogoSection
             onClick={() => {
