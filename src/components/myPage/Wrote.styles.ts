@@ -127,7 +127,7 @@ export const Post = {
   line: styled.div`
     border-bottom: 1px solid #ccc;
     width: 900px;
-    height: 57px;
+    height: 56px;
     color: #000;
     font-size: 24px;
     font-style: normal;
