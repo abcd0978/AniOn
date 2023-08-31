@@ -57,7 +57,7 @@ const EditorComponent = ({ onChange, value = '' }: Props) => {
 
   return (
     <ReactQuill
-      value={value}
+      defaultValue={value}
       ref={quillRef}
       onChange={changeContent}
       className="myEditor"
