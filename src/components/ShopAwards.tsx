@@ -33,39 +33,18 @@ const ShopAwardList = () => {
 
   // 보유중인 칭호 불러오기
   const inventoryQueryOptions = {
-    queryKey: ['myAwards', user],
+    queryKey: ['myAwards'],
     queryFn: () => fetchMyAwards(user!.id),
     refetchOnWindowFocus: false,
     enabled: !!user,
   };
   const { data: myAwards } = useQuery(inventoryQueryOptions);
 
+  console.log('my', myAwards);
   // 구매 후 invalidate를 위한 mutation
-  const buyMutation = useMutation(purchase, {
-    onSuccess: () => {
-      queryClient.invalidateQueries(['myAwards']);
-    },
-    onError: (error) => {
-      alert(`toggleAnimeLike 오류가 발생했습니다. : ${error}`);
-    },
-  });
 
   // 구매 여부 판단을 위한 배열
   const purchasedItemIds = myAwards?.map((item) => item.item_id) || [];
-
-  const handleBuyClick = (item_id: string) => {
-    if (!user) {
-      return;
-    }
-
-    const isConfirm = window.confirm('구매 하시겠습니까?');
-    if (!isConfirm) {
-      return;
-    }
-
-    // 구매
-    buyMutation.mutate({ item_id, user_id: user.id });
-  };
 
   return (
     <GridContainer>
