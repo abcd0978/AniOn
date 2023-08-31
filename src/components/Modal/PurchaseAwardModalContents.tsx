@@ -4,13 +4,40 @@ import { useAtomValue, useSetAtom } from 'jotai';
 import * as itemApi from '../../api/items';
 import * as userStore from '../../store/userStore';
 import * as modalStore from '../../store/modalStore';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 type Props = {};
 
 const PurchaseAwardModalContents = (props: Props) => {
+  const queryClient = useQueryClient();
   const user = useAtomValue(userStore.user);
   const isModalOpened = useSetAtom(modalStore.isModalOpened);
   const awardContents = useAtomValue(modalStore.awardModalContent);
   const setModalContents = useSetAtom(modalStore.modalContents);
+
+  const purchaseMutation = useMutation(itemApi.purchase, {
+    onMutate: (variables) => {
+      console.log('onMutate', variables);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries(['myAwards']);
+      setModalContents('afterPurchase');
+    },
+    onError: (error) => {
+      alert(`구매에 실패하였습니다. : ${error}`);
+    },
+  });
+
+  const handlerPurchaseButtonClick = async (item_id: string) => {
+    if (!user) {
+      return;
+    }
+    const data = await purchaseMutation.mutateAsync({
+      item_id,
+      user_id: user.id,
+    });
+    console.log('뮤테이션', data);
+  };
+
   return (
     <StPurchaseConfirmModalContainer>
       <StPreviewAndWords>
@@ -57,14 +84,7 @@ const PurchaseAwardModalContents = (props: Props) => {
           취소
         </StCancelButton>
         <StConfirmButton
-          onClick={async () => {
-            const result = await itemApi.purchase({
-              user_id: user?.id!,
-              item_id: awardContents?.id!,
-            });
-            if (result.success) setModalContents('afterPurchase');
-            else alert(result.msg);
-          }}
+          onClick={() => handlerPurchaseButtonClick(awardContents!.id)}
         >
           구매
         </StConfirmButton>
