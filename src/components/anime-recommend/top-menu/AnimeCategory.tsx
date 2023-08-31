@@ -13,11 +13,12 @@ const AnimeCategory = () => {
   const [genres, setGenres] = useAtom(selectedGenresAtom);
   const category = useAtomValue(selectedCategoryAtom);
   const [years, setYears] = useAtom(selectedYearsAtom);
+
   const handleClick = (item: Genres | Years) => {
-    if (category === '분기') {
+    if (category === '분기별') {
       // '분기'
       setYears(item as Years);
-    } else if (category === '장르') {
+    } else if (category === '장르별') {
       // '장르'
       toggleGenre(item as Genres);
     }
@@ -36,10 +37,10 @@ const AnimeCategory = () => {
   let enumToShow;
 
   switch (category) {
-    case '분기':
+    case '분기별':
       enumToShow = Years; // 분기 카테고리에서는 분기 enum
       break;
-    case '장르':
+    case '장르별':
       enumToShow = Genres; // 장르 카테고리에서는 장르 enum
       break;
     default:
@@ -57,7 +58,7 @@ const AnimeCategory = () => {
             // category가 분기이고 years === item이면 true.
             // category가 분기가 아니면 genres에 item이 있으면 true.
             $isSelected={
-              category === '분기'
+              category === '분기별'
                 ? years === item
                 : genres?.includes(item) ?? false
             }

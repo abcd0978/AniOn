@@ -51,30 +51,15 @@ const AnimeCategory = () => {
 
   return (
     <S.CategoryContainer>
-      <S.CategoryButton
-        $isSelected={selectedCategory === '전체'}
-        onClick={() => handleCategoryClick('전체')}
-      >
-        전체
-      </S.CategoryButton>
-      <S.CategoryButton
-        $isSelected={selectedCategory === '장르'}
-        onClick={() => handleCategoryClick('장르')}
-      >
-        장르별
-      </S.CategoryButton>
-      <S.CategoryButton
-        $isSelected={selectedCategory === '분기'}
-        onClick={() => handleCategoryClick('분기')}
-      >
-        분기별
-      </S.CategoryButton>
-      <S.CategoryButton
-        $isSelected={selectedCategory === '방영'}
-        onClick={() => handleCategoryClick('방영')}
-      >
-        방영중
-      </S.CategoryButton>
+      {['전체', '장르별', '분기별', '방영'].map((category) => (
+        <S.CategoryButton
+          key={category}
+          $isSelected={selectedCategory === category}
+          onClick={() => handleCategoryClick(category)}
+        >
+          {category}
+        </S.CategoryButton>
+      ))}
     </S.CategoryContainer>
   );
 };
