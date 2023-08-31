@@ -36,10 +36,10 @@ const MyInvenAward = () => {
   };
   const awardsList = Array.isArray(awards) ? (
     <ul>
-      {awards.map((awards, index) => (
+      {awards.map((award, index) => (
         <li key={index}>
-          {awards.items?.name}
-          <button onClick={() => applyAward(awards.items?.name)}>적용</button>
+          {award.items?.name}
+          <button onClick={() => applyAward(award.items?.name)}>적용</button>
         </li>
       ))}
     </ul>
