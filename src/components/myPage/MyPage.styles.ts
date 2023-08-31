@@ -19,7 +19,6 @@ export const Profile = {
     margin-top: 20px;
   `,
   MyNickname: styled.div`
-    margin-left: 80px;
     width: 120px;
     color: #000;
     font-size: 24px;
@@ -41,6 +40,7 @@ export const Profile = {
   MyProfileContainer: styled.div`
     display: flex;
     flex-direction: column;
+    justify-contents: center;
     align-items: center;
     margin-top: 20px;
   `,
