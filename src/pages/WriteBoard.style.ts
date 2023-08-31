@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 const S = {
   Title: styled.div<{ width?: number }>`
-    font-size: 22px;
+    font-size: 32px;
     font-weight: 700;
     margin-top: 20px;
     margin-bottom: 20px;
@@ -73,8 +73,9 @@ const S = {
     padding: 8px;
     border: none;
     border-radius: 8px;
-    border: 1px #dbdbdb solid;
+    // border: 1px #c88fff solid;
     cursor: pointer;
+    background-color: #f9f3ff;
   `,
 
   Input: styled.input<{ width?: number }>`
@@ -82,7 +83,8 @@ const S = {
     padding: 10px;
     outline: none;
     border-radius: 8px;
-    background-color: #f5f5f5;
+    background-color: #f9f3ff;
+    // border: 1px #c88fff solid;
     border: none;
     margin-right: 40px;
   `,
@@ -101,11 +103,10 @@ const S = {
   ButtonContainer: styled.div<{ width?: number }>`
     width: 100%;
     height: 40px;
-    margin-top: 40px;
+    margin-top: 45px;
     margin-right: 40px;
     display: flex;
     justify-content: flex-end;
-    // margin-top: 5px;
   `,
   Button: styled.button<{ width?: number }>`
     background-color: #757575;

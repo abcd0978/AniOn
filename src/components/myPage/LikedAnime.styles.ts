@@ -42,7 +42,7 @@ export const Anime = {
 
   PosterContainer: styled.div`
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 30px;
     row-gap: 40px;
     margin-left: 0px;
@@ -95,5 +95,5 @@ export const Anime = {
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
-}`,
+  `,
 };

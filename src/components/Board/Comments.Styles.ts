@@ -132,3 +132,9 @@ export const CommentBox = styled.div`
   margin-left: 55px;
   line-height: 1.6;
 `;
+export const Page = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+`;

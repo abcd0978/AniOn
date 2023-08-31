@@ -5,7 +5,9 @@ import ShopAwardList from '../components/ShopAwards';
 import ShopBorder from './ShopBorder';
 
 const Shop = () => {
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(
+    'Border',
+  );
 
   const handleCategoryClick = (category: string) => {
     setSelectedCategory(category);

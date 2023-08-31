@@ -36,10 +36,10 @@ const AnimeCategory = () => {
   let enumToShow;
 
   switch (category) {
-    case '분기':
+    case '분기별':
       enumToShow = Years; // 분기 카테고리에서는 분기 enum
       break;
-    case '장르':
+    case '장르별':
       enumToShow = Genres; // 장르 카테고리에서는 장르 enum
       break;
     default:

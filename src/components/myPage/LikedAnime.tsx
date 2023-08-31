@@ -15,15 +15,15 @@ import viewDetail from '../../assets/viewdetail.svg';
 import LikeSvg from '../anime-recommend/LikeSvg';
 import { AnimeG } from '../../types/anime';
 import { styled } from 'styled-components';
-
-// type ReadMyLike = Database['public']['Tables']['anime_likes']['Row'];
+import { Container } from './EditProfile';
+type ReadMyLike = Database['public']['Tables']['anime_likes']['Row'];
 interface Props {
   anime: AnimeG;
   likesCount: (anime_id: string) => number;
   isLike: (anime_id: string) => boolean;
   handleLike: (anime_id: string) => void;
 }
-const itemsPerPage = 6;
+const itemsPerPage = 8;
 const LikedAnime = () => {
   const [likedAnime, setLikedAnime] = useState<
     {
@@ -39,23 +39,21 @@ const LikedAnime = () => {
   const user = useAtomValue(userStore.user);
   const navigate = useNavigate();
   const [page, setPage] = useState<number>(1);
-  // const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  // const [searchKeyword, setSearchKeyword] = useState<string>('');
-
-  // 리액트 쿼리로 수정해보기.
-  // const {
-  //   data: postsAndTotalPages,
-  //   isLoading,
-  //   isFetching,
-  // } = useQuery<{ data: ReadMyLike[]; totalPages: number }>(
-  //   ['posts', selectedCategory, searchKeyword, page],
-  //   () => getAnimeById(selectedCategory || ''),
-  //   {
-  //     onError: (error) => {
-  //       console.error('Error fetching posts:', error);
-  //     },
-  //   },
-  // );
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [searchKeyword, setSearchKeyword] = useState<string>('');
+  const {
+    data: postsAndTotalPages,
+    isLoading,
+    isFetching,
+  } = useQuery<{ data: ReadMyLike[]; totalPages: number }>(
+    ['posts', selectedCategory, searchKeyword, page],
+    () => getAnimeById(selectedCategory || ''),
+    {
+      onError: (error) => {
+        console.error('Error fetching posts:', error);
+      },
+    },
+  );
 
   useEffect(() => {
     const fetchLikedAnime = async () => {
@@ -98,7 +96,7 @@ const LikedAnime = () => {
   const displayedAnime = likedAnime.slice(startIndex, endIndex);
 
   return (
-    <Anime.Container className="liked-anime-container">
+    <Container className="liked-anime-container">
       <EditTitle>찜한 목록</EditTitle>
       <Anime.PosterContainer className="anime-list">
         {displayedAnime.map((anime) => (
@@ -135,12 +133,12 @@ const LikedAnime = () => {
           </Anime.OnePoster>
         ))}
       </Anime.PosterContainer>
-      <StyledPagination
+      <Pagination
         currentPage={page}
         totalPages={Math.ceil(likedAnime.length / itemsPerPage)}
         onClick={handlePageChange}
       />
-    </Anime.Container>
+    </Container>
   );
 };
 
