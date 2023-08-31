@@ -15,6 +15,8 @@ import DropDown from './DropDown/DropDown';
 import Modal from './Modal/Modal';
 import LoginModalContents from './Modal/LoginModalContents';
 import RegisterModalContents from './Modal/RegisterModalContents';
+import PurchaseConfirmContents from './Modal/PurchaseConfirmContents';
+import AfterPurchaseModalContents from './Modal/AfterPurchaseModalContents';
 import { useNavigate } from 'react-router-dom';
 type Props = {};
 
@@ -34,6 +36,12 @@ function Header({}: Props) {
       }
       case 'register': {
         return <RegisterModalContents />;
+      }
+      case 'border': {
+        return <PurchaseConfirmContents />;
+      }
+      case 'afterPurchase': {
+        return <AfterPurchaseModalContents />;
       }
     }
   };

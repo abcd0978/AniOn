@@ -9,11 +9,9 @@ type Props = {
 
 const Modal = (props: Props) => {
   const [modal, setModal] = useAtom(modalStore.isModalOpened);
-  const [modalContents, setModalContents] = useAtom(modalStore.modalContents);
   return (
     <StModalBackGround
       onClick={() => {
-        setModalContents('login');
         setModal(false);
       }}
     >
