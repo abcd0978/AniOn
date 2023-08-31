@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { useAtomValue } from 'jotai';
 import * as userStore from '../../store/userStore';
-import { fetchMyTitles } from '../../api/items';
+import { fetchMyAwards } from '../../api/items';
 
 const MyInvenAward = () => {
   const user = useAtomValue(userStore.user);
@@ -13,7 +13,7 @@ const MyInvenAward = () => {
     ['myAwards', user?.id],
     async () => {
       if (!user?.id) return [];
-      const result = await fetchMyTitles(user.id);
+      const result = await fetchMyAwards(user.id);
       return result;
     },
     {
@@ -35,7 +35,7 @@ const MyInvenAward = () => {
   const awardsList = Array.isArray(awards) ? (
     <ul>
       {awards.map((awards, index) => (
-        <li key={index}>{awards?.name}</li>
+        <li key={index}>{awards.items.name}</li>
       ))}
     </ul>
   ) : null;
