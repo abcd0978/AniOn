@@ -59,7 +59,14 @@ function Header({}: Props) {
   return (
     <>
       {isModalOpened && <Modal>{modalContentsFunc(modalContents)}</Modal>}
-      <StHeader className="header">
+      <header
+        style={{
+          height: '80px',
+          display: 'grid',
+          alignItems: 'center',
+          borderBottom: 'solid 1px #d9d9d9',
+        }}
+      >
         <StHeaderContainer>
           <StHeaderLogoSection
             onClick={() => {
@@ -160,7 +167,7 @@ function Header({}: Props) {
             )}
           </StHeaderUserInfoSection>
         </StHeaderContainer>
-      </StHeader>
+      </header>
     </>
   );
 }
@@ -168,13 +175,7 @@ function Header({}: Props) {
 const headerMenuColor = '#999999';
 const headerMenuColorActivated = '#4f4f4f';
 
-const StHeader = styled.div`
-  max-width: 1920px;
-  height: 80px;
-  display: grid;
-  align-items: center;
-  border-bottom: solid 1px #d9d9d9;
-`;
+const StHeader = styled.div``;
 const StHeaderContainer = styled.div`
   margin: auto;
   width: 75%;
