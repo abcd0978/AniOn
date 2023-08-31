@@ -28,14 +28,28 @@ const MyBorder = () => {
   }
   console.log('user', user);
   console.log('borders', borders);
-
-  const borderList = Array.isArray(borders) ? (
-    <ul>
-      {borders.map((borders, index) => (
-        <li key={index}>{borders.items?.name}</li>
-      ))}
-    </ul>
-  ) : null;
+  const applyAward = (awardName: string) => {
+    console.log(`Applying award:${awardName}`);
+  };
+  const filteredBorders = borders.filter((borders) => borders.items !== null);
+  console.log(filteredBorders);
+  const borderList =
+    Array.isArray(filteredBorders) && filteredBorders.length > 0 ? (
+      <ul>
+        {filteredBorders.map((filteredBorders, index) => (
+          <li key={index}>
+            {filteredBorders.items?.name}
+            <img
+              src={filteredBorders.items?.img_url}
+              alt={filteredBorders.items?.name}
+            />
+            <button onClick={() => applyAward(filteredBorders.items?.name)}>
+              적용
+            </button>
+          </li>
+        ))}
+      </ul>
+    ) : null;
   return (
     <div>
       <h2>내 테두리</h2>
