@@ -111,7 +111,9 @@ const MyReviews = () => {
       <ul>
         {userReview.slice(startIndex, endIndex).map((review) => (
           <li key={review.id}>
-            <div>{/* <div>{animeTitles[review.ani_id]}</div> */}</div>
+            <div>
+              <div>{animeTitles[review.ani_id]}</div>
+            </div>
             <Review.Divide>
               <Review.ReviewComments>{review.comment}</Review.ReviewComments>
               <Review.ButtonContainer>
