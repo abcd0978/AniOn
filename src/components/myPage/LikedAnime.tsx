@@ -41,7 +41,6 @@ const LikedAnime = () => {
   const [page, setPage] = useState<number>(1);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [searchKeyword, setSearchKeyword] = useState<string>('');
-
   const {
     data: postsAndTotalPages,
     isLoading,
@@ -119,6 +118,22 @@ const LikedAnime = () => {
               alt={anime.name}
             />
             <S.CardTitle>{anime.anime.name}</S.CardTitle>
+            <HoverInfo>
+              <S.HoverGenre key={anime.anime.id}>
+                <S.GenreText>{anime.anime.genres![0]}</S.GenreText>
+              </S.HoverGenre>
+              <S.HoverTitleAndDetail>
+                <S.HoverTitle>{anime.name}</S.HoverTitle>
+                <S.HoverViewDetail>
+                  <p>자세히 보기</p>
+                  <img
+                    className="viewDetail"
+                    src={viewDetail}
+                    alt="viewdetail"
+                  />
+                </S.HoverViewDetail>
+              </S.HoverTitleAndDetail>
+            </HoverInfo>
           </Anime.OnePoster>
         ))}
       </Anime.PosterContainer>
@@ -132,3 +147,12 @@ const LikedAnime = () => {
 };
 
 export default LikedAnime;
+const StyledPagination = styled(Pagination)`
+  color: pink;
+  font-size: 100px;
+  margin: 10px;
+
+  .pagination-item {
+    color: blue;
+  }
+`;

@@ -13,17 +13,21 @@ import { getPosts } from '../../api/boardapi';
 import { StyledPostCategory } from './Wrote.styles';
 
 type ReadMyBoard = Database['public']['Tables']['posts']['Row'];
-
+type ReadMyBoardLikes = Database['public']['Tables']['likes']['Row'];
 const userPostsAtom = atom<ReadMyBoard[]>([]);
+const userPostLikeAtom = atom<ReadMyBoardLikes[]>([]);
 
 const WhatIWrote = () => {
   const [userPosts, setUserPosts] = useAtom(userPostsAtom);
+  const [userPostLike, setUserPostLike] = useAtom(userPostLikeAtom);
+
   const navigate = useNavigate();
   const user = useAtomValue(userStore.user);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [searchKeyword, setSearchKeyword] = useState<string>('');
   const [selectedPosts, setSelectedPosts] = useState<string[]>([]);
   const [page, setPage] = useState<number>(1);
+  const itemsPerPage = 12;
   const {
     data: postsAndTotalPages,
     isLoading,
@@ -77,6 +81,35 @@ const WhatIWrote = () => {
   useEffect(() => {
     fetchUserPosts();
   }, [setUserPosts, user]);
+  const fetchUserPostLikes = async () => {
+    try {
+      if (!user) {
+        return;
+      }
+      const { data, error } = await supabase
+        .from('likes')
+        .select('post_id')
+        .eq('user_id', user.id);
+
+      if (error) {
+        console.error('fetchUserPostLikes에서 에러', error);
+      } else {
+        const userLikes = data.map((like) => ({
+          id: '',
+          post_id: like.post_id,
+          user_id: user.id,
+        }));
+        console.log('User post likes fetched:', userLikes);
+        setUserPostLike(userLikes);
+      }
+    } catch (error) {
+      console.error('fetchUserPostLikes 에러', error);
+    }
+  };
+  useEffect(() => {
+    fetchUserPosts();
+    fetchUserPostLikes();
+  }, [setUserPosts, setUserPostLike, user]);
 
   const handlePostClick = (id: string) => {
     navigate(`/board/${id}`);

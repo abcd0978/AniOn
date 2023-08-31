@@ -23,7 +23,6 @@ if (!supabaseUrl || !supabaseAnonKey) {
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 type ReadAniComment = Database['public']['Tables']['ani_comments']['Row'];
-const itemsPerPage = 4;
 
 const userReviewAtom = atom<ReadAniComment[]>([]);
 interface Props {
@@ -110,7 +109,7 @@ const MyReviews = () => {
       <EditTitle>리뷰 이력</EditTitle>
       <Divider />
       <ul>
-        {userReview.map((review) => (
+        {userReview.slice(startIndex, endIndex).map((review) => (
           <li key={review.id}>
             <div>{/* <div>{animeTitles[review.ani_id]}</div> */}</div>
             <Review.Divide>

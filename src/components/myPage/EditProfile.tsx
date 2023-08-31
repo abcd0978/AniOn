@@ -107,8 +107,18 @@ const EditProfile = () => {
   };
   const handleSubmitNickname = async (event: React.FormEvent) => {
     event.preventDefault();
+    if (!nicknameDupChecked) {
+      alert('닉네임 중복 확인을 먼저 해주세요.');
+      return;
+    }
 
     try {
+      const validationResult = validateNickname(newNickname);
+      if (validationResult.error) {
+        setNicknameError(validationResult);
+        return;
+      }
+
       const { data, error } = await supabase
         .from('users')
         .update({ nickname: newNickname })
@@ -262,27 +272,6 @@ const EditProfile = () => {
             </>
           )}
         </Item>
-
-        {/* <Item>
-          <Label>비밀번호</Label>
-          {editMode === 'password' ? (
-            <form onSubmit={handleSubmitPassword}>
-              <Input
-                type="text"
-                value={newPassword}
-                onChange={handlePasswordChange}
-                placeholder="New Password"
-              />
-              <Button type="submit">완료</Button>
-              <Button onClick={() => setEditMode('')}>취소</Button>
-            </form>
-          ) : (
-            <>
-              <div>{user?.password}</div>
-              <Button onClick={() => setEditMode('password')}>변경</Button>
-            </>
-          )}
-        </Item> */}
         <Divider />
       </Container>
     );
