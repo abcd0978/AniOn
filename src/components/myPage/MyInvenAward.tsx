@@ -31,11 +31,16 @@ const MyInvenAward = () => {
 
   console.log('user', user);
   console.log('awards', awards);
-
+  const applyAward = (awardName: string) => {
+    console.log(`Applying award:${awardName}`);
+  };
   const awardsList = Array.isArray(awards) ? (
     <ul>
       {awards.map((awards, index) => (
-        <li key={index}>{awards.items.name}</li>
+        <li key={index}>
+          {awards.items?.name}
+          <button onClick={() => applyAward(awards.items?.name)}>적용</button>
+        </li>
       ))}
     </ul>
   ) : null;

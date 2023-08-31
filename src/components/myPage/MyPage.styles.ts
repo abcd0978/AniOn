@@ -34,7 +34,7 @@ export const Profile = {
     background: #fdfbff;
     box-shadow: 0px 0px 25px 0px rgba(0, 0, 0, 0.1);
     width: 300px;
-    height: 628.5px;
+    height: 700px;
     padding: 20px;
     margin-top: 20px;
   `,
@@ -42,6 +42,7 @@ export const Profile = {
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-top: 20px;
   `,
 };
 
@@ -60,6 +61,7 @@ export const InfoMenu = {
     align-items: center;
     gap: 8px;
     width: 170px;
+
     background-color: transparent;
     border-color: transparent;
     color: #838383;
@@ -152,7 +154,7 @@ export const InfoMenu = {
   InfoButtonContainer: styled.div`
     display: flex;
     margin-left: 25px;
-    margin-top: 30px;
+    margin-top: 70px;
   `,
   InfoButton: styled.button`
     background-color: transparent;
@@ -166,12 +168,12 @@ export const InfoMenu = {
 export const MyAward = {
   MyProfileAward: styled.div`
     display: flex;
-    width: 200px;
+    width: 160px;
+    height: 28px;
     padding: 8px;
     justify-content: center;
     align-items: center;
     gap: 8px;
-    border-radius: 20px;
     border: 1px solid #d9d9d9;
     margin-top: 20px;
     margin-bottom: 20px;
