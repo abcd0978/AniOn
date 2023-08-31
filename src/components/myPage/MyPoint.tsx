@@ -1,40 +1,44 @@
-import React, { useEffect, useState } from 'react';
-import { user as userAtom } from '../../store/userStore';
-import { fetchMyPoint } from '../../api/items';
-import { MyProfilePoint } from './MyPage.styles';
-// import { fetchMyPoint } from '../../api/items';
-import supabase from '../../supabaseClient';
-import * as userStore from '../../store/userStore';
-import { useAtomValue, useSetAtom } from 'jotai';
-import { Deco } from './Deco.styles';
 import { useQuery } from '@tanstack/react-query';
+import { fetchMyPoint } from '../../api/items';
+import { useAtomValue } from 'jotai';
+import * as userStore from '../../store/userStore';
 
-const MyProfile = () => {
-  const user = useAtomValue(userAtom);
-  const [myPoint, setMyPoint] = useState<number | undefined>(undefined);
+const MyPoint = () => {
+  const user = useAtomValue(userStore.user);
 
-  useEffect(() => {
-    const fetchPoint = async () => {
-      if (user) {
-        try {
-          const point = await fetchMyPoint(user.id);
-          if (point !== null) {
-            setMyPoint(point);
-          }
-        } catch (error) {
-          console.error('Error fetching point:', error);
-        }
-      }
-    };
+  const {
+    isLoading,
+    isError,
+    data: point,
+  } = useQuery(
+    ['myPoint', user?.id],
+    async () => {
+      if (!user?.id) return null;
+      const result = await fetchMyPoint(user.id);
+      if (result === undefined) return null;
+      return result;
+    },
+    {
+      enabled: !!user?.id,
+    },
+  );
 
-    fetchPoint();
-  }, [user]);
+  if (isLoading) {
+    return <div>로딩중! </div>;
+  }
+
+  if (isError) {
+    return <div>Error</div>;
+  }
+  console.log('user', user, 'point', point);
 
   return (
     <div>
-      <div>{myPoint !== undefined ? myPoint : '로딩 중...'}</div>
+      <div>
+        <div>{point}</div>
+      </div>
     </div>
   );
 };
 
-export default MyProfile;
+export default MyPoint;
