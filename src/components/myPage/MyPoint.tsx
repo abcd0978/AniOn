@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { fetchMyPoint } from '../../api/items';
 import { useAtomValue } from 'jotai';
 import * as userStore from '../../store/userStore';
+import { styled } from 'styled-components';
 
 const MyPoint = () => {
   const user = useAtomValue(userStore.user);
@@ -35,10 +36,26 @@ const MyPoint = () => {
   return (
     <div>
       <div>
-        <div>{point}</div>
+        <Point>보유 P {point}</Point>
       </div>
     </div>
   );
 };
 
 export default MyPoint;
+
+const Point = styled.div`
+  width: 132px;
+  height: 34px;
+  background-color: #f3e7ff;
+  text-align: center;
+  color: #4f4f4f;
+  border-radius: 10px;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
