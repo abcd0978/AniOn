@@ -3,11 +3,23 @@ import * as S from './Shop.style';
 import { useState } from 'react';
 import ShopAwardList from '../components/ShopAwards';
 import ShopBorder from './ShopBorder';
+import { useQuery } from '@tanstack/react-query';
+import { fetchMyPoint } from '../api/items';
+import { useAtomValue } from 'jotai';
+import * as userStore from '../store/userStore';
 
 const Shop = () => {
+  const user = useAtomValue(userStore.user);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(
     'Border',
   );
+
+  //현재 포인트 불러오기
+  const { data: userPoint } = useQuery({
+    queryKey: ['userPoint'],
+    queryFn: () => fetchMyPoint(user?.id!),
+    enabled: !!user,
+  });
 
   const handleCategoryClick = (category: string) => {
     setSelectedCategory(category);
@@ -49,7 +61,7 @@ const Shop = () => {
               칭호
             </S.Button>
           </S.ButtonBox>
-          <S.Point>보유 P 1,500</S.Point>
+          <S.Point>보유 P {userPoint}</S.Point>
         </S.ButtonContainer>
       </S.Top>
       {renderSelectedCategory()}

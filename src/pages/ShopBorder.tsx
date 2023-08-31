@@ -20,7 +20,7 @@ const ShopBorder = () => {
     queryKey: ['purchasedBorders'],
     queryFn: async () => {
       const data = await itemApi.fetchMyBorders(user?.id!);
-      console.log(data);
+      // console.log(data);
       return data;
     },
     refetchOnWindowFocus: false,
