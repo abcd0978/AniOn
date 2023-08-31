@@ -74,7 +74,7 @@ export const fetchMyBorders = async (user_id: string) => {
   try {
     const { data, error } = await supabase
       .from('inventory')
-      .select('*, items(*)')
+      .select('*, items!inner(*)')
       .eq('items.category', 0)
       .eq('user_id', user_id);
     if (error) {
