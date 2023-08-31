@@ -1,59 +1,102 @@
 // import { MyProfilePoint } from './MyPage.styles';
+import React, { useState } from 'react';
 import { Database } from '../types/supabase';
 import { styled } from 'styled-components';
-import { atom, useAtom, useAtomValue } from 'jotai';
-import React, { useEffect, useState } from 'react';
+import { useAtomValue } from 'jotai';
 import * as userStore from '../store/userStore';
-import supabase from '../supabaseClient';
-type ReadAwards = Database['public']['Tables']['items']['Row'];
-const awardsAtom = atom<ReadAwards[]>([]);
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import {
+  fetchAwards,
+  fetchMyAwards,
+  purchase,
+  purchaseRes,
+} from '../api/items';
+// type ReadAwards = Database['public']['Tables']['items']['Row'];
 
 const ShopAwardList = () => {
-  const [awards, setAwards] = useAtom(awardsAtom);
+  const queryClient = useQueryClient();
   const [page, setPage] = useState<number>(1);
   const user = useAtomValue(userStore.user);
 
   const itemsPerPage = 16;
-  const fetchAwards = async () => {
-    try {
-      if (!user) {
-        return;
-      }
-      const { data, error } = await supabase
-        .from('items')
-        .select('*')
-        .eq('category', 1);
 
-      if (error) {
-        console.error('fetchAwards에서 에러', error);
-      } else {
-        console.log('Awards fetched:', data);
-        setAwards(data);
-      }
-    } catch (error) {
-      console.error('fetchAwards 에러', error);
-    }
+  // 상점에 판매중인 칭호 불러오기
+  const awardsQueryOptions = {
+    queryKey: ['awards'],
+    queryFn: () => fetchAwards(),
+    refetchOnWindowFocus: false,
   };
-  useEffect(() => {
-    fetchAwards();
-  }, [user]);
+  const { data: awards, isLoading } = useQuery(awardsQueryOptions);
+
+  // 보유중인 칭호 불러오기
+  const inventoryQueryOptions = {
+    queryKey: ['myAwards', user],
+    queryFn: () => fetchMyAwards(user!.id),
+    refetchOnWindowFocus: false,
+    enabled: !!user,
+  };
+  const { data: myAwards } = useQuery(inventoryQueryOptions);
+
+  // 구매 후 invalidate를 위한 mutation
+  const buyMutation = useMutation(purchase, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(['myAwards']);
+    },
+    onError: (error) => {
+      alert(`toggleAnimeLike 오류가 발생했습니다. : ${error}`);
+    },
+  });
+
+  // 구매 여부 판단을 위한 배열
+  const purchasedItemIds = myAwards?.map((item) => item.item_id) || [];
+
+  const handleBuyClick = (item_id: string) => {
+    if (!user) {
+      return;
+    }
+
+    const isConfirm = window.confirm('구매 하시겠습니까?');
+    if (!isConfirm) {
+      return;
+    }
+
+    // 구매
+    buyMutation.mutate({ item_id, user_id: user.id });
+  };
 
   return (
     <GridContainer>
       <GridContainer>
-        {awards
-          .slice((page - 1) * itemsPerPage, page * itemsPerPage)
-          .map((items) => {
-            return (
-              <div key={items.id}>
-                <AwardName>{items.name}</AwardName>
-                <ShopMenu>
-                  <AwardPrice>{items.price}포인트</AwardPrice>
-                  <BuyButton>구매하기</BuyButton>
-                </ShopMenu>
-              </div>
-            );
-          })}
+        {isLoading && !awards
+          ? [
+              ...Array(16).map((_, index) => (
+                <div>
+                  <AwardName></AwardName>
+                  <ShopMenu>
+                    <AwardPrice>포인트</AwardPrice>
+                    <BuyButton>구매하기</BuyButton>
+                  </ShopMenu>
+                </div>
+              )),
+            ]
+          : awards
+              ?.slice((page - 1) * itemsPerPage, page * itemsPerPage)
+              .map((item) => {
+                return (
+                  <div key={item.id}>
+                    <AwardName>{item.name}</AwardName>
+                    <ShopMenu>
+                      <AwardPrice>{item.price}포인트</AwardPrice>
+                      <BuyButton
+                        onClick={() => handleBuyClick(item.id)}
+                        disabled={purchasedItemIds?.includes(item.id) || !user}
+                      >
+                        구매하기
+                      </BuyButton>
+                    </ShopMenu>
+                  </div>
+                );
+              })}
       </GridContainer>
     </GridContainer>
   );
@@ -66,11 +109,13 @@ const GridContainer = styled.div`
   gap: 10px;
   padding: 10px;
 `;
-const Container = styled.div`
-  width: 280px;
 
-  margin-top: 40px;
-`;
+// const Container = styled.div`
+//   width: 280px;
+
+//   margin-top: 40px;
+// `;
+
 const AwardName = styled.div`
   background-color: #efefef;
   padding: 8px;
@@ -90,6 +135,7 @@ const AwardName = styled.div`
   gap: 8px;
   align-self: stretch;
 `;
+
 const AwardPrice = styled.div`
   color: #000;
   font-size: 14px;
@@ -101,6 +147,7 @@ const AwardPrice = styled.div`
   width: 100px;
   height: 32px;
 `;
+
 const BuyButton = styled.button`
   border-radius: 6px;
   border: 1px solid #c88fff;
@@ -108,7 +155,19 @@ const BuyButton = styled.button`
   width: 70px;
   height: 26px;
   font-size: 13px;
+  cursor: pointer;
+  &:hover {
+    background-color: #c88fff;
+    color: white;
+  }
+
+  &:disabled:hover {
+    background-color: white;
+    color: #cccccc;
+    cursor: not-allowed;
+  }
 `;
+
 const ShopMenu = styled.div`
   display: flex;
   width: 220px;
