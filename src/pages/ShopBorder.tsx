@@ -7,7 +7,7 @@ import * as userStore from '../store/userStore';
 import { useAtomValue } from 'jotai';
 const ShopBorder = () => {
   const user = useAtomValue(userStore.user);
-  console.log(user);
+  // console.log(user);
   const getBorders = {
     queryKey: ['borders'],
     queryFn: () => {

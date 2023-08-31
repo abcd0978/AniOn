@@ -2,9 +2,6 @@ import supabase from '../supabaseClient';
 import { InsertAnimeLikeG, ReadAnimeLikeG } from '../types/likes';
 import { getAnimeById } from './laftel';
 
-// const query = supabase.from('movies').select(`id, title`)
-// const movies: DbResult<typeof query> = await query
-
 export const fetchAllAnimeLikes = async (): Promise<ReadAnimeLikeG[]> => {
   try {
     const { data, error } = await supabase.from('anime_likes').select('*');
