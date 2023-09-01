@@ -7,7 +7,11 @@ import React, { useEffect, useState } from 'react';
 import { AnimeG } from '../../types/anime';
 import { useNavigate } from 'react-router-dom';
 import { Anime } from './LikedAnime.styles';
+import { styled } from 'styled-components';
+import Pagination from '../Pagenation';
 const LikedAnime = () => {
+  const [page, setPage] = useState<number>(1);
+
   const [animeTitles, setAnimeTitles] = useState<Record<string, AnimeG>>({});
   const user = useAtomValue(userStore.user);
   const navigate = useNavigate();
@@ -55,19 +59,48 @@ const LikedAnime = () => {
   if (isError) {
     return <div>좋아요 목록을 불러오지 못했어요</div>;
   }
-
+  const itemsPerPage = 8;
+  const startIndex = (page - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const displayedAnime = liked.slice(startIndex, endIndex);
+  const handlePageChange = (selected: number | string) => {
+    if (typeof selected === 'number') {
+      setPage(selected);
+    }
+  };
   const likedList = Array.isArray(liked) ? (
-    <Anime.OnePoster>
-      {liked.map((like, index) => (
-        <li key={index} onClick={() => navigate(`/recommend/${like.anime_id}`)}>
-          <Anime.Poster src={animeTitles[like.anime_id]?.img} />
-          {animeTitles[like.anime_id]?.name}
-        </li>
-      ))}
-    </Anime.OnePoster>
+    <Anime.Container>
+      찜한 목록
+      <GridContainer>
+        {displayedAnime.map((like, index) => (
+          <Anime.OnePoster
+            key={index}
+            onClick={() => navigate(`/recommend/${like.anime_id}`)}
+          >
+            <Anime.Poster src={animeTitles[like.anime_id]?.img} />
+            {animeTitles[like.anime_id]?.name}
+          </Anime.OnePoster>
+        ))}
+      </GridContainer>
+    </Anime.Container>
   ) : null;
 
-  return <div>{likedList}</div>;
+  return (
+    <div>
+      {likedList}
+      <Pagination
+        currentPage={page}
+        totalPages={Math.ceil(liked.length / itemsPerPage)}
+        onClick={handlePageChange}
+      />
+    </div>
+  );
 };
 
 export default LikedAnime;
+
+const GridContainer = styled.div`
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+`;
