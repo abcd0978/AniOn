@@ -2,6 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import useViewport from '../../hooks/useViewPort';
 import type { DropdownContentsType } from './DropDown';
+import { isDropDownOn } from '../../store/dropDownStore';
+import { useSetAtom } from 'jotai';
 type Props = {
   data: DropdownContentsType;
   NumOfChildren: number;
@@ -10,7 +12,7 @@ type Props = {
 
 function DropDownContents({ data, NumOfChildren, index }: Props) {
   const { width } = useViewport();
-
+  const setIsDropDownOn = useSetAtom(isDropDownOn);
   const processOrder = (): number => {
     if (NumOfChildren === 1 && index === 1) {
       //처음인데 하나밖에 없을때
@@ -31,7 +33,10 @@ function DropDownContents({ data, NumOfChildren, index }: Props) {
       className={'dropdoen_menu'}
       mediaWidth={width}
       order={processOrder()}
-      onClick={data.func}
+      onClick={() => {
+        data.func();
+        setIsDropDownOn(false);
+      }}
     >
       {data.img_src && <img src={data.img_src} alt="img" />} {data.content}
     </StDropdownMenu>
