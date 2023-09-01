@@ -4,13 +4,40 @@ import { useAtomValue, useSetAtom } from 'jotai';
 import * as itemApi from '../../api/items';
 import * as userStore from '../../store/userStore';
 import * as modalStore from '../../store/modalStore';
-type Props = {};
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-const PurchaseConfirmContents = (props: Props) => {
+const PurchaseConfirmContents = () => {
+  const queryClient = useQueryClient();
   const user = useAtomValue(userStore.user);
   const isModalOpened = useSetAtom(modalStore.isModalOpened);
   const borderContents = useAtomValue(modalStore.borderModalContent);
   const setModalContents = useSetAtom(modalStore.modalContents);
+
+  const purchaseMutation = useMutation(itemApi.purchase, {
+    onSuccess: (data) => {
+      if (!data.success) {
+        alert(data.msg);
+        return;
+      }
+      queryClient.invalidateQueries(['purchasedBorders']);
+      queryClient.invalidateQueries(['userPoint']);
+      setModalContents('afterPurchase');
+    },
+    onError: (error) => {
+      alert(`구매에 실패하였습니다. : ${error}`);
+    },
+  });
+
+  const handlerPurchaseButtonClick = async (item_id: string) => {
+    if (!user) {
+      return;
+    }
+    await purchaseMutation.mutateAsync({
+      item_id,
+      user_id: user.id,
+    });
+  };
+
   return (
     <StPurchaseConfirmModalContainer>
       <div>
@@ -46,7 +73,7 @@ const PurchaseConfirmContents = (props: Props) => {
               <p
                 style={{
                   color: '#000',
-                  fontFamily: 'Pretendard Variable',
+                  fontFamily: 'Pretendard-Regular',
                   fontSize: '15px',
                   fontStyle: 'normal',
                   fontWeight: '400',
@@ -62,7 +89,7 @@ const PurchaseConfirmContents = (props: Props) => {
               <p
                 style={{
                   color: '#000',
-                  fontFamily: 'Pretendard Variable',
+                  fontFamily: 'Pretendard-Regular',
                   fontSize: '15px',
                   fontStyle: 'normal',
                   fontWeight: '400',
@@ -88,14 +115,7 @@ const PurchaseConfirmContents = (props: Props) => {
           취소
         </StCancelButton>
         <StConfirmButton
-          onClick={async () => {
-            const result = await itemApi.purchase({
-              user_id: user?.id!,
-              item_id: borderContents?.id!,
-            });
-            if (result.success) setModalContents('afterPurchase');
-            else alert(result.msg);
-          }}
+          onClick={() => handlerPurchaseButtonClick(borderContents?.id!)}
         >
           구매
         </StConfirmButton>
@@ -158,7 +178,7 @@ const StBorderNameTypo = styled.p`
   color: #9b00e4;
 
   /* 본문/3 */
-  font-family: Inter;
+  font-family: Pretendard-Regular;
   font-size: 15px;
   font-style: normal;
   font-weight: 700;
@@ -167,7 +187,7 @@ const StBorderNameTypo = styled.p`
 const StPrice = styled.p`
   text-align: -webkit-center;
   color: #000;
-  font-family: Pretendard Variable;
+  font-family: Pretendard-Regular
   font-size: 16px;
   font-style: normal;
   font-weight: 700;
