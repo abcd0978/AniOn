@@ -11,11 +11,11 @@ const Modal = (props: Props) => {
   const [modal, setModal] = useAtom(modalStore.isModalOpened);
   return (
     <StModalBackGround
-      onClick={() => {
+      onMouseDown={() => {
         setModal(false);
       }}
     >
-      <StModalContent onClick={(e) => e.stopPropagation()}>
+      <StModalContent onMouseDown={(e) => e.stopPropagation()}>
         {props.children}
       </StModalContent>
     </StModalBackGround>

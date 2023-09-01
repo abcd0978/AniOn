@@ -11,7 +11,7 @@ export const S = {
 
   AniCommentBox: styled.div`
     width: 1440px;
-    height: 153px;
+    height: 173px;
     border-bottom: 2px solid #d9d9d9;
   `,
 
@@ -101,6 +101,7 @@ export const S = {
 
   AniCommentButtonBox: styled.div`
     float: right;
+    margin-top: 10px;
   `,
 
   AniEditCommentInput: styled.input`

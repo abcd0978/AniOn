@@ -1,4 +1,3 @@
-import { iteratee } from 'lodash';
 import supabase from '../supabaseClient';
 import type { Database } from '../types/supabase';
 type ItemRow = Database['public']['Tables']['items']['Row'] | null;
@@ -23,7 +22,40 @@ export type purchaseRes = {
 // 가격 비교 등 간단한 검사는 supabase(items.ts), 컴포넌트 양쪽에서
 // ------------------------------- 인벤토리 관련 ----------------------------
 // 장착
-// export const
+export const equipItem = async (params: {
+  user_id: string;
+  item_id?: string;
+  category: number;
+}): Promise<purchaseRes> => {
+  try {
+    const equipped = await fetchEquippedItem({
+      user_id: params.user_id,
+      category: params.category,
+    });
+    if (equipped && equipped.item_id !== params.item_id) {
+      await supabase
+        .from('inventory')
+        .update({ is_equipped: false })
+        .eq('item_id', equipped.item_id)
+        .eq('user_id', params.user_id);
+    }
+    await supabase
+      .from('inventory')
+      .update({ is_equipped: true })
+      .eq('item_id', params.item_id)
+      .eq('user_id', params.user_id);
+
+    return {
+      success: true,
+      msg: '칭호를 장착하였습니다.',
+    };
+  } catch (error) {
+    return {
+      success: false,
+      msg: `장착중 오류가 발생했습니다. error : ${error} `,
+    };
+  }
+};
 
 // 전체
 export const fetchMyItems = async (user_id: string) => {
@@ -91,24 +123,47 @@ export const fetchMyBorders = async (user_id: string) => {
 };
 
 // 착용중인 칭호 불러오기
-export const fetchEquippedTitle = async (user_id: string) => {
+export const fetchEquippedItem = async (params: {
+  user_id: string;
+  category: number;
+}) => {
   try {
     const { data, error } = await supabase
       .from('inventory')
       .select('*, items!inner(name)')
-      .eq('items.category', 1)
-      .eq('user_id', user_id)
-      .eq('is_equipped', true);
+      .eq('items.category', params.category)
+      .eq('user_id', params.user_id)
+      .eq('is_equipped', true)
+      .single();
     if (error) {
       console.log('items.ts fetchEquippedTitle error > ', error);
       return '';
     }
-    const item: ItemRow = data[0].items.name;
-    // console.log(item);
+    const item: AwardsRow = data;
     return item;
   } catch (error) {
     console.log('items.ts fetchEquippedTitle error > ', error);
     return '';
+  }
+};
+
+// 착용중인 아이템 전부
+export const fetchEquippedItems = async (user_id: string) => {
+  try {
+    const { data, error } = await supabase
+      .from('inventory')
+      .select('user_id,item_id, items!inner(name,img_url)')
+      .eq('user_id', user_id)
+      .eq('is_equipped', true);
+    if (error) {
+      console.log('items.ts fetchEquippedTitle error > ', error);
+      return [];
+    }
+    console.log('이큅드 아이템', data);
+    return data;
+  } catch (error) {
+    console.log('items.ts fetchEquippedTitle error > ', error);
+    return [];
   }
 };
 

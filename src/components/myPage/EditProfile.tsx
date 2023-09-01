@@ -14,7 +14,6 @@ type ErrorType = {
   errorMsg: string;
 };
 //2 프로필 변경
-type ChangeMyProfile = Database['public']['Tables']['users']['Row'];
 const initialError: ErrorType = { error: false, errorMsg: '' };
 const EditProfile = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -288,7 +287,7 @@ export const Container = styled.div`
   gap: 16px;
   align-items: flex-start;
   position: relative;
-  top: -270px;
+  top: -320px;
   margin-left: 160px;
 `;
 
