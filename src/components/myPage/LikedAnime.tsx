@@ -1,137 +1,72 @@
-import React, { useEffect, useState } from 'react';
+import { useAtomValue } from 'jotai';
 import { fetchAllAnimeMyLikes } from '../../api/likeApi';
 import { getAnimeById } from '../../api/laftel';
-import { useAtomValue } from 'jotai';
 import * as userStore from '../../store/userStore';
-import { useNavigate } from 'react-router-dom';
-import { Anime } from './LikedAnime.styles';
-import { EditTitle } from './EditProfile';
-import { S } from '../anime-recommend/styled.AnimeCard';
-import Pagination from '../Pagenation';
 import { useQuery } from '@tanstack/react-query';
-import { HoverInfo } from '../anime-recommend/styled.AnimeCard';
-import viewDetail from '../../assets/viewdetail.svg';
-import { Container } from './EditProfile';
-// type ReadMyLike = Database['public']['Tables']['anime_likes']['Row'];
+import React, { useEffect, useState } from 'react';
+import { AnimeG } from '../../types/anime';
 
-const itemsPerPage = 8;
 const LikedAnime = () => {
-  const [likedAnime, setLikedAnime] = useState<
-    {
-      images: any;
-      img: string | undefined;
-      name: string | undefined;
-      anime_id: string;
-      genres: [];
-    }[]
-  >([]);
-
+  const [animeTitles, setAnimeTitles] = useState<Record<string, AnimeG>>({});
   const user = useAtomValue(userStore.user);
-  const navigate = useNavigate();
-  const [page, setPage] = useState<number>(1);
 
-  const likedAnimeQueryOptions = {
-    queryKey: ['myPageLikedAnime'],
-    queryFn: () => fetchAllAnimeMyLikes(user!.id),
-    refetchOnWindowFocus: false,
-    enabled: !!user,
-  };
-  const { data: likedList } = useQuery(likedAnimeQueryOptions);
+  const {
+    isLoading,
+    isError,
+    data: liked,
+  } = useQuery(
+    ['likedAnime', user?.id],
+    async () => {
+      if (!user?.id) return [];
+      const result = await fetchAllAnimeMyLikes(user.id);
+      return result;
+    },
+    { enabled: !!user?.id },
+  );
 
   useEffect(() => {
-    const fetchLikedAnime = async () => {
-      try {
-        if (!likedList) {
-          return;
+    if (liked && liked.length > 0) {
+      const fetchAnimeDetails = async () => {
+        const animePromises = liked.map((like) => getAnimeById(like.anime_id));
+
+        try {
+          const animeDataList = await Promise.all(animePromises);
+
+          const newAnimeTitles: Record<string, AnimeG> = {};
+          for (let i = 0; i < liked.length; i++) {
+            newAnimeTitles[liked[i].anime_id] = animeDataList[i];
+          }
+
+          setAnimeTitles(newAnimeTitles);
+        } catch (error) {
+          console.error('Error fetching anime details:', error);
         }
+      };
 
-        const animeIds = likedList.map((like) => like.anime_id);
-
-        const animeDataPromises = animeIds.map(async (like) => {
-          const anime = await getAnimeById(like);
-          const anime_id = like.anime_id;
-          const images = anime.images || [];
-          const img = images.length !== 0 ? images[0].img_url : undefined;
-          const name = anime.name;
-          const genres = anime.genres;
-
-          return { anime_id, genres, images, img, name };
-        });
-
-        const animeData = await Promise.all(animeDataPromises);
-        setLikedAnime(animeData);
-      } catch (error) {
-        console.error('Error fetching liked anime:', error);
-      }
-    };
-
-    fetchLikedAnime();
-  }, []);
-
-  const handlePageChange = (selected: number | string) => {
-    if (typeof selected === 'number') {
-      setPage(selected);
+      fetchAnimeDetails();
     }
-  };
+  }, [liked]);
 
-  const startIndex = (page - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  const displayedAnime = likedAnime.slice(startIndex, endIndex);
+  if (isLoading) {
+    return <div>좋아요한 애니를 불러오는 중</div>;
+  }
 
-  return (
-    <Container className="liked-anime-container">
-      <EditTitle>찜한 목록</EditTitle>
-      <Anime.PosterContainer className="anime-list">
-        {displayedAnime.map((anime) => (
-          <Anime.OnePoster
-            key={anime.anime_id}
-            onClick={() => navigate(`/recommend/${anime.anime_id}`)}
-            className="anime-card"
-          >
-            <Anime.Poster
-              src={
-                anime.images?.length !== 0
-                  ? anime.images![0].img_url
-                  : anime.img
-              }
-              alt={anime.name}
-            />
-            <S.CardTitle>{anime.name}</S.CardTitle>
-            <HoverInfo>
-              <S.HoverGenre key={anime.anime_id}>
-                <S.GenreText>{anime.genres!}</S.GenreText>
-              </S.HoverGenre>
-              <S.HoverTitleAndDetail>
-                <S.HoverTitle>{anime.name}</S.HoverTitle>
-                <S.HoverViewDetail>
-                  <p>자세히 보기</p>
-                  <img
-                    className="viewDetail"
-                    src={viewDetail}
-                    alt="viewdetail"
-                  />
-                </S.HoverViewDetail>
-              </S.HoverTitleAndDetail>
-            </HoverInfo>
-          </Anime.OnePoster>
-        ))}
-      </Anime.PosterContainer>
-      <Pagination
-        currentPage={page}
-        totalPages={Math.ceil(likedAnime.length / itemsPerPage)}
-        onClick={handlePageChange}
-      />
-    </Container>
-  );
+  if (isError) {
+    return <div>좋아요 목록을 불러오지 못했어요</div>;
+  }
+
+  const likedList = Array.isArray(liked) ? (
+    <ul>
+      {liked.map((like, index) => (
+        <li key={index}>
+          <img src={animeTitles[like.anime_id]?.img} />
+          {animeTitles[like.anime_id]?.name}
+        </li>
+      ))}
+    </ul>
+  ) : null;
+
+  return <div>{likedList}</div>;
 };
 
 export default LikedAnime;
-// const StyledPagination = styled(Pagination)`
-//   color: pink;
-//   font-size: 100px;
-//   margin: 10px;
-
-//   .pagination-item {
-//     color: blue;
-//   }
-// `;
