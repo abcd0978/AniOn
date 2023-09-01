@@ -43,6 +43,7 @@ const LoginModalContents = (props: Props) => {
   const { width, height, isMobile, isLoaded } = useViewport();
   const validationFunc = (e: any) => {
     e.preventDefault();
+    const regex = new RegExp('[a-z0-9]+@[a-z]+.[a-z]{2,3}');
     let eErrorFlag = false;
     let pErrorFlag = false;
     setEmailAndPasswordError(initialError);
@@ -58,6 +59,12 @@ const LoginModalContents = (props: Props) => {
       setEmailError({
         error: true,
         errorMsg: '이메일을 입력해주세요',
+      });
+      eErrorFlag = true;
+    } else if (!regex.test(email)) {
+      setEmailError({
+        error: true,
+        errorMsg: '이메일형식으로 입력해주세요',
       });
       eErrorFlag = true;
     } else setEmailError(initialError);

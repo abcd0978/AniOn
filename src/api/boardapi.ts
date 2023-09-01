@@ -4,7 +4,6 @@ type InsertPosts = Database['public']['Tables']['posts']['Insert'];
 type ReadPosts = Database['public']['Tables']['posts']['Row'];
 type UpdatePosts = Database['public']['Tables']['posts']['Update'];
 type InsertLike = Database['public']['Tables']['likes']['Insert'];
-type users = Database['public']['Tables']['users']['Row'];
 
 //전체 post 불러오기 + 페이지네이션
 const getPosts = async (
