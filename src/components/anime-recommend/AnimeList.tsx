@@ -16,7 +16,7 @@ import {
   keywordAtom,
 } from '../../store/animeRecommendStore';
 import * as userStore from '../../store/userStore';
-
+import AnimeCardSkeleton from './AnimeCardSkeleton';
 import { ReadAnimeLikeG } from '../../types/likes';
 import type { AnimeG } from '../../types/anime';
 import AnimeCard from './AnimeCard';
@@ -144,7 +144,22 @@ const AnimeList = () => {
       <S.AnimeContainer>
         {/* 스켈레톤으로 변경하기! > mvp 종료 후에 */}
         {isLoading && !animeList.length ? (
-          <div>로딩중입니다.</div>
+          <>
+            <AnimeCardSkeleton />
+            <AnimeCardSkeleton />
+            <AnimeCardSkeleton />
+            <AnimeCardSkeleton />
+            <AnimeCardSkeleton />
+            <AnimeCardSkeleton />
+            <AnimeCardSkeleton />
+            <AnimeCardSkeleton />
+            <AnimeCardSkeleton />
+            <AnimeCardSkeleton />
+            <AnimeCardSkeleton />
+            <AnimeCardSkeleton />
+            <AnimeCardSkeleton />
+            <AnimeCardSkeleton />
+          </>
         ) : (
           animeList.map((anime: AnimeG) => (
             <AnimeCard
