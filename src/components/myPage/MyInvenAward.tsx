@@ -1,12 +1,14 @@
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useAtomValue } from 'jotai';
 import * as userStore from '../../store/userStore';
-import { fetchMyAwards } from '../../api/items';
 import { B } from './Deco.styles';
 import goShop from '../../assets/goShop.png';
 import useViewport from '../../hooks/useViewPort';
 import { useNavigate } from 'react-router-dom';
+import { equipItem, fetchMyAwards } from '../../api/items';
+
 const MyInvenAward = () => {
+  const queryClient = useQueryClient();
   const user = useAtomValue(userStore.user);
   const navigate = useNavigate();
   const { width, height, isMobile, isLoaded } = useViewport();
@@ -27,25 +29,35 @@ const MyInvenAward = () => {
     },
   );
 
-  if (isLoading) {
-    return <div>칭호를 불러오는 중</div>;
-  }
+  const applyAwardMutation = useMutation(equipItem, {
+    onSuccess: (data) => {
+      console.log('장착 myInvenAward', data);
+      queryClient.invalidateQueries(['equippedAward']);
+    },
+    onError: (error) => {
+      console.log('장착 myInvenAward', error);
+    },
+  });
 
-  if (isError) {
-    return <div>칭호를 불러오지 못했어요</div>;
-  }
+  // console.log('user', user);
+  // console.log('awards', awards);
 
-  console.log('user', user);
-  console.log('awards', awards);
-  const applyAward = (awardName: string) => {
-    console.log(`Applying award:${awardName}`);
+  const handleApplyAwardButtonClick = (item_id: string) => {
+    if (!user) {
+      return;
+    }
+
+    applyAwardMutation.mutate({ user_id: user.id, item_id, category: 1 });
   };
+
   const awardsList = Array.isArray(awards) ? (
     <ul>
       {awards.map((award, index) => (
         <li key={index}>
           {award.items?.name}
-          <button onClick={() => applyAward(award.items?.name)}>적용</button>
+          <button onClick={() => handleApplyAwardButtonClick(award.item_id)}>
+            적용
+          </button>
         </li>
       ))}
     </ul>
@@ -62,8 +74,12 @@ const MyInvenAward = () => {
       </B.NoneButton>
     </B.NoneContainer>
   );
-
-  return <div>{awardsList}</div>;
+  return (
+    <div>
+      <h2>내 칭호</h2>
+      {awardsList}
+    </div>
+  );
 };
 
 export default MyInvenAward;
