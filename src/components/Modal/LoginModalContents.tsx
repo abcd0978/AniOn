@@ -3,8 +3,9 @@ import styled from 'styled-components';
 import checkBox from '../../assets/checkBox.svg';
 import checkBoxChecked from '../../assets/checkBoxChecked.svg';
 import useViewport from '../../hooks/useViewPort';
-import { useAtom } from 'jotai';
+import { useAtom, useSetAtom } from 'jotai';
 import useInput from '../../hooks/useInput';
+import { toast } from 'react-toastify';
 import * as authApi from '../../api/auth';
 import * as userStore from '../../store/userStore';
 import logo from '../../assets/logo.svg';
@@ -39,6 +40,7 @@ const LoginModalContents = (props: Props) => {
   const [modalContents, setModalContents] = useAtom(modalStore.modalContents);
   const [isModalOpened, setIsModalOpened] = useAtom(modalStore.isModalOpened);
   const [__, writeUser] = useAtom(userStore.writeUser);
+  const writeUserItem = useSetAtom(userStore.writeUserItem);
   const [loading, setLoading] = useState(false);
   const { width, height, isMobile, isLoaded } = useViewport();
   const validationFunc = (e: any) => {
@@ -147,7 +149,13 @@ const LoginModalContents = (props: Props) => {
               );
               setLoading(false);
               if (result) {
-                writeUser();
+                toast('안녕하세요! 환영합니다😊', {
+                  position: 'top-center',
+                  autoClose: 1000,
+                  hideProgressBar: true,
+                });
+                await writeUser();
+                await writeUserItem();
                 setIsModalOpened(false);
               } else {
                 setEmailAndPasswordError({

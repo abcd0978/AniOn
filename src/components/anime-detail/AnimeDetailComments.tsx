@@ -12,6 +12,7 @@ import {
 } from '../../api/aniComment';
 import { Database } from '../../types/supabase';
 import { useAtomValue } from 'jotai';
+import { toast } from 'react-toastify';
 
 type ReadAniComment = Database['public']['Tables']['ani_comments']['Row'];
 type InsertAniComment = Database['public']['Tables']['ani_comments']['Insert'];
@@ -42,12 +43,16 @@ const AnimeDetailComments = () => {
 
   const handleCommentSubmit = () => {
     if (!user) {
-      alert('리뷰는 로그인/회원가입 후 이용해주세요.');
+      toast.warning('로그인 후 리뷰 작성이 가능해요🙄', {
+        autoClose: 1000,
+      });
       return;
     }
 
     if (!newComment) {
-      alert('리뷰 내용이 없습니다. 내용을 작성해주세요.');
+      toast.warning('리뷰를 작성해주세요!', {
+        autoClose: 2000,
+      });
       return;
     }
 
@@ -96,7 +101,10 @@ const AnimeDetailComments = () => {
       };
 
       if (!editedCommentText) {
-        alert('댓글을 입력해주세요.');
+        //TODO: 수정 할 내용이 없는 경우 원래 작성 돼 있던 내용으로 돌리기
+        toast.warning('수정 할 내용을 작성해주세요.', {
+          autoClose: 1000,
+        });
         return;
       }
       editMutation.mutate(editComment);

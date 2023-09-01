@@ -22,6 +22,7 @@ export default function Pagination({
             onClick('prev');
           }
         }}
+        disabled={isPreviousDisabled}
       >
         {'< 이전 '}
       </Before>
@@ -66,28 +67,33 @@ export default function Pagination({
   );
 }
 
-const Before = styled.span`
-  border: 1px solid;
-  border-color: #f3e7ff;
+const Before = styled.button`
+  border: 1px solid #f3e7ff;
   border-radius: 6px;
   padding: 10px;
-  color: #767676;
+  // color: #767676;
   margin: 10px;
-  cursor: pointer;
+  background-color: white;
+  cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
   margin-right: 18px;
+  width: 60px;
+  height: 40px;
+  font-size: 14px;
 
   &:hover {
-    background-color: #f3e7ff;
-    border-color: #c88fff;
+    border-color: ${(props) => (props.disabled ? '' : '#c88fff')};
+    background-color: ${(props) => (props.disabled ? '' : '#f3e7ff')};
   }
 `;
+
 const After = styled.span`
-  border: 1px solid;
-  border-color: #f3e7ff;
+  border: 1px solid #f3e7ff;
   border-radius: 6px;
   padding: 10px;
-  color: #767676;
   cursor: pointer;
+  width: 60px;
+  height: 40px;
+  font-size: 14px;
 
   &:hover {
     background-color: #f3e7ff;
@@ -106,7 +112,7 @@ const Number = styled.span`
   text-align: center;
 
   &.active-page {
-    color: #191919;
+    color: rgb(255, 150, 219);
     font-weight: bold;
   }
 `;
@@ -116,3 +122,23 @@ const Container = styled.div`
   margin-bottom: 55px;
   display: space-between;
 `;
+
+// const BeforeButton = styled.button`
+//   border: 1px solid;
+//   border-color: #f3e7ff;
+//   border-radius: 6px;
+//   padding: 10px;
+//   color: #767676;
+//   margin: 10px;
+//   cursor: pointer;
+//   margin-right: 18px;
+
+//   &:disabled:hover {
+//     cursor: not-allowed;
+//   }
+
+// &:hover {
+//   background-color: #f3e7ff;
+//   border-color: #c88fff;
+// }
+// `;

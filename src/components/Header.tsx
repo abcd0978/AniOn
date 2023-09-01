@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { useAtom } from 'jotai';
+import { useAtom, useAtomValue } from 'jotai';
 import * as modalStore from '../store/modalStore';
+import { isDropDownOn } from '../store/dropDownStore';
 import useViewport from '../hooks/useViewPort';
 import * as userStore from '../store/userStore';
 import dropdown from '../assets/dropdown.svg';
 import dropdownUp from '../assets/dropdownUp.svg';
 import * as authApi from '../api/auth';
-import flower from '../assets/flower.png';
-import pink from '../assets/partypink.png';
 import logout from '../assets/logout.svg';
 import account from '../assets/account.svg';
 import logo from '../assets/logo.svg';
@@ -31,10 +30,11 @@ type Props = {};
 function Header({}: Props) {
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
   const navigate = useNavigate();
-  const [isDropdownOn, setIsDowpdownOn] = useState(false);
+  const [isDropdownOn, setIsDowpdownOn] = useAtom(isDropDownOn);
   const [__, logoutStore] = useAtom(userStore.logoutUser);
   const { width, height, isMobile, isLoaded } = useViewport();
   const [user, setUser] = useAtom(userStore.user);
+  const item = useAtomValue(userStore.userItem);
   const [isModalOpened, setIsModalOpened] = useAtom(modalStore.isModalOpened);
   const [modalContents, setModalContents] = useAtom(modalStore.modalContents);
 
@@ -149,7 +149,7 @@ function Header({}: Props) {
             {user ? (
               <StHeaderUserInfoContainer>
                 <ProfileWithBorder
-                  borderUrl={flower} //borderUrl 받아와야함
+                  borderUrl={item?.border!} //borderUrl 받아와야함
                   profileUrl={user?.profile_img_url!}
                   width={width}
                   key={user?.id!}

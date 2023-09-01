@@ -56,7 +56,6 @@ export const loginHandler = async (
         Logindata!,
       );
       if (data.user) {
-        alert('안녕하세요!');
         return true;
       }
       if (error) {

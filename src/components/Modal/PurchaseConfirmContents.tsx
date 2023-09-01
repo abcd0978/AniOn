@@ -69,7 +69,7 @@ const PurchaseConfirmContents = () => {
                 placeSelf: 'center',
               }}
             >
-              <StBorderNameTypo>{borderContents?.title}</StBorderNameTypo>
+              <StBorderNameTypo>{borderContents?.name}</StBorderNameTypo>
               <p
                 style={{
                   color: '#000',
@@ -187,7 +187,7 @@ const StBorderNameTypo = styled.p`
 const StPrice = styled.p`
   text-align: -webkit-center;
   color: #000;
-  font-family: Pretendard-Regular
+  font-family: Pretendard-Regular;
   font-size: 16px;
   font-style: normal;
   font-weight: 700;
