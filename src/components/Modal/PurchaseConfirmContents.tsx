@@ -69,7 +69,7 @@ const PurchaseConfirmContents = () => {
                 placeSelf: 'center',
               }}
             >
-              <StBorderNameTypo>{borderContents?.title}</StBorderNameTypo>
+              <StBorderNameTypo>{borderContents?.name}</StBorderNameTypo>
               <p
                 style={{
                   color: '#000',
