@@ -5,11 +5,8 @@ import * as itemApi from '../../api/items';
 import * as userStore from '../../store/userStore';
 import * as modalStore from '../../store/modalStore';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { userPointQueryKey } from '../../pages/Shop';
 
-type Props = {};
-
-const PurchaseConfirmContents = (props: Props) => {
+const PurchaseConfirmContents = () => {
   const queryClient = useQueryClient();
   const user = useAtomValue(userStore.user);
   const isModalOpened = useSetAtom(modalStore.isModalOpened);
@@ -17,13 +14,13 @@ const PurchaseConfirmContents = (props: Props) => {
   const setModalContents = useSetAtom(modalStore.modalContents);
 
   const purchaseMutation = useMutation(itemApi.purchase, {
-    onMutate: (variables) => {
-      // console.log('onMutate', variables);
-    },
     onSuccess: (data) => {
-      console.log('onSuccess', data);
+      if (!data.success) {
+        alert(data.msg);
+        return;
+      }
       queryClient.invalidateQueries(['purchasedBorders']);
-      queryClient.invalidateQueries(userPointQueryKey);
+      queryClient.invalidateQueries(['userPoint']);
       setModalContents('afterPurchase');
     },
     onError: (error) => {
@@ -35,11 +32,10 @@ const PurchaseConfirmContents = (props: Props) => {
     if (!user) {
       return;
     }
-    const data = await purchaseMutation.mutateAsync({
+    await purchaseMutation.mutateAsync({
       item_id,
       user_id: user.id,
     });
-    console.log('뮤테이션', data);
   };
 
   return (
@@ -119,16 +115,7 @@ const PurchaseConfirmContents = (props: Props) => {
           취소
         </StCancelButton>
         <StConfirmButton
-          onClick={async () => {
-            const result = await itemApi.purchase({
-              user_id: user?.id!,
-              item_id: borderContents?.id!,
-            });
-            if (result.success) {
-              queryClient.invalidateQueries(['myBorders']);
-              setModalContents('afterPurchase');
-            } else alert(result.msg);
-          }}
+          onClick={() => handlerPurchaseButtonClick(borderContents?.id!)}
         >
           구매
         </StConfirmButton>

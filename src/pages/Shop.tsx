@@ -8,8 +8,6 @@ import { fetchMyPoint } from '../api/items';
 import { useAtomValue } from 'jotai';
 import * as userStore from '../store/userStore';
 
-export const userPointQueryKey = ['userPoint'];
-
 const Shop = () => {
   const user = useAtomValue(userStore.user);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(
@@ -18,7 +16,7 @@ const Shop = () => {
 
   //현재 포인트 불러오기
   const { data: userPoint } = useQuery({
-    queryKey: userPointQueryKey,
+    queryKey: ['userPoint'],
     queryFn: () => fetchMyPoint(user?.id!),
     enabled: !!user,
   });

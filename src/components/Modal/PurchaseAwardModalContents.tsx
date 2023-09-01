@@ -5,11 +5,8 @@ import * as itemApi from '../../api/items';
 import * as userStore from '../../store/userStore';
 import * as modalStore from '../../store/modalStore';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { userPointQueryKey } from '../../pages/Shop';
 
-type Props = {};
-
-const PurchaseAwardModalContents = (props: Props) => {
+const PurchaseAwardModalContents = () => {
   const queryClient = useQueryClient();
   const user = useAtomValue(userStore.user);
   const isModalOpened = useSetAtom(modalStore.isModalOpened);
@@ -17,13 +14,13 @@ const PurchaseAwardModalContents = (props: Props) => {
   const setModalContents = useSetAtom(modalStore.modalContents);
 
   const purchaseMutation = useMutation(itemApi.purchase, {
-    onMutate: (variables) => {
-      // console.log('onMutate', variables);
-    },
     onSuccess: (data) => {
-      console.log('onSuccess', data);
-      queryClient.invalidateQueries(['myAwards']);
-      queryClient.invalidateQueries(userPointQueryKey);
+      if (!data.success) {
+        alert(data.msg);
+        return;
+      }
+      queryClient.invalidateQueries(['purchasedAwards']);
+      queryClient.invalidateQueries(['userPoint']);
       setModalContents('afterPurchase');
     },
     onError: (error) => {
@@ -35,15 +32,10 @@ const PurchaseAwardModalContents = (props: Props) => {
     if (!user) {
       return;
     }
-    const data = await purchaseMutation.mutateAsync({
+    await purchaseMutation.mutateAsync({
       item_id,
       user_id: user.id,
     });
-    if (!data.success) {
-      alert(data.msg);
-      return;
-    }
-    setModalContents('afterPurchase');
   };
 
   return (
