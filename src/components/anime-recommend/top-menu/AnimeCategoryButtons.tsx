@@ -32,12 +32,11 @@ const AnimeCategory = () => {
       setIsEnding(null);
     }
 
-    if (category !== selectedCategory) {
+    if (category !== selectedCategory || selectedCategory === '전체') {
       setYears(null);
       setGenres([]);
     }
 
-    console.log('카테고리', category);
     setSelectedCategory(category);
     setOffset(0);
   };

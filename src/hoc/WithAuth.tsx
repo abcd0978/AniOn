@@ -18,7 +18,7 @@ const WithAuth = (
   const writeUserItem = useSetAtom(userStore.writeUserItem);
   async function authCheck() {
     const result = await writeUser();
-    await writeUserItem();
+    if (result) await writeUserItem();
     // if (option === true && (result === false || result == null)) {
     //   alert('접근하실수 없습니다');
     //   window.history.pushState(null, '', '/');

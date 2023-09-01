@@ -22,7 +22,12 @@ export const logoutUser = atom(null, (__, set) => {
   set(accessTokenAtom, null);
   set(user, null);
   set(accessTokenAtom, null);
+  set(userItem, {
+    border: null,
+    award: null,
+  });
 });
+export const setBorder = atom(null, (get, set) => {});
 export const writeUserItem = atom(null, async (get, set) => {
   let myItem = get(userItem);
   if (!myItem?.award && !myItem?.border) {

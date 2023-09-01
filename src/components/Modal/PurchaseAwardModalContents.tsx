@@ -28,11 +28,11 @@ const PurchaseAwardModalContents = () => {
     },
   });
 
-  const handlerPurchaseButtonClick = async (item_id: string) => {
+  const handlerPurchaseButtonClick = (item_id: string) => {
     if (!user) {
       return;
     }
-    await purchaseMutation.mutateAsync({
+    purchaseMutation.mutate({
       item_id,
       user_id: user.id,
     });
