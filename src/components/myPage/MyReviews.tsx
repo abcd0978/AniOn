@@ -95,7 +95,9 @@ const MyReviews = () => {
       console.error('리뷰 삭제 중 에러', error);
     }
   };
+
   const reviewsPerPage = 4;
+
   const totalPages = Math.ceil(userReview.length / reviewsPerPage);
   const handlePageChange = (page: number | 'prev' | 'next') => {
     if (page === 'prev' && currentPage > 1) {
@@ -142,6 +144,8 @@ const MyReviews = () => {
           currentPage={currentPage}
           totalPages={totalPages}
           onClick={handlePageChange}
+          isPreviousDisabled={currentPage === 1}
+          isNextDisabled={currentPage >= totalPages}
         />
       </Review.Outer>
     </Container>

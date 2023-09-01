@@ -13,6 +13,7 @@ import viewDetail from '../../assets/viewdetail.svg';
 import { S } from '../anime-recommend/styled.AnimeCard';
 import { HoverInfo } from '../anime-recommend/styled.AnimeCard';
 import { Container, EditTitle } from './EditProfile';
+const itemsPerPage = 8;
 const LikedAnime = () => {
   const [page, setPage] = useState<number>(1);
 
@@ -63,15 +64,19 @@ const LikedAnime = () => {
   if (isError) {
     return <div>좋아요 목록을 불러오지 못했어요</div>;
   }
-  const itemsPerPage = 8;
   const startIndex = (page - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const displayedAnime = liked.slice(startIndex, endIndex);
+  const totalAnimeCount = liked.length;
+  const totalPages = Math.ceil(totalAnimeCount / itemsPerPage);
   const handlePageChange = (selected: number | string) => {
     if (typeof selected === 'number') {
       setPage(selected);
     }
   };
+  // 현재 페이지와 총 페이지 수를 계산합니다.
+  const isPreviousDisabled = page === 1;
+  const isNextDisabled = page >= totalPages;
   const likedList = Array.isArray(liked) ? (
     <Container>
       <EditTitle>찜한 목록</EditTitle>
@@ -111,6 +116,8 @@ const LikedAnime = () => {
         currentPage={page}
         totalPages={Math.ceil(liked.length / itemsPerPage)}
         onClick={handlePageChange}
+        isPreviousDisabled={isPreviousDisabled}
+        isNextDisabled={isNextDisabled}
       />
     </div>
   );

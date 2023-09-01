@@ -1,10 +1,10 @@
 // 사용하고 싶은 옵션, 나열 되었으면 하는 순서대로 나열
 export const toolbarOptions = [
   [{ header: '1' }, { header: '2' }, { font: [] }],
-  ['link', 'image', 'video'],
+  ['link', 'image'],
   [{ header: [1, 2, 3, false] }],
-  ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-  ['blockquote'],
+  ['bold', 'italic', 'underline', 'strike'],
+
   [{ list: 'ordered' }, { list: 'bullet' }],
   [{ color: [] }, { background: [] }],
   [{ align: [] }],
@@ -28,6 +28,6 @@ export const formats = [
   'color',
   'link',
   'image',
-  'video',
+
   'width',
 ];
