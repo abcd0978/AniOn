@@ -77,7 +77,12 @@ const LikedAnime = () => {
   const startIndex = (page - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const displayedAnime = likedAnime.slice(startIndex, endIndex);
+  const totalAnimeCount = likedAnime.length;
+  const totalPages = Math.ceil(totalAnimeCount / itemsPerPage);
 
+  // 현재 페이지와 총 페이지 수를 계산합니다.
+  const isPreviousDisabled = page === 1;
+  const isNextDisabled = page >= totalPages;
   return (
     <Container className="liked-anime-container">
       <EditTitle>찜한 목록</EditTitle>
@@ -120,6 +125,8 @@ const LikedAnime = () => {
         currentPage={page}
         totalPages={Math.ceil(likedAnime.length / itemsPerPage)}
         onClick={handlePageChange}
+        isPreviousDisabled={isPreviousDisabled}
+        isNextDisabled={isNextDisabled}
       />
     </Container>
   );
