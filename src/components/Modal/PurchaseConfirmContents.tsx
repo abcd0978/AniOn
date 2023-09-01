@@ -4,15 +4,40 @@ import { useAtomValue, useSetAtom } from 'jotai';
 import * as itemApi from '../../api/items';
 import * as userStore from '../../store/userStore';
 import * as modalStore from '../../store/modalStore';
-import { useQueryClient } from '@tanstack/react-query';
-type Props = {};
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-const PurchaseConfirmContents = (props: Props) => {
+const PurchaseConfirmContents = () => {
   const queryClient = useQueryClient();
   const user = useAtomValue(userStore.user);
   const isModalOpened = useSetAtom(modalStore.isModalOpened);
   const borderContents = useAtomValue(modalStore.borderModalContent);
   const setModalContents = useSetAtom(modalStore.modalContents);
+
+  const purchaseMutation = useMutation(itemApi.purchase, {
+    onSuccess: (data) => {
+      if (!data.success) {
+        alert(data.msg);
+        return;
+      }
+      queryClient.invalidateQueries(['purchasedBorders']);
+      queryClient.invalidateQueries(['userPoint']);
+      setModalContents('afterPurchase');
+    },
+    onError: (error) => {
+      alert(`구매에 실패하였습니다. : ${error}`);
+    },
+  });
+
+  const handlerPurchaseButtonClick = async (item_id: string) => {
+    if (!user) {
+      return;
+    }
+    await purchaseMutation.mutateAsync({
+      item_id,
+      user_id: user.id,
+    });
+  };
+
   return (
     <StPurchaseConfirmModalContainer>
       <div>
@@ -90,16 +115,7 @@ const PurchaseConfirmContents = (props: Props) => {
           취소
         </StCancelButton>
         <StConfirmButton
-          onClick={async () => {
-            const result = await itemApi.purchase({
-              user_id: user?.id!,
-              item_id: borderContents?.id!,
-            });
-            if (result.success) {
-              queryClient.invalidateQueries(['myBorders']);
-              setModalContents('afterPurchase');
-            } else alert(result.msg);
-          }}
+          onClick={() => handlerPurchaseButtonClick(borderContents?.id!)}
         >
           구매
         </StConfirmButton>

@@ -33,7 +33,7 @@ const ShopAwardList = () => {
 
   // 보유중인 칭호 불러오기
   const inventoryQueryOptions = {
-    queryKey: ['myAwards'],
+    queryKey: ['purchasedAwards'],
     queryFn: () => fetchMyAwards(user!.id),
     refetchOnWindowFocus: false,
     enabled: !!user,
