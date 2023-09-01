@@ -22,12 +22,13 @@ export type purchaseRes = {
 // 가격 비교 등 간단한 검사는 supabase(items.ts), 컴포넌트 양쪽에서
 // ------------------------------- 인벤토리 관련 ----------------------------
 // 장착
-export const equipAward = async (params: {
+export const equipItem = async (params: {
   user_id: string;
   item_id?: string;
+  category: number;
 }): Promise<purchaseRes> => {
   try {
-    const equipped = await fetchEquippedAward(params.user_id);
+    const equipped = await fetchEquippedItem(params.user_id, params.category);
     if (equipped && equipped.item_id !== params.item_id) {
       await supabase
         .from('inventory')
@@ -119,12 +120,12 @@ export const fetchMyBorders = async (user_id: string) => {
 };
 
 // 착용중인 칭호 불러오기
-export const fetchEquippedAward = async (user_id: string) => {
+export const fetchEquippedItem = async (user_id: string, category: number) => {
   try {
     const { data, error } = await supabase
       .from('inventory')
       .select('*, items!inner(name)')
-      .eq('items.category', 1)
+      .eq('items.category', category)
       .eq('user_id', user_id)
       .eq('is_equipped', true)
       .single();
