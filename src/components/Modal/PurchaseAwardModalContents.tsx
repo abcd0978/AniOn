@@ -20,7 +20,6 @@ const PurchaseAwardModalContents = (props: Props) => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries(['myAwards']);
-      setModalContents('afterPurchase');
     },
     onError: (error) => {
       alert(`구매에 실패하였습니다. : ${error}`);
@@ -35,7 +34,11 @@ const PurchaseAwardModalContents = (props: Props) => {
       item_id,
       user_id: user.id,
     });
-    console.log('뮤테이션', data);
+    if (!data.success) {
+      alert(data.msg);
+      return;
+    }
+    setModalContents('afterPurchase');
   };
 
   return (
