@@ -4,7 +4,9 @@ import { useAtomValue, useSetAtom } from 'jotai';
 import * as itemApi from '../../api/items';
 import * as userStore from '../../store/userStore';
 import * as modalStore from '../../store/modalStore';
-import { useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { userPointQueryKey } from '../../pages/Shop';
+
 type Props = {};
 
 const PurchaseConfirmContents = (props: Props) => {
@@ -13,6 +15,33 @@ const PurchaseConfirmContents = (props: Props) => {
   const isModalOpened = useSetAtom(modalStore.isModalOpened);
   const borderContents = useAtomValue(modalStore.borderModalContent);
   const setModalContents = useSetAtom(modalStore.modalContents);
+
+  const purchaseMutation = useMutation(itemApi.purchase, {
+    onMutate: (variables) => {
+      // console.log('onMutate', variables);
+    },
+    onSuccess: (data) => {
+      console.log('onSuccess', data);
+      queryClient.invalidateQueries(['purchasedBorders']);
+      queryClient.invalidateQueries(userPointQueryKey);
+      setModalContents('afterPurchase');
+    },
+    onError: (error) => {
+      alert(`구매에 실패하였습니다. : ${error}`);
+    },
+  });
+
+  const handlerPurchaseButtonClick = async (item_id: string) => {
+    if (!user) {
+      return;
+    }
+    const data = await purchaseMutation.mutateAsync({
+      item_id,
+      user_id: user.id,
+    });
+    console.log('뮤테이션', data);
+  };
+
   return (
     <StPurchaseConfirmModalContainer>
       <div>

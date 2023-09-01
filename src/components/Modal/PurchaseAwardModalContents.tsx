@@ -5,6 +5,8 @@ import * as itemApi from '../../api/items';
 import * as userStore from '../../store/userStore';
 import * as modalStore from '../../store/modalStore';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { userPointQueryKey } from '../../pages/Shop';
+
 type Props = {};
 
 const PurchaseAwardModalContents = (props: Props) => {
@@ -16,10 +18,12 @@ const PurchaseAwardModalContents = (props: Props) => {
 
   const purchaseMutation = useMutation(itemApi.purchase, {
     onMutate: (variables) => {
-      console.log('onMutate', variables);
+      // console.log('onMutate', variables);
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
+      console.log('onSuccess', data);
       queryClient.invalidateQueries(['myAwards']);
+      queryClient.invalidateQueries(userPointQueryKey);
       setModalContents('afterPurchase');
     },
     onError: (error) => {

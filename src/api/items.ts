@@ -95,7 +95,7 @@ export const fetchEquippedTitle = async (user_id: string) => {
   try {
     const { data, error } = await supabase
       .from('inventory')
-      .select('*, items(name)')
+      .select('*, items!inner(name)')
       .eq('items.category', 1)
       .eq('user_id', user_id)
       .eq('is_equipped', true);
@@ -117,7 +117,7 @@ export const fetchEquippedBorder = async (user_id: string) => {
   try {
     const { data, error } = await supabase
       .from('inventory')
-      .select('*, items(*)')
+      .select('*, items!inner(*)')
       .eq('items.category', 0)
       .eq('user_id', user_id)
       .eq('is_equipped', true);
