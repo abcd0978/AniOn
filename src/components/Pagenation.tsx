@@ -1,5 +1,6 @@
 import { styled } from 'styled-components';
 
+//오케이!! 나도 이제 시이작 너 오면 민규님한테 말 걸어야지 오면 말행
 export default function Pagination({
   currentPage,
   totalPages,
