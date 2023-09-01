@@ -28,6 +28,7 @@ const EditProfile = () => {
     console.log('handleUpload started');
     if (!selectedFile) {
       console.log('No selected file');
+      alert('선택된 파일이 없습니다.');
       return;
     }
 
@@ -44,6 +45,8 @@ const EditProfile = () => {
 
       if (uploadError) {
         console.error('Upload error:', uploadError);
+        alert('유효하지 않은 파일 형식입니다.');
+        setSelectedFile(null);
         return;
       }
       console.log('File uploaded successfully!');
@@ -88,6 +91,7 @@ const EditProfile = () => {
   };
 
   //2-2. 닉넴변경
+
   const handleNicknameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNewNickname(event.target.value);
   };
