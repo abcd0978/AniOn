@@ -42,12 +42,12 @@ const AnimeDetailComments = () => {
 
   const handleCommentSubmit = () => {
     if (!user) {
-      alert('댓글은 로그인/회원가입 후 이용해주세요.');
+      alert('리뷰는 로그인/회원가입 후 이용해주세요.');
       return;
     }
 
     if (!newComment) {
-      alert('작성한 댓글이 없습니다. 댓글을 입력해주세요.');
+      alert('리뷰 내용이 없습니다. 내용을 작성해주세요.');
       return;
     }
 

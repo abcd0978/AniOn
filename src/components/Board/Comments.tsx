@@ -26,8 +26,15 @@ const Comments = () => {
   const queryClient = useQueryClient();
 
   const [newComment, setNewComment] = useState<string>('');
+
   const [editingCommentId, setEditingCommentId] = useState<string | null>('');
   const [editedCommentText, setEditedCommentText] = useState<string>('');
+  // 로그인 여부 체크
+  const isLoggedIn = !!user;
+  // 로그인하지 않은 경우 댓글 입력 상태 변수에 메시지와 글씨를 설정
+  const commentInputPlaceholder = isLoggedIn
+    ? '댓글을 작성해주세요!'
+    : '리뷰는 로그인/회원가입 후 이용해주세요.';
 
   const addMutation = useMutation(addComment, {
     onSuccess: () => {
@@ -138,9 +145,14 @@ const Comments = () => {
                 handleCommentSubmit();
               }
             }}
-            placeholder="댓글을 작성해주세요!"
+            placeholder={commentInputPlaceholder}
+            disabled={!isLoggedIn}
           />
-          <S.WriteButton onClick={handleCommentSubmit}>등록</S.WriteButton>
+          {isLoggedIn && (
+            <S.WriteButton onClick={handleCommentSubmit} disabled={!isLoggedIn}>
+              등록
+            </S.WriteButton>
+          )}
         </S.CommentTop>
         <S.CommentBot>
           {postCommentsData?.data?.map((comment: ReadPostComment) => (

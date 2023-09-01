@@ -8,6 +8,7 @@ import { Database } from '../types/supabase';
 import { useState } from 'react';
 import { atom, useAtom, useAtomValue } from 'jotai';
 import Pagination from '../components/Pagenation';
+import Footer from '../components/Footer';
 
 import pencil from '../assets/pencil.svg';
 import search from '../assets/search.svg';
@@ -49,7 +50,7 @@ const Board = () => {
       },
     },
   );
-  
+
   const onClickPage = (selected: number | string) => {
     if (page === selected) return;
     if (typeof selected === 'number') {
@@ -206,6 +207,7 @@ const Board = () => {
           isNextDisabled={page >= (postsAndTotalPages?.totalPages || 1)}
         />
       </S.Page>
+      {/* <Footer /> */}
     </S.Container>
   );
 };

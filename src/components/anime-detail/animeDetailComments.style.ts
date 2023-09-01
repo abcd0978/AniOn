@@ -51,6 +51,7 @@ export const S = {
 
   AniCommentInputBox: styled.div`
     width: 1440px;
+    height: 148px;
     border: 1px solid #d9d9d9;
     border-radius: 10px;
     border: 1px solid #c88fff;
@@ -59,11 +60,13 @@ export const S = {
 
   AniCommentInput: styled.input`
     width: 1317px;
-    height: 60px;
+    height: 50px;
     padding: 20px;
     border: none;
     outline: none;
     background-color: #f9f3ff;
+    margin-top: 5px;
+    border-radius: 10px;
   `,
   AniCommentInputButton: styled.button`
     border-radius: 10px;
