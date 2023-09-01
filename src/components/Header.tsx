@@ -168,7 +168,7 @@ function Header({}: Props) {
                 <StblackBar></StblackBar>
                 <p
                   onClick={() => {
-                    setModalContents('award');
+                    setModalContents('register');
                     setIsModalOpened(true);
                   }}
                   style={{ cursor: 'pointer' }}

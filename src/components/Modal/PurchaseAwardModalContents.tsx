@@ -39,7 +39,11 @@ const PurchaseAwardModalContents = (props: Props) => {
       item_id,
       user_id: user.id,
     });
-    console.log('뮤테이션', data);
+    if (!data.success) {
+      alert(data.msg);
+      return;
+    }
+    setModalContents('afterPurchase');
   };
 
   return (
