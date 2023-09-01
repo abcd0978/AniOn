@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { useAtom } from 'jotai';
+import { useAtom, useAtomValue } from 'jotai';
 import * as modalStore from '../store/modalStore';
 import useViewport from '../hooks/useViewPort';
 import * as userStore from '../store/userStore';
@@ -35,6 +35,7 @@ function Header({}: Props) {
   const [__, logoutStore] = useAtom(userStore.logoutUser);
   const { width, height, isMobile, isLoaded } = useViewport();
   const [user, setUser] = useAtom(userStore.user);
+  const item = useAtomValue(userStore.userItem);
   const [isModalOpened, setIsModalOpened] = useAtom(modalStore.isModalOpened);
   const [modalContents, setModalContents] = useAtom(modalStore.modalContents);
 
@@ -149,7 +150,7 @@ function Header({}: Props) {
             {user ? (
               <StHeaderUserInfoContainer>
                 <ProfileWithBorder
-                  borderUrl={flower} //borderUrl 받아와야함
+                  borderUrl={item?.border!} //borderUrl 받아와야함
                   profileUrl={user?.profile_img_url!}
                   width={width}
                   key={user?.id!}

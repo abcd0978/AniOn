@@ -8,7 +8,7 @@ type Props = {
   border: {
     id: string;
     index: number;
-    title: string;
+    name: string;
     price: number;
     img_url: string;
   };
@@ -38,7 +38,7 @@ const BorderCard = ({ border }: Props) => {
     <S.Item key={border.index}>
       <S.TopArea img_url={border.img_url} />
       <S.BottomArea>
-        {border.title}
+        {border.name}
         <br />
         <S.Number>{border.price}포인트</S.Number>
         <S.BuyButton
@@ -46,7 +46,7 @@ const BorderCard = ({ border }: Props) => {
             setBorderModalContent({
               id: border.id,
               index: border.index,
-              title: border.title,
+              name: border.name,
               price: border.price,
               img_url: border.img_url,
             });

@@ -154,7 +154,18 @@ export const fetchEquippedItems = async (user_id: string) => {
       .from('inventory')
       .select('user_id,item_id, items!inner(name,img_url)')
       .eq('user_id', user_id)
-      .eq('is_equipped', true);
+      .eq('is_equipped', true)
+      .returns<
+        {
+          user_id: any;
+          item_id: any;
+          items: {
+            name: any;
+            img_url: any;
+          };
+        }[]
+      >();
+
     if (error) {
       console.log('items.ts fetchEquippedTitle error > ', error);
       return [];
