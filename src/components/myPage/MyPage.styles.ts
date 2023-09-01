@@ -10,7 +10,7 @@ export const Profile = {
     background-position: center;
   `,
   MyPageText: styled.div`
-    color: #000;
+    color: #8200ff;
     font-size: 25px;
     font-style: normal;
     font-weight: 700;
@@ -38,10 +38,11 @@ export const Profile = {
     margin-top: 20px;
   `,
   MyProfileContainer: styled.div`
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    place-items: center;
     justify-contents: center;
     align-items: center;
+    text-align: center;
     margin-top: 20px;
   `,
 };

@@ -9,6 +9,10 @@ import { useNavigate } from 'react-router-dom';
 import { Anime } from './LikedAnime.styles';
 import { styled } from 'styled-components';
 import Pagination from '../Pagenation';
+import viewDetail from '../../assets/viewdetail.svg';
+import { S } from '../anime-recommend/styled.AnimeCard';
+import { HoverInfo } from '../anime-recommend/styled.AnimeCard';
+import { Container, EditTitle } from './EditProfile';
 const LikedAnime = () => {
   const [page, setPage] = useState<number>(1);
 
@@ -69,8 +73,8 @@ const LikedAnime = () => {
     }
   };
   const likedList = Array.isArray(liked) ? (
-    <Anime.Container>
-      찜한 목록
+    <Container>
+      <EditTitle>찜한 목록</EditTitle>
       <GridContainer>
         {displayedAnime.map((like, index) => (
           <Anime.OnePoster
@@ -78,11 +82,26 @@ const LikedAnime = () => {
             onClick={() => navigate(`/recommend/${like.anime_id}`)}
           >
             <Anime.Poster src={animeTitles[like.anime_id]?.img} />
-            {animeTitles[like.anime_id]?.name}
+            <S.CardTitle>{animeTitles[like.anime_id]?.name}</S.CardTitle>
+            <HoverInfo>
+              <S.HoverGenre key={like.id}></S.HoverGenre>
+              <S.HoverTitleAndDetail>
+                <S.HoverTitle>{like.name}</S.HoverTitle>
+
+                <S.HoverViewDetail>
+                  <p>자세히 보기</p>
+                  <img
+                    className="viewDetail"
+                    src={viewDetail}
+                    alt="viewdetail"
+                  />
+                </S.HoverViewDetail>
+              </S.HoverTitleAndDetail>
+            </HoverInfo>
           </Anime.OnePoster>
         ))}
       </GridContainer>
-    </Anime.Container>
+    </Container>
   ) : null;
 
   return (
@@ -103,4 +122,21 @@ const GridContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 10px;
+  :hover {
+    filter: brightness(0.5);
+  }
+`;
+const HoverViewDetail = styled.button`
+  display: flex;
+  align-items: center;
+  position: relative;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid white;
+  background-color: rgba(255, 255, 255, 0);
+  color: white;
+  cursor: pointer;
+  p {
+    margin-left: 12px;
+  }
 `;
