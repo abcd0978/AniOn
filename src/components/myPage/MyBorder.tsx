@@ -2,7 +2,8 @@ import { fetchMyBorders } from '../../api/items';
 import { useQuery } from '@tanstack/react-query';
 import { useAtomValue } from 'jotai';
 import * as userStore from '../../store/userStore';
-
+import goShop from '../../assets/goShop.png';
+import { B } from './Deco.styles';
 const MyBorder = () => {
   const user = useAtomValue(userStore.user);
   const {
@@ -49,7 +50,15 @@ const MyBorder = () => {
           </li>
         ))}
       </ul>
-    ) : null;
+    ) : (
+      <div>
+        <div>구매한 테두리가 없습니다.</div>
+        <B.NoneButton>
+          테두리 구매하러 가기
+          <img src={goShop} />
+        </B.NoneButton>
+      </div>
+    );
   return (
     <div>
       <h2>내 테두리</h2>
