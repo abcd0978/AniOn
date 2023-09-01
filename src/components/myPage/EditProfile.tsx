@@ -287,7 +287,7 @@ export const Container = styled.div`
   gap: 16px;
   align-items: flex-start;
   position: relative;
-  top: -270px;
+  top: -320px;
   margin-left: 160px;
 `;
 

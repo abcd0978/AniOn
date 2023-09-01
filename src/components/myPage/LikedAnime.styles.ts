@@ -17,7 +17,7 @@ export const Anime = {
     gap: 16px;
     align-items: flex-start;
     position: relative;
-    top: -290px;
+    top: -320px;
     margin-left: 150px;
   `,
   OnePoster: styled.div`
@@ -29,7 +29,8 @@ export const Anime = {
     border-radius: 10px;
     flex-direction: column;
     gap: 12px;
-    margin-top: 0px;
+    margin: 10px;
+    margin-top: 10px;
   `,
   Title: styled.div`
     display: flex;
@@ -48,11 +49,6 @@ export const Anime = {
     margin-left: 0px;
     margin-top: 10px;
     margin-bottom: 0px;
-    :hover img:not(.viewDetail) {
-      -webkit-transition: 0.3s ease-in-out;
-      transition: 0.3s ease-in-out;
-      filter: brightness(0.2);
-    }
 
     :hover ${HoverInfo} {
       display: flex;
