@@ -5,11 +5,12 @@ import * as userStore from '../../store/userStore';
 import { useQuery } from '@tanstack/react-query';
 import React, { useEffect, useState } from 'react';
 import { AnimeG } from '../../types/anime';
-
+import { useNavigate } from 'react-router-dom';
+import { Anime } from './LikedAnime.styles';
 const LikedAnime = () => {
   const [animeTitles, setAnimeTitles] = useState<Record<string, AnimeG>>({});
   const user = useAtomValue(userStore.user);
-
+  const navigate = useNavigate();
   const {
     isLoading,
     isError,
@@ -56,14 +57,14 @@ const LikedAnime = () => {
   }
 
   const likedList = Array.isArray(liked) ? (
-    <ul>
+    <Anime.OnePoster>
       {liked.map((like, index) => (
-        <li key={index}>
-          <img src={animeTitles[like.anime_id]?.img} />
+        <li key={index} onClick={() => navigate(`/recommend/${like.anime_id}`)}>
+          <Anime.Poster src={animeTitles[like.anime_id]?.img} />
           {animeTitles[like.anime_id]?.name}
         </li>
       ))}
-    </ul>
+    </Anime.OnePoster>
   ) : null;
 
   return <div>{likedList}</div>;
