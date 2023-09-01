@@ -118,6 +118,11 @@ const Comments = () => {
       return;
     }
   };
+  // 이전 페이지 버튼 비활성화 여부 계산
+  const isPreviousDisabled = page === 1;
+
+  // 다음 페이지 버튼 비활성화 여부 계산
+  const isNextDisabled = page >= (postCommentsData?.totalPages ?? 1);
 
   return (
     <S.Outer>
@@ -181,6 +186,8 @@ const Comments = () => {
               currentPage={page}
               totalPages={postCommentsData?.totalPages ?? 1}
               onClick={onClickPage}
+              isPreviousDisabled={isPreviousDisabled}
+              isNextDisabled={isNextDisabled}
             />
           </S.Page>
         </S.CommentBot>

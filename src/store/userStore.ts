@@ -14,6 +14,7 @@ export const logoutUser = atom(null, (__, set) => {
   set(user, null);
   set(accessTokenAtom, null);
 });
+
 export const writeUser = atom(null, async (get, set) => {
   const session = await supabase.auth.getSession();
   if (session.data.session) {

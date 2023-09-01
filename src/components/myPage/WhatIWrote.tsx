@@ -209,6 +209,8 @@ const WhatIWrote = () => {
         currentPage={page}
         totalPages={postsAndTotalPages?.totalPages || 1}
         onClick={onClickPage}
+        isPreviousDisabled={page === 1}
+        isNextDisabled={page >= (postsAndTotalPages?.totalPages || 1)}
       />
     </Container>
   );

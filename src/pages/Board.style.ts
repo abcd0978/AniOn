@@ -183,5 +183,5 @@ export const SearchIcon = styled.img`
 export const Page = styled.div`
   justify-content: center;
   display: flex;
-  cursor: pointer;
+  // cursor: pointer;
 `;

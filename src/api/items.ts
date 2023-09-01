@@ -147,6 +147,26 @@ export const fetchEquippedItem = async (params: {
   }
 };
 
+// 착용중인 아이템 전부
+export const fetchEquippedItems = async (user_id: string) => {
+  try {
+    const { data, error } = await supabase
+      .from('inventory')
+      .select('user_id,item_id, items!inner(name,img_url)')
+      .eq('user_id', user_id)
+      .eq('is_equipped', true);
+    if (error) {
+      console.log('items.ts fetchEquippedTitle error > ', error);
+      return [];
+    }
+    console.log('이큅드 아이템', data);
+    return data;
+  } catch (error) {
+    console.log('items.ts fetchEquippedTitle error > ', error);
+    return [];
+  }
+};
+
 // 착용중인 보더 불러오기
 export const fetchEquippedBorder = async (user_id: string) => {
   try {

@@ -4,14 +4,25 @@ export default function Pagination({
   currentPage,
   totalPages,
   onClick,
+  isPreviousDisabled,
+  isNextDisabled,
 }: {
   currentPage: number;
   totalPages: number;
   onClick: (page: number | 'prev' | 'next') => void;
+  isPreviousDisabled: boolean;
+  isNextDisabled: boolean;
 }) {
   return (
     <Container>
-      <Before className="page-click" onClick={() => onClick('prev')}>
+      <Before
+        className={`page-click ${isPreviousDisabled ? 'disabled' : ''}`}
+        onClick={() => {
+          if (!isPreviousDisabled) {
+            onClick('prev');
+          }
+        }}
+      >
         {'< 이전 '}
       </Before>
       {Array.from({ length: totalPages }).map((_, idx) => {
@@ -23,7 +34,7 @@ export default function Pagination({
           return (
             <Number
               className={`page-click ${
-                currentPage === idx + 1 && 'active-page'
+                currentPage === idx + 1 ? 'active-page' : ''
               }`}
               key={idx}
               onClick={() => onClick(idx + 1)}
@@ -34,18 +45,27 @@ export default function Pagination({
         } else if (idx === currentPage - 3 || idx === currentPage + 3) {
           return (
             <span key={idx}>
-              <span style={{ marginLeft: 5, marginRight: 5 }}>...</span>
+              <Stdot style={{ marginLeft: 5, marginRight: 5 }}>...</Stdot>
             </span>
           );
         }
         return null;
       })}
-      <After className="page-click" onClick={() => onClick('next')}>
+
+      <After
+        className={`page-click ${isNextDisabled ? 'disabled' : ''}`}
+        onClick={() => {
+          if (!isNextDisabled) {
+            onClick('next');
+          }
+        }}
+      >
         {'다음 >'}
       </After>
     </Container>
   );
 }
+
 const Before = styled.span`
   border: 1px solid;
   border-color: #f3e7ff;
@@ -53,6 +73,13 @@ const Before = styled.span`
   padding: 10px;
   color: #767676;
   margin: 10px;
+  cursor: pointer;
+  margin-right: 18px;
+
+  &:hover {
+    background-color: #f3e7ff;
+    border-color: #c88fff;
+  }
 `;
 const After = styled.span`
   border: 1px solid;
@@ -60,13 +87,32 @@ const After = styled.span`
   border-radius: 6px;
   padding: 10px;
   color: #767676;
-  margin: 10px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #f3e7ff;
+    border-color: #c88fff;
+  }
 `;
-const Number = styled.span`
+
+const Stdot = styled.span`
   color: #767676;
 `;
-const Container = styled.div`
-  margin: 30px;
 
+const Number = styled.span`
+  color: #767676;
+  margin-right: 20px;
+  cursor: pointer;
+  text-align: center;
+
+  &.active-page {
+    color: #191919;
+    font-weight: bold;
+  }
+`;
+
+const Container = styled.div`
+  margin-top: 40px;
+  margin-bottom: 55px;
   display: space-between;
 `;

@@ -65,7 +65,7 @@ const S = {
   Content: styled.div`
     white-space: wrap;
     // word-wrap: break-word;
-    font-size: 16px;
+    // font-size: 16px;
     line-height: 1.6;
     width: 1360px;
     max-height: 1000px;
