@@ -29,7 +29,7 @@ const getPosts = async (
       .select('count', { count: 'exact' });
 
     const totalPages = Math.ceil(count! / itemsPerPage);
-    console.log('보드', data);
+    // console.log('보드', data);
     if (category) {
       const filteredData = data.filter(
         (post: ReadPosts) => post.category === category,
