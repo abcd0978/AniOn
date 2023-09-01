@@ -34,7 +34,7 @@ export default function Pagination({
           return (
             <Number
               className={`page-click ${
-                currentPage === idx + 1 && 'active-page'
+                currentPage === idx + 1 ? 'active-page' : ''
               }`}
               key={idx}
               onClick={() => onClick(idx + 1)}
@@ -65,6 +65,7 @@ export default function Pagination({
     </Container>
   );
 }
+
 const Before = styled.span`
   border: 1px solid;
   border-color: #f3e7ff;
@@ -103,6 +104,11 @@ const Number = styled.span`
   margin-right: 20px;
   cursor: pointer;
   text-align: center;
+
+  &.active-page {
+    color: #191919;
+    font-weight: bold;
+  }
 `;
 
 const Container = styled.div`

@@ -168,7 +168,7 @@ const AnimeDetailComments = () => {
         ) : (
           <S.AniCommentInputBox>
             <S.AniCommentInput
-              placeholder="댓글은 로그인/회원가입 후 이용해주세요. "
+              placeholder="리뷰는 로그인/회원가입 후 이용해주세요. "
               readOnly
             />
           </S.AniCommentInputBox>
