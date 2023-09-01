@@ -7,6 +7,7 @@ import { useQuery } from '@tanstack/react-query';
 import { fetchMyPoint } from '../api/items';
 import { useAtomValue } from 'jotai';
 import * as userStore from '../store/userStore';
+import Footer from '../components/Footer';
 
 const Shop = () => {
   const user = useAtomValue(userStore.user);
@@ -65,6 +66,7 @@ const Shop = () => {
         </S.ButtonContainer>
       </S.Top>
       {renderSelectedCategory()}
+      <Footer />
     </S.Outer>
   );
 };

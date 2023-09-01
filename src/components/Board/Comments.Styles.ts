@@ -129,6 +129,7 @@ export const Ninkname = styled.div`
 `;
 export const CommentBox = styled.div`
   width: 1308px;
+  height: 48px;
   margin-left: 55px;
   line-height: 1.6;
 `;
