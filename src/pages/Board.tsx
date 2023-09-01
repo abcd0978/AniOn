@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import * as userStore from '../store/userStore';
@@ -20,7 +20,6 @@ const Board = () => {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [searchKeyword, setSearchKeyword] = useState<string>('');
   const [page, setPage] = useState<number>(1);
-
   const handleWriteClick = () => {
     navigate('/board/write');
   };
@@ -63,20 +62,25 @@ const Board = () => {
     }
   };
 
-  // 검색 결과에 따라 게시물 리스트를 필터링
-  const filteredPosts: ReadPosts[] | undefined =
-    postsAndTotalPages?.data?.filter((post: any) => {
-      const postTitleIncludesKeyword = post.title.includes(searchKeyword);
-      const postContentIncludesKeyword = post.content.includes(searchKeyword);
-      const postUserNicknameIncludesKeyword =
-        post.users?.nickname.includes(searchKeyword);
+  // 검색 결과에 따라 게시물 리스트를 필터링하고 정렬
+  const filteredAndSortedPosts: ReadPosts[] | undefined = useMemo(() => {
+    if (!postsAndTotalPages?.data) return undefined;
 
-      return (
-        postTitleIncludesKeyword ||
-        postContentIncludesKeyword ||
-        postUserNicknameIncludesKeyword
-      );
-    });
+    return postsAndTotalPages.data
+      .filter((post: ReadPosts) => {
+        const postTitleIncludesKeyword = post.title.includes(searchKeyword);
+        const postContentIncludesKeyword = post.content.includes(searchKeyword);
+        const postUserNicknameIncludesKeyword =
+          post.users?.nickname?.includes(searchKeyword) ?? false;
+
+        return (
+          postTitleIncludesKeyword ||
+          postContentIncludesKeyword ||
+          postUserNicknameIncludesKeyword
+        );
+      })
+      .sort((a, b) => b.created_at.localeCompare(a.created_at)); // 최신 글이 위로 가도록 정렬
+  }, [postsAndTotalPages, searchKeyword]);
 
   const handlePostClick = (postId: string) => {
     navigate(`/board/${postId}`);
@@ -165,13 +169,13 @@ const Board = () => {
 
         {isFetching ? (
           <div>로딩중...</div>
-        ) : filteredPosts ? (
-          filteredPosts.map((post: ReadPosts, index: number) => (
+        ) : filteredAndSortedPosts ? (
+          filteredAndSortedPosts.map((post: ReadPosts, index: number) => (
             <S.Postbox
               key={post.id}
               onClick={() => post.id && handlePostClick(post.id.toString())}
             >
-              <S.BottomNo>{index + 1}</S.BottomNo>
+              <S.BottomNo>{filteredAndSortedPosts.length - index}</S.BottomNo>
               <S.BottomTitle>{post.title}</S.BottomTitle>
 
               <S.BottomNick>
@@ -188,6 +192,7 @@ const Board = () => {
           <div>검색 결과 없음</div>
         )}
       </ul>
+
       <S.Page>
         <Pagination
           currentPage={page}
