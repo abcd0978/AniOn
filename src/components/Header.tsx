@@ -22,6 +22,8 @@ import PurchaseConfirmContents from './Modal/PurchaseConfirmContents';
 import AfterPurchaseModalContents from './Modal/AfterPurchaseModalContents';
 import PurchaseAwardModalContents from './Modal/PurchaseAwardModalContents';
 import { useNavigate } from 'react-router-dom';
+import { fetchEquippedItem } from '../api/items';
+import { useQuery } from '@tanstack/react-query';
 
 import * as itemApi from '../api/items';
 type Props = {};
@@ -35,6 +37,17 @@ function Header({}: Props) {
   const [user, setUser] = useAtom(userStore.user);
   const [isModalOpened, setIsModalOpened] = useAtom(modalStore.isModalOpened);
   const [modalContents, setModalContents] = useAtom(modalStore.modalContents);
+
+  const equipedAwardQueryOption = {
+    queryKey: ['equippedAward'],
+    queryFn: () => fetchEquippedItem({ user_id: user!.id, category: 1 }),
+    refetchOnWindowFocus: false,
+    staleTime: 60 * 60,
+    enabled: !!user,
+  };
+
+  const { data: award } = useQuery(equipedAwardQueryOption);
+
   const modalContentsFunc = (name: string) => {
     switch (name) {
       case 'login': {
@@ -143,7 +156,9 @@ function Header({}: Props) {
                 />
                 <StHeaderUserInfo>
                   <StHeaderUserName>{user.nickname}</StHeaderUserName>
-                  <StHeaderUserAppellation>칭호</StHeaderUserAppellation>
+                  <StHeaderUserAppellation>
+                    {award ? award.items.name : '칭호 없음'}
+                  </StHeaderUserAppellation>
                 </StHeaderUserInfo>
                 <StHeaderDropDownImgContainer
                   onClick={() => setIsDowpdownOn(!isDropdownOn)}
