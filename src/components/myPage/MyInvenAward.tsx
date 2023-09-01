@@ -2,9 +2,15 @@ import { useQuery } from '@tanstack/react-query';
 import { useAtomValue } from 'jotai';
 import * as userStore from '../../store/userStore';
 import { fetchMyAwards } from '../../api/items';
-
+import { B } from './Deco.styles';
+import goShop from '../../assets/goShop.png';
+import useViewport from '../../hooks/useViewPort';
+import { useNavigate } from 'react-router-dom';
 const MyInvenAward = () => {
   const user = useAtomValue(userStore.user);
+  const navigate = useNavigate();
+  const { width, height, isMobile, isLoaded } = useViewport();
+
   const {
     isLoading,
     isError,
@@ -43,14 +49,21 @@ const MyInvenAward = () => {
         </li>
       ))}
     </ul>
-  ) : null;
-
-  return (
-    <div>
-      <h2>내 칭호</h2>
-      {awardsList}
-    </div>
+  ) : (
+    <B.NoneContainer mediaWidth={width}>
+      <B.NoneMessage>구매한 칭호가 없습니다.</B.NoneMessage>
+      <B.NoneButton
+        onClick={() => {
+          navigate('/shop/:category');
+        }}
+      >
+        칭호 구매하러 가기
+        <img src={goShop} />
+      </B.NoneButton>
+    </B.NoneContainer>
   );
+
+  return <div>{awardsList}</div>;
 };
 
 export default MyInvenAward;

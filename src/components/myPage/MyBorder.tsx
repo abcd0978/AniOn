@@ -4,8 +4,12 @@ import { useAtomValue } from 'jotai';
 import * as userStore from '../../store/userStore';
 import goShop from '../../assets/goShop.png';
 import { B } from './Deco.styles';
+import useViewport from '../../hooks/useViewPort';
+import { useNavigate } from 'react-router-dom';
 const MyBorder = () => {
   const user = useAtomValue(userStore.user);
+  const { width, height, isMobile, isLoaded } = useViewport();
+  const navigate = useNavigate();
   const {
     isLoading,
     isError,
@@ -51,20 +55,19 @@ const MyBorder = () => {
         ))}
       </ul>
     ) : (
-      <div>
-        <div>구매한 테두리가 없습니다.</div>
-        <B.NoneButton>
+      <B.NoneContainer mediaWidth={width}>
+        <B.NoneMessage>구매한 테두리가 없습니다.</B.NoneMessage>
+        <B.NoneButton
+          onClick={() => {
+            navigate('/shop/:category');
+          }}
+        >
           테두리 구매하러 가기
           <img src={goShop} />
         </B.NoneButton>
-      </div>
+      </B.NoneContainer>
     );
-  return (
-    <div>
-      <h2>내 테두리</h2>
-      {borderList}
-    </div>
-  );
+  return <div>{borderList}</div>;
 };
 
 export default MyBorder;

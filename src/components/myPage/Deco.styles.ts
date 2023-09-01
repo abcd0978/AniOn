@@ -11,7 +11,15 @@ export const Deco = {
   `,
 };
 export const B = {
-  NoneContainer: styled.div``,
+  NoneContainer: styled.div<{ mediaWidth: number }>`
+    ${(props) => `height:${80 * (props.mediaWidth / 1920)}px;`}
+    display: grid;
+    align-items: center;
+
+    justify-content: center;
+    margin-left: 150%;
+    margin-top: 100%;
+  `,
   GoIcon: styled.img`
     width: 24px;
     height: 24px;
@@ -26,5 +34,13 @@ export const B = {
     display: flex;
     justify-content: center;
     align-items: center;
+    margin: 10px;
+    cursor: pointer;
+  `,
+  NoneMessage: styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
   `,
 };
