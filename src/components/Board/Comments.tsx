@@ -12,6 +12,8 @@ import {
 import { Database } from '../../types/supabase';
 import * as userStore from '../../store/userStore';
 import { atom, useAtom, useAtomValue } from 'jotai';
+import { toast } from 'react-toastify';
+
 type ReadPostComment = Database['public']['Tables']['post_comments']['Row'];
 type InsertPostComment =
   Database['public']['Tables']['post_comments']['Insert'];
@@ -44,11 +46,15 @@ const Comments = () => {
 
   const handleCommentSubmit = () => {
     if (!user) {
-      alert('로그인 후에 댓글을 작성할 수 있습니다! 로그인해주세요.');
+      toast.warning('로그인 후 댓글 작성이 가능해요🙄', {
+        autoClose: 1000,
+      });
       return;
     }
     if (!newComment) {
-      alert('댓글 내용을 입력해주세요.');
+      toast.warning('댓글을 작성해주세요!', {
+        autoClose: 1000,
+      });
       return;
     }
 

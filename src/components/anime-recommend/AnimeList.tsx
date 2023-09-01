@@ -17,6 +17,7 @@ import {
 } from '../../store/animeRecommendStore';
 import * as userStore from '../../store/userStore';
 import AnimeCardSkeleton from './AnimeCardSkeleton';
+import { toast } from 'react-toastify';
 import { ReadAnimeLikeG } from '../../types/likes';
 import type { AnimeG } from '../../types/anime';
 import AnimeCard from './AnimeCard';
@@ -62,7 +63,9 @@ const AnimeList = () => {
       queryClient.invalidateQueries(['animeLikes']);
     },
     onError: (error) => {
-      alert(`toggleAnimeLike 오류가 발생했습니다. : ${error}`);
+      toast.error(`toggleAnimeLike 오류가 발생했습니다. : ${error}`, {
+        autoClose: 1000,
+      });
     },
   });
 
@@ -75,7 +78,9 @@ const AnimeList = () => {
 
   const handleLike = (anime_id: string) => {
     if (!user) {
-      alert('로그인 후 사용 가능합니다.');
+      toast.warning('로그인 후 찜해주세요!💗', {
+        autoClose: 1000,
+      });
       return;
     }
 

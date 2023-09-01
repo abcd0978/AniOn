@@ -22,6 +22,7 @@ export default function Pagination({
             onClick('prev');
           }
         }}
+        disabled={isPreviousDisabled}
       >
         {'< 이전 '}
       </Before>
@@ -66,19 +67,18 @@ export default function Pagination({
   );
 }
 
-const Before = styled.span`
+const Before = styled.button`
   border: 1px solid;
   border-color: #f3e7ff;
   border-radius: 6px;
   padding: 10px;
   color: #767676;
   margin: 10px;
-  cursor: pointer;
+  cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
   margin-right: 18px;
 
   &:hover {
-    background-color: #f3e7ff;
-    border-color: #c88fff;
+    border-color: ${(props) => (props.disabled ? '' : 'red')};
   }
 `;
 const After = styled.span`
@@ -86,7 +86,6 @@ const After = styled.span`
   border-color: #f3e7ff;
   border-radius: 6px;
   padding: 10px;
-  color: #767676;
   cursor: pointer;
 
   &:hover {
@@ -116,3 +115,23 @@ const Container = styled.div`
   margin-bottom: 55px;
   display: space-between;
 `;
+
+// const BeforeButton = styled.button`
+//   border: 1px solid;
+//   border-color: #f3e7ff;
+//   border-radius: 6px;
+//   padding: 10px;
+//   color: #767676;
+//   margin: 10px;
+//   cursor: pointer;
+//   margin-right: 18px;
+
+//   &:disabled:hover {
+//     cursor: not-allowed;
+//   }
+
+// &:hover {
+//   background-color: #f3e7ff;
+//   border-color: #c88fff;
+// }
+// `;
