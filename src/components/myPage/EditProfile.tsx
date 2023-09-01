@@ -117,6 +117,7 @@ const EditProfile = () => {
 
     try {
       const validationResult = validateNickname(newNickname);
+      console.log('Validation result:', validationResult);
       if (validationResult.error) {
         setNicknameError(validationResult);
         return;
@@ -126,6 +127,7 @@ const EditProfile = () => {
         .from('users')
         .update({ nickname: newNickname })
         .eq('id', user?.id);
+      console.log('Update result:', data, error);
       await supabase.auth.updateUser({
         data: { nickname: newNickname },
       });
@@ -250,6 +252,7 @@ const EditProfile = () => {
                       setNicknameDupChecked(true);
                       setNicknameError(initialError);
                     } else {
+                      alert('이미 사용 중인 닉네임입니다.');
                       setNicknameError({
                         error: true,
                         errorMsg: '중복되는 닉네임입니다.',
@@ -260,10 +263,24 @@ const EditProfile = () => {
                     console.error(error);
                   }
                 }}
+                disabled={
+                  newNickname === '' ||
+                  newNickname === user?.nickname ||
+                  !(newNickname.length >= 2 && newNickname.length <= 8)
+                }
               >
                 중복확인
               </NickNameCheck>
-              <DoneButton type="submit">완료</DoneButton>
+              <DoneButton
+                type="submit"
+                disabled={
+                  newNickname === '' ||
+                  newNickname === user?.nickname ||
+                  !(newNickname.length >= 2 && newNickname.length <= 8)
+                }
+              >
+                완료
+              </DoneButton>
               <CancelButton onClick={() => setEditMode('')}>취소</CancelButton>
             </form>
           ) : (
@@ -333,6 +350,11 @@ const DoneButton = styled.button`
   height: 32px;
   border: transparent;
   color: #fff;
+  &:disabled {
+    background-color: white;
+    color: #cccccc;
+    cursor: not-allowed;
+  }
 `;
 const ChangeButton = styled.button`
   background-color: #fdfbff;
@@ -351,6 +373,11 @@ const NickNameCheck = styled.button`
   border-color: transparent;
   // border-style: solid;
   color: #fff;
+  &:disabled {
+    background-color: white;
+    color: #cccccc;
+    cursor: not-allowed;
+  }
 `;
 export const Button = styled.button`
   padding: 8px;

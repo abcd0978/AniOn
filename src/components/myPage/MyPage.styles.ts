@@ -169,7 +169,7 @@ export const InfoMenu = {
 export const MyAward = {
   MyProfileAward: styled.div`
     display: flex;
-    width: 160px;
+    width: auto;
     height: 28px;
     padding: 8px;
     justify-content: center;
