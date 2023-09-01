@@ -28,7 +28,10 @@ export const equipItem = async (params: {
   category: number;
 }): Promise<purchaseRes> => {
   try {
-    const equipped = await fetchEquippedItem(params.user_id, params.category);
+    const equipped = await fetchEquippedItem({
+      user_id: params.user_id,
+      category: params.category,
+    });
     if (equipped && equipped.item_id !== params.item_id) {
       await supabase
         .from('inventory')
@@ -120,13 +123,16 @@ export const fetchMyBorders = async (user_id: string) => {
 };
 
 // 착용중인 칭호 불러오기
-export const fetchEquippedItem = async (user_id: string, category: number) => {
+export const fetchEquippedItem = async (params: {
+  user_id: string;
+  category: number;
+}) => {
   try {
     const { data, error } = await supabase
       .from('inventory')
       .select('*, items!inner(name)')
-      .eq('items.category', category)
-      .eq('user_id', user_id)
+      .eq('items.category', params.category)
+      .eq('user_id', params.user_id)
       .eq('is_equipped', true)
       .single();
     if (error) {
@@ -138,6 +144,26 @@ export const fetchEquippedItem = async (user_id: string, category: number) => {
   } catch (error) {
     console.log('items.ts fetchEquippedTitle error > ', error);
     return '';
+  }
+};
+
+// 착용중인 아이템 전부
+export const fetchEquippedItems = async (user_id: string) => {
+  try {
+    const { data, error } = await supabase
+      .from('inventory')
+      .select('user_id,item_id, items!inner(name,img_url)')
+      .eq('user_id', user_id)
+      .eq('is_equipped', true);
+    if (error) {
+      console.log('items.ts fetchEquippedTitle error > ', error);
+      return [];
+    }
+    console.log('이큅드 아이템', data);
+    return data;
+  } catch (error) {
+    console.log('items.ts fetchEquippedTitle error > ', error);
+    return [];
   }
 };
 
