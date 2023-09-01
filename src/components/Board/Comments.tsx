@@ -180,12 +180,25 @@ const Comments = () => {
               </div>
               {user?.id === comment.user_id && (
                 <S.ButtonBox>
-                  <S.button onClick={() => handleCommentEdit(comment)}>
-                    {comment.id === editingCommentId ? '저장' : '수정'}
-                  </S.button>
-                  <S.button onClick={() => handleCommentDelete(comment.id)}>
-                    삭제
-                  </S.button>
+                  {comment.id === editingCommentId ? (
+                    <>
+                      <S.button onClick={() => handleCommentEdit(comment)}>
+                        저장
+                      </S.button>
+                      <S.button onClick={() => setEditingCommentId(null)}>
+                        취소
+                      </S.button>
+                    </>
+                  ) : (
+                    <>
+                      <S.button onClick={() => handleCommentEdit(comment)}>
+                        수정
+                      </S.button>
+                      <S.button onClick={() => handleCommentDelete(comment.id)}>
+                        삭제
+                      </S.button>
+                    </>
+                  )}
                 </S.ButtonBox>
               )}
               {comment.id === editingCommentId ? (
