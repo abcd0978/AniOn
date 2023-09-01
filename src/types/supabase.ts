@@ -1,3 +1,8 @@
+export enum category {
+  border = 0,
+  award = 1,
+}
+
 export type Json =
   | string
   | number
@@ -474,6 +479,7 @@ export interface Database {
           nickname: string;
           profile_img_url: string | null;
           email: string;
+          items?: {};
         };
         Insert: {
           created_at?: string;

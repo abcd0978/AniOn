@@ -111,7 +111,9 @@ const LoginModalContents = (props: Props) => {
       emailError.error ||
       passwordError.error ||
       passwordConfirmError.error ||
-      nicknameError.error
+      nicknameError.error ||
+      !nicknameDupChecked ||
+      !emailDupChecked
     ) {
       return;
     }

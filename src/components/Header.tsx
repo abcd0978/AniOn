@@ -7,18 +7,23 @@ import * as userStore from '../store/userStore';
 import dropdown from '../assets/dropdown.svg';
 import dropdownUp from '../assets/dropdownUp.svg';
 import * as authApi from '../api/auth';
+import flower from '../assets/flower.png';
+import pink from '../assets/partypink.png';
 import logout from '../assets/logout.svg';
 import account from '../assets/account.svg';
 import logo from '../assets/logo.svg';
 import type { DropdownContentsType } from './DropDown/DropDown';
 import DropDown from './DropDown/DropDown';
 import Modal from './Modal/Modal';
+import ProfileWithBorder from './ProfileWithBorder';
 import LoginModalContents from './Modal/LoginModalContents';
 import RegisterModalContents from './Modal/RegisterModalContents';
 import PurchaseConfirmContents from './Modal/PurchaseConfirmContents';
 import AfterPurchaseModalContents from './Modal/AfterPurchaseModalContents';
 import PurchaseAwardModalContents from './Modal/PurchaseAwardModalContents';
 import { useNavigate } from 'react-router-dom';
+
+import * as itemApi from '../api/items';
 type Props = {};
 
 function Header({}: Props) {
@@ -70,15 +75,11 @@ function Header({}: Props) {
   ];
   return (
     <>
+      {/* <button onClick={() => itemApi.fetchEquippedItems(user?.id!)}>
+        testtesttesttest
+      </button> */}
       {isModalOpened && <Modal>{modalContentsFunc(modalContents)}</Modal>}
-      <header
-        style={{
-          height: '80px',
-          display: 'grid',
-          alignItems: 'center',
-          borderBottom: 'solid 1px #d9d9d9',
-        }}
-      >
+      <StHeader mediaWidth={width}>
         <StHeaderContainer>
           <StHeaderLogoSection
             onClick={() => {
@@ -134,10 +135,11 @@ function Header({}: Props) {
           <StHeaderUserInfoSection>
             {user ? (
               <StHeaderUserInfoContainer>
-                <StHeaderUserProfile
-                  src={user.profile_img_url!}
-                  alt="프사"
-                  mediaWidth={width}
+                <ProfileWithBorder
+                  borderUrl={flower} //borderUrl 받아와야함
+                  profileUrl={user?.profile_img_url!}
+                  width={width}
+                  key={user?.id!}
                 />
                 <StHeaderUserInfo>
                   <StHeaderUserName>{user.nickname}</StHeaderUserName>
@@ -179,7 +181,7 @@ function Header({}: Props) {
             )}
           </StHeaderUserInfoSection>
         </StHeaderContainer>
-      </header>
+      </StHeader>
     </>
   );
 }
@@ -187,7 +189,12 @@ function Header({}: Props) {
 const headerMenuColor = '#999999';
 const headerMenuColorActivated = '#4f4f4f';
 
-const StHeader = styled.div``;
+const StHeader = styled.header<{ mediaWidth: number }>`
+  ${(props) => `height:${80 * (props.mediaWidth / 1920)}px;`}
+  display: grid;
+  align-items: center;
+  border-bottom: solid 1px #d9d9d9;
+`;
 const StHeaderContainer = styled.div`
   margin: auto;
   width: 75%;
@@ -202,6 +209,19 @@ const StHeaderLogoSection = styled.div`
   max-width: 10%;
   // height: 100%;
   margin-right: 40px;
+`;
+const StPreview = styled.div<{ background: string }>`
+  z-index: 3;
+  position: absolute;
+  background-image: url(${(props) => props.background});
+  background-size: cover;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
 `;
 const StHeaderMenuSection = styled.div`
   width: 75%;
@@ -237,14 +257,15 @@ const StHeaderUserInfoContainer = styled.div`
   gap: 8px;
 `;
 const StHeaderUserProfile = styled.img<{ mediaWidth: number }>`
-  ${(props) =>
-    `width:${56 * (props.mediaWidth / 1920)}px;
-    height:${56 * (props.mediaWidth / 1920)}px;`}
-  min-width:30px;
-  min-height: 30px;
+  width: calc(100% / 1.28787);
+  height: calc(100% / 1.28787);
   object-fit: cover;
   border-radius: 50%;
+  position: absolute;
   background: #d9d9d9;
+  top: 12.5%;
+  left: 12.5%;
+  z-index: 2;
 `;
 const StHeaderUserInfo = styled.div`
   display: flex;
@@ -294,5 +315,11 @@ const StblackBar = styled.div`
   height: 16px;
   flex-shrink: 0;
   background: #4f4f4f;
+`;
+const StProfileContainer = styled.div<{ mediaWidth: number }>`
+  ${(props) =>
+    `width:${80 * (props.mediaWidth / 1920)}px;
+    height:${80 * (props.mediaWidth / 1920)}px;`}
+  position: relative;
 `;
 export default Header;
