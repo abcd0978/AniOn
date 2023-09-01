@@ -30,8 +30,11 @@ const WriteBoard = () => {
   };
 
   // 취소
-  const cancellButton = () => {
-    navigate('/board');
+  const cancelButton = () => {
+    const confirmed = window.confirm('정말 취소하시나요....?😭');
+    if (confirmed) {
+      navigate('/board');
+    }
   };
 
   // Post 추가
@@ -137,7 +140,7 @@ const WriteBoard = () => {
             <EditorComponent onChange={setContent} />
           </S.ContentInput>
           <S.ButtonContainer>
-            <S.Button onClick={cancellButton}>취소</S.Button>
+            <S.Button onClick={cancelButton}>취소</S.Button>
             <S.SubmitButton type="submit">등록</S.SubmitButton>
           </S.ButtonContainer>
         </S.Form>
