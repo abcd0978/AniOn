@@ -21,7 +21,11 @@ const Board = () => {
   const [searchKeyword, setSearchKeyword] = useState<string>('');
   const [page, setPage] = useState<number>(1);
   const handleWriteClick = () => {
-    navigate('/board/write');
+    if (!user) {
+      alert('로그인 후에 작성할 수 있습니다. 로그인 해주세요.');
+    } else {
+      navigate('/board/write');
+    }
   };
 
   const handleAllClick = () => {
@@ -45,7 +49,7 @@ const Board = () => {
       },
     },
   );
-
+  
   const onClickPage = (selected: number | string) => {
     if (page === selected) return;
     if (typeof selected === 'number') {
