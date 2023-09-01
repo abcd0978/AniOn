@@ -5,7 +5,7 @@ type InsertAniComment = Database['public']['Tables']['ani_comments']['Insert'];
 type UpdateAniComment = Database['public']['Tables']['ani_comments']['Update'];
 
 const fetchComments = async (ani_id: string, page: number): Promise<any> => {
-  const itemsPerPage = 4;
+  const itemsPerPage = 5;
 
   const startIndex = (page - 1) * itemsPerPage;
 

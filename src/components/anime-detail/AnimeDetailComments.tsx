@@ -136,6 +136,11 @@ const AnimeDetailComments = () => {
       return;
     }
   };
+  // 이전 페이지 버튼 비활성화 여부 계산
+  const isPreviousDisabled = page === 1;
+
+  // 다음 페이지 버튼 비활성화 여부 계산
+  const isNextDisabled = page >= (aniCommentsData?.totalPages ?? 1);
 
   // console.log('AniCommentsData:', aniCommentsData);
 
@@ -216,6 +221,8 @@ const AnimeDetailComments = () => {
               currentPage={page}
               totalPages={aniCommentsData?.totalPages ?? 1}
               onClick={onClickPage}
+              isPreviousDisabled={isPreviousDisabled}
+              isNextDisabled={isNextDisabled}
             />
           </S.AniCommentPageBox>
         </S.CommentSpace>
