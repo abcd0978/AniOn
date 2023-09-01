@@ -1,11 +1,12 @@
-import { fetchMyBorders } from '../../api/items';
+import { equipItem, fetchMyBorders } from '../../api/items';
 import { useQuery } from '@tanstack/react-query';
-import { useAtomValue } from 'jotai';
+import { useAtomValue, useSetAtom, useStore } from 'jotai';
 import * as userStore from '../../store/userStore';
 import goShop from '../../assets/goShop.png';
 import { B } from './Deco.styles';
 const MyBorder = () => {
   const user = useAtomValue(userStore.user);
+  const writeUserItem = useSetAtom(userStore.writeUserItem);
   const {
     isLoading,
     isError,
@@ -27,10 +28,8 @@ const MyBorder = () => {
   if (isError) {
     return <div>테두리를 불러오지 못했어요.</div>;
   }
-  console.log('user', user);
-  console.log('borders', borders);
-  const applyAward = (awardName: string) => {
-    console.log(`Applying award:${awardName}`);
+  const applyAward = (itemId: string) => {
+    console.log(`Applying award:${itemId}`);
   };
   const filteredBorders = borders.filter((borders) => borders.items !== null);
   console.log(filteredBorders);
@@ -44,7 +43,7 @@ const MyBorder = () => {
               src={filteredBorders.items?.img_url}
               alt={filteredBorders.items?.name}
             />
-            <button onClick={() => applyAward(filteredBorders.items?.name)}>
+            <button onClick={() => applyAward(filteredBorders.items?.id)}>
               적용
             </button>
           </li>
