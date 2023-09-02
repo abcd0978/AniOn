@@ -7,7 +7,6 @@ import React, {
 } from 'react';
 import BannerSlide from '../components/BannerSlide';
 import Banner from '../components/Banner';
-import Footer from '../components/Footer';
 import logo from '../assets/logo.svg';
 import styled from 'styled-components';
 import next from '../assets/next.svg';
@@ -28,6 +27,7 @@ import hosino from '../assets/hosihoii.jpg';
 import gil from '../assets/gil.jpg';
 import cha from '../assets/cha.jpg';
 import jusul from '../assets/jusulgg.png';
+import ScrollToTop from '../components/ScrollToTop';
 // const BannerSlide: ReactNode[] = ['슬라이드1', '슬라이드2', '슬라이드3'];
 const smallCardHeight = 272;
 const BigCardHeight = 464;
@@ -390,7 +390,7 @@ const Main = () => {
           </StMainCardContainer>
         </StMainCardContainerWithTypo>
       </StMainCardContainerContainer>
-      <Footer />
+      <ScrollToTop />
     </>
   );
 };
