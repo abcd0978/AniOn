@@ -348,6 +348,7 @@ export const Container = styled.div`
   position: relative;
   top: -320px;
   margin-left: 160px;
+  margin-bottom: 130px;
 `;
 
 const Item = styled.div`

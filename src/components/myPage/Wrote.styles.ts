@@ -163,7 +163,7 @@ export const Post = {
   `,
   ButtonBox: styled.div`
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
     align-self: stretch;
   `,
