@@ -8,7 +8,7 @@ import * as authApi from '../../api/auth';
 import * as userStore from '../../store/userStore';
 import { Profile } from './MyPage.styles';
 import { Review } from './Wrote.styles';
-
+import { useAtom } from 'jotai';
 //2-2-1.닉넴중복확인
 type ErrorType = {
   error: boolean;
@@ -19,22 +19,17 @@ const initialError: ErrorType = { error: false, errorMsg: '' };
 const EditProfile = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [editMode, setEditMode] = useState<string>('');
-  const user = useAtomValue(userStore.user);
-  const writeUser = useSetAtom(userStore.writeUser);
-  const setCurrentUser = useSetAtom(userStore.user);
-
+  const [user, setUser] = useAtom(userStore.user);
   const [newNickname, setNewNickname] = useState('');
   const [nicknameError, setNicknameError] = useState<ErrorType>(initialError);
   const [nicknameDupChecked, setNicknameDupChecked] = useState(false);
   //2-1-1. 사진 업로드
   const handleUpload = async () => {
-    console.log('handleUpload started');
     if (!selectedFile) {
-      console.log('No selected file');
       alert('선택된 파일이 없습니다.');
       return;
     }
-
+    console.log('user', user);
     // 2-1-2. 사진UUID생성
     const fileExtension = selectedFile.name.split('.').pop(); //파일확장자추출
     const newFileName = `${uuidv4()}.${fileExtension}`;
@@ -87,15 +82,17 @@ const EditProfile = () => {
             ...user,
             profile_img_url: publicUrl,
           };
-
-          setCurrentUser(updatedUser);
+          setUser(updatedUser);
+          alert('수정되었습니다.');
+          console.log('updatedUser', updatedUser); //미피
+          console.log('currentUser1', updatedUser); //미피
         } else {
           console.error('No current user found');
         }
       }
 
       console.log('User profile updated successfully!!!!');
-      alert('수정되었습니다.');
+      console.log('currentUser2', user); //실바니안
     } catch (error) {
       console.error(error);
     }
@@ -130,8 +127,6 @@ const EditProfile = () => {
     event.preventDefault();
     if (!nicknameDupChecked) {
       alert('닉네임 중복 확인을 먼저 해주세요.');
-      console.log('New nickname:', newNickname);
-
       return;
     }
 
@@ -157,30 +152,38 @@ const EditProfile = () => {
             nickname: newNickname,
           };
 
-          setCurrentUser(updatedUser);
+          // supabase에서 업데이트 된 정보를 가져와서 업데이트
+          const { data: userData, error: userFetchError } = await supabase
+            .from('users')
+            .select()
+            .eq('id', user?.id);
+
+          if (userFetchError) {
+            console.error('User fetch error:', userFetchError);
+          } else {
+            const [updatedUserData] = userData || [];
+            if (updatedUserData) {
+              setUser(updatedUserData);
+            }
+          }
+
+          alert('닉네임이 변경되었습니다.');
+          setEditMode('');
+          console.log('updatedNickname', updatedUser);
         } else {
           console.error('No current user found');
         }
       }
-
-      alert('닉네임이 변경되었습니다.');
-      setEditMode('');
-      if (error) {
-        console.error(error);
-      }
-      await writeUser();
-      setNewNickname(newNickname);
-      setEditMode('');
     } catch (error) {
       console.error(error);
     }
   };
-
   //2-3.비번 변경
   //a. 현재 비밀번호 입력 -> 다른 비밀번호면 비번변경불가
   //-> 같은 비밀번호면 새비밀번호 입력창과 새 비밀번호 확인창 나타나기
 
   const renderContent = () => {
+    let updatedUser = user;
     return (
       <Container>
         <EditTitle>프로필 수정</EditTitle>
@@ -268,7 +271,7 @@ const EditProfile = () => {
                 type="text"
                 value={newNickname}
                 onChange={handleNicknameChange}
-                placeholder={user?.nickname}
+                placeholder={updatedUser?.nickname}
               />
               <NickNameCheck
                 onClick={async (e) => {
@@ -320,8 +323,7 @@ const EditProfile = () => {
             </form>
           ) : (
             <ButtonArray>
-              <div>{user?.nickname}</div>
-
+              <div>{updatedUser?.nickname}</div>
               <ChangeButton onClick={() => setEditMode('nickname')}>
                 변경
               </ChangeButton>
@@ -449,7 +451,6 @@ const TextBelowNickname = styled.div`
   color: #838383;
   font-size: 14px;
   margin-top: 8px;
-
   width: 400px;
 `;
 export const Divider = styled.div`

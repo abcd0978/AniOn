@@ -13,9 +13,13 @@ import viewDetail from '../../assets/viewdetail.svg';
 import { S } from '../anime-recommend/styled.AnimeCard';
 import { HoverInfo } from '../anime-recommend/styled.AnimeCard';
 import { Container, EditTitle } from './EditProfile';
+import useViewport from '../../hooks/useViewPort';
+
 const itemsPerPage = 8;
 const LikedAnime = () => {
   const [page, setPage] = useState<number>(1);
+  const { width, height, isMobile, isLoaded } = useViewport();
+  const [currentPage, setCurrentPage] = useState(1);
 
   const [animeTitles, setAnimeTitles] = useState<Record<string, AnimeG>>({});
   const user = useAtomValue(userStore.user);
@@ -64,14 +68,18 @@ const LikedAnime = () => {
   if (isError) {
     return <div>좋아요 목록을 불러오지 못했어요</div>;
   }
-  const startIndex = (page - 1) * itemsPerPage;
+  const totalPages = Math.ceil(liked.length / itemsPerPage);
+
+  const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const displayedAnime = liked.slice(startIndex, endIndex);
-  const totalAnimeCount = liked.length;
-  const totalPages = Math.ceil(totalAnimeCount / itemsPerPage);
   const handlePageChange = (selected: number | string) => {
     if (typeof selected === 'number') {
-      setPage(selected);
+      setCurrentPage(selected);
+    } else if (selected === 'prev') {
+      setCurrentPage((current) => Math.max(1, current - 1));
+    } else if (selected === 'next') {
+      setCurrentPage((current) => Math.min(totalPages, current + 1));
     }
   };
   // 현재 페이지와 총 페이지 수를 계산합니다.
@@ -112,22 +120,30 @@ const LikedAnime = () => {
   return (
     <div>
       {likedList}
-      <Pagination
-        currentPage={page}
-        totalPages={Math.ceil(liked.length / itemsPerPage)}
-        onClick={handlePageChange}
-        isPreviousDisabled={isPreviousDisabled}
-        isNextDisabled={isNextDisabled}
-      />
+      <Page mediaWidth={width}>
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onClick={handlePageChange}
+          isPreviousDisabled={currentPage === 1}
+          isNextDisabled={currentPage >= totalPages}
+        />
+      </Page>
     </div>
   );
 };
 
 export default LikedAnime;
-
+const Page = styled.div<{ mediaWidth: number }>`
+  height: 10vh;
+  ${(props) => `width:${250 * (props.mediaWidth / 1920)}px;`}
+  margin-bottom: -330px;
+  margin-left: 500px;
+`;
 const GridContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
+  margin-bottom: -330px;
   gap: 10px;
   :hover {
     filter: brightness(0.5);
