@@ -28,7 +28,7 @@ const ShopBorder = () => {
               // title={border.name}
               // img_url={border.img_url}
               // price={border.price}
-              // key={index}
+              key={index}
             />
           ))}
         </S.ItemBox>

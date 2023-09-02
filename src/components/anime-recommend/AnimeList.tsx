@@ -1,41 +1,43 @@
 import React, { useEffect, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useAtom, useAtomValue } from 'jotai';
+import ScrollToTop from '../ScrollToTop';
+import { toast } from 'react-toastify';
 import { throttle } from 'lodash';
+
+// component
+import AnimeCardSkeleton from './AnimeCardSkeleton';
 import useIntersect from '../../hooks/useIntersect';
 import AnimeFilter from './top-menu/AnimeFilter';
 import { S } from './styled.AnimeList';
+import AnimeCard from './AnimeCard';
+
+// api
 import { fetchAllAnimeLikes, toggleAnimeLike } from '../../api/likeApi';
 import { fetchAnimeList } from '../../api/laftel';
-import {
-  offsetAtom,
-  selectedGenresAtom,
-  selectedCategoryAtom,
-  selectedYearsAtom,
-  isEndingAtom,
-  keywordAtom,
-} from '../../store/animeRecommendStore';
+
+// store
+import * as animeStore from '../../store/animeRecommendStore';
 import * as userStore from '../../store/userStore';
-import AnimeCardSkeleton from './AnimeCardSkeleton';
-import { toast } from 'react-toastify';
-import { ReadAnimeLikeG } from '../../types/likes';
+
+// type
+import type { ReadAnimeLikeG } from '../../types/likes';
 import type { AnimeG } from '../../types/anime';
-import AnimeCard from './AnimeCard';
 
 const AnimeList = () => {
   const queryClient = useQueryClient();
 
   const user = useAtomValue(userStore.user);
-  const genres = useAtomValue(selectedGenresAtom);
-  const category = useAtomValue(selectedCategoryAtom);
-  const years = useAtomValue(selectedYearsAtom);
-  const ending = useAtomValue(isEndingAtom);
-  const keyword = useAtomValue(keywordAtom);
+  const genres = useAtomValue(animeStore.selectedGenresAtom);
+  const category = useAtomValue(animeStore.selectedCategoryAtom);
+  const years = useAtomValue(animeStore.selectedYearsAtom);
+  const ending = useAtomValue(animeStore.isEndingAtom);
+  const keyword = useAtomValue(animeStore.keywordAtom);
 
   const size = 18;
   const sort = 'rank';
 
-  const [offset, setOffset] = useAtom(offsetAtom);
+  const [offset, setOffset] = useAtom(animeStore.offsetAtom);
   const [animeList, setAnimeList] = useState<AnimeG[]>([]);
   const [isNextPage, setIsNextPage] = useState(false);
   const [count, setCount] = useState(0);
@@ -118,7 +120,6 @@ const AnimeList = () => {
   // 장르, 카테고리, 분기 선택 시 변경.
   useEffect(() => {
     return () => {
-      // console.log('클린업', offset);
       setOffset(0);
       setAnimeList([]);
     };
@@ -136,8 +137,6 @@ const AnimeList = () => {
   if (isError) {
     return <div>Anime List를 가져오는 중 오류가 발생했습니다.</div>;
   }
-
-  // console.log(animeList);
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -177,6 +176,7 @@ const AnimeList = () => {
           ))
         )}
       </S.AnimeContainer>
+      <ScrollToTop />
       {isNextPage && !isLoading && <S.Target ref={ref} />}
     </div>
   );

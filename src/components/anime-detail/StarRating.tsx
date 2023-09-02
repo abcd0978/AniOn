@@ -16,9 +16,9 @@ const StarRating: React.FC<StarRatingProps> = ({ rating, maxRating }) => {
 
   const starIcons = Array.from({ length: maxRating }, (_, index) => {
     if (index < filledStars) {
-      return <img src={star_variant} />; // 채워진 별
+      return <img src={star_variant} alt="star" />; // 채워진 별
     } else {
-      return <img src={no_star} />; // 비워진 별
+      return <img src={no_star} alt="no_star" />; // 비워진 별
     }
   });
 
