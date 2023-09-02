@@ -38,10 +38,11 @@ export const Review = {
     color: white;
   `,
   GoButton: styled.button`
-    border: 1px solid #c88fff;
-    border-radius: 12px;
-    background-color: #8200ff;
-    color: white;
+    border-radius: 6px;
+    border: 1px solid var(--achromatic-colors-midgray-2, #dbdbdb);
+    color: black;
+    background-color: white;
+
     width: 78px;
     height: 28px;
     text-align: center;
@@ -49,8 +50,8 @@ export const Review = {
     font-size: 14px;
   `,
   Button: styled.button`
-    border: 1px solid #c88fff;
-    border-radius: 12px;
+    border-radius: 6px;
+    border: 1px solid var(--main-mid-2, #c88fff);
     background-color: white;
     width: 64px;
     height: 28px;

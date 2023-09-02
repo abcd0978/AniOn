@@ -7,6 +7,7 @@ import { useAtomValue, useSetAtom } from 'jotai';
 import * as authApi from '../../api/auth';
 import * as userStore from '../../store/userStore';
 import { Profile } from './MyPage.styles';
+import { Review } from './Wrote.styles';
 
 //2-2-1.닉넴중복확인
 type ErrorType = {
@@ -188,7 +189,7 @@ const EditProfile = () => {
         <Item>
           <Label>사진</Label>
           {user && editMode === 'photo' ? (
-            <>
+            <ButtonArray>
               {/* 프로필 이미지를 표시하는 부분 */}
               {selectedFile ? (
                 <Profile.BasicImage
@@ -220,9 +221,9 @@ const EditProfile = () => {
               >
                 완료
               </DoneButton>
-            </>
+            </ButtonArray>
           ) : (
-            <>
+            <ButtonArray>
               {/* 변경 버튼을 누르기 전에 현재 프로필 이미지를 표시하는 부분 */}
 
               <div key={user?.id}>
@@ -235,7 +236,7 @@ const EditProfile = () => {
               <ChangeButton onClick={() => setEditMode('photo')}>
                 변경
               </ChangeButton>
-            </>
+            </ButtonArray>
           )}
         </Item>
         <TextBelowPhoto>
@@ -256,13 +257,13 @@ const EditProfile = () => {
 
           {editMode === 'nickname' ? (
             <form onSubmit={handleSubmitNickname}>
-              <TextBelowPhoto>
+              <TextBelowNickname>
                 {nicknameValidationMessage && (
                   <Warning>{nicknameValidationMessage}</Warning>
                 )}
                 • 중복 닉네임 불가합니다.
                 <br /> • 2~8자 이내로 작성해주세요.
-              </TextBelowPhoto>
+              </TextBelowNickname>
               <Input
                 type="text"
                 value={newNickname}
@@ -318,12 +319,13 @@ const EditProfile = () => {
               <CancelButton onClick={() => setEditMode('')}>취소</CancelButton>
             </form>
           ) : (
-            <>
+            <ButtonArray>
               <div>{user?.nickname}</div>
+
               <ChangeButton onClick={() => setEditMode('nickname')}>
                 변경
               </ChangeButton>
-            </>
+            </ButtonArray>
           )}
         </Item>
         <Divider />
@@ -348,6 +350,7 @@ export const Container = styled.div`
 
 const Item = styled.div`
   display: flex;
+  flex-direction: row;
   align-items: center;
   gap: 8px;
 `;
@@ -371,6 +374,8 @@ const FileInput = styled.input`
   background-color: transparent;
 `;
 const CancelButton = styled.button`
+  position: absolute;
+  right: 80px;
   background-color: #dbdbdb;
   border-radius: 12px;
   width: 72px;
@@ -378,6 +383,8 @@ const CancelButton = styled.button`
   border: transparent;
 `;
 const DoneButton = styled.button`
+  position: absolute;
+  right: -5px;
   background-color: #8200ff;
   border-radius: 12px;
   width: 72px;
@@ -395,11 +402,14 @@ const ChangeButton = styled.button`
   border-radius: 12px;
   width: 72px;
   height: 32px;
-  border-color: #c88fff;
-  border-style: solid;
+  border: 1px solid var(--main-mid-2, #c88fff);
+  position: absolute;
+  right: -5px;
   color: #000;
 `;
 const NickNameCheck = styled.button`
+  position: absolute;
+  margin-left: 10px;
   background-color: #ff96db;
   border-radius: 12px;
   width: 72px;
@@ -432,6 +442,14 @@ const TextBelowPhoto = styled.div`
   color: #838383;
   font-size: 14px;
   margin-top: 8px;
+  margin-left: 80px;
+  width: 400px;
+`;
+const TextBelowNickname = styled.div`
+  color: #838383;
+  font-size: 14px;
+  margin-top: 8px;
+
   width: 400px;
 `;
 export const Divider = styled.div`
@@ -443,4 +461,11 @@ export const Divider = styled.div`
 `;
 const Warning = styled.p`
   color: red;
+`;
+const ButtonArray = styled.div`
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
 `;
