@@ -15,6 +15,7 @@ import { HoverInfo } from '../anime-recommend/styled.AnimeCard';
 import { Container, EditTitle } from './EditProfile';
 import useViewport from '../../hooks/useViewPort';
 import LikeSvg from '../anime-recommend/LikeSvg';
+import LikedSkeleton from './LikedSkeleton';
 
 const itemsPerPage = 8;
 const LikedAnime = () => {
@@ -61,9 +62,13 @@ const LikedAnime = () => {
       fetchAnimeDetails();
     }
   }, [liked]);
-
+  const skeletonWidth = width > 1200 ? 100 : width > 800 ? 50 : 25;
   if (isLoading) {
-    return <div>좋아요한 애니를 불러오는 중</div>;
+    return (
+      <div>
+        <LikedSkeleton width={skeletonWidth} />
+      </div>
+    );
   }
 
   if (isError) {
