@@ -20,6 +20,8 @@ const EditProfile = () => {
   const [editMode, setEditMode] = useState<string>('');
   const user = useAtomValue(userStore.user);
   const writeUser = useSetAtom(userStore.writeUser);
+  const setCurrentUser = useSetAtom(userStore.user);
+
   const [newNickname, setNewNickname] = useState('');
   const [nicknameError, setNicknameError] = useState<ErrorType>(initialError);
   const [nicknameDupChecked, setNicknameDupChecked] = useState(false);
@@ -73,14 +75,22 @@ const EditProfile = () => {
           profile_img_url: publicUrl,
         }) // 업데이트 쿼리
         .eq('id', user?.id);
-      await supabase.auth.updateUser({
-        data: { profile_img_url: publicUrl },
-      });
-      await writeUser();
+
       if (userUpdateError) {
         console.error(userUpdateError);
+      } else {
+        // userStore의 user 상태도 함께 업데이트합니다.
 
-        return;
+        if (user) {
+          const updatedUser = {
+            ...user,
+            profile_img_url: publicUrl,
+          };
+
+          setCurrentUser(updatedUser);
+        } else {
+          console.error('No current user found');
+        }
       }
 
       console.log('User profile updated successfully!!!!');
@@ -89,7 +99,6 @@ const EditProfile = () => {
       console.error(error);
     }
   };
-
   //2-2. 닉넴변경
 
   const handleNicknameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -112,6 +121,8 @@ const EditProfile = () => {
     event.preventDefault();
     if (!nicknameDupChecked) {
       alert('닉네임 중복 확인을 먼저 해주세요.');
+      console.log('New nickname:', newNickname);
+
       return;
     }
 
@@ -127,10 +138,21 @@ const EditProfile = () => {
         .from('users')
         .update({ nickname: newNickname })
         .eq('id', user?.id);
-      console.log('Update result:', data, error);
-      await supabase.auth.updateUser({
-        data: { nickname: newNickname },
-      });
+
+      if (error) {
+        console.error('Update error:', error);
+      } else {
+        if (user) {
+          const updatedUser = {
+            ...user,
+            nickname: newNickname,
+          };
+
+          setCurrentUser(updatedUser);
+        } else {
+          console.error('No current user found');
+        }
+      }
 
       alert('닉네임이 변경되었습니다.');
       setEditMode('');
@@ -138,6 +160,7 @@ const EditProfile = () => {
         console.error(error);
       }
       await writeUser();
+      setNewNickname(newNickname);
       setEditMode('');
     } catch (error) {
       console.error(error);
@@ -222,13 +245,13 @@ const EditProfile = () => {
 
         <Item>
           <Label>닉네임</Label>
+
           {editMode === 'nickname' ? (
             <form onSubmit={handleSubmitNickname}>
               <TextBelowPhoto>
                 • 중복 닉네임 불가합니다.
                 <br /> • 2~8자 이내로 작성해주세요.
               </TextBelowPhoto>
-
               <Input
                 type="text"
                 value={newNickname}
