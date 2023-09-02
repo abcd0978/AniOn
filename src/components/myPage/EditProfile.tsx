@@ -100,9 +100,17 @@ const EditProfile = () => {
     }
   };
   //2-2. 닉넴변경
-
+  const [nicknameValidationMessage, setNicknameValidationMessage] =
+    useState('');
   const handleNicknameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setNewNickname(event.target.value);
+    const nickname = event.target.value;
+    setNewNickname(nickname);
+
+    if (nickname.length === 1 || nickname.length > 8) {
+      setNicknameValidationMessage('• 닉네임은 2~8자 사이로해주세요.');
+    } else {
+      setNicknameValidationMessage('');
+    }
   };
 
   const nicknameDupCheck = async (nickname: string) => {
@@ -249,6 +257,9 @@ const EditProfile = () => {
           {editMode === 'nickname' ? (
             <form onSubmit={handleSubmitNickname}>
               <TextBelowPhoto>
+                {nicknameValidationMessage && (
+                  <Warning>{nicknameValidationMessage}</Warning>
+                )}
                 • 중복 닉네임 불가합니다.
                 <br /> • 2~8자 이내로 작성해주세요.
               </TextBelowPhoto>
@@ -429,4 +440,7 @@ export const Divider = styled.div`
   background-color: #ccc;
   margin-top: 8px;
   margin-bottom: 8px;
+`;
+const Warning = styled.p`
+  color: red;
 `;
