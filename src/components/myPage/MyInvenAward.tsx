@@ -1,11 +1,14 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useAtomValue } from 'jotai';
 import * as userStore from '../../store/userStore';
+import { A } from './Deco.styles';
 import { B } from './Deco.styles';
 import goShop from '../../assets/goShop.png';
 import useViewport from '../../hooks/useViewPort';
 import { useNavigate } from 'react-router-dom';
 import { equipItem, fetchMyAwards } from '../../api/items';
+import { styled } from 'styled-components';
+import { AwardName, BuyButton } from '../ShopAwards';
 
 const MyInvenAward = () => {
   const queryClient = useQueryClient();
@@ -51,16 +54,16 @@ const MyInvenAward = () => {
   };
 
   const awardsList = Array.isArray(awards) ? (
-    <ul>
+    <GridContainer>
       {awards.map((award, index) => (
-        <li key={index}>
-          {award.items?.name}
-          <button onClick={() => handleApplyAwardButtonClick(award.item_id)}>
+        <div key={index}>
+          <A.Name>{award.items?.name}</A.Name>
+          <B.Equip onClick={() => handleApplyAwardButtonClick(award.item_id)}>
             적용
-          </button>
-        </li>
+          </B.Equip>
+        </div>
       ))}
-    </ul>
+    </GridContainer>
   ) : (
     <B.NoneContainer mediaWidth={width}>
       <B.NoneMessage>구매한 칭호가 없습니다.</B.NoneMessage>
@@ -74,12 +77,15 @@ const MyInvenAward = () => {
       </B.NoneButton>
     </B.NoneContainer>
   );
-  return (
-    <div>
-      <h2>내 칭호</h2>
-      {awardsList}
-    </div>
-  );
+  return <GridContainer>{awardsList}</GridContainer>;
 };
 
 export default MyInvenAward;
+const GridContainer = styled.div`
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  grid-template-columns: auto auto auto auto;
+  gap: 10px;
+  padding: 10px;
+`;

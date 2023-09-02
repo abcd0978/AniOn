@@ -21,8 +21,9 @@ export const B = {
     margin-top: 100%;
   `,
   GoIcon: styled.img`
-    width: 24px;
-    height: 24px;
+    width: 70%;
+    height: auto;
+    object-fit: cover;
   `,
 
   NoneButton: styled.div`
@@ -41,6 +42,63 @@ export const B = {
     display: flex;
     justify-content: center;
     align-items: center;
+    margin: 10px;
+  `,
+  Border: styled.img`
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+  `,
+  Equip: styled.button`
+    width: 80px;
+    height: 30px;
+    margin-top: 5px;
+    background-color: white;
+    border-radius: 6px;
+    border: 1px solid #c88fff;
+    float: right;
+    cursor: pointer;
+    &:hover {
+      background-color: #c88fff;
+      color: white;
+    }
+
+    &:disabled:hover {
+      background-color: white;
+      color: #cccccc;
+      cursor: not-allowed;
+    }
+  `,
+  BorderContainer: styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  `,
+  ButtonContainer: styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  `,
+};
+export const A = {
+  Name: styled.div`
+    background-color: #efefef;
+    padding: 8px;
+    border-radius: 999px;
+    text-align: center;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: -0.3px;
+    display: flex;
+    height: 48px;
+    width: 260px;
+    padding: 12px;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    align-self: stretch;
     margin: 10px;
   `,
 };

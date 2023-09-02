@@ -9,6 +9,7 @@ import * as userStore from '../../store/userStore';
 import { Profile } from './MyPage.styles';
 import { Review } from './Wrote.styles';
 import { useAtom } from 'jotai';
+import { toast } from 'react-toastify';
 //2-2-1.닉넴중복확인
 type ErrorType = {
   error: boolean;
@@ -26,7 +27,9 @@ const EditProfile = () => {
   //2-1-1. 사진 업로드
   const handleUpload = async () => {
     if (!selectedFile) {
-      alert('선택된 파일이 없습니다.');
+      toast.warning('선택된 파일이 없습니다.', {
+        autoClose: 2000,
+      });
       return;
     }
     console.log('user', user);
@@ -43,7 +46,9 @@ const EditProfile = () => {
 
       if (uploadError) {
         console.error('Upload error:', uploadError);
-        alert('유효하지 않은 파일 형식입니다.');
+        toast.warning('유효하지 않은 파일 형식입니다.', {
+          autoClose: 2000,
+        });
         setSelectedFile(null);
         return;
       }
@@ -83,7 +88,9 @@ const EditProfile = () => {
             profile_img_url: publicUrl,
           };
           setUser(updatedUser);
-          alert('수정되었습니다.');
+          toast.success('수정되었습니다.', {
+            autoClose: 2000,
+          });
           console.log('updatedUser', updatedUser); //미피
           console.log('currentUser1', updatedUser); //미피
         } else {
@@ -126,7 +133,9 @@ const EditProfile = () => {
   const handleSubmitNickname = async (event: React.FormEvent) => {
     event.preventDefault();
     if (!nicknameDupChecked) {
-      alert('닉네임 중복 확인을 먼저 해주세요.');
+      toast.warn('닉네임 중복확인을 해주세요.', {
+        autoClose: 2000,
+      });
       return;
     }
 
@@ -167,7 +176,9 @@ const EditProfile = () => {
             }
           }
 
-          alert('닉네임이 변경되었습니다.');
+          toast.success('닉네임 변경 성공 ✔️', {
+            autoClose: 2000,
+          });
           setEditMode('');
           console.log('updatedNickname', updatedUser);
         } else {
@@ -286,11 +297,15 @@ const EditProfile = () => {
                       newNickname,
                     );
                     if (isNicknameAvailable) {
-                      alert('사용 가능한 닉네임입니다.');
+                      toast.success('사용가능한 닉네임입니다.✔️', {
+                        autoClose: 2000,
+                      });
                       setNicknameDupChecked(true);
                       setNicknameError(initialError);
                     } else {
-                      alert('이미 사용 중인 닉네임입니다.');
+                      toast.warn('이미 사용 중인 닉네임 입니다.', {
+                        autoClose: 2000,
+                      });
                       setNicknameError({
                         error: true,
                         errorMsg: '중복되는 닉네임입니다.',

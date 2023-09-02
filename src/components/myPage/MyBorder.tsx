@@ -4,6 +4,7 @@ import { useAtomValue, useSetAtom, useStore } from 'jotai';
 import * as userStore from '../../store/userStore';
 import goShop from '../../assets/goShop.png';
 import { B } from './Deco.styles';
+import * as S from '../../pages/Shop.style';
 import useViewport from '../../hooks/useViewPort';
 import { useNavigate } from 'react-router-dom';
 const MyBorder = () => {
@@ -39,20 +40,23 @@ const MyBorder = () => {
   console.log(filteredBorders);
   const borderList =
     Array.isArray(filteredBorders) && filteredBorders.length > 0 ? (
-      <ul>
+      <S.ItemBox>
         {filteredBorders.map((filteredBorders, index) => (
-          <li key={index}>
-            {filteredBorders.items?.name}
-            <img
+          <B.BorderContainer key={index}>
+            <B.GoIcon
               src={filteredBorders.items?.img_url}
               alt={filteredBorders.items?.name}
             />
-            <button onClick={() => applyAward(filteredBorders.items?.id)}>
-              적용
-            </button>
-          </li>
+            <B.ButtonContainer>
+              <S.Number>{filteredBorders.items?.name}</S.Number>
+
+              <B.Equip onClick={() => applyAward(filteredBorders.items?.id)}>
+                적용
+              </B.Equip>
+            </B.ButtonContainer>
+          </B.BorderContainer>
         ))}
-      </ul>
+      </S.ItemBox>
     ) : (
       <B.NoneContainer mediaWidth={width}>
         <B.NoneMessage>구매한 테두리가 없습니다.</B.NoneMessage>
@@ -66,7 +70,7 @@ const MyBorder = () => {
         </B.NoneButton>
       </B.NoneContainer>
     );
-  return <div>{borderList}</div>;
+  return <S.Outer>{borderList}</S.Outer>;
 };
 
 export default MyBorder;

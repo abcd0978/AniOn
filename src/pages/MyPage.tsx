@@ -16,7 +16,6 @@ const MyPage = (props: Props) => {
         <MyProfile />
         <MyInfoMenu />
       </Profile.MyContainer>
-      <Footer />
     </>
   );
 };
