@@ -59,8 +59,11 @@ const StGredient = styled.div`
   );
 `;
 const SlideContainer = styled.div<{ image?: string }>`
-  background-image: ${(props) => `url(${props.image});`};
-  background-size: 100%;
+  ${(props) =>
+    props.image
+      ? `background-image: url(${props.image});background-size: 100%;`
+      : `background:#424242;`}
+  //background-image: ${(props) => `url(${props.image});`};
   height: 100%;
 `;
 const StSlideInfoContainer = styled.div`

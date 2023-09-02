@@ -15,6 +15,7 @@ import { ReadAnimeLikeG } from '../types/likes';
 import play_arrow from '../assets/play_arrow.svg';
 import StarRating from '../components/anime-detail/StarRating';
 import detaillike from '../assets/detaillike.svg';
+import ScrollToTop from '../components/ScrollToTop';
 
 function AnimeDetail() {
   const previewRef = useRef<HTMLDivElement>(null);
@@ -139,7 +140,7 @@ function AnimeDetail() {
               </S.AniTextLayoutToptoTop>
               <S.ContentsOptions>
                 <S.PreviewBox onClick={scrollToPreview}>
-                  <img src={play_arrow} />
+                  <img src={play_arrow} alt="goVideo" />
                   1화 맛보기
                 </S.PreviewBox>
                 <S.LikeShareBox>
@@ -226,6 +227,8 @@ function AnimeDetail() {
         </S.ContentVideoLayout>
       </div>
       <S.DetailLabel>리뷰</S.DetailLabel>
+
+      <ScrollToTop />
       <AnimeDetailComments />
     </>
   );

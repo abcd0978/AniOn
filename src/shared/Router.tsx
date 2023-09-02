@@ -20,38 +20,39 @@ import ScrollToTop from '../components/ScrollTop';
 import AniWorldCup from '../components/worldcup/AniWorldCup';
 import BoardError from '../pages/BoardError';
 import WorldCupResult from '../pages/WorldCupResult';
+import Layout from '../styles/Layout';
 
 const Router = () => {
   return (
     <BrowserRouter>
-      <ScrollToTop />
-      <Header />
-
-      <GlobalStyle />
-      <Routes>
-        <Route path="/" element={WithAuth(Main, null)} />
-        <Route path="/recommend" element={WithAuth(AnimeRecommend, null)} />
-        <Route path="/board" element={WithAuth(Board, null)} />
-        <Route
-          path="/recommend/:ani_id"
-          element={WithAuth(AnimeDetail, null)}
-        />
-        <Route path="/myPage/:user_id" element={WithAuth(MyPage, true)} />
-        <Route path="/shop/:category" element={WithAuth(Shop, true)} />
-        <Route
-          path="/userinfomodify"
-          element={WithAuth(UserInfoModify, true)}
-        />
-        <Route path="/worldcup" element={WithAuth(WorldCup, true)} />
-        <Route path="/worldcup/:gender" element={<AniWorldCup />} />
-        <Route path="/worldcup/result/:gender" element={<WorldCupResult />} />
-        <Route path="/board/write" element={WithAuth(WriteBoard, true)} />
-        <Route path="/*" element={<NotFoundPage />} />
-        <Route path="/board/:post_id" element={WithAuth(BoardDetail, null)} />
-        <Route path="/ani" element={WithAuth(BoardAni, null)} />
-        <Route path="/free" element={WithAuth(BoardFree, null)} />
-        <Route path="/error" element={WithAuth(BoardError, null)} />
-      </Routes>
+      <Layout>
+        <ScrollToTop />
+        <GlobalStyle />
+        <Routes>
+          <Route path="/" element={WithAuth(Main, null)} />
+          <Route path="/recommend" element={WithAuth(AnimeRecommend, null)} />
+          <Route path="/board" element={WithAuth(Board, null)} />
+          <Route
+            path="/recommend/:ani_id"
+            element={WithAuth(AnimeDetail, null)}
+          />
+          <Route path="/myPage/:user_id" element={WithAuth(MyPage, true)} />
+          <Route path="/shop/:category" element={WithAuth(Shop, true)} />
+          <Route
+            path="/userinfomodify"
+            element={WithAuth(UserInfoModify, true)}
+          />
+          <Route path="/worldcup" element={WithAuth(WorldCup, true)} />
+          <Route path="/worldcup/:gender" element={<AniWorldCup />} />
+          <Route path="/worldcup/result/:gender" element={<WorldCupResult />} />
+          <Route path="/board/write" element={WithAuth(WriteBoard, true)} />
+          <Route path="/*" element={<NotFoundPage />} />
+          <Route path="/board/:post_id" element={WithAuth(BoardDetail, null)} />
+          <Route path="/ani" element={WithAuth(BoardAni, null)} />
+          <Route path="/free" element={WithAuth(BoardFree, null)} />
+          <Route path="/error" element={WithAuth(BoardError, null)} />
+        </Routes>
+      </Layout>
     </BrowserRouter>
   );
 };
