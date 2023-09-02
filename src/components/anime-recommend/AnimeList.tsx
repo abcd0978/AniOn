@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 import { throttle } from 'lodash';
 
 // component
+import AnimeCardSkeleton from './AnimeCardSkeleton';
 import useIntersect from '../../hooks/useIntersect';
 import AnimeFilter from './top-menu/AnimeFilter';
 import { S } from './styled.AnimeList';
@@ -147,7 +148,22 @@ const AnimeList = () => {
       <S.AnimeContainer>
         {/* 스켈레톤으로 변경하기! > mvp 종료 후에 */}
         {isLoading && !animeList.length ? (
-          <div>로딩중입니다.</div>
+          <>
+            <AnimeCardSkeleton />
+            <AnimeCardSkeleton />
+            <AnimeCardSkeleton />
+            <AnimeCardSkeleton />
+            <AnimeCardSkeleton />
+            <AnimeCardSkeleton />
+            <AnimeCardSkeleton />
+            <AnimeCardSkeleton />
+            <AnimeCardSkeleton />
+            <AnimeCardSkeleton />
+            <AnimeCardSkeleton />
+            <AnimeCardSkeleton />
+            <AnimeCardSkeleton />
+            <AnimeCardSkeleton />
+          </>
         ) : (
           animeList.map((anime: AnimeG) => (
             <AnimeCard
