@@ -19,15 +19,6 @@ const WithAuth = (
   async function authCheck() {
     const result = await writeUser();
     if (result) await writeUserItem();
-    // if (option === true && (result === false || result == null)) {
-    //   alert('접근하실수 없습니다');
-    //   window.history.pushState(null, '', '/');
-    // } else if (option === null) {
-    //   return;
-    // } else if (option === false && result) {
-    //   alert('잘못된 경로입니다.');
-    //   window.history.pushState(null, '', '/');
-    // }
   }
   useEffect(() => {
     if (option !== undefined && Component) authCheck();
