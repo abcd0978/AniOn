@@ -28,7 +28,8 @@ const S = {
     flex-direction: column;
     width: 1360px;
     max-height: 1954px;
-    margin-top: 20px;
+    margin-top: -35px;
+    margin-bottom: 50px;
   `,
 
   Category: styled.div`
@@ -124,6 +125,63 @@ const S = {
     cursor: pointer;
     float: right;
     margin-top: 5px;
+  `,
+
+  TopTitle: styled.div`
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    margin-top: 30px;
+    margin-left: 5px;
+    color: #8200ff;
+  `,
+
+  Post: styled.div`
+    display: flex;
+    justify-content: space-between;
+  `,
+  Search: styled.div`
+    display: flex;
+  `,
+
+  Write: styled.div`
+    display: flex;
+  `,
+
+  WriteButton: styled.button`
+    background-color: #8200ff;
+    border: none;
+    border-radius: 10px;
+    width: 120px;
+    height: 40px;
+    padding: 8px;
+    font-size: 15px;
+    color: white;
+    margin-left: 10px;
+    cursor: pointer;
+  `,
+
+  CateButton: styled.button`
+    border: none;
+    width: 100px;
+    height: 36px;
+    font-size: 13px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-right: 3px;
+    font-size: 13px;
+    border-radius: 999px;
+    font-weight: bold;
+    cursor: pointer;
+  `,
+
+  ListButton: styled.button`
+    width: 50px;
+    height: 28px;
+    font-size: 15px;
+    background-color: #dddddd;
+    border: none;
+    cursor: pointer;
   `,
 };
 
