@@ -13,21 +13,28 @@ import {
 import { Database } from '../../types/supabase';
 import { useAtomValue } from 'jotai';
 import { toast } from 'react-toastify';
+import { fetchEquippedItem } from '../../api/items';
 
 type ReadAniComment = Database['public']['Tables']['ani_comments']['Row'];
 type InsertAniComment = Database['public']['Tables']['ani_comments']['Insert'];
 type UpdateAniComment = Database['public']['Tables']['ani_comments']['Update'];
-
-// TODO:현재 user 값 넣어야함
-
-// const userAtom = atom<null | any>(null);
-// console.log('!!!!!!!!!!!!!', localStorage.getItem('user'));
 
 const AnimeDetailComments = () => {
   const { ani_id } = useParams() as { ani_id: string };
   // console.log("현재id!!!", ani_id);
 
   const user = useAtomValue(userStore.user);
+
+  // const equipedAwardQueryOption = {
+  //   queryKey: ['equippedAward'],
+  //   queryFn: () => fetchEquippedItem({ user_id: user!.id, category: 1 }),
+  //   refetchOnWindowFocus: false,
+  //   staleTime: 60 * 60,
+  //   enabled: !!user,
+  // };
+
+  // // 칭호 가져오기
+  // const { data: award } = useQuery(equipedAwardQueryOption);
 
   const queryClient = useQueryClient();
 
@@ -193,12 +200,12 @@ const AnimeDetailComments = () => {
                   <S.AniUserNickname>
                     {comment.users.nickname}
                   </S.AniUserNickname>
+                  <S.AniUserAward>칭호</S.AniUserAward>
                 </S.AniCommentUser>
                 <S.date>{new Date(comment.created_at).toLocaleString()}</S.date>
               </S.AniCommentUp>
               {comment.id === editingCommentId ? (
                 <S.AniEditCommentInput
-                  type="text"
                   value={editedCommentText}
                   onChange={(e) => setEditedCommentText(e.target.value)}
                 />
