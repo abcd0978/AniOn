@@ -2,6 +2,8 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
   // margin-bottom: 40px;
+  width: 1440px;
+  min-height: 854px;
 `;
 
 export const Title = styled.div`
