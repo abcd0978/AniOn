@@ -1,4 +1,4 @@
-import React, { useMemo, useEffect } from 'react';
+import React, { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import * as userStore from '../store/userStore';
@@ -22,8 +22,6 @@ const Board = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>('');
   const [searchKeyword, setSearchKeyword] = useState<string>('');
   const [page, setPage] = useState<number>(1);
-  const itemsPerPage = 12;
-  const [categoryPage, setCategoryPage] = useState<number | null>(null);
 
   const handleWriteClick = () => {
     if (!user) {
@@ -36,31 +34,20 @@ const Board = () => {
   };
 
   const handleAllClick = () => {
-    setSelectedCategory(null);
+    setSelectedCategory('');
   };
 
   const handleCategoryClick = (category: string) => {
     setSelectedCategory(category);
-    setPage(1);
   };
 
-  const getItemsPerPage = () => {
-    return 12;
+  const postQueryOptions = {
+    queryKey: ['posts', selectedCategory, searchKeyword, page],
+    queryFn: () => getPosts(selectedCategory, page),
+    refetchOnWindowFocus: false,
   };
 
-  const {
-    data: postsAndTotalPages,
-    isLoading,
-    isFetching,
-  } = useQuery<{ data: ReadPosts[]; totalPages: number }>(
-    ['posts', selectedCategory, searchKeyword, page],
-    () => getPosts(selectedCategory || '', page),
-    {
-      onError: (error) => {
-        console.error('Error fetching posts:', error);
-      },
-    },
-  );
+  const { data: postsAndTotalPages, isFetching } = useQuery(postQueryOptions);
 
   const onClickPage = (selected: number | string) => {
     if (page === selected) return;
@@ -69,11 +56,11 @@ const Board = () => {
       return;
     }
     if (selected === 'prev' && page > 1) {
-      setPage((prev) => prev - 1);
+      setPage((prev: any) => prev - 1);
       return;
     }
     if (selected === 'next' && postsAndTotalPages?.totalPages) {
-      setPage((prev) => prev + 1);
+      setPage((prev: any) => prev + 1);
       return;
     }
   };
@@ -95,7 +82,7 @@ const Board = () => {
           postUserNicknameIncludesKeyword
         );
       })
-      .sort((a, b) => b.created_at.localeCompare(a.created_at));
+      .sort((a, b) => b.created_at.localeCompare(a.created_at)); // 최신 글이 위로 가도록 정렬
   }, [postsAndTotalPages, searchKeyword]);
 
   const handlePostClick = (postId: string) => {
@@ -108,11 +95,6 @@ const Board = () => {
     setSelectedCategory('');
     queryClient.invalidateQueries(['posts', null, searchKeyword]);
   };
-
-  // 카테고리 변경 시 페이지를 1로 설정합니다.
-  useEffect(() => {
-    setPage(1);
-  }, [selectedCategory]);
 
   return (
     <S.Container>
@@ -219,42 +201,13 @@ const Board = () => {
       </ul>
 
       <S.Page>
-        {selectedCategory === '오류 신고' && errorCategoryPages && (
-          <Pagination
-            currentPage={page}
-            totalPages={errorCategoryPages}
-            onClick={onClickPage}
-            isPreviousDisabled={page === 1}
-            isNextDisabled={page >= errorCategoryPages}
-          />
-        )}
-        {selectedCategory === '자유' && freeCategoryPages && (
-          <Pagination
-            currentPage={page}
-            totalPages={freeCategoryPages}
-            onClick={onClickPage}
-            isPreviousDisabled={page === 1}
-            isNextDisabled={page >= freeCategoryPages}
-          />
-        )}
-        {selectedCategory === '애니' && categoryPage && (
-          <Pagination
-            currentPage={page}
-            totalPages={categoryPage}
-            onClick={onClickPage}
-            isPreviousDisabled={page === 1}
-            isNextDisabled={page >= categoryPage}
-          />
-        )}
-        {selectedCategory === null && postsAndTotalPages && (
-          <Pagination
-            currentPage={page}
-            totalPages={postsAndTotalPages.totalPages}
-            onClick={onClickPage}
-            isPreviousDisabled={page === 1}
-            isNextDisabled={page >= postsAndTotalPages.totalPages}
-          />
-        )}
+        <Pagination
+          currentPage={page}
+          totalPages={postsAndTotalPages?.totalPages || 1}
+          onClick={onClickPage}
+          isPreviousDisabled={page === 1}
+          isNextDisabled={page >= (postsAndTotalPages?.totalPages || 1)}
+        />
       </S.Page>
     </S.Container>
   );

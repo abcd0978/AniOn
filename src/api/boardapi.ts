@@ -12,7 +12,6 @@ const getPosts = async (
   itemsPerPage: number = 12,
 ) => {
   try {
-    const itemsPerPage = 12; // 12개로 고정
     const startIndex = (page - 1) * itemsPerPage;
     if (category === '') {
       console.log('전체');
