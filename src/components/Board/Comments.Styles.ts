@@ -100,8 +100,8 @@ export const Comment = styled.div`
 `;
 
 export const CommentDate = styled.div`
+  color: #6e6c69;
   font-size: 12px;
-  color: #807b85;
   margin-bottom: 33px;
   margin-top: -36px;
   float: right;
@@ -122,6 +122,7 @@ export const profile = styled.div`
 export const Img = styled.img`
   width: 48px;
   height: 48px;
+  border-radius: 999px;
 `;
 export const Ninkname = styled.div`
   margin-left: 5px;
@@ -147,6 +148,8 @@ export const CommentBox = styled.div`
   height: 48px;
   margin-left: 55px;
   line-height: 1.6;
+  margin-bottom: 45px;
+  margin-left: 60px;
 `;
 export const Page = styled.div`
   display: flex;
