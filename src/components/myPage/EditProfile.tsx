@@ -10,17 +10,24 @@ import { Profile } from './MyPage.styles';
 import { Review } from './Wrote.styles';
 import { useAtom } from 'jotai';
 import { toast } from 'react-toastify';
+import PasswordReset from './ResetPassword';
 //2-2-1.닉넴중복확인
 type ErrorType = {
   error: boolean;
   errorMsg: string;
 };
+// //비밀번호 변경
+// type FormFieldProps = {
+//   password: string;
+//   password2: string;
+// };
 //2 프로필 변경
 const initialError: ErrorType = { error: false, errorMsg: '' };
 const EditProfile = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [editMode, setEditMode] = useState<string>('');
   const [user, setUser] = useAtom(userStore.user);
+  const writeUser = useSetAtom(userStore.writeUser);
   const [newNickname, setNewNickname] = useState('');
   const [nicknameError, setNicknameError] = useState<ErrorType>(initialError);
   const [nicknameDupChecked, setNicknameDupChecked] = useState(false);
@@ -76,23 +83,19 @@ const EditProfile = () => {
           profile_img_url: publicUrl,
         }) // 업데이트 쿼리
         .eq('id', user?.id);
-
+      await supabase.auth.updateUser({
+        data: { profile_img_url: publicUrl },
+      });
       if (userUpdateError) {
         console.error(userUpdateError);
       } else {
         // userStore의 user 상태도 함께 업데이트합니다.
 
         if (user) {
-          const updatedUser = {
-            ...user,
-            profile_img_url: publicUrl,
-          };
-          setUser(updatedUser);
+          await writeUser();
           toast.success('수정되었습니다.', {
             autoClose: 2000,
           });
-          console.log('updatedUser', updatedUser); //미피
-          console.log('currentUser1', updatedUser); //미피
         } else {
           console.error('No current user found');
         }
@@ -151,36 +154,18 @@ const EditProfile = () => {
         .from('users')
         .update({ nickname: newNickname })
         .eq('id', user?.id);
-
+      await supabase.auth.updateUser({
+        data: { nickname: newNickname },
+      });
       if (error) {
         console.error('Update error:', error);
       } else {
         if (user) {
-          const updatedUser = {
-            ...user,
-            nickname: newNickname,
-          };
-
-          // supabase에서 업데이트 된 정보를 가져와서 업데이트
-          const { data: userData, error: userFetchError } = await supabase
-            .from('users')
-            .select()
-            .eq('id', user?.id);
-
-          if (userFetchError) {
-            console.error('User fetch error:', userFetchError);
-          } else {
-            const [updatedUserData] = userData || [];
-            if (updatedUserData) {
-              setUser(updatedUserData);
-            }
-          }
-
+          await writeUser();
           toast.success('닉네임 변경 성공 ✔️', {
             autoClose: 2000,
           });
           setEditMode('');
-          console.log('updatedNickname', updatedUser);
         } else {
           console.error('No current user found');
         }
@@ -192,14 +177,30 @@ const EditProfile = () => {
   //2-3.비번 변경
   //a. 현재 비밀번호 입력 -> 다른 비밀번호면 비번변경불가
   //-> 같은 비밀번호면 새비밀번호 입력창과 새 비밀번호 확인창 나타나기
-
+  // const handleResetPassword = async () => {
+  //   const
+  //   if (Password !== checkPassword) {
+  //     setErrorMessage('비밀번호가 다릅니다.');
+  //     setPassword('');
+  //     setCheckPassword('');
+  //     return;
+  //   }
+  //   if (user) {
+  //     alert('비밀번호 재설정 완료!');
+  //     setUser(null);
+  //     supabase.auth.signOut();
+  //     navigate('/');
+  //     alert(error);
+  //     setErrorMessage(error.message);
+  //     console.error('비밀번호 변경 오류:', error.message);
+  //   }
+  // };
   const renderContent = () => {
     let updatedUser = user;
     return (
       <Container>
         <EditTitle>프로필 수정</EditTitle>
         <Divider />
-
         <Item>
           <Label>사진</Label>
           {user && editMode === 'photo' ? (
@@ -262,10 +263,16 @@ const EditProfile = () => {
           <div>{user?.email}</div>
         </Item>
         <Divider />
-
         <Label>비밀번호</Label>
+        • 비밀번호는 6자 이상의 영문, 숫자로 이뤄져야 합니다.
+        <PasswordReset />
+        {/* <input
+          type="text"
+          // value={newNickname}
+          // onChange={handleNicknameChange}
+          placeholder="기존 비밀번호"
+        /> */}
         <Divider />
-
         <Item>
           <Label>닉네임</Label>
 

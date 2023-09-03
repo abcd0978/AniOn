@@ -40,7 +40,6 @@ const LoginModalContents = (props: Props) => {
   const [modalContents, setModalContents] = useAtom(modalStore.modalContents);
   const [isModalOpened, setIsModalOpened] = useAtom(modalStore.isModalOpened);
   const [__, writeUser] = useAtom(userStore.writeUser);
-  const writeUserItem = useSetAtom(userStore.writeUserItem);
   const [loading, setLoading] = useState(false);
   const { width, height, isMobile, isLoaded } = useViewport();
   const validationFunc = (e: any) => {
@@ -155,7 +154,6 @@ const LoginModalContents = (props: Props) => {
                   hideProgressBar: true,
                 });
                 await writeUser();
-                await writeUserItem();
                 setIsModalOpened(false);
               } else {
                 setEmailAndPasswordError({
