@@ -19,6 +19,7 @@ import { S } from '../pages/BoardDetail.style';
 import * as userStore from '../store/userStore';
 import filledLike from '../assets/filledLike.svg';
 import borderLike from '../assets/borderLike.svg';
+import { toast } from 'react-toastify';
 
 type ReadPosts = Database['public']['Tables']['posts']['Row'];
 type UpdatePosts = Database['public']['Tables']['posts']['Update'];
@@ -95,10 +96,13 @@ const BoardDetail = () => {
       deleteMutation.mutate(id);
 
       // 페이지 이동
-      alert('삭제되었습니다!');
+      toast.warning('삭제되었습니다!', {
+        autoClose: 1000,
+      });
       navigate('/board');
     }
   };
+
   // Post 수정
   const updateMutation = useMutation(updatePost, {
     onSuccess: () => {
@@ -136,7 +140,9 @@ const BoardDetail = () => {
   //좋아요
   const toggleLike = async () => {
     if (!user) {
-      alert('로그인이 필요한 서비스입니다.');
+      toast.warning('로그인이 필요한 서비스입니다😳', {
+        autoClose: 1000,
+      });
       return;
     }
 

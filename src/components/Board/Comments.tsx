@@ -52,7 +52,7 @@ const Comments = () => {
       return;
     }
     if (!newComment) {
-      toast.warning('댓글을 작성해주세요!', {
+      toast.warning('댓글을 작성해주세요💜', {
         autoClose: 1000,
       });
       return;
