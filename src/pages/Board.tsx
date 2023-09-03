@@ -55,11 +55,9 @@ const Board = () => {
       navigate('/board/write');
     }
   };
-
   const handleAllClick = () => {
     setSelectedCategory('');
   };
-
   const handleCategoryClick = (category: string) => {
     setSelectedCategory(category);
   };
@@ -127,9 +125,8 @@ const Board = () => {
           <S.Button
             onClick={() => handleAllClick()}
             style={{
-              backgroundColor:
-                selectedCategory === null ? '#FF96DB' : '#FFEBF7',
-              color: selectedCategory === null ? '#ffffff' : 'black',
+              backgroundColor: selectedCategory === '' ? '#FF96DB' : '#FFEBF7',
+              color: selectedCategory === '' ? '#ffffff' : 'black',
             }}
           >
             전체

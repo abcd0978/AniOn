@@ -13,7 +13,6 @@ import {
 import { Database } from '../../types/supabase';
 import { useAtomValue } from 'jotai';
 import { toast } from 'react-toastify';
-import { fetchEquippedItem } from '../../api/items';
 
 type ReadAniComment = Database['public']['Tables']['ani_comments']['Row'];
 type InsertAniComment = Database['public']['Tables']['ani_comments']['Insert'];

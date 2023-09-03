@@ -84,6 +84,13 @@ const BoardDetail = () => {
     () => getPost(post_id!),
   );
 
+  useEffect(() => {
+    if (posts) {
+      // 해당 게시물의 카테고리에 따라 선택한 카테고리 업데이트
+      setSelectedCategory(posts.category);
+    }
+  }, [posts]);
+
   //전에 좋아요를 눌렀는지 확인
   const { data: like } = useQuery(
     ['like', user],
@@ -218,16 +225,6 @@ const BoardDetail = () => {
           <>
             <S.Search>
               <S.CateButton
-                onClick={handleAllClick}
-                style={{
-                  backgroundColor:
-                    selectedCategory === null ? '#FF96DB' : '#FFEBF7',
-                  color: selectedCategory === null ? '#ffffff' : 'black',
-                }}
-              >
-                전체
-              </S.CateButton>
-              <S.CateButton
                 onClick={() => handleCategoryClick('애니')}
                 style={{
                   backgroundColor:
@@ -247,7 +244,6 @@ const BoardDetail = () => {
               >
                 자유
               </S.CateButton>
-
               <S.CateButton
                 onClick={() => handleCategoryClick('오류 신고')}
                 style={{
@@ -311,7 +307,7 @@ const BoardDetail = () => {
                 </S.Select>
               </S.Box>
             ) : (
-              <S.Category>{category}</S.Category>
+              <S.Category></S.Category>
             )}
             {isEdit ? (
               <S.Box>
