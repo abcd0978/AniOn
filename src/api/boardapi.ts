@@ -12,13 +12,22 @@ const getPosts = async (
   itemsPerPage: number = 12,
 ) => {
   try {
+    const itemsPerPage = 12; // 12개로 고정
     const startIndex = (page - 1) * itemsPerPage;
 
-    const { data, error } = await supabase
+    let query = supabase
       .from('posts')
       .select('*,users(nickname,profile_img_url),likes(*)')
-      .order('created_at', { ascending: false })
-      .range(startIndex, startIndex + itemsPerPage - 1);
+      .order('created_at', { ascending: false });
+
+    if (category) {
+      query = query.eq('category', category);
+    }
+
+    const { data, error } = await query.range(
+      startIndex,
+      startIndex + itemsPerPage - 1,
+    );
 
     if (error) {
       throw error;
@@ -29,14 +38,6 @@ const getPosts = async (
       .select('count', { count: 'exact' });
 
     const totalPages = Math.ceil(count! / itemsPerPage);
-    // console.log('보드', data);
-    if (category) {
-      const filteredData = data.filter(
-        (post: ReadPosts) => post.category === category,
-      );
-      return { data: filteredData, totalPages };
-    }
-
     return { data, totalPages };
   } catch (error) {
     console.error('게시물을 불러오는 중 에러 발생:', error);

@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import * as userStore from '../store/userStore';
@@ -21,6 +21,7 @@ const Board = () => {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [searchKeyword, setSearchKeyword] = useState<string>('');
   const [page, setPage] = useState<number>(1);
+  const itemsPerPage = 12;
 
   const handleWriteClick = () => {
     if (!user) {
@@ -34,10 +35,16 @@ const Board = () => {
 
   const handleAllClick = () => {
     setSelectedCategory(null);
+    setPage(1);
   };
 
   const handleCategoryClick = (category: string) => {
     setSelectedCategory(category);
+    setPage(1);
+  };
+
+  const getItemsPerPage = () => {
+    return 12;
   };
 
   const {
@@ -45,11 +52,11 @@ const Board = () => {
     isLoading,
     isFetching,
   } = useQuery<{ data: ReadPosts[]; totalPages: number }>(
-    ['posts', selectedCategory, searchKeyword, page],
-    () => getPosts(selectedCategory || '', page),
+    ['posts', selectedCategory, searchKeyword, page, itemsPerPage],
+    () => getPosts(selectedCategory || '', page, itemsPerPage),
     {
       onError: (error) => {
-        console.error('Error fetching posts:', error);
+        console.error('게시물을 불러오는 중 에러 발생:', error);
       },
     },
   );
@@ -61,11 +68,11 @@ const Board = () => {
       return;
     }
     if (selected === 'prev' && page > 1) {
-      setPage((prev: any) => prev - 1);
+      setPage((prev) => prev - 1);
       return;
     }
     if (selected === 'next' && postsAndTotalPages?.totalPages) {
-      setPage((prev: any) => prev + 1);
+      setPage((prev) => prev + 1);
       return;
     }
   };
@@ -87,7 +94,7 @@ const Board = () => {
           postUserNicknameIncludesKeyword
         );
       })
-      .sort((a, b) => b.created_at.localeCompare(a.created_at)); // 최신 글이 위로 가도록 정렬
+      .sort((a, b) => b.created_at.localeCompare(a.created_at));
   }, [postsAndTotalPages, searchKeyword]);
 
   const handlePostClick = (postId: string) => {
@@ -100,6 +107,11 @@ const Board = () => {
     setSelectedCategory(null);
     queryClient.invalidateQueries(['posts', null, searchKeyword]);
   };
+
+  // 카테고리 변경 시 페이지를 1로 설정합니다.
+  useEffect(() => {
+    setPage(1);
+  }, [selectedCategory]);
 
   return (
     <S.Container>
