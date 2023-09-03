@@ -20,6 +20,7 @@ import dotDeactivated from '../assets/dotDeactivated.svg';
 import styled from 'styled-components';
 import Autoplay from 'embla-carousel-autoplay';
 import BannerSlide from './BannerSlide';
+import BannerSlideSkeleton from './BannerSlideSkeleton';
 type PropType = {
   options?: EmblaOptionsType;
   slides: any[];
@@ -51,9 +52,10 @@ let slideStyle: CSSProperties = {
 
 export const Banner = (props: PropType) => {
   const { options, slides } = props;
-  const [emblaRef, emblaApi] = useEmblaCarousel(options, [
-    Autoplay({ stopOnInteraction: false }),
-  ]);
+  // const [emblaRef, emblaApi] = useEmblaCarousel(options, [
+  //   Autoplay({ stopOnInteraction: false }),
+  // ]);
+  const [emblaRef, emblaApi] = useEmblaCarousel(options);
   const [nextButtonDisabled, setNextButtonDisabled] = useState(true);
   const [prevButtonDisabled, setPrevButtonDisabled] = useState(true);
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -100,23 +102,36 @@ export const Banner = (props: PropType) => {
   return (
     <div className="embla" ref={emblaRef} style={{ overflow: 'hidden' }}>
       <div className="embla__container" style={{ display: 'flex' }}>
-        {slides.map((slide, index) => (
-          <div
-            className="embla__slide"
-            style={{ ...slideStyle, height: `${width * 0.36}px` }}
-            key={index}
-          >
-            <BannerSlide
-              buttonText={slide.buttonText}
-              desc={slide.desc}
-              image={slide.image}
-              name={slide.name}
-              onClick={slide.onClick}
-              title={slide.title}
-              key={'fewa'}
-            />
-          </div>
-        ))}
+        {slides ? (
+          <>
+            {slides.map((slide, index) => (
+              <div
+                className="embla__slide"
+                style={{ ...slideStyle, height: `${width * 0.36}px` }}
+                key={index}
+              >
+                <BannerSlide
+                  buttonText={slide.buttonText}
+                  desc={slide.desc}
+                  image={slide.image}
+                  name={slide.name}
+                  onClick={slide.onClick}
+                  title={slide.title}
+                  key={'fewa'}
+                />
+              </div>
+            ))}
+          </>
+        ) : (
+          <>
+            <div
+              className="embla__slide"
+              style={{ ...slideStyle, height: `${width * 0.36}px` }}
+            >
+              <BannerSlideSkeleton />
+            </div>
+          </>
+        )}
       </div>
       <StButtonContainer carouselHeight={width * 0.36}>
         <PrevButton

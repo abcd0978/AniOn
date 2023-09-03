@@ -44,7 +44,7 @@ const MainCard = ({ width, data, index }: Props) => {
           </StCardSubtitle> */}
         </StCardInfo>
         <StCardHashTagContainer>
-          {data.genres.map((g: string) => {
+          {data.genres.slice(0, 3).map((g: string) => {
             return (
               <StCardHashTag>
                 <StCardHashTagTypo mediaWidth={mediaWidth}>
@@ -96,9 +96,14 @@ const StCardInfo = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  height: 54px;
   gap: 8px;
 `;
 const StCardTitle = styled.p`
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
   color: #000;
   font-family: Pretendard Variable;
   font-size: 20px;
@@ -109,7 +114,7 @@ const StCardTitle = styled.p`
 `;
 const StCardHashTagContainer = styled.div`
   display: flex;
-  align-items: flex-start;
+  //grid-template-columns: repeat(auto-fill, minmax(100%, auto));
   gap: 8px;
 `;
 const StCardHashTag = styled.div`
@@ -125,7 +130,6 @@ const StCardHashTagTypo = styled.p<{ mediaWidth: number }>`
   color: #000;
   font-family: Pretendard Variable;
   font-size: ${(props) => 15 * (props.mediaWidth / 1920)}px;
-  font-size: 0.5em;
   text-size-adjust: auto;
   font-style: normal;
   font-weight: 400;
