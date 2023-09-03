@@ -52,7 +52,7 @@ const Comments = () => {
       return;
     }
     if (!newComment) {
-      toast.warning('댓글을 작성해주세요!', {
+      toast.warning('댓글을 작성해주세요💜', {
         autoClose: 1000,
       });
       return;
@@ -74,6 +74,9 @@ const Comments = () => {
   const deleteMutation = useMutation(deleteComment, {
     onSuccess: () => {
       queryClient.invalidateQueries(['post_comments']);
+      toast.warning('삭제 되었습니다~!', {
+        autoClose: 1000,
+      });
     },
   });
   const handleCommentDelete = async (commentId: string) => {
@@ -180,12 +183,25 @@ const Comments = () => {
               </div>
               {user?.id === comment.user_id && (
                 <S.ButtonBox>
-                  <S.button onClick={() => handleCommentEdit(comment)}>
-                    {comment.id === editingCommentId ? '저장' : '수정'}
-                  </S.button>
-                  <S.button onClick={() => handleCommentDelete(comment.id)}>
-                    삭제
-                  </S.button>
+                  {comment.id === editingCommentId ? (
+                    <>
+                      <S.button onClick={() => handleCommentEdit(comment)}>
+                        저장
+                      </S.button>
+                      <S.button onClick={() => setEditingCommentId(null)}>
+                        취소
+                      </S.button>
+                    </>
+                  ) : (
+                    <>
+                      <S.button onClick={() => handleCommentEdit(comment)}>
+                        수정
+                      </S.button>
+                      <S.button onClick={() => handleCommentDelete(comment.id)}>
+                        삭제
+                      </S.button>
+                    </>
+                  )}
                 </S.ButtonBox>
               )}
               {comment.id === editingCommentId ? (
