@@ -20,7 +20,7 @@ const BorderCard = ({ border }: Props) => {
   const isModalOpened = useSetAtom(modalStore.isModalOpened);
   const setBorderModalContent = useSetAtom(modalStore.borderModalContent);
 
-  console.log('보더', border);
+  // console.log('보더', border);
   // 보유중인 테두리 불러오기
   const inventoryQueryOptions = {
     queryKey: ['purchasedBorders'],

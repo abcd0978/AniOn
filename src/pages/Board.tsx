@@ -207,7 +207,6 @@ const Board = () => {
           isNextDisabled={page >= (postsAndTotalPages?.totalPages || 1)}
         />
       </S.Page>
-      {/* <Footer /> */}
     </S.Container>
   );
 };

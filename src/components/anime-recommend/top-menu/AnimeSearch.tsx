@@ -42,10 +42,10 @@ const AnimeSearch = ({ setAnimeList }: Props) => {
   };
 
   const handleSearch = () => {
-    setKeywordAtom(keyword);
     if (!keyword) {
       return;
     }
+    setKeywordAtom(keyword);
     setCategory('전체');
     setAnimeList([]);
     setOffset(0);

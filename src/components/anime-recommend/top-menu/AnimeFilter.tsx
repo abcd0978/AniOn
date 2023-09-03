@@ -22,7 +22,9 @@ const AnimeFilter = ({ count, setAnimeList }: Props) => {
         </S.FilterOptions>
       </S.FilterContainer>
       {selectedCategory && <AnimeCategory />}
-      <S.CountDiv>{count}개의 작품이 검색되었습니다!</S.CountDiv>
+      <S.CountDiv>
+        {count?.toLocaleString()}개의 작품이 검색되었습니다!
+      </S.CountDiv>
     </div>
   );
 };
