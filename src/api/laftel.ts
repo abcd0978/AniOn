@@ -1,10 +1,7 @@
 import api from './index';
 import { laftelParamsM, recommendType } from './../types/anime';
-import { async } from 'q';
 
 export const fetchAnimeList = async (laftelParams: laftelParamsM) => {
-  console.log('fetch anime 실행', laftelParams);
-
   if (laftelParams.keyword) {
     const result = await api.get(`/search/v3/keyword/?viewing_only=false&`, {
       params: {
@@ -13,7 +10,7 @@ export const fetchAnimeList = async (laftelParams: laftelParamsM) => {
         size: laftelParams.size,
       },
     });
-    console.log('검색 실행', laftelParams);
+
     return {
       animeList: result!.data!.results!, // 애니 리스트
       isNextPage: result.data.next ? true : false, // 다음 페이지 유무
@@ -52,7 +49,7 @@ export const fetchSearchedAnime = async (laftelParams: laftelParamsM) => {
       size: laftelParams.size,
     },
   });
-  console.log('검색 실행', laftelParams);
+
   return {
     animeList: result!.data!.results!, // 애니 리스트
     isNextPage: result.data.next ? true : false, // 다음 페이지 유무
@@ -63,14 +60,12 @@ export const fetchSearchedAnime = async (laftelParams: laftelParamsM) => {
 // preview (1화 3분)
 export const getAnimePreview = async (animeId: string) => {
   const result = await api.get(`/episodes/v1/${animeId}/recent-video/`);
-  // console.log(result);
   return result.data;
 };
 
 // 애니 상세 내용 가져오기
 export const getAnimeById = async (animeId: string) => {
   const result = await api.get(`/items/v2/${animeId}/`);
-  // console.log(result);
   return result!.data!;
 };
 
