@@ -11,7 +11,7 @@ export const S = {
 
   AniCommentBox: styled.div`
     width: 1440px;
-    height: 173px;
+    height: 205px;
     border-bottom: 2px solid #d9d9d9;
   `,
 
@@ -19,6 +19,7 @@ export const S = {
     display: flex;
     align-items: center;
     gap: 12px;
+    margin-top: 12px;
   `,
 
   AniCommentUp: styled.div`
@@ -40,13 +41,25 @@ export const S = {
     letter-spacing: -0.24px;
   `,
 
+  AniUserAward: styled.div`
+    display: flex;
+    // width: 172px;
+    height: 36px;
+    padding: 8px 12px;
+    align-items: center;
+    gap: 8px;
+    border-radius: 999px;
+    background: #f4f4f4;
+  `,
+
   AniCommentText: styled.div`
     width: 1380px;
     height: 48px;
     padding: 0px, 0px, 0px, 60px;
-    margin-top: 8px;
+    margin-top: 23px;
     margin-left: 60px;
-    max-width: 1380px;
+    // max-width: 1380px;
+    max-width: 100%;
   `,
 
   AniCommentInputBox: styled.div`
@@ -90,15 +103,20 @@ export const S = {
 
   AniCommentButton: styled.button`
     width: 64px;
-    height: 24px;
-    border-radius: 10px;
-    border: 1px solid #d9d9d9;
-    margin-right: 5px;
+    height: 28px;
+    padding: 0px 8px;
+    justify-content: center;
+    align-items: center;
+    gap: 2px;
+    border-radius: 6px;
+    border: 1px solid #c88fff;
+    margin-right: 8px;
+    background-color: white;
     cursor: pointer;
-    background-color: #efefef;
 
     &:hover {
-      background-color: #c2c2c2;
+      border: 1.6px solid #ff96db;
+      background-color: #ffebf7;
     }
   `,
 
@@ -114,6 +132,7 @@ export const S = {
     border-radius: 10px;
     border: 1px solid #d9d9d9;
     margin: 10px 0px 0px 60px;
+    resize: none;
   `,
 
   AniCommentPageBox: styled.div`
