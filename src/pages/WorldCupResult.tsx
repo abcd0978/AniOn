@@ -46,10 +46,8 @@ const WorldCupResult = () => {
       // 중복 initialization 방지
       if (!window.Kakao.isInitialized()) {
         // 두번째 step 에서 가져온 javascript key 를 이용하여 initialize
-        window.Kakao.init('37bd207e4b08104a893c5246b22fe0a7');
+        window.Kakao.init(process.env.REACT_APP_KAKAO_API_KEY);
       }
-    } else {
-      console.log('실행되지 않고 있습니다. 카카오톡');
     }
   }, [status]);
 

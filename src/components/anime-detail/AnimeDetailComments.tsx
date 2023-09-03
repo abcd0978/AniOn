@@ -13,7 +13,6 @@ import {
 import { Database } from '../../types/supabase';
 import { useAtomValue } from 'jotai';
 import { toast } from 'react-toastify';
-import { fetchEquippedItem } from '../../api/items';
 
 type ReadAniComment = Database['public']['Tables']['ani_comments']['Row'];
 type InsertAniComment = Database['public']['Tables']['ani_comments']['Insert'];
@@ -24,17 +23,6 @@ const AnimeDetailComments = () => {
   // console.log("현재id!!!", ani_id);
 
   const user = useAtomValue(userStore.user);
-
-  // const equipedAwardQueryOption = {
-  //   queryKey: ['equippedAward'],
-  //   queryFn: () => fetchEquippedItem({ user_id: user!.id, category: 1 }),
-  //   refetchOnWindowFocus: false,
-  //   staleTime: 60 * 60,
-  //   enabled: !!user,
-  // };
-
-  // // 칭호 가져오기
-  // const { data: award } = useQuery(equipedAwardQueryOption);
 
   const queryClient = useQueryClient();
 
