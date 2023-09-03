@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import Comments from '../components/Board/Comments';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAtomValue } from 'jotai';
@@ -19,6 +19,9 @@ import { S } from '../pages/BoardDetail.style';
 import * as userStore from '../store/userStore';
 import filledLike from '../assets/filledLike.svg';
 import borderLike from '../assets/borderLike.svg';
+import { toast } from 'react-toastify';
+import pencil from '../assets/pencil.svg';
+import search from '../assets/search.svg';
 
 type ReadPosts = Database['public']['Tables']['posts']['Row'];
 type UpdatePosts = Database['public']['Tables']['posts']['Update'];
@@ -37,6 +40,37 @@ const BoardDetail = () => {
   const [category, setCategory] = useState<string>('');
   const [editCategory, setEditCategory] = useState<string>('');
   const [existingLike, setExistingLike] = useState<boolean>(false);
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [searchKeyword, setSearchKeyword] = useState<string>('');
+
+  const handleWriteClick = () => {
+    if (!user) {
+      toast.warning('로그인 후에 작성할 수 있습니다! 로그인 해주세요😳', {
+        autoClose: 1000,
+      });
+    } else {
+      navigate('/board/write');
+    }
+  };
+
+  const handleAllClick = () => {
+    setSelectedCategory(null);
+  };
+
+  const handleCategoryClick = (category: string) => {
+    setSelectedCategory(category);
+  };
+
+  const handlePostClick = (postId: string) => {
+    navigate(`/board/${postId}`);
+  };
+
+  const handleSearchSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    setSelectedCategory(null);
+    queryClient.invalidateQueries(['posts', null, searchKeyword]);
+  };
 
   // Post id 가져오기
   const { post_id } = useParams<{ post_id: string }>();
@@ -59,8 +93,6 @@ const BoardDetail = () => {
       refetchOnWindowFocus: false,
     },
   );
-
-  console.log('보드 디테일 like', like);
 
   const onChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
@@ -87,24 +119,32 @@ const BoardDetail = () => {
     },
   });
 
-  const deleteButton = (id: string) => {
+  const deleteButton = async (id: string) => {
     // 삭제 확인
-    const confirm = window.confirm('게시물을 삭제하시겠습니까?');
-    if (confirm) {
-      // DB 삭제
-      deleteMutation.mutate(id);
+    const confirm = window.confirm('게시물을 삭제하시겠습니까?!');
 
-      // 페이지 이동
-      alert('삭제되었습니다!');
-      navigate('/board');
+    if (confirm) {
+      try {
+        // DB에서 게시물 삭제
+        await deleteMutation.mutateAsync(id);
+
+        // 페이지 이동
+        toast.warning('삭제되었습니다!', {
+          autoClose: 1000,
+        });
+        navigate('/board');
+      } catch (error) {
+        console.error('게시물 삭제 중 오류 발생:', error);
+      }
     }
   };
+
   // Post 수정
   const updateMutation = useMutation(updatePost, {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['posts'] });
-      refetchPost(); // 수정 후 데이터 리패치
-      setIsEdit(false); // 수정 모드 종료
+      refetchPost();
+      setIsEdit(false);
     },
   });
 
@@ -136,7 +176,9 @@ const BoardDetail = () => {
   //좋아요
   const toggleLike = async () => {
     if (!user) {
-      alert('로그인이 필요한 서비스입니다.');
+      toast.warning('로그인이 필요한 서비스입니다😳', {
+        autoClose: 1000,
+      });
       return;
     }
 
@@ -164,17 +206,85 @@ const BoardDetail = () => {
     queryClient.invalidateQueries(['like']);
   };
 
+  const handleListClick = () => {
+    navigate('/board'); // '/board'
+  };
+
   return (
     <S.Layout>
+      <S.TopTitle>게시판</S.TopTitle>
+      <S.Post>
+        {!isEdit && (
+          <>
+            <S.Search>
+              <S.CateButton
+                onClick={handleAllClick}
+                style={{
+                  backgroundColor:
+                    selectedCategory === null ? '#FF96DB' : '#FFEBF7',
+                  color: selectedCategory === null ? '#ffffff' : 'black',
+                }}
+              >
+                전체
+              </S.CateButton>
+              <S.CateButton
+                onClick={() => handleCategoryClick('애니')}
+                style={{
+                  backgroundColor:
+                    selectedCategory === '애니' ? '#FF96DB' : '#FFEBF7',
+                  color: selectedCategory === '애니' ? '#ffffff' : 'black',
+                }}
+              >
+                애니
+              </S.CateButton>
+              <S.CateButton
+                onClick={() => handleCategoryClick('자유')}
+                style={{
+                  backgroundColor:
+                    selectedCategory === '자유' ? '#FF96DB' : '#FFEBF7',
+                  color: selectedCategory === '자유' ? '#ffffff' : 'black',
+                }}
+              >
+                자유
+              </S.CateButton>
+
+              <S.CateButton
+                onClick={() => handleCategoryClick('오류 신고')}
+                style={{
+                  backgroundColor:
+                    selectedCategory === '오류 신고' ? '#FF96DB' : '#FFEBF7',
+                  color: selectedCategory === '오류 신고' ? '#ffffff' : 'black',
+                }}
+              >
+                오류 신고
+              </S.CateButton>
+            </S.Search>
+            <S.Write>
+              <S.WriteButton onClick={handleWriteClick}>
+                <img src={pencil} /> 작성하기
+              </S.WriteButton>
+            </S.Write>
+          </>
+        )}
+      </S.Post>
       {posts ? (
         <>
           {user?.id === posts.user_id && (
             <S.ButtonContainer>
               <S.Button
-                onClick={() => deleteButton(posts.id!)}
-                style={{ backgroundColor: '#dddddd' }}
+                onClick={() => {
+                  if (isEdit) {
+                    editButton(posts);
+                  } else {
+                    deleteButton(posts.id!);
+                  }
+                }}
+                style={{
+                  backgroundColor: isEdit ? '#dddddd' : '#dddddd',
+                  color: isEdit ? 'black' : 'black',
+                }}
               >
-                삭제
+                {isEdit ? '취소' : '삭제'}
               </S.Button>
               <S.Button
                 onClick={() => editButton(posts)}
@@ -240,6 +350,7 @@ const BoardDetail = () => {
           </S.PostContainer>
 
           {!isEdit && <Comments />}
+          <S.ListButton onClick={handleListClick}>목록</S.ListButton>
         </>
       ) : (
         <div>Loading...</div>

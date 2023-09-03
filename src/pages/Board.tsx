@@ -9,7 +9,7 @@ import { useState } from 'react';
 import { atom, useAtom, useAtomValue } from 'jotai';
 import Pagination from '../components/Pagenation';
 import Footer from '../components/Footer';
-
+import { toast } from 'react-toastify';
 import pencil from '../assets/pencil.svg';
 import search from '../assets/search.svg';
 type ReadPosts = Database['public']['Tables']['posts']['Row'];
@@ -21,9 +21,12 @@ const Board = () => {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [searchKeyword, setSearchKeyword] = useState<string>('');
   const [page, setPage] = useState<number>(1);
+
   const handleWriteClick = () => {
     if (!user) {
-      alert('로그인 후에 작성할 수 있습니다. 로그인 해주세요.');
+      toast.warning('로그인 후에 작성할 수 있습니다! 로그인 해주세요😳', {
+        autoClose: 1000,
+      });
     } else {
       navigate('/board/write');
     }
