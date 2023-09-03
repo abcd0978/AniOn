@@ -95,20 +95,19 @@ const AnimeDetailComments = () => {
   // 댓글 수정시
   const handleCommentEdit = (comment: UpdateAniComment) => {
     if (editingCommentId === comment.id) {
-      const editComment = {
-        ...comment,
-        comment: editedCommentText,
-      };
-
+      // 수정 할 내용 빈 input 일 경우
       if (!editedCommentText) {
-        //TODO: 수정 할 내용이 없는 경우 원래 작성 돼 있던 내용으로 돌리기
-        toast.warning('수정 할 내용을 작성해주세요.', {
-          autoClose: 1000,
-        });
-        return;
+        // 이전 댓글 내용으로 복원
+        setEditedCommentText(comment.comment);
+        setEditingCommentId(null);
+      } else {
+        const editComment = {
+          ...comment,
+          comment: editedCommentText,
+        };
+        editMutation.mutate(editComment);
+        setEditingCommentId(null);
       }
-      editMutation.mutate(editComment);
-      setEditingCommentId(null);
     } else {
       setEditingCommentId(comment.id!);
       setEditedCommentText(comment.comment);
@@ -210,16 +209,33 @@ const AnimeDetailComments = () => {
               )}
               {user?.id === comment.user_id && (
                 <S.AniCommentButtonBox>
-                  <S.AniCommentButton
-                    onClick={() => handleCommentEdit(comment)}
-                  >
-                    {comment.id === editingCommentId ? '저장' : '수정'}
-                  </S.AniCommentButton>
-                  <S.AniCommentButton
-                    onClick={() => handleCommentDelete(comment.id)}
-                  >
-                    삭제
-                  </S.AniCommentButton>
+                  {comment.id === editingCommentId ? (
+                    <>
+                      <S.AniCommentButton
+                        onClick={() => handleCommentEdit(comment)}
+                      >
+                        저장
+                      </S.AniCommentButton>
+                      <S.AniCommentButton
+                        onClick={() => setEditingCommentId(null)}
+                      >
+                        취소
+                      </S.AniCommentButton>
+                    </>
+                  ) : (
+                    <>
+                      <S.AniCommentButton
+                        onClick={() => handleCommentEdit(comment)}
+                      >
+                        수정
+                      </S.AniCommentButton>
+                      <S.AniCommentButton
+                        onClick={() => handleCommentDelete(comment.id)}
+                      >
+                        삭제
+                      </S.AniCommentButton>
+                    </>
+                  )}
                 </S.AniCommentButtonBox>
               )}
             </S.AniCommentBox>
