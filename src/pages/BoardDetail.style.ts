@@ -174,6 +174,15 @@ const S = {
     font-weight: bold;
     cursor: pointer;
   `,
+
+  ListButton: styled.button`
+    width: 50px;
+    height: 28px;
+    font-size: 15px;
+    background-color: #dddddd;
+    border: none;
+    cursor: pointer;
+  `,
 };
 
 export { S };

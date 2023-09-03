@@ -206,6 +206,10 @@ const BoardDetail = () => {
     queryClient.invalidateQueries(['like']);
   };
 
+  const handleListClick = () => {
+    navigate('/board'); // '/board'
+  };
+
   return (
     <S.Layout>
       <S.TopTitle>게시판</S.TopTitle>
@@ -346,6 +350,7 @@ const BoardDetail = () => {
           </S.PostContainer>
 
           {!isEdit && <Comments />}
+          <S.ListButton onClick={handleListClick}>목록</S.ListButton>
         </>
       ) : (
         <div>Loading...</div>
