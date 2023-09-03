@@ -16,11 +16,6 @@ type ErrorType = {
   error: boolean;
   errorMsg: string;
 };
-// //비밀번호 변경
-// type FormFieldProps = {
-//   password: string;
-//   password2: string;
-// };
 //2 프로필 변경
 const initialError: ErrorType = { error: false, errorMsg: '' };
 const EditProfile = () => {
@@ -39,7 +34,6 @@ const EditProfile = () => {
       });
       return;
     }
-    console.log('user', user);
     // 2-1-2. 사진UUID생성
     const fileExtension = selectedFile.name.split('.').pop(); //파일확장자추출
     const newFileName = `${uuidv4()}.${fileExtension}`;
@@ -67,7 +61,6 @@ const EditProfile = () => {
 
       if (response.data) {
         const publicUrl = response.data.publicUrl;
-        console.log('Public URL:', publicUrl);
       } else {
         console.error('No public URL found in response data.');
       }
@@ -89,8 +82,6 @@ const EditProfile = () => {
       if (userUpdateError) {
         console.error(userUpdateError);
       } else {
-        // userStore의 user 상태도 함께 업데이트합니다.
-
         if (user) {
           await writeUser();
           toast.success('수정되었습니다.', {
@@ -101,8 +92,7 @@ const EditProfile = () => {
         }
       }
 
-      console.log('User profile updated successfully!!!!');
-      console.log('currentUser2', user); //실바니안
+      console.log('User profile update complete');
     } catch (error) {
       console.error(error);
     }
@@ -174,27 +164,7 @@ const EditProfile = () => {
       console.error(error);
     }
   };
-  //2-3.비번 변경
-  //a. 현재 비밀번호 입력 -> 다른 비밀번호면 비번변경불가
-  //-> 같은 비밀번호면 새비밀번호 입력창과 새 비밀번호 확인창 나타나기
-  // const handleResetPassword = async () => {
-  //   const
-  //   if (Password !== checkPassword) {
-  //     setErrorMessage('비밀번호가 다릅니다.');
-  //     setPassword('');
-  //     setCheckPassword('');
-  //     return;
-  //   }
-  //   if (user) {
-  //     alert('비밀번호 재설정 완료!');
-  //     setUser(null);
-  //     supabase.auth.signOut();
-  //     navigate('/');
-  //     alert(error);
-  //     setErrorMessage(error.message);
-  //     console.error('비밀번호 변경 오류:', error.message);
-  //   }
-  // };
+
   const renderContent = () => {
     let updatedUser = user;
     return (
@@ -266,12 +236,6 @@ const EditProfile = () => {
         <Label>비밀번호</Label>
         • 비밀번호는 6자 이상의 영문, 숫자로 이뤄져야 합니다.
         <PasswordReset />
-        {/* <input
-          type="text"
-          // value={newNickname}
-          // onChange={handleNicknameChange}
-          placeholder="기존 비밀번호"
-        /> */}
         <Divider />
         <Item>
           <Label>닉네임</Label>
