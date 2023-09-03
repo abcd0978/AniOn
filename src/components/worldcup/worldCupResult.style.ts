@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const R = {
   //-----------------------------------------------Result쪽
   WorldCupWinnerImg: styled.div`
-    margin-top: 72px;
+    margin-top: 20px;
     width: 440px;
     height: 440px;
     flex-shrink: 0;
@@ -44,7 +44,7 @@ export const R = {
     text-align: center;
     justify-content: center;
     gap: 20px;
-    margin-top: 36px;
+    margin-top: -140px;
   `,
 
   WorldCupResultButton: styled.button<{ background: string }>`
@@ -185,7 +185,7 @@ export const R = {
     flex-direction: column;
     align-items: flex-start;
     gap: 8px;
-    /* max-height는 캐릭터 수 많아질 때 넣기(일정 길이 넘으면 스크롤바 생기도록) */
+    max-height: 100px;
   `,
 
   OtherRankBox: styled.div`
