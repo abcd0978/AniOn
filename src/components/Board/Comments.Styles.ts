@@ -127,6 +127,16 @@ export const Ninkname = styled.div`
   display: flex;
   align-items: center;
 `;
+export const Award = styled.div`
+  display: flex;
+  height: 36px;
+  padding: 8px 12px;
+  align-items: center;
+  gap: 8px;
+  border-radius: 999px;
+  background: #f4f4f4;
+  margin-left: 8px;
+`;
 export const CommentBox = styled.div`
   width: 1308px;
   height: 48px;
