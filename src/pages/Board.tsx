@@ -12,13 +12,14 @@ import Footer from '../components/Footer';
 import { toast } from 'react-toastify';
 import pencil from '../assets/pencil.svg';
 import search from '../assets/search.svg';
+import ProfileWithBorder from '../components/ProfileWithBorder';
 type ReadPosts = Database['public']['Tables']['posts']['Row'];
 
 const Board = () => {
   const user = useAtomValue(userStore.user);
   const queryClient = useQueryClient();
   const navigate = useNavigate();
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<string>('');
   const [searchKeyword, setSearchKeyword] = useState<string>('');
   const [page, setPage] = useState<number>(1);
 
@@ -33,26 +34,20 @@ const Board = () => {
   };
 
   const handleAllClick = () => {
-    setSelectedCategory(null);
+    setSelectedCategory('');
   };
 
   const handleCategoryClick = (category: string) => {
     setSelectedCategory(category);
   };
 
-  const {
-    data: postsAndTotalPages,
-    isLoading,
-    isFetching,
-  } = useQuery<{ data: ReadPosts[]; totalPages: number }>(
-    ['posts', selectedCategory, searchKeyword, page],
-    () => getPosts(selectedCategory || '', page),
-    {
-      onError: (error) => {
-        console.error('Error fetching posts:', error);
-      },
-    },
-  );
+  const postQueryOptions = {
+    queryKey: ['posts', selectedCategory, searchKeyword, page],
+    queryFn: () => getPosts(selectedCategory, page),
+    refetchOnWindowFocus: false,
+  };
+
+  const { data: postsAndTotalPages, isFetching } = useQuery(postQueryOptions);
 
   const onClickPage = (selected: number | string) => {
     if (page === selected) return;
@@ -97,7 +92,7 @@ const Board = () => {
   const handleSearchSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    setSelectedCategory(null);
+    setSelectedCategory('');
     queryClient.invalidateQueries(['posts', null, searchKeyword]);
   };
 
@@ -107,7 +102,7 @@ const Board = () => {
       <S.Post>
         <S.Search>
           <S.Button
-            onClick={handleAllClick}
+            onClick={() => handleAllClick()}
             style={{
               backgroundColor:
                 selectedCategory === null ? '#FF96DB' : '#FFEBF7',
@@ -183,11 +178,15 @@ const Board = () => {
               key={post.id}
               onClick={() => post.id && handlePostClick(post.id.toString())}
             >
-              <S.BottomNo>{filteredAndSortedPosts.length - index}</S.BottomNo>
+              <S.BottomNo>
+                {postsAndTotalPages?.count! - (page - 1) * 12 - index}
+              </S.BottomNo>
               <S.BottomTitle>{post.title}</S.BottomTitle>
 
               <S.BottomNick>
                 <S.Img src={post.users?.profile_img_url} alt="프로필 이미지" />
+                {/* <ProfileWithBorder width={30} mediaWidth={1920} /> */}
+
                 <div>{post.users?.nickname}</div>
               </S.BottomNick>
               <S.Bottomdate>

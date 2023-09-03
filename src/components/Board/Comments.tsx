@@ -13,6 +13,7 @@ import { Database } from '../../types/supabase';
 import * as userStore from '../../store/userStore';
 import { atom, useAtom, useAtomValue } from 'jotai';
 import { toast } from 'react-toastify';
+import { CommentType } from '../../types/comment';
 
 type ReadPostComment = Database['public']['Tables']['post_comments']['Row'];
 type InsertPostComment =
@@ -96,6 +97,7 @@ const Comments = () => {
     if (editingCommentId === comment.id) {
       const editComment = {
         ...comment,
+
         comment: editedCommentText,
       };
 
@@ -108,7 +110,8 @@ const Comments = () => {
   };
 
   const [page, setPage] = useState<number>(1);
-  const { data: postCommentsData } = useQuery<any>(
+
+  const { data: postCommentsData } = useQuery(
     ['post_comments', post_id, page],
     () => {
       if (post_id) {
@@ -129,7 +132,7 @@ const Comments = () => {
       setPage((prev: any) => prev - 1);
       return;
     }
-    if (selected === 'next' && page < postCommentsData.totalPages) {
+    if (selected === 'next' && page < postCommentsData?.totalPages!) {
       setPage((prev: any) => prev + 1);
       return;
     }
@@ -164,18 +167,32 @@ const Comments = () => {
           )}
         </S.CommentTop>
         <S.CommentBot>
-          {postCommentsData?.data?.map((comment: ReadPostComment) => (
+          {/* comment: string;
+  created_at: string;
+  id: string;
+  post_id: string;
+  user_id: string;
+  users: {
+    inventory: {
+      id: string;
+      items: {
+        name: string;
+        img_url: string;
+      }[];
+    }[];
+    nickname: string;
+    profile_img_url: string;
+  }; */}
+          {postCommentsData?.data!.map((comment: CommentType) => (
             <S.Comment key={comment.id}>
               <div>
-                {comment.users && (
-                  <S.profile>
-                    <S.Img
-                      src={comment.users.profile_img_url}
-                      alt="Profile Image"
-                    />
-                    <S.Ninkname>{comment.users?.nickname}</S.Ninkname>
-                  </S.profile>
-                )}
+                <S.profile>
+                  <S.Img
+                    src={comment.users.profile_img_url}
+                    alt="Profile Image"
+                  />
+                  <S.Ninkname>{comment.users.nickname}</S.Ninkname>
+                </S.profile>
 
                 <S.CommentDate>
                   {new Date(comment.created_at).toLocaleString()}

@@ -32,7 +32,7 @@ const WhatIWrote = () => {
     data: postsAndTotalPages,
     isLoading,
     isFetching,
-  } = useQuery<{ data: ReadMyBoard[]; totalPages: number }>(
+  } = useQuery(
     ['posts', selectedCategory, searchKeyword, page],
     () => getPosts(selectedCategory || '', page),
     {
