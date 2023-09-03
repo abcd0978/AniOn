@@ -14,14 +14,10 @@ export const userItem = atomWithStorage<Item>('userItem', {
   border: null,
   award: null,
 });
-export const accessTokenAtom = atomWithStorage<string | null>(
-  'accessToken',
-  null,
-);
+export const accessTokenS = atomWithStorage<string | null>('accessToken', null);
 export const logoutUser = atom(null, (__, set) => {
-  set(accessTokenAtom, null);
+  set(accessTokenS, null);
   set(user, null);
-  set(accessTokenAtom, null);
   set(userItem, {
     border: null,
     award: null,
@@ -45,6 +41,7 @@ export const writeUserItem = atom(null, async (get, set) => {
 });
 export const writeUser = atom(null, async (get, set) => {
   const session = await supabase.auth.getSession();
+  console.log(session);
   if (session.data.session) {
     const accessToken = session?.data?.session?.access_token;
     const userData = session?.data?.session?.user;
@@ -59,7 +56,7 @@ export const writeUser = atom(null, async (get, set) => {
         : userData?.user_metadata.name,
       email: userData?.email!,
     };
-    set(accessTokenAtom, accessToken);
+    set(accessTokenS, accessToken);
     set(user, currentUser);
     if ((await authApi.checkUser(userData!.id)) <= 0) {
       //db에 있으면 안넣고 db에있으면 넣는다
