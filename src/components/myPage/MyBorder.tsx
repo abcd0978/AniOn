@@ -1,12 +1,13 @@
 import { equipItem, fetchMyBorders } from '../../api/items';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useAtomValue, useSetAtom, useStore } from 'jotai';
 import * as userStore from '../../store/userStore';
 import goShop from '../../assets/goShop.png';
 import { B } from './Deco.styles';
 const MyBorder = () => {
+  const queryClient = useQueryClient();
   const user = useAtomValue(userStore.user);
-  const writeUserItem = useSetAtom(userStore.writeUserItem);
+
   const {
     isLoading,
     isError,
@@ -22,15 +23,33 @@ const MyBorder = () => {
       enabled: !!user?.id,
     },
   );
+
+  const applyBorderMutation = useMutation(equipItem, {
+    onSuccess: (data) => {
+      console.log('장착 myInvenAward', data);
+      queryClient.invalidateQueries(['equippedBorder']);
+      queryClient.invalidateQueries(['myBorders']);
+    },
+    onError: (error) => {
+      console.log('장착 myInvenAward', error);
+    },
+  });
+
+  const handleApplyButtonClick = (item_id: string) => {
+    if (!user) {
+      return;
+    }
+
+    applyBorderMutation.mutate({ user_id: user.id, item_id, category: 0 });
+  };
+
   if (isLoading) {
     return <div>테두리를 불러오는 중</div>;
   }
   if (isError) {
     return <div>테두리를 불러오지 못했어요.</div>;
   }
-  const applyAward = (itemId: string) => {
-    console.log(`Applying award:${itemId}`);
-  };
+
   const filteredBorders = borders.filter((borders) => borders.items !== null);
   console.log(filteredBorders);
   const borderList =
@@ -43,7 +62,9 @@ const MyBorder = () => {
               src={filteredBorders.items?.img_url}
               alt={filteredBorders.items?.name}
             />
-            <button onClick={() => applyAward(filteredBorders.items?.id)}>
+            <button
+              onClick={() => handleApplyButtonClick(filteredBorders.items?.id)}
+            >
               적용
             </button>
           </li>

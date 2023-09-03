@@ -4,41 +4,19 @@ import supabase from '../supabaseClient';
 import * as authApi from '../api/auth';
 import * as itemApi from '../api/items';
 import { Database } from '../types/supabase';
+import { write } from 'fs';
 type Usertype = Database['public']['Tables']['users']['Row'];
 type Item = {
   border: string | null;
   award: string | null;
 };
 export const user = atomWithStorage<Usertype | null>('user', null);
-export const userItem = atomWithStorage<Item>('userItem', {
-  border: null,
-  award: null,
-});
 export const accessTokenS = atomWithStorage<string | null>('accessToken', null);
 export const logoutUser = atom(null, (__, set) => {
   set(accessTokenS, null);
   set(user, null);
-  set(userItem, {
-    border: null,
-    award: null,
-  });
 });
 export const setBorder = atom(null, (get, set) => {});
-export const writeUserItem = atom(null, async (get, set) => {
-  let myItem = get(userItem);
-  if (!myItem?.award && !myItem?.border) {
-    //둘다 없어야함
-    const data = await itemApi.fetchEquippedItems(get(user)?.id!);
-    for (let i = 0; i < data.length; i++) {
-      if (data[i].items.img_url) {
-        myItem.border = data[i].items.img_url;
-      } else {
-        myItem.award = data[i].items.name;
-      }
-      set(userItem, myItem);
-    }
-  }
-});
 export const writeUser = atom(null, async (get, set) => {
   const session = await supabase.auth.getSession();
   console.log(session);

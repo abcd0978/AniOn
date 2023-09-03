@@ -7,21 +7,15 @@ const MyInvenAward = () => {
   const queryClient = useQueryClient();
   const user = useAtomValue(userStore.user);
 
-  const {
-    isLoading,
-    isError,
-    data: awards,
-  } = useQuery(
-    ['myAwards', user?.id],
-    async () => {
-      if (!user?.id) return [];
-      const result = await fetchMyAwards(user.id);
-      return result;
-    },
-    {
-      enabled: !!user?.id,
-    },
-  );
+  const myAwardsQueryOptions = {
+    queryKey: ['myAwards'],
+    queryFn: () => fetchMyAwards(user!.id),
+    refetchOnWindowFocus: false,
+    staleTime: 60 * 60,
+    enabled: !!user,
+  };
+
+  const { isLoading, isError, data: awards } = useQuery(myAwardsQueryOptions);
 
   const applyAwardMutation = useMutation(equipItem, {
     onSuccess: (data) => {
@@ -36,7 +30,7 @@ const MyInvenAward = () => {
   // console.log('user', user);
   // console.log('awards', awards);
 
-  const handleApplyAwardButtonClick = (item_id: string) => {
+  const handleApplyButtonClick = (item_id: string) => {
     if (!user) {
       return;
     }
@@ -49,7 +43,7 @@ const MyInvenAward = () => {
       {awards.map((award, index) => (
         <li key={index}>
           {award.items?.name}
-          <button onClick={() => handleApplyAwardButtonClick(award.item_id)}>
+          <button onClick={() => handleApplyButtonClick(award.item_id)}>
             적용
           </button>
         </li>
