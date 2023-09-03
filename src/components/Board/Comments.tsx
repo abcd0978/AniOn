@@ -143,6 +143,19 @@ const Comments = () => {
   // 다음 페이지 버튼 비활성화 여부 계산
   const isNextDisabled = page >= (postCommentsData?.totalPages ?? 1);
 
+  //칭호 가져오기
+  const getUserTitle = (user: any) => {
+    if (user.inventory && user.inventory.length > 0) {
+      const titleItem = user.inventory[0];
+
+      if (titleItem.items && titleItem.items.name) {
+        return titleItem.items.name;
+      }
+    }
+    //없으면
+    return '칭호없음';
+  };
+
   return (
     <S.Outer>
       <S.CommentContainer>
@@ -192,6 +205,7 @@ const Comments = () => {
                     alt="Profile Image"
                   />
                   <S.Ninkname>{comment.users.nickname}</S.Ninkname>
+                  <S.Award>{getUserTitle(comment.users)}</S.Award>
                 </S.profile>
 
                 <S.CommentDate>
