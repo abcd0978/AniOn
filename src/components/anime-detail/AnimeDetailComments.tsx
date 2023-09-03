@@ -25,17 +25,6 @@ const AnimeDetailComments = () => {
 
   const user = useAtomValue(userStore.user);
 
-  // const equipedAwardQueryOption = {
-  //   queryKey: ['equippedAward'],
-  //   queryFn: () => fetchEquippedItem({ user_id: user!.id, category: 1 }),
-  //   refetchOnWindowFocus: false,
-  //   staleTime: 60 * 60,
-  //   enabled: !!user,
-  // };
-
-  // // 칭호 가져오기
-  // const { data: award } = useQuery(equipedAwardQueryOption);
-
   const queryClient = useQueryClient();
 
   const [newComment, setNewComment] = useState<string>('');
@@ -123,16 +112,22 @@ const AnimeDetailComments = () => {
 
   // 페이지네이션
   const [page, setPage] = useState<number>(1);
-  const { data: aniCommentsData } = useQuery<any>(
-    ['ani_comments', ani_id, page],
-    () => {
+
+  const aniCommentQueryOptions = {
+    queryKey: ['ani_comments', page, ani_id],
+    queryFn: () => {
       if (ani_id) {
         return fetchComments(ani_id, page);
       }
       return Promise.resolve({ data: [], totalPages: 1 });
     },
-    { keepPreviousData: true },
-  );
+    keepPreviousData: true,
+    refetchOnMount: false,
+  };
+
+  const { data: aniCommentsData } = useQuery(aniCommentQueryOptions);
+
+  console.log('애니 디테일 댓글', aniCommentsData);
 
   //페이지 이동할 때
   const onClickPage = (selected: number | string) => {
@@ -150,6 +145,7 @@ const AnimeDetailComments = () => {
       return;
     }
   };
+
   // 이전 페이지 버튼 비활성화 여부 계산
   const isPreviousDisabled = page === 1;
 

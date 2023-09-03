@@ -8,17 +8,20 @@ import { useQuery } from '@tanstack/react-query';
 type Props = {
   mediaWidth: number;
   width: number | null;
-  userId?: string;
+  profile_img_url?: string | null;
+  border_img_url?: string | null;
 };
 
 function ProfileWithBorder(props: Props) {
   const user = useAtomValue(userStore.user);
-
+  // 두가지의 return.
+  // 1. 헤더, 프로필
+  // 2.comment, bordList, boardDetail
   const equipedBorderQueryOptions = {
     queryKey: ['equippedBorder'],
     queryFn: () =>
       fetchEquippedItem({
-        user_id: props.userId ? props.userId : user!.id,
+        user_id: user!.id,
         category: 0,
       }),
     refetchOnWinowFocus: false,
@@ -27,6 +30,18 @@ function ProfileWithBorder(props: Props) {
   };
 
   const { data: border } = useQuery(equipedBorderQueryOptions);
+
+  if (props.profile_img_url) {
+    return (
+      <StProfileContainer width={props.width} mediaWidth={props.mediaWidth}>
+        <StPreview
+          background={props.border_img_url ? props.border_img_url : null}
+        />
+        <StHeaderUserProfile src={props.profile_img_url} alt="프사" />
+      </StProfileContainer>
+    );
+  }
+
   return (
     <StProfileContainer width={props.width} mediaWidth={props.mediaWidth}>
       <StPreview background={border ? border.items.img_url! : null} />

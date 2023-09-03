@@ -15,7 +15,6 @@ import { atom, useAtom, useAtomValue } from 'jotai';
 import { toast } from 'react-toastify';
 import { CommentType } from '../../types/comment';
 
-type ReadPostComment = Database['public']['Tables']['post_comments']['Row'];
 type InsertPostComment =
   Database['public']['Tables']['post_comments']['Insert'];
 type UpdatePostComment =
