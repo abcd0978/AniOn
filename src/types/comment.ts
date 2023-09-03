@@ -17,7 +17,7 @@ export type CommentType = {
       items: {
         name: string;
         img_url: string;
-      }[];
+      };
     }[];
     nickname: string;
     profile_img_url: string;

@@ -12,6 +12,27 @@ type Props = {
   border_img_url?: string | null;
 };
 
+export const processItem = (
+  params: { id: string; items: { name: string; img_url: string } }[],
+): { border: string | null; award: string | null } => {
+  if (!params) {
+    return { border: null, award: null };
+  }
+  let result: { border: null | string; award: null | string } = {
+    border: null,
+    award: null,
+  };
+
+  for (let i = 0; i < params.length; i++) {
+    if (params[i]?.items.img_url) {
+      result.border = params[i].items.img_url;
+    } else {
+      result.award = params[i].items.name;
+    }
+  }
+  return result;
+};
+
 function ProfileWithBorder(props: Props) {
   const user = useAtomValue(userStore.user);
   // 두가지의 return.
@@ -88,4 +109,5 @@ const StHeaderUserProfile = styled.img`
   left: 12.5%;
   z-index: 2;
 `;
+
 export default ProfileWithBorder;

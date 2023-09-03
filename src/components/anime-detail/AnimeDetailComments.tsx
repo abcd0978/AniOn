@@ -10,9 +10,11 @@ import {
   deleteComment,
   updateComment,
 } from '../../api/aniComment';
+import ProfileWithBorder, { processItem } from '../ProfileWithBorder';
 import { Database } from '../../types/supabase';
 import { useAtomValue } from 'jotai';
 import { toast } from 'react-toastify';
+import { AniCommentType } from '../../types/comment';
 
 type ReadAniComment = Database['public']['Tables']['ani_comments']['Row'];
 type InsertAniComment = Database['public']['Tables']['ani_comments']['Insert'];
@@ -184,18 +186,29 @@ const AnimeDetailComments = () => {
         )}
 
         <S.CommentSpace>
-          {aniCommentsData?.data?.map((comment: ReadAniComment) => (
+          {aniCommentsData?.data?.map((comment: AniCommentType) => (
             <S.AniCommentBox key={comment.id}>
               <S.AniCommentUp>
                 <S.AniCommentUser>
-                  <S.AniProfileImg
-                    src={comment.users.profile_img_url}
-                    alt="프로필이미지"
+                  <ProfileWithBorder
+                    width={75}
+                    mediaWidth={1920}
+                    border_img_url={
+                      comment.users.inventory.length > 0
+                        ? processItem(comment.users.inventory).border
+                        : undefined
+                    }
+                    profile_img_url={comment.users?.profile_img_url}
+                    key={comment.id!}
                   />
                   <S.AniUserNickname>
                     {comment.users.nickname}
                   </S.AniUserNickname>
-                  <S.AniUserAward>칭호</S.AniUserAward>
+                  <S.AniUserAward>
+                    {comment.users.inventory.length > 0
+                      ? processItem(comment.users.inventory).award
+                      : '칭호없음'}
+                  </S.AniUserAward>
                 </S.AniCommentUser>
                 <S.date>{new Date(comment.created_at).toLocaleString()}</S.date>
               </S.AniCommentUp>

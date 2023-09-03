@@ -32,3 +32,4 @@ export type InsertPost = Database['public']['Tables']['posts']['Insert'];
 export type ReadPosts = Database['public']['Tables']['posts']['Row'];
 export type UpdatePost = Database['public']['Tables']['posts']['Update'];
 export type InsertLike = Database['public']['Tables']['likes']['Insert'];
+export type Like = Database['public']['Tables']['likes']['Row'];
