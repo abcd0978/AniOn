@@ -11,7 +11,9 @@ import Pagination from '../Pagenation';
 import { useQuery } from '@tanstack/react-query';
 import { getPosts } from '../../api/boardapi';
 import { StyledPostCategory } from './Wrote.styles';
-
+import { Page } from './LikedAnime';
+import useViewport from '../../hooks/useViewPort';
+import { styled } from 'styled-components';
 type ReadMyBoard = Database['public']['Tables']['posts']['Row'];
 type ReadMyBoardLikes = Database['public']['Tables']['likes']['Row'];
 const userPostsAtom = atom<ReadMyBoard[]>([]);
@@ -27,6 +29,8 @@ const WhatIWrote = () => {
   const [searchKeyword, setSearchKeyword] = useState<string>('');
   const [selectedPosts, setSelectedPosts] = useState<string[]>([]);
   const [page, setPage] = useState<number>(1);
+  const { width, height, isMobile, isLoaded } = useViewport();
+
   const itemsPerPage = 12;
   const {
     data: postsAndTotalPages,
@@ -205,15 +209,23 @@ const WhatIWrote = () => {
             : '전체 선택'}
         </Post.ButtonAll>
       </Post.ButtonBox>
-      <Pagination
-        currentPage={page}
-        totalPages={postsAndTotalPages?.totalPages || 1}
-        onClick={onClickPage}
-        isPreviousDisabled={page === 1}
-        isNextDisabled={page >= (postsAndTotalPages?.totalPages || 1)}
-      />
+      <WriteP mediaWidth={width}>
+        <Pagination
+          currentPage={page}
+          totalPages={postsAndTotalPages?.totalPages || 1}
+          onClick={onClickPage}
+          isPreviousDisabled={page === 1}
+          isNextDisabled={page >= (postsAndTotalPages?.totalPages || 1)}
+        />
+      </WriteP>
     </Container>
   );
 };
 
 export default WhatIWrote;
+export const WriteP = styled.div<{ mediaWidth: number }>`
+  height: 10vh;
+  ${(props) => `width:${250 * (props.mediaWidth / 1920)}px;`}
+  margin-bottom: -330px;
+  margin-left: 400px;
+`;

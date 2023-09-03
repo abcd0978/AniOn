@@ -16,6 +16,7 @@ import play_arrow from '../assets/play_arrow.svg';
 import StarRating from '../components/anime-detail/StarRating';
 import detaillike from '../assets/detaillike.svg';
 import ScrollToTop from '../components/ScrollToTop';
+import { toast } from 'react-toastify';
 
 function AnimeDetail() {
   const previewRef = useRef<HTMLDivElement>(null);
@@ -69,7 +70,7 @@ function AnimeDetail() {
     },
   });
 
-  console.log('star🌟🌟', animeStar);
+  // console.log('star🌟🌟', animeStar);
 
   const likesQueryOptions = {
     queryKey: ['animeDetailLikes'],
@@ -84,13 +85,15 @@ function AnimeDetail() {
       queryClient.invalidateQueries(['animeDetailLikes']);
     },
     onError: (error) => {
-      alert(`toggleAnimeLike 오류가 발생했습니다. : ${error}`);
+      console.log(`toggleAnimeLike 오류가 발생했습니다. : ${error}`);
     },
   });
 
   const handleLike = () => {
     if (!user) {
-      alert('로그인 후 사용 가능합니다.');
+      toast.warning('로그인 후 찜해주세요!💗', {
+        autoClose: 1000,
+      });
       return;
     }
 
@@ -113,7 +116,9 @@ function AnimeDetail() {
   //URL 복사 공유
   const isShare = () => {
     window.navigator.clipboard.writeText(currentUrl).then(() => {
-      alert('복사 완료!');
+      toast.success('복사 완료!💁‍♀️', {
+        autoClose: 1500,
+      });
     });
   };
 

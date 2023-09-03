@@ -57,7 +57,7 @@ export const S = {
     padding: 40px;
     flex-direction: column;
     align-items: center;
-    gap: 100px;
+    gap: 51px;
     border-radius: 32px;
     background: #fff;
     /* Drop Shadow */
@@ -68,7 +68,7 @@ export const S = {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 32px;
+    gap: -2px;
   `,
 
   WorldCupGender: styled.div`
@@ -89,11 +89,15 @@ export const S = {
   WorldCupTitles: styled.p`
     color: #000;
     text-align: center;
-    font-size: 28px;
+    font-size: 24px;
     font-weight: 700;
     line-height: 150%; /* 36px */
     letter-spacing: -0.36px;
     width: 600px;
+  `,
+
+  WorldCupTitleBox: styled.div`
+    margin-top: 20px;
   `,
 
   WorldCupTitle: styled.p`

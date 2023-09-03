@@ -86,12 +86,12 @@ function AniWorldCup() {
                     <S.WorldCupImg>
                       <img src={character.img_url} />
                     </S.WorldCupImg>
-                    <div>
+                    <S.WorldCupTitleBox>
                       <S.WorldCupTitle>{character.ani_title}</S.WorldCupTitle>
                       <S.WorldCupName>
                         {character.character_name}
                       </S.WorldCupName>
-                    </div>
+                    </S.WorldCupTitleBox>
                   </S.WorldCupUp>
                   <S.WorldCupTestPickButton
                     onClick={SelectWinnerhandler(character)}

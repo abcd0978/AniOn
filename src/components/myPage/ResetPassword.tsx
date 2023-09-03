@@ -1,0 +1,39 @@
+import React, { useState } from 'react';
+import supabase from '../../supabaseClient';
+
+const PasswordReset = () => {
+  const [email, setEmail] = useState('');
+  const [emailSent, setEmailSent] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const handlePasswordReset = async (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+
+    const { error } = await supabase.auth.resetPasswordForEmail(email);
+
+    if (error) {
+      console.error('Error password reset:', error.message);
+    } else {
+      setEmailSent(true);
+    }
+  };
+
+  return (
+    <div>
+      {emailSent ? (
+        <p>이메일로 전송된 링크를 확인해주세요.</p>
+      ) : (
+        <form onSubmit={handlePasswordReset}>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="이메일"
+          />
+          <button type="submit">재설정 링크 전송</button>
+        </form>
+      )}
+    </div>
+  );
+};
+
+export default PasswordReset;

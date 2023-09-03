@@ -3,6 +3,7 @@ import MyProfile from '../components/myPage/MyProfile';
 import { useParams } from 'react-router-dom';
 import MyInfoMenu from '../components/myPage/MyInfoMenu';
 import { Profile } from '../components/myPage/MyPage.styles';
+import Footer from '../components/Footer';
 
 type Props = {};
 

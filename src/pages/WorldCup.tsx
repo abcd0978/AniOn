@@ -13,7 +13,7 @@ function WorldCup() {
       <S.WorldCupContainer2>
         <S.WorldCupMainTitle>이상형 월드컵</S.WorldCupMainTitle>
         <S.WorldCupTestContainer>
-          <S.WorldCupTest height={781}>
+          <S.WorldCupTest height={694}>
             <S.WorldCupUp>
               <div>
                 <S.WorldCupGender>남자 캐릭터</S.WorldCupGender>
@@ -37,7 +37,7 @@ function WorldCup() {
               </S.WorldCupTestButtonTextBox>
             </S.WorldCupTestButton>
           </S.WorldCupTest>
-          <S.WorldCupTest height={781}>
+          <S.WorldCupTest height={694}>
             <S.WorldCupUp>
               <div>
                 <S.WorldCupGender>여자 캐릭터</S.WorldCupGender>
