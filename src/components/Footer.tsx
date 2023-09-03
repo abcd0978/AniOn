@@ -41,6 +41,9 @@ const Stfooter = styled.div<{ width: number }>`
   display: flex;
   flex-direction: row;
   margin-left: calc(-50vw + 50%);
+  position: relative;
+  transform: translatY(-100%);
+  margin-top: auto;
 `;
 const StFooterInner = styled.div`
   width: 90%;

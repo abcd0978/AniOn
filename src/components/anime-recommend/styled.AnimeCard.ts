@@ -26,7 +26,7 @@ export const S = {
     :hover img:not(.viewDetail) {
       -webkit-transition: 0.3s ease-in-out;
       transition: 0.3s ease-in-out;
-      filter: brightness(0.2);
+      filter: brightness(0.3);
     }
 
     :hover ${HoverInfo} {
@@ -81,8 +81,8 @@ export const S = {
     position: relative;
     padding: 6px 12px;
     border-radius: 999px;
-    border: 1px solid white;
-    background-color: rgba(255, 255, 255, 0);
+    border: none;
+    background-color: #8200ff;
     color: white;
     cursor: pointer;
     p {
