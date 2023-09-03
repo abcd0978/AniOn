@@ -125,6 +125,54 @@ const S = {
     float: right;
     margin-top: 5px;
   `,
+
+  TopTitle: styled.div`
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    margin-top: 30px;
+    margin-left: 5px;
+    color: #8200ff;
+  `,
+
+  Post: styled.div`
+    display: flex;
+    justify-content: space-between;
+  `,
+  Search: styled.div`
+    display: flex;
+  `,
+
+  Write: styled.div`
+    display: flex;
+  `,
+
+  WriteButton: styled.button`
+    background-color: #8200ff;
+    border: none;
+    border-radius: 10px;
+    width: 120px;
+    height: 40px;
+    padding: 8px;
+    font-size: 15px;
+    color: white;
+    margin-left: 10px;
+    cursor: pointer;
+  `,
+
+  CateButton: styled.button`
+    border: none;
+    width: 100px;
+    height: 36px;
+    font-size: 13px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-right: 3px;
+    font-size: 13px;
+    border-radius: 999px;
+    font-weight: bold;
+    cursor: pointer;
+  `,
 };
 
 export { S };
