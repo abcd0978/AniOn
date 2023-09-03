@@ -61,8 +61,8 @@ export const Bottom = styled.div`
 
 export const ItemBox = styled.div`
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  grid-gap: 10px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
 `;
 
 export const Item = styled.div`
@@ -108,4 +108,5 @@ export const BuyButton = styled.button`
 `;
 export const Number = styled.div`
   font-weight: 700;
+  margin-right: auto;
 `;

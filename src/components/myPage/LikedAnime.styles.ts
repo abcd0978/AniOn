@@ -22,6 +22,15 @@ export const Anime = {
   `,
   OnePoster: styled.div`
     margin-bottom: -10px;
+    position: relative;
+     &:hover ${HoverInfo} {
+    display: block;
+  }
+
+      ${HoverInfo} {
+        display: flex;
+      }
+    }
   `,
   Poster: styled.img`
     width: 220px;

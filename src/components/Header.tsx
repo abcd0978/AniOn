@@ -83,6 +83,7 @@ function Header({}: Props) {
       func: async () => {
         await authApi.logout();
         logoutStore();
+        navigate(`/`);
       },
     },
   ];

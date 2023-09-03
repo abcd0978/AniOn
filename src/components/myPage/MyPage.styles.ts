@@ -33,9 +33,10 @@ export const Profile = {
     background: #fdfbff;
     box-shadow: 0px 0px 25px 0px rgba(0, 0, 0, 0.1);
     width: 300px;
-    height: 700px;
+    height: 800px;
     padding: 20px;
     margin-top: 20px;
+    margin-bottom: 200px;
   `,
   MyProfileContainer: styled.div`
     display: grid;
@@ -169,7 +170,7 @@ export const InfoMenu = {
 export const MyAward = {
   MyProfileAward: styled.div`
     display: flex;
-    width: 160px;
+    width: auto;
     height: 28px;
     padding: 8px;
     justify-content: center;

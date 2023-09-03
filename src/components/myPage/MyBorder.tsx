@@ -4,8 +4,13 @@ import { useAtomValue, useSetAtom, useStore } from 'jotai';
 import * as userStore from '../../store/userStore';
 import goShop from '../../assets/goShop.png';
 import { B } from './Deco.styles';
+import * as S from '../../pages/Shop.style';
+import useViewport from '../../hooks/useViewPort';
+import { useNavigate } from 'react-router-dom';
 const MyBorder = () => {
   const user = useAtomValue(userStore.user);
+  const { width, height, isMobile, isLoaded } = useViewport();
+  const navigate = useNavigate();
   const writeUserItem = useSetAtom(userStore.writeUserItem);
   const {
     isLoading,
@@ -35,35 +40,37 @@ const MyBorder = () => {
   console.log(filteredBorders);
   const borderList =
     Array.isArray(filteredBorders) && filteredBorders.length > 0 ? (
-      <ul>
+      <S.ItemBox>
         {filteredBorders.map((filteredBorders, index) => (
-          <li key={index}>
-            {filteredBorders.items?.name}
-            <img
+          <B.BorderContainer key={index}>
+            <B.GoIcon
               src={filteredBorders.items?.img_url}
               alt={filteredBorders.items?.name}
             />
-            <button onClick={() => applyAward(filteredBorders.items?.id)}>
-              적용
-            </button>
-          </li>
+            <B.ButtonContainer>
+              <S.Number>{filteredBorders.items?.name}</S.Number>
+
+              <B.Equip onClick={() => applyAward(filteredBorders.items?.id)}>
+                적용
+              </B.Equip>
+            </B.ButtonContainer>
+          </B.BorderContainer>
         ))}
-      </ul>
+      </S.ItemBox>
     ) : (
-      <div>
-        <div>구매한 테두리가 없습니다.</div>
-        <B.NoneButton>
+      <B.NoneContainer mediaWidth={width}>
+        <B.NoneMessage>구매한 테두리가 없습니다.</B.NoneMessage>
+        <B.NoneButton
+          onClick={() => {
+            navigate('/shop/:category');
+          }}
+        >
           테두리 구매하러 가기
           <img src={goShop} />
         </B.NoneButton>
-      </div>
+      </B.NoneContainer>
     );
-  return (
-    <div>
-      <h2>내 테두리</h2>
-      {borderList}
-    </div>
-  );
+  return <S.Outer>{borderList}</S.Outer>;
 };
 
 export default MyBorder;
