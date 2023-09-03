@@ -22,10 +22,11 @@ import borderLike from '../assets/borderLike.svg';
 import { toast } from 'react-toastify';
 import pencil from '../assets/pencil.svg';
 import search from '../assets/search.svg';
+import ProfileWithBorder, {
+  processItem,
+} from '../components/ProfileWithBorder';
 
-type ReadPosts = Database['public']['Tables']['posts']['Row'];
-type UpdatePosts = Database['public']['Tables']['posts']['Update'];
-type Like = Database['public']['Tables']['likes']['Row'];
+import type { PostType, UpdatePost, Like } from '../types/post';
 
 const BoardDetail = () => {
   const user = useAtomValue(userStore.user);
@@ -69,7 +70,7 @@ const BoardDetail = () => {
     e.preventDefault();
 
     setSelectedCategory(null);
-    queryClient.invalidateQueries(['posts', null, searchKeyword]);
+    queryClient.invalidateQueries(['post', null, searchKeyword]);
   };
 
   // Post id 가져오기
@@ -78,18 +79,20 @@ const BoardDetail = () => {
   // Likes 상태 추가
   const [likes, setLikes] = useState<Like[]>([]);
 
+  const postQueryOptions = {
+    queryKey: ['post'],
+    queryFn: () => getPost(post_id!),
+    refetchOnFocus: false,
+  };
   // Post 상세조회
-  const { data: posts, refetch: refetchPost } = useQuery<ReadPosts>(
-    ['post'],
-    () => getPost(post_id!),
-  );
+  const { data: post, refetch: refetchPost } = useQuery(postQueryOptions);
 
   useEffect(() => {
-    if (posts) {
+    if (post) {
       // 해당 게시물의 카테고리에 따라 선택한 카테고리 업데이트
-      setSelectedCategory(posts.category);
+      setSelectedCategory(post.category);
     }
-  }, [posts]);
+  }, [post]);
 
   //전에 좋아요를 눌렀는지 확인
   const { data: like } = useQuery(
@@ -109,19 +112,19 @@ const BoardDetail = () => {
   };
 
   useEffect(() => {
-    if (posts && !isEdit) {
+    if (post && !isEdit) {
       // 수정 중이 아닐 때만 게시물 정보 업데이트
-      setTitle(posts.title);
-      setContent(posts.content);
-      setCategory(posts.category);
-      setEditCategory(posts.category);
+      setTitle(post.title);
+      setContent(post.content);
+      setCategory(post.category);
+      setEditCategory(post.category);
     }
-  }, [isEdit, posts]);
+  }, [isEdit, post]);
 
   // Post 삭제
   const deleteMutation = useMutation(deletePost, {
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['posts'] });
+      queryClient.invalidateQueries({ queryKey: ['post'] });
       queryClient.invalidateQueries({ queryKey: ['post'] });
     },
   });
@@ -149,20 +152,20 @@ const BoardDetail = () => {
   // Post 수정
   const updateMutation = useMutation(updatePost, {
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['posts'] });
+      queryClient.invalidateQueries({ queryKey: ['post'] });
       refetchPost();
       setIsEdit(false);
     },
   });
 
-  const editButton = (posts: UpdatePosts) => {
+  const editButton = (post: UpdatePost) => {
     if (!isEdit) {
-      setTitle(posts.title);
-      setContent(posts.content);
-      setEditCategory(posts.category || '');
+      setTitle(post.title);
+      setContent(post.content);
+      setEditCategory(post.category || '');
     } else {
       const editPost = {
-        ...posts,
+        ...post,
         title,
         content,
         category: editCategory,
@@ -200,14 +203,14 @@ const BoardDetail = () => {
     }
 
     // 좋아요 정보 업데이트
-    if (posts) {
-      const updatedLikes = await getLikesForPost(posts.id!);
+    if (post) {
+      const updatedLikes = await getLikesForPost(post.id!);
       setLikes(updatedLikes as Like[]);
     }
 
     // 새로운 게시물 정보를 불러와 업데이트
-    const updatedPosts = await getPost(post_id!);
-    queryClient.setQueryData(['posts', post_id], updatedPosts);
+    const updatedPost = await getPost(post_id!);
+    queryClient.setQueryData(['post', post_id], updatedPost);
     // setExistingLike(!existingLike);
     refetchPost();
     queryClient.invalidateQueries(['like']);
@@ -263,16 +266,16 @@ const BoardDetail = () => {
           </>
         )}
       </S.Post>
-      {posts ? (
+      {post ? (
         <>
-          {user?.id === posts.user_id && (
+          {user?.id === post.user_id && (
             <S.ButtonContainer>
               <S.Button
                 onClick={() => {
                   if (isEdit) {
-                    editButton(posts);
+                    editButton(post);
                   } else {
-                    deleteButton(posts.id!);
+                    deleteButton(post.id!);
                   }
                 }}
                 style={{
@@ -283,7 +286,7 @@ const BoardDetail = () => {
                 {isEdit ? '취소' : '삭제'}
               </S.Button>
               <S.Button
-                onClick={() => editButton(posts)}
+                onClick={() => editButton(post)}
                 style={{
                   backgroundColor: isEdit ? '#8200FF' : '#dddddd',
                   color: isEdit ? 'white' : 'black',
@@ -294,7 +297,7 @@ const BoardDetail = () => {
             </S.ButtonContainer>
           )}
 
-          <S.PostContainer key={posts.id}>
+          <S.PostContainer key={post.id}>
             {isEdit ? (
               <S.Box>
                 <S.Select
@@ -315,7 +318,7 @@ const BoardDetail = () => {
               </S.Box>
             ) : (
               <S.Box>
-                <S.Date> {new Date(posts.created_at).toLocaleString()}</S.Date>
+                <S.Date> {new Date(post.created_at).toLocaleString()}</S.Date>
                 <S.Like onClick={toggleLike}>
                   {like?.length ? (
                     <img src={filledLike} alt="좋아요" />
@@ -324,12 +327,20 @@ const BoardDetail = () => {
                   )}
                 </S.Like>
                 <S.Title>{title}</S.Title>
+
                 <S.User>
-                  <S.Img
-                    src={posts.users?.profile_img_url}
-                    alt="프로필 이미지"
+                  <ProfileWithBorder
+                    width={90}
+                    mediaWidth={1920}
+                    border_img_url={
+                      post.users.inventory.length > 0
+                        ? processItem(post.users.inventory).border
+                        : undefined
+                    }
+                    profile_img_url={post.users?.profile_img_url}
+                    key={post.id!}
                   />
-                  <S.Nickname>{posts.users?.nickname}</S.Nickname>
+                  <S.Nickname>{post.users?.nickname}</S.Nickname>
                 </S.User>
               </S.Box>
             )}
@@ -340,7 +351,7 @@ const BoardDetail = () => {
               </S.Box>
             ) : (
               <S.Content
-                dangerouslySetInnerHTML={{ __html: posts.content }}
+                dangerouslySetInnerHTML={{ __html: post.content }}
               ></S.Content>
             )}
           </S.PostContainer>
