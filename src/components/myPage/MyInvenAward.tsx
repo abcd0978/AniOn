@@ -16,21 +16,15 @@ const MyInvenAward = () => {
   const navigate = useNavigate();
   const { width, height, isMobile, isLoaded } = useViewport();
 
-  const {
-    isLoading,
-    isError,
-    data: awards,
-  } = useQuery(
-    ['myAwards', user?.id],
-    async () => {
-      if (!user?.id) return [];
-      const result = await fetchMyAwards(user.id);
-      return result;
-    },
-    {
-      enabled: !!user?.id,
-    },
-  );
+  const myAwardsQueryOptions = {
+    queryKey: ['myAwards'],
+    queryFn: () => fetchMyAwards(user!.id),
+    refetchOnWindowFocus: false,
+    staleTime: 60 * 60,
+    enabled: !!user,
+  };
+
+  const { isLoading, isError, data: awards } = useQuery(myAwardsQueryOptions);
 
   const applyAwardMutation = useMutation(equipItem, {
     onSuccess: (data) => {
@@ -45,7 +39,7 @@ const MyInvenAward = () => {
   // console.log('user', user);
   // console.log('awards', awards);
 
-  const handleApplyAwardButtonClick = (item_id: string) => {
+  const handleApplyButtonClick = (item_id: string) => {
     if (!user) {
       return;
     }
@@ -58,7 +52,7 @@ const MyInvenAward = () => {
       {awards.map((award, index) => (
         <div key={index}>
           <A.Name>{award.items?.name}</A.Name>
-          <B.Equip onClick={() => handleApplyAwardButtonClick(award.item_id)}>
+          <B.Equip onClick={() => handleApplyButtonClick(award.item_id)}>
             적용
           </B.Equip>
         </div>
@@ -73,7 +67,7 @@ const MyInvenAward = () => {
         }}
       >
         칭호 구매하러 가기
-        <img src={goShop} />
+        <img src={goShop} alt="고샾" />
       </B.NoneButton>
     </B.NoneContainer>
   );

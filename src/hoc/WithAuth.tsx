@@ -14,11 +14,9 @@ const WithAuth = (
   option: boolean | null,
   adminRoute: boolean | null = null,
 ) => {
-  const [__, writeUser] = useAtom(userStore.writeUser);
-  const writeUserItem = useSetAtom(userStore.writeUserItem);
+  const writeUser = useSetAtom(userStore.writeUser);
   async function authCheck() {
-    const result = await writeUser();
-    if (result) await writeUserItem();
+    await writeUser();
   }
   useEffect(() => {
     if (option !== undefined && Component) authCheck();

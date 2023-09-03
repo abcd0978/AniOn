@@ -32,13 +32,15 @@ const ShopAwardList = () => {
   const { data: awards, isLoading } = useQuery(awardsQueryOptions);
 
   // 보유중인 칭호 불러오기
-  const inventoryQueryOptions = {
-    queryKey: ['purchasedAwards'],
+  const myAwardsQueryOptions = {
+    queryKey: ['myAwards'],
     queryFn: () => fetchMyAwards(user!.id),
     refetchOnWindowFocus: false,
+    staleTime: 60 * 60,
     enabled: !!user,
   };
-  const { data: myAwards } = useQuery(inventoryQueryOptions);
+
+  const { data: myAwards } = useQuery(myAwardsQueryOptions);
 
   console.log('my', myAwards);
   // 구매 후 invalidate를 위한 mutation

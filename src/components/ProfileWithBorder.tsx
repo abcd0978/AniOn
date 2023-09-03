@@ -1,26 +1,55 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useAtomValue } from 'jotai';
+import * as userStore from '../store/userStore';
+import { fetchEquippedItem } from '../api/items';
+import { useQuery } from '@tanstack/react-query';
+
 type Props = {
-  width: number;
-  borderUrl: string;
-  profileUrl: string;
+  mediaWidth: number;
+  width: number | null;
+  userId?: string;
 };
 
 function ProfileWithBorder(props: Props) {
+  const user = useAtomValue(userStore.user);
+
+  const equipedBorderQueryOptions = {
+    queryKey: ['equippedBorder'],
+    queryFn: () =>
+      fetchEquippedItem({
+        user_id: props.userId ? props.userId : user!.id,
+        category: 0,
+      }),
+    refetchOnWinowFocus: false,
+    staleTime: 60 * 60,
+    eabled: !!user,
+  };
+
+  const { data: border } = useQuery(equipedBorderQueryOptions);
   return (
-    <StProfileContainer mediaWidth={props.width}>
-      <StPreview background={props.borderUrl} />
-      <StHeaderUserProfile src={props.profileUrl} alt="프사" />
+    <StProfileContainer width={props.width} mediaWidth={props.mediaWidth}>
+      <StPreview background={border ? border.items.img_url! : null} />
+      <StHeaderUserProfile src={user?.profile_img_url!} alt="프사" />
     </StProfileContainer>
   );
 }
-const StProfileContainer = styled.div<{ mediaWidth: number }>`
-  ${(props) =>
-    `width:${80 * (props.mediaWidth / 1920)}px;
-    height:${80 * (props.mediaWidth / 1920)}px;`}
+const StProfileContainer = styled.div<{
+  mediaWidth: number;
+  width: number | null;
+}>`
+  ${(props) => {
+    if (props.width) {
+      return `width:${props.width * (props.mediaWidth / 1920)}px;
+    height:${props.width * (props.mediaWidth / 1920)}px;`;
+    } else {
+      return `width:${80 * (props.mediaWidth / 1920)}px;
+    height:${80 * (props.mediaWidth / 1920)}px;`;
+    }
+  }}
   position: relative;
 `;
-const StPreview = styled.div<{ background: string }>`
+const StPreview = styled.div<{ background: string | null }>`
   z-index: 3;
   position: absolute;
   background-image: url(${(props) => props.background});
