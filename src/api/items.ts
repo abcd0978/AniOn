@@ -11,6 +11,7 @@ export type AwardsRow = {
   is_equipped: boolean;
   items: {
     name: string;
+    img_url?: string;
   };
 };
 
@@ -130,7 +131,7 @@ export const fetchEquippedItem = async (params: {
   try {
     const { data, error } = await supabase
       .from('inventory')
-      .select('*, items!inner(name)')
+      .select('*, items!inner(name,img_url)')
       .eq('items.category', params.category)
       .eq('user_id', params.user_id)
       .eq('is_equipped', true)

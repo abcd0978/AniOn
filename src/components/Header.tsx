@@ -34,11 +34,10 @@ function Header({}: Props) {
   const [__, logoutStore] = useAtom(userStore.logoutUser);
   const { width, height, isMobile, isLoaded } = useViewport();
   const [user, setUser] = useAtom(userStore.user);
-  const item = useAtomValue(userStore.userItem);
   const [isModalOpened, setIsModalOpened] = useAtom(modalStore.isModalOpened);
   const [modalContents, setModalContents] = useAtom(modalStore.modalContents);
 
-  const equipedAwardQueryOption = {
+  const equipedAwardQueryOptions = {
     queryKey: ['equippedAward'],
     queryFn: () => fetchEquippedItem({ user_id: user!.id, category: 1 }),
     refetchOnWindowFocus: false,
@@ -46,7 +45,7 @@ function Header({}: Props) {
     enabled: !!user,
   };
 
-  const { data: award } = useQuery(equipedAwardQueryOption);
+  const { data: award } = useQuery(equipedAwardQueryOptions);
 
   const modalContentsFunc = (name: string) => {
     switch (name) {
@@ -150,9 +149,8 @@ function Header({}: Props) {
             {user ? (
               <StHeaderUserInfoContainer>
                 <ProfileWithBorder
-                  borderUrl={item?.border!} //borderUrl 받아와야함
-                  profileUrl={user?.profile_img_url!}
-                  width={width}
+                  width={null}
+                  mediaWidth={width}
                   key={user?.id!}
                 />
                 <StHeaderUserInfo>

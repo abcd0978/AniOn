@@ -14,31 +14,41 @@ const getPosts = async (
   try {
     const itemsPerPage = 12; // 12개로 고정
     const startIndex = (page - 1) * itemsPerPage;
+    if (category === '') {
+      console.log('전체');
+      let { data, error, count } = await supabase
+        .from('posts')
+        .select('*,users(nickname,profile_img_url),likes(*)', {
+          count: 'exact',
+        })
+        .order('created_at', { ascending: false })
+        .range(startIndex, startIndex + itemsPerPage - 1);
 
-    let query = supabase
-      .from('posts')
-      .select('*,users(nickname,profile_img_url),likes(*)')
-      .order('created_at', { ascending: false });
+      if (error) {
+        throw error;
+      }
 
-    if (category) {
-      query = query.eq('category', category);
+      const totalPages = Math.ceil(count! / itemsPerPage);
+
+      return { data, totalPages, count };
+    } else {
+      console.log(category);
+      const { data, error, count } = await supabase
+        .from('posts')
+        .select('*,users(nickname,profile_img_url),likes(*)', {
+          count: 'exact',
+        })
+        .eq('category', category)
+        .order('created_at', { ascending: false })
+        .range(startIndex, startIndex + itemsPerPage - 1);
+
+      if (error) {
+        throw error;
+      }
+      const totalPages = Math.ceil(count! / itemsPerPage);
+
+      return { data, totalPages, count };
     }
-
-    const { data, error } = await query.range(
-      startIndex,
-      startIndex + itemsPerPage - 1,
-    );
-
-    if (error) {
-      throw error;
-    }
-
-    const { count } = await supabase
-      .from('posts')
-      .select('count', { count: 'exact' });
-
-    const totalPages = Math.ceil(count! / itemsPerPage);
-    return { data, totalPages };
   } catch (error) {
     console.error('게시물을 불러오는 중 에러 발생:', error);
     throw error;
