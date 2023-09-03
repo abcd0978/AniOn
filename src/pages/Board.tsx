@@ -12,30 +12,11 @@ import Footer from '../components/Footer';
 import { toast } from 'react-toastify';
 import pencil from '../assets/pencil.svg';
 import search from '../assets/search.svg';
-import ProfileWithBorder from '../components/ProfileWithBorder';
+import ProfileWithBorder, {
+  processItem,
+} from '../components/ProfileWithBorder';
 import type { PostType, InsertPost, UpdatePost } from '../types/post';
 import useViewport from '../hooks/useViewPort';
-
-const processItem = (
-  params: { id: string; items: { name: string; img_url: string } }[],
-): { border: string | null; award: string | null } => {
-  if (!params) {
-    return { border: null, award: null };
-  }
-  let result: { border: null | string; award: null | string } = {
-    border: null,
-    award: null,
-  };
-
-  for (let i = 0; i < params.length; i++) {
-    if (params[i]?.items.img_url) {
-      result.border = params[i].items.img_url;
-    } else {
-      result.award = params[i].items.name;
-    }
-  }
-  return result;
-};
 
 const Board = () => {
   const user = useAtomValue(userStore.user);
