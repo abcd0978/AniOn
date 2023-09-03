@@ -9,6 +9,7 @@ import { useAtomValue } from 'jotai';
 import * as userStore from '../store/userStore';
 import { v4 as uuidv4 } from 'uuid';
 import useViewport from '../hooks/useViewPort';
+import { toast } from 'react-toastify';
 type InsertPosts = Database['public']['Tables']['posts']['Insert'];
 
 const WriteBoard = () => {
@@ -58,20 +59,29 @@ const WriteBoard = () => {
     if (user) {
       // 유효성 검사
       if (!category) {
-        alert('카테고리를 선택해주세요.');
+        toast.warning('카테고리를 선택해주세요!', {
+          autoClose: 1000,
+        });
         return;
       }
+
       if (!title) {
-        alert('제목을 입력해주세요.');
+        toast.warning('제목을 입력해주세요!', {
+          autoClose: 1000,
+        });
         return;
       }
       if (!content) {
-        alert('내용을 입력해주세요.');
+        toast.warning('내용을 입력해주세요!', {
+          autoClose: 1000,
+        });
         return;
       }
 
       if (processBody(content).length < 10) {
-        alert('내용은 10자 이상 입력해주세요.');
+        toast.warning('내용은 10자 이상 입력해주세요!', {
+          autoClose: 1000,
+        });
         return;
       }
       // 날짜
