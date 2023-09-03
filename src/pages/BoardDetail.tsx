@@ -210,54 +210,58 @@ const BoardDetail = () => {
     <S.Layout>
       <S.TopTitle>게시판</S.TopTitle>
       <S.Post>
-        <S.Search>
-          <S.CateButton
-            onClick={handleAllClick}
-            style={{
-              backgroundColor:
-                selectedCategory === null ? '#FF96DB' : '#FFEBF7',
-              color: selectedCategory === null ? '#ffffff' : 'black',
-            }}
-          >
-            전체
-          </S.CateButton>
-          <S.CateButton
-            onClick={() => handleCategoryClick('애니')}
-            style={{
-              backgroundColor:
-                selectedCategory === '애니' ? '#FF96DB' : '#FFEBF7',
-              color: selectedCategory === '애니' ? '#ffffff' : 'black',
-            }}
-          >
-            애니
-          </S.CateButton>
-          <S.CateButton
-            onClick={() => handleCategoryClick('자유')}
-            style={{
-              backgroundColor:
-                selectedCategory === '자유' ? '#FF96DB' : '#FFEBF7',
-              color: selectedCategory === '자유' ? '#ffffff' : 'black',
-            }}
-          >
-            자유
-          </S.CateButton>
+        {!isEdit && (
+          <>
+            <S.Search>
+              <S.CateButton
+                onClick={handleAllClick}
+                style={{
+                  backgroundColor:
+                    selectedCategory === null ? '#FF96DB' : '#FFEBF7',
+                  color: selectedCategory === null ? '#ffffff' : 'black',
+                }}
+              >
+                전체
+              </S.CateButton>
+              <S.CateButton
+                onClick={() => handleCategoryClick('애니')}
+                style={{
+                  backgroundColor:
+                    selectedCategory === '애니' ? '#FF96DB' : '#FFEBF7',
+                  color: selectedCategory === '애니' ? '#ffffff' : 'black',
+                }}
+              >
+                애니
+              </S.CateButton>
+              <S.CateButton
+                onClick={() => handleCategoryClick('자유')}
+                style={{
+                  backgroundColor:
+                    selectedCategory === '자유' ? '#FF96DB' : '#FFEBF7',
+                  color: selectedCategory === '자유' ? '#ffffff' : 'black',
+                }}
+              >
+                자유
+              </S.CateButton>
 
-          <S.CateButton
-            onClick={() => handleCategoryClick('오류 신고')}
-            style={{
-              backgroundColor:
-                selectedCategory === '오류 신고' ? '#FF96DB' : '#FFEBF7',
-              color: selectedCategory === '오류 신고' ? '#ffffff' : 'black',
-            }}
-          >
-            오류 신고
-          </S.CateButton>
-        </S.Search>
-        <S.Write>
-          <S.WriteButton onClick={handleWriteClick}>
-            <img src={pencil} /> 작성하기
-          </S.WriteButton>
-        </S.Write>
+              <S.CateButton
+                onClick={() => handleCategoryClick('오류 신고')}
+                style={{
+                  backgroundColor:
+                    selectedCategory === '오류 신고' ? '#FF96DB' : '#FFEBF7',
+                  color: selectedCategory === '오류 신고' ? '#ffffff' : 'black',
+                }}
+              >
+                오류 신고
+              </S.CateButton>
+            </S.Search>
+            <S.Write>
+              <S.WriteButton onClick={handleWriteClick}>
+                <img src={pencil} /> 작성하기
+              </S.WriteButton>
+            </S.Write>
+          </>
+        )}
       </S.Post>
       {posts ? (
         <>
@@ -272,20 +276,20 @@ const BoardDetail = () => {
                   }
                 }}
                 style={{
-                  backgroundColor: isEdit ? '#8200FF' : '#dddddd',
-                  color: isEdit ? 'white' : 'black',
-                }}
-              >
-                {isEdit ? '저장' : '삭제'}
-              </S.Button>
-              <S.Button
-                onClick={() => editButton(posts)}
-                style={{
                   backgroundColor: isEdit ? '#dddddd' : '#dddddd',
                   color: isEdit ? 'black' : 'black',
                 }}
               >
-                {isEdit ? '취소' : '수정'}
+                {isEdit ? '취소' : '삭제'}
+              </S.Button>
+              <S.Button
+                onClick={() => editButton(posts)}
+                style={{
+                  backgroundColor: isEdit ? '#8200FF' : '#dddddd',
+                  color: isEdit ? 'white' : 'black',
+                }}
+              >
+                {isEdit ? '저장' : '수정'}
               </S.Button>
             </S.ButtonContainer>
           )}

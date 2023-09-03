@@ -28,7 +28,8 @@ const S = {
     flex-direction: column;
     width: 1360px;
     max-height: 1954px;
-    margin-top: 20px;
+    margin-top: -35px;
+    margin-bottom: 50px;
   `,
 
   Category: styled.div`
