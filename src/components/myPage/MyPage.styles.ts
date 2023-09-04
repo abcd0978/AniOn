@@ -19,7 +19,7 @@ export const Profile = {
     margin-top: 20px;
   `,
   MyNickname: styled.div`
-    width: 120px;
+    width: auto;
     color: #000;
     font-size: 24px;
     font-style: normal;

@@ -50,13 +50,15 @@ export const B = {
     object-fit: cover;
   `,
   Equip: styled.button`
+    position: absolute;
+    right: 100px;
     width: 80px;
     height: 30px;
     margin-top: 5px;
     background-color: white;
     border-radius: 6px;
     border: 1px solid #c88fff;
-    float: right;
+    // float: right;
     cursor: pointer;
     &:hover {
       background-color: #c88fff;
@@ -73,11 +75,14 @@ export const B = {
     display: flex;
     flex-direction: column;
     align-items: stretch;
+    margin: -10px;
   `,
   ButtonContainer: styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position: relative;
+    margin-top: 10px;
   `,
 };
 export const A = {
@@ -100,5 +105,25 @@ export const A = {
     gap: 8px;
     align-self: stretch;
     margin: 10px;
+  `,
+  Equip: styled.button`
+    width: 80px;
+    height: 30px;
+    margin-top: 5px;
+    background-color: white;
+    border-radius: 6px;
+    border: 1px solid #c88fff;
+    float: right;
+    cursor: pointer;
+    &:hover {
+      background-color: #c88fff;
+      color: white;
+    }
+
+    &:disabled:hover {
+      background-color: white;
+      color: #cccccc;
+      cursor: not-allowed;
+    }
   `,
 };

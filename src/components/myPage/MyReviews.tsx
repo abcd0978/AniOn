@@ -42,8 +42,6 @@ const MyReviews = () => {
           return;
         }
 
-        console.log('사용자 아이디에 따른 리뷰', user.id);
-
         const { data: reviewData, error: reviewError } = await supabase
           .from('ani_comments')
           .select('*')

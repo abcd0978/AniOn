@@ -14,6 +14,7 @@ import { StyledPostCategory } from './Wrote.styles';
 import { Page } from './LikedAnime';
 import useViewport from '../../hooks/useViewPort';
 import { styled } from 'styled-components';
+import { toast } from 'react-toastify';
 type ReadMyBoard = Database['public']['Tables']['posts']['Row'];
 type ReadMyBoardLikes = Database['public']['Tables']['likes']['Row'];
 const userPostsAtom = atom<ReadMyBoard[]>([]);
@@ -138,7 +139,9 @@ const WhatIWrote = () => {
   };
   const handleDeleteSelectedPosts = async () => {
     if (selectedPosts.length === 0) {
-      alert('선택된 항목이 없습니다');
+      toast.warning('선택된 항목이 없습니다.!', {
+        autoClose: 2000,
+      });
       return;
     }
 
