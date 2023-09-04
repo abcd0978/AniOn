@@ -11,7 +11,6 @@ const fetchComments = async (post_id: string, page: number) => {
   const startIndex = (page - 1) * itemsPerPage;
   try {
     const { data, count, error } = await supabase
-      // , inventory(id)
       .from('post_comments')
       .select(
         '*,users!inner(nickname,profile_img_url,inventory(id,items(name,img_url)))',

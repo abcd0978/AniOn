@@ -5,6 +5,7 @@ import * as itemApi from '../../api/items';
 import * as userStore from '../../store/userStore';
 import * as modalStore from '../../store/modalStore';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import ProfileWithBorder from '../ProfileWithBorder';
 
 const PurchaseConfirmContents = () => {
   const queryClient = useQueryClient();
@@ -45,22 +46,12 @@ const PurchaseConfirmContents = () => {
           <MiriBogi>미리보기</MiriBogi>
         </StTitleAndCloseButtonContainer>
         <StPreviewAndWords>
-          <div style={{ height: '160px' }}>
-            <StPreview background={borderContents?.img_url!}></StPreview>
-            <img
-              style={{
-                zIndex: '2',
-                position: 'relative',
-                width: '120px',
-                height: '120px',
-                borderRadius: '999px',
-                bottom: '130px', //여기수정
-                left: '20px', //여기수정
-              }}
-              src={user?.profile_img_url!}
-              alt="d"
-            />
-          </div>
+          <ProfileWithBorder
+            mediaWidth={1920}
+            width={160}
+            border_img_url={borderContents?.img_url}
+            profile_img_url={user?.profile_img_url!}
+          />
           <StPurchaseTitle>
             <div
               style={{
