@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { equipItem, fetchMyAwards } from '../../api/items';
 import { styled } from 'styled-components';
 import React, { useState } from 'react';
+import { toast } from 'react-toastify';
 
 import { AwardName, BuyButton } from '../ShopAwards';
 import { MyAward } from './MyPage.styles';
@@ -48,6 +49,9 @@ const MyInvenAward = () => {
     }
 
     applyAwardMutation.mutate({ user_id: user.id, item_id, category: 1 });
+    toast.success('장착 되었습니다❣️', {
+      autoClose: 1000,
+    });
   };
   const totalPages = awards ? Math.ceil(awards.length / itemsPerPage) : 0;
   const startIndex = (currentPage - 1) * itemsPerPage;
