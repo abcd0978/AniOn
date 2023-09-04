@@ -73,7 +73,7 @@ const Comments = () => {
   const deleteMutation = useMutation(deleteComment, {
     onSuccess: () => {
       queryClient.invalidateQueries(['post_comments']);
-      toast.warning('삭제 되었습니다~!', {
+      toast.success('삭제 되었습니다~!', {
         autoClose: 1000,
       });
     },

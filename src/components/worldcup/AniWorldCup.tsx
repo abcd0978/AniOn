@@ -88,10 +88,6 @@ function AniWorldCup() {
     }
   };
 
-  console.log('winne 배열:', winners);
-  console.log('Display 배열:', displays);
-  console.log('Characters 배열:', characters);
-
   return (
     <>
       <S.WorldCupContainer>
