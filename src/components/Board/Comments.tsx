@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
 import Pagination from '../Pagenation';
@@ -9,17 +9,15 @@ import {
   deleteComment,
   updateComment,
 } from '../../api/commentapi';
-import { Database } from '../../types/supabase';
+import ProfileWithBorder, { processItem } from '../ProfileWithBorder';
 import * as userStore from '../../store/userStore';
-import { atom, useAtom, useAtomValue } from 'jotai';
+import { useAtomValue } from 'jotai';
 import { toast } from 'react-toastify';
-import { CommentType } from '../../types/comment';
-
-type ReadPostComment = Database['public']['Tables']['post_comments']['Row'];
-type InsertPostComment =
-  Database['public']['Tables']['post_comments']['Insert'];
-type UpdatePostComment =
-  Database['public']['Tables']['post_comments']['Update'];
+import {
+  CommentType,
+  InsertPostComment,
+  UpdatePostComment,
+} from '../../types/comment';
 
 const Comments = () => {
   const { post_id } = useParams() as { post_id: string };
@@ -167,33 +165,28 @@ const Comments = () => {
           )}
         </S.CommentTop>
         <S.CommentBot>
-          {/* comment: string;
-  created_at: string;
-  id: string;
-  post_id: string;
-  user_id: string;
-  users: {
-    inventory: {
-      id: string;
-      items: {
-        name: string;
-        img_url: string;
-      }[];
-    }[];
-    nickname: string;
-    profile_img_url: string;
-  }; */}
           {postCommentsData?.data!.map((comment: CommentType) => (
             <S.Comment key={comment.id}>
               <div>
                 <S.profile>
-                  <S.Img
-                    src={comment.users.profile_img_url}
-                    alt="Profile Image"
+                  <ProfileWithBorder
+                    width={75}
+                    mediaWidth={1920}
+                    border_img_url={
+                      comment.users.inventory.length > 0
+                        ? processItem(comment.users.inventory).border
+                        : undefined
+                    }
+                    profile_img_url={comment.users?.profile_img_url}
+                    key={comment.id!}
                   />
                   <S.Ninkname>{comment.users.nickname}</S.Ninkname>
+                  <S.Award>
+                    {comment.users.inventory.length > 0
+                      ? processItem(comment.users.inventory).award
+                      : '칭호없음'}
+                  </S.Award>
                 </S.profile>
-
                 <S.CommentDate>
                   {new Date(comment.created_at).toLocaleString()}
                 </S.CommentDate>

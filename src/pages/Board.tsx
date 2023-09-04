@@ -12,8 +12,11 @@ import Footer from '../components/Footer';
 import { toast } from 'react-toastify';
 import pencil from '../assets/pencil.svg';
 import search from '../assets/search.svg';
-import ProfileWithBorder from '../components/ProfileWithBorder';
-type ReadPosts = Database['public']['Tables']['posts']['Row'];
+import ProfileWithBorder, {
+  processItem,
+} from '../components/ProfileWithBorder';
+import type { PostType, InsertPost, UpdatePost } from '../types/post';
+import useViewport from '../hooks/useViewPort';
 
 const Board = () => {
   const user = useAtomValue(userStore.user);
@@ -22,6 +25,7 @@ const Board = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>('');
   const [searchKeyword, setSearchKeyword] = useState<string>('');
   const [page, setPage] = useState<number>(1);
+  const { width } = useViewport();
 
   const handleWriteClick = () => {
     if (!user) {
@@ -32,11 +36,9 @@ const Board = () => {
       navigate('/board/write');
     }
   };
-
   const handleAllClick = () => {
     setSelectedCategory('');
   };
-
   const handleCategoryClick = (category: string) => {
     setSelectedCategory(category);
   };
@@ -48,7 +50,7 @@ const Board = () => {
   };
 
   const { data: postsAndTotalPages, isFetching } = useQuery(postQueryOptions);
-
+  console.log('보드ㅜ', postsAndTotalPages);
   const onClickPage = (selected: number | string) => {
     if (page === selected) return;
     if (typeof selected === 'number') {
@@ -66,11 +68,11 @@ const Board = () => {
   };
 
   // 검색 결과에 따라 게시물 리스트를 필터링하고 정렬
-  const filteredAndSortedPosts: ReadPosts[] | undefined = useMemo(() => {
+  const filteredAndSortedPosts: PostType[] | undefined = useMemo(() => {
     if (!postsAndTotalPages?.data) return undefined;
 
     return postsAndTotalPages.data
-      .filter((post: ReadPosts) => {
+      .filter((post: PostType) => {
         const postTitleIncludesKeyword = post.title.includes(searchKeyword);
         const postContentIncludesKeyword = post.content.includes(searchKeyword);
         const postUserNicknameIncludesKeyword =
@@ -104,9 +106,8 @@ const Board = () => {
           <S.Button
             onClick={() => handleAllClick()}
             style={{
-              backgroundColor:
-                selectedCategory === null ? '#FF96DB' : '#FFEBF7',
-              color: selectedCategory === null ? '#ffffff' : 'black',
+              backgroundColor: selectedCategory === '' ? '#FF96DB' : '#FFEBF7',
+              color: selectedCategory === '' ? '#ffffff' : 'black',
             }}
           >
             전체
@@ -156,7 +157,7 @@ const Board = () => {
             </S.SearchInputContainer>
           </form>
           <S.WriteButton onClick={handleWriteClick}>
-            <img src={pencil} /> 작성하기
+            <img src={pencil} alt="작성" /> 작성하기
           </S.WriteButton>
         </S.Write>
       </S.Post>
@@ -173,7 +174,7 @@ const Board = () => {
         {isFetching ? (
           <div>로딩중...</div>
         ) : filteredAndSortedPosts ? (
-          filteredAndSortedPosts.map((post: ReadPosts, index: number) => (
+          filteredAndSortedPosts.map((post: PostType, index: number) => (
             <S.Postbox
               key={post.id}
               onClick={() => post.id && handlePostClick(post.id.toString())}
@@ -184,10 +185,44 @@ const Board = () => {
               <S.BottomTitle>{post.title}</S.BottomTitle>
 
               <S.BottomNick>
-                <S.Img src={post.users?.profile_img_url} alt="프로필 이미지" />
-                {/* <ProfileWithBorder width={30} mediaWidth={1920} /> */}
-
-                <div>{post.users?.nickname}</div>
+                <ProfileWithBorder
+                  width={45}
+                  mediaWidth={1920}
+                  border_img_url={
+                    post.users.inventory.length > 0
+                      ? processItem(post.users.inventory).border
+                      : undefined
+                  }
+                  profile_img_url={post.users?.profile_img_url}
+                  key={post.id!}
+                />
+                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                  <div
+                    style={{
+                      color: 'var(--achromatic-colors-black, #050505)',
+                      fontSize: '15px',
+                      fontStyle: 'normal',
+                      fontWeight: '400',
+                      lineHeight: 'normal',
+                    }}
+                  >
+                    {post.users?.nickname}
+                  </div>
+                  <div
+                    style={{
+                      color: 'var(--achromatic-colors-midgray-1, #999)',
+                      fontSize: '14px',
+                      fontStyle: 'normal',
+                      fontWeight: '400',
+                      lineHeight: 'normal',
+                      letterSpacing: '-0.21px',
+                    }}
+                  >
+                    {post.users.inventory.length > 0
+                      ? processItem(post.users.inventory).award
+                      : undefined}
+                  </div>
+                </div>
               </S.BottomNick>
               <S.Bottomdate>
                 {new Date(post.created_at).toLocaleString()}

@@ -1,9 +1,10 @@
 import supabase from '../supabaseClient';
-import { Database } from '../types/supabase';
-type InsertPosts = Database['public']['Tables']['posts']['Insert'];
-type ReadPosts = Database['public']['Tables']['posts']['Row'];
-type UpdatePosts = Database['public']['Tables']['posts']['Update'];
-type InsertLike = Database['public']['Tables']['likes']['Insert'];
+import type {
+  PostType,
+  InsertPost,
+  UpdatePost,
+  InsertLike,
+} from '../types/post';
 
 //전체 post 불러오기 + 페이지네이션
 const getPosts = async (
@@ -17,9 +18,13 @@ const getPosts = async (
       console.log('전체');
       let { data, error, count } = await supabase
         .from('posts')
-        .select('*,users(nickname,profile_img_url),likes(*)', {
-          count: 'exact',
-        })
+        .select(
+          '*,users!inner(nickname,profile_img_url,inventory(id,items(name,img_url))),likes(*)',
+          {
+            count: 'exact',
+          },
+        )
+        .eq('users.inventory.is_equipped', true)
         .order('created_at', { ascending: false })
         .range(startIndex, startIndex + itemsPerPage - 1);
 
@@ -34,10 +39,14 @@ const getPosts = async (
       console.log(category);
       const { data, error, count } = await supabase
         .from('posts')
-        .select('*,users(nickname,profile_img_url),likes(*)', {
-          count: 'exact',
-        })
+        .select(
+          '*,users!inner(nickname,profile_img_url,inventory(id,items(name,img_url))),likes(*)',
+          {
+            count: 'exact',
+          },
+        )
         .eq('category', category)
+        .eq('users.inventory.is_equipped', true)
         .order('created_at', { ascending: false })
         .range(startIndex, startIndex + itemsPerPage - 1);
 
@@ -58,14 +67,16 @@ const getPosts = async (
 const getPost = async (id: string) => {
   const { data } = await supabase
     .from('posts')
-    .select('*,users(nickname,profile_img_url)')
+    .select(
+      '*,users!inner(nickname,profile_img_url,inventory(id,items(name,img_url)))',
+    )
     .eq('id', id)
     .single();
   return data;
 };
 
 // Post 추가
-const createPost = async (newPost: InsertPosts) => {
+const createPost = async (newPost: InsertPost) => {
   await supabase.from('posts').insert(newPost);
 };
 
@@ -75,7 +86,7 @@ const deletePost = async (id: string): Promise<void> => {
 };
 
 //post 수정
-const updatePost = async (editPost: UpdatePosts): Promise<void> => {
+const updatePost = async (editPost: UpdatePost): Promise<void> => {
   try {
     const updatedFields = {
       title: editPost.title,

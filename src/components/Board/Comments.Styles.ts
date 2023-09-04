@@ -117,6 +117,7 @@ export const EditInput = styled.input`
 
 export const profile = styled.div`
   display: flex;
+  margin-top: 12px;
 `;
 export const Img = styled.img`
   width: 48px;
@@ -126,6 +127,20 @@ export const Ninkname = styled.div`
   margin-left: 5px;
   display: flex;
   align-items: center;
+  font-size: 16px;
+  font-weight: 600;
+`;
+export const Award = styled.div`
+  display: flex;
+  // width: 172px;
+  height: 36px;
+  padding: 8px 12px;
+  align-items: center;
+  gap: 8px;
+  border-radius: 999px;
+  background: #f4f4f4;
+  margin-left: 10px;
+  font-size: 14px;
 `;
 export const CommentBox = styled.div`
   width: 1308px;
