@@ -187,7 +187,7 @@ export const LikedInfo = styled.div`
   display: none;
   position: absolute;
   top: 0px;
-  z-index: 9999;
+  z-index: 2;
   line-height: 25px;
   color: #ffffff;
   width: 140%;
