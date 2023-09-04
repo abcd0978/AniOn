@@ -70,8 +70,6 @@ function AnimeDetail() {
     },
   });
 
-  // console.log('star🌟🌟', animeStar);
-
   const likesQueryOptions = {
     queryKey: ['animeDetailLikes'],
     queryFn: () => fetchAnimeLikes(ani_id),

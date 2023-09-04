@@ -22,8 +22,6 @@ type UpdateAniComment = Database['public']['Tables']['ani_comments']['Update'];
 
 const AnimeDetailComments = () => {
   const { ani_id } = useParams() as { ani_id: string };
-  // console.log("현재id!!!", ani_id);
-
   const user = useAtomValue(userStore.user);
 
   const queryClient = useQueryClient();
@@ -62,8 +60,6 @@ const AnimeDetailComments = () => {
 
       deleted_at: null, //확인
     };
-
-    console.log('Creating comment:', createComment);
 
     addMutation.mutate(createComment);
     setNewComment('');
@@ -131,8 +127,6 @@ const AnimeDetailComments = () => {
 
   const { data: aniCommentsData } = useQuery(aniCommentQueryOptions);
 
-  // console.log('애니 디테일 댓글', aniCommentsData);
-
   //페이지 이동할 때
   const onClickPage = (selected: number | string) => {
     if (page === selected) return;
@@ -155,8 +149,6 @@ const AnimeDetailComments = () => {
 
   // 다음 페이지 버튼 비활성화 여부 계산
   const isNextDisabled = page >= (aniCommentsData?.totalPages ?? 1);
-
-  // console.log('AniCommentsData:', aniCommentsData);
 
   return (
     <S.AniCommentContainer>

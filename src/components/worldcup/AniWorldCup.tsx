@@ -73,7 +73,6 @@ function AniWorldCup() {
       if (winners.length === 0) {
         await updateNumOfWin(character.id);
         setDisplays([character]);
-        // console.log('r u winner???', character);
         navigate(`/worldcup/result/${gender}`, { state: character });
       } else {
         let updatedCharacter = [...winners, character];
@@ -88,10 +87,6 @@ function AniWorldCup() {
     }
   };
 
-  console.log('winne 배열:', winners);
-  console.log('Display 배열:', displays);
-  console.log('Characters 배열:', characters);
-
   return (
     <>
       <S.WorldCupContainer>
@@ -100,8 +95,6 @@ function AniWorldCup() {
           {currentRound}
           <S.WorldCupTestContainer>
             {displays.map((character: ReadCharacters) => {
-              // console.log(character);
-              // console.log(characters);
               return (
                 <S.WorldCupTest key={character.id} height={660}>
                   <S.WorldCupUp>

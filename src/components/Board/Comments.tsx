@@ -64,8 +64,6 @@ const Comments = () => {
       user_id: user.id,
     };
 
-    console.log('Creating comment:', createComment);
-
     addMutation.mutate(createComment);
     setNewComment('');
   };
@@ -127,11 +125,11 @@ const Comments = () => {
       return;
     }
     if (selected === 'prev' && page > 1) {
-      setPage((prev: any) => prev - 1);
+      setPage((prev: number) => prev - 1);
       return;
     }
     if (selected === 'next' && page < postCommentsData?.totalPages!) {
-      setPage((prev: any) => prev + 1);
+      setPage((prev: number) => prev + 1);
       return;
     }
   };

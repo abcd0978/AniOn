@@ -103,7 +103,6 @@ const LoginModalContents = (props: Props) => {
   const { width, height, isMobile, isLoaded } = useViewport();
   const joinUsHandler = async (e: any) => {
     e.preventDefault();
-    console.log('클릭됨');
     if (
       !email ||
       !password ||

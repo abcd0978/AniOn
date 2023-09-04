@@ -41,8 +41,6 @@ const ShopAwardList = () => {
   };
 
   const { data: myAwards } = useQuery(myAwardsQueryOptions);
-
-  console.log('my', myAwards);
   // 구매 후 invalidate를 위한 mutation
 
   // 구매 여부 판단을 위한 배열

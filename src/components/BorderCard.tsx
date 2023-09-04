@@ -19,8 +19,6 @@ const BorderCard = ({ border }: Props) => {
   const setModal = useSetAtom(modalStore.modalContents);
   const isModalOpened = useSetAtom(modalStore.isModalOpened);
   const setBorderModalContent = useSetAtom(modalStore.borderModalContent);
-
-  // console.log('보더', border);
   // 보유중인 테두리 불러오기
   const inventoryQueryOptions = {
     queryKey: ['purchasedBorders'],
@@ -30,10 +28,8 @@ const BorderCard = ({ border }: Props) => {
   };
 
   const { data: myBorders } = useQuery(inventoryQueryOptions);
-  // console.log('내가가진테두리:', myBorders);
 
   const purchasedBorder = myBorders?.map((item) => item.item_id) || [];
-  // console.log('구매한 테두리 아이디들', purchasedBorder);
 
   return (
     <S.Item key={border.index}>
