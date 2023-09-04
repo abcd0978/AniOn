@@ -88,13 +88,15 @@ const MyInvenAward = () => {
   return (
     <div>
       <GridContainer>{awardsList}</GridContainer>
-      <Pagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        onClick={handlePageChange}
-        isPreviousDisabled={currentPage === 1}
-        isNextDisabled={currentPage >= totalPages}
-      />
+      <Page>
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onClick={handlePageChange}
+          isPreviousDisabled={currentPage === 1}
+          isNextDisabled={currentPage >= totalPages}
+        />
+      </Page>
     </div>
   );
 };
@@ -107,4 +109,9 @@ const GridContainer = styled.div`
   grid-template-columns: auto auto auto auto;
   gap: 10px;
   padding: 10px;
+`;
+export const Page = styled.div`
+  display: flex;
+  justify-content: right;
+  align-items: center;
 `;
