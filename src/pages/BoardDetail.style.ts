@@ -66,6 +66,7 @@ const S = {
     float: right;
     color: gray;
     margin-right: -60px;
+    margin-bottom: 10px;
   `,
 
   Box: styled.div`
@@ -167,6 +168,10 @@ const S = {
     background-color: white;
     cursor: pointer;
     display: flex;
+    width: 100%;
+    height: 40px;
+    justify-content: flex-end;
+    padding: 10px;
   `,
   Img: styled.img`
     background-color: white;
