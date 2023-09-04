@@ -8,13 +8,19 @@ import useViewport from '../../hooks/useViewPort';
 import { useNavigate } from 'react-router-dom';
 import { equipItem, fetchMyAwards } from '../../api/items';
 import { styled } from 'styled-components';
+import React, { useState } from 'react';
+
 import { AwardName, BuyButton } from '../ShopAwards';
+import { MyAward } from './MyPage.styles';
+import Pagination from '../Pagenation';
+const itemsPerPage = 18;
 
 const MyInvenAward = () => {
   const queryClient = useQueryClient();
   const user = useAtomValue(userStore.user);
   const navigate = useNavigate();
   const { width, height, isMobile, isLoaded } = useViewport();
+  const [currentPage, setCurrentPage] = useState(1);
 
   const myAwardsQueryOptions = {
     queryKey: ['myAwards'],
@@ -36,9 +42,6 @@ const MyInvenAward = () => {
     },
   });
 
-  // console.log('user', user);
-  // console.log('awards', awards);
-
   const handleApplyButtonClick = (item_id: string) => {
     if (!user) {
       return;
@@ -46,15 +49,26 @@ const MyInvenAward = () => {
 
     applyAwardMutation.mutate({ user_id: user.id, item_id, category: 1 });
   };
-
+  const totalPages = Math.ceil(awards!.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const handlePageChange = (selected: number | string) => {
+    if (typeof selected === 'number') {
+      setCurrentPage(selected);
+    } else if (selected === 'prev') {
+      setCurrentPage((current) => Math.max(1, current - 1));
+    } else if (selected === 'next') {
+      setCurrentPage((current) => Math.min(totalPages, current + 1));
+    }
+  };
   const awardsList = Array.isArray(awards) ? (
     <GridContainer>
       {awards.map((award, index) => (
         <div key={index}>
           <A.Name>{award.items?.name}</A.Name>
-          <B.Equip onClick={() => handleApplyButtonClick(award.item_id)}>
+          <A.Equip onClick={() => handleApplyButtonClick(award.item_id)}>
             적용
-          </B.Equip>
+          </A.Equip>
         </div>
       ))}
     </GridContainer>
@@ -71,13 +85,24 @@ const MyInvenAward = () => {
       </B.NoneButton>
     </B.NoneContainer>
   );
-  return <GridContainer>{awardsList}</GridContainer>;
+  return (
+    <div>
+      <GridContainer>{awardsList}</GridContainer>
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onClick={handlePageChange}
+        isPreviousDisabled={currentPage === 1}
+        isNextDisabled={currentPage >= totalPages}
+      />
+    </div>
+  );
 };
 
 export default MyInvenAward;
 const GridContainer = styled.div`
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 10px;
   grid-template-columns: auto auto auto auto;
   gap: 10px;

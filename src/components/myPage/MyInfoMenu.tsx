@@ -107,7 +107,6 @@ const MyInfoMenu = () => {
                 onClick={() => setSelectedComponent('MyReviews')}
                 style={{
                   color: selectedComponent === 'MyReviews' ? '#8200FF' : '#999',
-                  // imageRendering:selectedComponent==='MyReviews'?'':''
                 }}
               >
                 {selectedComponent === 'MyReviews' ? (
@@ -124,7 +123,6 @@ const MyInfoMenu = () => {
                 style={{
                   color:
                     selectedComponent === 'WhatIWrote' ? '#8200FF' : '#999',
-                  // imageRendering:selectedComponent==='WhatIWrote'?'':''
                 }}
               >
                 {' '}
