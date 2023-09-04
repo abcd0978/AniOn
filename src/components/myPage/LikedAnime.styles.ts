@@ -1,35 +1,22 @@
 import { styled } from 'styled-components';
-export const HoverInfo = styled.div`
-  display: none;
-  position: absolute;
-  top: 0px;
-  z-index: 20;
-  line-height: 25px;
-  color: #ffffff;
-  height: 90%;
-  width: 86%;
-  padding: 16px;
-`;
+import { LikedInfo } from './LikedAnime';
 export const Anime = {
-  Container: styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    align-items: flex-start;
-    position: relative;
-    top: -320px;
-    margin-left: 150px;
-  `,
   OnePoster: styled.div`
-    margin-bottom: -10px;
+    margin-bottom: 10px;
     position: relative;
-     &:hover ${HoverInfo} {
-    display: block;
-  }
+    margin-right: 80px;
+    &:hover ${LikedInfo} {
+      display: block;
+    }
 
-      ${HoverInfo} {
-        display: flex;
-      }
+    ${LikedInfo} {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+
+      line-height: 25px;
+      color: #ffffff;
+      padding: 16px;
     }
   `,
   Poster: styled.img`
@@ -52,14 +39,19 @@ export const Anime = {
 
   PosterContainer: styled.div`
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 30px;
+    grid-template-columns: repeat(3, 1fr);
     row-gap: 40px;
     margin-left: 0px;
     margin-top: 10px;
-    margin-bottom: 0px;
-
-    :hover ${HoverInfo} {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: flex-start;
+    position: relative;
+    top: -370px;
+    margin-left: 160px;
+    margin-bottom: 130px;
+    :hover ${LikedInfo} {
       display: flex;
       flex-direction: column;
       gap: 5px;

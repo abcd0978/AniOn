@@ -17,13 +17,15 @@ import useViewport from '../../hooks/useViewPort';
 import LikeSvg from '../anime-recommend/LikeSvg';
 import LikedSkeleton from './LikedSkeleton';
 
-const itemsPerPage = 8;
+const itemsPerPage = 9;
 const LikedAnime = () => {
   const [page, setPage] = useState<number>(1);
   const { width, height, isMobile, isLoaded } = useViewport();
   const [currentPage, setCurrentPage] = useState(1);
   const [likedAnimeIds, setLikedAnimeIds] = useState<string[]>([]);
   const [animeTitles, setAnimeTitles] = useState<Record<string, AnimeG>>({});
+  const { width: mediaWidth } = useViewport();
+
   const user = useAtomValue(userStore.user);
   const navigate = useNavigate();
   const {
@@ -88,6 +90,7 @@ const LikedAnime = () => {
       setCurrentPage((current) => Math.min(totalPages, current + 1));
     }
   };
+
   // 현재 페이지와 총 페이지 수를 계산합니다.
   const isPreviousDisabled = page === 1;
   const isNextDisabled = page >= totalPages;
@@ -96,33 +99,31 @@ const LikedAnime = () => {
       <EditTitle>찜한 목록</EditTitle>
       <GridContainer>
         {displayedAnime.map((like, index) => (
-          <S.CardDiv
+          <Anime.OnePoster
             key={index}
             onClick={() => navigate(`/recommend/${like.anime_id}`)}
           >
-            <S.HoverDiv>
-              <S.CardThumbnail src={animeTitles[like.anime_id]?.img} />
-              <S.CardTitle>{animeTitles[like.anime_id]?.name}</S.CardTitle>
-              <HoverInfo>
-                {/* <S.HoverGenre key={like.id}>
+            <CardThumbnail src={animeTitles[like.anime_id]?.img} />
+            <S.CardTitle>{animeTitles[like.anime_id]?.name}</S.CardTitle>
+            <LikedInfo>
+              {/* <S.HoverGenre key={like.id}>
                   {/* <S.GenreText>{like.genres!}</S.GenreText> */}
-                {/* </S.HoverGenre> */}
-                <S.HoverTitleAndDetail>
-                  <S.HoverTitle>{like.name}</S.HoverTitle>
-                  <S.HoverViewDetail>
-                    <p>자세히 보기</p>
-                    <img
-                      className="viewDetail"
-                      src={viewDetail}
-                      alt="viewdetail"
-                    />
-                  </S.HoverViewDetail>
-                </S.HoverTitleAndDetail>
+              {/* </S.HoverGenre> */}
+              <LikedTitleAndDetail>
+                <S.HoverTitle>{like.name}</S.HoverTitle>
+                <S.HoverViewDetail>
+                  <p>자세히 보기</p>
+                  <img
+                    className="viewDetail"
+                    src={viewDetail}
+                    alt="viewdetail"
+                  />
+                </S.HoverViewDetail>
+              </LikedTitleAndDetail>
 
-                <S.HoverLikeBox>{/* <LikeSvg /> */}</S.HoverLikeBox>
-              </HoverInfo>
-            </S.HoverDiv>
-          </S.CardDiv>
+              <S.HoverLikeBox>{/* <LikeSvg /> */}</S.HoverLikeBox>
+            </LikedInfo>
+          </Anime.OnePoster>
         ))}
       </GridContainer>
     </S.CardInfo>
@@ -132,7 +133,7 @@ const LikedAnime = () => {
 
   return (
     <div>
-      <Container>{likedList}</Container>
+      <Anime.PosterContainer>{likedList}</Anime.PosterContainer>
       <Page mediaWidth={width}>
         <Pagination
           currentPage={currentPage}
@@ -145,20 +146,20 @@ const LikedAnime = () => {
     </div>
   );
 };
-
 export default LikedAnime;
 export const Page = styled.div<{ mediaWidth: number }>`
   height: 10vh;
   ${(props) => `width:${250 * (props.mediaWidth / 1920)}px;`}
-  margin-bottom: -330px;
+  margin-bottom: -100px;
   margin-left: 500px;
 `;
+
 const GridContainer = styled.div`
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  margin-bottom: -330px;
-  gap: 10px;
+  gap: 10px 30px;
+  grid-template-columns: repeat(3, 1fr);
 `;
+
 export const HoverViewDetail = styled.button`
   display: flex;
   align-items: center;
@@ -173,4 +174,30 @@ export const HoverViewDetail = styled.button`
   p {
     margin-left: 12px;
   }
+`;
+
+const CardThumbnail = styled.img`
+  width: 140%;
+  aspect-ratio: 100 / 66;
+  background-color: #d9d9d9;
+  border-radius: 10px;
+  object-fit: cover;
+`;
+export const LikedInfo = styled.div`
+  display: none;
+  position: absolute;
+  top: 0px;
+  z-index: 9999;
+  line-height: 25px;
+  color: #ffffff;
+  width: 140%;
+  padding: 16px;
+`;
+export const LikedTitleAndDetail = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
+  align-items: center;
 `;
