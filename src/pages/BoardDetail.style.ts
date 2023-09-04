@@ -29,7 +29,7 @@ const S = {
   ButtonContainer: styled.div`
     display: flex;
     justify-content: right;
-    margin-top: -10px;
+    margin-top: -30px;
     margin-right: -60px;
   `,
   Button: styled.button`
@@ -73,6 +73,12 @@ const S = {
     margin: 20px;
     padding: 0 auto;
   `,
+  EditBox: styled.div`
+    width: 1360px;
+    height: 500px;
+    margin: 20px;
+    padding: 0 auto;
+  `,
 
   Title: styled.div`
     line-height: 1.5;
@@ -83,6 +89,7 @@ const S = {
     font-weight: bold;
     line-height: 36px;
     // margin: -5px;
+    margin-top: -10px;
   `,
 
   Content: styled.div`
@@ -104,15 +111,22 @@ const S = {
     border: none;
     background-color: #f9f3ff;
     box-shadow: 5px 5px 5px 5px #0000001a;
+    margin-top: -150px;
+    &:hover {
+      border: 1px solid #c88fff;
+    }
   `,
   Input: styled.input`
     width: calc(90% - 5px);
     height: 44px;
     outline: none;
     border: none;
-    background-color: #f9f3ff;
     box-shadow: 5px 5px 5px 5px #0000001a;
+    background-color: #f9f3ff;
     border-radius: 8px;
+    &:hover {
+      border: 1px solid #c88fff;
+    }
   `,
 
   Textarea: styled.textarea`
@@ -123,8 +137,8 @@ const S = {
     font-size: 16px;
     outline: none;
     border-radius: 8px;
-    box-shadow: 5px 5px 5px 5px #0000001a;
     border: none;
+    box-shadow: 5px 5px 5px 5px #0000001a;
     background-color: #f9f3ff;
   `,
   ImgProfile: styled.img`
@@ -209,13 +223,14 @@ const S = {
   `,
 
   ListButton: styled.button`
-    width: 60px;
-    height: 30px;
+    width: 80px;
+    height: 40px;
     font-size: 15px;
     background-color: #dddddd;
     border: none;
     cursor: pointer;
-    border-radius: 6px;
+    border-radius: 10px;
+    margin-left: 60px;
   `,
   Line: styled.div`
     border: 1px solid #d9d9d9;
@@ -225,7 +240,6 @@ const S = {
 
   Award: styled.div`
     display: flex;
-    width: 50px;
     height: 36px;
     padding: 8px 12px;
     align-items: center;

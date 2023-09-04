@@ -20,7 +20,7 @@ export const CommentContainer = styled.div`
 `;
 
 export const CommentTop = styled.div`
-  width: 1360px;
+  width: 1440px;
   height: auto;
   border: 1px solid #c88fff;
   background-color: #f9f3ff;
@@ -78,14 +78,19 @@ export const ButtonBox = styled.div`
 `;
 
 export const button = styled.button`
-  background-color: #efefef;
+  background-color: white;
   color: black;
-  border: 1px solid #d9d9d9;
+  border: 1px solid #c88fff;
   border-radius: 10px;
   width: 50px;
   height: 25px;
   margin-right: 5px;
   cursor: pointer;
+
+  &:hover {
+    background-color: #ffebf7;
+    border: 1px solid #ff96db;
+  }
 `;
 
 export const Comment = styled.div`
@@ -95,8 +100,9 @@ export const Comment = styled.div`
   border-bottom: 2px solid #d9d9d9;
   margin-top: 28px;
   background-color: #ffffff;
-  width: 1360px;
-  max-height: 300px;
+  width: 1440px;
+  min-height: 218px;
+  max-height: 400px;
 `;
 
 export const CommentDate = styled.div`
@@ -105,14 +111,21 @@ export const CommentDate = styled.div`
   margin-bottom: 33px;
   margin-top: -36px;
   float: right;
+  margin-right: 10px;
 `;
 export const EditInput = styled.input`
   display: flex;
   border: 1px solid #566270;
-  width: 80%;
-  height: 30px;
+  width: 1277px;
+  height: 25px;
+  padding: 20px;
+  margin: 10px 0px 0px 60px;
+  resize: none;
   margin-top: 5px;
-  border-radius: 5px;
+  border-radius: 20px;
+  margin-left: 80px;
+  margin-bottom: 50px;
+  border: 1px solid #d9d9d9;
 `;
 
 export const profile = styled.div`
@@ -142,14 +155,15 @@ export const Award = styled.div`
   background: #f4f4f4;
   margin-left: 10px;
   font-size: 14px;
+  margin-top: 12px;
 `;
 export const CommentBox = styled.div`
   width: 1308px;
-  height: 48px;
+  height: 30px;
   margin-left: 55px;
   line-height: 1.6;
   margin-bottom: 45px;
-  margin-left: 60px;
+  margin-left: 80px;
 `;
 export const Page = styled.div`
   display: flex;

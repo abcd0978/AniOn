@@ -379,11 +379,12 @@ const BoardDetail = () => {
                   </>
                 )}
 
-                <S.Line></S.Line>
+                {isEdit ? null : <S.Line></S.Line>}
+
                 {isEdit ? (
-                  <S.Box>
+                  <S.EditBox>
                     <EditorComponent value={content} onChange={setContent} />
-                  </S.Box>
+                  </S.EditBox>
                 ) : (
                   <S.Content
                     dangerouslySetInnerHTML={{ __html: post.content }}
@@ -392,10 +393,12 @@ const BoardDetail = () => {
               </S.PostContainer>
 
               <S.Comment>{!isEdit && <Comments />}</S.Comment>
-              <S.ListButton onClick={handleListClick}>목록</S.ListButton>
             </>
           ) : (
             <div>Loading...</div>
+          )}
+          {isEdit ? null : (
+            <S.ListButton onClick={handleListClick}>목록</S.ListButton>
           )}
           <ScrollToTop />
         </S.Inner>
