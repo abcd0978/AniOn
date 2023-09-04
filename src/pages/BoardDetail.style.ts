@@ -9,6 +9,7 @@ const S = {
     gap: 20px;
     padding: 40px;
     margin-top: 20px;
+    margin-bottom: 100px;
   `,
   Inner: styled.div`
     width: 1360px;
