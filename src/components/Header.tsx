@@ -207,7 +207,10 @@ const StHeader = styled.header<{ mediaWidth: number }>`
   ${(props) => `height:${80 * (props.mediaWidth / 1920)}px;`}
   display: grid;
   align-items: center;
-  border-bottom: solid 1px #d9d9d9;
+  background: var(--achromatic-colors-white, #fff);
+  box-shadow: 0px 0px 16px 0px rgba(0, 0, 0, 0.06);
+  backdrop-filter: blur(25px);
+  //border-bottom: solid 1px #d9d9d9;
 `;
 const StHeaderContainer = styled.div`
   margin: auto;
