@@ -369,6 +369,7 @@ const CancelButton = styled.button`
   width: 72px;
   height: 32px;
   border: transparent;
+  cursor: pointer;
 `;
 const DoneButton = styled.button`
   position: absolute;
@@ -379,10 +380,16 @@ const DoneButton = styled.button`
   height: 32px;
   border: transparent;
   color: #fff;
+  cursor: pointer;
+
   &:disabled {
     background-color: white;
     color: #cccccc;
     cursor: not-allowed;
+  }
+  &:hover {
+    background-color: #c88fff;
+    color: white;
   }
 `;
 const ChangeButton = styled.button`
@@ -394,6 +401,13 @@ const ChangeButton = styled.button`
   position: absolute;
   right: -5px;
   color: #000;
+  cursor: pointer;
+
+  &:hover {
+      background-color: #c88fff;
+      color: white;
+    }
+  }
 `;
 const NickNameCheck = styled.button`
   position: absolute;
@@ -403,6 +417,8 @@ const NickNameCheck = styled.button`
   width: 72px;
   height: 32px;
   border-color: transparent;
+  cursor: pointer;
+
   // border-style: solid;
   color: #fff;
   &:disabled {
