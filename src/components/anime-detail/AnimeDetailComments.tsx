@@ -80,6 +80,9 @@ const AnimeDetailComments = () => {
     const shouldDelete = window.confirm('댓글을 삭제 하시겠습니까?');
     if (shouldDelete) {
       deleteMutation.mutate(commentId);
+      toast.success('리뷰를 삭제했습니다❗', {
+        autoClose: 1200,
+      });
     }
   };
 
@@ -128,7 +131,7 @@ const AnimeDetailComments = () => {
 
   const { data: aniCommentsData } = useQuery(aniCommentQueryOptions);
 
-  console.log('애니 디테일 댓글', aniCommentsData);
+  // console.log('애니 디테일 댓글', aniCommentsData);
 
   //페이지 이동할 때
   const onClickPage = (selected: number | string) => {
