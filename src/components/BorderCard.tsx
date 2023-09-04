@@ -21,7 +21,7 @@ const BorderCard = ({ border }: Props) => {
   const setBorderModalContent = useSetAtom(modalStore.borderModalContent);
   // 보유중인 테두리 불러오기
   const inventoryQueryOptions = {
-    queryKey: ['purchasedBorders'],
+    queryKey: ['myBorders'],
     queryFn: () => fetchMyBorders(user!.id),
     refetchOnWindowFocus: false,
     enabled: !!user,

@@ -20,7 +20,7 @@ const PurchaseAwardModalContents = () => {
         toast.warning(data.msg, { autoClose: 1200 });
         return;
       }
-      queryClient.invalidateQueries(['purchasedAwards']);
+      queryClient.invalidateQueries(['myAwards']);
       queryClient.invalidateQueries(['userPoint']);
       setModalContents('afterPurchase');
     },
