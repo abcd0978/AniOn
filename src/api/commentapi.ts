@@ -1,30 +1,39 @@
 import supabase from '../supabaseClient';
-import { Database } from '../types/supabase';
 
-type InsertPostComment =
-  Database['public']['Tables']['post_comments']['Insert'];
-type UpdatePostComment =
-  Database['public']['Tables']['post_comments']['Update'];
+import type {
+  CommentType,
+  InsertPostComment,
+  UpdatePostComment,
+} from '../types/comment';
 
-const fetchComments = async (post_id: string, page: number): Promise<any> => {
-  const itemsPerPage = 5;
+const fetchComments = async (post_id: string, page: number) => {
+  const itemsPerPage = 6;
   const startIndex = (page - 1) * itemsPerPage;
+  try {
+    const { data, count, error } = await supabase
+      .from('post_comments')
+      .select(
+        '*,users!inner(nickname,profile_img_url,inventory(id,items(name,img_url)))',
+        {
+          count: 'exact',
+        },
+      )
+      .eq('post_id', post_id)
+      .eq('users.inventory.is_equipped', true)
+      .order('created_at', { ascending: false })
+      .range(startIndex, startIndex + itemsPerPage - 1)
+      .returns<CommentType[]>();
 
-  const { data } = await supabase
-    .from('post_comments')
-    .select('*,users(nickname,profile_img_url)')
-    .eq('post_id', post_id)
-    .range(startIndex, startIndex + itemsPerPage - 1)
-    .order('created_at', { ascending: false });
+    const totalPages: number = Math.ceil(count! / itemsPerPage);
 
-  const { count } = await supabase
-    .from('post_comments')
-    .select('count', { count: 'exact' })
-    .eq('post_id', post_id);
+    if (error) {
+      console.log('commentAPI > fetchComments > error', error);
+    }
 
-  const totalPages = Math.ceil(count! / itemsPerPage);
-
-  return { data, totalPages };
+    return { data, totalPages };
+  } catch (error) {
+    console.log('commentAPI > fetchComments > error', error);
+  }
 };
 
 // 작성

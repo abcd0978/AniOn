@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
 import Pagination from '../Pagenation';
@@ -9,14 +9,15 @@ import {
   deleteComment,
   updateComment,
 } from '../../api/commentapi';
-import { Database } from '../../types/supabase';
+import ProfileWithBorder, { processItem } from '../ProfileWithBorder';
 import * as userStore from '../../store/userStore';
-import { atom, useAtom, useAtomValue } from 'jotai';
-type ReadPostComment = Database['public']['Tables']['post_comments']['Row'];
-type InsertPostComment =
-  Database['public']['Tables']['post_comments']['Insert'];
-type UpdatePostComment =
-  Database['public']['Tables']['post_comments']['Update'];
+import { useAtomValue } from 'jotai';
+import { toast } from 'react-toastify';
+import {
+  CommentType,
+  InsertPostComment,
+  UpdatePostComment,
+} from '../../types/comment';
 
 const Comments = () => {
   const { post_id } = useParams() as { post_id: string };
@@ -44,11 +45,15 @@ const Comments = () => {
 
   const handleCommentSubmit = () => {
     if (!user) {
-      alert('로그인 후에 댓글을 작성할 수 있습니다! 로그인해주세요.');
+      toast.warning('로그인 후 댓글 작성이 가능해요🙄', {
+        autoClose: 1000,
+      });
       return;
     }
     if (!newComment) {
-      alert('댓글 내용을 입력해주세요.');
+      toast.warning('댓글을 작성해주세요💜', {
+        autoClose: 1000,
+      });
       return;
     }
 
@@ -59,8 +64,6 @@ const Comments = () => {
       user_id: user.id,
     };
 
-    console.log('Creating comment:', createComment);
-
     addMutation.mutate(createComment);
     setNewComment('');
   };
@@ -68,6 +71,9 @@ const Comments = () => {
   const deleteMutation = useMutation(deleteComment, {
     onSuccess: () => {
       queryClient.invalidateQueries(['post_comments']);
+      toast.success('삭제 되었습니다~!', {
+        autoClose: 1000,
+      });
     },
   });
   const handleCommentDelete = async (commentId: string) => {
@@ -87,6 +93,7 @@ const Comments = () => {
     if (editingCommentId === comment.id) {
       const editComment = {
         ...comment,
+
         comment: editedCommentText,
       };
 
@@ -99,7 +106,8 @@ const Comments = () => {
   };
 
   const [page, setPage] = useState<number>(1);
-  const { data: postCommentsData } = useQuery<any>(
+
+  const { data: postCommentsData } = useQuery(
     ['post_comments', post_id, page],
     () => {
       if (post_id) {
@@ -117,11 +125,11 @@ const Comments = () => {
       return;
     }
     if (selected === 'prev' && page > 1) {
-      setPage((prev: any) => prev - 1);
+      setPage((prev: number) => prev - 1);
       return;
     }
-    if (selected === 'next' && page < postCommentsData.totalPages) {
-      setPage((prev: any) => prev + 1);
+    if (selected === 'next' && page < postCommentsData?.totalPages!) {
+      setPage((prev: number) => prev + 1);
       return;
     }
   };
@@ -155,31 +163,53 @@ const Comments = () => {
           )}
         </S.CommentTop>
         <S.CommentBot>
-          {postCommentsData?.data?.map((comment: ReadPostComment) => (
+          {postCommentsData?.data!.map((comment: CommentType) => (
             <S.Comment key={comment.id}>
               <div>
-                {comment.users && (
-                  <S.profile>
-                    <S.Img
-                      src={comment.users.profile_img_url}
-                      alt="Profile Image"
-                    />
-                    <S.Ninkname>{comment.users?.nickname}</S.Ninkname>
-                  </S.profile>
-                )}
-
+                <S.profile>
+                  <ProfileWithBorder
+                    width={75}
+                    mediaWidth={1920}
+                    border_img_url={
+                      comment.users.inventory.length > 0
+                        ? processItem(comment.users.inventory).border
+                        : undefined
+                    }
+                    profile_img_url={comment.users?.profile_img_url}
+                    key={comment.id!}
+                  />
+                  <S.Ninkname>{comment.users.nickname}</S.Ninkname>
+                  <S.Award>
+                    {comment.users.inventory.length > 0
+                      ? processItem(comment.users.inventory).award
+                      : '칭호없음'}
+                  </S.Award>
+                </S.profile>
                 <S.CommentDate>
                   {new Date(comment.created_at).toLocaleString()}
                 </S.CommentDate>
               </div>
               {user?.id === comment.user_id && (
                 <S.ButtonBox>
-                  <S.button onClick={() => handleCommentEdit(comment)}>
-                    {comment.id === editingCommentId ? '저장' : '수정'}
-                  </S.button>
-                  <S.button onClick={() => handleCommentDelete(comment.id)}>
-                    삭제
-                  </S.button>
+                  {comment.id === editingCommentId ? (
+                    <>
+                      <S.button onClick={() => handleCommentEdit(comment)}>
+                        저장
+                      </S.button>
+                      <S.button onClick={() => setEditingCommentId(null)}>
+                        취소
+                      </S.button>
+                    </>
+                  ) : (
+                    <>
+                      <S.button onClick={() => handleCommentEdit(comment)}>
+                        수정
+                      </S.button>
+                      <S.button onClick={() => handleCommentDelete(comment.id)}>
+                        삭제
+                      </S.button>
+                    </>
+                  )}
                 </S.ButtonBox>
               )}
               {comment.id === editingCommentId ? (

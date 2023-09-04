@@ -3,53 +3,54 @@ import { useNavigate } from 'react-router-dom';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import * as userStore from '../store/userStore';
 import * as S from './Board.style';
-import { getPosts } from '../api/boardapi';
+import { getPosts, searchPost } from '../api/boardapi';
 import { Database } from '../types/supabase';
 import { useState } from 'react';
 import { atom, useAtom, useAtomValue } from 'jotai';
 import Pagination from '../components/Pagenation';
-import Footer from '../components/Footer';
-
+import { toast } from 'react-toastify';
 import pencil from '../assets/pencil.svg';
 import search from '../assets/search.svg';
-type ReadPosts = Database['public']['Tables']['posts']['Row'];
+import ProfileWithBorder, {
+  processItem,
+} from '../components/ProfileWithBorder';
+import type { PostType, InsertPost, UpdatePost } from '../types/post';
+import useViewport from '../hooks/useViewPort';
 
 const Board = () => {
   const user = useAtomValue(userStore.user);
   const queryClient = useQueryClient();
   const navigate = useNavigate();
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<string>('');
   const [searchKeyword, setSearchKeyword] = useState<string>('');
   const [page, setPage] = useState<number>(1);
+  const { width } = useViewport();
+
   const handleWriteClick = () => {
     if (!user) {
-      alert('로그인 후에 작성할 수 있습니다. 로그인 해주세요.');
+      toast.warning('로그인 후에 작성할 수 있습니다! 로그인 해주세요😳', {
+        autoClose: 1000,
+      });
     } else {
       navigate('/board/write');
     }
   };
-
   const handleAllClick = () => {
-    setSelectedCategory(null);
+    setSelectedCategory('');
+    setPage(1);
   };
-
   const handleCategoryClick = (category: string) => {
     setSelectedCategory(category);
+    setPage(1);
   };
 
-  const {
-    data: postsAndTotalPages,
-    isLoading,
-    isFetching,
-  } = useQuery<{ data: ReadPosts[]; totalPages: number }>(
-    ['posts', selectedCategory, searchKeyword, page],
-    () => getPosts(selectedCategory || '', page),
-    {
-      onError: (error) => {
-        console.error('Error fetching posts:', error);
-      },
-    },
-  );
+  const postQueryOptions = {
+    queryKey: ['posts', selectedCategory, searchKeyword, page],
+    queryFn: () => getPosts(selectedCategory, page),
+    refetchOnWindowFocus: false,
+  };
+
+  const { data: postsAndTotalPages, isFetching } = useQuery(postQueryOptions);
 
   const onClickPage = (selected: number | string) => {
     if (page === selected) return;
@@ -68,11 +69,11 @@ const Board = () => {
   };
 
   // 검색 결과에 따라 게시물 리스트를 필터링하고 정렬
-  const filteredAndSortedPosts: ReadPosts[] | undefined = useMemo(() => {
+  const filteredAndSortedPosts: PostType[] | undefined = useMemo(() => {
     if (!postsAndTotalPages?.data) return undefined;
 
     return postsAndTotalPages.data
-      .filter((post: ReadPosts) => {
+      .filter((post: PostType) => {
         const postTitleIncludesKeyword = post.title.includes(searchKeyword);
         const postContentIncludesKeyword = post.content.includes(searchKeyword);
         const postUserNicknameIncludesKeyword =
@@ -91,10 +92,11 @@ const Board = () => {
     navigate(`/board/${postId}`);
   };
 
-  const handleSearchSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSearchSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    setSelectedCategory(null);
+    const ppp = await searchPost(searchKeyword);
+    console.log('보드 검색', ppp);
+    setSelectedCategory('');
     queryClient.invalidateQueries(['posts', null, searchKeyword]);
   };
 
@@ -104,11 +106,10 @@ const Board = () => {
       <S.Post>
         <S.Search>
           <S.Button
-            onClick={handleAllClick}
+            onClick={() => handleAllClick()}
             style={{
-              backgroundColor:
-                selectedCategory === null ? '#FF96DB' : '#FFEBF7',
-              color: selectedCategory === null ? '#ffffff' : 'black',
+              backgroundColor: selectedCategory === '' ? '#FF96DB' : '#FFEBF7',
+              color: selectedCategory === '' ? '#ffffff' : 'black',
             }}
           >
             전체
@@ -158,7 +159,7 @@ const Board = () => {
             </S.SearchInputContainer>
           </form>
           <S.WriteButton onClick={handleWriteClick}>
-            <img src={pencil} /> 작성하기
+            <img src={pencil} alt="작성" /> 작성하기
           </S.WriteButton>
         </S.Write>
       </S.Post>
@@ -175,17 +176,55 @@ const Board = () => {
         {isFetching ? (
           <div>로딩중...</div>
         ) : filteredAndSortedPosts ? (
-          filteredAndSortedPosts.map((post: ReadPosts, index: number) => (
+          filteredAndSortedPosts.map((post: PostType, index: number) => (
             <S.Postbox
               key={post.id}
               onClick={() => post.id && handlePostClick(post.id.toString())}
             >
-              <S.BottomNo>{filteredAndSortedPosts.length - index}</S.BottomNo>
+              <S.BottomNo>
+                {postsAndTotalPages?.count! - (page - 1) * 12 - index}
+              </S.BottomNo>
               <S.BottomTitle>{post.title}</S.BottomTitle>
 
               <S.BottomNick>
-                <S.Img src={post.users?.profile_img_url} alt="프로필 이미지" />
-                <div>{post.users?.nickname}</div>
+                <ProfileWithBorder
+                  width={45}
+                  mediaWidth={1920}
+                  border_img_url={
+                    post.users.inventory.length > 0
+                      ? processItem(post.users.inventory).border
+                      : undefined
+                  }
+                  profile_img_url={post.users?.profile_img_url}
+                  key={post.id!}
+                />
+                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                  <div
+                    style={{
+                      color: 'var(--achromatic-colors-black, #050505)',
+                      fontSize: '15px',
+                      fontStyle: 'normal',
+                      fontWeight: '400',
+                      lineHeight: 'normal',
+                    }}
+                  >
+                    {post.users?.nickname}
+                  </div>
+                  <div
+                    style={{
+                      color: 'var(--achromatic-colors-midgray-1, #999)',
+                      fontSize: '14px',
+                      fontStyle: 'normal',
+                      fontWeight: '400',
+                      lineHeight: 'normal',
+                      letterSpacing: '-0.21px',
+                    }}
+                  >
+                    {post.users.inventory.length > 0
+                      ? processItem(post.users.inventory).award
+                      : undefined}
+                  </div>
+                </div>
               </S.BottomNick>
               <S.Bottomdate>
                 {new Date(post.created_at).toLocaleString()}
@@ -207,7 +246,6 @@ const Board = () => {
           isNextDisabled={page >= (postsAndTotalPages?.totalPages || 1)}
         />
       </S.Page>
-      {/* <Footer /> */}
     </S.Container>
   );
 };

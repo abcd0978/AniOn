@@ -9,10 +9,13 @@ import { Review } from './Wrote.styles';
 import { Button, Container, Divider, EditTitle } from './EditProfile';
 import goReview from '../../assets/next (1).png';
 import Pagination from '../Pagenation';
-// import { AnimeG } from '../../types/anime';
 import { useQuery } from '@tanstack/react-query';
 import { getAnimeById } from '../../api/laftel';
 import { useParams } from 'react-router-dom';
+import ReviewSkeleton from './MyReviewSkeleton';
+import { Page } from './MyInvenAward';
+import { styled } from 'styled-components';
+
 const supabaseUrl = process.env.REACT_APP_SUPABASE_URL;
 const supabaseAnonKey = process.env.REACT_APP_ANON_KEY;
 
@@ -40,8 +43,6 @@ const MyReviews = () => {
         if (!user) {
           return;
         }
-
-        console.log('사용자 아이디에 따른 리뷰', user.id);
 
         const { data: reviewData, error: reviewError } = await supabase
           .from('ani_comments')
@@ -99,6 +100,7 @@ const MyReviews = () => {
   const reviewsPerPage = 4;
 
   const totalPages = Math.ceil(userReview.length / reviewsPerPage);
+
   const handlePageChange = (page: number | 'prev' | 'next') => {
     if (page === 'prev' && currentPage > 1) {
       setCurrentPage(currentPage - 1);
@@ -108,48 +110,61 @@ const MyReviews = () => {
       setCurrentPage(page);
     }
   };
+
   const startIndex = (currentPage - 1) * reviewsPerPage;
   const endIndex = startIndex + reviewsPerPage;
-  console.log(animeTitles);
+
   return (
     <Container>
       <EditTitle>리뷰 이력</EditTitle>
       <Divider />
       <Review.Outer>
-        {userReview.slice(startIndex, endIndex).map((review) => (
-          <li key={review.id}>
-            <Review.Top>
-              <Review.Title>{animeTitles[review.ani_id]}</Review.Title>
-              <Review.Date>
-                {new Date(review.created_at).toLocaleString()}
-              </Review.Date>
-            </Review.Top>
+        {userReview.length === 0 ? (
+          <ReviewSkeleton count={reviewsPerPage} />
+        ) : (
+          userReview.slice(startIndex, endIndex).map((review) => (
+            <li key={review.id}>
+              <Review.Top>
+                <Review.Title>{animeTitles[review.ani_id]}</Review.Title>
+                <Review.Date>
+                  {new Date(review.created_at).toLocaleString()}
+                </Review.Date>
+              </Review.Top>
 
-            <Review.ReviewComments>{review.comment}</Review.ReviewComments>
+              <Review.ReviewComments>{review.comment}</Review.ReviewComments>
 
-            <Review.ButtonArray>
-              <Review.GoButton onClick={() => handleReviewClick(review.ani_id)}>
-                보러가기
-                <Review.ButtonIcon src={goReview} />
-              </Review.GoButton>
-              <Review.Button onClick={() => handleRemoveReview(review.id)}>
-                삭제
-              </Review.Button>
-            </Review.ButtonArray>
+              <Review.ButtonArray>
+                <Review.GoButton
+                  onClick={() => handleReviewClick(review.ani_id)}
+                >
+                  보러가기
+                  <Review.ButtonIcon src={goReview} />
+                </Review.GoButton>
+                <Review.Button onClick={() => handleRemoveReview(review.id)}>
+                  삭제
+                </Review.Button>
+              </Review.ButtonArray>
 
-            <Divider />
-          </li>
-        ))}
-        <Pagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onClick={handlePageChange}
-          isPreviousDisabled={currentPage === 1}
-          isNextDisabled={currentPage >= totalPages}
-        />
+              <Divider />
+            </li>
+          ))
+        )}
+        <ReviewPage>
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onClick={handlePageChange}
+            isPreviousDisabled={currentPage === 1}
+            isNextDisabled={currentPage >= totalPages}
+          />
+        </ReviewPage>
       </Review.Outer>
     </Container>
   );
 };
 
 export default MyReviews;
+export const ReviewPage = styled.div`
+  display: flex;
+  justify-content: center;
+`;

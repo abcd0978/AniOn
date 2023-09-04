@@ -14,9 +14,32 @@ function AniWorldCup() {
   const navigate = useNavigate();
 
   const [characters, setCharacters] = useState<ReadCharacters[]>([]);
-  const [displays, setDisplays] = useState<ReadCharacters[]>([]); //any 말고 다시 생각해보기
+  const [displays, setDisplays] = useState<ReadCharacters[]>([]);
   const [winners, setWinners] = useState<ReadCharacters[]>([]);
   const [isDataLoaded, setIsDataLoaded] = useState(false);
+  const [currentRound, setCurrentRound] = useState('16강');
+
+  // 함수를 이용해 현재 라운드 정보를 계산
+  const calculateCurrentRound = (charactersLeft: number) => {
+    if (charactersLeft > 8 && charactersLeft <= 16) {
+      return '16강';
+    } else if (charactersLeft > 4 && charactersLeft <= 8) {
+      return '8강';
+    } else if (charactersLeft > 2 && charactersLeft <= 4) {
+      return '4강';
+    } else if (charactersLeft === 2) {
+      return '결승';
+    } else {
+      return ''; // 예외 처리
+    }
+  };
+
+  // 현재 라운드 정보 계산
+  useEffect(() => {
+    const charactersLeft = characters.length + winners.length;
+    const currentRound = calculateCurrentRound(charactersLeft);
+    setCurrentRound(currentRound);
+  }, [characters, winners]);
 
   const {
     isLoading: isCharacterLoading,
@@ -28,8 +51,6 @@ function AniWorldCup() {
     refetchOnWindowFocus: false,
   });
 
-  // console.log('!@@!@!@!@!@!', aniCharacter);
-
   useEffect(() => {
     if (!isDataLoaded && aniCharacter) {
       setCharacters(aniCharacter);
@@ -38,8 +59,6 @@ function AniWorldCup() {
     }
   }, [aniCharacter, isDataLoaded]);
 
-  // console.log('😊😊', displays);
-
   if (isCharacterLoading) {
     return <div>캐릭터 데이터를 가져오는 중입니다..</div>;
   }
@@ -47,7 +66,6 @@ function AniWorldCup() {
   if (isCharacterError) {
     return <div>캐릭터 데이터를 가져오지 못했습니다..😢</div>;
   }
-  // console.log('이건가!!!', aniCharacter);
 
   // 이상형 월드컵 캐릭터 선택
   const SelectWinnerhandler = (character: ReadCharacters) => async () => {
@@ -55,7 +73,6 @@ function AniWorldCup() {
       if (winners.length === 0) {
         await updateNumOfWin(character.id);
         setDisplays([character]);
-        // console.log('r u winner???', character);
         navigate(`/worldcup/result/${gender}`, { state: character });
       } else {
         let updatedCharacter = [...winners, character];
@@ -74,24 +91,22 @@ function AniWorldCup() {
     <>
       <S.WorldCupContainer>
         <S.WorldCupMainTitle>
-          {gender === 'man' ? '남자' : '여자'} 애니메이션 캐릭터 이상형 월드컵
-          16강
+          {gender === 'man' ? '남자' : '여자'} 애니메이션 캐릭터 이상형 월드컵{' '}
+          {currentRound}
           <S.WorldCupTestContainer>
             {displays.map((character: ReadCharacters) => {
-              // console.log(character);
-              // console.log(characters);
               return (
-                <S.WorldCupTest key={character.id} height={748}>
+                <S.WorldCupTest key={character.id} height={660}>
                   <S.WorldCupUp>
                     <S.WorldCupImg>
                       <img src={character.img_url} />
                     </S.WorldCupImg>
-                    <div>
+                    <S.WorldCupTitleBox>
                       <S.WorldCupTitle>{character.ani_title}</S.WorldCupTitle>
                       <S.WorldCupName>
                         {character.character_name}
                       </S.WorldCupName>
-                    </div>
+                    </S.WorldCupTitleBox>
                   </S.WorldCupUp>
                   <S.WorldCupTestPickButton
                     onClick={SelectWinnerhandler(character)}

@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useState } from 'react';
 import supabase from '../supabaseClient';
-import { useAtom } from 'jotai';
+import { useAtom, useSetAtom } from 'jotai';
 import * as userStore from '../store/userStore';
 /**
  *
@@ -14,18 +14,9 @@ const WithAuth = (
   option: boolean | null,
   adminRoute: boolean | null = null,
 ) => {
-  const [__, writeUser] = useAtom(userStore.writeUser);
+  const writeUser = useSetAtom(userStore.writeUser);
   async function authCheck() {
-    const result = await writeUser();
-    // if (option === true && (result === false || result == null)) {
-    //   alert('접근하실수 없습니다');
-    //   window.history.pushState(null, '', '/');
-    // } else if (option === null) {
-    //   return;
-    // } else if (option === false && result) {
-    //   alert('잘못된 경로입니다.');
-    //   window.history.pushState(null, '', '/');
-    // }
+    await writeUser();
   }
   useEffect(() => {
     if (option !== undefined && Component) authCheck();

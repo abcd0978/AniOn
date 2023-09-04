@@ -1,15 +1,36 @@
 import styled from 'styled-components';
 
 const S = {
-  Layout: styled.div`
+  Container: styled.div`
+    width: 1440px;
+    max-height: 4785px;
+    border-radius: 20px;
+    box-shadow: 0px 0px 20px 0px #0000001a;
+    gap: 20px;
+    padding: 40px;
+    margin-top: 20px;
+    margin-bottom: 100px;
+  `,
+  Inner: styled.div`
     width: 1360px;
-    max-height: 4355px;
-    margin-left: 30px;
+    max-height: 4705px;
+    display: block;
+    align-items: center;
+    justify-content: center;
+  `,
+  Top: styled.div`
+    width: 1360px;
+    height: 45px;
+    padding: 12px, 0px, 12px, 0px;
+    gap: 16px;
+    margin-top: 20px;
   `,
 
   ButtonContainer: styled.div`
     display: flex;
     justify-content: right;
+    margin-top: -30px;
+    margin-right: -60px;
   `,
   Button: styled.button`
     background-color: #dddddd;
@@ -18,7 +39,6 @@ const S = {
     width: 50px;
     height: 30px;
     border-radius: 10px;
-    margin-top: 6px;
     margin-right: 5px;
     cursor: pointer;
   `,
@@ -28,7 +48,8 @@ const S = {
     flex-direction: column;
     width: 1360px;
     max-height: 1954px;
-    margin-top: 20px;
+    margin-bottom: 50px;
+    margin-top: -5px;
   `,
 
   Category: styled.div`
@@ -44,6 +65,7 @@ const S = {
     text-align: right;
     float: right;
     color: gray;
+    margin-right: -60px;
   `,
 
   Box: styled.div`
@@ -51,15 +73,23 @@ const S = {
     margin: 20px;
     padding: 0 auto;
   `,
+  EditBox: styled.div`
+    width: 1360px;
+    height: 500px;
+    margin: 20px;
+    padding: 0 auto;
+  `,
 
   Title: styled.div`
     line-height: 1.5;
-    //max-width: 1360px;
-    width: 90%;
+    width: 1184px;
+    height: 21px;
     padding: 0 auto;
-    font-size: 26px;
+    font-size: 24px;
     font-weight: bold;
-    margin: -5px;
+    line-height: 36px;
+    // margin: -5px;
+    margin-top: -10px;
   `,
 
   Content: styled.div`
@@ -68,8 +98,9 @@ const S = {
     // font-size: 16px;
     line-height: 1.6;
     width: 1360px;
-    max-height: 1000px;
+    max-height: 1954px;
     margin: 20px;
+    gap: 40px;
   `,
 
   Select: styled.select`
@@ -80,15 +111,22 @@ const S = {
     border: none;
     background-color: #f9f3ff;
     box-shadow: 5px 5px 5px 5px #0000001a;
+    margin-top: -150px;
+    &:hover {
+      border: 1px solid #c88fff;
+    }
   `,
   Input: styled.input`
     width: calc(90% - 5px);
     height: 44px;
     outline: none;
     border: none;
-    background-color: #f9f3ff;
     box-shadow: 5px 5px 5px 5px #0000001a;
+    background-color: #f9f3ff;
     border-radius: 8px;
+    &:hover {
+      border: 1px solid #c88fff;
+    }
   `,
 
   Textarea: styled.textarea`
@@ -99,31 +137,126 @@ const S = {
     font-size: 16px;
     outline: none;
     border-radius: 8px;
-    box-shadow: 5px 5px 5px 5px #0000001a;
     border: none;
+    box-shadow: 5px 5px 5px 5px #0000001a;
     background-color: #f9f3ff;
   `,
-  Img: styled.img`
+  ImgProfile: styled.img`
     width: 60px;
     height: 60px;
+    border-radius: 999px;
   `,
   User: styled.div`
     display: flex;
-    flex-direction: row;
-    align-items: center;
-    margin-top: 15px;
-    font-size: 15px;
+  `,
+  UserInfo: styled.div`
+    display: flex;
+    flex-direction: column;
+    margin-left: 13px;
   `,
 
   Nickname: styled.div`
-    margin-left: 5px;
     white-space: nowrap;
+    display: flex;
+    align-item: center;
+    justify-content: center;
+    font-size: 15px;
+    font-weight: 700;
   `,
   Like: styled.div`
     background-color: white;
     cursor: pointer;
-    float: right;
+    display: flex;
+  `,
+  Img: styled.img`
+    background-color: white;
+    cursor: pointer;
+    display: flex;
+  `,
+
+  TopTitle: styled.div`
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    margin-top: 30px;
+    margin-left: 5px;
+    color: #8200ff;
+  `,
+
+  Post: styled.div`
+    display: flex;
+    justify-content: space-between;
+  `,
+  Search: styled.div`
+    display: flex;
+  `,
+
+  Write: styled.div`
+    display: flex;
+  `,
+
+  WriteButton: styled.button`
+    background-color: #8200ff;
+    border: none;
+    border-radius: 10px;
+    width: 120px;
+    height: 40px;
+    padding: 8px;
+    font-size: 15px;
+    color: white;
+    cursor: pointer;
+    margin-right: -70px;
+  `,
+
+  CateButton: styled.button`
+    border: none;
+    width: 100px;
+    height: 36px;
+    font-size: 13px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-right: 3px;
+    font-size: 13px;
+    border-radius: 999px;
+    font-weight: bold;
+    cursor: pointer;
+  `,
+
+  ListButton: styled.button`
+    width: 80px;
+    height: 40px;
+    font-size: 15px;
+    background-color: #dddddd;
+    border: none;
+    cursor: pointer;
+    border-radius: 10px;
+    margin-left: 60px;
+  `,
+  Line: styled.div`
+    border: 1px solid #d9d9d9;
+    width: 1440px;
+    margin-top: 20px;
+  `,
+
+  Award: styled.div`
+    display: flex;
+    height: 36px;
+    padding: 8px 12px;
+    align-items: center;
+    justify-contents: center;
+    gap: 8px;
+    border-radius: 999px;
+    background: #f4f4f4;
+
+    font-size: 14px;
     margin-top: 5px;
+  `,
+  Comment: styled.div`
+    width: 1360px;
+    max-height: 2476px;
+    gap: 20px;
+    margin-bottom: -150px;
+    margin-left: 30px;
   `,
 };
 

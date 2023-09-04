@@ -9,6 +9,7 @@ import { useAtomValue } from 'jotai';
 import * as userStore from '../store/userStore';
 import { v4 as uuidv4 } from 'uuid';
 import useViewport from '../hooks/useViewPort';
+import { toast } from 'react-toastify';
 type InsertPosts = Database['public']['Tables']['posts']['Insert'];
 
 const WriteBoard = () => {
@@ -30,8 +31,11 @@ const WriteBoard = () => {
   };
 
   // 취소
-  const cancellButton = () => {
-    navigate('/board');
+  const cancelButton = () => {
+    const confirmed = window.confirm('정말 취소하시나요....?😭');
+    if (confirmed) {
+      navigate('/board');
+    }
   };
 
   // Post 추가
@@ -55,20 +59,29 @@ const WriteBoard = () => {
     if (user) {
       // 유효성 검사
       if (!category) {
-        alert('카테고리를 선택해주세요.');
+        toast.warning('카테고리를 선택해주세요!', {
+          autoClose: 1000,
+        });
         return;
       }
+
       if (!title) {
-        alert('제목을 입력해주세요.');
+        toast.warning('제목을 입력해주세요!', {
+          autoClose: 1000,
+        });
         return;
       }
       if (!content) {
-        alert('내용을 입력해주세요.');
+        toast.warning('내용을 입력해주세요!', {
+          autoClose: 1000,
+        });
         return;
       }
 
       if (processBody(content).length < 10) {
-        alert('내용은 10자 이상 입력해주세요.');
+        toast.warning('내용은 10자 이상 입력해주세요!', {
+          autoClose: 1000,
+        });
         return;
       }
       // 날짜
@@ -137,7 +150,7 @@ const WriteBoard = () => {
             <EditorComponent onChange={setContent} />
           </S.ContentInput>
           <S.ButtonContainer>
-            <S.Button onClick={cancellButton}>취소</S.Button>
+            <S.Button onClick={cancelButton}>취소</S.Button>
             <S.SubmitButton type="submit">등록</S.SubmitButton>
           </S.ButtonContainer>
         </S.Form>

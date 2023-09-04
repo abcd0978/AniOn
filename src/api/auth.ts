@@ -12,7 +12,6 @@ export type FormData = {
   password: string;
 };
 export const logout = async () => {
-  console.log('러그아웃');
   await supabase.auth.signOut();
   //window.location.reload();
 };
@@ -28,13 +27,10 @@ export const checkUser = async (user_id: string) => {
   return result.data![0].count;
 };
 export const nicknameValidate = async (nickname: string) => {
-  console.log(nickname);
   const result = await supabase
     .from('users')
     .select('count')
     .eq('nickname', `${nickname}`);
-  console.log(result);
-  console.log(result.data![0].count);
   return result.data![0].count > 0 ? false : true;
 };
 export const emailValidate = async (nickname: string) => {
@@ -56,7 +52,6 @@ export const loginHandler = async (
         Logindata!,
       );
       if (data.user) {
-        alert('안녕하세요!');
         return true;
       }
       if (error) {
@@ -69,7 +64,7 @@ export const loginHandler = async (
     }
   } else {
     //Provider Login
-    const { data, error } = await supabase.auth.signInWithOAuth({
+    const { error } = await supabase.auth.signInWithOAuth({
       provider: provider!,
     });
 

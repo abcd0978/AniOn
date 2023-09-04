@@ -3,10 +3,25 @@ import styled from 'styled-components';
 import negetive_next from '../../assets/navigate_next.svg';
 import { useSetAtom } from 'jotai';
 import * as modalStore from '../../store/modalStore';
+import { useNavigate } from 'react-router-dom';
+import * as userStore from '../../store/userStore';
+import { useAtomValue } from 'jotai';
 type Props = {};
 
 function AfterPurchaseModalContents({}: Props) {
+  const navigate = useNavigate();
+  const user = useAtomValue(userStore.user);
   const setIsModalOpened = useSetAtom(modalStore.isModalOpened);
+  const handleProfileEditClick = () => {
+    setIsModalOpened(false);
+    if (user?.id) {
+      navigate(`/mypage/${user.id}`, {
+        state: {
+          selected: 'DecoProfile',
+        },
+      });
+    }
+  };
   return (
     <StContainer>
       <StTypoContainer>
@@ -25,7 +40,7 @@ function AfterPurchaseModalContents({}: Props) {
         >
           닫기
         </StCancelButton>
-        <StConfirmButton>
+        <StConfirmButton onClick={handleProfileEditClick}>
           <div style={{ display: 'flex', flexDirection: 'row' }}>
             <StgotoProfileEditTypo>프로필 꾸미기로 이동</StgotoProfileEditTypo>
             <img

@@ -2,47 +2,29 @@ import styled from 'styled-components';
 // import Banner from '../components/Banner';
 import React from 'react';
 import { ReactNode, CSSProperties } from 'react';
-// import jusul from '../assets/jusul.svg';
-import goTest from '../assets/goTest.svg';
-
 const imgStyle: CSSProperties = {
   zIndex: -1,
 };
 
-type Props = {
-  image: string;
-  name: string;
-  title: string;
-  desc: string;
-  buttonText: string;
-  onClick: () => void;
-};
-
-const BannerSlide = (props: Props) => {
+const BannerSlideSkeleton = () => {
   return (
-    <SlideContainer image={props.image}>
+    <SlideContainer>
       <StSlideInfoContainer>
         <StSlideInfos>
           <StSlideTitleandDescContainer>
-            <StAnionAndRecommend>
-              <StAnionTypo>{props.name}</StAnionTypo>
-              <StText> 의 추천</StText>
-            </StAnionAndRecommend>
-            <StAniTitle>{props.title}</StAniTitle>
+            <StAnionAndRecommend />
+            <StAniTitle />
           </StSlideTitleandDescContainer>
-          <StText>{props.desc}</StText>
+          <StText />
         </StSlideInfos>
-        <StSlideButton onClick={props.onClick}>
-          <StSlideButtonType>{props.buttonText}</StSlideButtonType>
-          <img src={goTest} alt="" />
-        </StSlideButton>
+        <StSlideButton />
       </StSlideInfoContainer>
       <StGredient />
     </SlideContainer>
   );
 };
 
-export default BannerSlide;
+export default BannerSlideSkeleton;
 
 const StGredient = styled.div`
   z-index: 5;
@@ -50,20 +32,9 @@ const StGredient = styled.div`
   top: 0px;
   width: 100%;
   height: 100%;
-  background: linear-gradient(
-    89deg,
-    #000 0%,
-    rgba(0, 0, 0, 0.02) 36.46%,
-    rgba(0, 0, 0, 0) 67.19%,
-    #000 100%
-  );
 `;
-const SlideContainer = styled.div<{ image?: string }>`
-  ${(props) =>
-    props.image
-      ? `background-image: url(${props.image});background-size: 100%;`
-      : `background:#424242;`}
-  //background-image: ${(props) => `url(${props.image});`};
+const SlideContainer = styled.div`
+  background: #d5d5d5;
   height: 100%;
 `;
 const StSlideInfoContainer = styled.div`
@@ -93,6 +64,9 @@ const StSlideButton = styled.button`
   border-radius: 999px;
   background: var(--achromatic-colors-white, #fff);
   cursor: pointer;
+  height: 50px;
+  width: 126px;
+  background-color: #fff;
 `;
 const StSlideButtonType = styled.p`
   color: var(--achromatic-colors-black, #050505);
@@ -118,6 +92,10 @@ const StAniTitle = styled.div`
   font-style: normal;
   font-weight: 700;
   line-height: normal;
+  background-color: #a5a5a5;
+  height: 60px;
+  border-radius: 14px;
+  width: 300px;
 `;
 const StAnionTypo = styled.p`
   color: var(--achromatic-colors-white, #fff);
@@ -131,9 +109,12 @@ const StAnionTypo = styled.p`
 const StAnionAndRecommend = styled.div`
   display: flex;
   flex-direction: row;
+  width: 150px;
+  height: 30px;
+  border-radius: 14px;
+  background-color: #d5d5d5;
 `;
 const StText = styled.p`
-  color: var(--achromatic-colors-white, #fff);
   /* 소타이틀/2 */
   font-family: 'Pretendard-Regular';
   font-size: 20px;
@@ -141,4 +122,8 @@ const StText = styled.p`
   font-weight: 400;
   line-height: 150%; /* 30px */
   letter-spacing: -0.3px;
+  background-color: #a5a5a5;
+  border-radius: 13px;
+  height: 20px;
+  width: 350px;
 `;

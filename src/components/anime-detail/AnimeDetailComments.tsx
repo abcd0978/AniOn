@@ -10,22 +10,18 @@ import {
   deleteComment,
   updateComment,
 } from '../../api/aniComment';
+import ProfileWithBorder, { processItem } from '../ProfileWithBorder';
 import { Database } from '../../types/supabase';
 import { useAtomValue } from 'jotai';
+import { toast } from 'react-toastify';
+import { AniCommentType } from '../../types/comment';
 
 type ReadAniComment = Database['public']['Tables']['ani_comments']['Row'];
 type InsertAniComment = Database['public']['Tables']['ani_comments']['Insert'];
 type UpdateAniComment = Database['public']['Tables']['ani_comments']['Update'];
 
-// TODO:현재 user 값 넣어야함
-
-// const userAtom = atom<null | any>(null);
-// console.log('!!!!!!!!!!!!!', localStorage.getItem('user'));
-
 const AnimeDetailComments = () => {
   const { ani_id } = useParams() as { ani_id: string };
-  // console.log("현재id!!!", ani_id);
-
   const user = useAtomValue(userStore.user);
 
   const queryClient = useQueryClient();
@@ -42,12 +38,16 @@ const AnimeDetailComments = () => {
 
   const handleCommentSubmit = () => {
     if (!user) {
-      alert('리뷰는 로그인/회원가입 후 이용해주세요.');
+      toast.warning('로그인 후 리뷰 작성이 가능해요🙄', {
+        autoClose: 1000,
+      });
       return;
     }
 
     if (!newComment) {
-      alert('리뷰 내용이 없습니다. 내용을 작성해주세요.');
+      toast.warning('리뷰를 작성해주세요!', {
+        autoClose: 2000,
+      });
       return;
     }
 
@@ -60,8 +60,6 @@ const AnimeDetailComments = () => {
 
       deleted_at: null, //확인
     };
-
-    console.log('Creating comment:', createComment);
 
     addMutation.mutate(createComment);
     setNewComment('');
@@ -78,6 +76,9 @@ const AnimeDetailComments = () => {
     const shouldDelete = window.confirm('댓글을 삭제 하시겠습니까?');
     if (shouldDelete) {
       deleteMutation.mutate(commentId);
+      toast.success('리뷰를 삭제했습니다❗', {
+        autoClose: 1200,
+      });
     }
   };
 
@@ -90,17 +91,19 @@ const AnimeDetailComments = () => {
   // 댓글 수정시
   const handleCommentEdit = (comment: UpdateAniComment) => {
     if (editingCommentId === comment.id) {
-      const editComment = {
-        ...comment,
-        comment: editedCommentText,
-      };
-
+      // 수정 할 내용 빈 input 일 경우
       if (!editedCommentText) {
-        alert('댓글을 입력해주세요.');
-        return;
+        // 이전 댓글 내용으로 복원
+        setEditedCommentText(comment.comment);
+        setEditingCommentId(null);
+      } else {
+        const editComment = {
+          ...comment,
+          comment: editedCommentText,
+        };
+        editMutation.mutate(editComment);
+        setEditingCommentId(null);
       }
-      editMutation.mutate(editComment);
-      setEditingCommentId(null);
     } else {
       setEditingCommentId(comment.id!);
       setEditedCommentText(comment.comment);
@@ -109,16 +112,20 @@ const AnimeDetailComments = () => {
 
   // 페이지네이션
   const [page, setPage] = useState<number>(1);
-  const { data: aniCommentsData } = useQuery<any>(
-    ['ani_comments', ani_id, page],
-    () => {
+
+  const aniCommentQueryOptions = {
+    queryKey: ['ani_comments', page, ani_id],
+    queryFn: () => {
       if (ani_id) {
         return fetchComments(ani_id, page);
       }
       return Promise.resolve({ data: [], totalPages: 1 });
     },
-    { keepPreviousData: true },
-  );
+    keepPreviousData: true,
+    refetchOnMount: false,
+  };
+
+  const { data: aniCommentsData } = useQuery(aniCommentQueryOptions);
 
   //페이지 이동할 때
   const onClickPage = (selected: number | string) => {
@@ -136,13 +143,12 @@ const AnimeDetailComments = () => {
       return;
     }
   };
+
   // 이전 페이지 버튼 비활성화 여부 계산
   const isPreviousDisabled = page === 1;
 
   // 다음 페이지 버튼 비활성화 여부 계산
   const isNextDisabled = page >= (aniCommentsData?.totalPages ?? 1);
-
-  // console.log('AniCommentsData:', aniCommentsData);
 
   return (
     <S.AniCommentContainer>
@@ -175,23 +181,34 @@ const AnimeDetailComments = () => {
         )}
 
         <S.CommentSpace>
-          {aniCommentsData?.data?.map((comment: ReadAniComment) => (
+          {aniCommentsData?.data?.map((comment: AniCommentType) => (
             <S.AniCommentBox key={comment.id}>
               <S.AniCommentUp>
                 <S.AniCommentUser>
-                  <S.AniProfileImg
-                    src={comment.users.profile_img_url}
-                    alt="프로필이미지"
+                  <ProfileWithBorder
+                    width={75}
+                    mediaWidth={1920}
+                    border_img_url={
+                      comment.users.inventory.length > 0
+                        ? processItem(comment.users.inventory).border
+                        : undefined
+                    }
+                    profile_img_url={comment.users?.profile_img_url}
+                    key={comment.id!}
                   />
                   <S.AniUserNickname>
                     {comment.users.nickname}
                   </S.AniUserNickname>
+                  <S.AniUserAward>
+                    {comment.users.inventory.length > 0
+                      ? processItem(comment.users.inventory).award
+                      : '칭호없음'}
+                  </S.AniUserAward>
                 </S.AniCommentUser>
                 <S.date>{new Date(comment.created_at).toLocaleString()}</S.date>
               </S.AniCommentUp>
               {comment.id === editingCommentId ? (
                 <S.AniEditCommentInput
-                  type="text"
                   value={editedCommentText}
                   onChange={(e) => setEditedCommentText(e.target.value)}
                 />
@@ -202,16 +219,33 @@ const AnimeDetailComments = () => {
               )}
               {user?.id === comment.user_id && (
                 <S.AniCommentButtonBox>
-                  <S.AniCommentButton
-                    onClick={() => handleCommentEdit(comment)}
-                  >
-                    {comment.id === editingCommentId ? '저장' : '수정'}
-                  </S.AniCommentButton>
-                  <S.AniCommentButton
-                    onClick={() => handleCommentDelete(comment.id)}
-                  >
-                    삭제
-                  </S.AniCommentButton>
+                  {comment.id === editingCommentId ? (
+                    <>
+                      <S.AniCommentButton
+                        onClick={() => handleCommentEdit(comment)}
+                      >
+                        저장
+                      </S.AniCommentButton>
+                      <S.AniCommentButton
+                        onClick={() => setEditingCommentId(null)}
+                      >
+                        취소
+                      </S.AniCommentButton>
+                    </>
+                  ) : (
+                    <>
+                      <S.AniCommentButton
+                        onClick={() => handleCommentEdit(comment)}
+                      >
+                        수정
+                      </S.AniCommentButton>
+                      <S.AniCommentButton
+                        onClick={() => handleCommentDelete(comment.id)}
+                      >
+                        삭제
+                      </S.AniCommentButton>
+                    </>
+                  )}
                 </S.AniCommentButtonBox>
               )}
             </S.AniCommentBox>

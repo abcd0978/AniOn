@@ -2,7 +2,7 @@ import { atom } from 'jotai';
 type BorderItem = {
   id: string;
   index: number;
-  title: string;
+  name: string;
   price: number;
   img_url: string;
 };

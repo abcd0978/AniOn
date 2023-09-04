@@ -3,8 +3,9 @@ import styled from 'styled-components';
 import checkBox from '../../assets/checkBox.svg';
 import checkBoxChecked from '../../assets/checkBoxChecked.svg';
 import useViewport from '../../hooks/useViewPort';
-import { useAtom } from 'jotai';
+import { useAtom, useSetAtom } from 'jotai';
 import useInput from '../../hooks/useInput';
+import { toast } from 'react-toastify';
 import * as authApi from '../../api/auth';
 import * as userStore from '../../store/userStore';
 import logo from '../../assets/logo.svg';
@@ -147,7 +148,12 @@ const LoginModalContents = (props: Props) => {
               );
               setLoading(false);
               if (result) {
-                writeUser();
+                toast('안녕하세요! 환영합니다😊', {
+                  position: 'top-center',
+                  autoClose: 1000,
+                  hideProgressBar: true,
+                });
+                await writeUser();
                 setIsModalOpened(false);
               } else {
                 setEmailAndPasswordError({

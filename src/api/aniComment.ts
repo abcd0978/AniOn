@@ -1,6 +1,5 @@
 import supabase from '../supabaseClient';
 import { Database } from '../types/supabase';
-type ReadAniComment = Database['public']['Tables']['ani_comments']['Row'];
 type InsertAniComment = Database['public']['Tables']['ani_comments']['Insert'];
 type UpdateAniComment = Database['public']['Tables']['ani_comments']['Update'];
 
@@ -8,22 +7,28 @@ const fetchComments = async (ani_id: string, page: number): Promise<any> => {
   const itemsPerPage = 5;
 
   const startIndex = (page - 1) * itemsPerPage;
+  try {
+    const { data, count, error } = await supabase
+      .from('ani_comments')
+      .select(
+        '*,users(nickname,profile_img_url,inventory(id,items(name,img_url)))',
+        { count: 'exact' },
+      )
+      .eq('ani_id', ani_id)
+      .eq('users.inventory.is_equipped', true)
+      .range(startIndex, startIndex + itemsPerPage - 1)
+      .order('created_at', { ascending: false });
 
-  const { data } = await supabase
-    .from('ani_comments')
-    .select('*,users(nickname,profile_img_url)')
-    .eq('ani_id', ani_id)
-    .range(startIndex, startIndex + itemsPerPage - 1)
-    .order('created_at', { ascending: false });
+    const totalPages = Math.ceil(count! / itemsPerPage);
 
-  const { count } = await supabase
-    .from('ani_comments')
-    .select('count', { count: 'exact' })
-    .eq('ani_id', ani_id);
+    if (error) {
+      console.log('aniComment > fetchComments > ', error);
+    }
 
-  const totalPages = Math.ceil(count! / itemsPerPage);
-
-  return { data, totalPages };
+    return { data, totalPages };
+  } catch (error) {
+    console.log('aniComment > fetchComments > ', error);
+  }
 };
 
 // 작성

@@ -5,6 +5,7 @@ import { R } from '../components/worldcup/worldCupResult.style';
 import { useQuery } from '@tanstack/react-query';
 import { winnerResult } from '../api/aniCharacters';
 import navigate_next from '../assets/navigate_next.svg';
+import { useScript } from '../hooks/useScript';
 
 export type ResultCharacterType = {
   ani_title: string;
@@ -18,18 +19,44 @@ export type ResultCharacterType = {
   ];
 };
 
+declare global {
+  interface Window {
+    Kakao?: any; // 이 부분을 Kakao 객체의 실제 타입으로 바꿔주세요
+  }
+}
+
 const WorldCupResult = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  // 1. gender를 useEffcet의 의존성 배열에 넣고, 받아온 resultData를 state로 관리하면? 새로고침시 데이터는 그대로이나 update는 발동?
-  // 2. 새로고침을 막으면 ?
-  // 3. 그냥 이동하기 전에 비동기로 실행 시간을 주자. > 채택
+  //현재 URL 가져오기
+  const currentUrl = window.location.href;
   const { gender } = useParams() as { gender: string };
   const { state: winner } = useLocation();
 
   const [topRank, setTopRank] = useState<ResultCharacterType[]>();
   const [otherRank, setOtherRank] = useState<ResultCharacterType[]>();
   const [total, setTotal] = useState<number>(0);
+
+  //TODO:카카오톡 공유하기 시도중...
+  // kakao SDK import하기
+  const status = useScript('https://developers.kakao.com/sdk/js/kakao.js');
+
+  useEffect(() => {
+    if (status === 'ready' && window.Kakao) {
+      // 중복 initialization 방지
+      if (!window.Kakao.isInitialized()) {
+        // 두번째 step 에서 가져온 javascript key 를 이용하여 initialize
+        window.Kakao.init(process.env.REACT_APP_KAKAO_API_KEY);
+      }
+    }
+  }, [status]);
+
+  const handleKakaoButton = () => {
+    window.Kakao.Link.sendScrap({
+      requestUrl: currentUrl,
+      templateId: 98008,
+    });
+  };
 
   // 월드컵 전체 결과 가져오기
   const {
@@ -63,12 +90,6 @@ const WorldCupResult = () => {
   if (isResultError) {
     return <div>데이터를 가져오지 못했습니다..😥</div>;
   }
-
-  // console.log('요기짱들이여', topRank);
-  // console.log('하위들', otherRank);
-  // console.log('🙉🙉', totalResult);
-  // console.log('😑😐', winnerCount[0]);
-  // console.log('?????????', winner);
   return (
     <S.WorldCupContainer>
       <div>
@@ -77,7 +98,7 @@ const WorldCupResult = () => {
           결과
         </S.WorldCupMainTitle>
         <R.WorldCupWinnerCard>
-          <S.WorldCupTest key={winner.id} height={666}>
+          <S.WorldCupResultTest key={winner.id} height={666}>
             <S.WorldCupUp>
               <R.WorldCupWinnerImg>
                 <img src={winner.img_url} />
@@ -87,7 +108,7 @@ const WorldCupResult = () => {
                 <S.WorldCupName>{winner.character_name}</S.WorldCupName>
               </R.WorldCupResultText>
             </S.WorldCupUp>
-          </S.WorldCupTest>
+          </S.WorldCupResultTest>
         </R.WorldCupWinnerCard>
         <R.WorldCupResultButtonBox>
           <R.WorldCupResultButton
@@ -98,7 +119,11 @@ const WorldCupResult = () => {
           >
             다시하기
           </R.WorldCupResultButton>
-          <R.WorldCupResultButton background="#8200FF" color="#FFFFFF">
+          <R.WorldCupResultButton
+            onClick={handleKakaoButton}
+            background="#8200FF"
+            color="#FFFFFF"
+          >
             <img src={navigate_next} />
             결과 공유 하기
           </R.WorldCupResultButton>

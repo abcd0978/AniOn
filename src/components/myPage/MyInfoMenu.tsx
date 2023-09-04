@@ -20,11 +20,14 @@ import { styled } from 'styled-components';
 import { useAtom } from 'jotai';
 import { useNavigate } from 'react-router-dom';
 import * as userStore from '../../store/userStore';
-
+import { useLocation } from 'react-router-dom';
 const MyInfoMenu = () => {
   const [__, logoutStore] = useAtom(userStore.logoutUser);
   const navigate = useNavigate();
-  const [selectedComponent, setSelectedComponent] = useState('EditProfile');
+  const location = useLocation();
+  const [selectedComponent, setSelectedComponent] = useState(
+    location.state?.selected ? location.state?.selected : 'EditProfile',
+  );
   const handleLogout = async () => {
     await logout();
     logoutStore();
@@ -107,7 +110,6 @@ const MyInfoMenu = () => {
                 onClick={() => setSelectedComponent('MyReviews')}
                 style={{
                   color: selectedComponent === 'MyReviews' ? '#8200FF' : '#999',
-                  // imageRendering:selectedComponent==='MyReviews'?'':''
                 }}
               >
                 {selectedComponent === 'MyReviews' ? (
@@ -124,7 +126,6 @@ const MyInfoMenu = () => {
                 style={{
                   color:
                     selectedComponent === 'WhatIWrote' ? '#8200FF' : '#999',
-                  // imageRendering:selectedComponent==='WhatIWrote'?'':''
                 }}
               >
                 {' '}

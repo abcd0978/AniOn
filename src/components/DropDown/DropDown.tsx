@@ -30,7 +30,7 @@ const StDropdownContainer = styled.div<{ mediaWidth: number }>`
   position: absolute;
   flex-direction: column;
   align-items: flex-start;
-  z-index: 3;
+  z-index: 9;
   top: ${(props) => `${80 * (props.mediaWidth / 1920)}px`};
 `;
 export default DropDown;

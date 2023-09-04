@@ -1,53 +1,57 @@
 import React, { useEffect, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useAtom, useAtomValue } from 'jotai';
+import ScrollToTop from '../ScrollToTop';
+import { toast } from 'react-toastify';
 import { throttle } from 'lodash';
+
+// component
+import AnimeCardSkeleton from './AnimeCardSkeleton';
 import useIntersect from '../../hooks/useIntersect';
 import AnimeFilter from './top-menu/AnimeFilter';
 import { S } from './styled.AnimeList';
+import AnimeCard from './AnimeCard';
+
+// api
 import { fetchAllAnimeLikes, toggleAnimeLike } from '../../api/likeApi';
 import { fetchAnimeList } from '../../api/laftel';
-import {
-  offsetAtom,
-  selectedGenresAtom,
-  selectedCategoryAtom,
-  selectedYearsAtom,
-  isEndingAtom,
-  keywordAtom,
-} from '../../store/animeRecommendStore';
+
+// store
+import * as animeStore from '../../store/animeRecommendStore';
 import * as userStore from '../../store/userStore';
 
-import { ReadAnimeLikeG } from '../../types/likes';
+// type
+import type { ReadAnimeLikeG } from '../../types/likes';
 import type { AnimeG } from '../../types/anime';
-import AnimeCard from './AnimeCard';
 
 const AnimeList = () => {
   const queryClient = useQueryClient();
 
   const user = useAtomValue(userStore.user);
-  const genres = useAtomValue(selectedGenresAtom);
-  const category = useAtomValue(selectedCategoryAtom);
-  const years = useAtomValue(selectedYearsAtom);
-  const ending = useAtomValue(isEndingAtom);
-  const keyword = useAtomValue(keywordAtom);
+  const genres = useAtomValue(animeStore.selectedGenresAtom);
+  const category = useAtomValue(animeStore.selectedCategoryAtom);
+  const years = useAtomValue(animeStore.selectedYearsAtom);
+  const ending = useAtomValue(animeStore.isEndingAtom);
+  const keyword = useAtomValue(animeStore.keywordAtom);
 
   const size = 18;
   const sort = 'rank';
 
-  const [offset, setOffset] = useAtom(offsetAtom);
+  const [offset, setOffset] = useAtom(animeStore.offsetAtom);
   const [animeList, setAnimeList] = useState<AnimeG[]>([]);
   const [isNextPage, setIsNextPage] = useState(false);
   const [count, setCount] = useState(0);
 
-  const defaultQueryOptions = {
+  const animeListQueryOptions = {
     queryKey: ['animeList', genres, offset, years, ending, category, keyword],
     queryFn: () =>
       fetchAnimeList({ sort, genres, offset, size, years, ending, keyword }),
     refetchOnWindowFocus: false,
   };
 
-  const { isLoading, isError, isFetching, data } =
-    useQuery(defaultQueryOptions);
+  const { isLoading, isError, isFetching, data } = useQuery(
+    animeListQueryOptions,
+  );
 
   const likesQueryOptions = {
     queryKey: ['animeLikes'],
@@ -62,7 +66,9 @@ const AnimeList = () => {
       queryClient.invalidateQueries(['animeLikes']);
     },
     onError: (error) => {
-      alert(`toggleAnimeLike 오류가 발생했습니다. : ${error}`);
+      toast.error(`toggleAnimeLike 오류가 발생했습니다. : ${error}`, {
+        autoClose: 1000,
+      });
     },
   });
 
@@ -75,7 +81,9 @@ const AnimeList = () => {
 
   const handleLike = (anime_id: string) => {
     if (!user) {
-      alert('로그인 후 사용 가능합니다.');
+      toast.warning('로그인 후 찜해주세요!💗', {
+        autoClose: 1000,
+      });
       return;
     }
 
@@ -113,7 +121,6 @@ const AnimeList = () => {
   // 장르, 카테고리, 분기 선택 시 변경.
   useEffect(() => {
     return () => {
-      // console.log('클린업', offset);
       setOffset(0);
       setAnimeList([]);
     };
@@ -132,8 +139,6 @@ const AnimeList = () => {
     return <div>Anime List를 가져오는 중 오류가 발생했습니다.</div>;
   }
 
-  // console.log(animeList);
-
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
       <S.PageNameDiv>
@@ -144,7 +149,22 @@ const AnimeList = () => {
       <S.AnimeContainer>
         {/* 스켈레톤으로 변경하기! > mvp 종료 후에 */}
         {isLoading && !animeList.length ? (
-          <div>로딩중입니다.</div>
+          <>
+            <AnimeCardSkeleton />
+            <AnimeCardSkeleton />
+            <AnimeCardSkeleton />
+            <AnimeCardSkeleton />
+            <AnimeCardSkeleton />
+            <AnimeCardSkeleton />
+            <AnimeCardSkeleton />
+            <AnimeCardSkeleton />
+            <AnimeCardSkeleton />
+            <AnimeCardSkeleton />
+            <AnimeCardSkeleton />
+            <AnimeCardSkeleton />
+            <AnimeCardSkeleton />
+            <AnimeCardSkeleton />
+          </>
         ) : (
           animeList.map((anime: AnimeG) => (
             <AnimeCard
@@ -157,6 +177,7 @@ const AnimeList = () => {
           ))
         )}
       </S.AnimeContainer>
+      <ScrollToTop />
       {isNextPage && !isLoading && <S.Target ref={ref} />}
     </div>
   );

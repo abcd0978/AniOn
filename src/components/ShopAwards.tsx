@@ -32,15 +32,15 @@ const ShopAwardList = () => {
   const { data: awards, isLoading } = useQuery(awardsQueryOptions);
 
   // 보유중인 칭호 불러오기
-  const inventoryQueryOptions = {
-    queryKey: ['purchasedAwards'],
+  const myAwardsQueryOptions = {
+    queryKey: ['myAwards'],
     queryFn: () => fetchMyAwards(user!.id),
     refetchOnWindowFocus: false,
+    staleTime: 60 * 60,
     enabled: !!user,
   };
-  const { data: myAwards } = useQuery(inventoryQueryOptions);
 
-  console.log('my', myAwards);
+  const { data: myAwards } = useQuery(myAwardsQueryOptions);
   // 구매 후 invalidate를 위한 mutation
 
   // 구매 여부 판단을 위한 배열
@@ -107,7 +107,7 @@ const GridContainer = styled.div`
 //   margin-top: 40px;
 // `;
 
-const AwardName = styled.div`
+export const AwardName = styled.div`
   background-color: #efefef;
   padding: 8px;
   border-radius: 999px;
@@ -120,14 +120,15 @@ const AwardName = styled.div`
   display: flex;
   height: 48px;
   width: 210px;
-  padding: 8px;
+  padding: 12px;
   justify-content: center;
   align-items: center;
   gap: 8px;
   align-self: stretch;
+  margin: 10px;
 `;
 
-const AwardPrice = styled.div`
+export const AwardPrice = styled.div`
   color: #000;
   font-size: 14px;
   font-style: normal;
@@ -139,7 +140,7 @@ const AwardPrice = styled.div`
   height: 32px;
 `;
 
-const BuyButton = styled.button`
+export const BuyButton = styled.button`
   border-radius: 6px;
   border: 1px solid #c88fff;
   background-color: white;
@@ -159,7 +160,7 @@ const BuyButton = styled.button`
   }
 `;
 
-const ShopMenu = styled.div`
+export const ShopMenu = styled.div`
   display: flex;
   width: 220px;
   height: 32px;

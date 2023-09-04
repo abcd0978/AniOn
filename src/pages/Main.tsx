@@ -5,10 +5,7 @@ import React, {
   useState,
   useEffect,
 } from 'react';
-import BannerSlide from '../components/BannerSlide';
 import Banner from '../components/Banner';
-import Footer from '../components/Footer';
-import logo from '../assets/logo.svg';
 import styled from 'styled-components';
 import next from '../assets/next.svg';
 import prev from '../assets/prev.svg';
@@ -17,6 +14,7 @@ import useViewport from '../hooks/useViewPort';
 import { getAnimeRankings } from '../api/laftel';
 import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
+import MainCardSkeleton from '../components/MainCardSkeleton';
 import useEmblaCarousel, {
   EmblaCarouselType,
   EmblaOptionsType,
@@ -28,6 +26,7 @@ import hosino from '../assets/hosihoii.jpg';
 import gil from '../assets/gil.jpg';
 import cha from '../assets/cha.jpg';
 import jusul from '../assets/jusulgg.png';
+import ScrollToTop from '../components/ScrollToTop';
 // const BannerSlide: ReactNode[] = ['슬라이드1', '슬라이드2', '슬라이드3'];
 const smallCardHeight = 272;
 const BigCardHeight = 464;
@@ -38,10 +37,10 @@ interface ButtonProps {
 }
 const buttonStyle: CSSProperties = {
   zIndex: '1',
+  background: 'rgba(0,0,0,0)',
   WebkitAppearance: 'none',
   backgroundColor: 'transparent',
   touchAction: 'manipulation',
-  display: 'inline-flex',
   textDecoration: 'none',
   cursor: 'pointer',
   border: '0',
@@ -235,7 +234,11 @@ const Main = () => {
                 </div>
               </>
             ) : (
-              <></>
+              <>
+                <MainCardSkeleton width={BigCardHeight} />
+                <MainCardSkeleton width={BigCardHeight} />
+                <MainCardSkeleton width={BigCardHeight} />
+              </>
             )}
           </StMainCardContainer>
         </StMainCardContainerWithTypo>
@@ -262,21 +265,21 @@ const Main = () => {
             mediaWidth={width}
             style={{ alignContent: 'center' }}
           >
-            {dataW ? (
+            <div
+              className="embla"
+              style={{ maxWidth: `${width * 0.75}px` }}
+              ref={weeklyEmblaRef}
+            >
               <div
-                className="embla"
-                style={{ maxWidth: `${width * 0.75}px` }}
-                ref={weeklyEmblaRef}
+                className="embla__container"
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  gap: '16px',
+                }}
               >
-                <div
-                  className="embla__container"
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                    gap: '14px',
-                  }}
-                >
-                  {dataW.map((data, index) => {
+                {dataW ? (
+                  dataW.map((data, index) => {
                     return (
                       <div
                         onClick={() => navigate(`/recommend/${data.id}`)}
@@ -291,27 +294,58 @@ const Main = () => {
                         />
                       </div>
                     );
-                  })}
-                </div>
-                <StButtonContainer
-                  mediaWidth={width * 0.75}
-                  carouselHeight={smallCardHeight}
-                >
-                  <PrevButton
-                    onClickfunc={() => scrollPrevW(weeklyEmblaApi)}
-                    buttonStyle={buttonStyle}
-                    disabled={prevButtonDisabledW}
-                  />
-                  <NextButton
-                    onClickfunc={() => scrollNextW(weeklyEmblaApi)}
-                    buttonStyle={buttonStyle}
-                    disabled={nextButtonDisabledW}
-                  />
-                </StButtonContainer>
+                  })
+                ) : (
+                  <>
+                    <div className="embla__slide">
+                      <MainCardSkeleton width={smallCardHeight} />
+                    </div>
+                    <div className="embla__slide">
+                      <MainCardSkeleton width={smallCardHeight} />
+                    </div>
+                    <div className="embla__slide">
+                      <MainCardSkeleton width={smallCardHeight} />
+                    </div>
+                    <div className="embla__slide">
+                      <MainCardSkeleton width={smallCardHeight} />
+                    </div>
+                    <div className="embla__slide">
+                      <MainCardSkeleton width={smallCardHeight} />
+                    </div>
+                    <div className="embla__slide">
+                      <MainCardSkeleton width={smallCardHeight} />
+                    </div>
+                    <div className="embla__slide">
+                      <MainCardSkeleton width={smallCardHeight} />
+                    </div>
+                    <div className="embla__slide">
+                      <MainCardSkeleton width={smallCardHeight} />
+                    </div>
+                    <div className="embla__slide">
+                      <MainCardSkeleton width={smallCardHeight} />
+                    </div>
+                    <div className="embla__slide">
+                      <MainCardSkeleton width={smallCardHeight} />
+                    </div>
+                  </>
+                )}
               </div>
-            ) : (
-              <></>
-            )}
+              <StButtonContainer
+                mediaWidth={width * 0.75}
+                carouselHeight={smallCardHeight}
+              >
+                <PrevButton
+                  onClickfunc={() => scrollPrevW(weeklyEmblaApi)}
+                  buttonStyle={buttonStyle}
+                  disabled={prevButtonDisabledW}
+                />
+                <NextButton
+                  onClickfunc={() => scrollNextW(weeklyEmblaApi)}
+                  buttonStyle={buttonStyle}
+                  disabled={nextButtonDisabledW}
+                />
+              </StButtonContainer>
+            </div>
           </StMainCardContainer>
         </StMainCardContainerWithTypo>
       </StMainCardContainerContainer>
@@ -337,21 +371,21 @@ const Main = () => {
             mediaWidth={width}
             style={{ alignContent: 'center' }}
           >
-            {dataQ ? (
+            <div
+              className="embla"
+              style={{ maxWidth: `${width * 0.75}px` }}
+              ref={newEmblaRef}
+            >
               <div
-                className="embla"
-                style={{ maxWidth: `${width * 0.75}px` }}
-                ref={newEmblaRef}
+                className="embla__container"
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  gap: '16px',
+                }}
               >
-                <div
-                  className="embla__container"
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                    gap: '14px',
-                  }}
-                >
-                  {dataQ.map((data, index) => {
+                {dataQ ? (
+                  dataQ.map((data, index) => {
                     return (
                       <div
                         onClick={() => navigate(`/recommend/${data.id}`)}
@@ -366,31 +400,59 @@ const Main = () => {
                         />
                       </div>
                     );
-                  })}
-                </div>
-                <StButtonContainer
-                  mediaWidth={width * 0.75}
-                  carouselHeight={smallCardHeight}
-                >
-                  <PrevButton
-                    onClickfunc={() => scrollPrevN(newEmblaApi)}
-                    buttonStyle={buttonStyle}
-                    disabled={prevButtonDisabledN}
-                  />
-                  <NextButton
-                    onClickfunc={() => scrollNextN(newEmblaApi)}
-                    buttonStyle={buttonStyle}
-                    disabled={nextButtonDisabledN}
-                  />
-                </StButtonContainer>
+                  })
+                ) : (
+                  <>
+                    <div className="embla__slide">
+                      <MainCardSkeleton width={smallCardHeight} />
+                    </div>
+                    <div className="embla__slide">
+                      <MainCardSkeleton width={smallCardHeight} />
+                    </div>
+                    <div className="embla__slide">
+                      <MainCardSkeleton width={smallCardHeight} />
+                    </div>
+                    <div className="embla__slide">
+                      <MainCardSkeleton width={smallCardHeight} />
+                    </div>
+                    <div className="embla__slide">
+                      <MainCardSkeleton width={smallCardHeight} />
+                    </div>
+                    <div className="embla__slide">
+                      <MainCardSkeleton width={smallCardHeight} />
+                    </div>
+                    <div className="embla__slide">
+                      <MainCardSkeleton width={smallCardHeight} />
+                    </div>
+                    <div className="embla__slide">
+                      <MainCardSkeleton width={smallCardHeight} />
+                    </div>
+                    <div className="embla__slide">
+                      <MainCardSkeleton width={smallCardHeight} />
+                    </div>
+                  </>
+                )}
               </div>
-            ) : (
-              <></>
-            )}
+              <StButtonContainer
+                mediaWidth={width * 0.75}
+                carouselHeight={smallCardHeight}
+              >
+                <PrevButton
+                  onClickfunc={() => scrollPrevN(newEmblaApi)}
+                  buttonStyle={buttonStyle}
+                  disabled={prevButtonDisabledN}
+                />
+                <NextButton
+                  onClickfunc={() => scrollNextN(newEmblaApi)}
+                  buttonStyle={buttonStyle}
+                  disabled={nextButtonDisabledN}
+                />
+              </StButtonContainer>
+            </div>
           </StMainCardContainer>
         </StMainCardContainerWithTypo>
       </StMainCardContainerContainer>
-      <Footer />
+      <ScrollToTop />
     </>
   );
 };
@@ -403,14 +465,18 @@ const Main = () => {
 //   flex-direction: row;
 // `;
 
+const backgroundR: CSSProperties = {
+  background: 'linear-gradient( 90deg, rgba(0, 0, 0, 0) 10%,#000 100%  )',
+};
+const backgroundL: CSSProperties = {
+  background: 'linear-gradient( 90deg, #000 10%, rgba(0, 0, 0, 0) 100%  )',
+};
+
 const PrevButton = (props: ButtonProps) => {
   const { disabled, buttonStyle, onClickfunc } = props;
   const visibilty: CSSProperties = disabled ? { visibility: 'hidden' } : {};
   return (
-    <button
-      onClick={onClickfunc}
-      style={{ ...buttonStyle, ...visibilty, backgroundColor: 'black' }}
-    >
+    <button onClick={onClickfunc} style={{ ...buttonStyle, ...visibilty }}>
       <img src={prev} alt="prev" />
     </button>
   );
@@ -419,10 +485,7 @@ const NextButton = (props: ButtonProps) => {
   const { disabled, buttonStyle, onClickfunc } = props;
   const visibilty: CSSProperties = disabled ? { visibility: 'hidden' } : {};
   return (
-    <button
-      onClick={onClickfunc}
-      style={{ ...buttonStyle, ...visibilty, backgroundColor: 'black' }}
-    >
+    <button onClick={onClickfunc} style={{ ...buttonStyle, ...visibilty }}>
       <img src={next} alt="next" />
     </button>
   );

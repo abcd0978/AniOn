@@ -11,6 +11,7 @@ export type AwardsRow = {
   is_equipped: boolean;
   items: {
     name: string;
+    img_url?: string;
   };
 };
 
@@ -130,7 +131,7 @@ export const fetchEquippedItem = async (params: {
   try {
     const { data, error } = await supabase
       .from('inventory')
-      .select('*, items!inner(name)')
+      .select('*, items!inner(name,img_url)')
       .eq('items.category', params.category)
       .eq('user_id', params.user_id)
       .eq('is_equipped', true)
@@ -144,6 +145,37 @@ export const fetchEquippedItem = async (params: {
   } catch (error) {
     console.log('items.ts fetchEquippedTitle error > ', error);
     return '';
+  }
+};
+
+// 착용중인 아이템 전부
+export const fetchEquippedItems = async (user_id: string) => {
+  try {
+    const { data, error } = await supabase
+      .from('inventory')
+      .select('user_id,item_id, items!inner(name,img_url)')
+      .eq('user_id', user_id)
+      .eq('is_equipped', true)
+      .returns<
+        {
+          user_id: any;
+          item_id: any;
+          items: {
+            name: any;
+            img_url: any;
+          };
+        }[]
+      >();
+
+    if (error) {
+      console.log('items.ts fetchEquippedTitle error > ', error);
+      return [];
+    }
+    console.log('이큅드 아이템', data);
+    return data;
+  } catch (error) {
+    console.log('items.ts fetchEquippedTitle error > ', error);
+    return [];
   }
 };
 

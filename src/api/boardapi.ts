@@ -1,9 +1,14 @@
 import supabase from '../supabaseClient';
-import { Database } from '../types/supabase';
-type InsertPosts = Database['public']['Tables']['posts']['Insert'];
-type ReadPosts = Database['public']['Tables']['posts']['Row'];
-type UpdatePosts = Database['public']['Tables']['posts']['Update'];
-type InsertLike = Database['public']['Tables']['likes']['Insert'];
+import type { InsertPost, UpdatePost, InsertLike } from '../types/post';
+
+// 아래처럼 필터링 조건부로 처리하기
+// let query = supabase
+//   .from('cities')
+//   .select('name, country_id')
+
+// if (filterByName)  { query = query.eq('name', filterByName) }
+// if (filterPopLow)  { query = query.gte('population', filterPopLow) }
+// if (filterPopHigh) { query = query.lt('population', filterPopHigh) }
 
 //전체 post 불러오기 + 페이지네이션
 const getPosts = async (
@@ -13,31 +18,47 @@ const getPosts = async (
 ) => {
   try {
     const startIndex = (page - 1) * itemsPerPage;
+    if (category === '') {
+      let { data, error, count } = await supabase
+        .from('posts')
+        .select(
+          '*,users!inner(nickname,profile_img_url,inventory(id,items(name,img_url))),likes(*)',
+          {
+            count: 'exact',
+          },
+        )
+        .eq('users.inventory.is_equipped', true)
+        .order('created_at', { ascending: false })
+        .range(startIndex, startIndex + itemsPerPage - 1);
 
-    const { data, error } = await supabase
-      .from('posts')
-      .select('*,users(nickname,profile_img_url),likes(*)')
-      .order('created_at', { ascending: false })
-      .range(startIndex, startIndex + itemsPerPage - 1);
+      if (error) {
+        throw error;
+      }
 
-    if (error) {
-      throw error;
+      const totalPages = Math.ceil(count! / itemsPerPage);
+
+      return { data, totalPages, count };
+    } else {
+      const { data, error, count } = await supabase
+        .from('posts')
+        .select(
+          '*,users!inner(nickname,profile_img_url,inventory(id,items(name,img_url))),likes(*)',
+          {
+            count: 'exact',
+          },
+        )
+        .eq('category', category)
+        .eq('users.inventory.is_equipped', true)
+        .order('created_at', { ascending: false })
+        .range(startIndex, startIndex + itemsPerPage - 1);
+
+      if (error) {
+        throw error;
+      }
+      const totalPages = Math.ceil(count! / itemsPerPage);
+
+      return { data, totalPages, count };
     }
-
-    const { count } = await supabase
-      .from('posts')
-      .select('count', { count: 'exact' });
-
-    const totalPages = Math.ceil(count! / itemsPerPage);
-    // console.log('보드', data);
-    if (category) {
-      const filteredData = data.filter(
-        (post: ReadPosts) => post.category === category,
-      );
-      return { data: filteredData, totalPages };
-    }
-
-    return { data, totalPages };
   } catch (error) {
     console.error('게시물을 불러오는 중 에러 발생:', error);
     throw error;
@@ -48,14 +69,16 @@ const getPosts = async (
 const getPost = async (id: string) => {
   const { data } = await supabase
     .from('posts')
-    .select('*,users(nickname,profile_img_url)')
+    .select(
+      '*,users!inner(nickname,profile_img_url,inventory(id,items(name,img_url)))',
+    )
     .eq('id', id)
     .single();
   return data;
 };
 
 // Post 추가
-const createPost = async (newPost: InsertPosts) => {
+const createPost = async (newPost: InsertPost) => {
   await supabase.from('posts').insert(newPost);
 };
 
@@ -65,7 +88,7 @@ const deletePost = async (id: string): Promise<void> => {
 };
 
 //post 수정
-const updatePost = async (editPost: UpdatePosts): Promise<void> => {
+const updatePost = async (editPost: UpdatePost): Promise<void> => {
   try {
     const updatedFields = {
       title: editPost.title,
@@ -80,6 +103,7 @@ const updatePost = async (editPost: UpdatePosts): Promise<void> => {
   }
 };
 
+// post 상세 조회에서 join으로 가져오도록 수정해보자.
 // 좋아요 목록을 가져오는 함수
 const getLikesForPost = async (postId: string) => {
   const { data } = await supabase
@@ -124,6 +148,29 @@ const deleteLike = async (likeId: string) => {
   await supabase.from('likes').delete().eq('id', likeId);
 };
 
+// 검색
+const searchPost = async (keyword: string) => {
+  try {
+    const { data: posts, error } = await supabase
+      .from('posts')
+      .select(
+        '*,users!inner(nickname,profile_img_url,inventory(id,items(name,img_url))),likes(*)',
+      )
+      .or(
+        `content.ilike.%${keyword}%, title.ilike.%${keyword}%, users.nickname.ilike.%${keyword}%`,
+      )
+      .eq('users.inventory.is_equipped', true)
+      // .ilike('users.nickname', `%${keyword}%`)
+      .order('created_at', { ascending: false });
+    if (error) {
+      console.log('검색 에러', error);
+    }
+    return posts;
+  } catch (error) {
+    console.log('검색 에러', error);
+  }
+};
+
 export {
   createPost,
   deletePost,
@@ -134,4 +181,5 @@ export {
   createLike,
   deleteLike,
   getLikeForPost,
+  searchPost,
 };

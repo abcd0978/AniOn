@@ -5,6 +5,8 @@ import * as itemApi from '../../api/items';
 import * as userStore from '../../store/userStore';
 import * as modalStore from '../../store/modalStore';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import ProfileWithBorder from '../ProfileWithBorder';
+import { toast } from 'react-toastify';
 
 const PurchaseConfirmContents = () => {
   const queryClient = useQueryClient();
@@ -16,7 +18,7 @@ const PurchaseConfirmContents = () => {
   const purchaseMutation = useMutation(itemApi.purchase, {
     onSuccess: (data) => {
       if (!data.success) {
-        alert(data.msg);
+        toast.warning(data.msg, { autoClose: 1200 });
         return;
       }
       queryClient.invalidateQueries(['purchasedBorders']);
@@ -24,7 +26,7 @@ const PurchaseConfirmContents = () => {
       setModalContents('afterPurchase');
     },
     onError: (error) => {
-      alert(`구매에 실패하였습니다. : ${error}`);
+      toast.warning(`구매에 실패하였습니다. : ${error}`, { autoClose: 1200 });
     },
   });
 
@@ -45,22 +47,12 @@ const PurchaseConfirmContents = () => {
           <MiriBogi>미리보기</MiriBogi>
         </StTitleAndCloseButtonContainer>
         <StPreviewAndWords>
-          <div style={{ height: '160px' }}>
-            <StPreview background={borderContents?.img_url!}></StPreview>
-            <img
-              style={{
-                zIndex: '2',
-                position: 'relative',
-                width: '120px',
-                height: '120px',
-                borderRadius: '999px',
-                bottom: '130px', //여기수정
-                left: '20px', //여기수정
-              }}
-              src={user?.profile_img_url!}
-              alt="d"
-            />
-          </div>
+          <ProfileWithBorder
+            mediaWidth={1920}
+            width={160}
+            border_img_url={borderContents?.img_url}
+            profile_img_url={user?.profile_img_url!}
+          />
           <StPurchaseTitle>
             <div
               style={{
@@ -69,7 +61,7 @@ const PurchaseConfirmContents = () => {
                 placeSelf: 'center',
               }}
             >
-              <StBorderNameTypo>{borderContents?.title}</StBorderNameTypo>
+              <StBorderNameTypo>{borderContents?.name}</StBorderNameTypo>
               <p
                 style={{
                   color: '#000',
@@ -187,7 +179,7 @@ const StBorderNameTypo = styled.p`
 const StPrice = styled.p`
   text-align: -webkit-center;
   color: #000;
-  font-family: Pretendard-Regular
+  font-family: Pretendard-Regular;
   font-size: 16px;
   font-style: normal;
   font-weight: 700;

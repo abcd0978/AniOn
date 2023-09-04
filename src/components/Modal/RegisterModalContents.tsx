@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 import useViewport from '../../hooks/useViewPort';
 import { useAtom, useSetAtom } from 'jotai';
+import { toast } from 'react-toastify';
 import goBack from '../../assets/goBack.svg';
 import * as modalStore from '../../store/modalStore';
 import * as userStore from '../../store/userStore';
@@ -102,7 +103,6 @@ const LoginModalContents = (props: Props) => {
   const { width, height, isMobile, isLoaded } = useViewport();
   const joinUsHandler = async (e: any) => {
     e.preventDefault();
-    console.log('클릭됨');
     if (
       !email ||
       !password ||
@@ -137,10 +137,10 @@ const LoginModalContents = (props: Props) => {
 
       if (signUpResult.error) {
         console.error(signUpResult.error);
-        alert('에러, 서버오류일수있음');
+        toast.error('에러, 서버오류일수있음');
         return;
       }
-      alert('가입 되었습니다.');
+      toast.success('가입 되었습니다.');
       setModal(false);
       writeUser();
     } catch (error) {
@@ -223,7 +223,7 @@ const LoginModalContents = (props: Props) => {
                   }
                   if (await emailDupCheck(email)) {
                     setEmaildupChecked(true);
-                    alert('사용가능합니다.');
+                    toast.success('사용가능합니다.');
                     setEmailError(initialError);
                     return;
                   }
@@ -320,7 +320,7 @@ const LoginModalContents = (props: Props) => {
                     return;
                   }
                   if (await nicknameDupCheck(nickname)) {
-                    alert('사용가능합니다.');
+                    toast.success('사용가능합니다.');
                     setNicknameDupChecked(true);
                     setNicknameError(initialError);
                     return;
