@@ -156,9 +156,7 @@ const searchPost = async (keyword: string) => {
       .select(
         '*,users!inner(nickname,profile_img_url,inventory(id,items(name,img_url))),likes(*)',
       )
-      .or(
-        `content.ilike.%${keyword}%, title.ilike.%${keyword}%, users.nickname.ilike.%${keyword}%`,
-      )
+      .or(`users.nickname.ilike.%${keyword}%`)
       .eq('users.inventory.is_equipped', true)
       // .ilike('users.nickname', `%${keyword}%`)
       .order('created_at', { ascending: false });

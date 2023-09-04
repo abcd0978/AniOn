@@ -15,7 +15,7 @@ import {
 // type ReadAwards = Database['public']['Tables']['items']['Row'];
 
 const ShopAwardList = () => {
-  const queryClient = useQueryClient();
+  // const queryClient = useQueryClient();
   const [page, setPage] = useState<number>(1);
   const user = useAtomValue(userStore.user);
   const isModalOpened = useSetAtom(modalStore.isModalOpened);
@@ -41,7 +41,6 @@ const ShopAwardList = () => {
   };
 
   const { data: myAwards } = useQuery(myAwardsQueryOptions);
-  // 구매 후 invalidate를 위한 mutation
 
   // 구매 여부 판단을 위한 배열
   const purchasedItemIds = myAwards?.map((item) => item.item_id) || [];
