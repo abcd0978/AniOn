@@ -51,13 +51,13 @@ const ShopAwardList = () => {
         {isLoading && !awards
           ? [
               ...Array(16).map((_, index) => (
-                <div>
+                <AwardItem>
                   <AwardName></AwardName>
                   <ShopMenu>
                     <AwardPrice>포인트</AwardPrice>
                     <BuyButton>구매하기</BuyButton>
                   </ShopMenu>
-                </div>
+                </AwardItem>
               )),
             ]
           : awards
@@ -96,7 +96,7 @@ export default ShopAwardList;
 const GridContainer = styled.div`
   display: grid;
   grid-template-columns: auto auto auto auto;
-  gap: 10px;
+  gap: 50px;
   padding: 10px;
 `;
 
@@ -105,7 +105,9 @@ const GridContainer = styled.div`
 
 //   margin-top: 40px;
 // `;
-
+export const AwardItem = styled.div`
+  gap: 10px;
+`;
 export const AwardName = styled.div`
   background-color: #efefef;
   padding: 8px;

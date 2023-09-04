@@ -111,7 +111,7 @@ const LikedAnime = () => {
                     : animeTitles[like.anime_id].images!.length > 0
                     ? animeTitles[like.anime_id].images![0].img_url
                     : animeTitles[like.anime_id]?.img
-                  : undefined // or some default image URL if you have one.
+                  : undefined
               }
             />
 
