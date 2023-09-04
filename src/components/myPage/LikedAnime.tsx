@@ -103,7 +103,15 @@ const LikedAnime = () => {
             key={index}
             onClick={() => navigate(`/recommend/${like.anime_id}`)}
           >
-            <CardThumbnail src={animeTitles[like.anime_id]?.img} />
+            <CardThumbnail
+              src={
+                displayedAnime[like.anime_id]?.images?.length > 1
+                  ? displayedAnime[like.anime_id]?.images[1].img_url
+                  : displayedAnime[like.anime_id]?.images?.length > 0
+                  ? displayedAnime[like.anime_id]?.images[0].img_url
+                  : displayedAnime[like.anime_id]?.img
+              }
+            />
             <S.CardTitle>{animeTitles[like.anime_id]?.name}</S.CardTitle>
             <LikedInfo>
               {/* <S.HoverGenre key={like.id}>
