@@ -19,7 +19,7 @@ export const logoutUser = atom(null, (__, set) => {
 export const setBorder = atom(null, (get, set) => {});
 export const writeUser = atom(null, async (get, set) => {
   const session = await supabase.auth.getSession();
-  console.log(session);
+  // console.log(session);
   if (session.data.session) {
     const accessToken = session?.data?.session?.access_token;
     const userData = session?.data?.session?.user;

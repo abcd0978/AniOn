@@ -104,7 +104,7 @@ const WorldCupResult = () => {
           결과
         </S.WorldCupMainTitle>
         <R.WorldCupWinnerCard>
-          <S.WorldCupTest key={winner.id} height={666}>
+          <S.WorldCupResultTest key={winner.id} height={666}>
             <S.WorldCupUp>
               <R.WorldCupWinnerImg>
                 <img src={winner.img_url} />
@@ -114,7 +114,7 @@ const WorldCupResult = () => {
                 <S.WorldCupName>{winner.character_name}</S.WorldCupName>
               </R.WorldCupResultText>
             </S.WorldCupUp>
-          </S.WorldCupTest>
+          </S.WorldCupResultTest>
         </R.WorldCupWinnerCard>
         <R.WorldCupResultButtonBox>
           <R.WorldCupResultButton

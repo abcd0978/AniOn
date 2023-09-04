@@ -6,6 +6,7 @@ import * as userStore from '../../store/userStore';
 import * as modalStore from '../../store/modalStore';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import ProfileWithBorder from '../ProfileWithBorder';
+import { toast } from 'react-toastify';
 
 const PurchaseConfirmContents = () => {
   const queryClient = useQueryClient();
@@ -17,7 +18,7 @@ const PurchaseConfirmContents = () => {
   const purchaseMutation = useMutation(itemApi.purchase, {
     onSuccess: (data) => {
       if (!data.success) {
-        alert(data.msg);
+        toast.success(data.msg, { autoClose: 1200 });
         return;
       }
       queryClient.invalidateQueries(['purchasedBorders']);
@@ -25,7 +26,7 @@ const PurchaseConfirmContents = () => {
       setModalContents('afterPurchase');
     },
     onError: (error) => {
-      alert(`구매에 실패하였습니다. : ${error}`);
+      toast.warning(`구매에 실패하였습니다. : ${error}`, { autoClose: 1200 });
     },
   });
 
