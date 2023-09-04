@@ -15,6 +15,7 @@ import { Database } from '../../types/supabase';
 import { useAtomValue } from 'jotai';
 import { toast } from 'react-toastify';
 import { AniCommentType } from '../../types/comment';
+import { updatePoint } from '../../api/items';
 
 type ReadAniComment = Database['public']['Tables']['ani_comments']['Row'];
 type InsertAniComment = Database['public']['Tables']['ani_comments']['Insert'];
@@ -33,6 +34,8 @@ const AnimeDetailComments = () => {
   const addMutation = useMutation(addComment, {
     onSuccess: () => {
       queryClient.invalidateQueries(['ani_comments']);
+      updatePoint({ userId: user?.id!, point: 1 });
+      toast.success('리뷰가 작성되었습니다! 💰1포인트 적립)');
     },
   });
 

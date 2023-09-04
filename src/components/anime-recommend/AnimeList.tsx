@@ -164,6 +164,18 @@ const AnimeList = () => {
             <AnimeCardSkeleton />
             <AnimeCardSkeleton />
             <AnimeCardSkeleton />
+            <AnimeCardSkeleton />
+            <AnimeCardSkeleton />
+            <AnimeCardSkeleton />
+            <AnimeCardSkeleton />
+            <AnimeCardSkeleton />
+            <AnimeCardSkeleton />
+            <AnimeCardSkeleton />
+            <AnimeCardSkeleton />
+            <AnimeCardSkeleton />
+            <AnimeCardSkeleton />
+            <AnimeCardSkeleton />
+            <AnimeCardSkeleton />
           </>
         ) : (
           animeList.map((anime: AnimeG) => (

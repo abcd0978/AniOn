@@ -278,7 +278,27 @@ export const fetchItem = async (itemId: string): Promise<ItemRow> => {
     return null;
   }
 };
-
+//포인트 업데이트
+export const updatePoint = async (params: {
+  userId: string;
+  point: number;
+}) => {
+  const { error: rpcError } = await supabase.rpc('updatePoint', {
+    price: params.point,
+    userid: params.userId,
+  });
+  if (rpcError) {
+    console.log(rpcError);
+  }
+};
+export const makePoint = async (params: { userId: string }) => {
+  const { error } = await supabase
+    .from('point')
+    .insert({ user_id: params.userId, point: 100 });
+  if (error) {
+    console.log(error);
+  }
+};
 // 구매 ( 포인트 차감 )
 export const purchase = async (params: {
   user_id: string;

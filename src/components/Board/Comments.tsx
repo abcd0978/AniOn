@@ -18,6 +18,7 @@ import {
   InsertPostComment,
   UpdatePostComment,
 } from '../../types/comment';
+import { updatePoint } from '../../api/items';
 
 const Comments = () => {
   const { post_id } = useParams() as { post_id: string };
@@ -40,6 +41,8 @@ const Comments = () => {
   const addMutation = useMutation(addComment, {
     onSuccess: () => {
       queryClient.invalidateQueries(['post_comments']);
+      updatePoint({ userId: user?.id!, point: 1 });
+      toast.success('댓글이 작성되었습니다! 💰1포인트 적립');
     },
   });
 

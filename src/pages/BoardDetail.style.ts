@@ -149,10 +149,11 @@ const S = {
   `,
   User: styled.div`
     display: flex;
+    justify-content: space-between;
   `,
   UserInfo: styled.div`
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     margin-left: 13px;
   `,
 
@@ -168,7 +169,6 @@ const S = {
     background-color: white;
     cursor: pointer;
     display: flex;
-    width: 100%;
     height: 40px;
     justify-content: flex-end;
     padding: 10px;
