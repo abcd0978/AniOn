@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import * as userStore from '../store/userStore';
 import * as S from './Board.style';
-import { getPosts } from '../api/boardapi';
+import { getPosts, searchPost } from '../api/boardapi';
 import { Database } from '../types/supabase';
 import { useState } from 'react';
 import { atom, useAtom, useAtomValue } from 'jotai';
@@ -38,9 +38,11 @@ const Board = () => {
   };
   const handleAllClick = () => {
     setSelectedCategory('');
+    setPage(1);
   };
   const handleCategoryClick = (category: string) => {
     setSelectedCategory(category);
+    setPage(1);
   };
 
   const postQueryOptions = {
@@ -50,7 +52,7 @@ const Board = () => {
   };
 
   const { data: postsAndTotalPages, isFetching } = useQuery(postQueryOptions);
-  console.log('보드ㅜ', postsAndTotalPages);
+
   const onClickPage = (selected: number | string) => {
     if (page === selected) return;
     if (typeof selected === 'number') {
@@ -91,9 +93,10 @@ const Board = () => {
     navigate(`/board/${postId}`);
   };
 
-  const handleSearchSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSearchSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
+    const ppp = await searchPost(searchKeyword);
+    console.log('보드 검색', ppp);
     setSelectedCategory('');
     queryClient.invalidateQueries(['posts', null, searchKeyword]);
   };
