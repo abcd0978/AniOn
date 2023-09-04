@@ -140,7 +140,7 @@ const BoardDetail = () => {
         await deleteMutation.mutateAsync(id);
 
         // 페이지 이동
-        toast.warning('삭제되었습니다!', {
+        toast.success('삭제되었습니다!', {
           autoClose: 1000,
         });
         navigate('/board');
@@ -359,7 +359,6 @@ const BoardDetail = () => {
                       />
                       <S.UserInfo>
                         <S.Nickname>{post.users?.nickname}</S.Nickname>
-
                         <S.Award>
                           {post.users.inventory.length > 0
                             ? processItem(post.users.inventory).award

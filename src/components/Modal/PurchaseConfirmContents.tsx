@@ -18,7 +18,7 @@ const PurchaseConfirmContents = () => {
   const purchaseMutation = useMutation(itemApi.purchase, {
     onSuccess: (data) => {
       if (!data.success) {
-        toast.success(data.msg, { autoClose: 1200 });
+        toast.warning(data.msg, { autoClose: 1200 });
         return;
       }
       queryClient.invalidateQueries(['purchasedBorders']);
