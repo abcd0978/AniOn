@@ -6,6 +6,15 @@ import type {
   InsertLike,
 } from '../types/post';
 
+// 아래처럼 필터링 조건부로 처리하기
+// let query = supabase
+//   .from('cities')
+//   .select('name, country_id')
+
+// if (filterByName)  { query = query.eq('name', filterByName) }
+// if (filterPopLow)  { query = query.gte('population', filterPopLow) }
+// if (filterPopHigh) { query = query.lt('population', filterPopHigh) }
+
 //전체 post 불러오기 + 페이지네이션
 const getPosts = async (
   category?: string,
@@ -101,6 +110,7 @@ const updatePost = async (editPost: UpdatePost): Promise<void> => {
   }
 };
 
+// post 상세 조회에서 join으로 가져오도록 수정해보자.
 // 좋아요 목록을 가져오는 함수
 const getLikesForPost = async (postId: string) => {
   const { data } = await supabase
@@ -145,6 +155,31 @@ const deleteLike = async (likeId: string) => {
   await supabase.from('likes').delete().eq('id', likeId);
 };
 
+// 검색
+const searchPost = async (keyword: string) => {
+  console.log('검색', keyword);
+  try {
+    const { data: posts, error } = await supabase
+      .from('posts')
+      .select(
+        '*,users!inner(nickname,profile_img_url,inventory(id,items(name,img_url))),likes(*)',
+      )
+      .or(
+        `content.ilike.%${keyword}%, title.ilike.%${keyword}%, users.nickname.ilike.%${keyword}%`,
+      )
+      .eq('users.inventory.is_equipped', true)
+      // .ilike('users.nickname', `%${keyword}%`)
+      .order('created_at', { ascending: false });
+    console.log('검색 데이터', posts);
+    if (error) {
+      console.log('검색 에러', error);
+    }
+    return posts;
+  } catch (error) {
+    console.log('검색 에러', error);
+  }
+};
+
 export {
   createPost,
   deletePost,
@@ -155,4 +190,5 @@ export {
   createLike,
   deleteLike,
   getLikeForPost,
+  searchPost,
 };
