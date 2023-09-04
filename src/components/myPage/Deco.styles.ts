@@ -17,13 +17,14 @@ export const B = {
     align-items: center;
 
     justify-content: center;
-    margin-left: 150%;
+    margin-left: 100%;
     margin-top: 100%;
   `,
   GoIcon: styled.img`
-    width: 70%;
+    width: 50%;
     height: auto;
     object-fit: cover;
+    margin: 10px;
   `,
 
   NoneButton: styled.div`
@@ -58,7 +59,6 @@ export const B = {
     background-color: white;
     border-radius: 6px;
     border: 1px solid #c88fff;
-    // float: right;
     cursor: pointer;
     &:hover {
       background-color: #c88fff;
@@ -74,8 +74,8 @@ export const B = {
   BorderContainer: styled.div`
     display: flex;
     flex-direction: column;
-    align-items: stretch;
-    margin: 10px;
+    margin: -50px;
+    margin-top: 50px;
   `,
   ButtonContainer: styled.div`
     display: flex;
@@ -83,6 +83,11 @@ export const B = {
     align-items: center;
     position: relative;
     margin-top: 10px;
+    margin-right: 100px;
+  `,
+  ItemBox: styled.div`
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
   `,
 };
 export const A = {
