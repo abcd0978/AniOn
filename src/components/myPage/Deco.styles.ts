@@ -26,7 +26,17 @@ export const B = {
     object-fit: cover;
     margin: 10px;
   `,
-
+  BorderImg: styled.img`
+    width: 250px;
+    height: auto;
+    object-fit: cover;
+    margin: 20px;
+  `,
+  Number: styled.div`
+    width: 100%;
+    height: 80%;
+    background-size: cover;
+  `,
   NoneButton: styled.div`
     background-color: #8200ff;
     color: #fff;
@@ -51,11 +61,11 @@ export const B = {
     object-fit: cover;
   `,
   Equip: styled.button`
-    position: absolute;
-    right: 100px;
+    position: RELATIVE;
+    left: 150px;
+    top: -30px;
     width: 80px;
     height: 30px;
-    margin-top: 5px;
     background-color: white;
     border-radius: 6px;
     border: 1px solid #c88fff;
@@ -72,10 +82,9 @@ export const B = {
     }
   `,
   BorderContainer: styled.div`
-    display: flex;
-    flex-direction: column;
-    margin: -50px;
-    margin-top: 50px;
+    width: 268px;
+    height: 300px;
+    margin-bottom: 5px;
   `,
   ButtonContainer: styled.div`
     display: flex;
@@ -88,6 +97,19 @@ export const B = {
   ItemBox: styled.div`
     display: grid;
     grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  `,
+  Container: styled.div`
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  `,
+  BorderName: styled.div`
+    width: 100%;
+    height: 20%;
+    background-color: white;
+    margin-top: 5px;
+    line-height: 25px;
   `,
 };
 export const A = {

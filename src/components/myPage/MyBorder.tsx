@@ -86,16 +86,16 @@ const MyBorder = () => {
   console.log(filteredBorders);
   const borderList =
     Array.isArray(filteredBorders) && filteredBorders.length > 0 ? (
-      <B.ItemBox>
+      <B.Container>
         {filteredBorders.map((filteredBorders, index) => (
-          <B.BorderContainer key={index}>
-            <BorderItem>
-              <B.GoIcon
+          <div key={index}>
+            <div>
+              <B.BorderImg
                 src={filteredBorders.items?.img_url}
                 alt={filteredBorders.items?.name}
               />
-              <B.ButtonContainer>
-                <S.Number>{filteredBorders.items?.name}</S.Number>
+              <div>
+                <B.BorderName>{filteredBorders.items?.name}</B.BorderName>
 
                 <B.Equip
                   onClick={() =>
@@ -104,11 +104,11 @@ const MyBorder = () => {
                 >
                   장착
                 </B.Equip>
-              </B.ButtonContainer>
-            </BorderItem>
-          </B.BorderContainer>
+              </div>
+            </div>
+          </div>
         ))}
-      </B.ItemBox>
+      </B.Container>
     ) : (
       <B.NoneContainer mediaWidth={width}>
         <B.NoneMessage>구매한 테두리가 없습니다.</B.NoneMessage>
@@ -123,7 +123,7 @@ const MyBorder = () => {
       </B.NoneContainer>
     );
   return (
-    <Outer>
+    <div>
       {borderList}
       <BorderPage>
         <Pagination
@@ -134,7 +134,7 @@ const MyBorder = () => {
           isNextDisabled={currentPage >= totalPages}
         />
       </BorderPage>
-    </Outer>
+    </div>
   );
 };
 
@@ -145,8 +145,9 @@ export const BorderPage = styled.div`
   margin-top: 30px;
 `;
 export const BorderItem = styled.div`
-  margin: 10px;
+  margin: 5px;
   gap: 0px;
+  width: 400px;
 `;
 export const Outer = styled.div`
   width: 1430px;
