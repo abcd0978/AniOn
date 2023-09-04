@@ -52,10 +52,10 @@ let slideStyle: CSSProperties = {
 
 export const Banner = (props: PropType) => {
   const { options, slides } = props;
-  // const [emblaRef, emblaApi] = useEmblaCarousel(options, [
-  //   Autoplay({ stopOnInteraction: false }),
-  // ]);
-  const [emblaRef, emblaApi] = useEmblaCarousel(options);
+  const [emblaRef, emblaApi] = useEmblaCarousel(options, [
+    Autoplay({ stopOnInteraction: false }),
+  ]);
+  //const [emblaRef, emblaApi] = useEmblaCarousel(options);
   const [nextButtonDisabled, setNextButtonDisabled] = useState(true);
   const [prevButtonDisabled, setPrevButtonDisabled] = useState(true);
   const [selectedIndex, setSelectedIndex] = useState(0);

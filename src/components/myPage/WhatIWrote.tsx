@@ -53,11 +53,11 @@ const WhatIWrote = () => {
       return;
     }
     if (selected === 'prev' && page > 1) {
-      setPage((prev: any) => prev - 1);
+      setPage((prev: number) => prev - 1);
       return;
     }
     if (selected === 'next' && postsAndTotalPages?.totalPages) {
-      setPage((prev: any) => prev + 1);
+      setPage((prev: number) => prev + 1);
       return;
     }
   };

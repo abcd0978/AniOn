@@ -90,12 +90,6 @@ const WorldCupResult = () => {
   if (isResultError) {
     return <div>데이터를 가져오지 못했습니다..😥</div>;
   }
-
-  // console.log('요기짱들이여', topRank);
-  // console.log('하위들', otherRank);
-  // console.log('🙉🙉', totalResult);
-  // console.log('😑😐', winnerCount[0]);
-  // console.log('?????????', winner);
   return (
     <S.WorldCupContainer>
       <div>
