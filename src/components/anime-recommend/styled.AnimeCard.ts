@@ -14,15 +14,14 @@ export const HoverInfo = styled.div`
 
 export const S = {
   CardDiv: styled.div`
-    position: relative;
+    position: relative; // hover 요소들을 absolute로 사용하기 위해 사용
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     padding: 0px;
-    margin-right: 180px;
-    margin-bottom: 20px;
-    width: 90%;
-    height: 90%;
+    gap: 4px;
+    width: 100%;
+    height: 100%;
 
     :hover img:not(.viewDetail) {
       -webkit-transition: 0.3s ease-in-out;
