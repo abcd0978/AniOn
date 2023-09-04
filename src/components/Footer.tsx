@@ -36,7 +36,7 @@ export default Footer;
 
 const Stfooter = styled.div<{ width: number }>`
   width: ${(props) => props.width}px;
-  height: 200px;
+  height: 170px;
   background-color: #f9f3ff;
   display: flex;
   flex-direction: row;
@@ -47,11 +47,10 @@ const Stfooter = styled.div<{ width: number }>`
 `;
 const StFooterInner = styled.div`
   width: 90%;
-  height: 180px;
+  height: 170px;
   background-color: #f9f3ff;
   display: flex;
   flex-direction: row;
-  margin-top: 10px;
 `;
 const StFooterLeft = styled.div`
   font-size: 15px;

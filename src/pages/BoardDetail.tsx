@@ -2,6 +2,7 @@ import React, { useEffect, useMemo } from 'react';
 import Comments from '../components/Board/Comments';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAtomValue } from 'jotai';
+import ScrollToTop from '../components/ScrollToTop';
 import { Database } from '../types/supabase';
 import EditorComponent from '../components/editor/EditorComponent';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
@@ -220,9 +221,24 @@ const BoardDetail = () => {
     navigate('/board'); // '/board'
   };
 
+  //칭호 가져오기
+  const getUserTitle = (user: any) => {
+    if (user.inventory && user.inventory?.length > 0) {
+      const titleItem = user.inventory[0];
+
+      if (titleItem.items && titleItem.items.name) {
+        return titleItem.items.name;
+      }
+    }
+    //없으면
+    return '칭호없음';
+  };
+
   return (
-    <S.Layout>
+    // <S.Layout>
+    <>
       <S.TopTitle>게시판</S.TopTitle>
+
       <S.Post>
         {!isEdit && (
           <>
@@ -266,103 +282,129 @@ const BoardDetail = () => {
           </>
         )}
       </S.Post>
-      {post ? (
-        <>
-          {user?.id === post.user_id && (
-            <S.ButtonContainer>
-              <S.Button
-                onClick={() => {
-                  if (isEdit) {
-                    editButton(post);
-                  } else {
-                    deleteButton(post.id!);
-                  }
-                }}
-                style={{
-                  backgroundColor: isEdit ? '#dddddd' : '#dddddd',
-                  color: isEdit ? 'black' : 'black',
-                }}
-              >
-                {isEdit ? '취소' : '삭제'}
-              </S.Button>
-              <S.Button
-                onClick={() => editButton(post)}
-                style={{
-                  backgroundColor: isEdit ? '#8200FF' : '#dddddd',
-                  color: isEdit ? 'white' : 'black',
-                }}
-              >
-                {isEdit ? '저장' : '수정'}
-              </S.Button>
-            </S.ButtonContainer>
+
+      <S.Container>
+        <S.Inner>
+          {post ? (
+            <>
+              {user?.id === post.user_id && (
+                <S.ButtonContainer>
+                  <S.Button
+                    onClick={() => {
+                      if (isEdit) {
+                        editButton(post);
+                      } else {
+                        deleteButton(post.id!);
+                      }
+                    }}
+                    style={{
+                      backgroundColor: isEdit ? '#dddddd' : '#dddddd',
+                      color: isEdit ? 'black' : 'black',
+                    }}
+                  >
+                    {isEdit ? '취소' : '삭제'}
+                  </S.Button>
+                  <S.Button
+                    onClick={() => editButton(post)}
+                    style={{
+                      backgroundColor: isEdit ? '#8200FF' : '#dddddd',
+                      color: isEdit ? 'white' : 'black',
+                    }}
+                  >
+                    {isEdit ? '저장' : '수정'}
+                  </S.Button>
+                </S.ButtonContainer>
+              )}
+
+              <S.PostContainer key={post.id}>
+                {isEdit ? (
+                  <S.Box>
+                    <S.Select
+                      value={editCategory}
+                      onChange={(e) => setEditCategory(e.target.value)}
+                    >
+                      <option value="애니">애니</option>
+                      <option value="자유">자유</option>
+                      <option value="오류 신고">오류 신고</option>
+                    </S.Select>
+                  </S.Box>
+                ) : (
+                  <S.Category></S.Category>
+                )}
+                {isEdit ? (
+                  <S.Box>
+                    <S.Input value={title} onChange={onChangeTitle} />
+                  </S.Box>
+                ) : (
+                  // <S.Box>
+                  <>
+                    <S.Top>
+                      <S.Title>{title}</S.Title>
+                      <S.Date>
+                        {new Date(post.created_at).toLocaleString()}
+                      </S.Date>
+                    </S.Top>
+
+                    <S.User>
+                      <ProfileWithBorder
+                        width={90}
+                        mediaWidth={1920}
+                        border_img_url={
+                          post.users.inventory.length > 0
+                            ? processItem(post.users.inventory).border
+                            : undefined
+                        }
+                        profile_img_url={post.users?.profile_img_url}
+                        key={post.id!}
+                      />
+                      <S.UserInfo>
+                        <S.Nickname>{post.users?.nickname}</S.Nickname>
+
+                        <S.Award>
+                          {post.users.inventory.length > 0
+                            ? processItem(post.users.inventory).award
+                            : '칭호 없음'}
+                        </S.Award>
+                      </S.UserInfo>
+                      <S.Like onClick={toggleLike}>
+                        {like?.length ? (
+                          <S.Img src={filledLike} alt="좋아요" />
+                        ) : (
+                          <S.Img src={borderLike} alt="좋아요 취소" />
+                        )}
+                      </S.Like>
+                    </S.User>
+
+                    {/* </S.Box> */}
+                  </>
+                )}
+
+                {isEdit ? null : <S.Line></S.Line>}
+
+                {isEdit ? (
+                  <S.EditBox>
+                    <EditorComponent value={content} onChange={setContent} />
+                  </S.EditBox>
+                ) : (
+                  <S.Content
+                    dangerouslySetInnerHTML={{ __html: post.content }}
+                  ></S.Content>
+                )}
+              </S.PostContainer>
+
+              <S.Comment>{!isEdit && <Comments />}</S.Comment>
+            </>
+          ) : (
+            <div>Loading...</div>
           )}
-
-          <S.PostContainer key={post.id}>
-            {isEdit ? (
-              <S.Box>
-                <S.Select
-                  value={editCategory}
-                  onChange={(e) => setEditCategory(e.target.value)}
-                >
-                  <option value="애니">애니</option>
-                  <option value="자유">자유</option>
-                  <option value="오류 신고">오류 신고</option>
-                </S.Select>
-              </S.Box>
-            ) : (
-              <S.Category></S.Category>
-            )}
-            {isEdit ? (
-              <S.Box>
-                <S.Input value={title} onChange={onChangeTitle} />
-              </S.Box>
-            ) : (
-              <S.Box>
-                <S.Date> {new Date(post.created_at).toLocaleString()}</S.Date>
-                <S.Like onClick={toggleLike}>
-                  {like?.length ? (
-                    <img src={filledLike} alt="좋아요" />
-                  ) : (
-                    <img src={borderLike} alt="좋아요 취소" />
-                  )}
-                </S.Like>
-                <S.Title>{title}</S.Title>
-
-                <S.User>
-                  <ProfileWithBorder
-                    width={90}
-                    mediaWidth={1920}
-                    border_img_url={
-                      post.users.inventory.length > 0
-                        ? processItem(post.users.inventory).border
-                        : undefined
-                    }
-                    profile_img_url={post.users?.profile_img_url}
-                    key={post.id!}
-                  />
-                  <S.Nickname>{post.users?.nickname}</S.Nickname>
-                </S.User>
-              </S.Box>
-            )}
-
-            {isEdit ? (
-              <S.Box>
-                <EditorComponent value={content} onChange={setContent} />
-              </S.Box>
-            ) : (
-              <S.Content
-                dangerouslySetInnerHTML={{ __html: post.content }}
-              ></S.Content>
-            )}
-          </S.PostContainer>
-
-          {!isEdit && <Comments />}
-          <S.ListButton onClick={handleListClick}>목록</S.ListButton>
-        </>
-      ) : (
-        <div>Loading...</div>
-      )}
-    </S.Layout>
+          {isEdit ? null : (
+            <S.ListButton onClick={handleListClick}>목록</S.ListButton>
+          )}
+          <ScrollToTop />
+        </S.Inner>
+      </S.Container>
+      {/* </S.Layout> */}
+    </>
   );
 };
 
