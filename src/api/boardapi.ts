@@ -1,10 +1,5 @@
 import supabase from '../supabaseClient';
-import type {
-  PostType,
-  InsertPost,
-  UpdatePost,
-  InsertLike,
-} from '../types/post';
+import type { InsertPost, UpdatePost, InsertLike } from '../types/post';
 
 // 아래처럼 필터링 조건부로 처리하기
 // let query = supabase
@@ -24,7 +19,6 @@ const getPosts = async (
   try {
     const startIndex = (page - 1) * itemsPerPage;
     if (category === '') {
-      console.log('전체');
       let { data, error, count } = await supabase
         .from('posts')
         .select(
@@ -45,7 +39,6 @@ const getPosts = async (
 
       return { data, totalPages, count };
     } else {
-      console.log(category);
       const { data, error, count } = await supabase
         .from('posts')
         .select(
@@ -157,7 +150,6 @@ const deleteLike = async (likeId: string) => {
 
 // 검색
 const searchPost = async (keyword: string) => {
-  console.log('검색', keyword);
   try {
     const { data: posts, error } = await supabase
       .from('posts')
@@ -170,7 +162,6 @@ const searchPost = async (keyword: string) => {
       .eq('users.inventory.is_equipped', true)
       // .ilike('users.nickname', `%${keyword}%`)
       .order('created_at', { ascending: false });
-    console.log('검색 데이터', posts);
     if (error) {
       console.log('검색 에러', error);
     }

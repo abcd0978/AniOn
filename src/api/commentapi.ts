@@ -24,8 +24,6 @@ const fetchComments = async (post_id: string, page: number) => {
       .range(startIndex, startIndex + itemsPerPage - 1)
       .returns<CommentType[]>();
 
-    console.log(data);
-    console.log(error);
     const totalPages: number = Math.ceil(count! / itemsPerPage);
 
     if (error) {

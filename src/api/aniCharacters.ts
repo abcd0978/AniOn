@@ -1,6 +1,5 @@
 import { ResultCharacterType } from '../pages/WorldCupResult';
 import supabase from '../supabaseClient';
-// import { Database } from '../types/supabase';
 
 const fetchCharacter = async (gender: string) => {
   const { data } = await supabase
@@ -38,8 +37,6 @@ const updateNumOfWin = async (id: string): Promise<void> => {
       .update({ num_of_win: currentNumOfWin + 1 })
       .eq('character_id', id);
   }
-
-  // console.log('update!!!');
 };
 
 // 이상형 월드컵 결과 가져오기
@@ -64,7 +61,6 @@ const winnerResult = async (gender: string) => {
     (acc: number, curr: number) => acc + curr,
     0,
   );
-  // console.log('winner api!!!!');
   return [sortedData, total];
 };
 

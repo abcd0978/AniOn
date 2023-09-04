@@ -88,9 +88,6 @@ function Header({}: Props) {
   ];
   return (
     <>
-      {/* <button onClick={() => itemApi.fetchEquippedItems(user?.id!)}>
-        testtesttesttest
-      </button> */}
       {isModalOpened && <Modal>{modalContentsFunc(modalContents)}</Modal>}
       <StHeader mediaWidth={width}>
         <StHeaderContainer>
@@ -210,6 +207,7 @@ const StHeader = styled.header<{ mediaWidth: number }>`
   background: var(--achromatic-colors-white, #fff);
   box-shadow: 0px 0px 16px 0px rgba(0, 0, 0, 0.06);
   backdrop-filter: blur(25px);
+  z-index: 4;
   //border-bottom: solid 1px #d9d9d9;
 `;
 const StHeaderContainer = styled.div`
@@ -227,19 +225,7 @@ const StHeaderLogoSection = styled.div`
   // height: 100%;
   margin-right: 40px;
 `;
-const StPreview = styled.div<{ background: string }>`
-  z-index: 3;
-  position: absolute;
-  background-image: url(${(props) => props.background});
-  background-size: cover;
-  display: flex;
-  width: 100%;
-  height: 100%;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-  flex-shrink: 0;
-`;
+
 const StHeaderMenuSection = styled.div`
   width: 75%;
   height: 100%;
@@ -273,21 +259,10 @@ const StHeaderUserInfoContainer = styled.div`
   justify-content: space-between;
   gap: 8px;
 `;
-const StHeaderUserProfile = styled.img<{ mediaWidth: number }>`
-  width: calc(100% / 1.28787);
-  height: calc(100% / 1.28787);
-  object-fit: cover;
-  border-radius: 50%;
-  position: absolute;
-  background: #d9d9d9;
-  top: 12.5%;
-  left: 12.5%;
-  z-index: 2;
-`;
+
 const StHeaderUserInfo = styled.div`
   display: flex;
   flex-direction: column;
-
   gap: 2px;
 `;
 const StHeaderUserName = styled.p`
@@ -333,10 +308,5 @@ const StblackBar = styled.div`
   flex-shrink: 0;
   background: #4f4f4f;
 `;
-const StProfileContainer = styled.div<{ mediaWidth: number }>`
-  ${(props) =>
-    `width:${80 * (props.mediaWidth / 1920)}px;
-    height:${80 * (props.mediaWidth / 1920)}px;`}
-  position: relative;
-`;
+
 export default Header;

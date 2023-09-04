@@ -1,6 +1,5 @@
 import supabase from '../supabaseClient';
 import { Database } from '../types/supabase';
-type ReadAniComment = Database['public']['Tables']['ani_comments']['Row'];
 type InsertAniComment = Database['public']['Tables']['ani_comments']['Insert'];
 type UpdateAniComment = Database['public']['Tables']['ani_comments']['Update'];
 

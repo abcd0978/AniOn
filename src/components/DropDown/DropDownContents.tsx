@@ -70,5 +70,6 @@ const StDropdownMenu = styled.div<{ order: number; mediaWidth: number }>`
       return `border-radius: 0px 0px 14px 14px;`;
     }
   }}
+  z-index:9;
 `;
 export default DropDownContents;
