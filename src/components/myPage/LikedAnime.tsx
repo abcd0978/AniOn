@@ -105,13 +105,13 @@ const LikedAnime = () => {
           >
             <CardThumbnail
               src={
-                animeTitles[like.anime_id] && animeTitles[like.anime_id].images
-                  ? animeTitles[like.anime_id].images.length > 1
-                    ? animeTitles[like.anime_id].images[1].img_url
-                    : animeTitles[like.anime_id].images.length > 0
-                    ? animeTitles[like.anime_id].images[0].img_url
+                animeTitles[like.anime_id] && animeTitles[like.anime_id].images!
+                  ? animeTitles[like.anime_id].images!.length > 1
+                    ? animeTitles[like.anime_id].images![1].img_url
+                    : animeTitles[like.anime_id].images!.length > 0
+                    ? animeTitles[like.anime_id].images![0].img_url
                     : animeTitles[like.anime_id]?.img
-                  : undefined
+                  : undefined // or some default image URL if you have one.
               }
             />
 
