@@ -9,7 +9,11 @@ import useViewport from '../../hooks/useViewPort';
 import { useNavigate } from 'react-router-dom';
 import React, { useState } from 'react';
 import Pagination from '../Pagenation';
+
 import { toast } from 'react-toastify';
+
+import { Page } from './MyInvenAward';
+import { styled } from 'styled-components';
 
 const itemsPerPage = 15;
 
@@ -119,15 +123,21 @@ const MyBorder = () => {
   return (
     <S.Outer>
       {borderList}
-      <Pagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        onClick={handlePageChange}
-        isPreviousDisabled={currentPage === 1}
-        isNextDisabled={currentPage >= totalPages}
-      />
+      <BorderPage>
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onClick={handlePageChange}
+          isPreviousDisabled={currentPage === 1}
+          isNextDisabled={currentPage >= totalPages}
+        />
+      </BorderPage>
     </S.Outer>
   );
 };
 
 export default MyBorder;
+export const BorderPage = styled.div`
+  display: flex;
+  justify-content: center;
+`;

@@ -49,7 +49,7 @@ const MyInvenAward = () => {
 
     applyAwardMutation.mutate({ user_id: user.id, item_id, category: 1 });
   };
-  const totalPages = Math.ceil(awards!.length / itemsPerPage);
+  const totalPages = awards ? Math.ceil(awards.length / itemsPerPage) : 0;
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const handlePageChange = (selected: number | string) => {
@@ -88,13 +88,15 @@ const MyInvenAward = () => {
   return (
     <div>
       <GridContainer>{awardsList}</GridContainer>
-      <Pagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        onClick={handlePageChange}
-        isPreviousDisabled={currentPage === 1}
-        isNextDisabled={currentPage >= totalPages}
-      />
+      <Page>
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onClick={handlePageChange}
+          isPreviousDisabled={currentPage === 1}
+          isNextDisabled={currentPage >= totalPages}
+        />
+      </Page>
     </div>
   );
 };
@@ -107,4 +109,9 @@ const GridContainer = styled.div`
   grid-template-columns: auto auto auto auto;
   gap: 10px;
   padding: 10px;
+`;
+export const Page = styled.div`
+  display: flex;
+  justify-content: right;
+  align-items: center;
 `;

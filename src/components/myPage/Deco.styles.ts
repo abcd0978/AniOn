@@ -75,7 +75,7 @@ export const B = {
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    margin: -10px;
+    margin: 10px;
   `,
   ButtonContainer: styled.div`
     display: flex;

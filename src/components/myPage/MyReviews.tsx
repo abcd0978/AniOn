@@ -13,6 +13,8 @@ import { useQuery } from '@tanstack/react-query';
 import { getAnimeById } from '../../api/laftel';
 import { useParams } from 'react-router-dom';
 import ReviewSkeleton from './MyReviewSkeleton';
+import { Page } from './MyInvenAward';
+import { styled } from 'styled-components';
 
 const supabaseUrl = process.env.REACT_APP_SUPABASE_URL;
 const supabaseAnonKey = process.env.REACT_APP_ANON_KEY;
@@ -147,16 +149,22 @@ const MyReviews = () => {
             </li>
           ))
         )}
-        <Pagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onClick={handlePageChange}
-          isPreviousDisabled={currentPage === 1}
-          isNextDisabled={currentPage >= totalPages}
-        />
+        <ReviewPage>
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onClick={handlePageChange}
+            isPreviousDisabled={currentPage === 1}
+            isNextDisabled={currentPage >= totalPages}
+          />
+        </ReviewPage>
       </Review.Outer>
     </Container>
   );
 };
 
 export default MyReviews;
+export const ReviewPage = styled.div`
+  display: flex;
+  justify-content: center;
+`;
