@@ -10,6 +10,8 @@ import useInput from '../../hooks/useInput';
 import supabase from '../../supabaseClient';
 import loadingSpinner from '../../assets/loadingSpinner.svg';
 import * as authApi from '../../api/auth';
+import * as itemApi from '../../api/items';
+import { updatePoint } from '../../api/items';
 /******************상수와 타입들****************/
 type ErrorType = {
   error: boolean;
@@ -127,7 +129,7 @@ const LoginModalContents = (props: Props) => {
           nickname + Math.random().toString()
         }?d=identicon`,
       };
-      const signUpResult: any = await supabase.auth.signUp({
+      const { data, error } = await supabase.auth.signUp({
         email,
         password,
         options: {
@@ -135,14 +137,15 @@ const LoginModalContents = (props: Props) => {
         },
       });
 
-      if (signUpResult.error) {
-        console.error(signUpResult.error);
+      if (error) {
+        console.error(error);
         toast.error('에러, 서버오류일수있음');
         return;
       }
-      toast.success('가입 되었습니다.');
       setModal(false);
-      writeUser();
+      await writeUser();
+      await itemApi.makePoint({ userId: data!.user!.id });
+      toast.success('가입 되었습니다. 신규회원 100P증정!');
     } catch (error) {
       console.error(error);
     } finally {

@@ -66,6 +66,7 @@ const S = {
     float: right;
     color: gray;
     margin-right: -60px;
+    margin-bottom: 10px;
   `,
 
   Box: styled.div`
@@ -148,10 +149,11 @@ const S = {
   `,
   User: styled.div`
     display: flex;
+    justify-content: space-between;
   `,
   UserInfo: styled.div`
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     margin-left: 13px;
   `,
 
@@ -167,6 +169,9 @@ const S = {
     background-color: white;
     cursor: pointer;
     display: flex;
+    height: 40px;
+    justify-content: flex-end;
+    padding: 10px;
   `,
   Img: styled.img`
     background-color: white;
@@ -243,7 +248,7 @@ const S = {
     height: 36px;
     padding: 8px 12px;
     align-items: center;
-    justify-contents: center;
+    justify-content: center;
     gap: 8px;
     border-radius: 999px;
     background: #f4f4f4;

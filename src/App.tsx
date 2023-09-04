@@ -8,7 +8,7 @@ const queryClient = new QueryClient();
 function App() {
   return (
     <>
-      <ToastContainer position="top-center" hideProgressBar={true} />
+      <ToastContainer position="top-center" hideProgressBar={true} limit={1} />
       <QueryClientProvider client={queryClient}>
         <Router />
       </QueryClientProvider>
