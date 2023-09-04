@@ -7,7 +7,7 @@ import type {
 } from '../types/comment';
 
 const fetchComments = async (post_id: string, page: number) => {
-  const itemsPerPage = 5;
+  const itemsPerPage = 6;
   const startIndex = (page - 1) * itemsPerPage;
   try {
     const { data, count, error } = await supabase
