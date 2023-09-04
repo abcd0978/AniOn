@@ -6,11 +6,15 @@ import { useEffect, useState } from 'react';
 import vs from '../../assets/vs.svg';
 import { Database } from '../../types/supabase';
 import { useNavigate } from 'react-router-dom';
+import { updatePoint } from '../../api/items';
+import * as userStore from '../../store/userStore';
+import { useAtomValue } from 'jotai';
+import { toast } from 'react-toastify';
 type ReadCharacters = Database['public']['Tables']['characters']['Row'];
 
 function AniWorldCup() {
   const { gender } = useParams() as { gender: string };
-
+  const user = useAtomValue(userStore.user);
   const navigate = useNavigate();
 
   const [characters, setCharacters] = useState<ReadCharacters[]>([]);
@@ -73,6 +77,10 @@ function AniWorldCup() {
       if (winners.length === 0) {
         await updateNumOfWin(character.id);
         setDisplays([character]);
+        await updatePoint({ userId: user?.id!, point: 2 });
+        toast.success(
+          `❤️${user?.nickname}님의 이상형을 찾았아요! 💰2포인트 적립 ❤️`,
+        );
         navigate(`/worldcup/result/${gender}`, { state: character });
       } else {
         let updatedCharacter = [...winners, character];
@@ -99,7 +107,7 @@ function AniWorldCup() {
                 <S.WorldCupTest key={character.id} height={660}>
                   <S.WorldCupUp>
                     <S.WorldCupImg>
-                      <img src={character.img_url} />
+                      <img src={character.img_url} alt="캐릭터" />
                     </S.WorldCupImg>
                     <S.WorldCupTitleBox>
                       <S.WorldCupTitle>{character.ani_title}</S.WorldCupTitle>

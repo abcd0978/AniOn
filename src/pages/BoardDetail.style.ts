@@ -243,7 +243,7 @@ const S = {
     height: 36px;
     padding: 8px 12px;
     align-items: center;
-    justify-contents: center;
+    justify-content: center;
     gap: 8px;
     border-radius: 999px;
     background: #f4f4f4;

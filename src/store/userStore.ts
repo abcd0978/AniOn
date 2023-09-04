@@ -6,10 +6,6 @@ import * as itemApi from '../api/items';
 import { Database } from '../types/supabase';
 import { write } from 'fs';
 type Usertype = Database['public']['Tables']['users']['Row'];
-type Item = {
-  border: string | null;
-  award: string | null;
-};
 export const user = atomWithStorage<Usertype | null>('user', null);
 export const accessTokenS = atomWithStorage<string | null>('accessToken', null);
 export const logoutUser = atom(null, (__, set) => {
@@ -38,6 +34,7 @@ export const writeUser = atom(null, async (get, set) => {
     if ((await authApi.checkUser(userData!.id)) <= 0) {
       //db에 있으면 안넣고 db에있으면 넣는다
       await authApi.addUser(currentUser);
+      await supabase.from('point').insert({ userId: userData.id!, point: 30 });
     }
     return true;
   }

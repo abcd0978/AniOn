@@ -10,6 +10,7 @@ import * as userStore from '../store/userStore';
 import { v4 as uuidv4 } from 'uuid';
 import useViewport from '../hooks/useViewPort';
 import { toast } from 'react-toastify';
+import { updatePoint } from '../api/items';
 type InsertPosts = Database['public']['Tables']['posts']['Insert'];
 
 const WriteBoard = () => {
@@ -108,6 +109,8 @@ const WriteBoard = () => {
       createMutation.mutate(newPost, {
         onSuccess: () => {
           queryClient.invalidateQueries(['posts']);
+          updatePoint({ userId: user.id, point: 3 });
+          toast.success('글작성 성공! 💰3포인트 적립');
           // // 글 작성 후 게시판 페이지로 이동
           navigate(`/board/${newPost.id}`);
         },
