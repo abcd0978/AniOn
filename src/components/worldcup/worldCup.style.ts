@@ -62,6 +62,27 @@ export const S = {
     background: #fff;
     /* Drop Shadow */
     box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.1);
+    transform: scale(1);
+    transition: transform 0.3s ease-in-out;
+
+    &:hover {
+      /* 호버 상태일 때 크게 확대 */
+      transform: scale(1.1);
+    }
+  `,
+
+  WorldCupResultTest: styled.div<{ height: number }>`
+    width: 600px;
+    display: flex;
+    height: ${(props) => props.height}px;
+    padding: 40px;
+    flex-direction: column;
+    align-items: center;
+    gap: 51px;
+    border-radius: 32px;
+    background: #fff;
+    /* Drop Shadow */
+    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.1);
   `,
 
   WorldCupUp: styled.div`
