@@ -234,7 +234,6 @@ const EditProfile = () => {
         </Item>
         <Divider />
         <Label>비밀번호</Label>
-        • 비밀번호는 6자 이상의 영문, 숫자로 이뤄져야 합니다.
         <PasswordReset />
         <Divider />
         <Item>

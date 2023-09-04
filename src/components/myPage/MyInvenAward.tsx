@@ -36,9 +36,6 @@ const MyInvenAward = () => {
     },
   });
 
-  // console.log('user', user);
-  // console.log('awards', awards);
-
   const handleApplyButtonClick = (item_id: string) => {
     if (!user) {
       return;

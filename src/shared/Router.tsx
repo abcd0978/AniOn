@@ -21,7 +21,7 @@ import AniWorldCup from '../components/worldcup/AniWorldCup';
 import BoardError from '../pages/BoardError';
 import WorldCupResult from '../pages/WorldCupResult';
 import Layout from '../styles/Layout';
-
+import NewPassword from '../components/myPage/NewPassword';
 const Router = () => {
   return (
     <BrowserRouter>
@@ -51,6 +51,7 @@ const Router = () => {
           <Route path="/ani" element={WithAuth(BoardAni, null)} />
           <Route path="/free" element={WithAuth(BoardFree, null)} />
           <Route path="/error" element={WithAuth(BoardError, null)} />
+          <Route path="/newPassword/:user_id" element={<NewPassword />} />
         </Routes>
       </Layout>
     </BrowserRouter>

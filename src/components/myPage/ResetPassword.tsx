@@ -2,24 +2,28 @@ import React, { useState } from 'react';
 import supabase from '../../supabaseClient';
 import * as userStore from '../../store/userStore';
 import { useAtom } from 'jotai';
-
+import { styled } from 'styled-components';
 const PasswordReset = () => {
   const [emailSent, setEmailSent] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [user] = useAtom(userStore.user);
-
+  const [sendingEmail, setSendingEmail] = useState(false);
   const handlePasswordReset = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
 
     if (user && user.email) {
-      const { error } = await supabase.auth.resetPasswordForEmail(user.email);
+      setSendingEmail(true);
+      const { error } = await supabase.auth.resetPasswordForEmail(user.email, {
+        redirectTo: 'http://localhost:3000/newPassword/:user_id',
+      });
 
       if (error) {
         console.error('Error password reset:', error.message);
-        setErrorMessage(error.message);
+        setErrorMessage('이메일은 60초에 한 번 전송 가능합니다.');
       } else {
         setEmailSent(true);
       }
+      setSendingEmail(false);
     }
   };
 
@@ -31,7 +35,9 @@ const PasswordReset = () => {
         <p>이메일로 전송된 링크를 확인해주세요.</p>
       ) : (
         <form onSubmit={handlePasswordReset}>
-          <button type="submit">재설정 링크 전송</button>
+          <ResetButton type="submit">
+            {sendingEmail ? '보내는 중...' : '재설정 링크 전송'}
+          </ResetButton>
         </form>
       )}
     </div>
@@ -39,3 +45,15 @@ const PasswordReset = () => {
 };
 
 export default PasswordReset;
+
+const ResetButton = styled.button`
+  background-color: #fdfbff;
+  border-radius: 12px;
+  width: auto;
+  height: 32px;
+  border: 1px solid var(--main-mid-2, #c88fff);
+  position: relative;
+  bottom: 35px;
+  left: 70px;
+  color: #000;
+`;
