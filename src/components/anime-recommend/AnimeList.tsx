@@ -42,15 +42,16 @@ const AnimeList = () => {
   const [isNextPage, setIsNextPage] = useState(false);
   const [count, setCount] = useState(0);
 
-  const defaultQueryOptions = {
+  const animeListQueryOptions = {
     queryKey: ['animeList', genres, offset, years, ending, category, keyword],
     queryFn: () =>
       fetchAnimeList({ sort, genres, offset, size, years, ending, keyword }),
     refetchOnWindowFocus: false,
   };
 
-  const { isLoading, isError, isFetching, data } =
-    useQuery(defaultQueryOptions);
+  const { isLoading, isError, isFetching, data } = useQuery(
+    animeListQueryOptions,
+  );
 
   const likesQueryOptions = {
     queryKey: ['animeLikes'],
