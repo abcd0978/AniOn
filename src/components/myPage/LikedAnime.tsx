@@ -158,9 +158,6 @@ const GridContainer = styled.div`
   grid-template-columns: repeat(4, 1fr);
   margin-bottom: -330px;
   gap: 10px;
-  // :hover {
-  //   filter: brightness(0.5);
-  // }
 `;
 export const HoverViewDetail = styled.button`
   display: flex;

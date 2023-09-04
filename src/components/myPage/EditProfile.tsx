@@ -331,7 +331,7 @@ export const Container = styled.div`
   gap: 16px;
   align-items: flex-start;
   position: relative;
-  top: -320px;
+  top: -370px;
   margin-left: 160px;
   margin-bottom: 130px;
 `;

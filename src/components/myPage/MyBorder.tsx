@@ -7,7 +7,15 @@ import { B } from './Deco.styles';
 import * as S from '../../pages/Shop.style';
 import useViewport from '../../hooks/useViewPort';
 import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import Pagination from '../Pagenation';
+
+const itemsPerPage = 15;
+
 const MyBorder = () => {
+  const [page, setPage] = useState<number>(1);
+  const [currentPage, setCurrentPage] = useState(1);
+
   const queryClient = useQueryClient();
   const user = useAtomValue(userStore.user);
   const { width, height, isMobile, isLoaded } = useViewport();
@@ -53,8 +61,20 @@ const MyBorder = () => {
   if (isError) {
     return <div>테두리를 불러오지 못했어요.</div>;
   }
-
+  const totalPages = Math.ceil(borders.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const displayedBorder = borders.slice(startIndex, endIndex);
   const filteredBorders = borders.filter((borders) => borders.items !== null);
+  const handlePageChange = (selected: number | string) => {
+    if (typeof selected === 'number') {
+      setCurrentPage(selected);
+    } else if (selected === 'prev') {
+      setCurrentPage((current) => Math.max(1, current - 1));
+    } else if (selected === 'next') {
+      setCurrentPage((current) => Math.min(totalPages, current + 1));
+    }
+  };
   console.log(filteredBorders);
   const borderList =
     Array.isArray(filteredBorders) && filteredBorders.length > 0 ? (
@@ -92,7 +112,18 @@ const MyBorder = () => {
         </B.NoneButton>
       </B.NoneContainer>
     );
-  return <S.Outer>{borderList}</S.Outer>;
+  return (
+    <S.Outer>
+      {borderList}
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onClick={handlePageChange}
+        isPreviousDisabled={currentPage === 1}
+        isNextDisabled={currentPage >= totalPages}
+      />
+    </S.Outer>
+  );
 };
 
 export default MyBorder;
