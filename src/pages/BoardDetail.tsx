@@ -87,7 +87,6 @@ const BoardDetail = () => {
   };
   // Post 상세조회
   const { data: post, refetch: refetchPost } = useQuery(postQueryOptions);
-
   useEffect(() => {
     if (post) {
       // 해당 게시물의 카테고리에 따라 선택한 카테고리 업데이트
@@ -346,24 +345,30 @@ const BoardDetail = () => {
                     </S.Top>
 
                     <S.User>
-                      <ProfileWithBorder
-                        width={90}
-                        mediaWidth={1920}
-                        border_img_url={
-                          post.users.inventory.length > 0
-                            ? processItem(post.users.inventory).border
-                            : undefined
-                        }
-                        profile_img_url={post.users?.profile_img_url}
-                        key={post.id!}
-                      />
                       <S.UserInfo>
-                        <S.Nickname>{post.users?.nickname}</S.Nickname>
-                        <S.Award>
-                          {post.users.inventory.length > 0
-                            ? processItem(post.users.inventory).award
-                            : '칭호 없음'}
-                        </S.Award>
+                        <ProfileWithBorder
+                          width={90}
+                          mediaWidth={1920}
+                          border_img_url={
+                            post.users.inventory.length > 0
+                              ? processItem(post.users.inventory).border
+                              : undefined
+                          }
+                          profile_img_url={post.users?.profile_img_url}
+                          key={post.id!}
+                        />
+                        <div
+                          style={{ display: 'flex', flexDirection: 'column' }}
+                        >
+                          <div style={{ paddingTop: '12.5%' }}>
+                            <S.Nickname>{post.users?.nickname}</S.Nickname>
+                            <S.Award>
+                              {post.users.inventory.length > 0
+                                ? processItem(post.users.inventory).award
+                                : '칭호 없음'}
+                            </S.Award>
+                          </div>
+                        </div>
                       </S.UserInfo>
                       <S.Like onClick={toggleLike}>
                         {like?.length ? (
