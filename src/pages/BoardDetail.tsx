@@ -2,6 +2,7 @@ import React, { useEffect, useMemo } from 'react';
 import Comments from '../components/Board/Comments';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAtomValue } from 'jotai';
+import ScrollToTop from '../components/ScrollToTop';
 import { Database } from '../types/supabase';
 import EditorComponent from '../components/editor/EditorComponent';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
@@ -345,14 +346,25 @@ const BoardDetail = () => {
                     </S.Top>
 
                     <S.User>
-                      <S.ImgProfile
-                        src={post.users?.profile_img_url}
-                        alt="프로필 이미지"
+                      <ProfileWithBorder
+                        width={90}
+                        mediaWidth={1920}
+                        border_img_url={
+                          post.users.inventory.length > 0
+                            ? processItem(post.users.inventory).border
+                            : undefined
+                        }
+                        profile_img_url={post.users?.profile_img_url}
+                        key={post.id!}
                       />
                       <S.UserInfo>
                         <S.Nickname>{post.users?.nickname}</S.Nickname>
 
-                        <S.Award>{getUserTitle(post.users)}</S.Award>
+                        <S.Award>
+                          {post.users.inventory.length > 0
+                            ? processItem(post.users.inventory).award
+                            : '칭호 없음'}
+                        </S.Award>
                       </S.UserInfo>
                       <S.Like onClick={toggleLike}>
                         {like?.length ? (
@@ -385,6 +397,7 @@ const BoardDetail = () => {
           ) : (
             <div>Loading...</div>
           )}
+          <ScrollToTop />
         </S.Inner>
       </S.Container>
       {/* </S.Layout> */}
