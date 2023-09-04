@@ -49,7 +49,7 @@ const MyInvenAward = () => {
 
     applyAwardMutation.mutate({ user_id: user.id, item_id, category: 1 });
   };
-  const totalPages = Math.ceil(awards!.length / itemsPerPage);
+  const totalPages = awards ? Math.ceil(awards.length / itemsPerPage) : 0;
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const handlePageChange = (selected: number | string) => {
