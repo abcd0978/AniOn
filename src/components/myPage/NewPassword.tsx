@@ -3,7 +3,7 @@ import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import supabase from '../../supabaseClient';
 import { useAtom } from 'jotai';
 import * as userStore from '../../store/userStore';
-
+import { toast } from 'react-toastify';
 const NewPassword = () => {
   const [newPassword, setNewPassword] = useState('');
   const [confirmNewPassword, setConfirmNewPassword] = useState('');
@@ -24,11 +24,15 @@ const NewPassword = () => {
       });
 
       if (!error) {
-        alert('비밀번호가 성공적으로 변경되었습니다.');
+        toast.success('비밀번호가 성공적으로 변경되었습니다!', {
+          autoClose: 2000,
+        });
         setNewPassword('');
         setConfirmNewPassword('');
       } else {
-        alert('비밀번호 변경 중에 오류가 발생했습니다.');
+        toast.warning('비밀번호 변경 중에 오류가 발생했습니다.', {
+          autoClose: 2000,
+        });
       }
     } catch (error) {
       console.error('비밀번호 변경 중에 오류가 발생했습니다!!!!!!.', error);
