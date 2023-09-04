@@ -9,6 +9,7 @@ import useViewport from '../../hooks/useViewPort';
 import { useNavigate } from 'react-router-dom';
 import React, { useState } from 'react';
 import Pagination from '../Pagenation';
+import { toast } from 'react-toastify';
 
 const itemsPerPage = 15;
 
@@ -41,6 +42,9 @@ const MyBorder = () => {
       console.log('장착 myInvenAward', data);
       queryClient.invalidateQueries(['equippedBorder']);
       queryClient.invalidateQueries(['myBorders']);
+      toast.success('장착 되었습니다❣️', {
+        autoClose: 1000,
+      });
     },
     onError: (error) => {
       console.log('장착 myInvenAward', error);
@@ -93,7 +97,7 @@ const MyBorder = () => {
                   handleApplyButtonClick(filteredBorders.items?.id)
                 }
               >
-                적용
+                장착
               </B.Equip>
             </B.ButtonContainer>
           </B.BorderContainer>
