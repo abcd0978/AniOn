@@ -6,9 +6,9 @@ type Props = {
 };
 
 const MainCardSkeleton = ({ width }: Props) => {
-  const { width: mediaWidth } = useViewport();
+  const { width: $mediawidth } = useViewport();
   return (
-    <StMainCardSkeleton width={width} mediaWidth={mediaWidth}>
+    <StMainCardSkeleton width={width} $mediawidth={$mediawidth}>
       <StMainCardSkeletonImgContainer>
         <StMainCardSkeletonImgIndex />
       </StMainCardSkeletonImgContainer>
@@ -18,25 +18,25 @@ const MainCardSkeleton = ({ width }: Props) => {
         </StCardInfo>
         <StCardHashTagContainer>
           <StCardHashTag>
-            <StCardHashTagTypo mediaWidth={mediaWidth} />
+            <StCardHashTagTypo $mediawidth={$mediawidth} />
           </StCardHashTag>
           <StCardHashTag>
-            <StCardHashTagTypo mediaWidth={mediaWidth} />
+            <StCardHashTagTypo $mediawidth={$mediawidth} />
           </StCardHashTag>
           <StCardHashTag>
-            <StCardHashTagTypo mediaWidth={mediaWidth} />
+            <StCardHashTagTypo $mediawidth={$mediawidth} />
           </StCardHashTag>
         </StCardHashTagContainer>
       </StCardInfoContainer>
     </StMainCardSkeleton>
   );
 };
-const StMainCardSkeleton = styled.div<{ width: number; mediaWidth: number }>`
+const StMainCardSkeleton = styled.div<{ width: number; $mediawidth: number }>`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 12px;
-  width: ${(props) => (props.width * props.mediaWidth) / 1920}px;
+  width: ${(props) => (props.width * props.$mediawidth) / 1920}px;
 
   flex-shrink: 0;
 `;
@@ -100,10 +100,10 @@ const StCardHashTag = styled.div`
   border-radius: 999px;
   background: #efefef;
 `;
-const StCardHashTagTypo = styled.p<{ mediaWidth: number }>`
+const StCardHashTagTypo = styled.p<{ $mediawidth: number }>`
   color: #000;
   font-family: Pretendard Variable;
-  //font-size: ${(props) => 13 * (props.mediaWidth / 1920)}px;
+  //font-size: ${(props) => 13 * (props.$mediawidth / 1920)}px;
 
   background-color: #d9d9d9;
   font-size: 0.5em;

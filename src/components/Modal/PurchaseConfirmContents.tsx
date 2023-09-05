@@ -48,7 +48,7 @@ const PurchaseConfirmContents = () => {
         </StTitleAndCloseButtonContainer>
         <StPreviewAndWords>
           <ProfileWithBorder
-            mediaWidth={1920}
+            $mediawidth={1920}
             width={160}
             border_img_url={borderContents?.img_url}
             profile_img_url={user?.profile_img_url!}
