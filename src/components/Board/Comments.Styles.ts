@@ -165,6 +165,8 @@ export const CommentBox = styled.div`
   line-height: 1.6;
   margin-bottom: 45px;
   margin-left: 80px;
+  word-wrap: break-word;
+  white-space: pre-wrap;
 `;
 export const Page = styled.div`
   display: flex;
