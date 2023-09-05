@@ -6,13 +6,9 @@ import { useQuery } from '@tanstack/react-query';
 import React, { useEffect, useState } from 'react';
 import { AnimeG } from '../../types/anime';
 import { useNavigate } from 'react-router-dom';
-import { HoverLiked, Liked } from './LikedAnime.styles';
 import { styled } from 'styled-components';
 import Pagination from '../Pagenation';
 import viewDetail from '../../assets/viewdetail.svg';
-import { S } from '../anime-recommend/styled.AnimeCard';
-import { HoverInfo } from '../anime-recommend/styled.AnimeCard';
-import { Container, EditTitle } from './EditProfile';
 import useViewport from '../../hooks/useViewPort';
 import LikeSvg from '../anime-recommend/LikeSvg';
 import LikedSkeleton from './LikedSkeleton';
@@ -24,7 +20,7 @@ const LikedAnime = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [likedAnimeIds, setLikedAnimeIds] = useState<string[]>([]);
   const [animeTitles, setAnimeTitles] = useState<Record<string, AnimeG>>({});
-
+  const [isHovered, setIsHovered] = useState(false);
   const user = useAtomValue(userStore.user);
   const navigate = useNavigate();
   const {
@@ -89,17 +85,15 @@ const LikedAnime = () => {
       setCurrentPage((current) => Math.min(totalPages, current + 1));
     }
   };
-
+  console.log(animeTitles);
   const likedList = Array.isArray(liked) ? (
-    <div>
-      <EditTitle>찜한 목록</EditTitle>
-      <GridContainer>
-        {displayedAnime.map((like, index) => (
-          <OnePoster
-            key={index}
+    <GridContainer>
+      {displayedAnime.map((like, index) => (
+        <div key={index}>
+          <Liked.Container
             onClick={() => navigate(`/recommend/${like.anime_id}`)}
           >
-            <CardThumbnail
+            <PosterImage
               src={
                 animeTitles[like.anime_id] && animeTitles[like.anime_id].images!
                   ? animeTitles[like.anime_id].images!.length > 1
@@ -110,39 +104,47 @@ const LikedAnime = () => {
                   : undefined
               }
             />
-
-            <Liked.Title>{animeTitles[like.anime_id]?.name}</Liked.Title>
-            {/* 호버하면 나오는 부분 여기부터 */}
-            <HoverLiked.Info>
-              {/* <S.HoverGenre key={like.id}>
-                  {/* <S.GenreText>{like.genres!}</S.GenreText> */}
-              {/* </S.HoverGenre> */}
-              <HoverLiked.TitleAndDetail>
-                <HoverLiked.Title>{like.name}</HoverLiked.Title>
-                <HoverLiked.Detail>
-                  <p>자세히 보기</p>
-                  <img
-                    className="viewDetail"
-                    src={viewDetail}
-                    alt="viewdetail"
-                  />
-                </HoverLiked.Detail>
-              </HoverLiked.TitleAndDetail>
-
-              <HoverLiked.Like>{/* <LikeSvg /> */}</HoverLiked.Like>
-            </HoverLiked.Info>
-            {/* 호버하면 나오는 부분 여기까지 */}
-          </OnePoster>
-        ))}
-      </GridContainer>
-    </div>
+            <AnimeTitle>
+              {animeTitles[like.anime_id] && animeTitles[like.anime_id].name}
+            </AnimeTitle>
+            <HoverContent>
+              <HoverViewDetail>
+                <p>자세히 보기</p>
+                <img className="viewDetail" src={viewDetail} alt="viewdetail" />
+              </HoverViewDetail>
+              <LikedInfoTitle>
+                {animeTitles[like.anime_id] && animeTitles[like.anime_id].name}
+              </LikedInfoTitle>
+              <HoveredAnimeGenre>
+                {animeTitles[like.anime_id] &&
+                  animeTitles[like.anime_id]?.genres
+                    ?.slice(0, 1)
+                    .map((genre, index) => (
+                      <HoveredAnimeGenreTag key={index}>
+                        {genre}
+                      </HoveredAnimeGenreTag>
+                    ))}
+              </HoveredAnimeGenre>
+              <LikedAnimeGenre>
+                {animeTitles[like.anime_id] &&
+                  animeTitles[like.anime_id]?.genres
+                    ?.slice(0, 2)
+                    .map((genre, index) => (
+                      <GenreTag key={index}>#{genre}</GenreTag>
+                    ))}
+              </LikedAnimeGenre>
+            </HoverContent>
+          </Liked.Container>
+        </div>
+      ))}
+    </GridContainer>
   ) : (
     '좋아요를 누른 애니메이션이 없어요'
   );
-
   return (
     <div>
-      <PosterContainer>{likedList}</PosterContainer>
+      <DecoTitle>찜한 목록</DecoTitle>
+      <div>{likedList}</div>
       <Page $mediawidth={width}>
         <Pagination
           currentPage={currentPage}
@@ -156,119 +158,206 @@ const LikedAnime = () => {
   );
 };
 export default LikedAnime;
-export const Page = styled.div<{ $mediawidth: number }>`
+const Page = styled.div<{ $mediawidth: number }>`
   height: 10vh;
   ${(props) => `width:${250 * (props.$mediawidth / 1920)}px;`}
   margin-bottom: -100px;
-  margin-left: 500px;
+  margin-left: 600px;
 `;
-
+const DecoTitle = styled.div`
+  position: absolute;
+  margin-left: 140px;
+  margin-top: -40px;
+  width: 200px;
+  height: 32px;
+  color: #000;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: -0.36px;
+`;
 const GridContainer = styled.div`
   display: grid;
   gap: 10px 30px;
   grid-template-columns: repeat(3, 1fr);
+  margin-top: -300px;
+  margin-left: 150px;
 `;
-
-export const HoverViewDetail = styled.button`
-  display: flex;
+const AnimeTitle = styled.div`
+  width: 220px;
+  height: 19px;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 19px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin: 10px;
+`;
+const HoverContent = styled.div`
   align-items: center;
-  position: relative;
+  justify-content: center;
+  display: grid;
+  margin-left: 110px;
+`;
+const HoverViewDetail = styled.div`
+  visibility: hidden;
+  display: flex;
+  margin-top: -250px;
+  align-items: center;
+  position: absolute;
   padding: 6px 12px;
   border-radius: 999px;
-  border: 1px solid white;
-  background-color: rgba(255, 255, 255, 0);
+  border: none;
+  background-color: #8200ff;
   color: white;
   cursor: pointer;
-  display: none;
   p {
     margin-left: 12px;
   }
 `;
-
-const CardThumbnail = styled.img`
-  width: 140%;
-  aspect-ratio: 100 / 66;
-  background-color: #d9d9d9;
-  border-radius: 10px;
-  object-fit: cover;
-`;
-export const LikedInfo = styled.div`
-  display: none;
-  position: absolute;
-  top: 0px;
-  z-index: 2;
-  line-height: 25px;
-  color: #ffffff;
-  width: 140%;
-  padding: 16px;
-`;
-export const LikedTitleAndDetail = styled.div`
-  width: 100%;
+const LikedAnimeGenre = styled.div`
+  height: 16px;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 20px;
-  align-items: center;
-`;
-export const OnePoster = styled.div`
-  margin-bottom: 10px;
-  position: relative;
-  margin-right: 80px;
-  &:hover ${LikedInfo} {
-    display: block;
-  }
-
-  ${LikedInfo} {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-
-    line-height: 25px;
-    color: #ffffff;
-    padding: 16px;
-  }
-`;
-export const PosterContainer = styled.div`
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  row-gap: 40px;
-  margin-left: 0px;
-  margin-top: 10px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
   align-items: flex-start;
-  position: relative;
-  top: -370px;
-  margin-left: 160px;
-  margin-bottom: 130px;
-  :hover ${LikedInfo} {
+  margin-left: -110px;
+  margin-bottom: 10px;
+  padding: 5px;
+  gap: 4px;
+`;
+const GenreTag = styled.div`
+  color: #333;
+  justify-content: center;
+  align-items: center;
+  background-color: #eee;
+  padding: 7px;
+  border-radius: 3px;
+  width: 80px;
+  height: auto;
+  border-radius: 50px;
+  text-align: center;
+`;
+const HoveredAnimeGenre = styled.div`
+  visibility: hidden;
+  display: flex;
+  align-items: flex-start;
+  margin-left: -110px;
+  padding: 5px;
+  position: absolute;
+  top: 0;
+  left: 50;
+`;
+const HoveredAnimeGenreTag = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 150px;
+  height: 16px;
+  background: #f3e7ff;
+  padding: 7px;
+  border-radius: 3px;
+  width: 80px;
+  height: auto;
+  border-radius: 50px;
+  text-align: center;
+`;
+const PosterImage = styled.img`
+  width: 300px;
+  height: 175px;
+  border-radius: 10px;
+`;
+const LikedInfoTitle = styled.div`
+  visibility: hidden;
+  width: 100%;
+  color: white;
+  height: 100px;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 34px;
+  white-space: normal;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transform: translate(-45%, -90%);
+  overflow: hidden;
+`;
+
+const Liked = {
+  Poster: styled.div`
     display: flex;
     flex-direction: column;
-    gap: 5px;
-  }
-  @media (max-width: 1600px) {
-    /* 화면 크기가 1600px 이하인 경우 */
-    grid-template-columns: repeat(3, 1fr); /* 3개의 컬럼으로 변경 */
-  }
+    align-items: flex-start;
+    padding: 0px;
+    gap: 8px;
+    width: 220px;
+    height: 350px;
+    cursor: pointer;
 
-  @media (max-width: 1280px) {
-    /* 화면 크기가 1280px 이하인 경우 */
-    grid-template-columns: repeat(3, 1fr); /* 3개의 컬럼으로 변경 */
-  }
+    @media (max-width: 540px) {
+      width: 100%;
+      height: 100%;
+    }
+  `,
 
-  @media (max-width: 1024px) {
-    /* 화면 크기가 1024px 이하인 경우 */
-    grid-template-columns: repeat(3, 1fr); /* 3개의 컬럼으로 변경 */
-  }
+  Container: styled.div`
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
 
-  @media (max-width: 800px) {
-    /* 화면 크기가 800px 이하인 경우 */
-    grid-template-columns: repeat(3, 1fr); /* 2개의 컬럼으로 변경 */
-  }
+    padding: 0px;
+    gap: 4px;
+    width: 100%;
+    height: 100%;
 
-  @media (max-width: 480px) {
-    /* 화면 크기가 800px 이하인 경우 */
-    grid-template-columns: repeat(1, 1fr); /* 2개의 컬럼으로 변경 */
-  }
-`;
+    cursor: pointer;
+    &:hover ${HoverViewDetail} {
+      visibility: visible;
+      opacity: 1;
+      transition-delay: 0s;
+    }
+    &:hover ${PosterImage} {
+      filter: brightness(0.3);
+      transition: 0.3s ease-in-out;
+    }
+    &:hover ${LikedInfoTitle} {
+      visibility: visible;
+    }
+    &:hover ${HoveredAnimeGenre} {
+      visibility: visible;
+    }
+    / @media (max-width: 540px) {
+      width: 100%;
+      height: 100%;
+    }
+
+    @media (max-width: 1600px) {
+      /* 화면 크기가 1600px 이하인 경우 */
+      grid-template-columns: repeat(3, 1fr); /* 3개의 컬럼으로 변경 */
+    }
+
+    @media (max-width: 1280px) {
+      /* 화면 크기가 1280px 이하인 경우 */
+      grid-template-columns: repeat(3, 1fr); /* 3개의 컬럼으로 변경 */
+    }
+
+    @media (max-width: 1024px) {
+      /* 화면 크기가 1024px 이하인 경우 */
+      grid-template-columns: repeat(3, 1fr); /* 3개의 컬럼으로 변경 */
+    }
+
+    @media (max-width: 800px) {
+      /* 화면 크기가 800px 이하인 경우 */
+      grid-template-columns: repeat(3, 1fr); /* 2개의 컬럼으로 변경 */
+    }
+
+    @media (max-width: 480px) {
+      /* 화면 크기가 800px 이하인 경우 */
+      grid-template-columns: repeat(1, 1fr); /* 2개의 컬럼으로 변경 */
+    }
+  `,
+};

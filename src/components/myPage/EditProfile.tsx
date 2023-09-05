@@ -169,7 +169,6 @@ const EditProfile = () => {
     let updatedUser = user;
     return (
       <Container>
-        <EditTitle>프로필 수정</EditTitle>
         <Divider />
         <Item>
           <Label>사진</Label>
@@ -331,7 +330,7 @@ export const Container = styled.div`
   gap: 16px;
   align-items: flex-start;
   position: relative;
-  top: -370px;
+  top: -300px;
   margin-left: 160px;
   margin-bottom: 130px;
 `;
@@ -432,16 +431,7 @@ export const Button = styled.button`
   // text-align: center;
   //margin-left: 700px;
 `;
-export const EditTitle = styled.div`
-  width: 150px;
-  height: 32px;
-  color: #000;
-  font-size: 24px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: normal;
-  letter-spacing: -0.36px;
-`;
+
 const TextBelowPhoto = styled.div`
   color: #838383;
   font-size: 14px;

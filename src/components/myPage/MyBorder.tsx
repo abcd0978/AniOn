@@ -102,6 +102,7 @@ const MyBorder = () => {
                   onClick={() =>
                     handleApplyButtonClick(filteredBorders.items?.id)
                   }
+                  disabled={filteredBorders.is_equipped}
                 >
                   {filteredBorders.is_equipped ? '적용됨' : '적용'}
                 </B.Equip>
@@ -143,7 +144,7 @@ export default MyBorder;
 export const BorderPage = styled.div`
   display: flex;
   justify-content: center;
-  margin-top: 50px;
+  margin-top: 300px;
 `;
 export const BorderItem = styled.div`
   margin: 5px;

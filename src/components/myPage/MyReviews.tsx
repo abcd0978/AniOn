@@ -6,7 +6,7 @@ import * as userStore from '../../store/userStore';
 import { useNavigate } from 'react-router-dom';
 import { deleteComment } from '../../api/aniComment';
 import { Review } from './Wrote.styles';
-import { Button, Container, Divider, EditTitle } from './EditProfile';
+import { Button, Container, Divider } from './EditProfile';
 import goReview from '../../assets/next (1).png';
 import Pagination from '../Pagenation';
 import { useQuery } from '@tanstack/react-query';
@@ -116,7 +116,6 @@ const MyReviews = () => {
 
   return (
     <Container>
-      <EditTitle>리뷰 이력</EditTitle>
       <Divider />
       <Review.Outer>
         {userReview.length === 0 ? (
@@ -167,4 +166,5 @@ export default MyReviews;
 export const ReviewPage = styled.div`
   display: flex;
   justify-content: center;
+  margin-top: 150px;
 `;

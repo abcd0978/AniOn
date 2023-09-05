@@ -69,21 +69,22 @@ export const B = {
     width: 80px;
     height: 30px;
     background-color: ${(props) => (props.is_equipped ? '#F3E7FF' : 'white')};
-
+color:black;
     border-radius: 6px;
     border: ${(props) =>
       props.is_equipped ? '1px solid #c88fff' : '1px solid #d9d9d9'};
     cursor: pointer;
     &:hover {
-      background-color: #c88fff;
-      color: white;
-    }
-
-    &:disabled:hover {
-      background-color: white;
-      color: #cccccc;
-      cursor: not-allowed;
-    }
+      ${(props) =>
+        !props.is_equipped &&
+        `
+        background-color: ${props.is_equipped ? '#F3E7FF' : 'white'};
+        color: black;
+      `}
+  
+      &:disabled:hover {
+        cursor: not-allowed;
+      }
   `,
   BorderContainer: styled.div`
     width: 268px;
@@ -140,13 +141,14 @@ export const A = {
     float: right;
     cursor: pointer;
     &:hover {
-      background-color: #c88fff;
-      color: white;
-    }
+    ${(props) =>
+      !props.is_equipped &&
+      `
+      background-color: ${props.is_equipped ? '#F3E7FF' : 'white'};
+      color: black;
+    `}
 
     &:disabled:hover {
-      background-color: white;
-      color: #cccccc;
       cursor: not-allowed;
     }
   `,

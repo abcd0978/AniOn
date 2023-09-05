@@ -77,6 +77,7 @@ const MyInvenAward = () => {
           <A.Equip
             is_equipped={award.is_equipped}
             onClick={() => handleApplyButtonClick(award.item_id)}
+            disabled={award.is_equipped}
           >
             {award.is_equipped ? '적용됨' : '적용'}
           </A.Equip>
@@ -123,5 +124,5 @@ const GridContainer = styled.div`
 export const Page = styled.div`
   display: flex;
   justify-content: center;
-  margin-top: 400px;
+  margin-top: 350px;
 `;
