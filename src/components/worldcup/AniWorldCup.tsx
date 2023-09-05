@@ -79,7 +79,8 @@ function AniWorldCup() {
         setDisplays([character]);
         await updatePoint({ userId: user?.id!, point: 2 });
         toast.success(
-          `❤️${user?.nickname}님의 이상형을 찾았아요! 💰2포인트 적립 ❤️`,
+          `❤️${user?.nickname}님의 이상형을 찾았어요! 💰2포인트 적립`,
+          { autoClose: 1200 },
         );
         navigate(`/worldcup/result/${gender}`, { state: character });
       } else {
@@ -101,33 +102,31 @@ function AniWorldCup() {
         <S.WorldCupMainTitle>
           {gender === 'man' ? '남자' : '여자'} 애니메이션 캐릭터 이상형 월드컵{' '}
           {currentRound}
-          <S.WorldCupTestContainer>
-            {displays.map((character: ReadCharacters) => {
-              return (
-                <S.WorldCupTest key={character.id} height={660}>
-                  <S.WorldCupUp>
-                    <S.WorldCupImg>
-                      <img src={character.img_url} alt="캐릭터" />
-                    </S.WorldCupImg>
-                    <S.WorldCupTitleBox>
-                      <S.WorldCupTitle>{character.ani_title}</S.WorldCupTitle>
-                      <S.WorldCupName>
-                        {character.character_name}
-                      </S.WorldCupName>
-                    </S.WorldCupTitleBox>
-                  </S.WorldCupUp>
-                  <S.WorldCupTestPickButton
-                    onClick={SelectWinnerhandler(character)}
-                    width={278}
-                  >
-                    선택하기
-                  </S.WorldCupTestPickButton>
-                </S.WorldCupTest>
-              );
-            })}
-          </S.WorldCupTestContainer>
-          <S.WorldcupVS src={vs} alt="vs" />
         </S.WorldCupMainTitle>
+        <S.WorldCupRealTestContainer>
+          {displays.map((character: ReadCharacters) => {
+            return (
+              <S.WorldCupTest key={character.id} height={660}>
+                <S.WorldCupUp>
+                  <S.WorldCupImg>
+                    <img src={character.img_url} alt="캐릭터" />
+                  </S.WorldCupImg>
+                  <S.WorldCupTitleBox>
+                    <S.WorldCupTitle>{character.ani_title}</S.WorldCupTitle>
+                    <S.WorldCupName>{character.character_name}</S.WorldCupName>
+                  </S.WorldCupTitleBox>
+                </S.WorldCupUp>
+                <S.WorldCupTestPickButton
+                  onClick={SelectWinnerhandler(character)}
+                  width={278}
+                >
+                  선택하기
+                </S.WorldCupTestPickButton>
+              </S.WorldCupTest>
+            );
+          })}
+        </S.WorldCupRealTestContainer>
+        <S.WorldcupVS src={vs} alt="vs" />
       </S.WorldCupContainer>
     </>
   );

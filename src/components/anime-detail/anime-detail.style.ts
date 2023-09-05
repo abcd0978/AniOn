@@ -129,7 +129,7 @@ export const S = {
     align-items: flex-start;
     gap: 32px;
     width: 116px;
-    heigth: 57px;
+    height: 57px;
   `,
 
   LikeBox: styled.div`

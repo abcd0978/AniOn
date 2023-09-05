@@ -140,7 +140,9 @@ const AnimeList = () => {
   }
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column' }}>
+    <div
+      style={{ display: 'flex', flexDirection: 'column', marginBottom: '20px' }}
+    >
       <S.PageNameDiv>
         <S.PageNameFisrt>애니 </S.PageNameFisrt>
         <S.PageNameSecond>추천</S.PageNameSecond>
@@ -150,32 +152,11 @@ const AnimeList = () => {
         {/* 스켈레톤으로 변경하기! > mvp 종료 후에 */}
         {isLoading && !animeList.length ? (
           <>
-            <AnimeCardSkeleton />
-            <AnimeCardSkeleton />
-            <AnimeCardSkeleton />
-            <AnimeCardSkeleton />
-            <AnimeCardSkeleton />
-            <AnimeCardSkeleton />
-            <AnimeCardSkeleton />
-            <AnimeCardSkeleton />
-            <AnimeCardSkeleton />
-            <AnimeCardSkeleton />
-            <AnimeCardSkeleton />
-            <AnimeCardSkeleton />
-            <AnimeCardSkeleton />
-            <AnimeCardSkeleton />
-            <AnimeCardSkeleton />
-            <AnimeCardSkeleton />
-            <AnimeCardSkeleton />
-            <AnimeCardSkeleton />
-            <AnimeCardSkeleton />
-            <AnimeCardSkeleton />
-            <AnimeCardSkeleton />
-            <AnimeCardSkeleton />
-            <AnimeCardSkeleton />
-            <AnimeCardSkeleton />
-            <AnimeCardSkeleton />
-            <AnimeCardSkeleton />
+            {Array()
+              .fill(undefined)
+              .map((_, index) => (
+                <AnimeCardSkeleton key={index} />
+              ))}
           </>
         ) : (
           animeList.map((anime: AnimeG) => (
@@ -188,6 +169,12 @@ const AnimeList = () => {
             />
           ))
         )}
+        <>
+          {isFetching &&
+            Array(6)
+              .fill(undefined)
+              .map((_, index) => <AnimeCardSkeleton key={index} />)}
+        </>
       </S.AnimeContainer>
       <ScrollToTop />
       {isNextPage && !isLoading && <S.Target ref={ref} />}

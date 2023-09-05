@@ -46,7 +46,7 @@ const WorldCupResult = () => {
       // 중복 initialization 방지
       if (!window.Kakao.isInitialized()) {
         // 두번째 step 에서 가져온 javascript key 를 이용하여 initialize
-        window.Kakao.init(`${process.env.REACT_APP_KAKAO_API_KEY} `);
+        window.Kakao.init(process.env.REACT_APP_KAKAO_API_KEY);
       }
     }
   }, [status]);
@@ -91,7 +91,7 @@ const WorldCupResult = () => {
     return <div>데이터를 가져오지 못했습니다..😥</div>;
   }
   return (
-    <S.WorldCupContainer>
+    <S.WorldCupResultContainer>
       <div>
         <S.WorldCupMainTitle>
           {gender === 'man' ? '남자' : '여자'} 애니메이션 캐릭터 이상형 월드컵
@@ -190,7 +190,7 @@ const WorldCupResult = () => {
           })}
         </R.OtherRankContainer>
       </R.ResultBox>
-    </S.WorldCupContainer>
+    </S.WorldCupResultContainer>
   );
 };
 

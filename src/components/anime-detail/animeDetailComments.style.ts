@@ -49,7 +49,7 @@ export const S = {
     align-items: center;
     gap: 8px;
     border-radius: 999px;
-    background: #f4f4f4;
+    /* background: #f4f4f4; */
   `,
 
   AniCommentText: styled.div`

@@ -4,8 +4,21 @@ import styled from 'styled-components';
 export const S = {
   WorldCupContainer: styled.div`
     // position: relative;
+    /* display: flex; */
+    //width: 1440px;
+    //height: 999px;
+    padding: 32px 0px;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 40px;
+    flex-shrink: 0;
+    margin: 0 auto;
+  `,
+
+  WorldCupResultContainer: styled.div`
+    // position: relative;
     display: flex;
-    width: 1440px;
+    //width: 1440px;
     height: 999px;
     padding: 32px 0px;
     flex-direction: row;
@@ -15,23 +28,26 @@ export const S = {
     margin: 0 auto;
   `,
 
-  WorldcupVS: styled.img`
-    position: absolute;
-    top: 55%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  `,
-
   WorldCupContainer2: styled.div`
     /* display: flex; */
-    width: 1440px;
-    height: 999px;
+    //width: 1440px;
     padding: 32px 0px;
     flex-direction: column;
     align-items: flex-start;
     gap: 40px;
     flex-shrink: 0;
     margin: 0 auto;
+
+    @media (max-width: 768px) {
+      width: 75%;
+    }
+  `,
+
+  WorldcupVS: styled.img`
+    position: absolute;
+    top: 55%;
+    left: 50%;
+    transform: translate(-50%, -50%);
   `,
 
   WorldCupMainTitle: styled.p`
@@ -44,7 +60,21 @@ export const S = {
 
   WorldCupTestContainer: styled.div`
     display: flex;
-    width: 1440px;
+
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 35px;
+    @media (max-width: 768px) {
+      width: 100%;
+      // height: 100px;
+      flex-direction: column;
+      gap: 20px;
+    }
+  `,
+
+  WorldCupRealTestContainer: styled.div`
+    display: flex;
+    /* width: 1440px; */
     justify-content: space-between;
     align-items: center;
     margin-top: 35px;
@@ -59,7 +89,7 @@ export const S = {
     align-items: center;
     gap: 51px;
     border-radius: 32px;
-    background: #fff;
+    background: #fdfbff;
     /* Drop Shadow */
     box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.1);
     transform: scale(1);
@@ -80,9 +110,13 @@ export const S = {
     align-items: center;
     gap: 51px;
     border-radius: 32px;
-    background: #fff;
+    background: #fdfbff;
     /* Drop Shadow */
     box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.1);
+    @media (max-width: 768px) {
+      width: 200px;
+      height: 450px;
+    }
   `,
 
   WorldCupUp: styled.div`
@@ -105,6 +139,10 @@ export const S = {
     line-height: 150%; /* 27px */
     letter-spacing: -0.27px;
     margin-bottom: 12px;
+    @media (max-width: 768px) {
+      width: 50px;
+      font-size: 11px;
+    }
   `,
 
   WorldCupTitles: styled.p`
@@ -115,6 +153,10 @@ export const S = {
     line-height: 150%; /* 36px */
     letter-spacing: -0.36px;
     width: 600px;
+    @media (max-width: 768px) {
+      width: 200px;
+      font-size: 20px;
+    }
   `,
 
   WorldCupTitleBox: styled.div`
@@ -154,20 +196,26 @@ export const S = {
       border-radius: 400px;
     }
   `,
+
   //----------------------------------------------Test쪽
   WorldCupImgs: styled.div`
     margin-top: 32px;
     width: 400px;
     height: 400px;
     border-radius: 400px;
-    background: #d9d9d9;
+    position: relative;
 
-    #question {
-      position: relative;
-      left: 163px;
-      bottom: 250px;
+    @media (max-width: 768px) {
+      width: 200px;
+      height: 200px;
+      font-size: 10px;
     }
   `,
+
+  WorldCupStartImg: styled.img`
+    width: 100%;
+  `,
+
   WorldCupTestButton: styled.button<{ width: number }>`
     display: flex;
     position: relative;
@@ -177,7 +225,7 @@ export const S = {
     align-items: center;
     gap: 12px;
     border-radius: 999px;
-    background: #8200ff;
+    background: #ff96db;
     color: #fff;
     text-align: center;
     font-size: 20px;
@@ -187,6 +235,15 @@ export const S = {
     cursor: pointer;
     border: none;
     height: 75px;
+
+    &:hover {
+      background: #8200ff;
+    }
+
+    @media (max-width: 768px) {
+      width: 200px;
+      padding: 12px 20px 12px 32px;
+    }
 
     // img {
     //   position: absolute;
@@ -203,7 +260,7 @@ export const S = {
     align-items: center;
     gap: 12px;
     border-radius: 999px;
-    background: #8200ff;
+    background: #ff96db;
     color: #fff;
     text-align: center;
     font-size: 20px;
@@ -213,6 +270,10 @@ export const S = {
     cursor: pointer;
     border: none;
     height: 75px;
+
+    &:hover {
+      background: #8200ff;
+    }
   `,
 
   WorldCupTestButtonTextBox: styled.div`
@@ -222,5 +283,14 @@ export const S = {
     justify-content: center;
     align-items: center;
     gap: 12px;
+
+    @media (max-width: 768px) {
+      font-size: 15px;
+      justify-content: center;
+      align-items: center;
+      display: flex;
+      padding: 0;
+      gap: 3px;
+    }
   `,
 };
