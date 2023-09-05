@@ -55,7 +55,7 @@ export const Point = styled.div`
   text-align: center;
 `;
 export const Bottom = styled.div`
-  width: 1430px;
+  width: 1440px;
   height: 100%;
 `;
 
@@ -67,22 +67,25 @@ export const ItemBox = styled.div`
 
 export const Item = styled.div`
   width: 268px;
-  height: 300px;
-  margin-bottom: 5px;
+  height: 268px;
+  box-shadow: 0px 0px 20px 0px #0000001a;
+  border-radius: 20px;
+  margin-bottom: 100px;
 `;
 
 export const TopArea = styled.div<{ img_url: string }>`
   width: 100%;
-  height: 80%;
-  background-size: cover;
+  height: 100%;
+  background-size: 278px 278px;
   background-image: url(${(props) => props.img_url});
+  // box-shadow: 0px 0px 20px 0px #0000001a;
+  border-radius: 20px;
+  padding: 5px;
 `;
 
 export const BottomArea = styled.div`
   width: 100%;
-  height: 20%;
   background-color: white;
-  margin-top: 5px;
   line-height: 25px;
 `;
 export const BuyButton = styled.button`
