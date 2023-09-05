@@ -84,7 +84,7 @@ const MyInvenAward = () => {
       ))}
     </GridContainer>
   ) : (
-    <B.NoneContainer mediaWidth={width}>
+    <B.NoneContainer $mediawidth={width}>
       <B.NoneMessage>구매한 칭호가 없습니다.</B.NoneMessage>
       <B.NoneButton
         onClick={() => {

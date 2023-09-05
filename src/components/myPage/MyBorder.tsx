@@ -111,7 +111,7 @@ const MyBorder = () => {
         ))}
       </B.Container>
     ) : (
-      <B.NoneContainer mediaWidth={width}>
+      <B.NoneContainer $mediawidth={width}>
         <B.NoneMessage>구매한 테두리가 없습니다.</B.NoneMessage>
         <B.NoneButton
           onClick={() => {

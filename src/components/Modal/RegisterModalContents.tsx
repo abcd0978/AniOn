@@ -26,7 +26,8 @@ const inputColor = 'background: var(--main-light-3, #F9F3FF);';
 const ErrorBorder = 'border: 1px solid var(--error, #FF535D);';
 /******************유효성검사 함수****************/
 const validateEmail = (email: string) => {
-  const regex = new RegExp('[a-z0-9]+@[a-z]+.[a-z]{2,3}');
+  const regStr = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+  const regex = new RegExp(regStr);
   let result: ErrorType = { error: false, errorMsg: '' };
   if (!email || email.length === 0) {
     result.error = true;
@@ -181,8 +182,8 @@ const LoginModalContents = (props: Props) => {
     emailDupChecked,
   ]);
   return (
-    <StRegisterContainer mediaWidth={width} mediaHeight={height}>
-      <StRegisteContentsContainer mediaWidth={width} mediaHeight={height}>
+    <StRegisterContainer $mediawidth={width} mediaHeight={height}>
+      <StRegisteContentsContainer $mediawidth={width} mediaHeight={height}>
         <StRegisterTitleContainer>
           <img
             src={goBack}
@@ -372,12 +373,12 @@ const LoginModalContents = (props: Props) => {
 };
 
 const StRegisterContainer = styled.div<{
-  mediaWidth: number;
+  $mediawidth: number;
   mediaHeight: number;
 }>`
   display: flex;
   padding: 40px 0px;
-  width: ${(props) => 564 * (props.mediaWidth / 1920)}px;
+  width: ${(props) => 564 * (props.$mediawidth / 1920)}px;
   min-width: 400px;
   flex-direction: column;
   align-items: center;
@@ -385,7 +386,7 @@ const StRegisterContainer = styled.div<{
 `;
 
 const StRegisteContentsContainer = styled.div<{
-  mediaWidth: number;
+  $mediawidth: number;
   mediaHeight: number;
 }>`
   display: flex;

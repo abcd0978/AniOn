@@ -6,7 +6,7 @@ import { fetchEquippedItem } from '../api/items';
 import { useQuery } from '@tanstack/react-query';
 
 type Props = {
-  mediaWidth: number;
+  $mediawidth: number;
   width: number | null;
   profile_img_url?: string | null;
   border_img_url?: string | null;
@@ -73,7 +73,7 @@ function ProfileWithBorder(props: Props) {
 
   if (props.profile_img_url) {
     return (
-      <StProfileContainer width={props.width} mediaWidth={props.mediaWidth}>
+      <StProfileContainer width={props.width} $mediawidth={props.$mediawidth}>
         <StPreview
           background={props.border_img_url ? props.border_img_url : null}
         />
@@ -83,23 +83,23 @@ function ProfileWithBorder(props: Props) {
   }
 
   return (
-    <StProfileContainer width={props.width} mediaWidth={props.mediaWidth}>
+    <StProfileContainer width={props.width} $mediawidth={props.$mediawidth}>
       <StPreview background={border ? border.items.img_url! : null} />
       <StHeaderUserProfile src={user?.profile_img_url!} alt="프사" />
     </StProfileContainer>
   );
 }
 const StProfileContainer = styled.div<{
-  mediaWidth: number;
+  $mediawidth: number;
   width: number | null;
 }>`
   ${(props) => {
     if (props.width) {
-      return `width:${props.width * (props.mediaWidth / 1920)}px;
-    height:${props.width * (props.mediaWidth / 1920)}px;`;
+      return `width:${props.width * (props.$mediawidth / 1920)}px;
+    height:${props.width * (props.$mediawidth / 1920)}px;`;
     } else {
-      return `width:${80 * (props.mediaWidth / 1920)}px;
-    height:${80 * (props.mediaWidth / 1920)}px;`;
+      return `width:${80 * (props.$mediawidth / 1920)}px;
+    height:${80 * (props.$mediawidth / 1920)}px;`;
     }
   }}
   position: relative;

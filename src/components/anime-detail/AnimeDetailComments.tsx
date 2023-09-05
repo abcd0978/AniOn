@@ -190,7 +190,7 @@ const AnimeDetailComments = () => {
                 <S.AniCommentUser>
                   <ProfileWithBorder
                     width={75}
-                    mediaWidth={1920}
+                    $mediawidth={1920}
                     border_img_url={
                       comment.users.inventory.length > 0
                         ? processItem(comment.users.inventory).border

@@ -190,7 +190,7 @@ const Board = () => {
               <S.BottomNick>
                 <ProfileWithBorder
                   width={45}
-                  mediaWidth={1920}
+                  $mediawidth={1920}
                   border_img_url={
                     post.users.inventory.length > 0
                       ? processItem(post.users.inventory).border

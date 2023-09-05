@@ -24,7 +24,6 @@ const LikedAnime = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [likedAnimeIds, setLikedAnimeIds] = useState<string[]>([]);
   const [animeTitles, setAnimeTitles] = useState<Record<string, AnimeG>>({});
-  const { width: mediaWidth } = useViewport();
 
   const user = useAtomValue(userStore.user);
   const navigate = useNavigate();
@@ -144,7 +143,7 @@ const LikedAnime = () => {
   return (
     <div>
       <PosterContainer>{likedList}</PosterContainer>
-      <Page mediaWidth={width}>
+      <Page $mediawidth={width}>
         <Pagination
           currentPage={currentPage}
           totalPages={totalPages}
@@ -157,9 +156,9 @@ const LikedAnime = () => {
   );
 };
 export default LikedAnime;
-export const Page = styled.div<{ mediaWidth: number }>`
+export const Page = styled.div<{ $mediawidth: number }>`
   height: 10vh;
-  ${(props) => `width:${250 * (props.mediaWidth / 1920)}px;`}
+  ${(props) => `width:${250 * (props.$mediawidth / 1920)}px;`}
   margin-bottom: -100px;
   margin-left: 500px;
 `;
