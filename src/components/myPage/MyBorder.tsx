@@ -98,11 +98,12 @@ const MyBorder = () => {
                 <B.BorderName>{filteredBorders.items?.name}</B.BorderName>
 
                 <B.Equip
+                  is_equipped={filteredBorders.is_equipped}
                   onClick={() =>
                     handleApplyButtonClick(filteredBorders.items?.id)
                   }
                 >
-                  장착
+                  {filteredBorders.is_equipped ? '적용됨' : '적용'}
                 </B.Equip>
               </div>
             </div>

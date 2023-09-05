@@ -60,15 +60,17 @@ export const B = {
     height: auto;
     object-fit: cover;
   `,
-  Equip: styled.button`
+  Equip: styled.button<{ is_equipped: boolean }>`
     position: RELATIVE;
     left: 150px;
     top: -30px;
     width: 80px;
     height: 30px;
-    background-color: white;
+    background-color: ${(props) => (props.is_equipped ? '#F3E7FF' : 'white')};
+
     border-radius: 6px;
-    border: 1px solid #c88fff;
+    border: ${(props) =>
+      props.is_equipped ? '1px solid #c88fff' : '1px solid #d9d9d9'};
     cursor: pointer;
     &:hover {
       background-color: #c88fff;
@@ -133,13 +135,15 @@ export const A = {
     align-self: stretch;
     margin: 10px;
   `,
-  Equip: styled.button`
+  Equip: styled.button<{ is_equipped: boolean }>`
     width: 80px;
     height: 30px;
     margin-top: 5px;
-    background-color: white;
+    background-color: ${(props) => (props.is_equipped ? '#F3E7FF' : 'white')};
+    color: black;
     border-radius: 6px;
-    border: 1px solid #d9d9d9;
+    border: ${(props) =>
+      props.is_equipped ? '1px solid #c88fff' : '1px solid #d9d9d9'};
     float: right;
     cursor: pointer;
     &:hover {

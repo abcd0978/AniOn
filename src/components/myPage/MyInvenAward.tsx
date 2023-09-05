@@ -14,7 +14,7 @@ import { toast } from 'react-toastify';
 import { AwardName, BuyButton } from '../ShopAwards';
 import { MyAward } from './MyPage.styles';
 import Pagination from '../Pagenation';
-const itemsPerPage = 18;
+const itemsPerPage = 15;
 
 const MyInvenAward = () => {
   const queryClient = useQueryClient();
@@ -22,7 +22,6 @@ const MyInvenAward = () => {
   const navigate = useNavigate();
   const { width, height, isMobile, isLoaded } = useViewport();
   const [currentPage, setCurrentPage] = useState(1);
-
   const myAwardsQueryOptions = {
     queryKey: ['myAwards'],
     queryFn: () => fetchMyAwards(user!.id),
@@ -37,6 +36,7 @@ const MyInvenAward = () => {
     onSuccess: (data) => {
       console.log('장착 myInvenAward', data);
       queryClient.invalidateQueries(['equippedAward']);
+      queryClient.invalidateQueries(['myAwards']);
     },
     onError: (error) => {
       console.log('장착 myInvenAward', error);
@@ -74,8 +74,11 @@ const MyInvenAward = () => {
             alt={award.items.name}
             style={{ width: '240px' }}
           />
-          <A.Equip onClick={() => handleApplyButtonClick(award.item_id)}>
-            적용
+          <A.Equip
+            is_equipped={award.is_equipped}
+            onClick={() => handleApplyButtonClick(award.item_id)}
+          >
+            {award.is_equipped ? '적용됨' : '적용'}
           </A.Equip>
         </div>
       ))}
@@ -93,8 +96,6 @@ const MyInvenAward = () => {
       </B.NoneButton>
     </B.NoneContainer>
   );
-  console.log('내 칭호:', awards);
-
   return (
     <div>
       <GridContainer>{awardsList}</GridContainer>
