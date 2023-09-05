@@ -61,7 +61,8 @@ const Shop = () => {
               칭호
             </S.Button>
           </S.ButtonBox>
-          <S.Point>보유 P {userPoint}</S.Point>
+          <S.Point>보유 P {!user ? '' : userPoint}</S.Point>
+          {/* 일단 안보이게만 해놓은거고 실직적으로 고쳐야함 */}
         </S.ButtonContainer>
       </S.Top>
       {renderSelectedCategory()}
