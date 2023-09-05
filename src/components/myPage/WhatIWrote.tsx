@@ -31,6 +31,7 @@ const WhatIWrote = () => {
   const [selectedPosts, setSelectedPosts] = useState<string[]>([]);
   const [page, setPage] = useState<number>(1);
   const { width, height, isMobile, isLoaded } = useViewport();
+  const [currentPage, setCurrentPage] = useState(1);
 
   const itemsPerPage = 12;
   const {
@@ -114,7 +115,7 @@ const WhatIWrote = () => {
   useEffect(() => {
     fetchUserPosts();
     fetchUserPostLikes();
-  }, [setUserPosts, setUserPostLike, user]);
+  }, [setUserPosts, setUserPostLike, user, currentPage]);
 
   const handlePostClick = (id: string) => {
     navigate(`/board/${id}`);
@@ -159,7 +160,18 @@ const WhatIWrote = () => {
       }
     }
   };
-
+  const totalPages = Math.ceil(userPosts.length / itemsPerPage);
+  const handlePageChange = (page: number | 'prev' | 'next') => {
+    if (page === 'prev' && currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    } else if (page === 'next' && currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    } else if (typeof page === 'number' && page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
+    }
+  };
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
   return (
     <Container>
       <Post.line>작성한 글</Post.line>
@@ -214,11 +226,11 @@ const WhatIWrote = () => {
       </Post.ButtonBox>
       <WriteP mediaWidth={width}>
         <Pagination
-          currentPage={page}
-          totalPages={postsAndTotalPages?.totalPages || 1}
-          onClick={onClickPage}
-          isPreviousDisabled={page === 1}
-          isNextDisabled={page >= (postsAndTotalPages?.totalPages || 1)}
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onClick={handlePageChange}
+          isPreviousDisabled={currentPage === 1}
+          isNextDisabled={currentPage >= totalPages}
         />
       </WriteP>
     </Container>

@@ -27,7 +27,7 @@ export const B = {
     margin: 10px;
   `,
   BorderImg: styled.img`
-    width: 250px;
+    width: 150px;
     height: auto;
     object-fit: cover;
     margin: 20px;
@@ -62,7 +62,9 @@ export const B = {
   `,
   Equip: styled.button<{ is_equipped: boolean }>`
     position: RELATIVE;
-    left: 150px;
+    font-size: 14px;
+    padding: 0px;8px;
+    left: 100px;
     top: -30px;
     width: 80px;
     height: 30px;
@@ -86,24 +88,15 @@ export const B = {
   BorderContainer: styled.div`
     width: 268px;
     height: 300px;
-    margin-bottom: 5px;
   `,
   ButtonContainer: styled.div`
-    display: flex;
     justify-content: space-between;
     align-items: center;
-    position: relative;
-    margin-top: 10px;
-    margin-right: 100px;
   `,
-  ItemBox: styled.div`
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-  `,
+
   Container: styled.div`
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 10px;
   `,
   BorderName: styled.div`
