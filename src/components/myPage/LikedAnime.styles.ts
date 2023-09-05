@@ -1,25 +1,33 @@
 import { styled } from 'styled-components';
 import { LikedInfo } from './LikedAnime';
-export const Anime = {
-  Poster: styled.img`
-    width: 220px;
-    height: 320px;
-    border-radius: 10px;
-    flex-direction: column;
-    gap: 12px;
-    margin: 10px;
-    margin-top: 10px;
-  `,
+export const Liked = {
+  CardInfo: styled.div``,
   Title: styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    align-items: flex-start;
-
-    margin-left: 150px;
+    width: 220px;
+    height: 19px;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 19px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   `,
+};
 
-  AnimeTitle: styled.div`
+export const HoverLiked = {
+  Info: styled.div`
+    display: none;
+    position: absolute;
+    top: 0px;
+    z-index: 20;
+    line-height: 25px;
+    color: #ffffff;
+    height: 90%;
+    width: 86%;
+    padding: 16px;
+  `,
+  TitleAndDetail: styled.div``,
+  Title: styled.div`
     width: 100%;
     height: 100px;
     font-weight: 700;
@@ -31,4 +39,6 @@ export const Anime = {
     -webkit-box-orient: vertical;
     overflow: hidden;
   `,
+  Detail: styled.div``,
+  Like: styled.img``,
 };

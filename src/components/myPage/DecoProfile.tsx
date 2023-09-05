@@ -3,7 +3,6 @@ import { useState } from 'react';
 import MyInvenAward from './MyInvenAward';
 import { Container, EditTitle } from './EditProfile';
 import LikedAnime from './LikedAnime';
-import { Anime } from './LikedAnime.styles';
 import { Deco } from './Deco.styles';
 import * as S from '../../pages/Shop.style';
 

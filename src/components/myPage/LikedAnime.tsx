@@ -6,7 +6,7 @@ import { useQuery } from '@tanstack/react-query';
 import React, { useEffect, useState } from 'react';
 import { AnimeG } from '../../types/anime';
 import { useNavigate } from 'react-router-dom';
-import { Anime } from './LikedAnime.styles';
+import { HoverLiked, Liked } from './LikedAnime.styles';
 import { styled } from 'styled-components';
 import Pagination from '../Pagenation';
 import viewDetail from '../../assets/viewdetail.svg';
@@ -91,11 +91,8 @@ const LikedAnime = () => {
     }
   };
 
-  // 현재 페이지와 총 페이지 수를 계산합니다.
-  const isPreviousDisabled = page === 1;
-  const isNextDisabled = page >= totalPages;
   const likedList = Array.isArray(liked) ? (
-    <S.CardInfo>
+    <div>
       <EditTitle>찜한 목록</EditTitle>
       <GridContainer>
         {displayedAnime.map((like, index) => (
@@ -115,29 +112,31 @@ const LikedAnime = () => {
               }
             />
 
-            <S.CardTitle>{animeTitles[like.anime_id]?.name}</S.CardTitle>
-            <LikedInfo>
+            <Liked.Title>{animeTitles[like.anime_id]?.name}</Liked.Title>
+            {/* 호버하면 나오는 부분 여기부터 */}
+            <HoverLiked.Info>
               {/* <S.HoverGenre key={like.id}>
                   {/* <S.GenreText>{like.genres!}</S.GenreText> */}
               {/* </S.HoverGenre> */}
-              <LikedTitleAndDetail>
-                <S.HoverTitle>{like.name}</S.HoverTitle>
-                <S.HoverViewDetail>
+              <HoverLiked.TitleAndDetail>
+                <HoverLiked.Title>{like.name}</HoverLiked.Title>
+                <HoverLiked.Detail>
                   <p>자세히 보기</p>
                   <img
                     className="viewDetail"
                     src={viewDetail}
                     alt="viewdetail"
                   />
-                </S.HoverViewDetail>
-              </LikedTitleAndDetail>
+                </HoverLiked.Detail>
+              </HoverLiked.TitleAndDetail>
 
-              <S.HoverLikeBox>{/* <LikeSvg /> */}</S.HoverLikeBox>
-            </LikedInfo>
+              <HoverLiked.Like>{/* <LikeSvg /> */}</HoverLiked.Like>
+            </HoverLiked.Info>
+            {/* 호버하면 나오는 부분 여기까지 */}
           </OnePoster>
         ))}
       </GridContainer>
-    </S.CardInfo>
+    </div>
   ) : (
     '좋아요를 누른 애니메이션이 없어요'
   );
