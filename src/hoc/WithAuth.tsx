@@ -15,6 +15,7 @@ const WithAuth = (
   adminRoute: boolean | null = null,
 ) => {
   const writeUser = useSetAtom(userStore.writeUser);
+  console.log('few');
   async function authCheck() {
     await writeUser();
   }

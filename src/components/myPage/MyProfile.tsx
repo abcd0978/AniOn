@@ -22,7 +22,7 @@ const MyProfile = () => {
   return (
     <Profile.MyProfileContainer>
       {user && (
-        <ProfileWithBorder mediaWidth={width} width={160} key={user?.id!} />
+        <ProfileWithBorder $mediawidth={width} width={160} key={user?.id!} />
       )}
       <Profile.MyNickname>{user?.nickname}</Profile.MyNickname>
       <MyProfileAward />

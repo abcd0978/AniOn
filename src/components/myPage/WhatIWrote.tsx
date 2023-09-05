@@ -212,7 +212,7 @@ const WhatIWrote = () => {
             : '전체 선택'}
         </Post.ButtonAll>
       </Post.ButtonBox>
-      <WriteP mediaWidth={width}>
+      <WriteP $mediawidth={width}>
         <Pagination
           currentPage={page}
           totalPages={postsAndTotalPages?.totalPages || 1}
@@ -226,9 +226,9 @@ const WhatIWrote = () => {
 };
 
 export default WhatIWrote;
-export const WriteP = styled.div<{ mediaWidth: number }>`
+export const WriteP = styled.div<{ $mediawidth: number }>`
   height: 10vh;
-  ${(props) => `width:${250 * (props.mediaWidth / 1920)}px;`}
+  ${(props) => `width:${250 * (props.$mediawidth / 1920)}px;`}
   margin-bottom: -330px;
   margin-left: 400px;
 `;

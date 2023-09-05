@@ -44,7 +44,8 @@ const LoginModalContents = (props: Props) => {
   const { width, height, isMobile, isLoaded } = useViewport();
   const validationFunc = (e: any) => {
     e.preventDefault();
-    const regex = new RegExp('[a-z0-9]+@[a-z]+.[a-z]{2,3}');
+    const regStr = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+    const regex = new RegExp(regStr);
     let eErrorFlag = false;
     let pErrorFlag = false;
     setEmailAndPasswordError(initialError);
@@ -55,7 +56,7 @@ const LoginModalContents = (props: Props) => {
       });
       pErrorFlag = true;
     } else setPasswordError(initialError);
-
+    console.log(regex.test(email));
     if (email.length < 1) {
       setEmailError({
         error: true,
@@ -75,23 +76,23 @@ const LoginModalContents = (props: Props) => {
     return true;
   };
   return (
-    <StLoginContainer mediaWidth={width} mediaHeight={height}>
+    <StLoginContainer $mediawidth={width} mediaHeight={height}>
       <StLoginUpperContents>
         <StLoginInfoContainer>
-          <StLoginInfoLogo mediaWidth={width}>
+          <StLoginInfoLogo $mediawidth={width}>
             <img src={logo} alt="로고" />
           </StLoginInfoLogo>
-          <StLoginInfoTypo mediaWidth={width}>
+          <StLoginInfoTypo $mediawidth={width}>
             다양한 애니메이션 팬들과 소통해보세요!
           </StLoginInfoTypo>
         </StLoginInfoContainer>
-        <StLoginInputContainer mediaWidth={width}>
+        <StLoginInputContainer $mediawidth={width}>
           <StLoginInput
             error={emailError.error}
             loginError={emailAndPasswordError.error}
             onChange={onChangeEmail}
             placeholder="EMAIL"
-            mediaWidth={width}
+            $mediawidth={width}
           />
           <StLoginInput
             error={passwordError.error}
@@ -99,7 +100,7 @@ const LoginModalContents = (props: Props) => {
             type="password"
             onChange={onChangePassword}
             placeholder="PASSWORD"
-            mediaWidth={width}
+            $mediawidth={width}
           />
           <p
             style={{
@@ -177,22 +178,22 @@ const LoginModalContents = (props: Props) => {
             )}
           </StLoginButton>
         </StLoginInputContainer>
-        <StLoginOptions mediaWidth={width}>
+        <StLoginOptions $mediawidth={width}>
           <StLoginOptionsTypo
             onClick={() => setModalContents('findId')}
-            mediaWidth={width}
+            $mediawidth={width}
           >
             아이디찾기
           </StLoginOptionsTypo>
           <StLoginOptionsTypo
             onClick={() => setModalContents('findPass')}
-            mediaWidth={width}
+            $mediawidth={width}
           >
             비밀번호 찾기
           </StLoginOptionsTypo>
           <StLoginOptionsTypo
             onClick={() => setModalContents('register')}
-            mediaWidth={width}
+            $mediawidth={width}
           >
             회원가입
           </StLoginOptionsTypo>
@@ -201,22 +202,22 @@ const LoginModalContents = (props: Props) => {
       <StLoginDownerContents>
         <StLoginDownerTitleContainer>
           <StLoginDownerTitlehorizontalLine
-            mediaWidth={width}
+            $mediawidth={width}
             src={horizontalLineForLoginModal}
           />
           SNS계정으로 로그인
           <StLoginDownerTitlehorizontalLine
-            mediaWidth={width}
+            $mediawidth={width}
             src={horizontalLineForLoginModal}
           />
         </StLoginDownerTitleContainer>
-        <StLoginDownerLoginOptionContainer mediaWidth={width}>
+        <StLoginDownerLoginOptionContainer $mediawidth={width}>
           {/* <StLoginDownerLoginOption
             src={discord}
             onClick={async () => {
               await authApi.loginHandler(undefined, true, AuthProvider.Discord);
             }}
-            mediaWidth={width}
+            $mediawidth={width}
             alt="디스코드"
           />
           <StLoginDownerLoginOption
@@ -224,7 +225,7 @@ const LoginModalContents = (props: Props) => {
             onClick={async () => {
               await authApi.loginHandler(undefined, true, AuthProvider.GitHub);
             }}
-            mediaWidth={width}
+            $mediawidth={width}
             alt="깃헙"
           /> */}
           <StLoginDownerLoginOption
@@ -232,7 +233,7 @@ const LoginModalContents = (props: Props) => {
             onClick={async () => {
               await authApi.loginHandler(undefined, true, AuthProvider.Google);
             }}
-            mediaWidth={width}
+            $mediawidth={width}
             alt="구글"
           />
           <StLoginDownerLoginOption
@@ -240,7 +241,7 @@ const LoginModalContents = (props: Props) => {
             onClick={async () => {
               await authApi.loginHandler(undefined, true, AuthProvider.Kakao);
             }}
-            mediaWidth={width}
+            $mediawidth={width}
             alt="카카오"
           />
         </StLoginDownerLoginOptionContainer>
@@ -250,12 +251,12 @@ const LoginModalContents = (props: Props) => {
 };
 
 const StLoginContainer = styled.div<{
-  mediaWidth: number;
+  $mediawidth: number;
   mediaHeight: number;
 }>`
   display: flex;
   padding: 40px 0px;
-  width: ${(props) => 564 * (props.mediaWidth / 1920)}px;
+  width: ${(props) => 564 * (props.$mediawidth / 1920)}px;
   min-width: 400px;
   flex-direction: column;
   align-items: center;
@@ -279,25 +280,25 @@ const StLoginInfoContainer = styled.div`
   align-items: center;
   gap: 12px;
 `;
-const StLoginInfoLogo = styled.div<{ mediaWidth: number }>`
+const StLoginInfoLogo = styled.div<{ $mediawidth: number }>`
   color: #000;
   font-family: Roboto;
-  font-size: max(${(props) => 28 * (props.mediaWidth / 1920)}px, 20px);
+  font-size: max(${(props) => 28 * (props.$mediawidth / 1920)}px, 20px);
   font-style: normal;
   font-weight: 700;
   line-height: 142.857%; /* 142.857% */
 `;
-const StLoginInfoTypo = styled.div<{ mediaWidth: number }>`
+const StLoginInfoTypo = styled.div<{ $mediawidth: number }>`
   color: var(--achromatic-colors-dark-gray, #4f4f4f);
   text-align: center;
   font-family: Pretendard Variable;
-  font-size: max(${(props) => 20 * (props.mediaWidth / 1920)}px, 15px);
+  font-size: max(${(props) => 20 * (props.$mediawidth / 1920)}px, 15px);
   font-style: normal;
   font-weight: 400;
   line-height: 150%; /* 30px */
   letter-spacing: -0.3px;
 `;
-const StLoginInputContainer = styled.div<{ mediaWidth: number }>`
+const StLoginInputContainer = styled.div<{ $mediawidth: number }>`
   display: flex;
   width: 312px;
   height: auto;
@@ -306,14 +307,14 @@ const StLoginInputContainer = styled.div<{ mediaWidth: number }>`
   gap: 8px;
 `;
 const StLoginInput = styled.input<{
-  mediaWidth: number;
+  $mediawidth: number;
   error: boolean;
   loginError: boolean;
 }>`
   display: flex;
   border-radius: 10px;
   background: var(--main-light-3, #f9f3ff);
-  height: ${(props) => 44 * (props.mediaWidth / 1920)}px;
+  height: ${(props) => 44 * (props.$mediawidth / 1920)}px;
   border: ${(props) =>
     props.loginError || props.error
       ? '1px solid var(--error, #FF535D)'
@@ -373,18 +374,18 @@ const StLoginButtonTypo = styled.p`
   line-height: normal;
   letter-spacing: -0.225px;
 `;
-const StLoginOptions = styled.div<{ mediaWidth: number }>`
+const StLoginOptions = styled.div<{ $mediawidth: number }>`
   display: flex;
-  width: ${(props) => 390 * (props.mediaWidth / 1920)}px;
+  width: ${(props) => 390 * (props.$mediawidth / 1920)}px;
   padding: 0px 60px;
   justify-content: center;
   align-items: center;
   gap: 24px;
 `;
-const StLoginOptionsTypo = styled.p<{ mediaWidth: number }>`
+const StLoginOptionsTypo = styled.p<{ $mediawidth: number }>`
   color: var(--achromatic-colors-dark-gray, #4f4f4f);
   font-family: Pretendard Variable;
-  font-size: ${(props) => 13 * (props.mediaWidth / 1920)}px;
+  font-size: ${(props) => 13 * (props.$mediawidth / 1920)}px;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
@@ -398,14 +399,14 @@ const StLoginDownerTitleContainer = styled.div`
   justify-content: space-between;
   align-items: center;
 `;
-const StLoginDownerTitlehorizontalLine = styled.img<{ mediaWidth: number }>`
-  width: ${(props) => 81.913 * (props.mediaWidth / 1920)}px;
+const StLoginDownerTitlehorizontalLine = styled.img<{ $mediawidth: number }>`
+  width: ${(props) => 81.913 * (props.$mediawidth / 1920)}px;
   height: 0px;
   flex-shrink: 0;
   stroke-width: 0.6px;
   stroke: var(--achromatic-colors-gray-2, #999);
 `;
-const StLoginDownerLoginOptionContainer = styled.div<{ mediaWidth: number }>`
+const StLoginDownerLoginOptionContainer = styled.div<{ $mediawidth: number }>`
   display: flex;
   width: 390px;
   padding: 0px 60px;
@@ -413,7 +414,7 @@ const StLoginDownerLoginOptionContainer = styled.div<{ mediaWidth: number }>`
   align-items: center;
   gap: 24px;
 `;
-const StLoginDownerLoginOption = styled.img<{ mediaWidth: number }>`
+const StLoginDownerLoginOption = styled.img<{ $mediawidth: number }>`
   width: 48px;
   height: 48px;
   border-radius: 999px;
