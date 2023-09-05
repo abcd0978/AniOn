@@ -6,7 +6,7 @@ export const S = {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #fdfbff;
+    /* background-color: #fdfbff; */
   `,
 
   AniCommentBox: styled.div`
@@ -60,6 +60,9 @@ export const S = {
     margin-left: 60px;
     // max-width: 1380px;
     max-width: 100%;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+    overflow: hidden; //우선 걸어놓음 더 길게 쓰면 더보기 추가해야함
   `,
 
   AniCommentInputBox: styled.div`

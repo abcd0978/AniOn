@@ -125,7 +125,7 @@ const WorldCupResult = () => {
             color="#FFFFFF"
           >
             <img src={navigate_next} />
-            결과 공유 하기
+            테스트 공유하기
           </R.WorldCupResultButton>
         </R.WorldCupResultButtonBox>
         {/* -------------------------------- 결과*/}

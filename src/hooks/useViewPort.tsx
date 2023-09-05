@@ -7,7 +7,7 @@ function useViewport() {
   const [isLoaded, setIsLoaded] = useState(false);
 
   const handleResize = () => {
-    console.log(window.innerWidth);
+    // console.log(window.innerWidth);
     setWidth(window.innerWidth);
     setHeight(window.innerHeight);
     setIsMobile(window.innerWidth <= 768 || window.outerWidth <= 768);

@@ -26,6 +26,12 @@ export const S = {
     gap: 40px;
     flex-shrink: 0;
     margin: 0 auto;
+
+    @media (max-width: 768px) {
+      width: 100%;
+      flex-direction: column;
+      gap: 20px;
+    }
   `,
 
   WorldCupContainer2: styled.div`
@@ -37,10 +43,6 @@ export const S = {
     gap: 40px;
     flex-shrink: 0;
     margin: 0 auto;
-
-    @media (max-width: 768px) {
-      width: 75%;
-    }
   `,
 
   WorldcupVS: styled.img`
@@ -48,6 +50,11 @@ export const S = {
     top: 55%;
     left: 50%;
     transform: translate(-50%, -50%);
+
+    @media (max-width: 768px) {
+      width: 43px;
+      top: 40%;
+    }
   `,
 
   WorldCupMainTitle: styled.p`
@@ -56,17 +63,20 @@ export const S = {
     font-weight: 700;
     letter-spacing: -0.48px;
     margin-bottom: 32px;
+
+    @media (max-width: 768px) {
+      font-size: 28px;
+    }
   `,
 
   WorldCupTestContainer: styled.div`
     display: flex;
-
     justify-content: space-between;
     align-items: center;
     margin-top: 35px;
+
     @media (max-width: 768px) {
       width: 100%;
-      // height: 100px;
       flex-direction: column;
       gap: 20px;
     }
@@ -74,14 +84,19 @@ export const S = {
 
   WorldCupRealTestContainer: styled.div`
     display: flex;
-    /* width: 1440px; */
     justify-content: space-between;
     align-items: center;
     margin-top: 35px;
+    @media (max-width: 768px) {
+      width: 100%;
+      height: 100%;
+      // flex-direction: column;
+      gap: 20px;
+    }
   `,
 
   WorldCupTest: styled.div<{ height: number }>`
-    width: 600px;
+    max-width: 600px;
     display: flex;
     height: ${(props) => props.height}px;
     padding: 40px;
@@ -99,6 +114,15 @@ export const S = {
       /* 호버 상태일 때 크게 확대 */
       transform: scale(1.1);
     }
+
+    @media (max-width: 768px) {
+      width: 40%;
+      height: 100%;
+      padding: 10px;
+      &:hover {
+        transform: scale(1);
+      }
+    }
   `,
 
   WorldCupResultTest: styled.div<{ height: number }>`
@@ -114,8 +138,8 @@ export const S = {
     /* Drop Shadow */
     box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.1);
     @media (max-width: 768px) {
-      width: 200px;
-      height: 450px;
+      width: 80%;
+      height: 100%;
     }
   `,
 
@@ -124,6 +148,8 @@ export const S = {
     flex-direction: column;
     align-items: center;
     gap: -2px;
+    width: 100%;
+    height: 100%;
   `,
 
   WorldCupGender: styled.div`
@@ -171,6 +197,10 @@ export const S = {
     line-height: 150%; /* 36px */
     letter-spacing: -0.36px;
     width: 600px;
+
+    @media (max-width: 768px) {
+      font-size: 15px;
+    }
   `,
   WorldCupName: styled.p`
     color: #000;
@@ -180,6 +210,10 @@ export const S = {
     line-height: 150%; /* 42px */
     letter-spacing: -0.42px;
     width: 600px;
+
+    @media (max-width: 768px) {
+      font-size: 15px;
+    }
   `,
 
   WorldCupImg: styled.div`
@@ -187,14 +221,18 @@ export const S = {
     width: 400px;
     height: 400px;
     border-radius: 400px;
-    background: #d9d9d9;
 
-    img {
-      position: relative;
-      width: 400px;
-      height: 400px;
-      border-radius: 400px;
+    @media (max-width: 768px) {
+      width: 100%;
+      height: 100%;
     }
+  `,
+
+  CharacterImg: styled.img`
+    width: 100%;
+    height: 100%;
+    border-radius: 400px;
+    aspect-ratio: 1 / 1;
   `,
 
   //----------------------------------------------Test쪽
@@ -206,8 +244,8 @@ export const S = {
     position: relative;
 
     @media (max-width: 768px) {
-      width: 200px;
-      height: 200px;
+      width: 100%;
+      height: 100%;
       font-size: 10px;
     }
   `,
@@ -258,7 +296,6 @@ export const S = {
     width: ${(props) => props.width}px;
     justify-content: center;
     align-items: center;
-    gap: 12px;
     border-radius: 999px;
     background: #ff96db;
     color: #fff;
@@ -273,6 +310,13 @@ export const S = {
 
     &:hover {
       background: #8200ff;
+    }
+
+    @media (max-width: 768px) {
+      width: 100px;
+      font-size: 15px;
+      font-weight: 400;
+      height: 40px;
     }
   `,
 

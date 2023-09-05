@@ -26,6 +26,11 @@ export const R = {
     justify-content: center;
     align-items: center;
     gap: 100px;
+
+    @media (max-width: 768px) {
+      width: 30%;
+      height: 100%;
+    }
   `,
 
   WorldCupResultText: styled.div`
@@ -45,6 +50,10 @@ export const R = {
     justify-content: center;
     gap: 20px;
     margin-top: -140px;
+
+    @media (max-width: 768px) {
+      width: 40%;
+    }
   `,
 
   WorldCupResultButton: styled.button<{ background: string }>`
@@ -66,10 +75,19 @@ export const R = {
     cursor: pointer;
     color: ${(props) => props.color || '#000000'};
 
+    @media (max-width: 768px) {
+      width: 38%;
+      font-size: 12px;
+    }
+
     img {
       position: absolute;
       right: 2px;
       vertical-align: top;
+
+      @media (max-width: 768px) {
+        width: 22px;
+      }
     }
   `,
 

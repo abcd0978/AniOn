@@ -28,7 +28,7 @@ const Footer = () => {
         </StFooterLeft>
         <StFooterRight>
           <br />
-          상표 : 상표명 | 리더 : 이소영 | 부리더 : 정송주 |디자이너 : 김예림 |
+          상표 : 상표명 | 리더 : 이소영 | 부리더 : 정송주 | 디자이너 : 김예림 |
           팀원:김무겸, 김민규, 박은희
           <br />
           전화 : 1522-0816 | 주소 : 서울특별시 강남구 테헤란로44길 12층
@@ -101,6 +101,7 @@ const StFooterLeft = styled.div`
   display: flex;
   flex-direction: column;
   @media (max-width: 768px) {
+    font-size: 12px;
     width: 100%;
   }
 `;
@@ -111,6 +112,7 @@ const StFooterRight = styled.div`
   display: flex;
   justify-content: flex-end;
   @media (max-width: 768px) {
+    font-size: 12px;
     width: 100%;
     justify-content: flex-start;
   }
