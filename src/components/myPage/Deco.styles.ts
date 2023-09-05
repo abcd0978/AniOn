@@ -139,7 +139,7 @@ export const A = {
     margin-top: 5px;
     background-color: white;
     border-radius: 6px;
-    border: 1px solid #c88fff;
+    border: 1px solid #d9d9d9;
     float: right;
     cursor: pointer;
     &:hover {

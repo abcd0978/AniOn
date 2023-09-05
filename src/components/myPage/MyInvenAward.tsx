@@ -67,9 +67,13 @@ const MyInvenAward = () => {
   };
   const awardsList = Array.isArray(awards) ? (
     <GridContainer>
-      {awards.map((award, index) => (
+      {awards?.map((award, index) => (
         <div key={index}>
-          <A.Name>{award.items?.name}</A.Name>
+          <img
+            src={award.items.img_url}
+            alt={award.items.name}
+            style={{ width: '240px' }}
+          />
           <A.Equip onClick={() => handleApplyButtonClick(award.item_id)}>
             적용
           </A.Equip>
@@ -89,6 +93,8 @@ const MyInvenAward = () => {
       </B.NoneButton>
     </B.NoneContainer>
   );
+  console.log('내 칭호:', awards);
+
   return (
     <div>
       <GridContainer>{awardsList}</GridContainer>
@@ -109,9 +115,8 @@ export default MyInvenAward;
 const GridContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
+  gap: 50px;
   grid-template-columns: auto auto auto auto;
-  gap: 10px;
   padding: 10px;
 `;
 export const Page = styled.div`
