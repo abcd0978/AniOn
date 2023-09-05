@@ -11,7 +11,7 @@ const fetchComments = async (ani_id: string, page: number): Promise<any> => {
     const { data, count, error } = await supabase
       .from('ani_comments')
       .select(
-        '*,users(nickname,profile_img_url,inventory(id,items(name,img_url)))',
+        '*,users(nickname,profile_img_url,inventory(id,items(name,img_url,category)))',
         { count: 'exact' },
       )
       .eq('ani_id', ani_id)

@@ -362,11 +362,22 @@ const BoardDetail = () => {
                         >
                           <div style={{ paddingTop: '12.5%' }}>
                             <S.Nickname>{post.users?.nickname}</S.Nickname>
-                            <S.Award>
-                              {post.users.inventory.length > 0
-                                ? processItem(post.users.inventory).award
-                                : '칭호 없음'}
-                            </S.Award>
+                            {/* <S.Award> */}
+                            {post.users.inventory.length > 0 ? (
+                              <img
+                                src={
+                                  processItem(post.users.inventory).award
+                                    .img_url!
+                                }
+                                alt={
+                                  processItem(post.users.inventory).award.name!
+                                }
+                                style={{ width: '172px', height: '32px' }}
+                              />
+                            ) : (
+                              '칭호없음'
+                            )}
+                            {/* </S.Award> */}
                           </div>
                         </div>
                       </S.UserInfo>

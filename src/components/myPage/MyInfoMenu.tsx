@@ -128,7 +128,6 @@ const MyInfoMenu = () => {
                     selectedComponent === 'WhatIWrote' ? '#8200FF' : '#999',
                 }}
               >
-                {' '}
                 {selectedComponent === 'WhatIWrote' ? (
                   <InfoMenu.WriteButtonIcon src={hoverwrite} />
                 ) : (

@@ -42,6 +42,7 @@ const ShopAwardList = () => {
 
   const { data: myAwards } = useQuery(myAwardsQueryOptions);
 
+  console.log('asd', awards);
   // 구매 여부 판단을 위한 배열
   const purchasedItemIds = myAwards?.map((item) => item.item_id) || [];
 
@@ -65,7 +66,14 @@ const ShopAwardList = () => {
               .map((item, index) => {
                 return (
                   <div key={item.id}>
-                    <AwardName>{item.name}</AwardName>
+                    {/* 3항 연산자로 이미지 or 이름 */}
+                    {/* <AwardName> */}
+                    <img
+                      src={item.img_url}
+                      alt={item.name}
+                      style={{ width: '240px' }}
+                    ></img>
+                    {/* </AwardName> */}
                     <ShopMenu>
                       <AwardPrice>{item.price}포인트</AwardPrice>
                       <BuyButton

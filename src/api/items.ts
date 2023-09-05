@@ -153,7 +153,7 @@ export const fetchEquippedItems = async (user_id: string) => {
   try {
     const { data, error } = await supabase
       .from('inventory')
-      .select('user_id,item_id, items!inner(name,img_url)')
+      .select('user_id,item_id, items!inner(name,img_url,category)')
       .eq('user_id', user_id)
       .eq('is_equipped', true)
       .returns<

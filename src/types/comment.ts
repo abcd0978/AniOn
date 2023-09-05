@@ -17,6 +17,7 @@ export type CommentType = {
       items: {
         name: string;
         img_url: string;
+        category: number;
       };
     }[];
     nickname: string;
@@ -37,6 +38,7 @@ export type AniCommentType = {
       items: {
         name: string;
         img_url: string;
+        category: number;
       };
     }[];
     nickname: string;
