@@ -3,7 +3,6 @@ import styled from 'styled-components';
 const S = {
   Container: styled.div`
     width: 1440px;
-    max-height: 4785px;
     border-radius: 20px;
     box-shadow: 0px 0px 20px 0px #0000001a;
     gap: 20px;
@@ -13,7 +12,6 @@ const S = {
   `,
   Inner: styled.div`
     width: 1360px;
-    max-height: 4705px;
     display: block;
     align-items: center;
     justify-content: center;
@@ -47,7 +45,6 @@ const S = {
     display: flex;
     flex-direction: column;
     width: 1360px;
-    max-height: 1954px;
     margin-bottom: 50px;
     margin-top: -5px;
   `,
@@ -99,7 +96,6 @@ const S = {
     // font-size: 16px;
     line-height: 1.6;
     width: 1360px;
-    max-height: 1954px;
     margin: 20px;
     gap: 40px;
   `,
