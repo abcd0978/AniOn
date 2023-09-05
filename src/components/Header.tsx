@@ -153,7 +153,20 @@ function Header({}: Props) {
                 <StHeaderUserInfo>
                   <StHeaderUserName>{user.nickname}</StHeaderUserName>
                   <StHeaderUserAppellation>
-                    {award ? award.items.name : '칭호 없음'}
+                    {/* {award ? award.items.name : '칭호 없음'} */}
+                    {award ? (
+                      award.items.img_url ? (
+                        <img
+                          src={award.items.img_url}
+                          alt={award.items.name}
+                          style={{ width: '100px', height: '20px' }}
+                        />
+                      ) : (
+                        award.items.name
+                      )
+                    ) : (
+                      '칭호 없음'
+                    )}
                   </StHeaderUserAppellation>
                 </StHeaderUserInfo>
                 <StHeaderDropDownImgContainer

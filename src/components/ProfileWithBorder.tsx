@@ -13,21 +13,40 @@ type Props = {
 };
 
 export const processItem = (
-  params: { id: string; items: { name: string; img_url: string } }[],
-): { border: string | null; award: string | null } => {
+  params: {
+    id: string;
+    items: { name: string; img_url: string; category: number };
+  }[],
+): {
+  border: string | null;
+  award: { name: null | string; img_url: null | string };
+} => {
   if (!params) {
-    return { border: null, award: null };
+    return {
+      border: null,
+      award: {
+        name: null,
+        img_url: null,
+      },
+    };
   }
-  let result: { border: null | string; award: null | string } = {
+  let result: {
+    border: null | string;
+    award: { name: null | string; img_url: null | string };
+  } = {
     border: null,
-    award: null,
+    award: {
+      name: null,
+      img_url: null,
+    },
   };
 
   for (let i = 0; i < params.length; i++) {
-    if (params[i]?.items.img_url) {
+    if (params[i]?.items.category === 0) {
       result.border = params[i].items.img_url;
     } else {
-      result.award = params[i].items.name;
+      result.award.name = params[i].items.name;
+      result.award.img_url = params[i].items.img_url;
     }
   }
   return result;

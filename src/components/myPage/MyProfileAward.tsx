@@ -17,7 +17,15 @@ const MyProfileAward = () => {
   const { data: award } = useQuery(equipedAwardQueryOption);
   return (
     <MyAward.MyProfileAward>
-      {award ? award.items.name : '칭호 없음'}
+      {award ? (
+        <img
+          src={award.items.img_url}
+          alt={award.items.name}
+          style={{ width: '172px', height: '32px' }}
+        />
+      ) : (
+        '칭호 없음'
+      )}
     </MyAward.MyProfileAward>
   );
 };

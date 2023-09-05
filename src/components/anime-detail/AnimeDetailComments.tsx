@@ -203,9 +203,17 @@ const AnimeDetailComments = () => {
                     {comment.users.nickname}
                   </S.AniUserNickname>
                   <S.AniUserAward>
-                    {comment.users.inventory.length > 0
-                      ? processItem(comment.users.inventory).award
-                      : '칭호없음'}
+                    {comment.users.inventory.length > 0 ? (
+                      <img
+                        src={
+                          processItem(comment.users.inventory).award.img_url!
+                        }
+                        alt={processItem(comment.users.inventory).award.name!}
+                        style={{ width: '172px', height: '32px' }}
+                      ></img>
+                    ) : (
+                      '칭호없음'
+                    )}
                   </S.AniUserAward>
                 </S.AniCommentUser>
                 <S.date>{new Date(comment.created_at).toLocaleString()}</S.date>

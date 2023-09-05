@@ -22,7 +22,7 @@ const getPosts = async (
       let { data, error, count } = await supabase
         .from('posts')
         .select(
-          '*,users!inner(nickname,profile_img_url,inventory(id,items(name,img_url))),likes(*)',
+          '*,users!inner(nickname,profile_img_url,inventory(id,items(name,img_url,category))),likes(*)',
           {
             count: 'exact',
           },
@@ -70,7 +70,7 @@ const getPost = async (id: string) => {
   const { data } = await supabase
     .from('posts')
     .select(
-      '*,users!inner(nickname,profile_img_url,inventory(id,items(name,img_url)))',
+      '*,users!inner(nickname,profile_img_url,inventory(id,items(name,img_url,category)))',
     )
     .eq('id', id)
     .eq('users.inventory.is_equipped', true)
