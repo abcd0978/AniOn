@@ -11,8 +11,8 @@ export const Deco = {
   `,
 };
 export const B = {
-  NoneContainer: styled.div<{ mediaWidth: number }>`
-    ${(props) => `height:${80 * (props.mediaWidth / 1920)}px;`}
+  NoneContainer: styled.div<{ $mediawidth: number }>`
+    ${(props) => `height:${80 * (props.$mediawidth / 1920)}px;`}
     display: grid;
     align-items: center;
 

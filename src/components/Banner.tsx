@@ -117,7 +117,7 @@ export const Banner = (props: PropType) => {
                   name={slide.name}
                   onClick={slide.onClick}
                   title={slide.title}
-                  key={'fewa'}
+                  key={index}
                 />
               </div>
             ))}
@@ -133,7 +133,7 @@ export const Banner = (props: PropType) => {
           </>
         )}
       </div>
-      <StButtonContainer carouselHeight={width * 0.36}>
+      <StButtonContainer $carouselheight={width * 0.36}>
         <PrevButton
           onClickfunc={scrollPrev}
           buttonStyle={buttonStyle}
@@ -145,7 +145,7 @@ export const Banner = (props: PropType) => {
           disabled={nextButtonDisabled}
         />
       </StButtonContainer>
-      <StDotContainer carouselHeight={width * 0.36}>
+      <StDotContainer $carouselheight={width * 0.36}>
         {scrollSnaps.map((__, index) => (
           <DotButton
             onClickfunc={() => {
@@ -186,20 +186,20 @@ const DotButton = (props: DotButtonProps) => {
     </button>
   );
 };
-const StButtonContainer = styled.div<{ carouselHeight: number }>`
+const StButtonContainer = styled.div<{ $carouselheight: number }>`
   width: 100%;
   display: flex;
   position: relative;
   justify-content: space-between;
   align-items: center;
-  bottom: ${(props) => props.carouselHeight / 2 + 30}px;
+  bottom: ${(props) => props.$carouselheight / 2 + 30}px;
 `;
-const StDotContainer = styled.div<{ carouselHeight: number }>`
+const StDotContainer = styled.div<{ $carouselheight: number }>`
   width: 100%;
   display: flex;
   position: relative;
   justify-content: center;
-  // bottom: ${(props) => props.carouselHeight / 2}px;
+  // bottom: ${(props) => props.$carouselheight / 2}px;
   bottom: 100px;
 `;
 export default Banner;

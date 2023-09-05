@@ -66,6 +66,9 @@ export const loginHandler = async (
     //Provider Login
     const { error } = await supabase.auth.signInWithOAuth({
       provider: provider!,
+      options: {
+        redirectTo: process.env.REACT_APP_REDIRECT_URL,
+      },
     });
 
     if (error) {
