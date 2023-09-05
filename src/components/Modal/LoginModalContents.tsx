@@ -211,7 +211,7 @@ const LoginModalContents = (props: Props) => {
           />
         </StLoginDownerTitleContainer>
         <StLoginDownerLoginOptionContainer mediaWidth={width}>
-          <StLoginDownerLoginOption
+          {/* <StLoginDownerLoginOption
             src={discord}
             onClick={async () => {
               await authApi.loginHandler(undefined, true, AuthProvider.Discord);
@@ -226,7 +226,7 @@ const LoginModalContents = (props: Props) => {
             }}
             mediaWidth={width}
             alt="깃헙"
-          />
+          /> */}
           <StLoginDownerLoginOption
             src={google}
             onClick={async () => {

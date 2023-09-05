@@ -73,6 +73,7 @@ const getPost = async (id: string) => {
       '*,users!inner(nickname,profile_img_url,inventory(id,items(name,img_url)))',
     )
     .eq('id', id)
+    .eq('users.inventory.is_equipped', true)
     .single();
   return data;
 };
@@ -157,10 +158,9 @@ const searchPost = async (keyword: string) => {
         '*,users!inner(nickname,profile_img_url,inventory(id,items(name,img_url))),likes(*)',
       )
       .or(
-        `content.ilike.%${keyword}%, title.ilike.%${keyword}%, users.nickname.ilike.%${keyword}%`,
+        `content.ilike.%${keyword}%, title.ilike.%${keyword}%, users.nickname.ilike.%${keyword}`,
       )
       .eq('users.inventory.is_equipped', true)
-      // .ilike('users.nickname', `%${keyword}%`)
       .order('created_at', { ascending: false });
     if (error) {
       console.log('검색 에러', error);
@@ -170,7 +170,8 @@ const searchPost = async (keyword: string) => {
     console.log('검색 에러', error);
   }
 };
-
+// .ilike('users.nickname', `%${keyword}%`)
+// .or(`users.nickname.ilike.%${keyword}%`)
 export {
   createPost,
   deletePost,

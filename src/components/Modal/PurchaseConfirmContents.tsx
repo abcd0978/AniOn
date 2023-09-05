@@ -21,7 +21,7 @@ const PurchaseConfirmContents = () => {
         toast.warning(data.msg, { autoClose: 1200 });
         return;
       }
-      queryClient.invalidateQueries(['purchasedBorders']);
+      queryClient.invalidateQueries(['myBorders']);
       queryClient.invalidateQueries(['userPoint']);
       setModalContents('afterPurchase');
     },
@@ -216,5 +216,6 @@ const StConfirmButton = styled.button`
   gap: 8px;
   border-radius: 10px;
   background: var(--main-default, #8200ff);
+  color: white;
 `;
 export default PurchaseConfirmContents;
