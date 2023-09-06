@@ -26,6 +26,7 @@ const EditProfile = () => {
   const [newNickname, setNewNickname] = useState('');
   const [nicknameError, setNicknameError] = useState<ErrorType>(initialError);
   const [nicknameDupChecked, setNicknameDupChecked] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   //2-1-1. 사진 업로드
   const handleUpload = async () => {
     if (!selectedFile) {
@@ -418,7 +419,6 @@ const NickNameCheck = styled.button`
   border-color: transparent;
   cursor: pointer;
 
-  // border-style: solid;
   color: #fff;
   &:disabled {
     background-color: white;
@@ -428,8 +428,6 @@ const NickNameCheck = styled.button`
 `;
 export const Button = styled.button`
   padding: 8px;
-  // text-align: center;
-  //margin-left: 700px;
 `;
 
 const TextBelowPhoto = styled.div`
