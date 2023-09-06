@@ -3,6 +3,14 @@ import * as S from './styled.Confirm';
 export const Confirm = () => {
   const { confirmDataState, closeConfirm } = useConfirm();
 
+  const handleConfirmClick = () => {
+    if (!confirmDataState.callBack) {
+      closeConfirm();
+    }
+    confirmDataState?.callBack?.();
+    closeConfirm();
+  };
+
   return (
     <>
       {confirmDataState.isOpen && (
@@ -12,9 +20,9 @@ export const Confirm = () => {
               <p>{confirmDataState.title}</p>
               <p>{confirmDataState.content}</p>
               <S.ButtonContainer>
-                <S.CancelButton onClick={closeConfirm}>Cancel</S.CancelButton>
-                <S.ConfirmButton onClick={confirmDataState.callBack}>
-                  Ok
+                <S.CancelButton onClick={closeConfirm}>취소</S.CancelButton>
+                <S.ConfirmButton onClick={handleConfirmClick}>
+                  확인
                 </S.ConfirmButton>
               </S.ButtonContainer>
             </S.ModalContents>

@@ -12,6 +12,7 @@ type ConfirmType = {
   title: string;
   content: string | JSX.Element;
   callBack?: () => any;
+  commentId?: string;
 };
 
 export const confirmState = atom<ConfirmType>({
