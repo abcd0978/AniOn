@@ -113,7 +113,7 @@ export const CommentDate = styled.div`
   margin-bottom: 33px;
   margin-top: -36px;
   float: right;
-  margin-right: 10px;
+  margin-right: 15px;
 `;
 export const EditInput = styled.input`
   display: flex;
