@@ -156,7 +156,7 @@ const S = {
   Nickname: styled.div`
     white-space: nowrap;
     display: flex;
-    align-item: center;
+    /* align-items: center; */
     justify-content: center;
     font-size: 15px;
     font-weight: 700;

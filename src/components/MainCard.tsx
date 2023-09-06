@@ -5,12 +5,13 @@ type Props = {
   width: number;
   data: any;
   index: number;
+  key: number;
 };
 
-const MainCard = ({ width, data, index }: Props) => {
+const MainCard = ({ width, data, index, key }: Props) => {
   const { width: mediaWidth } = useViewport();
   return (
-    <StMainCard width={width} mediaWidth={mediaWidth}>
+    <StMainCard width={width} $mediawidth={mediaWidth}>
       <StMainCardImgContainer
         img_url={
           data.images.length > 1
@@ -46,8 +47,8 @@ const MainCard = ({ width, data, index }: Props) => {
         <StCardHashTagContainer>
           {data.genres.slice(0, 3).map((g: string) => {
             return (
-              <StCardHashTag>
-                <StCardHashTagTypo mediaWidth={mediaWidth}>
+              <StCardHashTag key={key}>
+                <StCardHashTagTypo $mediawidth={mediaWidth}>
                   # {g!}
                 </StCardHashTagTypo>
               </StCardHashTag>
@@ -58,12 +59,12 @@ const MainCard = ({ width, data, index }: Props) => {
     </StMainCard>
   );
 };
-const StMainCard = styled.div<{ width: number; mediaWidth: number }>`
+const StMainCard = styled.div<{ width: number; $mediawidth: number }>`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 12px;
-  width: ${(props) => (props.width * props.mediaWidth) / 1920}px;
+  width: ${(props) => (props.width * props.$mediawidth) / 1920}px;
   flex-shrink: 0;
 `;
 const StMainCardImgContainer = styled.div<{ img_url: string }>`
@@ -126,10 +127,10 @@ const StCardHashTag = styled.div`
   border-radius: 999px;
   background: #efefef;
 `;
-const StCardHashTagTypo = styled.p<{ mediaWidth: number }>`
+const StCardHashTagTypo = styled.p<{ $mediawidth: number }>`
   color: #000;
   font-family: Pretendard Variable;
-  font-size: ${(props) => 15 * (props.mediaWidth / 1920)}px;
+  font-size: ${(props) => 15 * (props.$mediawidth / 1920)}px;
   text-size-adjust: auto;
   font-style: normal;
   font-weight: 400;

@@ -89,7 +89,7 @@ function Header({}: Props) {
   return (
     <>
       {isModalOpened && <Modal>{modalContentsFunc(modalContents)}</Modal>}
-      <StHeader mediaWidth={width}>
+      <StHeader $mediawidth={width}>
         <StHeaderContainer>
           <StHeaderLogoSection
             onClick={() => {
@@ -105,7 +105,7 @@ function Header({}: Props) {
                 navigate('/');
                 setActiveMenu('둘러보기');
               }}
-              isActive={activeMenu === '둘러보기'}
+              $isactive={activeMenu === '둘러보기' ? true : false}
               color="#8200FF"
             >
               둘러보기
@@ -115,7 +115,7 @@ function Header({}: Props) {
                 navigate('/recommend');
                 setActiveMenu('애니추천');
               }}
-              isActive={activeMenu === '애니추천'}
+              $isactive={activeMenu === '애니추천' ? true : false}
               color="#8200FF"
             >
               애니추천
@@ -125,7 +125,7 @@ function Header({}: Props) {
                 navigate('/board');
                 setActiveMenu('게시판');
               }}
-              isActive={activeMenu === '게시판'}
+              $isactive={activeMenu === '게시판' ? true : false}
               color="#8200FF"
             >
               게시판
@@ -135,7 +135,7 @@ function Header({}: Props) {
                 navigate('/shop/item');
                 setActiveMenu('상점');
               }}
-              isActive={activeMenu === '상점'}
+              $isactive={activeMenu === '상점' ? true : false}
               color="#8200FF"
             >
               상점
@@ -147,13 +147,26 @@ function Header({}: Props) {
               <StHeaderUserInfoContainer>
                 <ProfileWithBorder
                   width={null}
-                  mediaWidth={width}
+                  $mediawidth={width}
                   key={user?.id!}
                 />
                 <StHeaderUserInfo>
                   <StHeaderUserName>{user.nickname}</StHeaderUserName>
                   <StHeaderUserAppellation>
-                    {award ? award.items.name : '칭호 없음'}
+                    {/* {award ? award.items.name : '칭호 없음'} */}
+                    {award ? (
+                      award.items.img_url ? (
+                        <img
+                          src={award.items.img_url}
+                          alt={award.items.name}
+                          style={{ width: '100px', height: '20px' }}
+                        />
+                      ) : (
+                        award.items.name
+                      )
+                    ) : (
+                      '칭호 없음'
+                    )}
                   </StHeaderUserAppellation>
                 </StHeaderUserInfo>
                 <StHeaderDropDownImgContainer
@@ -200,8 +213,8 @@ function Header({}: Props) {
 const headerMenuColor = '#999999';
 const headerMenuColorActivated = '#4f4f4f';
 
-const StHeader = styled.header<{ mediaWidth: number }>`
-  ${(props) => `height:${80 * (props.mediaWidth / 1920)}px;`}
+const StHeader = styled.header<{ $mediawidth: number }>`
+  ${(props) => `height:${80 * (props.$mediawidth / 1920)}px;`}
   display: grid;
   align-items: center;
   background: var(--achromatic-colors-white, #fff);
@@ -217,6 +230,9 @@ const StHeaderContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  @media (max-width: 768px) {
+    visibility: hidden;
+  }
 `;
 const StHeaderLogoSection = styled.div`
   cursor: pointer;
@@ -233,16 +249,16 @@ const StHeaderMenuSection = styled.div`
   align-items: center;
   gap: 40px;
 `;
-const StHeaderMenu = styled.div<{ isActive: boolean; color?: string }>`
+const StHeaderMenu = styled.div<{ $isactive: boolean; color?: string }>`
   width: 72px;
   text-align: center;
   font-weight: 700;
   cursor: pointer;
-  color: ${({ isActive }) =>
-    isActive ? headerMenuColorActivated : headerMenuColor};
-  ${({ isActive, color }) => isActive && color && `color: ${color};`}
+  color: ${(props) =>
+    props.$isactive ? headerMenuColorActivated : headerMenuColor};
+  ${(props) => props.$isactive && props.color && `color: ${props.color};`}
   &:active {
-    color: ${({ color }) => color || headerMenuColorActivated};
+    color: ${(props) => props.color || headerMenuColorActivated};
   }
 `;
 

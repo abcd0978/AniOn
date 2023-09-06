@@ -16,6 +16,16 @@ export const R = {
       height: 440px;
       border-radius: 440px;
     }
+    @media (max-width: 768px) {
+      width: 100%;
+      height: 90%;
+      aspect-ratio: 1;
+      margin-top: 0px;
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    }
   `,
   WorldCupWinnerCard: styled.div`
     display: flex;
@@ -26,6 +36,13 @@ export const R = {
     justify-content: center;
     align-items: center;
     gap: 100px;
+
+    @media (max-width: 768px) {
+      width: 80%;
+      height: 100%;
+      align-items: none;
+      padding: 10px 0px 0px 10px;
+    }
   `,
 
   WorldCupResultText: styled.div`
@@ -35,6 +52,10 @@ export const R = {
     align-self: stretch;
     margin-top: 32px;
     margin-bottom: 72px;
+    @media (max-width: 768px) {
+      height: 10%;
+      margin: 10px 0px 0px 0px;
+    }
   `,
 
   WorldCupResultButtonBox: styled.div`
@@ -44,7 +65,22 @@ export const R = {
     text-align: center;
     justify-content: center;
     gap: 20px;
-    margin-top: -140px;
+    // margin-top: 32px;
+
+    @media (max-width: 768px) {
+      width: 100%;
+      margin-top: 0px;
+      gap: 5px;
+    }
+  `,
+
+  WorldCupResultUp: styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: -2px;
+    width: 100%;
+    height: 80%;
   `,
 
   WorldCupResultButton: styled.button<{ background: string }>`
@@ -71,10 +107,23 @@ export const R = {
       right: 2px;
       vertical-align: top;
     }
+
+    @media (max-width: 768px) {
+      width: 50%;
+      font-size: 12px;
+      padding: 11px 20px;
+
+      img {
+        width: 22px;
+      }
+    }
   `,
 
   ResultBox: styled.div`
     width: 792px;
+    @media (max-width: 768px) {
+      width: 100%;
+    }
   `,
 
   ResultCardBox: styled.div`
@@ -83,6 +132,9 @@ export const R = {
     flex-direction: column;
     align-items: flex-start;
     gap: 20px;
+    @media (max-width: 768px) {
+      margin-top: 20px;
+    }
   `,
 
   ResultRankTitle: styled.div`
@@ -98,6 +150,10 @@ export const R = {
     display: flex;
     align-items: flex-start;
     gap: 24px;
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+    }
   `,
 
   ResultTopCard: styled.div`
@@ -113,6 +169,9 @@ export const R = {
     background: #fff;
     /* Drop Shadow */
     box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.1);
+    @media (max-width: 768px) {
+      flex-direction: column;
+    }
   `,
 
   TopImgRankBox: styled.div`
@@ -125,6 +184,9 @@ export const R = {
     fill: #d9d9d9;
     border-radius: 440px;
     background: #d9d9d9;
+    // @media (max-width: 768px) {
+    //   width: 100%;
+    // }
   `,
 
   ResultRankNum: styled.div`
@@ -185,7 +247,10 @@ export const R = {
     flex-direction: column;
     align-items: flex-start;
     gap: 8px;
-    max-height: 100px;
+    /* max-height: 100px; */
+    @media (max-width: 768px) {
+      width: 100%;
+    }
   `,
 
   OtherRankBox: styled.div`
@@ -195,6 +260,10 @@ export const R = {
     gap: 12px;
     padding-bottom: 8px;
     border-bottom: 1px solid #d9d9d9;
+
+    @media (max-width: 768px) {
+      width: 100%;
+    }
   `,
 
   otherRankImg: styled.img`
@@ -210,11 +279,22 @@ export const R = {
     justify-content: space-between;
     align-items: flex-start;
     flex: 1 0 0;
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+      gap: 5px;
+    }
   `,
 
   otherRankText: styled.div`
     display: flex;
     gap: 8px;
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+      text-align-last: left;
+      gap: 0px;
+    }
   `,
 
   otherRankName: styled.p`

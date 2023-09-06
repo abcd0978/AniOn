@@ -42,6 +42,7 @@ const ShopAwardList = () => {
 
   const { data: myAwards } = useQuery(myAwardsQueryOptions);
 
+  console.log('asd', awards);
   // 구매 여부 판단을 위한 배열
   const purchasedItemIds = myAwards?.map((item) => item.item_id) || [];
 
@@ -64,8 +65,15 @@ const ShopAwardList = () => {
               ?.slice((page - 1) * itemsPerPage, page * itemsPerPage)
               .map((item, index) => {
                 return (
-                  <div key={item.id}>
-                    <AwardName>{item.name}</AwardName>
+                  <ItemBox key={item.id}>
+                    {/* 3항 연산자로 이미지 or 이름 */}
+                    {/* <AwardName> */}
+                    <img
+                      src={item.img_url}
+                      alt={item.name}
+                      style={{ width: '342px' }}
+                    ></img>
+                    {/* </AwardName> */}
                     <ShopMenu>
                       <AwardPrice>{item.price}포인트</AwardPrice>
                       <BuyButton
@@ -84,7 +92,7 @@ const ShopAwardList = () => {
                         구매하기
                       </BuyButton>
                     </ShopMenu>
-                  </div>
+                  </ItemBox>
                 );
               })}
       </GridContainer>
@@ -96,8 +104,8 @@ export default ShopAwardList;
 const GridContainer = styled.div`
   display: grid;
   grid-template-columns: auto auto auto auto;
-  gap: 50px;
-  padding: 10px;
+  gap: 20px;
+  margin-top: 30px;
 `;
 
 // const Container = styled.div`
@@ -105,6 +113,10 @@ const GridContainer = styled.div`
 
 //   margin-top: 40px;
 // `;
+
+export const ItemBox = styled.div`
+  margin-bottom: 50px;
+`;
 export const AwardItem = styled.div`
   gap: 10px;
 `;
@@ -163,10 +175,10 @@ export const BuyButton = styled.button`
 
 export const ShopMenu = styled.div`
   display: flex;
-  width: 220px;
+  width: 330px;
   height: 32px;
   padding: 0px 8px;
   justify-content: space-between;
   align-items: center;
-  margin-top: 10px;
+  margin-top: 3px;
 `;

@@ -35,7 +35,9 @@ const AnimeDetailComments = () => {
     onSuccess: () => {
       queryClient.invalidateQueries(['ani_comments']);
       updatePoint({ userId: user?.id!, point: 1 });
-      toast.success('리뷰가 작성되었습니다! 💰1포인트 적립)');
+      toast.success(
+        '리뷰가 작성되었습니다!ㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ 💰1포인트 적립)',
+      );
     },
   });
 
@@ -190,7 +192,7 @@ const AnimeDetailComments = () => {
                 <S.AniCommentUser>
                   <ProfileWithBorder
                     width={75}
-                    mediaWidth={1920}
+                    $mediawidth={1920}
                     border_img_url={
                       comment.users.inventory.length > 0
                         ? processItem(comment.users.inventory).border
@@ -203,9 +205,17 @@ const AnimeDetailComments = () => {
                     {comment.users.nickname}
                   </S.AniUserNickname>
                   <S.AniUserAward>
-                    {comment.users.inventory.length > 0
-                      ? processItem(comment.users.inventory).award
-                      : '칭호없음'}
+                    {comment.users.inventory.length > 0 ? (
+                      <img
+                        src={
+                          processItem(comment.users.inventory).award.img_url!
+                        }
+                        alt={processItem(comment.users.inventory).award.name!}
+                        style={{ width: '172px', height: '32px' }}
+                      ></img>
+                    ) : (
+                      '칭호없음'
+                    )}
                   </S.AniUserAward>
                 </S.AniCommentUser>
                 <S.date>{new Date(comment.created_at).toLocaleString()}</S.date>

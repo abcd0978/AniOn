@@ -82,7 +82,7 @@ export const fetchMyAwards = async (user_id: string) => {
   try {
     let { data, error } = await supabase
       .from('inventory')
-      .select(`*,items!inner(name)`)
+      .select(`*,items!inner(name,img_url)`)
       .eq('user_id', user_id)
       .eq('items.category', 1);
 
@@ -153,7 +153,7 @@ export const fetchEquippedItems = async (user_id: string) => {
   try {
     const { data, error } = await supabase
       .from('inventory')
-      .select('user_id,item_id, items!inner(name,img_url)')
+      .select('user_id,item_id, items!inner(name,img_url,category)')
       .eq('user_id', user_id)
       .eq('is_equipped', true)
       .returns<
@@ -240,23 +240,29 @@ export const fetchAwards = async () => {
 };
 
 // 판매중인 보더 목록 불러오기
-export const fetchBorders = async () => {
+export const fetchBorders = async (index: number) => {
+  const itemsPerPage = 10;
   try {
-    const { data, error } = await supabase
+    const { data, error, count } = await supabase
       .from('items')
-      .select('*')
+      .select('*', { count: 'exact' })
       .eq('category', 0)
-      .eq('is_on_sale', true);
+      .eq('is_on_sale', true)
+      .range((index - 1) * itemsPerPage, index * (itemsPerPage - 1))
+      .order('name', { ascending: false });
+
+    const totalPages = Math.ceil(count! / itemsPerPage);
+
     if (error) {
       console.log('items.ts fetchTitles error > ', error);
-      return [];
+      return { data: [], totalPages: 0 };
     }
     // console.log(data);
     // const items:ItemRow[] = data[0];
-    return data;
+    return { data, totalPages };
   } catch (error) {
     console.log('items.ts fetchTitles error > ', error);
-    return [];
+    return { data: [], totalPages: 0 };
   }
 };
 

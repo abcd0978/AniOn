@@ -81,9 +81,11 @@ export const button = styled.button`
   background-color: white;
   color: black;
   border: 1px solid #c88fff;
-  border-radius: 10px;
-  width: 50px;
-  height: 25px;
+  border-radius: 6px;
+  width: 64px;
+  height: 28px;
+  padding: 0px 8px;
+  gap: 2px;
   margin-right: 5px;
   cursor: pointer;
 
@@ -144,7 +146,7 @@ export const Ninkname = styled.div`
   font-size: 16px;
   font-weight: 600;
 `;
-export const Award = styled.div`
+export const Award = styled.img`
   display: flex;
   // width: 172px;
   height: 36px;
@@ -152,7 +154,6 @@ export const Award = styled.div`
   align-items: center;
   gap: 8px;
   border-radius: 999px;
-  background: #f4f4f4;
   margin-left: 10px;
   font-size: 14px;
   margin-top: 12px;
@@ -164,6 +165,8 @@ export const CommentBox = styled.div`
   line-height: 1.6;
   margin-bottom: 45px;
   margin-left: 80px;
+  word-wrap: break-word;
+  white-space: pre-wrap;
 `;
 export const Page = styled.div`
   display: flex;

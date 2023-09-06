@@ -13,7 +13,7 @@ type Props = {
 function DropDown({ children }: Props) {
   const { width } = useViewport();
   return (
-    <StDropdownContainer mediaWidth={width}>
+    <StDropdownContainer $mediawidth={width}>
       {children.map((child, index) => (
         <DropDownContents
           NumOfChildren={children.length}
@@ -25,12 +25,12 @@ function DropDown({ children }: Props) {
     </StDropdownContainer>
   );
 }
-const StDropdownContainer = styled.div<{ mediaWidth: number }>`
+const StDropdownContainer = styled.div<{ $mediawidth: number }>`
   display: flex;
   position: absolute;
   flex-direction: column;
   align-items: flex-start;
   z-index: 9;
-  top: ${(props) => `${80 * (props.mediaWidth / 1920)}px`};
+  top: ${(props) => `${80 * (props.$mediawidth / 1920)}px`};
 `;
 export default DropDown;

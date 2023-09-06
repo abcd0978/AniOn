@@ -68,6 +68,7 @@ const Board = () => {
     }
   };
 
+  console.log('dd', postsAndTotalPages);
   // 검색 결과에 따라 게시물 리스트를 필터링하고 정렬
   const filteredAndSortedPosts: PostType[] | undefined = useMemo(() => {
     if (!postsAndTotalPages?.data) return undefined;
@@ -189,7 +190,7 @@ const Board = () => {
               <S.BottomNick>
                 <ProfileWithBorder
                   width={45}
-                  mediaWidth={1920}
+                  $mediawidth={1920}
                   border_img_url={
                     post.users.inventory.length > 0
                       ? processItem(post.users.inventory).border
@@ -220,9 +221,17 @@ const Board = () => {
                       letterSpacing: '-0.21px',
                     }}
                   >
-                    {post.users.inventory.length > 0
-                      ? processItem(post.users.inventory).award
-                      : undefined}
+                    {post.users.inventory.length > 0 ? (
+                      <img
+                        src={processItem(post.users.inventory).award.img_url!}
+                        alt={processItem(post.users.inventory).award.name!}
+                        style={{ width: '140px', height: '26px' }}
+                      />
+                    ) : (
+                      '칭호없음'
+                    )}
+                    {/* // processItem(post.users.inventory).award.img_url
+                      // : undefined} */}
                   </div>
                 </div>
               </S.BottomNick>

@@ -11,8 +11,8 @@ export const Deco = {
   `,
 };
 export const B = {
-  NoneContainer: styled.div<{ mediaWidth: number }>`
-    ${(props) => `height:${80 * (props.mediaWidth / 1920)}px;`}
+  NoneContainer: styled.div<{ $mediawidth: number }>`
+    ${(props) => `height:${80 * (props.$mediawidth / 1920)}px;`}
     display: grid;
     align-items: center;
 
@@ -27,10 +27,15 @@ export const B = {
     margin: 10px;
   `,
   BorderImg: styled.img`
-    width: 250px;
+    width: 150px;
     height: auto;
     object-fit: cover;
+
     margin: 20px;
+
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.1);
   `,
   Number: styled.div`
     width: 100%;
@@ -60,49 +65,48 @@ export const B = {
     height: auto;
     object-fit: cover;
   `,
-  Equip: styled.button`
+  Equip: styled.button<{ is_equipped: boolean }>`
     position: RELATIVE;
-    left: 150px;
+    font-size: 14px;
+    padding: 0px;8px;
+    left: 100px;
     top: -30px;
     width: 80px;
     height: 30px;
-    background-color: white;
+    background-color: ${(props) => (props.is_equipped ? '#F3E7FF' : 'white')};
+color:black;
     border-radius: 6px;
-    border: 1px solid #c88fff;
+    border: ${(props) =>
+      props.is_equipped ? '1px solid #c88fff' : '1px solid #d9d9d9'};
     cursor: pointer;
     &:hover {
-      background-color: #c88fff;
-      color: white;
-    }
-
-    &:disabled:hover {
-      background-color: white;
-      color: #cccccc;
-      cursor: not-allowed;
-    }
+      ${(props) =>
+        !props.is_equipped &&
+        `
+        background-color: ${props.is_equipped ? '#F3E7FF' : 'white'};
+        color: black;
+      `}
+  
+      &:disabled:hover {
+        cursor: not-allowed;
+      }
   `,
   BorderContainer: styled.div`
     width: 268px;
     height: 300px;
-    margin-bottom: 5px;
+    gap: 0px;
   `,
   ButtonContainer: styled.div`
-    display: flex;
     justify-content: space-between;
+    width: 100px;
     align-items: center;
-    position: relative;
-    margin-top: 10px;
-    margin-right: 100px;
+    margin-left: 25px;
   `,
-  ItemBox: styled.div`
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-  `,
+
   Container: styled.div`
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 5px 1px;
   `,
   BorderName: styled.div`
     width: 100%;
@@ -133,23 +137,26 @@ export const A = {
     align-self: stretch;
     margin: 10px;
   `,
-  Equip: styled.button`
+  Equip: styled.button<{ is_equipped: boolean }>`
     width: 80px;
     height: 30px;
     margin-top: 5px;
-    background-color: white;
+    background-color: ${(props) => (props.is_equipped ? '#F3E7FF' : 'white')};
+    color: black;
     border-radius: 6px;
-    border: 1px solid #c88fff;
+    border: ${(props) =>
+      props.is_equipped ? '1px solid #c88fff' : '1px solid #d9d9d9'};
     float: right;
     cursor: pointer;
     &:hover {
-      background-color: #c88fff;
-      color: white;
-    }
+    ${(props) =>
+      !props.is_equipped &&
+      `
+      background-color: ${props.is_equipped ? '#F3E7FF' : 'white'};
+      color: black;
+    `}
 
     &:disabled:hover {
-      background-color: white;
-      color: #cccccc;
       cursor: not-allowed;
     }
   `,

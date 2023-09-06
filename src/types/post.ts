@@ -21,6 +21,7 @@ export type PostType = {
       items: {
         name: string;
         img_url: string;
+        category: number;
       };
     }[];
     nickname: string;
