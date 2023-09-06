@@ -42,9 +42,12 @@ const Comments = () => {
     onSuccess: () => {
       queryClient.invalidateQueries(['post_comments']);
       updatePoint({ userId: user?.id!, point: 1 });
-      toast.success('댓글이 작성되었습니다! 💰1포인트 적립', {
-        autoClose: 800,
-      });
+      toast.success(
+        '댓글이 작성되었습니다!ㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ 💰1포인트 적립',
+        {
+          autoClose: 800,
+        },
+      );
     },
   });
 
