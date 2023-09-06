@@ -59,7 +59,7 @@ export const S = {
   `,
 
   Target: styled.div`
-    height: 50px;
+    height: 1px;
     position: relative;
     transform: translateY(-100%);
   `,

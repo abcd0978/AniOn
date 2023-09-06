@@ -42,7 +42,7 @@ const getPosts = async (
       const { data, error, count } = await supabase
         .from('posts')
         .select(
-          '*,users!inner(nickname,profile_img_url,inventory(id,items(name,img_url))),likes(*)',
+          '*,users!inner(nickname,profile_img_url,inventory(id,items(name,img_url,category))),likes(*)',
           {
             count: 'exact',
           },

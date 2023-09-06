@@ -24,13 +24,11 @@ ${reset};
 }
 
 
-body:not(header){
+body{
     margin:0 auto;
     max-width: 75%;
     overflow-x: hidden;
     font-family: 'Pretendard-Regular';
-
-
 }
 header{
     width:100vw;

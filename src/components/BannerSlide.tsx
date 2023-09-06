@@ -65,9 +65,11 @@ const SlideContainer = styled.div<{ image?: string }>`
       : `background:#424242;`}
   //background-image: ${(props) => `url(${props.image});`};
   height: 100%;
+  position: relative;
 `;
 const StSlideInfoContainer = styled.div`
-  position: relative;
+  position: absolute;
+
   background-color: transparent;
   left: 237px;
   top: 319px;

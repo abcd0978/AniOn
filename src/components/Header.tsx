@@ -230,6 +230,9 @@ const StHeaderContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  @media (max-width: 768px) {
+    visibility: hidden;
+  }
 `;
 const StHeaderLogoSection = styled.div`
   cursor: pointer;
