@@ -6,15 +6,15 @@ import { useNavigate } from 'react-router-dom';
 import supabase from '../../supabaseClient';
 import { deletePost } from '../../api/boardapi';
 import { Post, Review } from './Wrote.styles';
-import { Button, Container, Divider, EditTitle } from './EditProfile';
+import { Button, Container, Divider } from './EditProfile';
 import Pagination from '../Pagenation';
 import { useQuery } from '@tanstack/react-query';
 import { getPosts } from '../../api/boardapi';
 import { StyledPostCategory } from './Wrote.styles';
-import { Page } from './LikedAnime';
 import useViewport from '../../hooks/useViewPort';
 import { styled } from 'styled-components';
 import { toast } from 'react-toastify';
+import { getLikesForPost } from '../../api/boardapi';
 type ReadMyBoard = Database['public']['Tables']['posts']['Row'];
 type ReadMyBoardLikes = Database['public']['Tables']['likes']['Row'];
 const userPostsAtom = atom<ReadMyBoard[]>([]);
@@ -31,6 +31,7 @@ const WhatIWrote = () => {
   const [selectedPosts, setSelectedPosts] = useState<string[]>([]);
   const [page, setPage] = useState<number>(1);
   const { width, height, isMobile, isLoaded } = useViewport();
+  const [currentPage, setCurrentPage] = useState(1);
 
   const itemsPerPage = 12;
   const {
@@ -114,7 +115,7 @@ const WhatIWrote = () => {
   useEffect(() => {
     fetchUserPosts();
     fetchUserPostLikes();
-  }, [setUserPosts, setUserPostLike, user]);
+  }, [setUserPosts, setUserPostLike, user, currentPage]);
 
   const handlePostClick = (id: string) => {
     navigate(`/board/${id}`);
@@ -159,11 +160,20 @@ const WhatIWrote = () => {
       }
     }
   };
-
+  const totalPages = Math.ceil(userPosts.length / itemsPerPage);
+  const handlePageChange = (page: number | 'prev' | 'next') => {
+    if (page === 'prev' && currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    } else if (page === 'next' && currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    } else if (typeof page === 'number' && page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
+    }
+  };
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
   return (
     <Container>
-      <Post.line>작성한 글</Post.line>
-
       <ul>
         {userPosts
           .slice((page - 1) * itemsPerPage, page * itemsPerPage)
@@ -214,11 +224,11 @@ const WhatIWrote = () => {
       </Post.ButtonBox>
       <WriteP $mediawidth={width}>
         <Pagination
-          currentPage={page}
-          totalPages={postsAndTotalPages?.totalPages || 1}
-          onClick={onClickPage}
-          isPreviousDisabled={page === 1}
-          isNextDisabled={page >= (postsAndTotalPages?.totalPages || 1)}
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onClick={handlePageChange}
+          isPreviousDisabled={currentPage === 1}
+          isNextDisabled={currentPage >= totalPages}
         />
       </WriteP>
     </Container>
@@ -230,5 +240,6 @@ export const WriteP = styled.div<{ $mediawidth: number }>`
   height: 10vh;
   ${(props) => `width:${250 * (props.$mediawidth / 1920)}px;`}
   margin-bottom: -330px;
+  justify-contents: center;
   margin-left: 400px;
 `;

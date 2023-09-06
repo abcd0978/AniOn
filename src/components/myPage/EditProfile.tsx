@@ -26,6 +26,7 @@ const EditProfile = () => {
   const [newNickname, setNewNickname] = useState('');
   const [nicknameError, setNicknameError] = useState<ErrorType>(initialError);
   const [nicknameDupChecked, setNicknameDupChecked] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   //2-1-1. 사진 업로드
   const handleUpload = async () => {
     if (!selectedFile) {
@@ -169,7 +170,6 @@ const EditProfile = () => {
     let updatedUser = user;
     return (
       <Container>
-        <EditTitle>프로필 수정</EditTitle>
         <Divider />
         <Item>
           <Label>사진</Label>
@@ -331,7 +331,7 @@ export const Container = styled.div`
   gap: 16px;
   align-items: flex-start;
   position: relative;
-  top: -370px;
+  top: -300px;
   margin-left: 160px;
   margin-bottom: 130px;
 `;
@@ -419,7 +419,6 @@ const NickNameCheck = styled.button`
   border-color: transparent;
   cursor: pointer;
 
-  // border-style: solid;
   color: #fff;
   &:disabled {
     background-color: white;
@@ -429,19 +428,8 @@ const NickNameCheck = styled.button`
 `;
 export const Button = styled.button`
   padding: 8px;
-  // text-align: center;
-  //margin-left: 700px;
 `;
-export const EditTitle = styled.div`
-  width: 150px;
-  height: 32px;
-  color: #000;
-  font-size: 24px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: normal;
-  letter-spacing: -0.36px;
-`;
+
 const TextBelowPhoto = styled.div`
   color: #838383;
   font-size: 14px;

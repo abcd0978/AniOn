@@ -15,7 +15,7 @@ import { toast } from 'react-toastify';
 import { Page } from './MyInvenAward';
 import { styled } from 'styled-components';
 
-const itemsPerPage = 15;
+const itemsPerPage = 12;
 
 const MyBorder = () => {
   const [page, setPage] = useState<number>(1);
@@ -89,23 +89,25 @@ const MyBorder = () => {
       <B.Container>
         {filteredBorders.map((filteredBorders, index) => (
           <div key={index}>
-            <div>
+            <B.BorderContainer>
               <B.BorderImg
                 src={filteredBorders.items?.img_url}
                 alt={filteredBorders.items?.name}
               />
-              <div>
+              <B.ButtonContainer>
                 <B.BorderName>{filteredBorders.items?.name}</B.BorderName>
 
                 <B.Equip
+                  is_equipped={filteredBorders.is_equipped}
                   onClick={() =>
                     handleApplyButtonClick(filteredBorders.items?.id)
                   }
+                  disabled={filteredBorders.is_equipped}
                 >
-                  장착
+                  {filteredBorders.is_equipped ? '적용됨' : '적용'}
                 </B.Equip>
-              </div>
-            </div>
+              </B.ButtonContainer>
+            </B.BorderContainer>
           </div>
         ))}
       </B.Container>
@@ -142,13 +144,9 @@ export default MyBorder;
 export const BorderPage = styled.div`
   display: flex;
   justify-content: center;
-  margin-top: 30px;
+  margin-top: 300px;
 `;
-export const BorderItem = styled.div`
-  margin: 5px;
-  gap: 0px;
-  width: 400px;
-`;
+
 export const Outer = styled.div`
   width: 1430px;
   height: 999px;

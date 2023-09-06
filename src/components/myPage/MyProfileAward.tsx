@@ -3,6 +3,7 @@ import * as userStore from '../../store/userStore';
 import { useAtomValue } from 'jotai';
 import { fetchEquippedItem } from '../../api/items';
 import { useQuery } from '@tanstack/react-query';
+import { styled } from 'styled-components';
 const MyProfileAward = () => {
   const user = useAtomValue(userStore.user);
 
@@ -21,7 +22,7 @@ const MyProfileAward = () => {
         <img
           src={award.items.img_url}
           alt={award.items.name}
-          style={{ width: '172px', height: '32px' }}
+          style={{ width: '215px', height: '40px' }}
         />
       ) : (
         '칭호 없음'
