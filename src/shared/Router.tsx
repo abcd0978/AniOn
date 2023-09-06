@@ -4,7 +4,6 @@ import AnimeRecommend from '../pages/AnimeRecommend';
 import Board from '../pages/Board';
 import MyPage from '../pages/MyPage';
 import Shop from '../pages/Shop';
-import UserInfoModify from '../pages/UserInfoModify';
 import WorldCup from '../pages/WorldCup';
 import WriteBoard from '../pages/WriteBoard';
 import NotFoundPage from '../pages/NotFoundPage';

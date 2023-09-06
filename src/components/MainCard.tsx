@@ -129,7 +129,6 @@ const StCardHashTag = styled.div`
 `;
 const StCardHashTagTypo = styled.p<{ $mediawidth: number }>`
   color: #000;
-  font-family: Pretendard Variable;
   font-size: ${(props) => 15 * (props.$mediawidth / 1920)}px;
   text-size-adjust: auto;
   font-style: normal;
