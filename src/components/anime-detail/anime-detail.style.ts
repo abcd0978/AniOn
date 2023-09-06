@@ -20,7 +20,7 @@ export const S = {
     align-items: flex-start;
     gap: 40px;
     height: 627px;
-    weight: 830px;
+    width: 830px;
 
     // @media screen and (max-width: 1219px) {
     //   display: flex;
@@ -129,7 +129,7 @@ export const S = {
     align-items: flex-start;
     gap: 32px;
     width: 116px;
-    heigth: 57px;
+    height: 57px;
   `,
 
   LikeBox: styled.div`

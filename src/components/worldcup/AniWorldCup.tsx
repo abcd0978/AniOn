@@ -27,9 +27,9 @@ function AniWorldCup() {
   const calculateCurrentRound = (charactersLeft: number) => {
     if (charactersLeft > 8 && charactersLeft <= 16) {
       return '16강';
-    } else if (charactersLeft > 4 && charactersLeft <= 8) {
+    } else if (charactersLeft > 4) {
       return '8강';
-    } else if (charactersLeft > 2 && charactersLeft <= 4) {
+    } else if (charactersLeft > 2) {
       return '4강';
     } else if (charactersLeft === 2) {
       return '결승';
@@ -77,11 +77,20 @@ function AniWorldCup() {
       if (winners.length === 0) {
         await updateNumOfWin(character.id);
         setDisplays([character]);
-        await updatePoint({ userId: user?.id!, point: 2 });
-        toast.success(
-          `❤️${user?.nickname}님의 이상형을 찾았아요! 💰2포인트 적립 ❤️`,
-        );
-        navigate(`/worldcup/result/${gender}`, { state: character });
+        // await updatePoint({ userId: user?.id!, point: 2 });
+        if (!user) {
+          toast.success('친구에게 테스트를 공유해보세요!', {
+            autoClose: 1200,
+          });
+          navigate(`/worldcup/result/${gender}`, { state: character });
+        } else {
+          await updatePoint({ userId: user?.id!, point: 2 });
+          toast.success(
+            `${user?.nickname}님의 이상형을 찾았어요! 💰2포인트 적립`,
+            { autoClose: 1200 },
+          );
+          navigate(`/worldcup/result/${gender}`, { state: character });
+        }
       } else {
         let updatedCharacter = [...winners, character];
         setCharacters(updatedCharacter);
@@ -101,33 +110,35 @@ function AniWorldCup() {
         <S.WorldCupMainTitle>
           {gender === 'man' ? '남자' : '여자'} 애니메이션 캐릭터 이상형 월드컵{' '}
           {currentRound}
-          <S.WorldCupTestContainer>
-            {displays.map((character: ReadCharacters) => {
-              return (
-                <S.WorldCupTest key={character.id} height={660}>
-                  <S.WorldCupUp>
-                    <S.WorldCupImg>
-                      <img src={character.img_url} alt="캐릭터" />
-                    </S.WorldCupImg>
-                    <S.WorldCupTitleBox>
-                      <S.WorldCupTitle>{character.ani_title}</S.WorldCupTitle>
-                      <S.WorldCupName>
-                        {character.character_name}
-                      </S.WorldCupName>
-                    </S.WorldCupTitleBox>
-                  </S.WorldCupUp>
-                  <S.WorldCupTestPickButton
-                    onClick={SelectWinnerhandler(character)}
-                    width={278}
-                  >
-                    선택하기
-                  </S.WorldCupTestPickButton>
-                </S.WorldCupTest>
-              );
-            })}
-          </S.WorldCupTestContainer>
-          <S.WorldcupVS src={vs} alt="vs" />
         </S.WorldCupMainTitle>
+        <S.WorldCupRealTestContainer>
+          {displays.map((character: ReadCharacters, index) => {
+            // console.log(index);
+            return (
+              <S.WorldCupTest key={character.id} height={660}>
+                <S.WorldCupUp>
+                  <S.WorldCupImg>
+                    <S.CharacterImg
+                      src={character.img_url}
+                      alt={character.character_name}
+                    />
+                  </S.WorldCupImg>
+                  <S.WorldCupTitleBox>
+                    <S.WorldCupTitle>{character.ani_title}</S.WorldCupTitle>
+                    <S.WorldCupName>{character.character_name}</S.WorldCupName>
+                  </S.WorldCupTitleBox>
+                </S.WorldCupUp>
+                <S.WorldCupTestPickButton
+                  onClick={SelectWinnerhandler(character)}
+                  width={278}
+                >
+                  선택하기
+                </S.WorldCupTestPickButton>
+              </S.WorldCupTest>
+            );
+          })}
+        </S.WorldCupRealTestContainer>
+        <S.WorldcupVS src={vs} alt="vs" />
       </S.WorldCupContainer>
     </>
   );

@@ -127,6 +127,10 @@ function AnimeDetail() {
     console.log('데이터를 가져올 수 없습니다.');
   }
 
+  const genres = animeDetail.genres.join('  ');
+
+  console.log(genres);
+
   return (
     <>
       <S.DetailContainer>
@@ -171,7 +175,8 @@ function AnimeDetail() {
                     : '제작사 정보가 없습니다.'}
                 </S.ContentsGenrePro>
                 <S.ContentsGenrePro>
-                  <S.ContentsEtc>장르</S.ContentsEtc> {animeDetail.genres}
+                  <S.ContentsEtc>장르</S.ContentsEtc>
+                  {genres}
                 </S.ContentsGenrePro>
               </S.ContentsTextUp>
               <S.ContentsEx>
