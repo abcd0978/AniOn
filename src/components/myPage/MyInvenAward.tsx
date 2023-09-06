@@ -14,7 +14,7 @@ import { toast } from 'react-toastify';
 import { AwardName, BuyButton } from '../ShopAwards';
 import { MyAward } from './MyPage.styles';
 import Pagination from '../Pagenation';
-const itemsPerPage = 18;
+const itemsPerPage = 15;
 
 const MyInvenAward = () => {
   const queryClient = useQueryClient();
@@ -22,7 +22,6 @@ const MyInvenAward = () => {
   const navigate = useNavigate();
   const { width, height, isMobile, isLoaded } = useViewport();
   const [currentPage, setCurrentPage] = useState(1);
-
   const myAwardsQueryOptions = {
     queryKey: ['myAwards'],
     queryFn: () => fetchMyAwards(user!.id),
@@ -37,6 +36,7 @@ const MyInvenAward = () => {
     onSuccess: (data) => {
       console.log('장착 myInvenAward', data);
       queryClient.invalidateQueries(['equippedAward']);
+      queryClient.invalidateQueries(['myAwards']);
     },
     onError: (error) => {
       console.log('장착 myInvenAward', error);
@@ -67,17 +67,25 @@ const MyInvenAward = () => {
   };
   const awardsList = Array.isArray(awards) ? (
     <GridContainer>
-      {awards.map((award, index) => (
+      {awards?.map((award, index) => (
         <div key={index}>
-          <A.Name>{award.items?.name}</A.Name>
-          <A.Equip onClick={() => handleApplyButtonClick(award.item_id)}>
-            적용
+          <img
+            src={award.items.img_url}
+            alt={award.items.name}
+            style={{ width: '240px' }}
+          />
+          <A.Equip
+            is_equipped={award.is_equipped}
+            onClick={() => handleApplyButtonClick(award.item_id)}
+            disabled={award.is_equipped}
+          >
+            {award.is_equipped ? '적용됨' : '적용'}
           </A.Equip>
         </div>
       ))}
     </GridContainer>
   ) : (
-    <B.NoneContainer mediaWidth={width}>
+    <B.NoneContainer $mediawidth={width}>
       <B.NoneMessage>구매한 칭호가 없습니다.</B.NoneMessage>
       <B.NoneButton
         onClick={() => {
@@ -109,13 +117,12 @@ export default MyInvenAward;
 const GridContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-  grid-template-columns: auto auto auto auto;
-  gap: 10px;
+  gap: 50px;
   padding: 10px;
 `;
+
 export const Page = styled.div`
   display: flex;
   justify-content: center;
-  align-items: center;
+  margin-top: 350px;
 `;

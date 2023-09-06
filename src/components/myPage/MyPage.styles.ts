@@ -170,13 +170,11 @@ export const InfoMenu = {
 export const MyAward = {
   MyProfileAward: styled.div`
     display: flex;
-    width: auto;
-    height: 28px;
-    padding: 8px;
+    width: 280px;
+    height: auto;
     justify-content: center;
     align-items: center;
     gap: 8px;
-    border: 1px solid #d9d9d9;
     margin-top: 20px;
     margin-bottom: 20px;
   `,

@@ -211,26 +211,41 @@ const Main = () => {
               순위
             </p>
           </div>
-          <StMainCardContainer mediaWidth={width}>
+          <StMainCardContainer $mediawidth={width}>
             {dataH ? (
               <>
                 <div
                   style={{ cursor: 'pointer' }}
                   onClick={() => navigate(`/recommend/${dataH[0].id}`)}
                 >
-                  <MainCard index={1} data={dataH[0]} width={BigCardHeight} />
+                  <MainCard
+                    key={dataH[0].id + 132}
+                    index={1}
+                    data={dataH[0]}
+                    width={BigCardHeight}
+                  />
                 </div>
                 <div
                   style={{ cursor: 'pointer' }}
                   onClick={() => navigate(`/recommend/${dataH[1].id}`)}
                 >
-                  <MainCard index={2} data={dataH[1]} width={BigCardHeight} />
+                  <MainCard
+                    key={dataH[1].id + 133}
+                    index={2}
+                    data={dataH[1]}
+                    width={BigCardHeight}
+                  />
                 </div>
                 <div
                   style={{ cursor: 'pointer' }}
                   onClick={() => navigate(`/recommend/${dataH[2].id}`)}
                 >
-                  <MainCard index={3} data={dataH[2]} width={BigCardHeight} />
+                  <MainCard
+                    key={dataH[2].id + 134}
+                    index={3}
+                    data={dataH[2]}
+                    width={BigCardHeight}
+                  />
                 </div>
               </>
             ) : (
@@ -262,7 +277,7 @@ const Main = () => {
             </p>
           </div>
           <StMainCardContainer
-            mediaWidth={width}
+            $mediawidth={width}
             style={{ alignContent: 'center' }}
           >
             <div
@@ -283,12 +298,13 @@ const Main = () => {
                     return (
                       <div
                         onClick={() => navigate(`/recommend/${data.id}`)}
-                        key={index}
+                        key={data.id + 2}
                         className="embla__slide"
                         style={{ cursor: 'pointer' }}
                       >
                         <MainCard
-                          index={index + 1}
+                          key={data.id + 1}
+                          index={index}
                           data={data}
                           width={smallCardHeight}
                         />
@@ -331,8 +347,8 @@ const Main = () => {
                 )}
               </div>
               <StButtonContainer
-                mediaWidth={width * 0.75}
-                carouselHeight={smallCardHeight}
+                $mediawidth={width * 0.75}
+                $carouselheight={smallCardHeight}
               >
                 <PrevButton
                   onClickfunc={() => scrollPrevW(weeklyEmblaApi)}
@@ -368,7 +384,7 @@ const Main = () => {
             </p>
           </div>
           <StMainCardContainer
-            mediaWidth={width}
+            $mediawidth={width}
             style={{ alignContent: 'center' }}
           >
             <div
@@ -389,12 +405,13 @@ const Main = () => {
                     return (
                       <div
                         onClick={() => navigate(`/recommend/${data.id}`)}
-                        key={index}
+                        key={data.id + 3}
                         className="embla__slide"
                         style={{ cursor: 'pointer' }}
                       >
                         <MainCard
-                          index={index + 1}
+                          key={data.id + 4}
+                          index={index}
                           data={data}
                           width={smallCardHeight}
                         />
@@ -434,8 +451,8 @@ const Main = () => {
                 )}
               </div>
               <StButtonContainer
-                mediaWidth={width * 0.75}
-                carouselHeight={smallCardHeight}
+                $mediawidth={width * 0.75}
+                $carouselheight={smallCardHeight}
               >
                 <PrevButton
                   onClickfunc={() => scrollPrevN(newEmblaApi)}
@@ -491,14 +508,14 @@ const NextButton = (props: ButtonProps) => {
   );
 };
 const StButtonContainer = styled.div<{
-  carouselHeight: number;
-  mediaWidth: number;
+  $carouselheight: number;
+  $mediawidth: number;
 }>`
-  width: ${(props) => props.mediaWidth}px;
+  width: ${(props) => props.$mediawidth}px;
   display: flex;
   position: relative;
   justify-content: space-between;
-  bottom: ${(props) => props.carouselHeight / 2 + 30}px;
+  bottom: ${(props) => props.$carouselheight / 2 + 30}px;
 `;
 const boldFontStyle: CSSProperties = {
   color: '#000',
@@ -532,9 +549,9 @@ const StMainCardContainerWithTypo = styled.div`
   align-items: flex-start;
   gap: 32px;
 `;
-const StMainCardContainer = styled.div<{ mediaWidth: number }>`
-  //width: ${(props) => props.mediaWidth * 0.75}px;
-  width: ${(props) => props.mediaWidth}px;
+const StMainCardContainer = styled.div<{ $mediawidth: number }>`
+  //width: ${(props) => props.$mediawidth * 0.75}px;
+  width: ${(props) => props.$mediawidth}px;
   display: flex;
   gap: 14px;
   flex-direction: row;

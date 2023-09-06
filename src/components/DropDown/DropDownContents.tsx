@@ -31,7 +31,7 @@ function DropDownContents({ data, NumOfChildren, index }: Props) {
   return (
     <StDropdownMenu
       className={'dropdoen_menu'}
-      mediaWidth={width}
+      $mediawidth={width}
       order={processOrder()}
       onClick={() => {
         data.func();
@@ -42,13 +42,13 @@ function DropDownContents({ data, NumOfChildren, index }: Props) {
     </StDropdownMenu>
   );
 }
-const StDropdownMenu = styled.div<{ order: number; mediaWidth: number }>`
+const StDropdownMenu = styled.div<{ order: number; $mediawidth: number }>`
   display: flex;
-  width: ${(props) => 156 * (props.mediaWidth / 1920)}px;
-  height: ${(props) => 56 * (props.mediaWidth / 1920)}px;
+  width: ${(props) => 156 * (props.$mediawidth / 1920)}px;
+  height: ${(props) => 56 * (props.$mediawidth / 1920)}px;
   padding: ${(props) => {
-    return `${13 * (props.mediaWidth / 1920)}px ${
-      16 * (props.mediaWidth / 1920)
+    return `${13 * (props.$mediawidth / 1920)}px ${
+      16 * (props.$mediawidth / 1920)
     }px `;
   }};
   align-items: center;

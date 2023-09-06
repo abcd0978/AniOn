@@ -82,7 +82,7 @@ export const fetchMyAwards = async (user_id: string) => {
   try {
     let { data, error } = await supabase
       .from('inventory')
-      .select(`*,items!inner(name)`)
+      .select(`*,items!inner(name,img_url)`)
       .eq('user_id', user_id)
       .eq('items.category', 1);
 

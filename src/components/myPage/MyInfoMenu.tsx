@@ -93,8 +93,6 @@ const MyInfoMenu = () => {
                 style={{
                   color:
                     selectedComponent === 'LikedAnime' ? '#8200FF' : '#999',
-
-                  // imageRendering:selectedComponent==='LikedAnime'?'':''
                 }}
               >
                 {selectedComponent === 'LikedAnime' ? (
@@ -145,8 +143,24 @@ const MyInfoMenu = () => {
             </InfoMenu.InfoButtonContainer>
           </Outer>
         </InfoMenu.Container>
+
         <ProfileEdit>{renderSelectedComponent()}</ProfileEdit>
       </InfoMenu.FullScreen>
+      <TitleContainer>
+        <EditTitle>
+          {selectedComponent === 'EditProfile' && '프로필 수정'}
+        </EditTitle>
+        {/* <DecoTitle>
+          {selectedComponent === 'DecoProfile' && '프로필 꾸미기'}
+        </DecoTitle> */}
+
+        <ReviewTitle>
+          {selectedComponent === 'MyReviews' && '리뷰 관리'}
+        </ReviewTitle>
+        <WriteTitle>
+          {selectedComponent === 'WhatIWrote' && '작성한 글'}
+        </WriteTitle>
+      </TitleContainer>
     </>
   );
 };
@@ -199,4 +213,27 @@ export const DecoButton = styled.button`
   font-weight: 400;
   line-height: normal;
   letter-spacing: -0.24px;
+`;
+export const TitleContainer = styled.div`
+  position: absolute;
+  margin-left: 350px;
+  width: 200px;
+  height: 32px;
+  color: #000;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: -0.36px;
+`;
+
+export const EditTitle = styled.div`
+  margin-top: -950px;
+`;
+
+export const ReviewTitle = styled.div`
+  margin-top: 220px;
+`;
+export const WriteTitle = styled.div`
+  margin-top: -180px;
 `;
