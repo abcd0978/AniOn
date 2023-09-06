@@ -38,6 +38,8 @@ export const S = {
 
   HoverDiv: styled.div`
     position: relative;
+    width: 100%;
+    height: 100%;
   `,
 
   HoverGenre: styled.div`
@@ -72,8 +74,6 @@ export const S = {
     -webkit-box-orient: vertical;
     overflow: hidden;
   `,
-  // 애니메이션 제목
-  //  wordWrap: 'break-word'
 
   HoverViewDetail: styled.button`
     display: flex;
@@ -105,8 +105,8 @@ export const S = {
     align-items: flex-start;
     padding: 0px;
     gap: 8px;
-    width: 220px;
-    height: 350px;
+    width: 100%;
+    height: 100%;
     cursor: pointer;
     @media (max-width: 540px) {
       width: 100%;
@@ -116,7 +116,7 @@ export const S = {
 
   CardThumbnail: styled.img`
     width: 100%;
-    height: 320px;
+    height: 100%;
     border-radius: 10px;
     @media (max-width: 540px) {
       width: 100%;

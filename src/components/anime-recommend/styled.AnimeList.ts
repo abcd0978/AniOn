@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 export const S = {
   PageNameDiv: styled.div`
+    /* width: 100%; */
     margin-top: 30px;
     letter-spacing: -2px;
   `,
@@ -24,31 +25,26 @@ export const S = {
     gap: 24px;
     row-gap: 40px;
 
-    @media (max-width: 2560px) {
-      grid-template-columns: repeat(7, 1fr); /* 7개의 컬럼으로 변경 */
-    }
-
     @media (max-width: 2160px) {
       grid-template-columns: repeat(6, 1fr); /* 6개의 컬럼으로 변경 */
     }
 
+    @media (max-width: 1910px) {
+      grid-template-columns: repeat(5, 1fr); /* 5개의 컬럼으로 변경 */
+    }
+
     @media (max-width: 1600px) {
       /* 화면 크기가 1600px 이하인 경우 */
-      grid-template-columns: repeat(5, 1fr); /* 5개의 컬럼으로 변경 */
+      grid-template-columns: repeat(4, 1fr); /* 4개의 컬럼으로 변경 */
     }
 
     @media (max-width: 1280px) {
       /* 화면 크기가 1280px 이하인 경우 */
-      grid-template-columns: repeat(4, 1fr); /* 4개의 컬럼으로 변경 */
+      grid-template-columns: repeat(3, 1fr); /* 3개의 컬럼으로 변경 */
     }
 
     @media (max-width: 1024px) {
       /* 화면 크기가 1024px 이하인 경우 */
-      grid-template-columns: repeat(3, 1fr); /* 3개의 컬럼으로 변경 */
-    }
-
-    @media (max-width: 800px) {
-      /* 화면 크기가 800px 이하인 경우 */
       grid-template-columns: repeat(2, 1fr); /* 2개의 컬럼으로 변경 */
     }
 
