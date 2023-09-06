@@ -67,7 +67,7 @@ export const loginHandler = async (
     const { error } = await supabase.auth.signInWithOAuth({
       provider: provider!,
       options: {
-        redirectTo: process.env.REACT_APP_REDIRECT_URL,
+        redirectTo: window.location.origin + '/sociallogin',
       },
     });
 
