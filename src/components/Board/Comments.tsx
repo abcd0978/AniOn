@@ -185,7 +185,8 @@ const Comments = () => {
                   />
                   <S.Ninkname>{comment.users.nickname}</S.Ninkname>
                   {/* <S.Award> */}
-                  {comment.users.inventory.length > 0 ? (
+                  {comment.users.inventory.length > 0 &&
+                  processItem(comment.users.inventory).award.img_url ? (
                     <S.Award
                       src={processItem(comment.users.inventory).award.img_url!}
                       alt={processItem(comment.users.inventory).award.name!}

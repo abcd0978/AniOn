@@ -30,6 +30,7 @@ const AnimeDetailComments = () => {
   const [newComment, setNewComment] = useState<string>('');
   const [editingCommentId, setEditingCommentId] = useState<string | null>('');
   const [editedCommentText, setEditedCommentText] = useState<string>('');
+  const [collapsedComments, setCollapsedComments] = useState<string[]>([]);
 
   const addMutation = useMutation(addComment, {
     onSuccess: () => {
@@ -208,7 +209,8 @@ const AnimeDetailComments = () => {
                     {comment.users.nickname}
                   </S.AniUserNickname>
                   <S.AniUserAward>
-                    {comment.users.inventory.length > 0 ? (
+                    {comment.users.inventory.length > 0 &&
+                    processItem(comment.users.inventory).award.img_url ? (
                       <img
                         src={
                           processItem(comment.users.inventory).award.img_url!

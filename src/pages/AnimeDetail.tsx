@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import VideoPlayer from '../components/anime-detail/VideoPlayer';
 import { S } from '../components/anime-detail/anime-detail.style';
 import AnimeDetailComments from '../components/anime-detail/AnimeDetailComments';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import filled from '../assets/filledLike.svg';
 import unfilled from '../assets/unfilledLike.svg';
 import share from '../assets/share.svg';
@@ -22,6 +22,7 @@ function AnimeDetail() {
   const previewRef = useRef<HTMLDivElement>(null);
   const queryClient = useQueryClient();
   const currentUrl = window.location.href;
+  const [collapsedComments, setCollapsedComments] = useState<string[]>([]);
 
   const user = useAtomValue(userStore.user);
 
