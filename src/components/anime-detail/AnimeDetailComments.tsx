@@ -24,7 +24,6 @@ type UpdateAniComment = Database['public']['Tables']['ani_comments']['Update'];
 const AnimeDetailComments = () => {
   const { ani_id } = useParams() as { ani_id: string };
   const user = useAtomValue(userStore.user);
-  const { openConfirm } = useConfirm();
 
   const queryClient = useQueryClient();
 
