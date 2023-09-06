@@ -66,6 +66,14 @@ const Comments = () => {
       return;
     }
 
+    // 댓글을 300자로 제한
+    if (newComment.length > 300) {
+      toast.warning('댓글은 300자까지만 입력이 가능합니다!😅', {
+        autoClose: 800,
+      });
+      return;
+    }
+
     //생성
     const createComment: InsertPostComment = {
       comment: newComment,
@@ -248,10 +256,10 @@ const Comments = () => {
               ) : (
                 //더보기
                 <S.CommentBox>
-                  {comment.comment.length > 410 &&
+                  {comment.comment.length > 250 &&
                   !collapsedComments.includes(comment.id) ? (
                     <>
-                      {comment.comment.slice(0, 410)}
+                      {comment.comment.slice(0, 250)}
                       <S.CommentMore
                         onClick={() => toggleCommentCollapse(comment.id)}
                       >
@@ -261,7 +269,7 @@ const Comments = () => {
                   ) : (
                     <>
                       {comment.comment}
-                      {comment.comment.length > 410 && (
+                      {comment.comment.length > 250 && (
                         <S.CommentMore
                           onClick={() => toggleCommentCollapse(comment.id)}
                         >

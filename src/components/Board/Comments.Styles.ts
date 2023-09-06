@@ -104,7 +104,6 @@ export const Comment = styled.div`
   background-color: #ffffff;
   width: 1440px;
   min-height: 218px;
-  max-height: 400px;
 `;
 
 export const CommentDate = styled.div`
@@ -174,8 +173,7 @@ export const AwardNo = styled.div`
 `;
 export const CommentBox = styled.div`
   width: 1308px;
-  height: 30px;
-  margin-left: 55px;
+  min-height: 30px;
   line-height: 1.6;
   margin-bottom: 45px;
   margin-left: 80px;
