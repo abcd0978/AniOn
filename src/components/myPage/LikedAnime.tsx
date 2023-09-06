@@ -7,12 +7,12 @@ import React, { useEffect, useState } from 'react';
 import { AnimeG } from '../../types/anime';
 import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
-import Pagination from '../Pagenation';
 import viewDetail from '../../assets/viewdetail.svg';
 import useViewport from '../../hooks/useViewPort';
 import LikeSvg from '../anime-recommend/LikeSvg';
 import LikedSkeleton from './LikedSkeleton';
 import goShop from '../../assets/goShop.png';
+import { PaginationTwo } from '../PagenationTwo';
 
 const itemsPerPage = 9;
 const LikedAnime = () => {
@@ -183,38 +183,36 @@ const LikedAnime = () => {
         </GoAnimeRecommend>
       </GoAnimeContainer>
     );
-  console.log('user', user);
-  console.log('likedlist', animeTitles);
   return (
     <div>
       {user && topTags.length > 0 && (
         <TopTags>
-          {user?.nickname}님은 #{topTags.join('#')}을 좋아해요!
+          {user?.nickname}님은 <Tags>#{topTags.join('#')}</Tags>을 좋아해요!
         </TopTags>
       )}
-      <FullPage>
-        <DecoTitle>찜한 목록</DecoTitle>
+      <DecoTitle>찜한 목록</DecoTitle>
 
+      <FullPage>
         <div>{likedList}</div>
-        <Page $mediawidth={width}>
-          <Pagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onClick={handlePageChange}
-            isPreviousDisabled={currentPage === 1}
-            isNextDisabled={currentPage >= totalPages}
-          />
-        </Page>
+        {Array.isArray(filteredLiked) && filteredLiked.length > 0 && (
+          <Page $mediawidth={width}>
+            <PaginationTwo
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onClick={handlePageChange}
+              isPreviousDisabled={currentPage === 1}
+              isNextDisabled={currentPage >= totalPages}
+            />
+          </Page>
+        )}
       </FullPage>
     </div>
   );
 };
 export default LikedAnime;
 const Page = styled.div<{ $mediawidth: number }>`
-  height: 10vh;
-  width: auto;
-  margin-bottom: -100px;
-  margin-left: 45%;
+  margin-top: -94%;
+  margin-left: 76%;
 `;
 const TopTags = styled.div`
   border-radius: 999px;
@@ -227,18 +225,21 @@ const TopTags = styled.div`
   justify-content: center;
   align-items: center;
   gap: 8px;
-  margin-top: -60px;
+  margin-top: -21%;
   margin-left: 130px;
-  margin-bottom: 20px;
 `;
 const FullPage = styled.div`
-  margin-top: -35%;
+  margin-top: -15%;
+  position: absolute;
+  margin-left: 8%;
+`;
+const Tags = styled.div`
+  font-weight: 600;
 `;
 const DecoTitle = styled.div`
-  position: relative;
-  margin-left: 140px;
-  margin-top: 3%;
-  margin-bottom: 1%;
+  position: absolute;
+  margin-left: 150px;
+  margin-top: -18%;
   width: 200px;
   height: 32px;
   color: #000;
@@ -253,7 +254,6 @@ const GridContainer = styled.div`
   gap: 10px 30px;
   grid-template-columns: repeat(3, 1fr);
   margin-top: 0%;
-  margin-left: 150px;
 `;
 const AnimeTitle = styled.div`
   width: 220px;
@@ -358,22 +358,6 @@ const LikedInfoTitle = styled.div`
 `;
 
 const Liked = {
-  Poster: styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 0px;
-    gap: 8px;
-    width: 220px;
-    height: 350px;
-    cursor: pointer;
-
-    @media (max-width: 540px) {
-      width: 100%;
-      height: 100%;
-    }
-  `,
-
   Container: styled.div`
     position: relative;
     display: flex;
@@ -438,6 +422,8 @@ const GoAnimeRecommend = styled.button`
   width: 226.5px;
   height: 48px;
   border-radius: 30px;
+  border-color: transparent;
+
   display: flex;
   justify-content: center;
   align-items: center;
@@ -455,6 +441,6 @@ const GoAnimeContainer = styled.div`
   align-items: center;
 
   justify-content: center;
-  margin-left: 50%;
-  margin-top: 30%;
+  margin-left: 190%;
+  margin-top: 85%;
 `;

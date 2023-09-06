@@ -14,6 +14,8 @@ import { StyledPostCategory } from './Wrote.styles';
 import useViewport from '../../hooks/useViewPort';
 import { styled } from 'styled-components';
 import { toast } from 'react-toastify';
+import { useConfirm } from '../../hooks/useConfirm';
+import { Confirm } from '../Modal/confirm/Confirm';
 import { getLikesForPost } from '../../api/boardapi';
 type ReadMyBoard = Database['public']['Tables']['posts']['Row'];
 type ReadMyBoardLikes = Database['public']['Tables']['likes']['Row'];
@@ -23,7 +25,7 @@ const userPostLikeAtom = atom<ReadMyBoardLikes[]>([]);
 const WhatIWrote = () => {
   const [userPosts, setUserPosts] = useAtom(userPostsAtom);
   const [userPostLike, setUserPostLike] = useAtom(userPostLikeAtom);
-
+  const { openConfirm } = useConfirm();
   const navigate = useNavigate();
   const user = useAtomValue(userStore.user);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
@@ -76,7 +78,6 @@ const WhatIWrote = () => {
       if (error) {
         console.error('fetchUserPosts에서 에러', error);
       } else {
-        console.log('User posts fetched:', data);
         setUserPosts(data);
       }
     } catch (error) {
@@ -139,27 +140,28 @@ const WhatIWrote = () => {
     }
   };
   const handleDeleteSelectedPosts = async () => {
-    if (selectedPosts.length === 0) {
-      toast.warning('선택된 항목이 없습니다.!', {
-        autoClose: 800,
-      });
-      return;
-    }
+    try {
+      const deleteConfirmData = {
+        title: '게시글 삭제',
+        content: '정말 삭제하실건가요??',
+        callback: async () => {
+          for (const postId of selectedPosts) {
+            await deletePost(postId);
+          }
+          const updatedUserPost = userPosts.filter(
+            (post) => !selectedPosts.includes(post.id?.toString() ?? ''),
+          );
+          setUserPosts(updatedUserPost);
+          setSelectedPosts([]);
+        },
+      };
 
-    const shouldDelete = window.confirm('삭제하시겠습니까?');
-    if (shouldDelete) {
-      try {
-        for (const postId of selectedPosts) {
-          await deletePost(postId);
-        }
-
-        setSelectedPosts([]);
-        fetchUserPosts();
-      } catch (error) {
-        console.error('Error deleting selected posts:', error);
-      }
+      openConfirm(deleteConfirmData);
+    } catch (error) {
+      console.error('게시글 삭제 중 에러', error);
     }
   };
+
   const totalPages = Math.ceil(userPosts.length / itemsPerPage);
   const handlePageChange = (page: number | 'prev' | 'next') => {
     if (page === 'prev' && currentPage > 1) {
@@ -171,7 +173,6 @@ const WhatIWrote = () => {
     }
   };
   const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
   return Array.isArray(userPosts) && userPosts.length > 0 ? (
     <Container>
       <ul>
@@ -222,6 +223,7 @@ const WhatIWrote = () => {
             : '전체 선택'}
         </Post.ButtonAll>
       </Post.ButtonBox>
+      <Confirm />
       <WriteP $mediawidth={width}>
         <Pagination
           currentPage={currentPage}
@@ -260,6 +262,8 @@ const NoPostsContainer = styled.div`
 `;
 const NoPostsButton = styled.button`
   background-color: #8200ff;
+  border-color: transparent;
+
   color: #fff;
   width: 226.5px;
   height: 48px;
