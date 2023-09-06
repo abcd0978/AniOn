@@ -41,6 +41,9 @@ const AnimeDetailComments = () => {
       updatePoint({ userId: user?.id!, point: 1 });
       toast.success(
         '리뷰가 작성되었습니다!ㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ 💰1포인트 적립',
+        {
+          autoClose: 800,
+        },
       );
     },
   });
