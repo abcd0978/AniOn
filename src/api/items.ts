@@ -240,23 +240,29 @@ export const fetchAwards = async () => {
 };
 
 // 판매중인 보더 목록 불러오기
-export const fetchBorders = async () => {
+export const fetchBorders = async (index: number) => {
+  const itemsPerPage = 10;
   try {
-    const { data, error } = await supabase
+    const { data, error, count } = await supabase
       .from('items')
-      .select('*')
+      .select('*', { count: 'exact' })
       .eq('category', 0)
-      .eq('is_on_sale', true);
+      .eq('is_on_sale', true)
+      .range((index - 1) * itemsPerPage, index * (itemsPerPage - 1))
+      .order('name', { ascending: false });
+
+    const totalPages = Math.ceil(count! / itemsPerPage);
+
     if (error) {
       console.log('items.ts fetchTitles error > ', error);
-      return [];
+      return { data: [], totalPages: 0 };
     }
     // console.log(data);
     // const items:ItemRow[] = data[0];
-    return data;
+    return { data, totalPages };
   } catch (error) {
     console.log('items.ts fetchTitles error > ', error);
-    return [];
+    return { data: [], totalPages: 0 };
   }
 };
 

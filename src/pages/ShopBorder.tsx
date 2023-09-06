@@ -9,14 +9,18 @@ import Pagination from '../components/Pagenation';
 
 const ShopBorder = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [data, setData] = useState<any[] | undefined>(undefined);
+  const [data, setData] = useState<{ data: any[]; totalPages: number }>({
+    data: [],
+    totalPages: 0,
+  });
 
   const itemsPerPage = 10;
 
   const getBorders = {
-    queryKey: ['borders'],
+    queryKey: ['borders', currentPage],
     queryFn: () => {
-      const data = itemApi.fetchBorders();
+      const data = itemApi.fetchBorders(currentPage);
+
       return data;
     },
     refetchOnWindowFocus: false,
@@ -30,31 +34,43 @@ const ShopBorder = () => {
     }
   }, [fetchedData]);
 
-  const currentItems = data
-    ? data.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
-    : [];
+  // const currentItems = data
+  //   ? data.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
+  //   : [];
 
-  const totalPages = Math.ceil((data?.length || 1) / itemsPerPage);
+  // const totalPages = Math.ceil((data?.length || 1) / itemsPerPage);
 
-  const handlePageChange = async (newPage: any) => {
-    setCurrentPage(newPage);
+  const handlePageChange = (selected: number | string) => {
+    if (currentPage === selected) return;
+    if (typeof selected === 'number') {
+      setCurrentPage(selected);
+      return;
+    }
+    if (selected === 'prev' && currentPage > 1) {
+      setCurrentPage((prev: number) => prev - 1);
+      return;
+    }
+    if (selected === 'next' && currentPage < data.totalPages!) {
+      setCurrentPage((prev: number) => prev + 1);
+      return;
+    }
   };
 
   return (
     <S.Outer>
       <S.Bottom>
         <S.ItemBox>
-          {currentItems.map((border, index) => (
+          {data.data.map((border, index) => (
             <BorderCard border={border} key={index} />
           ))}
         </S.ItemBox>
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <Pagination
             currentPage={currentPage}
-            totalPages={totalPages}
+            totalPages={data.totalPages}
             onClick={handlePageChange}
             isPreviousDisabled={currentPage === 1}
-            isNextDisabled={currentPage === totalPages}
+            isNextDisabled={currentPage === data.totalPages}
           />
         </div>
       </S.Bottom>
