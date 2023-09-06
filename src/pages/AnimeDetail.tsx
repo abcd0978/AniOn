@@ -59,11 +59,7 @@ function AnimeDetail() {
     refetchOnWindowFocus: false,
   });
 
-  const {
-    isLoading: isStarLoading,
-    isError: isStarError,
-    data: animeStar,
-  } = useQuery({
+  const { data: animeStar } = useQuery({
     queryKey: ['animeStar'],
     queryFn: () => {
       return getAnimeStars(ani_id);
@@ -129,7 +125,7 @@ function AnimeDetail() {
 
   const genres = animeDetail.genres.join('  ');
 
-  console.log(genres);
+  // console.log(genres);
 
   return (
     <>

@@ -16,6 +16,8 @@ import { useAtomValue } from 'jotai';
 import { toast } from 'react-toastify';
 import { AniCommentType } from '../../types/comment';
 import { updatePoint } from '../../api/items';
+import { useConfirm } from '../../hooks/useConfirm';
+import { Confirm } from '../Modal/confirm/Confirm';
 
 type ReadAniComment = Database['public']['Tables']['ani_comments']['Row'];
 type InsertAniComment = Database['public']['Tables']['ani_comments']['Insert'];
@@ -24,6 +26,7 @@ type UpdateAniComment = Database['public']['Tables']['ani_comments']['Update'];
 const AnimeDetailComments = () => {
   const { ani_id } = useParams() as { ani_id: string };
   const user = useAtomValue(userStore.user);
+  const { openConfirm } = useConfirm();
 
   const queryClient = useQueryClient();
 
@@ -76,15 +79,21 @@ const AnimeDetailComments = () => {
     },
   });
 
+  const deleteConfirmData = {
+    title: '댓글 삭제',
+    content: '정말 삭제하실건가요??',
+    callback: () => alert('콜백!!'),
+  };
+
   // 댓글 삭제시
   const handleCommentDelete = async (commentId: string) => {
-    const shouldDelete = window.confirm('댓글을 삭제 하시겠습니까?');
-    if (shouldDelete) {
-      deleteMutation.mutate(commentId);
-      toast.success('리뷰를 삭제했습니다❗', {
-        autoClose: 1200,
-      });
-    }
+    // const shouldDelete = window.confirm('댓글을 삭제 하시겠습니까?');
+    // if (shouldDelete) {
+    //   deleteMutation.mutate(commentId);
+    //   toast.success('리뷰를 삭제했습니다❗', {
+    //     autoClose: 1200,
+    //   });
+    // }
   };
 
   const editMutation = useMutation(updateComment, {
@@ -253,7 +262,8 @@ const AnimeDetailComments = () => {
                         수정
                       </S.AniCommentButton>
                       <S.AniCommentButton
-                        onClick={() => handleCommentDelete(comment.id)}
+                        // onClick={() => handleCommentDelete(comment.id)}
+                        onClick={() => openConfirm(deleteConfirmData)}
                       >
                         삭제
                       </S.AniCommentButton>
@@ -274,6 +284,7 @@ const AnimeDetailComments = () => {
           </S.AniCommentPageBox>
         </S.CommentSpace>
       </S.Outer>
+      <Confirm />
     </S.AniCommentContainer>
   );
 };
