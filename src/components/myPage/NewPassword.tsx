@@ -25,13 +25,13 @@ const NewPassword = () => {
 
       if (!error) {
         toast.success('비밀번호가 성공적으로 변경되었습니다!', {
-          autoClose: 2000,
+          autoClose: 800,
         });
         setNewPassword('');
         setConfirmNewPassword('');
       } else {
         toast.warning('비밀번호 변경 중에 오류가 발생했습니다.', {
-          autoClose: 2000,
+          autoClose: 800,
         });
       }
     } catch (error) {

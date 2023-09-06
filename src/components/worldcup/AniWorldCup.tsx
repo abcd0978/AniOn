@@ -10,6 +10,7 @@ import { updatePoint } from '../../api/items';
 import * as userStore from '../../store/userStore';
 import { useAtomValue } from 'jotai';
 import { toast } from 'react-toastify';
+import Loading from '../Loading/Loading';
 type ReadCharacters = Database['public']['Tables']['characters']['Row'];
 
 function AniWorldCup() {
@@ -64,7 +65,7 @@ function AniWorldCup() {
   }, [aniCharacter, isDataLoaded]);
 
   if (isCharacterLoading) {
-    return <div>캐릭터 데이터를 가져오는 중입니다..</div>;
+    return <Loading />;
   }
 
   if (isCharacterError) {

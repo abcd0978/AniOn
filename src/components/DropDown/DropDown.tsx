@@ -18,8 +18,9 @@ function DropDown({ children }: Props) {
   const dropDownRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     function handleOutside(e: any) {
-      // current.contains(e.target) : 컴포넌트 특정 영역 외 클릭 감지를 위해 사용
+      console.log('클릭함');
       if (dropDownRef.current && !dropDownRef.current.contains(e.target)) {
+        console.log('딴데 클릭함');
         dropDownOpenned(false);
       }
     }

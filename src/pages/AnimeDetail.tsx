@@ -86,7 +86,7 @@ function AnimeDetail() {
   const handleLike = () => {
     if (!user) {
       toast.warning('로그인 후 찜해주세요!💗', {
-        autoClose: 1000,
+        autoClose: 800,
       });
       return;
     }

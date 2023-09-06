@@ -3,6 +3,7 @@ import { useSetAtom } from 'jotai';
 import * as userStore from '../store/userStore';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import Loading from '../components/Loading/Loading';
 type Props = {};
 
 function AfterSocialLogin({}: Props) {
@@ -10,13 +11,14 @@ function AfterSocialLogin({}: Props) {
   const navigate = useNavigate();
   async function authCheck() {
     await writeUser();
-    toast.success('로그인 되었습니다! 메인페이지로 이동합니다...');
-    navigate('/');
+    toast.success('안녕하세요! 환영합니다😊', {
+      autoClose: 800,
+    });
   }
   useEffect(() => {
     authCheck();
   }, []);
-  return <div>유저 정보를 입력중...</div>;
+  return <Loading />;
 }
 
 export default AfterSocialLogin;
