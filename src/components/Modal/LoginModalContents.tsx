@@ -282,7 +282,6 @@ const StLoginInfoContainer = styled.div`
 `;
 const StLoginInfoLogo = styled.div<{ $mediawidth: number }>`
   color: #000;
-  font-family: Roboto;
   font-size: max(${(props) => 28 * (props.$mediawidth / 1920)}px, 20px);
   font-style: normal;
   font-weight: 700;
@@ -291,7 +290,6 @@ const StLoginInfoLogo = styled.div<{ $mediawidth: number }>`
 const StLoginInfoTypo = styled.div<{ $mediawidth: number }>`
   color: var(--achromatic-colors-dark-gray, #4f4f4f);
   text-align: center;
-  font-family: Pretendard Variable;
   font-size: max(${(props) => 20 * (props.$mediawidth / 1920)}px, 15px);
   font-style: normal;
   font-weight: 400;
@@ -346,7 +344,6 @@ const StLoginCheckBox = styled.div`
 `;
 const StLoginCheckBoxTypo = styled.p`
   color: var(--achromatic-colors-black, #191919);
-  font-family: Pretendard Variable;
   font-size: 13px;
   font-style: normal;
   font-weight: 400;
@@ -367,7 +364,6 @@ const StLoginButton = styled.div`
 `;
 const StLoginButtonTypo = styled.p`
   color: var(--achromatic-colors-white, #fff);
-  font-family: Pretendard Variable;
   font-size: 15px;
   font-style: normal;
   font-weight: 700;
@@ -384,7 +380,6 @@ const StLoginOptions = styled.div<{ $mediawidth: number }>`
 `;
 const StLoginOptionsTypo = styled.p<{ $mediawidth: number }>`
   color: var(--achromatic-colors-dark-gray, #4f4f4f);
-  font-family: Pretendard Variable;
   font-size: ${(props) => 13 * (props.$mediawidth / 1920)}px;
   font-style: normal;
   font-weight: 400;
