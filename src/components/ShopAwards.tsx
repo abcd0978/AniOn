@@ -66,14 +66,11 @@ const ShopAwardList = () => {
               .map((item, index) => {
                 return (
                   <ItemBox key={item.id}>
-                    {/* 3항 연산자로 이미지 or 이름 */}
-                    {/* <AwardName> */}
                     <img
                       src={item.img_url}
                       alt={item.name}
                       style={{ width: '342px' }}
                     ></img>
-                    {/* </AwardName> */}
                     <ShopMenu>
                       <AwardPrice>{item.price}포인트</AwardPrice>
                       <BuyButton
@@ -82,7 +79,8 @@ const ShopAwardList = () => {
                           setAwardfModalContents({
                             id: item.id,
                             index: index,
-                            title: item.name,
+                            name: item.name,
+                            img_url: item.img_url,
                             price: item.price,
                           });
                           isModalOpened(true);

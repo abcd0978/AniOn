@@ -403,7 +403,6 @@ const StRegisterTitleContainer = styled.div`
 `;
 const StRegisterTitleTypo = styled.p`
   color: #000;
-  font-family: Roboto;
   font-size: 24px;
   font-style: normal;
   font-weight: 700;
@@ -431,7 +430,6 @@ const StRegisterInputTitleContainer = styled.div`
 `;
 const StRegisterInputInfo = styled.p`
   color: var(--achromatic-colors-black, #191919);
-  font-family: Pretendard Variable;
   font-size: 16px;
   font-style: normal;
   font-weight: 500;
@@ -440,7 +438,6 @@ const StRegisterInputInfo = styled.p`
 `;
 const StRegisterInputSubInfo = styled.p`
   color: var(--achromatic-colors-gray-2, #999);
-  font-family: Pretendard Variable;
   font-size: 13px;
   font-style: normal;
   font-weight: 400;
@@ -494,7 +491,6 @@ const StRegisterValidationButton = styled.button`
 `;
 const StRegisterValidationButtonTypo = styled.p`
   color: #fff;
-  font-family: Pretendard Variable;
   font-size: 15px;
   font-style: normal;
   font-weight: 400;

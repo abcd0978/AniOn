@@ -45,7 +45,7 @@ const PurchaseAwardModalContents = () => {
         <StTitleAndCloseButtonContainer>
           <MiriBogi>미리보기</MiriBogi>
         </StTitleAndCloseButtonContainer>
-        <StAward>{awardContents?.title}</StAward>
+        <StAward src={awardContents?.img_url} alt="칭호이미지" />
         <StPurchaseTitle>
           <div
             style={{
@@ -54,7 +54,7 @@ const PurchaseAwardModalContents = () => {
               placeSelf: 'center',
             }}
           >
-            <StBorderNameTypo>{awardContents?.title}</StBorderNameTypo>
+            <StBorderNameTypo>{awardContents?.name}</StBorderNameTypo>
             <p
               style={{
                 color: '#000',
@@ -123,16 +123,8 @@ const StPreviewAndWords = styled.div`
   justify-content: center;
   gap: 12px;
 `;
-const StAward = styled.div`
-  display: flex;
-  height: 60px;
-  padding: 8px;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-  align-self: stretch;
-  border-radius: 999px;
-  background: #efefef;
+const StAward = styled.img`
+  width: 100%;
 `;
 const StPurchaseTitle = styled.div`
   display: flex;

@@ -304,7 +304,7 @@ const Main = () => {
                       >
                         <MainCard
                           key={data.id + 1}
-                          index={index}
+                          index={index + 1}
                           data={data}
                           width={smallCardHeight}
                         />
@@ -411,7 +411,7 @@ const Main = () => {
                       >
                         <MainCard
                           key={data.id + 4}
-                          index={index}
+                          index={index + 1}
                           data={data}
                           width={smallCardHeight}
                         />

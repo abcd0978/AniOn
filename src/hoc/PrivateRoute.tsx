@@ -17,6 +17,10 @@ export default function PrivateRoute({
     if (!accessToken || !user) {
       return <Navigate to="/" />;
     }
+  } else {
+    if (accessToken || user) {
+      return <Navigate to="/" />;
+    }
   }
   return <Outlet />;
 }

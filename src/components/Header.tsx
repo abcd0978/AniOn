@@ -159,7 +159,7 @@ function Header({}: Props) {
                         <img
                           src={award.items.img_url}
                           alt={award.items.name}
-                          style={{ width: '100px', height: '20px' }}
+                          style={{ width: '140px', height: '28px' }}
                         />
                       ) : (
                         award.items.name
@@ -283,18 +283,17 @@ const StHeaderUserInfo = styled.div`
 `;
 const StHeaderUserName = styled.p`
   color: var(--black, #000);
-  font-family: Pretendard;
-  font-size: 13px;
+  font-family: 'Pretendard-Regular';
+  font-size: 15px;
   font-style: normal;
   font-weight: 500;
   line-height: normal;
   letter-spacing: -0.72px;
-
+  text-align: center;
   white-space: nowrap;
 `;
 const StHeaderUserAppellation = styled.p`
   color: var(--black, #000);
-  font-family: Pretendard;
   font-size: 13px;
   font-style: normal;
   font-weight: 300;

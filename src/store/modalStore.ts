@@ -1,18 +1,12 @@
 import { atom } from 'jotai';
-type BorderItem = {
+type Item = {
   id: string;
   index: number;
   name: string;
   price: number;
   img_url: string;
 };
-type AwardItem = {
-  id: string;
-  index: number;
-  title: string;
-  price: number;
-};
 export const isModalOpened = atom(false);
 export const modalContents = atom('login');
-export const borderModalContent = atom<BorderItem | null>(null);
-export const awardModalContent = atom<AwardItem | null>(null);
+export const borderModalContent = atom<Item | null>(null);
+export const awardModalContent = atom<Item | null>(null);
