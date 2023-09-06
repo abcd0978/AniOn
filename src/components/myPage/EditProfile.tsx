@@ -32,7 +32,7 @@ const EditProfile = () => {
   const handleUpload = async () => {
     if (!selectedFile) {
       toast.warning('선택된 파일이 없습니다.', {
-        autoClose: 2000,
+        autoClose: 800,
       });
       return;
     }
@@ -50,7 +50,7 @@ const EditProfile = () => {
       if (uploadError) {
         console.error('Upload error:', uploadError);
         toast.warning('유효하지 않은 파일 형식입니다.', {
-          autoClose: 2000,
+          autoClose: 800,
         });
         setSelectedFile(null);
         return;
@@ -87,7 +87,7 @@ const EditProfile = () => {
         if (user) {
           await writeUser();
           toast.success('수정되었습니다.', {
-            autoClose: 2000,
+            autoClose: 800,
           });
         } else {
           console.error('No current user found');
@@ -129,7 +129,7 @@ const EditProfile = () => {
     event.preventDefault();
     if (!nicknameDupChecked) {
       toast.warn('닉네임 중복확인을 해주세요.', {
-        autoClose: 2000,
+        autoClose: 800,
       });
       return;
     }
@@ -155,7 +155,7 @@ const EditProfile = () => {
         if (user) {
           await writeUser();
           toast.success('닉네임 변경 성공 ✔️', {
-            autoClose: 2000,
+            autoClose: 800,
           });
           setEditMode('');
         } else {
@@ -270,13 +270,13 @@ const EditProfile = () => {
                     );
                     if (isNicknameAvailable) {
                       toast.success('사용가능한 닉네임입니다.✔️', {
-                        autoClose: 2000,
+                        autoClose: 800,
                       });
                       setNicknameDupChecked(true);
                       setNicknameError(initialError);
                     } else {
                       toast.warn('이미 사용 중인 닉네임 입니다.', {
-                        autoClose: 2000,
+                        autoClose: 800,
                       });
                       setNicknameError({
                         error: true,

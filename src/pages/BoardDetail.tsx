@@ -48,7 +48,7 @@ const BoardDetail = () => {
   const handleWriteClick = () => {
     if (!user) {
       toast.warning('로그인 후에 작성할 수 있습니다! 로그인 해주세요😳', {
-        autoClose: 1000,
+        autoClose: 800,
       });
     } else {
       navigate('/board/write');
@@ -140,7 +140,7 @@ const BoardDetail = () => {
 
         // 페이지 이동
         toast.success('삭제되었습니다!', {
-          autoClose: 1000,
+          autoClose: 800,
         });
         navigate('/board');
       } catch (error) {
@@ -187,7 +187,7 @@ const BoardDetail = () => {
   const toggleLike = async () => {
     if (!user) {
       toast.warning('로그인이 필요한 서비스입니다😳', {
-        autoClose: 1000,
+        autoClose: 800,
       });
       return;
     }

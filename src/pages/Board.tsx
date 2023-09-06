@@ -29,7 +29,7 @@ const Board = () => {
   const handleWriteClick = () => {
     if (!user) {
       toast.warning('로그인 후에 작성할 수 있습니다! 로그인 해주세요😳', {
-        autoClose: 1000,
+        autoClose: 800,
       });
     } else {
       navigate('/board/write');

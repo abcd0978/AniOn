@@ -67,7 +67,7 @@ const AnimeList = () => {
     },
     onError: (error) => {
       toast.error(`toggleAnimeLike 오류가 발생했습니다. : ${error}`, {
-        autoClose: 1000,
+        autoClose: 800,
       });
     },
   });
@@ -82,7 +82,7 @@ const AnimeList = () => {
   const handleLike = (anime_id: string) => {
     if (!user) {
       toast.warning('로그인 후 찜해주세요!💗', {
-        autoClose: 1000,
+        autoClose: 800,
       });
       return;
     }
@@ -152,7 +152,7 @@ const AnimeList = () => {
         {/* 스켈레톤으로 변경하기! > mvp 종료 후에 */}
         {isLoading && !animeList.length ? (
           <>
-            {Array()
+            {Array(18)
               .fill(undefined)
               .map((_, index) => (
                 <AnimeCardSkeleton key={index} />

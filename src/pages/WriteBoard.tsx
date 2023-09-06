@@ -61,27 +61,27 @@ const WriteBoard = () => {
       // 유효성 검사
       if (!category) {
         toast.warning('카테고리를 선택해주세요!', {
-          autoClose: 1000,
+          autoClose: 800,
         });
         return;
       }
 
       if (!title) {
         toast.warning('제목을 입력해주세요!', {
-          autoClose: 1000,
+          autoClose: 800,
         });
         return;
       }
       if (!content) {
         toast.warning('내용을 입력해주세요!', {
-          autoClose: 1000,
+          autoClose: 800,
         });
         return;
       }
 
       if (processBody(content).length < 10) {
         toast.warning('내용은 10자 이상 입력해주세요!', {
-          autoClose: 1000,
+          autoClose: 800,
         });
         return;
       }

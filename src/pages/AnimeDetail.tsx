@@ -59,11 +59,7 @@ function AnimeDetail() {
     refetchOnWindowFocus: false,
   });
 
-  const {
-    isLoading: isStarLoading,
-    isError: isStarError,
-    data: animeStar,
-  } = useQuery({
+  const { data: animeStar } = useQuery({
     queryKey: ['animeStar'],
     queryFn: () => {
       return getAnimeStars(ani_id);
@@ -90,7 +86,7 @@ function AnimeDetail() {
   const handleLike = () => {
     if (!user) {
       toast.warning('로그인 후 찜해주세요!💗', {
-        autoClose: 1000,
+        autoClose: 800,
       });
       return;
     }
@@ -129,7 +125,7 @@ function AnimeDetail() {
 
   const genres = animeDetail.genres.join('  ');
 
-  console.log(genres);
+  // console.log(genres);
 
   return (
     <>

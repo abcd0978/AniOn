@@ -141,7 +141,7 @@ const WhatIWrote = () => {
   const handleDeleteSelectedPosts = async () => {
     if (selectedPosts.length === 0) {
       toast.warning('선택된 항목이 없습니다.!', {
-        autoClose: 2000,
+        autoClose: 800,
       });
       return;
     }
