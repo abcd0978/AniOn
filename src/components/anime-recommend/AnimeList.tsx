@@ -152,7 +152,7 @@ const AnimeList = () => {
         {/* 스켈레톤으로 변경하기! > mvp 종료 후에 */}
         {isLoading && !animeList.length ? (
           <>
-            {Array()
+            {Array(18)
               .fill(undefined)
               .map((_, index) => (
                 <AnimeCardSkeleton key={index} />
