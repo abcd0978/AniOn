@@ -22,7 +22,7 @@ import { updatePoint } from '../../api/items';
 
 const Comments = () => {
   const { post_id } = useParams() as { post_id: string };
-
+  const [collapsedComments, setCollapsedComments] = useState<string[]>([]); //더보기
   const user = useAtomValue(userStore.user);
 
   const queryClient = useQueryClient();
@@ -42,9 +42,12 @@ const Comments = () => {
     onSuccess: () => {
       queryClient.invalidateQueries(['post_comments']);
       updatePoint({ userId: user?.id!, point: 1 });
-      toast.success('댓글이 작성되었습니다! 💰1포인트 적립', {
-        autoClose: 800,
-      });
+      toast.success(
+        '댓글이 작성되었습니다!ㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ 💰1포인트 적립',
+        {
+          autoClose: 800,
+        },
+      );
     },
   });
 
@@ -144,6 +147,17 @@ const Comments = () => {
   // 다음 페이지 버튼 비활성화 여부 계산
   const isNextDisabled = page >= (postCommentsData?.totalPages ?? 1);
 
+  //더보기
+  const toggleCommentCollapse = (commentId: string) => {
+    if (collapsedComments.includes(commentId)) {
+      // 댓글을 펼칩니다.
+      setCollapsedComments(collapsedComments.filter((id) => id !== commentId));
+    } else {
+      // 댓글을 접습니다.
+      setCollapsedComments([...collapsedComments, commentId]);
+    }
+  };
+
   return (
     <S.Outer>
       <S.CommentContainer>
@@ -230,7 +244,31 @@ const Comments = () => {
                   onChange={(e) => setEditedCommentText(e.target.value)}
                 />
               ) : (
-                <S.CommentBox>{comment.comment}</S.CommentBox>
+                //더보기
+                <S.CommentBox>
+                  {comment.comment.length > 410 &&
+                  !collapsedComments.includes(comment.id) ? (
+                    <>
+                      {comment.comment.slice(0, 410)}
+                      <S.CommentMore
+                        onClick={() => toggleCommentCollapse(comment.id)}
+                      >
+                        더보기
+                      </S.CommentMore>
+                    </>
+                  ) : (
+                    <>
+                      {comment.comment}
+                      {comment.comment.length > 410 && (
+                        <S.CommentMore
+                          onClick={() => toggleCommentCollapse(comment.id)}
+                        >
+                          접기
+                        </S.CommentMore>
+                      )}
+                    </>
+                  )}
+                </S.CommentBox>
               )}
             </S.Comment>
           ))}

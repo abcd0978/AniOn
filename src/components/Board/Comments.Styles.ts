@@ -113,7 +113,7 @@ export const CommentDate = styled.div`
   margin-bottom: 33px;
   margin-top: -36px;
   float: right;
-  margin-right: 10px;
+  margin-right: 15px;
 `;
 export const EditInput = styled.input`
   display: flex;
@@ -172,4 +172,14 @@ export const Page = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+`;
+export const CommentMore = styled.button`
+  background-color: #ffffff;
+  border: 1px solid #dbdbdb;
+  border-radius: 4px;
+  width: 97px;
+  height: 28px;
+  cursor: pointer;
+  margin-top: 12px;
+  display: block;
 `;
