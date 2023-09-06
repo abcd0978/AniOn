@@ -16,6 +16,8 @@ import { useAtomValue } from 'jotai';
 import { toast } from 'react-toastify';
 import { AniCommentType } from '../../types/comment';
 import { updatePoint } from '../../api/items';
+import { useConfirm } from '../../hooks/useConfirm';
+import { Confirm } from '../Modal/confirm/Confirm';
 
 type ReadAniComment = Database['public']['Tables']['ani_comments']['Row'];
 type InsertAniComment = Database['public']['Tables']['ani_comments']['Insert'];
@@ -24,6 +26,7 @@ type UpdateAniComment = Database['public']['Tables']['ani_comments']['Update'];
 const AnimeDetailComments = () => {
   const { ani_id } = useParams() as { ani_id: string };
   const user = useAtomValue(userStore.user);
+  const { openConfirm } = useConfirm();
 
   const queryClient = useQueryClient();
 
@@ -38,9 +41,6 @@ const AnimeDetailComments = () => {
       updatePoint({ userId: user?.id!, point: 1 });
       toast.success(
         '리뷰가 작성되었습니다!ㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ 💰1포인트 적립)',
-        {
-          autoClose: 800,
-        },
       );
     },
   });
@@ -48,14 +48,14 @@ const AnimeDetailComments = () => {
   const handleCommentSubmit = () => {
     if (!user) {
       toast.warning('로그인 후 리뷰 작성이 가능해요🙄', {
-        autoClose: 800,
+        autoClose: 1000,
       });
       return;
     }
 
     if (!newComment) {
       toast.warning('리뷰를 작성해주세요!', {
-        autoClose: 800,
+        autoClose: 2000,
       });
       return;
     }
@@ -74,30 +74,35 @@ const AnimeDetailComments = () => {
     setNewComment('');
   };
 
+  // 댓글 삭제시
   const deleteMutation = useMutation(deleteComment, {
     onSuccess: () => {
       queryClient.invalidateQueries(['ani_comments']);
     },
   });
 
-  // 댓글 삭제시
   const handleCommentDelete = async (commentId: string) => {
-    const shouldDelete = window.confirm('댓글을 삭제 하시겠습니까?');
-    if (shouldDelete) {
-      deleteMutation.mutate(commentId);
-      toast.success('리뷰를 삭제했습니다❗', {
-        autoClose: 800,
-      });
-    }
+    const deleteConfirmData = {
+      title: '댓글 삭제',
+      content: '정말 삭제하실건가요??',
+      callback: () => {
+        deleteMutation.mutate(commentId);
+        toast.success('리뷰를 삭제했습니다❗', {
+          autoClose: 1200,
+        });
+      },
+    };
+
+    openConfirm(deleteConfirmData);
   };
 
+  // 댓글 수정시
   const editMutation = useMutation(updateComment, {
     onSuccess: () => {
       queryClient.invalidateQueries(['ani_comments']);
     },
   });
 
-  // 댓글 수정시
   const handleCommentEdit = (comment: UpdateAniComment) => {
     if (editingCommentId === comment.id) {
       // 수정 할 내용 빈 input 일 경우
@@ -258,6 +263,7 @@ const AnimeDetailComments = () => {
                         수정
                       </S.AniCommentButton>
                       <S.AniCommentButton
+                        // onClick={() => handleCommentDelete(comment.id)}
                         onClick={() => handleCommentDelete(comment.id)}
                       >
                         삭제
@@ -279,6 +285,7 @@ const AnimeDetailComments = () => {
           </S.AniCommentPageBox>
         </S.CommentSpace>
       </S.Outer>
+      <Confirm />
     </S.AniCommentContainer>
   );
 };
