@@ -146,11 +146,7 @@ export const BorderPage = styled.div`
   justify-content: center;
   margin-top: 300px;
 `;
-export const BorderItem = styled.div`
-  margin: 5px;
-  gap: 0px;
-  width: 400px;
-`;
+
 export const Outer = styled.div`
   width: 1430px;
   height: 999px;

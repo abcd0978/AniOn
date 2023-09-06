@@ -31,6 +31,9 @@ export const B = {
     height: auto;
     object-fit: cover;
     margin: 20px;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.1);
   `,
   Number: styled.div`
     width: 100%;
@@ -93,6 +96,7 @@ color:black;
   ButtonContainer: styled.div`
     justify-content: space-between;
     align-items: center;
+    margin-left: 25px;
   `,
 
   Container: styled.div`
