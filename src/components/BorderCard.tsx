@@ -33,7 +33,7 @@ const BorderCard = ({ border }: Props) => {
 
   return (
     <S.Item key={border.index}>
-      <S.TopArea img_url={border.img_url} />
+      <S.TopArea src={border.img_url} alt={border.name} />
       <S.BottomArea>
         {border.name}
         <br />

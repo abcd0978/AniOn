@@ -73,14 +73,12 @@ export const Item = styled.div`
   margin-bottom: 100px;
 `;
 
-export const TopArea = styled.div<{ img_url: string }>`
+export const TopArea = styled.img`
   width: 100%;
   height: 100%;
-  background-size: 278px 278px;
-  background-image: url(${(props) => props.img_url});
+
   // box-shadow: 0px 0px 20px 0px #0000001a;
   border-radius: 20px;
-  padding: 5px;
 `;
 
 export const BottomArea = styled.div`
