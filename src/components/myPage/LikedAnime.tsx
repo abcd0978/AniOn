@@ -12,6 +12,7 @@ import viewDetail from '../../assets/viewdetail.svg';
 import useViewport from '../../hooks/useViewPort';
 import LikeSvg from '../anime-recommend/LikeSvg';
 import LikedSkeleton from './LikedSkeleton';
+import goShop from '../../assets/goShop.png';
 
 const itemsPerPage = 9;
 const LikedAnime = () => {
@@ -20,7 +21,7 @@ const LikedAnime = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [likedAnimeIds, setLikedAnimeIds] = useState<string[]>([]);
   const [animeTitles, setAnimeTitles] = useState<Record<string, AnimeG>>({});
-  const [isHovered, setIsHovered] = useState(false);
+  const [topTags, setTopTags] = useState<string[]>([]);
   const user = useAtomValue(userStore.user);
   const navigate = useNavigate();
   const {
@@ -36,7 +37,29 @@ const LikedAnime = () => {
     },
     { enabled: !!user?.id },
   );
+  useEffect(() => {
+    if (animeTitles) {
+      const tags: string[] = [];
+      Object.values(animeTitles).forEach((anime) => {
+        if (anime.tags) {
+          tags.push(...anime.tags);
+        }
+      });
 
+      const tagCounts: Record<string, number> = {};
+      for (const tag of tags) {
+        if (!tagCounts[tag]) tagCounts[tag] = 0;
+        tagCounts[tag]++;
+      }
+
+      const sortedTags = Object.entries(tagCounts)
+        .sort(([, countA], [, countB]) => countB - countA)
+        .map(([tag]) => tag)
+        .slice(0, 4);
+
+      setTopTags(sortedTags);
+    }
+  }, [animeTitles]);
   useEffect(() => {
     if (liked && liked.length > 0) {
       const fetchAnimeDetails = async () => {
@@ -71,11 +94,13 @@ const LikedAnime = () => {
   if (isError) {
     return <div>좋아요 목록을 불러오지 못했어요</div>;
   }
-  const totalPages = Math.ceil(liked.length / itemsPerPage);
+  const filteredLiked = liked?.filter((liked) => liked.length !== 0);
+  console.log('filetedLiked', filteredLiked);
+  const totalPages = Math.ceil(filteredLiked.length / itemsPerPage);
 
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const displayedAnime = liked.slice(startIndex, endIndex);
+  const displayedAnime = filteredLiked.slice(startIndex, endIndex);
   const handlePageChange = (selected: number | string) => {
     if (typeof selected === 'number') {
       setCurrentPage(selected);
@@ -85,89 +110,135 @@ const LikedAnime = () => {
       setCurrentPage((current) => Math.min(totalPages, current + 1));
     }
   };
-  console.log(animeTitles);
-  const likedList = Array.isArray(liked) ? (
-    <GridContainer>
-      {displayedAnime.map((like, index) => (
-        <div key={index}>
-          <Liked.Container
-            onClick={() => navigate(`/recommend/${like.anime_id}`)}
-          >
-            <PosterImage
-              src={
-                animeTitles[like.anime_id] && animeTitles[like.anime_id].images!
-                  ? animeTitles[like.anime_id].images!.length > 1
-                    ? animeTitles[like.anime_id].images![1].img_url
-                    : animeTitles[like.anime_id].images!.length > 0
-                    ? animeTitles[like.anime_id].images![0].img_url
-                    : animeTitles[like.anime_id]?.img
-                  : undefined
-              }
-            />
-            <AnimeTitle>
-              {animeTitles[like.anime_id] && animeTitles[like.anime_id].name}
-            </AnimeTitle>
-            <HoverContent>
-              <HoverViewDetail>
-                <p>자세히 보기</p>
-                <img className="viewDetail" src={viewDetail} alt="viewdetail" />
-              </HoverViewDetail>
-              <LikedInfoTitle>
-                {animeTitles[like.anime_id] && animeTitles[like.anime_id].name}
-              </LikedInfoTitle>
-              <HoveredAnimeGenre>
-                {animeTitles[like.anime_id] &&
-                  animeTitles[like.anime_id]?.genres
-                    ?.slice(0, 1)
-                    .map((genre, index) => (
-                      <HoveredAnimeGenreTag key={index}>
-                        {genre}
-                      </HoveredAnimeGenreTag>
-                    ))}
-              </HoveredAnimeGenre>
-              <LikedAnimeGenre>
-                {animeTitles[like.anime_id] &&
-                  animeTitles[like.anime_id]?.genres
-                    ?.slice(0, 2)
-                    .map((genre, index) => (
-                      <GenreTag key={index}>#{genre}</GenreTag>
-                    ))}
-              </LikedAnimeGenre>
-            </HoverContent>
-          </Liked.Container>
-        </div>
-      ))}
-    </GridContainer>
-  ) : (
-    '좋아요를 누른 애니메이션이 없어요'
-  );
+  const likedList =
+    Array.isArray(filteredLiked) && filteredLiked.length > 0 ? (
+      <GridContainer>
+        {displayedAnime.map((filteredLiked, index) => (
+          <div key={index}>
+            <Liked.Container
+              onClick={() => navigate(`/recommend/${filteredLiked.anime_id}`)}
+            >
+              <PosterImage
+                src={
+                  animeTitles[filteredLiked.anime_id] &&
+                  animeTitles[filteredLiked.anime_id].images!
+                    ? animeTitles[filteredLiked.anime_id].images!.length > 1
+                      ? animeTitles[filteredLiked.anime_id].images![1].img_url
+                      : animeTitles[filteredLiked.anime_id].images!.length > 0
+                      ? animeTitles[filteredLiked.anime_id].images![0].img_url
+                      : animeTitles[filteredLiked.anime_id]?.img
+                    : undefined
+                }
+              />
+              <AnimeTitle>
+                {animeTitles[filteredLiked.anime_id] &&
+                  animeTitles[filteredLiked.anime_id].name}
+              </AnimeTitle>
+              <HoverContent>
+                <HoverViewDetail>
+                  <p>자세히 보기</p>
+                  <img
+                    className="viewDetail"
+                    src={viewDetail}
+                    alt="viewdetail"
+                  />
+                </HoverViewDetail>
+                <LikedInfoTitle>
+                  {animeTitles[filteredLiked.anime_id] &&
+                    animeTitles[filteredLiked.anime_id].name}
+                </LikedInfoTitle>
+                <HoveredAnimeGenre>
+                  {animeTitles[filteredLiked.anime_id] &&
+                    animeTitles[filteredLiked.anime_id]?.genres
+                      ?.slice(0, 1)
+                      .map((genre, index) => (
+                        <HoveredAnimeGenreTag key={index}>
+                          {genre}
+                        </HoveredAnimeGenreTag>
+                      ))}
+                </HoveredAnimeGenre>
+                <LikedAnimeGenre>
+                  {animeTitles[filteredLiked.anime_id] &&
+                    animeTitles[filteredLiked.anime_id]?.genres
+                      ?.slice(0, 2)
+                      .map((genre, index) => (
+                        <GenreTag key={index}>#{genre}</GenreTag>
+                      ))}
+                </LikedAnimeGenre>
+              </HoverContent>
+            </Liked.Container>
+          </div>
+        ))}
+      </GridContainer>
+    ) : (
+      <GoAnimeContainer>
+        <GoAnimeMessage>좋아요를 누른 애니메이션이 없어요!</GoAnimeMessage>
+        <GoAnimeRecommend
+          onClick={() => {
+            navigate('/recommend');
+          }}
+        >
+          애니메이션 추천받으러 가기
+          <img src={goShop} alt="고샾" />
+        </GoAnimeRecommend>
+      </GoAnimeContainer>
+    );
+  console.log('user', user);
+  console.log('likedlist', animeTitles);
   return (
     <div>
-      <DecoTitle>찜한 목록</DecoTitle>
-      <div>{likedList}</div>
-      <Page $mediawidth={width}>
-        <Pagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onClick={handlePageChange}
-          isPreviousDisabled={currentPage === 1}
-          isNextDisabled={currentPage >= totalPages}
-        />
-      </Page>
+      {user && topTags.length > 0 && (
+        <TopTags>
+          {user?.nickname}님은 #{topTags.join('#')}을 좋아해요!
+        </TopTags>
+      )}
+      <FullPage>
+        <DecoTitle>찜한 목록</DecoTitle>
+
+        <div>{likedList}</div>
+        <Page $mediawidth={width}>
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onClick={handlePageChange}
+            isPreviousDisabled={currentPage === 1}
+            isNextDisabled={currentPage >= totalPages}
+          />
+        </Page>
+      </FullPage>
     </div>
   );
 };
 export default LikedAnime;
 const Page = styled.div<{ $mediawidth: number }>`
   height: 10vh;
-  ${(props) => `width:${300 * (props.$mediawidth / 1920)}px;`}
+  width: auto;
   margin-bottom: -100px;
-  margin-left: 600px;
+  margin-left: 45%;
+`;
+const TopTags = styled.div`
+  border-radius: 999px;
+  position: absolute;
+  background: var(--main-light-2, #f3e7ff);
+  width: auto;
+  display: inline-flex;
+  height: 32px;
+  padding: 8px 20px;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-top: -60px;
+  margin-left: 130px;
+  margin-bottom: 20px;
+`;
+const FullPage = styled.div`
+  margin-top: -35%;
 `;
 const DecoTitle = styled.div`
-  position: absolute;
+  position: relative;
   margin-left: 140px;
-  margin-top: -40px;
+  margin-top: 3%;
+  margin-bottom: 1%;
   width: 200px;
   height: 32px;
   color: #000;
@@ -181,7 +252,7 @@ const GridContainer = styled.div`
   display: grid;
   gap: 10px 30px;
   grid-template-columns: repeat(3, 1fr);
-  margin-top: -300px;
+  margin-top: 0%;
   margin-left: 150px;
 `;
 const AnimeTitle = styled.div`
@@ -263,7 +334,7 @@ const HoveredAnimeGenreTag = styled.div`
   text-align: center;
 `;
 const PosterImage = styled.img`
-  width: 300px;
+  width: 280px;
   height: 175px;
   border-radius: 10px;
 `;
@@ -361,3 +432,29 @@ const Liked = {
     }
   `,
 };
+const GoAnimeRecommend = styled.button`
+  background-color: #8200ff;
+  color: #fff;
+  width: 226.5px;
+  height: 48px;
+  border-radius: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px;
+  cursor: pointer;
+`;
+const GoAnimeMessage = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px;
+`;
+const GoAnimeContainer = styled.div`
+  display: grid;
+  align-items: center;
+
+  justify-content: center;
+  margin-left: 50%;
+  margin-top: 30%;
+`;
