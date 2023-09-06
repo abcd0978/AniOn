@@ -173,3 +173,13 @@ export const Page = styled.div`
   justify-content: center;
   align-items: center;
 `;
+export const CommentMore = styled.button`
+  background-color: #ffffff;
+  border: 1px solid #dbdbdb;
+  border-radius: 4px;
+  width: 97px;
+  height: 28px;
+  cursor: pointer;
+  margin-top: 12px;
+  display: block;
+`;
