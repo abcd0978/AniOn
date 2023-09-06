@@ -19,7 +19,7 @@ export const S = {
     // position: relative;
     display: flex;
     //width: 1440px;
-    height: 999px;
+    /* height: 999px; */
     padding: 32px 0px;
     flex-direction: row;
     align-items: flex-start;
@@ -53,7 +53,7 @@ export const S = {
 
     @media (max-width: 768px) {
       width: 43px;
-      top: 40%;
+      top: 33%;
     }
   `,
 
@@ -65,7 +65,7 @@ export const S = {
     margin-bottom: 32px;
 
     @media (max-width: 768px) {
-      font-size: 28px;
+      font-size: 18px;
     }
   `,
 
@@ -137,9 +137,12 @@ export const S = {
     background: #fdfbff;
     /* Drop Shadow */
     box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.1);
+
     @media (max-width: 768px) {
       width: 80%;
       height: 100%;
+      gap: 20px;
+      padding: 20px 40px 20px 40px;
     }
   `,
 
@@ -336,5 +339,32 @@ export const S = {
       padding: 0;
       gap: 3px;
     }
+  `,
+
+  //----메인 카드
+  WorldCupMainTestCard: styled.div<{ height: number }>`
+    max-width: 600px;
+    display: flex;
+    height: ${(props) => props.height}px;
+    padding: 40px;
+    flex-direction: column;
+    align-items: center;
+    gap: 51px;
+    border-radius: 32px;
+    background: #fdfbff;
+    /* Drop Shadow */
+    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.1);
+    transform: scale(1);
+    transition: transform 0.3s ease-in-out;
+
+    @media (max-width: 768px) {
+      width: 80%;
+      height: 100%;
+      padding: 20px;
+    }
+  `,
+
+  WorldcupWinnerContainer: styled.div`
+    width: 100%;
   `,
 };

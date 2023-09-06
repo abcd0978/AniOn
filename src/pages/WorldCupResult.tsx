@@ -92,14 +92,14 @@ const WorldCupResult = () => {
   }
   return (
     <S.WorldCupResultContainer>
-      <div>
+      <S.WorldcupWinnerContainer>
         <S.WorldCupMainTitle>
           {gender === 'man' ? '남자' : '여자'} 애니메이션 캐릭터 이상형 월드컵
           결과
         </S.WorldCupMainTitle>
         <R.WorldCupWinnerCard>
           <S.WorldCupResultTest key={winner.id} height={666}>
-            <S.WorldCupUp>
+            <R.WorldCupResultUp>
               <R.WorldCupWinnerImg>
                 <img src={winner.img_url} />
               </R.WorldCupWinnerImg>
@@ -107,29 +107,30 @@ const WorldCupResult = () => {
                 <S.WorldCupTitle>{winner.ani_title}</S.WorldCupTitle>
                 <S.WorldCupName>{winner.character_name}</S.WorldCupName>
               </R.WorldCupResultText>
-            </S.WorldCupUp>
+            </R.WorldCupResultUp>
+
+            <R.WorldCupResultButtonBox>
+              <R.WorldCupResultButton
+                background="#EFEFEF"
+                onClick={() => {
+                  navigate('/worldcup');
+                }}
+              >
+                다시하기
+              </R.WorldCupResultButton>
+              <R.WorldCupResultButton
+                onClick={handleKakaoButton}
+                background="#8200FF"
+                color="#FFFFFF"
+              >
+                <img src={navigate_next} />
+                공유하기
+              </R.WorldCupResultButton>
+            </R.WorldCupResultButtonBox>
           </S.WorldCupResultTest>
         </R.WorldCupWinnerCard>
-        <R.WorldCupResultButtonBox>
-          <R.WorldCupResultButton
-            background="#EFEFEF"
-            onClick={() => {
-              navigate('/worldcup');
-            }}
-          >
-            다시하기
-          </R.WorldCupResultButton>
-          <R.WorldCupResultButton
-            onClick={handleKakaoButton}
-            background="#8200FF"
-            color="#FFFFFF"
-          >
-            <img src={navigate_next} />
-            테스트 공유하기
-          </R.WorldCupResultButton>
-        </R.WorldCupResultButtonBox>
         {/* -------------------------------- 결과*/}
-      </div>
+      </S.WorldcupWinnerContainer>
       <R.ResultBox>
         <R.ResultCardBox>
           <R.ResultRankTitle>순위</R.ResultRankTitle>
