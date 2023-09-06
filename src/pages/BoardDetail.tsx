@@ -21,6 +21,7 @@ import * as userStore from '../store/userStore';
 import filledLike from '../assets/filledLike.svg';
 import borderLike from '../assets/borderLike.svg';
 import { toast } from 'react-toastify';
+
 import pencil from '../assets/pencil.svg';
 import search from '../assets/search.svg';
 import ProfileWithBorder, {
@@ -376,7 +377,7 @@ const BoardDetail = () => {
                                 style={{ width: '172px', height: '32px' }}
                               />
                             ) : (
-                              <div>칭호없음</div>
+                              <S.AwardNo>칭호없음</S.AwardNo>
                             )}
                             {/* </S.Award> */}
                           </div>
@@ -390,8 +391,6 @@ const BoardDetail = () => {
                         )}
                       </S.Like>
                     </S.User>
-
-                    {/* </S.Box> */}
                   </>
                 )}
 

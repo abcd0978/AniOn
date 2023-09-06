@@ -158,6 +158,20 @@ export const Award = styled.img`
   font-size: 14px;
   margin-top: 12px;
 `;
+export const AwardNo = styled.div`
+  display: flex;
+  height: 32px;
+  width: 172px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: 999px;
+  background: #f4f4f4;
+  margin-left: 10px;
+  font-size: 14px;
+  margin-top: 20px;
+  border: 1px solid #dbdbdb;
+`;
 export const CommentBox = styled.div`
   width: 1308px;
   height: 30px;

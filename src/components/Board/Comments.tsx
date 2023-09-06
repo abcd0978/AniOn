@@ -13,6 +13,7 @@ import ProfileWithBorder, { processItem } from '../ProfileWithBorder';
 import * as userStore from '../../store/userStore';
 import { useAtomValue } from 'jotai';
 import { toast } from 'react-toastify';
+import commentpointer from '../../assets/commentpointer.svg';
 import {
   CommentType,
   InsertPostComment,
@@ -207,7 +208,7 @@ const Comments = () => {
                       style={{ width: '172px', height: '32px' }}
                     />
                   ) : (
-                    '칭호없음'
+                    <S.AwardNo>칭호없음</S.AwardNo>
                   )}
                   {/* </S.Award> */}
                 </S.profile>
@@ -254,7 +255,7 @@ const Comments = () => {
                       <S.CommentMore
                         onClick={() => toggleCommentCollapse(comment.id)}
                       >
-                        더보기
+                        더보기 <img src={commentpointer} />
                       </S.CommentMore>
                     </>
                   ) : (
@@ -264,7 +265,7 @@ const Comments = () => {
                         <S.CommentMore
                           onClick={() => toggleCommentCollapse(comment.id)}
                         >
-                          접기
+                          접기 <img src={commentpointer} />
                         </S.CommentMore>
                       )}
                     </>
