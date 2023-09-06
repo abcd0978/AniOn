@@ -13,6 +13,7 @@ import ProfileWithBorder, { processItem } from '../ProfileWithBorder';
 import * as userStore from '../../store/userStore';
 import { useAtomValue } from 'jotai';
 import { toast } from 'react-toastify';
+import commentpointer from '../../assets/commentpointer.svg';
 import {
   CommentType,
   InsertPostComment,
@@ -79,7 +80,7 @@ const Comments = () => {
   const deleteMutation = useMutation(deleteComment, {
     onSuccess: () => {
       queryClient.invalidateQueries(['post_comments']);
-      toast.success('삭제 되었습니다~!', {
+      toast.success('댓글을 삭제했습니다❗', {
         autoClose: 800,
       });
     },
@@ -99,14 +100,19 @@ const Comments = () => {
 
   const handleCommentEdit = (comment: UpdatePostComment) => {
     if (editingCommentId === comment.id) {
-      const editComment = {
-        ...comment,
-
-        comment: editedCommentText,
-      };
-
-      editMutation.mutate(editComment);
-      setEditingCommentId(null);
+      // 수정 할 내용 빈 input 일 경우
+      if (!editedCommentText) {
+        // 이전 댓글 내용으로 복원
+        setEditedCommentText(comment.comment);
+        setEditingCommentId(null);
+      } else {
+        const editComment = {
+          ...comment,
+          comment: editedCommentText,
+        };
+        editMutation.mutate(editComment);
+        setEditingCommentId(null);
+      }
     } else {
       setEditingCommentId(comment.id!);
       setEditedCommentText(comment.comment);
@@ -164,7 +170,6 @@ const Comments = () => {
         <S.CommentTitle>댓글</S.CommentTitle>
         <S.CommentTop>
           <S.WriteInput
-            type="text"
             value={newComment}
             onChange={(e) => setNewComment(e.target.value)}
             onKeyPress={(e) => {
@@ -207,7 +212,7 @@ const Comments = () => {
                       style={{ width: '172px', height: '32px' }}
                     />
                   ) : (
-                    '칭호없음'
+                    <S.AwardNo>칭호없음</S.AwardNo>
                   )}
                   {/* </S.Award> */}
                 </S.profile>
@@ -240,31 +245,30 @@ const Comments = () => {
               )}
               {comment.id === editingCommentId ? (
                 <S.EditInput
-                  type="text"
                   value={editedCommentText}
                   onChange={(e) => setEditedCommentText(e.target.value)}
                 />
               ) : (
                 //더보기
                 <S.CommentBox>
-                  {comment.comment.length > 410 &&
+                  {comment.comment.length > 250 &&
                   !collapsedComments.includes(comment.id) ? (
                     <>
-                      {comment.comment.slice(0, 410)}
+                      {comment.comment.slice(0, 250)}
                       <S.CommentMore
                         onClick={() => toggleCommentCollapse(comment.id)}
                       >
-                        더보기
+                        더보기 <img src={commentpointer} />
                       </S.CommentMore>
                     </>
                   ) : (
                     <>
                       {comment.comment}
-                      {comment.comment.length > 410 && (
+                      {comment.comment.length > 250 && (
                         <S.CommentMore
                           onClick={() => toggleCommentCollapse(comment.id)}
                         >
-                          접기
+                          접기 <img src={commentpointer} />
                         </S.CommentMore>
                       )}
                     </>
