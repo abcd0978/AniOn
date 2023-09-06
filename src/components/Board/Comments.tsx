@@ -42,20 +42,22 @@ const Comments = () => {
     onSuccess: () => {
       queryClient.invalidateQueries(['post_comments']);
       updatePoint({ userId: user?.id!, point: 1 });
-      toast.success('댓글이 작성되었습니다! 💰1포인트 적립');
+      toast.success('댓글이 작성되었습니다! 💰1포인트 적립', {
+        autoClose: 800,
+      });
     },
   });
 
   const handleCommentSubmit = () => {
     if (!user) {
       toast.warning('로그인 후 댓글 작성이 가능해요🙄', {
-        autoClose: 1000,
+        autoClose: 800,
       });
       return;
     }
     if (!newComment) {
       toast.warning('댓글을 작성해주세요💜', {
-        autoClose: 1000,
+        autoClose: 800,
       });
       return;
     }
@@ -75,7 +77,7 @@ const Comments = () => {
     onSuccess: () => {
       queryClient.invalidateQueries(['post_comments']);
       toast.success('삭제 되었습니다~!', {
-        autoClose: 1000,
+        autoClose: 800,
       });
     },
   });

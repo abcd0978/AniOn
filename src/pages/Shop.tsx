@@ -62,7 +62,9 @@ const Shop = () => {
             </S.Button>
           </S.ButtonBox>
           <S.Point>
-            {!user ? '로그인 해주세요!' : `보유 P:${userPoint}`}
+            {!user
+              ? '로그인 해주세요!'
+              : `보유  ${userPoint?.toLocaleString()}P`}
           </S.Point>
         </S.ButtonContainer>
       </S.Top>

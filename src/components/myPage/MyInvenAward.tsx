@@ -50,7 +50,7 @@ const MyInvenAward = () => {
 
     applyAwardMutation.mutate({ user_id: user.id, item_id, category: 1 });
     toast.success('장착 되었습니다❣️', {
-      autoClose: 1000,
+      autoClose: 800,
     });
   };
   const totalPages = awards ? Math.ceil(awards.length / itemsPerPage) : 0;
