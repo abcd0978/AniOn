@@ -37,6 +37,9 @@ const AnimeDetailComments = () => {
       updatePoint({ userId: user?.id!, point: 1 });
       toast.success(
         '리뷰가 작성되었습니다!ㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ 💰1포인트 적립)',
+        {
+          autoClose: 800,
+        },
       );
     },
   });
@@ -44,14 +47,14 @@ const AnimeDetailComments = () => {
   const handleCommentSubmit = () => {
     if (!user) {
       toast.warning('로그인 후 리뷰 작성이 가능해요🙄', {
-        autoClose: 1000,
+        autoClose: 800,
       });
       return;
     }
 
     if (!newComment) {
       toast.warning('리뷰를 작성해주세요!', {
-        autoClose: 2000,
+        autoClose: 800,
       });
       return;
     }
@@ -82,7 +85,7 @@ const AnimeDetailComments = () => {
     if (shouldDelete) {
       deleteMutation.mutate(commentId);
       toast.success('리뷰를 삭제했습니다❗', {
-        autoClose: 1200,
+        autoClose: 800,
       });
     }
   };

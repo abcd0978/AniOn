@@ -149,9 +149,9 @@ const LoginModalContents = (props: Props) => {
               );
               setLoading(false);
               if (result) {
-                toast('안녕하세요! 환영합니다😊', {
+                toast.success('안녕하세요! 환영합니다😊', {
                   position: 'top-center',
-                  autoClose: 1000,
+                  autoClose: 800,
                   hideProgressBar: true,
                 });
                 await writeUser();
