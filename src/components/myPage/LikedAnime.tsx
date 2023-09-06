@@ -160,7 +160,7 @@ const LikedAnime = () => {
 export default LikedAnime;
 const Page = styled.div<{ $mediawidth: number }>`
   height: 10vh;
-  ${(props) => `width:${250 * (props.$mediawidth / 1920)}px;`}
+  ${(props) => `width:${300 * (props.$mediawidth / 1920)}px;`}
   margin-bottom: -100px;
   margin-left: 600px;
 `;

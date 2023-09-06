@@ -63,12 +63,11 @@ const DecoTitle = styled.div`
   letter-spacing: -0.36px;
 `;
 const Container = styled.div`
-  display: flex;
+  display: grid;
   flex-direction: column;
-  gap: 16px;
   align-items: flex-start;
   position: relative;
-  top: -400px;
-  margin-left: 160px;
+  top: -380px;
+  margin-left: 150px;
   margin-bottom: 130px;
 `;

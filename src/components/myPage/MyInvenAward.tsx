@@ -118,9 +118,9 @@ const GridContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 50px;
-  grid-template-columns: auto auto auto auto;
   padding: 10px;
 `;
+
 export const Page = styled.div`
   display: flex;
   justify-content: center;

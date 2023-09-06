@@ -30,7 +30,9 @@ export const B = {
     width: 150px;
     height: auto;
     object-fit: cover;
+
     margin: 20px;
+
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.1);
@@ -92,9 +94,11 @@ color:black;
   BorderContainer: styled.div`
     width: 268px;
     height: 300px;
+    gap: 0px;
   `,
   ButtonContainer: styled.div`
     justify-content: space-between;
+    width: 100px;
     align-items: center;
     margin-left: 25px;
   `,
@@ -102,7 +106,7 @@ color:black;
   Container: styled.div`
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 10px;
+    gap: 5px 1px;
   `,
   BorderName: styled.div`
     width: 100%;
