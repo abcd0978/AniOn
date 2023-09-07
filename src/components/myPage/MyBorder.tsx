@@ -38,7 +38,7 @@ const MyBorder = () => {
 
   const applyBorderMutation = useMutation(equipItem, {
     onSuccess: (data) => {
-      console.log('장착 myInvenAward', data);
+      // console.log('장착 myInvenAward', data);
       queryClient.invalidateQueries(['equippedBorder']);
       queryClient.invalidateQueries(['myBorders']);
       toast.success('장착 되었습니다❣️', {

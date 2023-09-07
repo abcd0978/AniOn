@@ -56,7 +56,7 @@ const LoginModalContents = (props: Props) => {
       });
       pErrorFlag = true;
     } else setPasswordError(initialError);
-    console.log(regex.test(email));
+    // console.log(regex.test(email));
     if (email.length < 1) {
       setEmailError({
         error: true,

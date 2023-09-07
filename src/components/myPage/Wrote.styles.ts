@@ -100,7 +100,7 @@ export const Post = {
     max-width: 160px;
     // display: flex;
   `,
-  title: styled.div`
+  Title: styled.div`
     min-width: 780px;
     min-height: 40px;
     align-items: center;
@@ -112,7 +112,7 @@ export const Post = {
     flex-direction: row;
     cursor: pointer;
   `,
-  input: styled.input`
+  Input: styled.input`
     min-width: 24px;
     height: 24px;
     cursor: pointer;
