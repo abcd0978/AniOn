@@ -1,5 +1,4 @@
 export interface AnimeG {
-  tags: any;
   id: number;
   name: string;
   img?: string;

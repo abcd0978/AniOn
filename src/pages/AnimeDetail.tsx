@@ -4,7 +4,8 @@ import { useParams } from 'react-router-dom';
 import VideoPlayer from '../components/anime-detail/VideoPlayer';
 import { S } from '../components/anime-detail/anime-detail.style';
 import AnimeDetailComments from '../components/anime-detail/AnimeDetailComments';
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
+import filled from '../assets/filledLike.svg';
 import unfilled from '../assets/unfilledLike.svg';
 import share from '../assets/share.svg';
 import { fetchAnimeLikes, toggleAnimeLike } from '../api/likeApi';
@@ -16,15 +17,11 @@ import StarRating from '../components/anime-detail/StarRating';
 import detaillike from '../assets/detaillike.svg';
 import ScrollToTop from '../components/ScrollToTop';
 import { toast } from 'react-toastify';
-import Loading from '../components/Loading/Loading';
-import seemoreIcon from '../assets/stat_minus_1.svg';
-import seemoreIconUp from '../assets/stat_minus_2.svg';
 
 function AnimeDetail() {
   const previewRef = useRef<HTMLDivElement>(null);
   const queryClient = useQueryClient();
   const currentUrl = window.location.href;
-  const [collapsedComments, setCollapsedComments] = useState<string[]>([]);
 
   const user = useAtomValue(userStore.user);
 
@@ -62,7 +59,11 @@ function AnimeDetail() {
     refetchOnWindowFocus: false,
   });
 
-  const { data: animeStar } = useQuery({
+  const {
+    isLoading: isStarLoading,
+    isError: isStarError,
+    data: animeStar,
+  } = useQuery({
     queryKey: ['animeStar'],
     queryFn: () => {
       return getAnimeStars(ani_id);
@@ -120,7 +121,7 @@ function AnimeDetail() {
   };
 
   if (isDetailLoading || isVideoLoading) {
-    return <Loading />;
+    return <h3>데이터를 가져오는 중입니다.</h3>;
   }
   if (isDetailError || isVideoError) {
     console.log('데이터를 가져올 수 없습니다.');
@@ -128,16 +129,7 @@ function AnimeDetail() {
 
   const genres = animeDetail.genres.join('  ');
 
-  //더보기
-  const toggleCommentCollapse = (contentId: string) => {
-    if (collapsedComments.includes(contentId)) {
-      // 댓글을 펼칩니다.
-      setCollapsedComments(collapsedComments.filter((id) => id !== contentId));
-    } else {
-      // 댓글을 접습니다.
-      setCollapsedComments([...collapsedComments, contentId]);
-    }
-  };
+  console.log(genres);
 
   return (
     <>
@@ -188,33 +180,9 @@ function AnimeDetail() {
                 </S.ContentsGenrePro>
               </S.ContentsTextUp>
               <S.ContentsEx>
-                {animeDetail.content.length > 300 &&
-                !collapsedComments.includes(animeDetail.id) ? (
-                  <>
-                    {animeDetail.content.slice(0, 300)} ...
-                    <S.ContentSeeMore
-                      onClick={() => toggleCommentCollapse(animeDetail.id)}
-                    >
-                      <p>더보기</p>
-                      <img src={seemoreIcon} />
-                    </S.ContentSeeMore>
-                  </>
-                ) : (
-                  <>
-                    {animeDetail.content}
-                    {animeDetail.content.length > 300 && (
-                      <S.ContentSeeMore
-                        onClick={() => toggleCommentCollapse(animeDetail.id)}
-                      >
-                        <p>접기</p>
-                        <img src={seemoreIconUp} />
-                      </S.ContentSeeMore>
-                    )}
-                  </>
-                )}
-                {/* {animeDetail.content
+                {animeDetail.content
                   ? animeDetail.content
-                  : '애니메이션 설명 정보가 없습니다.'} */}
+                  : '애니메이션 설명 정보가 없습니다.'}
               </S.ContentsEx>
             </S.ContentsText>
             <S.StarBox>

@@ -69,5 +69,5 @@ const Container = styled.div`
   position: relative;
   top: -380px;
   margin-left: 150px;
-  margin-bottom: -50%;
+  margin-bottom: -50px;
 `;

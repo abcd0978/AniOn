@@ -88,7 +88,6 @@ const S = {
     line-height: 36px;
     // margin: -5px;
     margin-top: -10px;
-    margin-left: 12px;
   `,
 
   Content: styled.div`
@@ -161,7 +160,6 @@ const S = {
     justify-content: center;
     font-size: 15px;
     font-weight: 700;
-    margin-bottom: 5px;
   `,
   Like: styled.div`
     background-color: white;
@@ -170,7 +168,6 @@ const S = {
     height: 40px;
     justify-content: flex-end;
     padding: 10px;
-    margin-right: -15px;
   `,
   Img: styled.img`
     background-color: white;

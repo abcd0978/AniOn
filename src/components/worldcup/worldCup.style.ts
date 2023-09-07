@@ -112,8 +112,7 @@ export const S = {
 
     &:hover {
       /* 호버 상태일 때 크게 확대 */
-      /* transform: scale(1); */
-      border: 4px solid #8200ff;
+      transform: scale(1.1);
     }
 
     @media (max-width: 768px) {
@@ -121,8 +120,7 @@ export const S = {
       height: 100%;
       padding: 10px;
       &:hover {
-        /* transform: scale(1); */
-        border: 4px solid #8200ff;
+        transform: scale(1);
       }
     }
   `,

@@ -11,8 +11,6 @@ import { v4 as uuidv4 } from 'uuid';
 import useViewport from '../hooks/useViewPort';
 import { toast } from 'react-toastify';
 import { updatePoint } from '../api/items';
-import { useConfirm } from '../hooks/useConfirm';
-import { Confirm } from '../components/Modal/confirm/Confirm';
 type InsertPosts = Database['public']['Tables']['posts']['Insert'];
 
 const WriteBoard = () => {
@@ -20,7 +18,6 @@ const WriteBoard = () => {
   const navigate = useNavigate();
   // 유저 정보 가져오기
   const user = useAtomValue(userStore.user);
-  const { openConfirm } = useConfirm();
 
   // 입력값 받기
   const [category, setCategory] = useState<string>('');
@@ -36,17 +33,10 @@ const WriteBoard = () => {
 
   // 취소
   const cancelButton = () => {
-    const backConfirmData = {
-      title: '게시물 작성 취소',
-      content: '정말 취소하실건가요?',
-      callback: () => {
-        navigate('/board');
-        toast.success('작성을 취소했습니다❗', {
-          autoClose: 800,
-        });
-      },
-    };
-    openConfirm(backConfirmData);
+    const confirmed = window.confirm('정말 취소하시나요....?😭');
+    if (confirmed) {
+      navigate('/board');
+    }
   };
 
   // Post 추가
@@ -168,7 +158,6 @@ const WriteBoard = () => {
           </S.ButtonContainer>
         </S.Form>
       </S.Layout>
-      <Confirm />
     </S.Container>
   );
 };
