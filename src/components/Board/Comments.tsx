@@ -69,14 +69,6 @@ const Comments = () => {
       return;
     }
 
-    // 댓글을 300자로 제한
-    if (newComment.length > 300) {
-      toast.warning('댓글은 300자까지만 입력이 가능합니다!😅', {
-        autoClose: 800,
-      });
-      return;
-    }
-
     //생성
     const createComment: InsertPostComment = {
       comment: newComment,
