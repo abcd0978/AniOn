@@ -150,9 +150,6 @@ const MyInfoMenu = () => {
         <EditTitle>
           {selectedComponent === 'EditProfile' && '프로필 수정'}
         </EditTitle>
-        {/* <DecoTitle>
-          {selectedComponent === 'DecoProfile' && '프로필 꾸미기'}
-        </DecoTitle> */}
 
         <ReviewTitle>
           {selectedComponent === 'MyReviews' && '리뷰 관리'}

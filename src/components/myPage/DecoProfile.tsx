@@ -1,7 +1,6 @@
 import MyBorder from './MyBorder';
 import { useState } from 'react';
 import MyInvenAward from './MyInvenAward';
-import LikedAnime from './LikedAnime';
 import { Deco } from './Deco.styles';
 import * as S from '../../pages/Shop.style';
 import { styled } from 'styled-components';
@@ -21,8 +20,9 @@ const DecoProfile = () => {
   };
   return (
     <>
+      <DecoTitle>프로필 꾸미기</DecoTitle>
+
       <Container>
-        <DecoTitle>프로필 꾸미기</DecoTitle>
         <Deco.ButtonContainer>
           <S.Button
             onClick={() => setSelectedDecoMenu('Border')}
@@ -52,7 +52,9 @@ const DecoProfile = () => {
 };
 export default DecoProfile;
 const DecoTitle = styled.div`
-  margin-top: 50px;
+  position: absolute;
+  margin-top: -20%;
+  margin-left: 8%;
   width: 200px;
   height: 32px;
   color: #000;
@@ -64,10 +66,8 @@ const DecoTitle = styled.div`
 `;
 const Container = styled.div`
   display: grid;
+  position: absolute;
   flex-direction: column;
-  align-items: flex-start;
-  position: relative;
-  top: -380px;
+  margin-top: -18%;
   margin-left: 150px;
-  margin-bottom: -50%;
 `;

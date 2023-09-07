@@ -11,14 +11,13 @@ export const Deco = {
   `,
 };
 export const B = {
-  NoneContainer: styled.div<{ $mediawidth: number }>`
-    ${(props) => `height:${80 * (props.$mediawidth / 1920)}px;`}
+  NoneContainer: styled.div`
     display: grid;
     align-items: center;
 
     justify-content: center;
-    margin-left: 100%;
-    margin-top: 100%;
+    margin-left: 200%;
+    margin-top: 80%;
   `,
   GoIcon: styled.img`
     width: 50%;
@@ -117,6 +116,38 @@ color:black;
   `,
 };
 export const A = {
+  NoneMessage: styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+  `,
+  NoneContainer: styled.div`
+    display: grid;
+    align-items: center;
+
+    justify-content: center;
+    margin-left: 150%;
+    margin-top: 75%;
+  `,
+  NoneButton: styled.div`
+    background-color: #8200ff;
+    color: #fff;
+    width: 226.5px;
+    height: 48px;
+    border-radius: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+    cursor: pointer;
+  `,
+  GoIcon: styled.img`
+    width: 50%;
+    height: auto;
+    object-fit: cover;
+    margin: 10px;
+  `,
   Name: styled.div`
     background-color: #efefef;
     padding: 8px;
