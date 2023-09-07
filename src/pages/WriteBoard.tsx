@@ -12,7 +12,6 @@ import useViewport from '../hooks/useViewPort';
 import { toast } from 'react-toastify';
 import { updatePoint } from '../api/items';
 import { useConfirm } from '../hooks/useConfirm';
-import { Confirm } from '../components/Modal/confirm/Confirm';
 type InsertPosts = Database['public']['Tables']['posts']['Insert'];
 
 const WriteBoard = () => {
@@ -168,7 +167,6 @@ const WriteBoard = () => {
           </S.ButtonContainer>
         </S.Form>
       </S.Layout>
-      <Confirm />
     </S.Container>
   );
 };

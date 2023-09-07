@@ -13,10 +13,8 @@ import { getPosts } from '../../api/boardapi';
 import { StyledPostCategory } from './Wrote.styles';
 import useViewport from '../../hooks/useViewPort';
 import { styled } from 'styled-components';
-import { toast } from 'react-toastify';
 import { useConfirm } from '../../hooks/useConfirm';
-import { Confirm } from '../Modal/confirm/Confirm';
-import { getLikesForPost } from '../../api/boardapi';
+// import { getLikesForPost } from '../../api/boardapi';
 type ReadMyBoard = Database['public']['Tables']['posts']['Row'];
 type ReadMyBoardLikes = Database['public']['Tables']['likes']['Row'];
 const userPostsAtom = atom<ReadMyBoard[]>([]);
@@ -32,15 +30,11 @@ const WhatIWrote = () => {
   const [searchKeyword, setSearchKeyword] = useState<string>('');
   const [selectedPosts, setSelectedPosts] = useState<string[]>([]);
   const [page, setPage] = useState<number>(1);
-  const { width, height, isMobile, isLoaded } = useViewport();
+  const { width } = useViewport();
   const [currentPage, setCurrentPage] = useState(1);
 
   const itemsPerPage = 12;
-  const {
-    data: postsAndTotalPages,
-    isLoading,
-    isFetching,
-  } = useQuery(
+  const { data: postsAndTotalPages } = useQuery(
     ['posts', selectedCategory, searchKeyword, page],
     () => getPosts(selectedCategory || '', page),
     {
@@ -172,21 +166,21 @@ const WhatIWrote = () => {
       setCurrentPage(page);
     }
   };
-  const startIndex = (currentPage - 1) * itemsPerPage;
+  // const startIndex = (currentPage - 1) * itemsPerPage;
   return Array.isArray(userPosts) && userPosts.length > 0 ? (
     <Container>
       <ul>
         {userPosts
           .slice((page - 1) * itemsPerPage, page * itemsPerPage)
           .map((post) => {
-            const likesForPost = userPostLike.filter(
-              (like) => like.post_id === post.id,
-            ).length;
+            // const likesForPost = userPostLike.filter(
+            //   (like) => like.post_id === post.id,
+            // ).length;
 
             return (
               <li key={post.id}>
                 <Post.Box>
-                  <Post.input
+                  <Post.Input
                     type="checkbox"
                     checked={selectedPosts.includes(post.id?.toString() ?? '')}
                     onChange={() =>
@@ -197,15 +191,14 @@ const WhatIWrote = () => {
                     {post.category}
                   </StyledPostCategory>
                   <Post.Content>
-                    <Post.title
+                    <Post.Title
                       onClick={() => handlePostClick(post.id?.toString() ?? '')}
                     >
                       {post.title}
                       <Post.Date>
-                        {' '}
                         {new Date(post.created_at).toLocaleString()}{' '}
                       </Post.Date>
-                    </Post.title>
+                    </Post.Title>
 
                     {/* <div>받은 추천 수: {likesForPost}</div> */}
                   </Post.Content>
@@ -223,7 +216,6 @@ const WhatIWrote = () => {
             : '전체 선택'}
         </Post.ButtonAll>
       </Post.ButtonBox>
-      <Confirm />
       <WriteP $mediawidth={width}>
         <Pagination
           currentPage={currentPage}
