@@ -2,7 +2,7 @@ import styled from 'styled-components';
 // import Banner from '../components/Banner';
 import React from 'react';
 import { ReactNode, CSSProperties } from 'react';
-// import jusul from '../assets/jusul.svg';
+import useViewport from '../hooks/useViewPort';
 import goTest from '../assets/goTest.svg';
 
 const imgStyle: CSSProperties = {
@@ -19,22 +19,29 @@ type Props = {
 };
 
 const BannerSlide = (props: Props) => {
+  const { width } = useViewport();
   return (
     <SlideContainer image={props.image}>
-      <StSlideInfoContainer>
-        <StSlideInfos>
-          <StSlideTitleandDescContainer>
+      <StSlideInfoContainer mediaWidth={width}>
+        <StSlideInfos mediaWidth={width}>
+          <StSlideTitleandDescContainer mediaWidth={width}>
             <StAnionAndRecommend>
-              <StAnionTypo>{props.name}</StAnionTypo>
-              <StText> 의 추천</StText>
+              <StAnionTypo mediaWidth={width}>{props.name}</StAnionTypo>
+              <StText mediaWidth={width}> 의 추천</StText>
             </StAnionAndRecommend>
-            <StAniTitle>{props.title}</StAniTitle>
+            <StAniTitle mediaWidth={width}>{props.title}</StAniTitle>
           </StSlideTitleandDescContainer>
-          <StText>{props.desc}</StText>
+          <StText mediaWidth={width}>{props.desc}</StText>
         </StSlideInfos>
-        <StSlideButton onClick={props.onClick}>
-          <StSlideButtonType>{props.buttonText}</StSlideButtonType>
-          <img src={goTest} alt="" />
+        <StSlideButton mediaWidth={width} onClick={props.onClick}>
+          <StSlideButtonType mediaWidth={width}>
+            {props.buttonText}
+          </StSlideButtonType>
+          <img
+            style={{ width: `${(25 * width) / 1920}px` }}
+            src={goTest}
+            alt=""
+          />
         </StSlideButton>
       </StSlideInfoContainer>
       <StGredient />
@@ -58,73 +65,79 @@ const StGredient = styled.div`
     #000 100%
   );
 `;
-const SlideContainer = styled.div<{ image?: string }>`
+const SlideContainer = styled.div<{ image?: string; mediaWidth?: number }>`
   ${(props) =>
     props.image
       ? `background-image: url(${props.image});background-size: 100%;`
       : `background:#424242;`}
-  //background-image: ${(props) => `url(${props.image});`};
   height: 100%;
   position: relative;
 `;
-const StSlideInfoContainer = styled.div`
+const StSlideInfoContainer = styled.div<{
+  mediaWidth?: number;
+}>`
   position: absolute;
-
   background-color: transparent;
-  left: 237px;
-  top: 319px;
+  left: 10%;
+  top: 47%;
   z-index: 6;
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 20px;
+  gap: ${(props) => `${20 * (props.mediaWidth! / 1920)}px`};
 `;
-const StSlideInfos = styled.div`
+const StSlideInfos = styled.div<{ mediaWidth?: number }>`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 12px;
+  gap: ${(props) => `${12 * (props.mediaWidth! / 1920)}px`};
 `;
-const StSlideButton = styled.button`
+const StSlideButton = styled.button<{ mediaWidth?: number }>`
   display: flex;
-  padding: 12px 12px 12px 24px;
+  padding:${(props) => {
+    return `${12 * (props.mediaWidth! / 1920)}px  ${
+      12 * (props.mediaWidth! / 1920)
+    }px ${12 * (props.mediaWidth! / 1920)}px ${
+      24 * (props.mediaWidth! / 1920)
+    }px;`;
+  }}
   justify-content: center;
   align-items: center;
-  gap: 4px;
+  gap: ${(props) => `${4 * (props.mediaWidth! / 1920)}px`};
   border: none;
   border-radius: 999px;
   background: var(--achromatic-colors-white, #fff);
   cursor: pointer;
 `;
-const StSlideButtonType = styled.p`
+const StSlideButtonType = styled.p<{ mediaWidth?: number }>`
   color: var(--achromatic-colors-black, #050505);
   font-family: 'Pretendard-Regular';
-  font-size: 18px;
+  font-size: ${(props) => `${(18 * props.mediaWidth!) / 1920}px;`};
   font-style: normal;
   font-weight: 400;
   line-height: normal;
   letter-spacing: -0.27px;
 `;
-const StSlideTitleandDescContainer = styled.div`
+const StSlideTitleandDescContainer = styled.div<{ mediaWidth?: number }>`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 8px;
+  gap: ${(props) => `${8 * (props.mediaWidth! / 1920)}px`};
 `;
 
-const StAniTitle = styled.div`
+const StAniTitle = styled.div<{ mediaWidth?: number }>`
   color: #fff;
   /* 대타이틀/1 */
   font-family: 'Cafe24Ssurround';
-  font-size: 44px;
+  font-size: ${(props) => `${(44 * props.mediaWidth!) / 1920}px;`}
   font-style: normal;
   font-weight: 700;
   line-height: normal;
 `;
-const StAnionTypo = styled.p`
+const StAnionTypo = styled.p<{ mediaWidth?: number }>`
   color: var(--achromatic-colors-white, #fff);
   font-family: 'Pretendard-Regular';
-  font-size: 20px;
+  font-size: ${(props) => `${(20 * props.mediaWidth!) / 1920}px;`}
   font-style: normal;
   font-weight: 700;
   line-height: normal;
@@ -134,11 +147,11 @@ const StAnionAndRecommend = styled.div`
   display: flex;
   flex-direction: row;
 `;
-const StText = styled.p`
+const StText = styled.p<{ mediaWidth?: number }>`
   color: var(--achromatic-colors-white, #fff);
   /* 소타이틀/2 */
   font-family: 'Pretendard-Regular';
-  font-size: 20px;
+  font-size: ${(props) => `${(20 * props.mediaWidth!) / 1920}px;`};
   font-style: normal;
   font-weight: 400;
   line-height: 150%; /* 30px */

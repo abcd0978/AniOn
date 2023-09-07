@@ -34,7 +34,13 @@ export const writeUser = atom(null, async (get, set) => {
     if ((await authApi.checkUser(userData!.id)) <= 0) {
       //db에 있으면 안넣고 db에있으면 넣는다
       await authApi.addUser(currentUser);
-      await supabase.from('point').insert({ userId: userData.id!, point: 30 });
+
+      const { data, error } = await supabase
+        .from('point')
+        .insert({ user_id: userData.id!, point: 30 });
+      if (error) {
+        console.log(error);
+      }
     }
     return true;
   }
