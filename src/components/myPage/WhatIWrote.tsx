@@ -106,7 +106,7 @@ const WhatIWrote = () => {
           post_id: like.post_id,
           user_id: user.id,
         }));
-        console.log('User post likes fetched:', userLikes);
+        // console.log('User post likes fetched:', userLikes);
         setUserPostLike(userLikes);
       }
     } catch (error) {
@@ -249,7 +249,7 @@ export const WriteP = styled.div<{ $mediawidth: number }>`
   height: 10vh;
   ${(props) => `width:${250 * (props.$mediawidth / 1920)}px;`}
   margin-bottom: -330px;
-  justify-contents: center;
+  justify-content: center;
   margin-left: 400px;
 `;
 const NoPostsContainer = styled.div`

@@ -31,7 +31,7 @@ const MyPoint = () => {
   if (isError) {
     return <div>Error</div>;
   }
-  console.log('user', user, 'point', point);
+  // console.log('user', user, 'point', point);
 
   return (
     <div>

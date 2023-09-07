@@ -56,7 +56,7 @@ const MyReviews = () => {
         if (reviewError) {
           console.error('fetchUserPosts에서 에러', reviewError);
         } else {
-          console.log('User reviews fetched:', reviewData);
+          // console.log('User reviews fetched:', reviewData);
           setUserReview(reviewData);
 
           const animeIds = reviewData.map((review) => review.ani_id);

@@ -95,7 +95,7 @@ const LikedAnime = () => {
     return <div>좋아요 목록을 불러오지 못했어요</div>;
   }
   const filteredLiked = liked?.filter((liked) => liked.length !== 0);
-  console.log('filetedLiked', filteredLiked);
+  // console.log('filetedLiked', filteredLiked);
   const totalPages = Math.ceil(filteredLiked.length / itemsPerPage);
 
   const startIndex = (currentPage - 1) * itemsPerPage;
@@ -386,7 +386,7 @@ const Liked = {
     &:hover ${HoveredAnimeGenre} {
       visibility: visible;
     }
-    / @media (max-width: 540px) {
+    @media (max-width: 540px) {
       width: 100%;
       height: 100%;
     }
