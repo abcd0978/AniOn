@@ -1,17 +1,16 @@
-// import { MyProfilePoint } from './MyPage.styles';
-import React, { useState } from 'react';
-import { Database } from '../types/supabase';
+import { useState } from 'react';
 import { styled } from 'styled-components';
 import * as modalStore from '../store/modalStore';
 import { useAtomValue, useSetAtom } from 'jotai';
 import * as userStore from '../store/userStore';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import {
   fetchAwards,
   fetchMyAwards,
   purchase,
   purchaseRes,
 } from '../api/items';
+import Loading from './Loading/Loading';
 // type ReadAwards = Database['public']['Tables']['items']['Row'];
 
 const ShopAwardList = () => {
@@ -45,6 +44,10 @@ const ShopAwardList = () => {
   // console.log('asd', awards);
   // 구매 여부 판단을 위한 배열
   const purchasedItemIds = myAwards?.map((item) => item.item_id) || [];
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <GridContainer>
