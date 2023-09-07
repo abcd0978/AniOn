@@ -53,7 +53,7 @@ const MyBorder = () => {
     onSuccess: () => {
       queryClient.invalidateQueries(['equippedBorder']);
       queryClient.invalidateQueries(['myBorders']);
-      toast.success('장착 되었습니다❣️', {
+      toast.success('해제 되었습니다👋', {
         autoClose: 800,
       });
     },

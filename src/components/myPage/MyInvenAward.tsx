@@ -45,7 +45,7 @@ const MyInvenAward = () => {
     onSuccess: () => {
       queryClient.invalidateQueries(['equippedAward']);
       queryClient.invalidateQueries(['myAwards']);
-      toast.success('장착 되었습니다❣️', {
+      toast.success('해제 되었습니다👋', {
         autoClose: 800,
       });
     },
