@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
 import { useAtom, useAtomValue } from 'jotai';
 import * as modalStore from '../store/modalStore';
@@ -33,7 +33,7 @@ type Props = {};
 
 function Header({}: Props) {
   const navigate = useNavigate();
-  const [isDropdownOn, setIsDowpdownOn] = useAtom(isDropDownOn);
+  const [isDropdownOnB, setIsDowpdownOn] = useAtom(isDropDownOn);
   const [__, logoutStore] = useAtom(userStore.logoutUser);
   const { width, height, isMobile, isLoaded } = useViewport();
   const [user, setUser] = useAtom(userStore.user);
@@ -187,7 +187,6 @@ function Header({}: Props) {
                 <StHeaderUserInfo>
                   <StHeaderUserName>{user.nickname}</StHeaderUserName>
                   <StHeaderUserAppellation>
-                    {/* {award ? award.items.name : '칭호 없음'} */}
                     {award ? (
                       award.items.img_url ? (
                         <img
@@ -204,15 +203,18 @@ function Header({}: Props) {
                   </StHeaderUserAppellation>
                 </StHeaderUserInfo>
                 <StHeaderDropDownImgContainer
-                  onClick={() => setIsDowpdownOn(!isDropdownOn)}
+                  style={{ cursor: isDropdownOnB ? 'default' : 'pointer' }}
+                  onClick={() => {
+                    setIsDowpdownOn(true);
+                  }}
                 >
-                  {isDropdownOn ? (
+                  {isDropdownOnB ? (
                     <img src={dropdownUp} alt="dropdownImg" />
                   ) : (
                     <img src={dropdown} alt="dropdownImg" />
                   )}
                 </StHeaderDropDownImgContainer>
-                {isDropdownOn && <DropDown children={dropdownContents} />}
+                {isDropdownOnB && <DropDown children={dropdownContents} />}
               </StHeaderUserInfoContainer>
             ) : (
               <StHeaderLoginRegister>
@@ -362,7 +364,6 @@ const StHeaderUserAppellation = styled.p`
   white-space: nowrap;
 `;
 const StHeaderDropDownImgContainer = styled.div`
-  cursor: pointer;
   display: flex;
   width: 24px;
   height: 24px;
