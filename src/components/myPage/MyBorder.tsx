@@ -122,8 +122,8 @@ const MyBorder = () => {
   return (
     <div>
       <>{borderList}</>
-      {Array.isArray(filteredBorders) && filteredBorders.length > 0 && (
-        <BorderPage>
+      {Array.isArray(filteredBorders) &&
+        filteredBorders.length >= itemsPerPage && (
           <PaginationTwo
             currentPage={currentPage}
             totalPages={totalPages}
@@ -131,8 +131,7 @@ const MyBorder = () => {
             isPreviousDisabled={currentPage === 1}
             isNextDisabled={currentPage >= totalPages}
           />
-        </BorderPage>
-      )}
+        )}
     </div>
   );
 };
@@ -151,3 +150,17 @@ export const Outer = styled.div`
   margin-top: -100px;
   margin-left: 20px;
 `;
+{
+  /* <BorderPage>
+        {Array.isArray(filteredBorders) &&
+          filteredBorders.length >= itemsPerPage && (
+            <PaginationTwo
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onClick={handlePageChange}
+              isPreviousDisabled={currentPage === 1}
+              isNextDisabled={currentPage >= totalPages}
+            />
+          )}
+      </BorderPage> */
+}

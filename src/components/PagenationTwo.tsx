@@ -15,35 +15,19 @@ export const PaginationTwo = ({
   isPreviousDisabled,
   isNextDisabled,
 }: PaginationProps) => {
-  if (totalPages < 1) {
-    return (
-      <PaginationContainer>
-        <Button disabled={true} onClick={() => onClick('prev')}>
-          {'<'}
-        </Button>
-        <Current>{currentPage}</Current>
-        <Total>/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1</Total>
-        <Button disabled={true} onClick={() => onClick('next')}>
-          {'>'}
-        </Button>
-      </PaginationContainer>
-    );
-  } else {
-    return (
-      <PaginationContainer>
-        <Button disabled={isPreviousDisabled} onClick={() => onClick('prev')}>
-          {'<'}
-        </Button>
-        <Current>{currentPage}</Current>
-        <Total>/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{totalPages}</Total>
-        <Button disabled={isNextDisabled} onClick={() => onClick('next')}>
-          {'>'}
-        </Button>
-      </PaginationContainer>
-    );
-  }
+  return (
+    <PaginationContainer>
+      <Button disabled={isPreviousDisabled} onClick={() => onClick('prev')}>
+        {'<'}
+      </Button>
+      <Current>{currentPage}</Current>
+      <Total>/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{totalPages}</Total>
+      <Button disabled={isNextDisabled} onClick={() => onClick('next')}>
+        {'>'}
+      </Button>
+    </PaginationContainer>
+  );
 };
-
 const Button = styled.button`
   border-radius: 4px;
   border: 1px solid var(--main-light-2, #f3e7ff);

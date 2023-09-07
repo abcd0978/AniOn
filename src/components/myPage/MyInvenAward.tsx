@@ -104,15 +104,13 @@ const MyInvenAward = () => {
     <div>
       <GridContainer>{awardsList}</GridContainer>
       {Array.isArray(filteredAwards) && filteredAwards.length > 0 && (
-        <Page>
-          <PaginationTwo
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onClick={handlePageChange}
-            isPreviousDisabled={currentPage === 1}
-            isNextDisabled={currentPage >= totalPages}
-          />
-        </Page>
+        <PaginationTwo
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onClick={handlePageChange}
+          isPreviousDisabled={currentPage === 1}
+          isNextDisabled={currentPage >= totalPages}
+        />
       )}
     </div>
   );
@@ -127,8 +125,8 @@ const GridContainer = styled.div`
 `;
 
 export const Page = styled.div`
-  display: flex;
+  display: block;
   justify-content: center;
-  margin-top: -35%;
-  margin-left: 20%;
+  margin-top: -25%;
+  margin-left: 55%;
 `;

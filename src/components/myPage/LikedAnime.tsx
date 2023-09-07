@@ -14,7 +14,6 @@ import LikedSkeleton from './LikedSkeleton';
 import goShop from '../../assets/goShop.png';
 import { PaginationTwo } from '../PagenationTwo';
 
-const itemsPerPage = 9;
 const LikedAnime = () => {
   const [page, setPage] = useState<number>(1);
   const { width, height, isMobile, isLoaded } = useViewport();
@@ -94,6 +93,8 @@ const LikedAnime = () => {
   if (isError) {
     return <div>좋아요 목록을 불러오지 못했어요</div>;
   }
+  const itemsPerPage = 9;
+
   const filteredLiked = liked?.filter((liked) => liked.length !== 0);
   // console.log('filetedLiked', filteredLiked);
   const totalPages = Math.ceil(filteredLiked.length / itemsPerPage);
@@ -190,30 +191,30 @@ const LikedAnime = () => {
           {user?.nickname}님은 <Tags>#{topTags.join('#')}</Tags>을 좋아해요!
         </TopTags>
       )}
-      <DecoTitle>찜한 목록</DecoTitle>
+      <LikedTitle>찜한 목록</LikedTitle>
 
       <FullPage>
-        <div>{likedList}</div>
-        {/* {Array.isArray(filteredLiked) && filteredLiked.length > 0 && ( */}
-        <Page>
-          <PaginationTwo
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onClick={handlePageChange}
-            isPreviousDisabled={currentPage === 1}
-            isNextDisabled={currentPage >= totalPages}
-          />
-        </Page>
-        {/* )} */}
+        <LikedList>{likedList}</LikedList>
+        {Array.isArray(displayedAnime) && displayedAnime.length >= 0 && (
+          <Page>
+            <PaginationTwo
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onClick={handlePageChange}
+              isPreviousDisabled={currentPage === 1}
+              isNextDisabled={currentPage >= totalPages}
+            />
+          </Page>
+        )}
       </FullPage>
     </div>
   );
 };
 export default LikedAnime;
 const Page = styled.div`
-  display: block;
-  margin-top: -90%;
-  margin-left: 76%;
+  position: absolute;
+  top: -330px;
+  right: 250px;
 `;
 const TopTags = styled.div`
   border-radius: 999px;
@@ -226,21 +227,27 @@ const TopTags = styled.div`
   justify-content: center;
   align-items: center;
   gap: 8px;
-  margin-top: -21%;
+  margin-top: -20.2%;
   margin-left: 130px;
 `;
 const FullPage = styled.div`
-  margin-top: -15%;
-  position: absolute;
-  margin-left: 8%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-left: 150px;
+  position: relative;
 `;
 const Tags = styled.div`
   font-weight: 600;
 `;
-const DecoTitle = styled.div`
+const LikedList = styled.div`
+  margin-top: -280px;
+`;
+const LikedTitle = styled.div`
   position: absolute;
   margin-left: 150px;
-  margin-top: -18%;
+  margin-top: -17%;
   width: 200px;
   height: 32px;
   color: #000;

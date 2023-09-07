@@ -53,6 +53,7 @@ const DecoProfile = () => {
 export default DecoProfile;
 const DecoTitle = styled.div`
   position: absolute;
+  display: block;
   margin-top: -20%;
   margin-left: 8%;
   width: 200px;
