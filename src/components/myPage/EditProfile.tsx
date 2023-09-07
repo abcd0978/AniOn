@@ -11,6 +11,7 @@ import { Review } from './Wrote.styles';
 import { useAtom } from 'jotai';
 import { toast } from 'react-toastify';
 import PasswordReset from './ResetPassword';
+import EditProfileSkeleton from './EditSkeleton';
 //2-2-1.닉넴중복확인
 type ErrorType = {
   error: boolean;
@@ -168,6 +169,7 @@ const EditProfile = () => {
 
   const renderContent = () => {
     let updatedUser = user;
+
     return (
       <Container>
         <Divider />

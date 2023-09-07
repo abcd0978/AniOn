@@ -221,7 +221,8 @@ const Board = () => {
                       letterSpacing: '-0.21px',
                     }}
                   >
-                    {post.users.inventory.length > 0 ? (
+                    {post.users.inventory.length > 0 &&
+                    processItem(post.users.inventory).award.img_url ? (
                       <img
                         src={processItem(post.users.inventory).award.img_url!}
                         alt={processItem(post.users.inventory).award.name!}

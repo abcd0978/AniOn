@@ -13,19 +13,23 @@ import ProfileWithBorder, { processItem } from '../ProfileWithBorder';
 import * as userStore from '../../store/userStore';
 import { useAtomValue } from 'jotai';
 import { toast } from 'react-toastify';
+import commentpointer from '../../assets/commentpointer.svg';
 import {
   CommentType,
   InsertPostComment,
   UpdatePostComment,
 } from '../../types/comment';
 import { updatePoint } from '../../api/items';
+import { useConfirm } from '../../hooks/useConfirm';
+import { Confirm } from '../Modal/confirm/Confirm';
 
 const Comments = () => {
   const { post_id } = useParams() as { post_id: string };
-
+  const [collapsedComments, setCollapsedComments] = useState<string[]>([]); //더보기
   const user = useAtomValue(userStore.user);
 
   const queryClient = useQueryClient();
+  const { openConfirm } = useConfirm();
 
   const [newComment, setNewComment] = useState<string>('');
 
@@ -42,9 +46,12 @@ const Comments = () => {
     onSuccess: () => {
       queryClient.invalidateQueries(['post_comments']);
       updatePoint({ userId: user?.id!, point: 1 });
-      toast.success('댓글이 작성되었습니다! 💰1포인트 적립', {
-        autoClose: 800,
-      });
+      toast.success(
+        '댓글이 작성되었습니다!ㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ 💰1포인트 적립',
+        {
+          autoClose: 800,
+        },
+      );
     },
   });
 
@@ -76,16 +83,24 @@ const Comments = () => {
   const deleteMutation = useMutation(deleteComment, {
     onSuccess: () => {
       queryClient.invalidateQueries(['post_comments']);
-      toast.success('삭제 되었습니다~!', {
+      toast.success('댓글을 삭제했습니다❗', {
         autoClose: 800,
       });
     },
   });
   const handleCommentDelete = async (commentId: string) => {
-    const shouldDelete = window.confirm('삭제 하시겠습니까?');
-    if (shouldDelete) {
-      deleteMutation.mutate(commentId);
-    }
+    const deleteConfirmData = {
+      title: '댓글 삭제',
+      content: '정말 삭제하실건가요?',
+      callback: () => {
+        deleteMutation.mutate(commentId);
+        toast.success('댓글을 삭제했습니다❗', {
+          autoClose: 800,
+        });
+      },
+    };
+
+    openConfirm(deleteConfirmData);
   };
 
   const editMutation = useMutation(updateComment, {
@@ -96,14 +111,30 @@ const Comments = () => {
 
   const handleCommentEdit = (comment: UpdatePostComment) => {
     if (editingCommentId === comment.id) {
-      const editComment = {
-        ...comment,
+      // 수정 할 내용 빈 input 일 경우
+      if (!editedCommentText) {
+        // 이전 댓글 내용으로 복원
+        setEditedCommentText(comment.comment);
+        setEditingCommentId(null);
+      } else {
+        const editComment = {
+          ...comment,
+          comment: editedCommentText,
+        };
+        const editConfirmData = {
+          title: '댓글 수정',
+          content: '댓글을 수정 할까요?',
+          callback: () => {
+            editMutation.mutate(editComment);
+            setEditingCommentId(null);
+            toast.success('댓글을 수정했습니다❗', {
+              autoClose: 800,
+            });
+          },
+        };
 
-        comment: editedCommentText,
-      };
-
-      editMutation.mutate(editComment);
-      setEditingCommentId(null);
+        openConfirm(editConfirmData);
+      }
     } else {
       setEditingCommentId(comment.id!);
       setEditedCommentText(comment.comment);
@@ -144,13 +175,23 @@ const Comments = () => {
   // 다음 페이지 버튼 비활성화 여부 계산
   const isNextDisabled = page >= (postCommentsData?.totalPages ?? 1);
 
+  //더보기
+  const toggleCommentCollapse = (commentId: string) => {
+    if (collapsedComments.includes(commentId)) {
+      // 댓글을 펼칩니다.
+      setCollapsedComments(collapsedComments.filter((id) => id !== commentId));
+    } else {
+      // 댓글을 접습니다.
+      setCollapsedComments([...collapsedComments, commentId]);
+    }
+  };
+
   return (
     <S.Outer>
       <S.CommentContainer>
         <S.CommentTitle>댓글</S.CommentTitle>
         <S.CommentTop>
           <S.WriteInput
-            type="text"
             value={newComment}
             onChange={(e) => setNewComment(e.target.value)}
             onKeyPress={(e) => {
@@ -185,14 +226,15 @@ const Comments = () => {
                   />
                   <S.Ninkname>{comment.users.nickname}</S.Ninkname>
                   {/* <S.Award> */}
-                  {comment.users.inventory.length > 0 ? (
+                  {comment.users.inventory.length > 0 &&
+                  processItem(comment.users.inventory).award.img_url ? (
                     <S.Award
                       src={processItem(comment.users.inventory).award.img_url!}
                       alt={processItem(comment.users.inventory).award.name!}
                       style={{ width: '172px', height: '32px' }}
                     />
                   ) : (
-                    '칭호없음'
+                    <S.AwardNo>칭호없음</S.AwardNo>
                   )}
                   {/* </S.Award> */}
                 </S.profile>
@@ -225,12 +267,35 @@ const Comments = () => {
               )}
               {comment.id === editingCommentId ? (
                 <S.EditInput
-                  type="text"
                   value={editedCommentText}
                   onChange={(e) => setEditedCommentText(e.target.value)}
                 />
               ) : (
-                <S.CommentBox>{comment.comment}</S.CommentBox>
+                //더보기
+                <S.CommentBox>
+                  {comment.comment.length > 250 &&
+                  !collapsedComments.includes(comment.id) ? (
+                    <>
+                      {comment.comment.slice(0, 250)}
+                      <S.CommentMore
+                        onClick={() => toggleCommentCollapse(comment.id)}
+                      >
+                        더보기 <img src={commentpointer} />
+                      </S.CommentMore>
+                    </>
+                  ) : (
+                    <>
+                      {comment.comment}
+                      {comment.comment.length > 250 && (
+                        <S.CommentMore
+                          onClick={() => toggleCommentCollapse(comment.id)}
+                        >
+                          접기 <img src={commentpointer} />
+                        </S.CommentMore>
+                      )}
+                    </>
+                  )}
+                </S.CommentBox>
               )}
             </S.Comment>
           ))}
@@ -245,6 +310,7 @@ const Comments = () => {
           </S.Page>
         </S.CommentBot>
       </S.CommentContainer>
+      <Confirm />
     </S.Outer>
   );
 };
