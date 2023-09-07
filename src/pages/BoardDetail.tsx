@@ -376,7 +376,7 @@ const BoardDetail = () => {
                                 style={{ width: '172px', height: '32px' }}
                               />
                             ) : (
-                              <div>칭호없음</div>
+                              <S.AwardNo>칭호없음</S.AwardNo>
                             )}
                             {/* </S.Award> */}
                           </div>
