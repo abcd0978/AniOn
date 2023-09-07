@@ -194,24 +194,25 @@ const LikedAnime = () => {
 
       <FullPage>
         <div>{likedList}</div>
-        {Array.isArray(filteredLiked) && filteredLiked.length > 0 && (
-          <Page $mediawidth={width}>
-            <PaginationTwo
-              currentPage={currentPage}
-              totalPages={totalPages}
-              onClick={handlePageChange}
-              isPreviousDisabled={currentPage === 1}
-              isNextDisabled={currentPage >= totalPages}
-            />
-          </Page>
-        )}
+        {/* {Array.isArray(filteredLiked) && filteredLiked.length > 0 && ( */}
+        <Page>
+          <PaginationTwo
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onClick={handlePageChange}
+            isPreviousDisabled={currentPage === 1}
+            isNextDisabled={currentPage >= totalPages}
+          />
+        </Page>
+        {/* )} */}
       </FullPage>
     </div>
   );
 };
 export default LikedAnime;
-const Page = styled.div<{ $mediawidth: number }>`
-  margin-top: -94%;
+const Page = styled.div`
+  display: block;
+  margin-top: -90%;
   margin-left: 76%;
 `;
 const TopTags = styled.div`
