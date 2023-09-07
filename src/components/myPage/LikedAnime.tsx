@@ -292,8 +292,9 @@ const LikedAnimeGenre = styled.div`
   height: 16px;
   display: flex;
   align-items: flex-start;
-  margin-left: -110px;
-  margin-bottom: 10px;
+  margin-left: -55%;
+  margin-bottom: 20%;
+  margin-top: -8%;
   padding: 5px;
   gap: 4px;
 `;
