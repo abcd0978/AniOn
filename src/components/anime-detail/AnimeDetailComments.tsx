@@ -92,7 +92,7 @@ const AnimeDetailComments = () => {
       callback: () => {
         deleteMutation.mutate(commentId);
         toast.success('리뷰를 삭제했습니다❗', {
-          autoClose: 1200,
+          autoClose: 800,
         });
       },
     };
@@ -119,8 +119,20 @@ const AnimeDetailComments = () => {
           ...comment,
           comment: editedCommentText,
         };
-        editMutation.mutate(editComment);
-        setEditingCommentId(null);
+
+        const editConfirmData = {
+          title: '리뷰 수정',
+          content: '리뷰 수정을 할까요?',
+          callback: () => {
+            editMutation.mutate(editComment);
+            setEditingCommentId(null);
+            toast.success('리뷰를 수정했습니다❗', {
+              autoClose: 800,
+            });
+          },
+        };
+
+        openConfirm(editConfirmData);
       }
     } else {
       setEditingCommentId(comment.id!);
