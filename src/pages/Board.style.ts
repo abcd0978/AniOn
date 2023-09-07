@@ -196,7 +196,7 @@ export const AwardNo = styled.div`
   gap: 8px;
   border-radius: 999px;
   background: #f4f4f4;
-
+  color: black;
   font-size: 14px;
   margin-bottom: 5px;
 
