@@ -41,7 +41,7 @@ export const CommentBot = styled.div`
   margin-left: 2px;
 `;
 
-export const WriteInput = styled.input`
+export const WriteInput = styled.textarea`
   display: flex;
   margin-top: 10px;
   border-radius: 10px;
@@ -53,6 +53,9 @@ export const WriteInput = styled.input`
   border: none;
   outline: none;
   flex-grow: 1;
+  resize: none;
+  line-height: 1.6;
+  font-size: 16px;
 `;
 
 export const WriteButton = styled.button`
@@ -114,7 +117,7 @@ export const CommentDate = styled.div`
   float: right;
   margin-right: 15px;
 `;
-export const EditInput = styled.input`
+export const EditInput = styled.textarea`
   display: flex;
   border: 1px solid #566270;
   width: 1277px;
@@ -127,6 +130,10 @@ export const EditInput = styled.input`
   margin-left: 80px;
   margin-bottom: 50px;
   border: 1px solid #d9d9d9;
+  outline: none;
+  resize: none;
+  line-height: 1.6;
+  font-size: 16px;
 `;
 
 export const profile = styled.div`
@@ -175,7 +182,7 @@ export const CommentBox = styled.div`
   width: 1308px;
   min-height: 30px;
   line-height: 1.6;
-  margin-bottom: 45px;
+  /* margin-bottom: 45px; */
   margin-left: 80px;
   word-wrap: break-word;
   white-space: pre-wrap;
@@ -193,5 +200,6 @@ export const CommentMore = styled.button`
   height: 28px;
   cursor: pointer;
   margin-top: 12px;
+  margin-bottom: 5px;
   display: block;
 `;

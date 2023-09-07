@@ -20,6 +20,8 @@ import {
   UpdatePostComment,
 } from '../../types/comment';
 import { updatePoint } from '../../api/items';
+import { useConfirm } from '../../hooks/useConfirm';
+import { Confirm } from '../Modal/confirm/Confirm';
 
 const Comments = () => {
   const { post_id } = useParams() as { post_id: string };
@@ -27,6 +29,7 @@ const Comments = () => {
   const user = useAtomValue(userStore.user);
 
   const queryClient = useQueryClient();
+  const { openConfirm } = useConfirm();
 
   const [newComment, setNewComment] = useState<string>('');
 
@@ -88,16 +91,24 @@ const Comments = () => {
   const deleteMutation = useMutation(deleteComment, {
     onSuccess: () => {
       queryClient.invalidateQueries(['post_comments']);
-      toast.success('삭제 되었습니다~!', {
+      toast.success('댓글을 삭제했습니다❗', {
         autoClose: 800,
       });
     },
   });
   const handleCommentDelete = async (commentId: string) => {
-    const shouldDelete = window.confirm('삭제 하시겠습니까?');
-    if (shouldDelete) {
-      deleteMutation.mutate(commentId);
-    }
+    const deleteConfirmData = {
+      title: '댓글 삭제',
+      content: '정말 삭제하실건가요?',
+      callback: () => {
+        deleteMutation.mutate(commentId);
+        toast.success('댓글을 삭제했습니다❗', {
+          autoClose: 800,
+        });
+      },
+    };
+
+    openConfirm(deleteConfirmData);
   };
 
   const editMutation = useMutation(updateComment, {
@@ -108,14 +119,30 @@ const Comments = () => {
 
   const handleCommentEdit = (comment: UpdatePostComment) => {
     if (editingCommentId === comment.id) {
-      const editComment = {
-        ...comment,
+      // 수정 할 내용 빈 input 일 경우
+      if (!editedCommentText) {
+        // 이전 댓글 내용으로 복원
+        setEditedCommentText(comment.comment);
+        setEditingCommentId(null);
+      } else {
+        const editComment = {
+          ...comment,
+          comment: editedCommentText,
+        };
+        const editConfirmData = {
+          title: '댓글 수정',
+          content: '댓글을 수정 할까요?',
+          callback: () => {
+            editMutation.mutate(editComment);
+            setEditingCommentId(null);
+            toast.success('댓글을 수정했습니다❗', {
+              autoClose: 800,
+            });
+          },
+        };
 
-        comment: editedCommentText,
-      };
-
-      editMutation.mutate(editComment);
-      setEditingCommentId(null);
+        openConfirm(editConfirmData);
+      }
     } else {
       setEditingCommentId(comment.id!);
       setEditedCommentText(comment.comment);
@@ -173,7 +200,6 @@ const Comments = () => {
         <S.CommentTitle>댓글</S.CommentTitle>
         <S.CommentTop>
           <S.WriteInput
-            type="text"
             value={newComment}
             onChange={(e) => setNewComment(e.target.value)}
             onKeyPress={(e) => {
@@ -249,7 +275,6 @@ const Comments = () => {
               )}
               {comment.id === editingCommentId ? (
                 <S.EditInput
-                  type="text"
                   value={editedCommentText}
                   onChange={(e) => setEditedCommentText(e.target.value)}
                 />
@@ -293,6 +318,7 @@ const Comments = () => {
           </S.Page>
         </S.CommentBot>
       </S.CommentContainer>
+      <Confirm />
     </S.Outer>
   );
 };

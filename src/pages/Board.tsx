@@ -101,8 +101,6 @@ const Board = () => {
     queryClient.invalidateQueries(['posts', null, searchKeyword]);
   };
 
-  console.log('👩👩', filteredAndSortedPosts);
-
   return (
     <S.Container>
       <S.Title>게시판</S.Title>
