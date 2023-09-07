@@ -197,7 +197,6 @@ const AnimeDetailComments = () => {
           <S.AniCommentInputBox>
             {/* <p>{user.nickname}</p> */}
             <S.AniCommentInput
-              // type="text"
               value={newComment}
               onChange={(e) => setNewComment(e.target.value)}
               onKeyPress={(e) => {
