@@ -17,7 +17,7 @@ import { Page } from './MyInvenAward';
 import { styled } from 'styled-components';
 import goShop from '../../assets/goShop.png';
 import { useConfirm } from '../../hooks/useConfirm';
-import { Confirm } from '../Modal/confirm/Confirm';
+
 const supabaseUrl = process.env.REACT_APP_SUPABASE_URL;
 const supabaseAnonKey = process.env.REACT_APP_ANON_KEY;
 
@@ -150,7 +150,6 @@ const MyReviews = () => {
                 <Review.Button onClick={() => handleRemoveReview(review.id)}>
                   삭제
                 </Review.Button>
-                <Confirm />
               </Review.ButtonArray>
               <Divider />
             </li>

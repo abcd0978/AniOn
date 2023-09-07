@@ -18,7 +18,6 @@ import { toast } from 'react-toastify';
 import { AniCommentType } from '../../types/comment';
 import { updatePoint } from '../../api/items';
 import { useConfirm } from '../../hooks/useConfirm';
-import { Confirm } from '../Modal/confirm/Confirm';
 
 type InsertAniComment = Database['public']['Tables']['ani_comments']['Insert'];
 type UpdateAniComment = Database['public']['Tables']['ani_comments']['Update'];
@@ -341,7 +340,6 @@ const AnimeDetailComments = () => {
           </S.AniCommentPageBox>
         </S.CommentSpace>
       </S.Outer>
-      <Confirm />
     </S.AniCommentContainer>
   );
 };
