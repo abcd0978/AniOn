@@ -53,14 +53,9 @@ const MyInvenAward = () => {
       autoClose: 800,
     });
   };
-
-  const filteredAwards = awards?.filter((award) => awards.length !== 0);
-  const totalPages = filteredAwards
-    ? Math.ceil(filteredAwards.length / itemsPerPage)
-    : 0;
+  const totalPages = awards ? Math.ceil(awards.length / itemsPerPage) : 0;
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const displayedAwards = filteredAwards?.slice(startIndex, endIndex);
   const handlePageChange = (selected: number | string) => {
     if (typeof selected === 'number') {
       setCurrentPage(selected);
@@ -70,40 +65,38 @@ const MyInvenAward = () => {
       setCurrentPage((current) => Math.min(totalPages, current + 1));
     }
   };
-  console.log('filteredAwards', filteredAwards);
-  const awardsList =
-    Array.isArray(filteredAwards) && filteredAwards.length > 0 ? (
-      <GridContainer>
-        {displayedAwards?.map((filteredAwards, index) => (
-          <div key={index}>
-            <img
-              src={filteredAwards.items.img_url}
-              alt={filteredAwards.items.name}
-              style={{ width: '240px' }}
-            />
-            <A.Equip
-              is_equipped={filteredAwards.is_equipped}
-              onClick={() => handleApplyButtonClick(filteredAwards.item_id)}
-              disabled={filteredAwards.is_equipped}
-            >
-              {filteredAwards.is_equipped ? '적용됨' : '적용'}
-            </A.Equip>
-          </div>
-        ))}
-      </GridContainer>
-    ) : (
-      <B.NoneContainer $mediawidth={width}>
-        <B.NoneMessage>구매한 칭호가 없습니다.</B.NoneMessage>
-        <B.NoneButton
-          onClick={() => {
-            navigate('/shop/:category');
-          }}
-        >
-          칭호 구매하러 가기
-          <img src={goShop} alt="고샾" />
-        </B.NoneButton>
-      </B.NoneContainer>
-    );
+  const awardsList = Array.isArray(awards) ? (
+    <GridContainer>
+      {awards?.map((award, index) => (
+        <div key={index}>
+          <img
+            src={award.items.img_url}
+            alt={award.items.name}
+            style={{ width: '240px' }}
+          />
+          <A.Equip
+            is_equipped={award.is_equipped}
+            onClick={() => handleApplyButtonClick(award.item_id)}
+            disabled={award.is_equipped}
+          >
+            {award.is_equipped ? '적용됨' : '적용'}
+          </A.Equip>
+        </div>
+      ))}
+    </GridContainer>
+  ) : (
+    <B.NoneContainer $mediawidth={width}>
+      <B.NoneMessage>구매한 칭호가 없습니다.</B.NoneMessage>
+      <B.NoneButton
+        onClick={() => {
+          navigate('/shop/:category');
+        }}
+      >
+        칭호 구매하러 가기
+        <img src={goShop} alt="고샾" />
+      </B.NoneButton>
+    </B.NoneContainer>
+  );
   return (
     <div>
       <GridContainer>{awardsList}</GridContainer>
@@ -131,6 +124,5 @@ const GridContainer = styled.div`
 export const Page = styled.div`
   display: flex;
   justify-content: center;
-  margin-top: 20%;
-  margin-left: -10%;
+  margin-top: 350px;
 `;

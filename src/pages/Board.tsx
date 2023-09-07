@@ -213,26 +213,22 @@ const Board = () => {
                   </div>
                   <div
                     style={{
+                      color: 'var(--achromatic-colors-midgray-1, #999)',
                       fontSize: '14px',
                       fontStyle: 'normal',
                       fontWeight: '400',
                       lineHeight: 'normal',
                       letterSpacing: '-0.21px',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      textAlign: 'center',
                     }}
                   >
-                    {post.users.inventory.length > 0 &&
-                    processItem(post.users.inventory).award.img_url ? (
+                    {post.users.inventory.length > 0 ? (
                       <img
                         src={processItem(post.users.inventory).award.img_url!}
                         alt={processItem(post.users.inventory).award.name!}
                         style={{ width: '140px', height: '26px' }}
                       />
                     ) : (
-                      <S.AwardNo>칭호없음</S.AwardNo>
+                      '칭호없음'
                     )}
                     {/* // processItem(post.users.inventory).award.img_url
                       // : undefined} */}

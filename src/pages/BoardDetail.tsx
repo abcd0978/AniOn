@@ -21,7 +21,6 @@ import * as userStore from '../store/userStore';
 import filledLike from '../assets/filledLike.svg';
 import borderLike from '../assets/borderLike.svg';
 import { toast } from 'react-toastify';
-
 import pencil from '../assets/pencil.svg';
 import search from '../assets/search.svg';
 import ProfileWithBorder, {
@@ -364,8 +363,7 @@ const BoardDetail = () => {
                           <div style={{ paddingTop: '12.5%' }}>
                             <S.Nickname>{post.users?.nickname}</S.Nickname>
                             {/* <S.Award> */}
-                            {post.users.inventory.length > 0 &&
-                            processItem(post.users.inventory).award.img_url ? (
+                            {post.users.inventory.length > 0 ? (
                               <img
                                 src={
                                   processItem(post.users.inventory).award
@@ -377,7 +375,7 @@ const BoardDetail = () => {
                                 style={{ width: '172px', height: '32px' }}
                               />
                             ) : (
-                              <S.AwardNo>칭호없음</S.AwardNo>
+                              '칭호없음'
                             )}
                             {/* </S.Award> */}
                           </div>
@@ -391,6 +389,8 @@ const BoardDetail = () => {
                         )}
                       </S.Like>
                     </S.User>
+
+                    {/* </S.Box> */}
                   </>
                 )}
 

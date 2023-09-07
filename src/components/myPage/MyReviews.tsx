@@ -15,7 +15,6 @@ import { useParams } from 'react-router-dom';
 import ReviewSkeleton from './MyReviewSkeleton';
 import { Page } from './MyInvenAward';
 import { styled } from 'styled-components';
-import goShop from '../../assets/goShop.png';
 
 const supabaseUrl = process.env.REACT_APP_SUPABASE_URL;
 const supabaseAnonKey = process.env.REACT_APP_ANON_KEY;
@@ -37,7 +36,6 @@ const MyReviews = () => {
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
   const [animeTitles, setAnimeTitles] = useState<Record<string, AnimeG>>({});
-  const [isLoadingTitles, setIsLoadingTitles] = useState(true);
 
   useEffect(() => {
     const fetchUserReview = async () => {
@@ -70,7 +68,6 @@ const MyReviews = () => {
           }
 
           setAnimeTitles(animeDetails);
-          setIsLoadingTitles(false);
         }
       } catch (error) {
         console.error('fetchUserPosts 에러', error);
@@ -117,11 +114,11 @@ const MyReviews = () => {
   const startIndex = (currentPage - 1) * reviewsPerPage;
   const endIndex = startIndex + reviewsPerPage;
 
-  return Array.isArray(userReview) && userReview.length > 0 ? (
+  return (
     <Container>
       <Divider />
       <Review.Outer>
-        {isLoadingTitles ? (
+        {userReview.length === 0 ? (
           <ReviewSkeleton count={reviewsPerPage} />
         ) : (
           userReview.slice(startIndex, endIndex).map((review) => (
@@ -162,18 +159,6 @@ const MyReviews = () => {
         </ReviewPage>
       </Review.Outer>
     </Container>
-  ) : (
-    <NoReviewContainer>
-      <NoReviewMessage>작성한 리뷰가 없어요 !</NoReviewMessage>
-      <GoWriteReview
-        onClick={() => {
-          navigate('/recommend');
-        }}
-      >
-        리뷰 쓰러 가기
-      </GoWriteReview>
-      <img src={goShop} alt="고샾" />
-    </NoReviewContainer>
   );
 };
 
@@ -182,30 +167,4 @@ export const ReviewPage = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 150px;
-`;
-const NoReviewMessage = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 10px;
-`;
-const GoWriteReview = styled.button`
-  background-color: #8200ff;
-  color: #fff;
-  width: 226.5px;
-  height: 48px;
-  border-radius: 30px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 10px;
-  cursor: pointer;
-`;
-const NoReviewContainer = styled.div`
-  display: grid;
-  align-items: center;
-
-  justify-content: center;
-  margin-left: 250%;
-  margin-top: -20%;
 `;

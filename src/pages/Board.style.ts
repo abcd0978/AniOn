@@ -187,16 +187,3 @@ export const Page = styled.div`
   display: flex;
   // cursor: pointer;
 `;
-export const AwardNo = styled.div`
-  display: flex;
-  height: 20px;
-  width: 140px;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  border-radius: 999px;
-  background: #f4f4f4;
-  border: 1px solid #dbdbdb;
-  font-size: 14px;
-  margin-top: 5px;
-`;

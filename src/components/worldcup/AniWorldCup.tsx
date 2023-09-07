@@ -87,7 +87,7 @@ function AniWorldCup() {
         } else {
           await updatePoint({ userId: user?.id!, point: 2 });
           toast.success(
-            `${user?.nickname}님의 이상형을 찾았어요!ㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ 💰2포인트 적립`,
+            `${user?.nickname}님의 이상형을 찾았어요! 💰2포인트 적립`,
             { autoClose: 1200 },
           );
           navigate(`/worldcup/result/${gender}`, { state: character });

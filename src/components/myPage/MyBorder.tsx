@@ -15,7 +15,7 @@ import { toast } from 'react-toastify';
 import { Page } from './MyInvenAward';
 import { styled } from 'styled-components';
 
-const itemsPerPage = 8;
+const itemsPerPage = 12;
 
 const MyBorder = () => {
   const [page, setPage] = useState<number>(1);
@@ -69,12 +69,11 @@ const MyBorder = () => {
   if (isError) {
     return <div>테두리를 불러오지 못했어요.</div>;
   }
-  const filteredBorders = borders.filter((borders) => borders.items !== null);
-
-  const totalPages = Math.ceil(filteredBorders.length / itemsPerPage);
+  const totalPages = Math.ceil(borders.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const displayedBorder = filteredBorders.slice(startIndex, endIndex);
+  const displayedBorder = borders.slice(startIndex, endIndex);
+  const filteredBorders = borders.filter((borders) => borders.items !== null);
   const handlePageChange = (selected: number | string) => {
     if (typeof selected === 'number') {
       setCurrentPage(selected);
@@ -84,10 +83,11 @@ const MyBorder = () => {
       setCurrentPage((current) => Math.min(totalPages, current + 1));
     }
   };
+  console.log(filteredBorders);
   const borderList =
     Array.isArray(filteredBorders) && filteredBorders.length > 0 ? (
       <B.Container>
-        {displayedBorder.map((filteredBorders, index) => (
+        {filteredBorders.map((filteredBorders, index) => (
           <div key={index}>
             <B.BorderContainer>
               <B.BorderImg
@@ -144,7 +144,7 @@ export default MyBorder;
 export const BorderPage = styled.div`
   display: flex;
   justify-content: center;
-  margin-top: 0%;
+  margin-top: 300px;
 `;
 
 export const Outer = styled.div`
