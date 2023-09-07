@@ -18,9 +18,9 @@ function DropDown({ children }: Props) {
   const dropDownRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     function handleOutside(e: any) {
-      console.log('클릭함');
+      // console.log('클릭함');
       if (dropDownRef.current && !dropDownRef.current.contains(e.target)) {
-        console.log('딴데 클릭함');
+        // console.log('딴데 클릭함');
         dropDownOpenned(false);
       }
     }

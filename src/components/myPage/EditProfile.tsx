@@ -54,7 +54,7 @@ const EditProfile = () => {
         setSelectedFile(null);
         return;
       }
-      console.log('File uploaded successfully!');
+      // console.log('File uploaded successfully!');
 
       const response = supabase.storage
         .from('Profile Images')
@@ -68,7 +68,7 @@ const EditProfile = () => {
 
       const publicUrl = response.data.publicUrl;
 
-      console.log('Public URL:', publicUrl);
+      // console.log('Public URL:', publicUrl);
 
       //2-1-3. 사용자 프로필 이미지 업데이트
       const { data: userData, error: userUpdateError } = await supabase
@@ -93,7 +93,7 @@ const EditProfile = () => {
         }
       }
 
-      console.log('User profile update complete');
+      // console.log('User profile update complete');
     } catch (error) {
       console.error(error);
     }
@@ -135,7 +135,7 @@ const EditProfile = () => {
 
     try {
       const validationResult = validateNickname(newNickname);
-      console.log('Validation result:', validationResult);
+      // console.log('Validation result:', validationResult);
       if (validationResult.error) {
         setNicknameError(validationResult);
         return;
@@ -404,9 +404,8 @@ const ChangeButton = styled.button`
   cursor: pointer;
 
   &:hover {
-      background-color: #c88fff;
-      color: white;
-    }
+    background-color: #c88fff;
+    color: white;
   }
 `;
 const NickNameCheck = styled.button`

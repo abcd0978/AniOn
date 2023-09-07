@@ -171,7 +171,7 @@ export const fetchEquippedItems = async (user_id: string) => {
       console.log('items.ts fetchEquippedTitle error > ', error);
       return [];
     }
-    console.log('이큅드 아이템', data);
+    // console.log('이큅드 아이템', data);
     return data;
   } catch (error) {
     console.log('items.ts fetchEquippedTitle error > ', error);
@@ -276,7 +276,7 @@ export const fetchItem = async (itemId: string): Promise<ItemRow> => {
     if (!data || data.length < 0 || error) {
       throw new Error('아이템이 존재하지 않음');
     }
-    console.log(data);
+    // console.log(data);
     const item: ItemRow = data[0];
     return item;
   } catch (e) {

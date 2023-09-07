@@ -42,7 +42,7 @@ const ShopAwardList = () => {
 
   const { data: myAwards } = useQuery(myAwardsQueryOptions);
 
-  console.log('asd', awards);
+  // console.log('asd', awards);
   // 구매 여부 판단을 위한 배열
   const purchasedItemIds = myAwards?.map((item) => item.item_id) || [];
 
