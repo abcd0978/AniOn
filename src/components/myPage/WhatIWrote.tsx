@@ -172,7 +172,7 @@ const WhatIWrote = () => {
   };
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  return (
+  return Array.isArray(userPosts) && userPosts.length > 0 ? (
     <Container>
       <ul>
         {userPosts
@@ -232,6 +232,13 @@ const WhatIWrote = () => {
         />
       </WriteP>
     </Container>
+  ) : (
+    <NoPostsContainer>
+      <NoPostsMessage>작성한 글이 없어요!</NoPostsMessage>
+      <NoPostsButton onClick={() => navigate('/board')}>
+        글 작성하러 가기
+      </NoPostsButton>
+    </NoPostsContainer>
   );
 };
 
@@ -242,4 +249,30 @@ export const WriteP = styled.div<{ $mediawidth: number }>`
   margin-bottom: -330px;
   justify-contents: center;
   margin-left: 400px;
+`;
+const NoPostsContainer = styled.div`
+  display: grid;
+  align-items: center;
+
+  justify-content: center;
+  margin-left: 250%;
+  margin-top: -20%;
+`;
+const NoPostsButton = styled.button`
+  background-color: #8200ff;
+  color: #fff;
+  width: 226.5px;
+  height: 48px;
+  border-radius: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px;
+  cursor: pointer;
+`;
+const NoPostsMessage = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px;
 `;

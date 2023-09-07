@@ -88,6 +88,7 @@ const S = {
     line-height: 36px;
     // margin: -5px;
     margin-top: -10px;
+    margin-left: 12px;
   `,
 
   Content: styled.div`
@@ -160,6 +161,7 @@ const S = {
     justify-content: center;
     font-size: 15px;
     font-weight: 700;
+    margin-bottom: 5px;
   `,
   Like: styled.div`
     background-color: white;
@@ -168,6 +170,7 @@ const S = {
     height: 40px;
     justify-content: flex-end;
     padding: 10px;
+    margin-right: -15px;
   `,
   Img: styled.img`
     background-color: white;
@@ -249,6 +252,19 @@ const S = {
     border-radius: 999px;
     background: #f4f4f4;
 
+    font-size: 14px;
+    margin-top: 5px;
+  `,
+  AwardNo: styled.div`
+    display: flex;
+    height: 36px;
+    padding: 8px 12px;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border-radius: 999px;
+    background: #f4f4f4;
+    border: 1px solid #dbdbdb;
     font-size: 14px;
     margin-top: 5px;
   `,

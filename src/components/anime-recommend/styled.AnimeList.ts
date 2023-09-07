@@ -49,7 +49,7 @@ export const S = {
     }
 
     @media (max-width: 540px) {
-      /* 화면 크기가 800px 이하인 경우 */
+      /* 화면 크기가 540px 이하인 경우 */
       grid-template-columns: repeat(1, 1fr); /* 1개의 컬럼으로 변경 */
     }
   `,

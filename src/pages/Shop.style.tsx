@@ -74,8 +74,11 @@ export const Item = styled.div`
 `;
 
 export const TopArea = styled.img`
-  width: 100%;
-  height: 100%;
+  width: 80%;
+  height: 80%;
+  // display: flex;
+  margin-left: 28px;
+  margin-top: 25px;
 
   // box-shadow: 0px 0px 20px 0px #0000001a;
   border-radius: 20px;
@@ -85,6 +88,7 @@ export const BottomArea = styled.div`
   width: 100%;
   background-color: white;
   line-height: 25px;
+  margin-top: 40px;
 `;
 export const BuyButton = styled.button`
   width: 80px;
