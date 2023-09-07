@@ -321,6 +321,13 @@ export const S = {
     gap: 32px;
     background: #fdfbff;
   `,
+
+  ContentSeeMore: styled.div`
+    margin-top: 8px;
+    cursor: pointer;
+    display: flex;
+    gap: 8px;
+  `,
 };
 
 //반응형예시

@@ -4,6 +4,7 @@ import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
 import Pagination from '../Pagenation';
 import { S } from '../anime-detail/animeDetailComments.style';
 import * as userStore from '../../store/userStore';
+import commentpointer from '../../assets/commentpointer.svg';
 import {
   fetchComments,
   addComment,
@@ -19,7 +20,6 @@ import { updatePoint } from '../../api/items';
 import { useConfirm } from '../../hooks/useConfirm';
 import { Confirm } from '../Modal/confirm/Confirm';
 
-type ReadAniComment = Database['public']['Tables']['ani_comments']['Row'];
 type InsertAniComment = Database['public']['Tables']['ani_comments']['Insert'];
 type UpdateAniComment = Database['public']['Tables']['ani_comments']['Update'];
 
@@ -51,14 +51,14 @@ const AnimeDetailComments = () => {
   const handleCommentSubmit = () => {
     if (!user) {
       toast.warning('로그인 후 리뷰 작성이 가능해요🙄', {
-        autoClose: 1000,
+        autoClose: 800,
       });
       return;
     }
 
     if (!newComment) {
-      toast.warning('리뷰를 작성해주세요!', {
-        autoClose: 2000,
+      toast.warning('리뷰를 작성해주세요💜', {
+        autoClose: 800,
       });
       return;
     }
@@ -86,12 +86,12 @@ const AnimeDetailComments = () => {
 
   const handleCommentDelete = async (commentId: string) => {
     const deleteConfirmData = {
-      title: '댓글 삭제',
-      content: '정말 삭제하실건가요??',
+      title: '리뷰 삭제',
+      content: '정말 삭제하실건가요?',
       callback: () => {
         deleteMutation.mutate(commentId);
         toast.success('리뷰를 삭제했습니다❗', {
-          autoClose: 1200,
+          autoClose: 800,
         });
       },
     };
@@ -118,8 +118,20 @@ const AnimeDetailComments = () => {
           ...comment,
           comment: editedCommentText,
         };
-        editMutation.mutate(editComment);
-        setEditingCommentId(null);
+
+        const editConfirmData = {
+          title: '리뷰 수정',
+          content: '리뷰를 수정 할까요?',
+          callback: () => {
+            editMutation.mutate(editComment);
+            setEditingCommentId(null);
+            toast.success('리뷰를 수정했습니다❗', {
+              autoClose: 800,
+            });
+          },
+        };
+
+        openConfirm(editConfirmData);
       }
     } else {
       setEditingCommentId(comment.id!);
@@ -167,6 +179,17 @@ const AnimeDetailComments = () => {
   // 다음 페이지 버튼 비활성화 여부 계산
   const isNextDisabled = page >= (aniCommentsData?.totalPages ?? 1);
 
+  //더보기
+  const toggleCommentCollapse = (commentId: string) => {
+    if (collapsedComments.includes(commentId)) {
+      // 댓글을 펼칩니다.
+      setCollapsedComments(collapsedComments.filter((id) => id !== commentId));
+    } else {
+      // 댓글을 접습니다.
+      setCollapsedComments([...collapsedComments, commentId]);
+    }
+  };
+
   return (
     <S.AniCommentContainer>
       <S.Outer>
@@ -174,7 +197,7 @@ const AnimeDetailComments = () => {
           <S.AniCommentInputBox>
             {/* <p>{user.nickname}</p> */}
             <S.AniCommentInput
-              type="text"
+              // type="text"
               value={newComment}
               onChange={(e) => setNewComment(e.target.value)}
               onKeyPress={(e) => {
@@ -227,7 +250,7 @@ const AnimeDetailComments = () => {
                         style={{ width: '172px', height: '32px' }}
                       ></img>
                     ) : (
-                      '칭호없음'
+                      <S.AniAwardNo>칭호없음</S.AniAwardNo>
                     )}
                   </S.AniUserAward>
                 </S.AniCommentUser>
@@ -240,7 +263,20 @@ const AnimeDetailComments = () => {
                 />
               ) : (
                 <div>
-                  <S.AniCommentText>{comment.comment}</S.AniCommentText>
+                  <S.AniCommentText>
+                    {comment.comment.length > 200 &&
+                    !collapsedComments.includes(comment.id) ? (
+                      <>
+                        {collapsedComments.includes(comment.id) ? (
+                          <>{comment.comment.slice(0, 200)}</>
+                        ) : (
+                          <>{comment.comment.slice(0, 200)}</>
+                        )}
+                      </>
+                    ) : (
+                      <>{comment.comment}</>
+                    )}
+                  </S.AniCommentText>
                 </div>
               )}
               {user?.id === comment.user_id && (
@@ -275,6 +311,23 @@ const AnimeDetailComments = () => {
                   )}
                 </S.AniCommentButtonBox>
               )}
+              {/* 더보기 버튼 표시 */}
+              {comment.comment.length > 200 &&
+                comment.id !== editingCommentId && (
+                  <S.CommentMore
+                    onClick={() => toggleCommentCollapse(comment.id)}
+                  >
+                    {collapsedComments.includes(comment.id) ? (
+                      <>
+                        접기 <img src={commentpointer} alt="접기" />
+                      </>
+                    ) : (
+                      <>
+                        더보기 <img src={commentpointer} alt="더보기" />
+                      </>
+                    )}
+                  </S.CommentMore>
+                )}
             </S.AniCommentBox>
           ))}
           <S.AniCommentPageBox>
