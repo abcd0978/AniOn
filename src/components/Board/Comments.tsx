@@ -20,6 +20,8 @@ import {
   UpdatePostComment,
 } from '../../types/comment';
 import { updatePoint } from '../../api/items';
+import { useConfirm } from '../../hooks/useConfirm';
+import { Confirm } from '../Modal/confirm/Confirm';
 
 const Comments = () => {
   const { post_id } = useParams() as { post_id: string };
@@ -27,6 +29,7 @@ const Comments = () => {
   const user = useAtomValue(userStore.user);
 
   const queryClient = useQueryClient();
+  const { openConfirm } = useConfirm();
 
   const [newComment, setNewComment] = useState<string>('');
 
@@ -86,10 +89,18 @@ const Comments = () => {
     },
   });
   const handleCommentDelete = async (commentId: string) => {
-    const shouldDelete = window.confirm('삭제 하시겠습니까?');
-    if (shouldDelete) {
-      deleteMutation.mutate(commentId);
-    }
+    const deleteConfirmData = {
+      title: '댓글 삭제',
+      content: '정말 삭제하실건가요?',
+      callback: () => {
+        deleteMutation.mutate(commentId);
+        toast.success('댓글을 삭제했습니다❗', {
+          autoClose: 800,
+        });
+      },
+    };
+
+    openConfirm(deleteConfirmData);
   };
 
   const editMutation = useMutation(updateComment, {
@@ -110,8 +121,19 @@ const Comments = () => {
           ...comment,
           comment: editedCommentText,
         };
-        editMutation.mutate(editComment);
-        setEditingCommentId(null);
+        const editConfirmData = {
+          title: '댓글 수정',
+          content: '댓글을 수정 할까요?',
+          callback: () => {
+            editMutation.mutate(editComment);
+            setEditingCommentId(null);
+            toast.success('댓글을 수정했습니다❗', {
+              autoClose: 800,
+            });
+          },
+        };
+
+        openConfirm(editConfirmData);
       }
     } else {
       setEditingCommentId(comment.id!);
@@ -288,6 +310,7 @@ const Comments = () => {
           </S.Page>
         </S.CommentBot>
       </S.CommentContainer>
+      <Confirm />
     </S.Outer>
   );
 };

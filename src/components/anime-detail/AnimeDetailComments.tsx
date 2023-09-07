@@ -20,7 +20,6 @@ import { updatePoint } from '../../api/items';
 import { useConfirm } from '../../hooks/useConfirm';
 import { Confirm } from '../Modal/confirm/Confirm';
 
-type ReadAniComment = Database['public']['Tables']['ani_comments']['Row'];
 type InsertAniComment = Database['public']['Tables']['ani_comments']['Insert'];
 type UpdateAniComment = Database['public']['Tables']['ani_comments']['Update'];
 
@@ -122,7 +121,7 @@ const AnimeDetailComments = () => {
 
         const editConfirmData = {
           title: '리뷰 수정',
-          content: '리뷰 수정을 할까요?',
+          content: '리뷰를 수정 할까요?',
           callback: () => {
             editMutation.mutate(editComment);
             setEditingCommentId(null);
