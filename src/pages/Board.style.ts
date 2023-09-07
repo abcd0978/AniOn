@@ -187,3 +187,18 @@ export const Page = styled.div`
   display: flex;
   // cursor: pointer;
 `;
+export const AwardNo = styled.div`
+  display: flex;
+  height: 26px;
+  width: 140px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: 999px;
+  background: #f4f4f4;
+  color: black;
+  font-size: 14px;
+  margin-bottom: 5px;
+
+  border: 1px solid #dbdbdb;
+`;

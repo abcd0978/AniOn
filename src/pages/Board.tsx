@@ -229,7 +229,7 @@ const Board = () => {
                         style={{ width: '140px', height: '26px' }}
                       />
                     ) : (
-                      '칭호없음'
+                      <S.AwardNo>칭호없음</S.AwardNo>
                     )}
                     {/* // processItem(post.users.inventory).award.img_url
                       // : undefined} */}

@@ -262,6 +262,18 @@ const S = {
     margin-bottom: -150px;
     margin-left: 30px;
   `,
+  AwardNo: styled.div`
+    display: flex;
+    height: 32px;
+    width: 172px;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border-radius: 999px;
+    background: #f4f4f4;
+    font-size: 14px;
+    border: 1px solid #dbdbdb;
+  `,
 };
 
 export { S };
