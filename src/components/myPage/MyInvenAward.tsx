@@ -66,7 +66,7 @@ const MyInvenAward = () => {
       setCurrentPage((current) => Math.min(totalPages, current + 1));
     }
   };
-  console.log('filteredAwards', filteredAwards);
+  // console.log('filteredAwards', filteredAwards);
   const awardsList =
     Array.isArray(filteredAwards) && filteredAwards.length > 0 ? (
       <GridContainer>

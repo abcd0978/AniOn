@@ -192,7 +192,6 @@ const Main = () => {
   return (
     <>
       <Banner options={{ loop: true, duration: 20 }} slides={bannerInfo} />
-
       <StMainCardContainerContainer>
         <StMainCardContainerWithTypo>
           <div>

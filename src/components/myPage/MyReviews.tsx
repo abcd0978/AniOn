@@ -17,7 +17,7 @@ import { Page } from './MyInvenAward';
 import { styled } from 'styled-components';
 import goShop from '../../assets/goShop.png';
 import { useConfirm } from '../../hooks/useConfirm';
-import { Confirm } from '../Modal/confirm/Confirm';
+
 const supabaseUrl = process.env.REACT_APP_SUPABASE_URL;
 const supabaseAnonKey = process.env.REACT_APP_ANON_KEY;
 
@@ -56,7 +56,7 @@ const MyReviews = () => {
         if (reviewError) {
           console.error('fetchUserPosts에서 에러', reviewError);
         } else {
-          console.log('User reviews fetched:', reviewData);
+          // console.log('User reviews fetched:', reviewData);
           setUserReview(reviewData);
 
           const animeIds = reviewData.map((review) => review.ani_id);
@@ -150,7 +150,6 @@ const MyReviews = () => {
                 <Review.Button onClick={() => handleRemoveReview(review.id)}>
                   삭제
                 </Review.Button>
-                <Confirm />
               </Review.ButtonArray>
               <Divider />
             </li>

@@ -21,7 +21,6 @@ import {
 } from '../../types/comment';
 import { updatePoint } from '../../api/items';
 import { useConfirm } from '../../hooks/useConfirm';
-import { Confirm } from '../Modal/confirm/Confirm';
 
 const Comments = () => {
   const { post_id } = useParams() as { post_id: string };
@@ -310,7 +309,6 @@ const Comments = () => {
           </S.Page>
         </S.CommentBot>
       </S.CommentContainer>
-      <Confirm />
     </S.Outer>
   );
 };

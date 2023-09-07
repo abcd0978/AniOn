@@ -6,6 +6,7 @@ import { useQuery } from '@tanstack/react-query';
 import * as userStore from '../store/userStore';
 import { useAtomValue } from 'jotai';
 import Pagination from '../components/Pagenation';
+import Loading from '../components/Loading/Loading';
 
 const ShopBorder = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -26,13 +27,17 @@ const ShopBorder = () => {
     refetchOnWindowFocus: false,
   };
 
-  const { data: fetchedData } = useQuery(getBorders);
+  const { data: fetchedData, isLoading } = useQuery(getBorders);
 
   useEffect(() => {
     if (fetchedData) {
       setData(fetchedData);
     }
   }, [fetchedData]);
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   // const currentItems = data
   //   ? data.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)

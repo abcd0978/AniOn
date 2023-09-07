@@ -1,7 +1,6 @@
 import { ReactElement } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 import { useAtomValue } from 'jotai';
-import { toast } from 'react-toastify';
 import * as userStore from '../store/userStore';
 interface PrivateRouteProps {
   children?: ReactElement; // Router.tsx에서 PrivateRoute가 감싸고 있는 Componet Element
@@ -12,13 +11,12 @@ export default function PrivateRoute({
   authentication,
 }: PrivateRouteProps): React.ReactElement | null {
   const user = useAtomValue(userStore.user);
-  const accessToken = useAtomValue(userStore.accessTokenS);
   if (authentication) {
-    if (!accessToken || !user) {
+    if (!user) {
       return <Navigate to="/" />;
     }
   } else {
-    if (accessToken || user) {
+    if (user) {
       return <Navigate to="/" />;
     }
   }
