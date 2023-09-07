@@ -6,7 +6,7 @@ import MyPage from '../pages/MyPage';
 import Shop from '../pages/Shop';
 import WorldCup from '../pages/WorldCup';
 import WriteBoard from '../pages/WriteBoard';
-import NotFoundPage from '../pages/NotFoundPage';
+import NotFoundPage from '../pages/notfound/NotFoundPage';
 import AnimeDetail from '../pages/AnimeDetail';
 import BoardDetail from '../pages/BoardDetail';
 import { GlobalStyle } from '../styles/globalstyle';
