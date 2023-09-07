@@ -1,5 +1,6 @@
 import React from 'react';
 import Header from '../components/Header';
+import SideBar from '../components/SideBar';
 import Footer from '../components/Footer';
 import { styled } from 'styled-components';
 
@@ -11,6 +12,7 @@ const Layout = (props: Props) => {
   return (
     <LayoutWrapper>
       <Header />
+      <SideBar />
       <div className="wrapper">{props.children}</div>
       <Footer />
     </LayoutWrapper>
