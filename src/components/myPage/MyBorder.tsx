@@ -1,10 +1,10 @@
-import { equipItem, fetchMyBorders } from '../../api/items';
+import { equipItem, fetchMyBorders, unEquipItem } from '../../api/items';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { useAtomValue, useSetAtom, useStore } from 'jotai';
+import { useAtomValue } from 'jotai';
 import * as userStore from '../../store/userStore';
 import goShop from '../../assets/goShop.png';
 import { B } from './Deco.styles';
-import useViewport from '../../hooks/useViewPort';
+// import useViewport from '../../hooks/useViewPort';
 import { useNavigate } from 'react-router-dom';
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
@@ -18,7 +18,7 @@ const MyBorder = () => {
 
   const queryClient = useQueryClient();
   const user = useAtomValue(userStore.user);
-  const { width, height, isMobile, isLoaded } = useViewport();
+  // const { width, height, isMobile, isLoaded } = useViewport();
   const navigate = useNavigate();
   const {
     isLoading,
@@ -37,25 +37,47 @@ const MyBorder = () => {
   );
 
   const applyBorderMutation = useMutation(equipItem, {
-    onSuccess: (data) => {
-      // console.log('장착 myInvenAward', data);
+    onSuccess: () => {
       queryClient.invalidateQueries(['equippedBorder']);
       queryClient.invalidateQueries(['myBorders']);
       toast.success('장착 되었습니다❣️', {
         autoClose: 800,
       });
     },
-    onError: (error) => {
-      console.log('장착 myInvenAward', error);
+    // onError: (error) => {
+    //   console.log('장착 myInvenAward', error);
+    // },
+  });
+
+  const unEquipItemMutation = useMutation(unEquipItem, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(['equippedBorder']);
+      queryClient.invalidateQueries(['myBorders']);
+      toast.success('장착 되었습니다❣️', {
+        autoClose: 800,
+      });
     },
   });
 
-  const handleApplyButtonClick = (item_id: string) => {
+  const handleApplyButtonClick = (params: {
+    itemId: string;
+    isEquipped: boolean;
+  }) => {
     if (!user) {
       return;
     }
 
-    applyBorderMutation.mutate({ user_id: user.id, item_id, category: 0 });
+    // 장착중이면
+    if (params.isEquipped) {
+      unEquipItemMutation.mutate({ user_id: user.id, item_id: params.itemId });
+      return;
+    }
+
+    applyBorderMutation.mutate({
+      user_id: user.id,
+      item_id: params.itemId,
+      category: 0,
+    });
   };
 
   if (isLoading) {
@@ -64,11 +86,13 @@ const MyBorder = () => {
   if (isError) {
     return <div>테두리를 불러오지 못했어요.</div>;
   }
+
   const filteredBorders = borders.filter((borders) => borders.items !== null);
 
   const totalPages = Math.ceil(filteredBorders.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
+
   const displayedBorder = filteredBorders.slice(startIndex, endIndex);
   const handlePageChange = (selected: number | string) => {
     if (typeof selected === 'number') {
@@ -79,6 +103,7 @@ const MyBorder = () => {
       setCurrentPage((current) => Math.min(totalPages, current + 1));
     }
   };
+
   const borderList =
     Array.isArray(filteredBorders) && filteredBorders.length > 0 ? (
       <B.Container>
@@ -95,11 +120,13 @@ const MyBorder = () => {
                 <B.Equip
                   is_equipped={filteredBorders.is_equipped}
                   onClick={() =>
-                    handleApplyButtonClick(filteredBorders.items?.id)
+                    handleApplyButtonClick({
+                      itemId: filteredBorders.items?.id,
+                      isEquipped: filteredBorders.is_equipped,
+                    })
                   }
-                  disabled={filteredBorders.is_equipped}
                 >
-                  {filteredBorders.is_equipped ? '적용됨' : '적용'}
+                  {filteredBorders.is_equipped ? '해제' : '적용'}
                 </B.Equip>
               </B.ButtonContainer>
             </B.BorderContainer>
@@ -115,10 +142,11 @@ const MyBorder = () => {
           }}
         >
           테두리 구매하러 가기
-          <img src={goShop} />
+          <img src={goShop} alt="상점으로" />
         </B.NoneButton>
       </B.NoneContainer>
     );
+
   return (
     <div>
       <>{borderList}</>
