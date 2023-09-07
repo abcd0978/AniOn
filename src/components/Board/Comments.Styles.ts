@@ -41,7 +41,7 @@ export const CommentBot = styled.div`
   margin-left: 2px;
 `;
 
-export const WriteInput = styled.input`
+export const WriteInput = styled.textarea`
   display: flex;
   margin-top: 10px;
   border-radius: 10px;
@@ -53,6 +53,9 @@ export const WriteInput = styled.input`
   border: none;
   outline: none;
   flex-grow: 1;
+  resize: none;
+  line-height: 1.6;
+  font-size: 16px;
 `;
 
 export const WriteButton = styled.button`
@@ -104,7 +107,6 @@ export const Comment = styled.div`
   background-color: #ffffff;
   width: 1440px;
   min-height: 218px;
-  max-height: 400px;
 `;
 
 export const CommentDate = styled.div`
@@ -113,9 +115,9 @@ export const CommentDate = styled.div`
   margin-bottom: 33px;
   margin-top: -36px;
   float: right;
-  margin-right: 10px;
+  margin-right: 15px;
 `;
-export const EditInput = styled.input`
+export const EditInput = styled.textarea`
   display: flex;
   border: 1px solid #566270;
   width: 1277px;
@@ -128,6 +130,10 @@ export const EditInput = styled.input`
   margin-left: 80px;
   margin-bottom: 50px;
   border: 1px solid #d9d9d9;
+  outline: none;
+  resize: none;
+  line-height: 1.6;
+  font-size: 16px;
 `;
 
 export const profile = styled.div`
@@ -158,12 +164,25 @@ export const Award = styled.img`
   font-size: 14px;
   margin-top: 12px;
 `;
+export const AwardNo = styled.div`
+  display: flex;
+  height: 32px;
+  width: 172px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: 999px;
+  background: #f4f4f4;
+  margin-left: 10px;
+  font-size: 14px;
+  margin-top: 20px;
+  border: 1px solid #dbdbdb;
+`;
 export const CommentBox = styled.div`
   width: 1308px;
-  height: 30px;
-  margin-left: 55px;
+  min-height: 30px;
   line-height: 1.6;
-  margin-bottom: 45px;
+  /* margin-bottom: 45px; */
   margin-left: 80px;
   word-wrap: break-word;
   white-space: pre-wrap;
@@ -172,4 +191,15 @@ export const Page = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+`;
+export const CommentMore = styled.button`
+  background-color: #ffffff;
+  border: 1px solid #dbdbdb;
+  border-radius: 4px;
+  width: 97px;
+  height: 28px;
+  cursor: pointer;
+  margin-top: 12px;
+  margin-bottom: 5px;
+  display: block;
 `;
