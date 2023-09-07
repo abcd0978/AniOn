@@ -2,7 +2,6 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useAtomValue } from 'jotai';
 import * as userStore from '../../store/userStore';
 import { A } from './Deco.styles';
-import { B } from './Deco.styles';
 import goShop from '../../assets/goShop.png';
 import useViewport from '../../hooks/useViewPort';
 import { useNavigate } from 'react-router-dom';
@@ -10,10 +9,7 @@ import { equipItem, fetchMyAwards } from '../../api/items';
 import { styled } from 'styled-components';
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
-
-import { AwardName, BuyButton } from '../ShopAwards';
-import { MyAward } from './MyPage.styles';
-import Pagination from '../Pagenation';
+import { PaginationTwo } from '../PagenationTwo';
 const itemsPerPage = 15;
 
 const MyInvenAward = () => {
@@ -70,7 +66,7 @@ const MyInvenAward = () => {
       setCurrentPage((current) => Math.min(totalPages, current + 1));
     }
   };
-  console.log('filteredAwards', filteredAwards);
+  // console.log('filteredAwards', filteredAwards);
   const awardsList =
     Array.isArray(filteredAwards) && filteredAwards.length > 0 ? (
       <GridContainer>
@@ -92,30 +88,32 @@ const MyInvenAward = () => {
         ))}
       </GridContainer>
     ) : (
-      <B.NoneContainer $mediawidth={width}>
-        <B.NoneMessage>구매한 칭호가 없습니다.</B.NoneMessage>
-        <B.NoneButton
+      <A.NoneContainer>
+        <A.NoneMessage>구매한 칭호가 없습니다.</A.NoneMessage>
+        <A.NoneButton
           onClick={() => {
             navigate('/shop/:category');
           }}
         >
           칭호 구매하러 가기
           <img src={goShop} alt="고샾" />
-        </B.NoneButton>
-      </B.NoneContainer>
+        </A.NoneButton>
+      </A.NoneContainer>
     );
   return (
     <div>
       <GridContainer>{awardsList}</GridContainer>
-      <Page>
-        <Pagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onClick={handlePageChange}
-          isPreviousDisabled={currentPage === 1}
-          isNextDisabled={currentPage >= totalPages}
-        />
-      </Page>
+      {Array.isArray(filteredAwards) && filteredAwards.length > 0 && (
+        <Page>
+          <PaginationTwo
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onClick={handlePageChange}
+            isPreviousDisabled={currentPage === 1}
+            isNextDisabled={currentPage >= totalPages}
+          />
+        </Page>
+      )}
     </div>
   );
 };
@@ -131,6 +129,6 @@ const GridContainer = styled.div`
 export const Page = styled.div`
   display: flex;
   justify-content: center;
-  margin-top: 20%;
-  margin-left: -10%;
+  margin-top: -35%;
+  margin-left: 20%;
 `;

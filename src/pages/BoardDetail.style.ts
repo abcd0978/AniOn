@@ -255,25 +255,24 @@ const S = {
     font-size: 14px;
     margin-top: 5px;
   `,
-  AwardNo: styled.div`
-    display: flex;
-    height: 36px;
-    padding: 8px 12px;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    border-radius: 999px;
-    background: #f4f4f4;
-    border: 1px solid #dbdbdb;
-    font-size: 14px;
-    margin-top: 5px;
-  `,
   Comment: styled.div`
     width: 1360px;
     max-height: 2476px;
     gap: 20px;
     margin-bottom: -150px;
     margin-left: 30px;
+  `,
+  AwardNo: styled.div`
+    display: flex;
+    height: 32px;
+    width: 172px;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border-radius: 999px;
+    background: #f4f4f4;
+    font-size: 14px;
+    border: 1px solid #dbdbdb;
   `,
 };
 

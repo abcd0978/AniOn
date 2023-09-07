@@ -4,21 +4,16 @@ import { useAtomValue, useSetAtom, useStore } from 'jotai';
 import * as userStore from '../../store/userStore';
 import goShop from '../../assets/goShop.png';
 import { B } from './Deco.styles';
-import * as S from '../../pages/Shop.style';
 import useViewport from '../../hooks/useViewPort';
 import { useNavigate } from 'react-router-dom';
 import React, { useState } from 'react';
-import Pagination from '../Pagenation';
-
 import { toast } from 'react-toastify';
-
-import { Page } from './MyInvenAward';
 import { styled } from 'styled-components';
+import { PaginationTwo } from '../PagenationTwo';
 
 const itemsPerPage = 8;
 
 const MyBorder = () => {
-  const [page, setPage] = useState<number>(1);
   const [currentPage, setCurrentPage] = useState(1);
 
   const queryClient = useQueryClient();
@@ -43,7 +38,7 @@ const MyBorder = () => {
 
   const applyBorderMutation = useMutation(equipItem, {
     onSuccess: (data) => {
-      console.log('장착 myInvenAward', data);
+      // console.log('장착 myInvenAward', data);
       queryClient.invalidateQueries(['equippedBorder']);
       queryClient.invalidateQueries(['myBorders']);
       toast.success('장착 되었습니다❣️', {
@@ -112,7 +107,7 @@ const MyBorder = () => {
         ))}
       </B.Container>
     ) : (
-      <B.NoneContainer $mediawidth={width}>
+      <B.NoneContainer>
         <B.NoneMessage>구매한 테두리가 없습니다.</B.NoneMessage>
         <B.NoneButton
           onClick={() => {
@@ -126,16 +121,18 @@ const MyBorder = () => {
     );
   return (
     <div>
-      {borderList}
-      <BorderPage>
-        <Pagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onClick={handlePageChange}
-          isPreviousDisabled={currentPage === 1}
-          isNextDisabled={currentPage >= totalPages}
-        />
-      </BorderPage>
+      <>{borderList}</>
+      {Array.isArray(filteredBorders) && filteredBorders.length > 0 && (
+        <BorderPage>
+          <PaginationTwo
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onClick={handlePageChange}
+            isPreviousDisabled={currentPage === 1}
+            isNextDisabled={currentPage >= totalPages}
+          />
+        </BorderPage>
+      )}
     </div>
   );
 };
@@ -144,7 +141,8 @@ export default MyBorder;
 export const BorderPage = styled.div`
   display: flex;
   justify-content: center;
-  margin-top: 0%;
+  margin-top: -60%;
+  margin-left: 70%;
 `;
 
 export const Outer = styled.div`

@@ -16,6 +16,7 @@ import ReviewSkeleton from './MyReviewSkeleton';
 import { Page } from './MyInvenAward';
 import { styled } from 'styled-components';
 import goShop from '../../assets/goShop.png';
+import { useConfirm } from '../../hooks/useConfirm';
 
 const supabaseUrl = process.env.REACT_APP_SUPABASE_URL;
 const supabaseAnonKey = process.env.REACT_APP_ANON_KEY;
@@ -38,7 +39,7 @@ const MyReviews = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [animeTitles, setAnimeTitles] = useState<Record<string, AnimeG>>({});
   const [isLoadingTitles, setIsLoadingTitles] = useState(true);
-
+  const { openConfirm } = useConfirm();
   useEffect(() => {
     const fetchUserReview = async () => {
       try {
@@ -55,7 +56,7 @@ const MyReviews = () => {
         if (reviewError) {
           console.error('fetchUserPosts에서 에러', reviewError);
         } else {
-          console.log('User reviews fetched:', reviewData);
+          // console.log('User reviews fetched:', reviewData);
           setUserReview(reviewData);
 
           const animeIds = reviewData.map((review) => review.ani_id);
@@ -86,15 +87,19 @@ const MyReviews = () => {
 
   const handleRemoveReview = async (reviewId: string) => {
     try {
-      const shouldDelete = window.confirm('삭제하시겠습니까?');
+      const deleteConfirmData = {
+        title: '리뷰 삭제',
+        content: '정말 삭제하실건가요??',
+        callback: async () => {
+          await deleteComment(reviewId);
+          const updatedUserReview = userReview.filter(
+            (review) => review.id !== reviewId,
+          );
+          setUserReview(updatedUserReview);
+        },
+      };
 
-      if (shouldDelete) {
-        await deleteComment(reviewId);
-        const updatedUserReview = userReview.filter(
-          (review) => review.id !== reviewId,
-        );
-        setUserReview(updatedUserReview);
-      }
+      openConfirm(deleteConfirmData);
     } catch (error) {
       console.error('리뷰 삭제 중 에러', error);
     }
@@ -146,7 +151,6 @@ const MyReviews = () => {
                   삭제
                 </Review.Button>
               </Review.ButtonArray>
-
               <Divider />
             </li>
           ))
@@ -200,6 +204,7 @@ const GoWriteReview = styled.button`
   align-items: center;
   margin: 10px;
   cursor: pointer;
+  border-color: transparent;
 `;
 const NoReviewContainer = styled.div`
   display: grid;

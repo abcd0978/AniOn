@@ -68,7 +68,7 @@ const Board = () => {
     }
   };
 
-  console.log('dd', postsAndTotalPages);
+  // console.log('dd', postsAndTotalPages);
   // 검색 결과에 따라 게시물 리스트를 필터링하고 정렬
   const filteredAndSortedPosts: PostType[] | undefined = useMemo(() => {
     if (!postsAndTotalPages?.data) return undefined;
@@ -96,7 +96,7 @@ const Board = () => {
   const handleSearchSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const ppp = await searchPost(searchKeyword);
-    console.log('보드 검색', ppp);
+    // console.log('보드 검색', ppp);
     setSelectedCategory('');
     queryClient.invalidateQueries(['posts', null, searchKeyword]);
   };
@@ -213,15 +213,12 @@ const Board = () => {
                   </div>
                   <div
                     style={{
+                      color: 'var(--achromatic-colors-midgray-1, #999)',
                       fontSize: '14px',
                       fontStyle: 'normal',
                       fontWeight: '400',
                       lineHeight: 'normal',
                       letterSpacing: '-0.21px',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      textAlign: 'center',
                     }}
                   >
                     {post.users.inventory.length > 0 &&

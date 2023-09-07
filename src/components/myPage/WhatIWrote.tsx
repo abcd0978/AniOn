@@ -13,8 +13,8 @@ import { getPosts } from '../../api/boardapi';
 import { StyledPostCategory } from './Wrote.styles';
 import useViewport from '../../hooks/useViewPort';
 import { styled } from 'styled-components';
-import { toast } from 'react-toastify';
-import { getLikesForPost } from '../../api/boardapi';
+import { useConfirm } from '../../hooks/useConfirm';
+// import { getLikesForPost } from '../../api/boardapi';
 type ReadMyBoard = Database['public']['Tables']['posts']['Row'];
 type ReadMyBoardLikes = Database['public']['Tables']['likes']['Row'];
 const userPostsAtom = atom<ReadMyBoard[]>([]);
@@ -23,22 +23,18 @@ const userPostLikeAtom = atom<ReadMyBoardLikes[]>([]);
 const WhatIWrote = () => {
   const [userPosts, setUserPosts] = useAtom(userPostsAtom);
   const [userPostLike, setUserPostLike] = useAtom(userPostLikeAtom);
-
+  const { openConfirm } = useConfirm();
   const navigate = useNavigate();
   const user = useAtomValue(userStore.user);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [searchKeyword, setSearchKeyword] = useState<string>('');
   const [selectedPosts, setSelectedPosts] = useState<string[]>([]);
   const [page, setPage] = useState<number>(1);
-  const { width, height, isMobile, isLoaded } = useViewport();
+  const { width } = useViewport();
   const [currentPage, setCurrentPage] = useState(1);
 
   const itemsPerPage = 12;
-  const {
-    data: postsAndTotalPages,
-    isLoading,
-    isFetching,
-  } = useQuery(
+  const { data: postsAndTotalPages } = useQuery(
     ['posts', selectedCategory, searchKeyword, page],
     () => getPosts(selectedCategory || '', page),
     {
@@ -76,7 +72,6 @@ const WhatIWrote = () => {
       if (error) {
         console.error('fetchUserPosts에서 에러', error);
       } else {
-        console.log('User posts fetched:', data);
         setUserPosts(data);
       }
     } catch (error) {
@@ -105,7 +100,7 @@ const WhatIWrote = () => {
           post_id: like.post_id,
           user_id: user.id,
         }));
-        console.log('User post likes fetched:', userLikes);
+        // console.log('User post likes fetched:', userLikes);
         setUserPostLike(userLikes);
       }
     } catch (error) {
@@ -139,27 +134,28 @@ const WhatIWrote = () => {
     }
   };
   const handleDeleteSelectedPosts = async () => {
-    if (selectedPosts.length === 0) {
-      toast.warning('선택된 항목이 없습니다.!', {
-        autoClose: 800,
-      });
-      return;
-    }
+    try {
+      const deleteConfirmData = {
+        title: '게시글 삭제',
+        content: '정말 삭제하실건가요??',
+        callback: async () => {
+          for (const postId of selectedPosts) {
+            await deletePost(postId);
+          }
+          const updatedUserPost = userPosts.filter(
+            (post) => !selectedPosts.includes(post.id?.toString() ?? ''),
+          );
+          setUserPosts(updatedUserPost);
+          setSelectedPosts([]);
+        },
+      };
 
-    const shouldDelete = window.confirm('삭제하시겠습니까?');
-    if (shouldDelete) {
-      try {
-        for (const postId of selectedPosts) {
-          await deletePost(postId);
-        }
-
-        setSelectedPosts([]);
-        fetchUserPosts();
-      } catch (error) {
-        console.error('Error deleting selected posts:', error);
-      }
+      openConfirm(deleteConfirmData);
+    } catch (error) {
+      console.error('게시글 삭제 중 에러', error);
     }
   };
+
   const totalPages = Math.ceil(userPosts.length / itemsPerPage);
   const handlePageChange = (page: number | 'prev' | 'next') => {
     if (page === 'prev' && currentPage > 1) {
@@ -170,22 +166,21 @@ const WhatIWrote = () => {
       setCurrentPage(page);
     }
   };
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
+  // const startIndex = (currentPage - 1) * itemsPerPage;
   return Array.isArray(userPosts) && userPosts.length > 0 ? (
     <Container>
       <ul>
         {userPosts
           .slice((page - 1) * itemsPerPage, page * itemsPerPage)
           .map((post) => {
-            const likesForPost = userPostLike.filter(
-              (like) => like.post_id === post.id,
-            ).length;
+            // const likesForPost = userPostLike.filter(
+            //   (like) => like.post_id === post.id,
+            // ).length;
 
             return (
               <li key={post.id}>
                 <Post.Box>
-                  <Post.input
+                  <Post.Input
                     type="checkbox"
                     checked={selectedPosts.includes(post.id?.toString() ?? '')}
                     onChange={() =>
@@ -196,15 +191,14 @@ const WhatIWrote = () => {
                     {post.category}
                   </StyledPostCategory>
                   <Post.Content>
-                    <Post.title
+                    <Post.Title
                       onClick={() => handlePostClick(post.id?.toString() ?? '')}
                     >
                       {post.title}
                       <Post.Date>
-                        {' '}
                         {new Date(post.created_at).toLocaleString()}{' '}
                       </Post.Date>
-                    </Post.title>
+                    </Post.Title>
 
                     {/* <div>받은 추천 수: {likesForPost}</div> */}
                   </Post.Content>
@@ -247,7 +241,7 @@ export const WriteP = styled.div<{ $mediawidth: number }>`
   height: 10vh;
   ${(props) => `width:${250 * (props.$mediawidth / 1920)}px;`}
   margin-bottom: -330px;
-  justify-contents: center;
+  justify-content: center;
   margin-left: 400px;
 `;
 const NoPostsContainer = styled.div`
@@ -260,6 +254,8 @@ const NoPostsContainer = styled.div`
 `;
 const NoPostsButton = styled.button`
   background-color: #8200ff;
+  border-color: transparent;
+
   color: #fff;
   width: 226.5px;
   height: 48px;

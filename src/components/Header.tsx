@@ -1,16 +1,21 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
 import { useAtom, useAtomValue } from 'jotai';
 import * as modalStore from '../store/modalStore';
 import { isDropDownOn } from '../store/dropDownStore';
+import * as sidebarStore from '../store/sidebarStore';
 import useViewport from '../hooks/useViewPort';
 import * as userStore from '../store/userStore';
+import * as headerStore from '../store/headerStore';
 import dropdown from '../assets/dropdown.svg';
 import dropdownUp from '../assets/dropdownUp.svg';
+import menu from '../assets/menu.svg';
+import closeMenu from '../assets/closeMenuMobile.svg';
 import * as authApi from '../api/auth';
 import logout from '../assets/logout.svg';
 import account from '../assets/account.svg';
 import logo from '../assets/logo.svg';
+import logoM from '../assets/logoMobile.svg';
 import type { DropdownContentsType } from './DropDown/DropDown';
 import DropDown from './DropDown/DropDown';
 import Modal from './Modal/Modal';
@@ -24,19 +29,20 @@ import { useNavigate } from 'react-router-dom';
 import { fetchEquippedItem } from '../api/items';
 import { useQuery } from '@tanstack/react-query';
 
-import * as itemApi from '../api/items';
 type Props = {};
 
 function Header({}: Props) {
-  const [activeMenu, setActiveMenu] = useState<string | null>(null);
   const navigate = useNavigate();
-  const [isDropdownOn, setIsDowpdownOn] = useAtom(isDropDownOn);
+  const [isDropdownOnB, setIsDowpdownOn] = useAtom(isDropDownOn);
   const [__, logoutStore] = useAtom(userStore.logoutUser);
   const { width, height, isMobile, isLoaded } = useViewport();
   const [user, setUser] = useAtom(userStore.user);
   const [isModalOpened, setIsModalOpened] = useAtom(modalStore.isModalOpened);
   const [modalContents, setModalContents] = useAtom(modalStore.modalContents);
-
+  const [menuMobileClicked, setMenuMobileClicked] = useAtom(
+    sidebarStore.sideBarOpened,
+  );
+  const [activeMenu, setActiveMenu] = useAtom(headerStore.activeMenu);
   const equipedAwardQueryOptions = {
     queryKey: ['equippedAward'],
     queryFn: () => fetchEquippedItem({ user_id: user!.id, category: 1 }),
@@ -91,61 +97,89 @@ function Header({}: Props) {
       {isModalOpened && <Modal>{modalContentsFunc(modalContents)}</Modal>}
       <StHeader $mediawidth={width}>
         <StHeaderContainer>
-          <StHeaderLogoSection
+          <StHeaderMenuMobile
             onClick={() => {
-              navigate('/');
-              setActiveMenu('둘러보기');
+              setMenuMobileClicked((prev) => {
+                document.body.style.overflow = !prev ? 'hidden' : 'unset';
+                return !prev;
+              });
             }}
           >
-            <img src={logo} alt="로고" />
-          </StHeaderLogoSection>
-          <StHeaderMenuSection>
-            <StHeaderMenu
+            <img
+              style={{ display: `${menuMobileClicked ? 'none' : 'block'}` }}
+              src={menu}
+              alt="menu"
+            />
+            <img
+              style={{ display: `${menuMobileClicked ? 'block' : 'none'}` }}
+              src={closeMenu}
+              alt="close"
+            />
+          </StHeaderMenuMobile>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '32px',
+            }}
+          >
+            <StHeaderLogoSection
               onClick={() => {
                 navigate('/');
-                setActiveMenu('둘러보기');
+                setActiveMenu('/');
               }}
-              $isactive={activeMenu === '둘러보기' ? true : false}
-              color="#8200FF"
             >
-              둘러보기
-            </StHeaderMenu>
-            <StHeaderMenu
-              onClick={() => {
-                navigate('/recommend');
-                setActiveMenu('애니추천');
-              }}
-              $isactive={activeMenu === '애니추천' ? true : false}
-              color="#8200FF"
-            >
-              애니추천
-            </StHeaderMenu>
-            <StHeaderMenu
-              onClick={() => {
-                navigate('/board');
-                setActiveMenu('게시판');
-              }}
-              $isactive={activeMenu === '게시판' ? true : false}
-              color="#8200FF"
-            >
-              게시판
-            </StHeaderMenu>
-            <StHeaderMenu
-              onClick={() => {
-                navigate('/shop/item');
-                setActiveMenu('상점');
-              }}
-              $isactive={activeMenu === '상점' ? true : false}
-              color="#8200FF"
-            >
-              상점
-            </StHeaderMenu>
-          </StHeaderMenuSection>
+              <img src={isMobile ? logoM : logo} alt="로고" />
+            </StHeaderLogoSection>
+            <StHeaderMenuSection>
+              <StHeaderMenu
+                onClick={() => {
+                  navigate('/');
+                  setActiveMenu('/');
+                }}
+                $isactive={activeMenu === '/' ? true : false}
+                color="#8200FF"
+              >
+                둘러보기
+              </StHeaderMenu>
+              <StHeaderMenu
+                onClick={() => {
+                  navigate('/recommend');
+                  setActiveMenu('/recommend');
+                }}
+                $isactive={activeMenu === '/recommend' ? true : false}
+                color="#8200FF"
+              >
+                애니추천
+              </StHeaderMenu>
+              <StHeaderMenu
+                onClick={() => {
+                  navigate('/board');
+                  setActiveMenu('/board');
+                }}
+                $isactive={activeMenu === '/board' ? true : false}
+                color="#8200FF"
+              >
+                게시판
+              </StHeaderMenu>
+              <StHeaderMenu
+                onClick={() => {
+                  navigate('/shop/item');
+                  setActiveMenu('/shop');
+                }}
+                $isactive={activeMenu.includes('/shop') ? true : false}
+                color="#8200FF"
+              >
+                상점
+              </StHeaderMenu>
+            </StHeaderMenuSection>
+          </div>
 
           <StHeaderUserInfoSection>
             {user ? (
               <StHeaderUserInfoContainer>
                 <ProfileWithBorder
+                  minWidth={36}
                   width={null}
                   $mediawidth={width}
                   key={user?.id!}
@@ -153,7 +187,6 @@ function Header({}: Props) {
                 <StHeaderUserInfo>
                   <StHeaderUserName>{user.nickname}</StHeaderUserName>
                   <StHeaderUserAppellation>
-                    {/* {award ? award.items.name : '칭호 없음'} */}
                     {award ? (
                       award.items.img_url ? (
                         <img
@@ -170,15 +203,18 @@ function Header({}: Props) {
                   </StHeaderUserAppellation>
                 </StHeaderUserInfo>
                 <StHeaderDropDownImgContainer
-                  onClick={() => setIsDowpdownOn(!isDropdownOn)}
+                  style={{ cursor: isDropdownOnB ? 'default' : 'pointer' }}
+                  onClick={() => {
+                    setIsDowpdownOn(true);
+                  }}
                 >
-                  {isDropdownOn ? (
+                  {isDropdownOnB ? (
                     <img src={dropdownUp} alt="dropdownImg" />
                   ) : (
                     <img src={dropdown} alt="dropdownImg" />
                   )}
                 </StHeaderDropDownImgContainer>
-                {isDropdownOn && <DropDown children={dropdownContents} />}
+                {isDropdownOnB && <DropDown children={dropdownContents} />}
               </StHeaderUserInfoContainer>
             ) : (
               <StHeaderLoginRegister>
@@ -213,33 +249,53 @@ function Header({}: Props) {
 const headerMenuColor = '#999999';
 const headerMenuColorActivated = '#4f4f4f';
 
+const StHeaderMenuMobile = styled.div`
+  display: none;
+  @media (max-width: 768px) {
+    display: flex;
+    padding: 8px 16px 8px 0px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    cursor: pointer;
+    z-index: 5;
+  }
+`;
+
 const StHeader = styled.header<{ $mediawidth: number }>`
   ${(props) => `height:${80 * (props.$mediawidth / 1920)}px;`}
+  min-height:45px;
   display: grid;
   align-items: center;
   background: var(--achromatic-colors-white, #fff);
   box-shadow: 0px 0px 16px 0px rgba(0, 0, 0, 0.06);
   backdrop-filter: blur(25px);
   z-index: 4;
-  //border-bottom: solid 1px #d9d9d9;
+  @media (max-width: 768px) {
+    //position: fixed;
+    //margin-left: calc(-50vw + 50%);
+  }
 `;
+
 const StHeaderContainer = styled.div`
   margin: auto;
   width: 75%;
-  height: 45px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   @media (max-width: 768px) {
-    visibility: hidden;
+    width: inherit;
+    box-sizing: border-box;
+    border-left: 18px solid #fff;
+    border-right: 18px solid #fff;
   }
 `;
+
 const StHeaderLogoSection = styled.div`
   cursor: pointer;
-  min-width: 126px;
-  max-width: 10%;
+
   // height: 100%;
-  margin-right: 40px;
+  //margin-right: 40px;
 `;
 
 const StHeaderMenuSection = styled.div`
@@ -248,6 +304,9 @@ const StHeaderMenuSection = styled.div`
   display: flex;
   align-items: center;
   gap: 40px;
+  @media (max-width: 768px) {
+    display: none;
+  }
 `;
 const StHeaderMenu = styled.div<{ $isactive: boolean; color?: string }>`
   width: 72px;
@@ -265,7 +324,7 @@ const StHeaderMenu = styled.div<{ $isactive: boolean; color?: string }>`
 const StHeaderUserInfoSection = styled.div`
   display: flex;
   align-items: center;
-  width: 15%;
+
   height: 100%;
 `;
 const StHeaderUserInfoContainer = styled.div`
@@ -280,6 +339,9 @@ const StHeaderUserInfo = styled.div`
   display: flex;
   flex-direction: column;
   gap: 2px;
+  @media (max-width: 768px) {
+    display: none;
+  }
 `;
 const StHeaderUserName = styled.p`
   color: var(--black, #000);
@@ -302,7 +364,6 @@ const StHeaderUserAppellation = styled.p`
   white-space: nowrap;
 `;
 const StHeaderDropDownImgContainer = styled.div`
-  cursor: pointer;
   display: flex;
   width: 24px;
   height: 24px;
@@ -310,6 +371,9 @@ const StHeaderDropDownImgContainer = styled.div`
   justify-content: center;
   align-items: center;
   gap: 8px;
+  @media (max-width: 768px) {
+    display: none;
+  }
 `;
 const StHeaderLoginRegister = styled.div`
   display: flex;

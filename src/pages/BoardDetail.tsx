@@ -21,12 +21,12 @@ import * as userStore from '../store/userStore';
 import filledLike from '../assets/filledLike.svg';
 import borderLike from '../assets/borderLike.svg';
 import { toast } from 'react-toastify';
-
 import pencil from '../assets/pencil.svg';
 import search from '../assets/search.svg';
 import ProfileWithBorder, {
   processItem,
 } from '../components/ProfileWithBorder';
+import { useConfirm } from '../hooks/useConfirm';
 
 import type { PostType, UpdatePost, Like } from '../types/post';
 
@@ -35,6 +35,7 @@ const BoardDetail = () => {
 
   const queryClient = useQueryClient();
   const navigate = useNavigate();
+  const { openConfirm } = useConfirm();
 
   // 수정 여부 및 수정 입력값 받기
   const [isEdit, setIsEdit] = useState<boolean>(false);
@@ -125,29 +126,24 @@ const BoardDetail = () => {
   // Post 삭제
   const deleteMutation = useMutation(deletePost, {
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['post'] });
-      queryClient.invalidateQueries({ queryKey: ['post'] });
+      queryClient.invalidateQueries({ queryKey: ['posts'] });
     },
   });
 
-  const deleteButton = async (id: string) => {
-    // 삭제 확인
-    const confirm = window.confirm('게시물을 삭제하시겠습니까?!');
-
-    if (confirm) {
-      try {
-        // DB에서 게시물 삭제
-        await deleteMutation.mutateAsync(id);
-
-        // 페이지 이동
+  const deleteButton = (id: string) => {
+    const delteConfirmData = {
+      title: '게시글 삭제',
+      content: '정말 삭제하실건가요??',
+      callback: () => {
+        deleteMutation.mutate(id);
         toast.success('삭제되었습니다!', {
           autoClose: 800,
         });
         navigate('/board');
-      } catch (error) {
-        console.error('게시물 삭제 중 오류 발생:', error);
-      }
-    }
+      },
+    };
+
+    openConfirm(delteConfirmData);
   };
 
   // Post 수정
@@ -391,6 +387,8 @@ const BoardDetail = () => {
                         )}
                       </S.Like>
                     </S.User>
+
+                    {/* </S.Box> */}
                   </>
                 )}
 

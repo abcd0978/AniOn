@@ -2,17 +2,21 @@ import { atom } from 'jotai';
 import { atomWithStorage } from 'jotai/utils';
 import supabase from '../supabaseClient';
 import * as authApi from '../api/auth';
-import * as itemApi from '../api/items';
+// import * as itemApi from '../api/items';
 import { Database } from '../types/supabase';
-import { write } from 'fs';
+// import { write } from 'fs';
+
 type Usertype = Database['public']['Tables']['users']['Row'];
 export const user = atomWithStorage<Usertype | null>('user', null);
 export const accessTokenS = atomWithStorage<string | null>('accessToken', null);
+
 export const logoutUser = atom(null, (__, set) => {
   set(accessTokenS, null);
   set(user, null);
 });
+
 export const setBorder = atom(null, (get, set) => {});
+
 export const writeUser = atom(null, async (get, set) => {
   const session = await supabase.auth.getSession();
   if (session.data.session) {
@@ -34,7 +38,8 @@ export const writeUser = atom(null, async (get, set) => {
     if ((await authApi.checkUser(userData!.id)) <= 0) {
       //db에 있으면 안넣고 db에있으면 넣는다
       await authApi.addUser(currentUser);
-      await supabase.from('point').insert({ userId: userData.id!, point: 30 });
+
+      await supabase.from('point').insert({ user_id: userData.id!, point: 30 });
     }
     return true;
   }

@@ -1,5 +1,4 @@
 import { styled } from 'styled-components';
-import { EditButton, EditButtonIcon } from './MyInfoMenu';
 export const Profile = {
   BasicImage: styled.img`
     width: 120px;
