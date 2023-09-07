@@ -19,7 +19,7 @@ const DecoProfile = () => {
     }
   };
   return (
-    <>
+    <DecoContainer>
       <DecoTitle>프로필 꾸미기</DecoTitle>
 
       <Container>
@@ -47,15 +47,18 @@ const DecoProfile = () => {
         </Deco.ButtonContainer>
         <div>{renderDecoComponent()}</div>
       </Container>
-    </>
+    </DecoContainer>
   );
 };
 export default DecoProfile;
+const DecoContainer = styled.div`
+  position: absolute;
+  top: 170px;
+`;
 const DecoTitle = styled.div`
   position: absolute;
-  display: block;
-  margin-top: -20%;
-  margin-left: 8%;
+  top: -25px;
+  left: 150px;
   width: 200px;
   height: 32px;
   color: #000;

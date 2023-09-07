@@ -103,6 +103,7 @@ color:black;
   `,
 
   Container: styled.div`
+    position: absolute;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 5px 1px;
@@ -190,5 +191,8 @@ export const A = {
     &:disabled:hover {
       cursor: not-allowed;
     }
+  `,
+  Container: styled.div`
+    position: absolute;
   `,
 };

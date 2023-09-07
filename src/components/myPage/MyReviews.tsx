@@ -13,7 +13,6 @@ import { useQuery } from '@tanstack/react-query';
 import { getAnimeById } from '../../api/laftel';
 import { useParams } from 'react-router-dom';
 import ReviewSkeleton from './MyReviewSkeleton';
-import { Page } from './MyInvenAward';
 import { styled } from 'styled-components';
 import goShop from '../../assets/goShop.png';
 import { useConfirm } from '../../hooks/useConfirm';
@@ -105,7 +104,7 @@ const MyReviews = () => {
     }
   };
 
-  const reviewsPerPage = 4;
+  const reviewsPerPage = 5;
 
   const totalPages = Math.ceil(userReview.length / reviewsPerPage);
 
@@ -123,7 +122,8 @@ const MyReviews = () => {
   const endIndex = startIndex + reviewsPerPage;
 
   return Array.isArray(userReview) && userReview.length > 0 ? (
-    <Container>
+    <Review.Container>
+      <ReviewTitle>리뷰 관리</ReviewTitle>
       <Divider />
       <Review.Outer>
         {isLoadingTitles ? (
@@ -165,7 +165,7 @@ const MyReviews = () => {
           />
         </ReviewPage>
       </Review.Outer>
-    </Container>
+    </Review.Container>
   ) : (
     <NoReviewContainer>
       <NoReviewMessage>작성한 리뷰가 없어요 !</NoReviewMessage>
@@ -182,10 +182,24 @@ const MyReviews = () => {
 };
 
 export default MyReviews;
+const ReviewTitle = styled.div`
+  position: absolute;
+  top: -50px;
+  left: 0px;
+  width: 200px;
+  height: 32px;
+  color: #000;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: -0.36px;
+`;
 export const ReviewPage = styled.div`
-  display: flex;
-  justify-content: center;
-  margin-top: 150px;
+  position: absolute;
+  bottom: 100;
+  top: 600px;
+  left: 350px;
 `;
 const NoReviewMessage = styled.div`
   display: flex;

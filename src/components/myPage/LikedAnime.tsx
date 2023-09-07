@@ -185,7 +185,7 @@ const LikedAnime = () => {
       </GoAnimeContainer>
     );
   return (
-    <div>
+    <LikedContainer>
       {user && topTags.length > 0 && (
         <TopTags>
           {user?.nickname}님은 <Tags>#{topTags.join('#')}</Tags>을 좋아해요!
@@ -207,47 +207,54 @@ const LikedAnime = () => {
           </Page>
         )}
       </FullPage>
-    </div>
+    </LikedContainer>
   );
 };
 export default LikedAnime;
+const LikedContainer = styled.div`
+  margin-top: 10px;
+`;
+
 const Page = styled.div`
   position: absolute;
-  top: -330px;
-  right: 250px;
+  margin-right: -680px;
+  margin-top: -330px;
 `;
 const TopTags = styled.div`
   border-radius: 999px;
   position: absolute;
   background: var(--main-light-2, #f3e7ff);
   width: auto;
-  display: inline-flex;
+  display: flex;
   height: 32px;
   padding: 8px 20px;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   gap: 8px;
-  margin-top: -20.2%;
+  margin-top: -360px;
   margin-left: 130px;
 `;
 const FullPage = styled.div`
+  position: absolute;
+
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: flex-end;
   margin-left: 150px;
-  position: relative;
 `;
 const Tags = styled.div`
   font-weight: 600;
 `;
 const LikedList = styled.div`
   margin-top: -280px;
+  position: absolute;
+  left: 10px;
 `;
 const LikedTitle = styled.div`
-  position: absolute;
+  position: relative;
   margin-left: 150px;
-  margin-top: -17%;
+  top: -300px;
   width: 200px;
   height: 32px;
   color: #000;
@@ -259,9 +266,8 @@ const LikedTitle = styled.div`
 `;
 const GridContainer = styled.div`
   display: grid;
-  gap: 10px 30px;
+  gap: 0px 20px;
   grid-template-columns: repeat(3, 1fr);
-  margin-top: 0%;
 `;
 const AnimeTitle = styled.div`
   width: 220px;
@@ -284,6 +290,7 @@ const HoverViewDetail = styled.div`
   visibility: hidden;
   display: flex;
   margin-top: -250px;
+  margin-left: -30px;
   align-items: center;
   position: absolute;
   padding: 6px 12px;
@@ -299,24 +306,20 @@ const HoverViewDetail = styled.div`
 const LikedAnimeGenre = styled.div`
   height: 16px;
   display: flex;
-  align-items: flex-start;
-  margin-left: -55%;
-  margin-bottom: 20%;
-  margin-top: -8%;
+  justify-content: flex-start;
+  margin-left: -110px;
+  margin-bottom: 24px;
+  margin-top: -12px;
   padding: 5px;
   gap: 4px;
 `;
 const GenreTag = styled.div`
-  color: #333;
   justify-content: center;
   align-items: center;
-  background-color: #eee;
-  padding: 7px;
-  border-radius: 3px;
-  width: 80px;
-  height: auto;
-  border-radius: 50px;
-  text-align: center;
+  padding: 4px 12px;
+  height: 16px;
+  background: #efefef;
+  border-radius: 999px;
 `;
 const HoveredAnimeGenre = styled.div`
   visibility: hidden;
