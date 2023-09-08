@@ -2,23 +2,18 @@ import React, { useEffect } from 'react';
 import { S } from './styled.animeCategoryButtons';
 import { useAtom, useSetAtom } from 'jotai';
 
-import {
-  isEndingAtom,
-  keywordAtom,
-  offsetAtom,
-  selectedCategoryAtom,
-  selectedGenresAtom,
-  selectedYearsAtom,
-} from '../../../store/animeRecommendStore';
+import * as recommendStore from '../../../store/animeRecommendStore';
 
 const AnimeCategory = () => {
-  const [selectedCategory, setSelectedCategory] = useAtom(selectedCategoryAtom);
+  const [selectedCategory, setSelectedCategory] = useAtom(
+    recommendStore.selectedCategoryAtom,
+  );
 
-  const [keyword, setKeyword] = useAtom(keywordAtom);
-  const setGenres = useSetAtom(selectedGenresAtom);
-  const setYears = useSetAtom(selectedYearsAtom);
-  const setOffset = useSetAtom(offsetAtom);
-  const setIsEnding = useSetAtom(isEndingAtom);
+  const [keyword, setKeyword] = useAtom(recommendStore.keywordAtom);
+  const setGenres = useSetAtom(recommendStore.selectedGenresAtom);
+  const setYears = useSetAtom(recommendStore.selectedYearsAtom);
+  const setOffset = useSetAtom(recommendStore.offsetAtom);
+  const setIsEnding = useSetAtom(recommendStore.isEndingAtom);
 
   const handleCategoryClick = (category: string) => {
     if (selectedCategory === category && !keyword) {
