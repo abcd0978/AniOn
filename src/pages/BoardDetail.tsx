@@ -154,7 +154,14 @@ const BoardDetail = () => {
       setIsEdit(false);
     },
   });
-
+  const getImg = (bodyStr: string) => {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(bodyStr, 'text/html');
+    const img = doc.querySelector<HTMLImageElement>('img[src]');
+    const src = img?.src;
+    console.log(src);
+    return src ? src : null;
+  };
   const editButton = (post: UpdatePost) => {
     if (!isEdit) {
       setTitle(post.title);
@@ -166,6 +173,7 @@ const BoardDetail = () => {
         title,
         content,
         category: editCategory,
+        thumbnail: getImg(content),
       };
       updateMutation.mutate(editPost);
     }
