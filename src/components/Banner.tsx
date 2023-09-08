@@ -61,7 +61,7 @@ export const Banner = (props: PropType) => {
   const [prevButtonDisabled, setPrevButtonDisabled] = useState(true);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [scrollSnaps, setScrollSnaps] = useState<number[]>([]);
-  const { width } = useViewport();
+  const { width, isMobile } = useViewport();
 
   const scrollPrev = useCallback(() => {
     if (emblaApi) {
@@ -108,7 +108,10 @@ export const Banner = (props: PropType) => {
             {slides.map((slide, index) => (
               <div
                 className="embla__slide"
-                style={{ ...slideStyle, height: `${width * 0.36}px` }}
+                style={{
+                  ...slideStyle,
+                  height: `${isMobile ? width * 1.11 : width * 0.36}px`,
+                }}
                 key={index}
               >
                 <BannerSlide

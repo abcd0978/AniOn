@@ -61,11 +61,14 @@ const Main = () => {
     useState<boolean>(false);
 
   const [weeklyEmblaRef, weeklyEmblaApi] = useEmblaCarousel(
-    { slidesToScroll: 'auto', containScroll: 'trimSnaps' },
+    { dragFree: true },
     [],
   );
   const [newEmblaRef, newEmblaApi] = useEmblaCarousel(
-    { slidesToScroll: 'auto', containScroll: 'trimSnaps' },
+    {
+      slidesToScroll: 'auto',
+      containScroll: 'trimSnaps',
+    },
     [],
   );
   const scrollPrevW = useCallback(
@@ -280,8 +283,8 @@ const Main = () => {
             style={{ alignContent: 'center' }}
           >
             <div
-              className="embla"
-              style={{ maxWidth: `${width * 0.75}px` }}
+              className="embla middle"
+              style={{ maxWidth: `${width * 0.9}px` }}
               ref={weeklyEmblaRef}
             >
               <div
@@ -387,8 +390,8 @@ const Main = () => {
             style={{ alignContent: 'center' }}
           >
             <div
-              className="embla"
-              style={{ maxWidth: `${width * 0.75}px` }}
+              className="embla middle"
+              style={{ maxWidth: `${width * 0.9}px` }}
               ref={newEmblaRef}
             >
               <div
@@ -549,11 +552,11 @@ const StMainCardContainerWithTypo = styled.div`
   gap: 32px;
 `;
 const StMainCardContainer = styled.div<{ $mediawidth: number }>`
-  //width: ${(props) => props.$mediawidth * 0.75}px;
-  width: ${(props) => props.$mediawidth}px;
+  width: 100%;
   display: flex;
   gap: 14px;
   flex-direction: row;
+  overflow: hidden;
 `;
 
 export default Main;

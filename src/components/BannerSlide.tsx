@@ -19,9 +19,9 @@ type Props = {
 };
 
 const BannerSlide = (props: Props) => {
-  const { width } = useViewport();
+  const { width, isMobile } = useViewport();
   return (
-    <SlideContainer image={props.image}>
+    <SlideContainer image={props.image} isMobile={isMobile}>
       <StSlideInfoContainer mediaWidth={width}>
         <StSlideInfos mediaWidth={width}>
           <StSlideTitleandDescContainer mediaWidth={width}>
@@ -65,10 +65,16 @@ const StGredient = styled.div`
     #000 100%
   );
 `;
-const SlideContainer = styled.div<{ image?: string; mediaWidth?: number }>`
+const SlideContainer = styled.div<{
+  image?: string;
+  mediaWidth?: number;
+  isMobile: boolean;
+}>`
   ${(props) =>
     props.image
-      ? `background-image: url(${props.image});background-size: 100%;`
+      ? props.isMobile
+        ? `background-image: url(${props.image});background-size: cover;background-position: 50%;`
+        : `background-image: url(${props.image});background-size: 100%;`
       : `background:#424242;`}
   height: 100%;
   position: relative;

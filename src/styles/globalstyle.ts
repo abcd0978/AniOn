@@ -30,6 +30,9 @@ body{
     max-width: 75%;
     overflow-x: hidden;
     font-family: 'Pretendard-Regular';
+    @media (max-width: 768px) {
+        max-width: 90%;
+    }
 }
 header{
     width:100vw;
@@ -46,7 +49,7 @@ left: -100vw;
   padding: 20px 0px;
   left: 0;
 }
-.embla{
+.embla:not(.middle){
     width:100vw;
     margin-left: calc(-50vw + 50%);
     overflow: hidden;

@@ -21,20 +21,21 @@ const MainCard = ({ width, data, index, key }: Props) => {
             : data.img
         }
       >
-        <StMainCardImgIndex>
-          <p
-            style={{
-              fontSize: '16px',
-              fontWeight: 'bold',
-              color: 'var(--achromatic-colors-white, #FFF)',
-              fontFamily: 'Pretendard Variable',
-              fontStyle: 'normal',
-              lineHeight: 'normal',
-              letterSpacing: '-0.24px',
-            }}
-          >
-            TOP {index}
-          </p>
+        <StMainCardImgIndex mediawidth={mediaWidth}>
+          <div>
+            <p
+              style={{
+                fontSize: `${16 * (mediaWidth / 1920)}px`,
+                fontWeight: 'bold',
+                color: 'var(--achromatic-colors-white, #FFF)',
+                fontStyle: 'normal',
+                lineHeight: 'normal',
+                letterSpacing: '-0.24px',
+              }}
+            >
+              TOP {index}
+            </p>
+          </div>
         </StMainCardImgIndex>
       </StMainCardImgContainer>
       <StCardInfoContainer>
@@ -75,17 +76,17 @@ const StMainCardImgContainer = styled.div<{ img_url: string }>`
   background-color: #d9d9d9;
   border-radius: 10px;
 `;
-const StMainCardImgIndex = styled.div`
-  width: 72px;
-  height: 36px;
-  display: flex;
+const StMainCardImgIndex = styled.div<{ mediawidth: number }>`
+  display: inline-block;
+  padding: ${(props) =>
+    `${(8 * props.mediawidth) / 1920}px ${(12 * props.mediawidth) / 1920}px;`};
   justify-content: center;
   align-items: center;
-  top: 8px;
-  left: 8px;
-  position: relative;
   border-radius: 8px;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.65);
+  position: relative;
+  top: 4%;
+  left: 4.5%;
 `;
 const StCardInfoContainer = styled.div`
   display: flex;
