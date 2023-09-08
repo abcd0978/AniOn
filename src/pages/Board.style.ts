@@ -1,9 +1,85 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  // margin-bottom: 40px;
   width: 1440px;
-  min-height: 854px;
+  height: 2098px;
+`;
+
+export const Post = styled.div`
+  width: 680px;
+  min-height: 235px;
+  max-height: 357px;
+  border: 2px solid #c88fff;
+  border-radius: 12px;
+  padding: 0px, 0px, 20px, 0px;
+  gap: 12px;
+  display: inline-block;
+  margin-bottom: 40px;
+  margin-right: 20px;
+  margin-top: 30px;
+`;
+
+export const PostTop = styled.div`
+  width: 100%;
+  height: 44px;
+  border-bottom: 2px solid #c88fff;
+  border-radius: 12px 12px 0 0;
+  padding: 8px, 20px, 8px, 20px;
+  background-color: #f3e7ff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+export const PostTopLeft = styled.div`
+  display: flex;
+  margin-left: 15px;
+`;
+export const PostTopRight = styled.div`
+  display: flex;
+  color: #4f4f4f;
+  margin-right: 15px;
+  font-size: 15px;
+`;
+export const Ddabong = styled.img`
+  margin-right: 2px;
+  width: 14px;
+  margin-bottom: 3px;
+  color: #4f4f4f;
+`;
+export const PostMiddle = styled.div`
+  width: 670px;
+  height: 49px;
+  gap: 12px;
+  border-bottom: 1px solid #d9d9d9;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+export const PostMiddleLeft = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 15px;
+`;
+export const PostMiddleRight = styled.div`
+  display: flex;
+  color: #999999;
+  font-size: 15px;
+`;
+export const Ninkname = styled.div`
+  margin-left: 10px;
+  margin-right: 10px;
+`;
+export const PostBottom = styled.div`
+  width: 670px;
+  height: 220px;
+  gap: 12px;
+`;
+
+export const Category = styled.div`
+  color: #4f4f4f;
+  font-size: 15px;
+  margin-left: 10px;
 `;
 
 export const Title = styled.div`
@@ -40,121 +116,7 @@ export const WriteButton = styled.button`
   margin-left: 10px;
   cursor: pointer;
 `;
-export const Postbox = styled.div`
-  border-bottom: 1px solid #d9d9d9;
-  margin-bottom: 10px;
-  margin-top: 10px;
-  display: flex;
-  width: 1440px;
-  height: 45px;
-  align-items: center;
-  cursor: pointer;
-`;
-export const Header = styled.div`
-  display: flex;
-  align-items: center;
-  border-bottom: 1px solid #d9d9d9;
-  border-top: 1px solid #d9d9d9;
-  font-size: 15px;
-  margin-top: 20px;
-  width: 1440px;
-  height: 44px;
-`;
-export const HeaderNo = styled.div`
-  font-size: 15px;
-  width: 72px;
-  height: 44px;
-  display: flex;
-  align-items: center;
-  font-weight: 600;
-  justify-content: center;
-`;
-export const BottomNo = styled.div`
-  font-size: 15px;
-  width: 72px;
-  height: 44px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-export const HeaderTitle = styled.div`
-  font-size: 15px;
-  width: 936px;
-  height: 44px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 600;
-`;
-export const BottomTitle = styled.div`
-  font-size: 15px;
-  width: 936px;
-  height: 44px;
-  display: flex;
-  align-items: center;
-`;
-export const HeaderNick = styled.div`
-  font-size: 15px;
-  width: 220px;
-  height: 44px;
-  display: flex;
-  align-items: center;
-  font-weight: 600;
-`;
-export const BottomNick = styled.div`
-  font-size: 15px;
-  width: 220px;
-  height: 44px;
-  display: flex;
-  align-items: center;
-`;
-export const Headerdate = styled.div`
-  font-size: 15px;
-  width: 270px;
-  height: 44px;
-  display: flex;
-  align-items: center;
-  font-weight: 600;
-`;
-export const Bottomdate = styled.div`
-  font-size: 15px;
-  width: 270px;
-  height: 44px;
-  display: flex;
-  align-items: center;
-`;
-export const HeaderLike = styled.div`
-  font-size: 15px;
-  width: 90px;
-  height: 44px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 600;
-`;
-export const BottomLike = styled.div`
-  font-size: 15px;
-  width: 90px;
-  height: 44px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
 
-export const Img = styled.img`
-  width: 30px;
-  height: 30px;
-  border-radius: 100px;
-  margin-right: 10px;
-`;
-export const User = styled.div`
-  display: flex;
-`;
-
-export const Post = styled.div`
-  display: flex;
-  justify-content: space-between;
-`;
 export const Search = styled.div`
   display: flex;
 `;

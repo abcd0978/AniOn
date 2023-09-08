@@ -11,6 +11,7 @@ import Pagination from '../components/Pagenation';
 import { toast } from 'react-toastify';
 import pencil from '../assets/pencil.svg';
 import search from '../assets/search.svg';
+import ddabong from '../assets/ddabong.svg';
 import ProfileWithBorder, {
   processItem,
 } from '../components/ProfileWithBorder';
@@ -104,49 +105,48 @@ const Board = () => {
   return (
     <S.Container>
       <S.Title>게시판</S.Title>
-      <S.Post>
-        <S.Search>
-          <S.Button
-            onClick={() => handleAllClick()}
-            style={{
-              backgroundColor: selectedCategory === '' ? '#FF96DB' : '#FFEBF7',
-              color: selectedCategory === '' ? '#ffffff' : 'black',
-            }}
-          >
-            전체
-          </S.Button>
-          <S.Button
-            onClick={() => handleCategoryClick('애니')}
-            style={{
-              backgroundColor:
-                selectedCategory === '애니' ? '#FF96DB' : '#FFEBF7',
-              color: selectedCategory === '애니' ? '#ffffff' : 'black',
-            }}
-          >
-            애니
-          </S.Button>
-          <S.Button
-            onClick={() => handleCategoryClick('자유')}
-            style={{
-              backgroundColor:
-                selectedCategory === '자유' ? '#FF96DB' : '#FFEBF7',
-              color: selectedCategory === '자유' ? '#ffffff' : 'black',
-            }}
-          >
-            자유
-          </S.Button>
 
-          <S.Button
-            onClick={() => handleCategoryClick('오류 신고')}
-            style={{
-              backgroundColor:
-                selectedCategory === '오류 신고' ? '#FF96DB' : '#FFEBF7',
-              color: selectedCategory === '오류 신고' ? '#ffffff' : 'black',
-            }}
-          >
-            오류 신고
-          </S.Button>
-        </S.Search>
+      <S.Search>
+        <S.Button
+          onClick={() => handleAllClick()}
+          style={{
+            backgroundColor: selectedCategory === '' ? '#FF96DB' : '#FFEBF7',
+            color: selectedCategory === '' ? '#ffffff' : 'black',
+          }}
+        >
+          전체
+        </S.Button>
+        <S.Button
+          onClick={() => handleCategoryClick('애니')}
+          style={{
+            backgroundColor:
+              selectedCategory === '애니' ? '#FF96DB' : '#FFEBF7',
+            color: selectedCategory === '애니' ? '#ffffff' : 'black',
+          }}
+        >
+          애니
+        </S.Button>
+        <S.Button
+          onClick={() => handleCategoryClick('자유')}
+          style={{
+            backgroundColor:
+              selectedCategory === '자유' ? '#FF96DB' : '#FFEBF7',
+            color: selectedCategory === '자유' ? '#ffffff' : 'black',
+          }}
+        >
+          자유
+        </S.Button>
+
+        <S.Button
+          onClick={() => handleCategoryClick('오류 신고')}
+          style={{
+            backgroundColor:
+              selectedCategory === '오류 신고' ? '#FF96DB' : '#FFEBF7',
+            color: selectedCategory === '오류 신고' ? '#ffffff' : 'black',
+          }}
+        >
+          오류 신고
+        </S.Button>
         <S.Write>
           <form onSubmit={handleSearchSubmit}>
             <S.SearchInputContainer>
@@ -163,90 +163,74 @@ const Board = () => {
             <img src={pencil} alt="작성" /> 작성하기
           </S.WriteButton>
         </S.Write>
-      </S.Post>
+      </S.Search>
 
       <ul>
-        <S.Header>
-          <S.HeaderNo> NO.</S.HeaderNo>
-          <S.HeaderTitle> 게시글 제목</S.HeaderTitle>
-          <S.HeaderNick>유저 닉네임</S.HeaderNick>
-          <S.Headerdate>작성일자</S.Headerdate>
-          <S.HeaderLike> 추천수</S.HeaderLike>
-        </S.Header>
-
         {isFetching ? (
           <div>로딩중...</div>
         ) : filteredAndSortedPosts ? (
           filteredAndSortedPosts.map((post: PostType, index: number) => (
-            <S.Postbox
-              key={post.id}
-              onClick={() => post.id && handlePostClick(post.id.toString())}
-            >
-              <S.BottomNo>
-                {postsAndTotalPages?.count! - (page - 1) * 12 - index}
-              </S.BottomNo>
-              <S.BottomTitle>{post.title}</S.BottomTitle>
+            //포스트
+            <S.Post>
+              <div
+                key={post.id}
+                onClick={() => post.id && handlePostClick(post.id.toString())}
+              >
+                <S.PostTop>
+                  <S.PostTopLeft>
+                    #{postsAndTotalPages?.count! - (page - 1) * 12 - index}
+                    <S.Category>{post.category}게시판</S.Category>
+                  </S.PostTopLeft>
+                  <S.PostTopRight>
+                    <S.Ddabong src={ddabong} alt="추천수" /> 추천수
+                    {post.likes?.length}
+                  </S.PostTopRight>
+                </S.PostTop>
+                <S.PostMiddle>
+                  <S.PostMiddleLeft>
+                    <ProfileWithBorder
+                      width={40}
+                      $mediawidth={1920}
+                      border_img_url={
+                        post.users.inventory.length > 0
+                          ? processItem(post.users.inventory).border
+                          : undefined
+                      }
+                      profile_img_url={post.users?.profile_img_url}
+                      key={post.id!}
+                    />
 
-              <S.BottomNick>
-                <ProfileWithBorder
-                  width={45}
-                  $mediawidth={1920}
-                  border_img_url={
-                    post.users.inventory.length > 0
-                      ? processItem(post.users.inventory).border
-                      : undefined
-                  }
-                  profile_img_url={post.users?.profile_img_url}
-                  key={post.id!}
-                />
-                <div style={{ display: 'flex', flexDirection: 'column' }}>
-                  <div
-                    style={{
-                      color: 'var(--achromatic-colors-black, #050505)',
-                      fontSize: '15px',
-                      fontStyle: 'normal',
-                      fontWeight: '400',
-                      lineHeight: 'normal',
-                    }}
-                  >
-                    {post.users?.nickname}
-                  </div>
-                  <div
-                    style={{
-                      color: 'var(--achromatic-colors-midgray-1, #999)',
-                      fontSize: '14px',
-                      fontStyle: 'normal',
-                      fontWeight: '400',
-                      lineHeight: 'normal',
-                      letterSpacing: '-0.21px',
-                    }}
-                  >
+                    <S.Ninkname>{post.users?.nickname}</S.Ninkname>
                     {post.users.inventory.length > 0 &&
                     processItem(post.users.inventory).award.img_url ? (
                       <img
                         src={processItem(post.users.inventory).award.img_url!}
                         alt={processItem(post.users.inventory).award.name!}
-                        style={{ width: '140px', height: '26px' }}
+                        style={{
+                          width: '172px',
+                          height: '32px',
+                          marginRight: '8px',
+                        }}
                       />
                     ) : (
                       <S.AwardNo>칭호없음</S.AwardNo>
                     )}
-                    {/* // processItem(post.users.inventory).award.img_url
-                      // : undefined} */}
-                  </div>
-                </div>
-              </S.BottomNick>
-              <S.Bottomdate>
-                {new Date(post.created_at).toLocaleString()}
-              </S.Bottomdate>
-              <S.BottomLike>{post.likes?.length}</S.BottomLike>
-            </S.Postbox>
+                  </S.PostMiddleLeft>
+                  <S.PostMiddleRight>
+                    {new Date(post.created_at).toLocaleString()}
+                  </S.PostMiddleRight>
+                </S.PostMiddle>
+              </div>
+              <S.PostBottom>
+                <div>{post.title}</div>
+                {/* <div>{post.content} </div> */}
+              </S.PostBottom>
+            </S.Post>
           ))
         ) : (
           <div>검색 결과 없음</div>
         )}
       </ul>
-
       <S.Page>
         <Pagination
           currentPage={page}
