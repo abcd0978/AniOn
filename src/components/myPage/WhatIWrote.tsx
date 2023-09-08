@@ -33,7 +33,6 @@ const WhatIWrote = () => {
   const { width } = useViewport();
   const [currentPage, setCurrentPage] = useState(1);
 
-  const itemsPerPage = 12;
   const { data: postsAndTotalPages } = useQuery(
     ['posts', selectedCategory, searchKeyword, page],
     () => getPosts(selectedCategory || '', page),
@@ -43,21 +42,7 @@ const WhatIWrote = () => {
       },
     },
   );
-  const onClickPage = (selected: number | string) => {
-    if (page === selected) return;
-    if (typeof selected === 'number') {
-      setPage(selected);
-      return;
-    }
-    if (selected === 'prev' && page > 1) {
-      setPage((prev: number) => prev - 1);
-      return;
-    }
-    if (selected === 'next' && postsAndTotalPages?.totalPages) {
-      setPage((prev: number) => prev + 1);
-      return;
-    }
-  };
+
   const fetchUserPosts = async () => {
     try {
       if (!user) {
@@ -100,7 +85,6 @@ const WhatIWrote = () => {
           post_id: like.post_id,
           user_id: user.id,
         }));
-        // console.log('User post likes fetched:', userLikes);
         setUserPostLike(userLikes);
       }
     } catch (error) {
@@ -155,6 +139,7 @@ const WhatIWrote = () => {
       console.error('게시글 삭제 중 에러', error);
     }
   };
+  const itemsPerPage = 12;
 
   const totalPages = Math.ceil(userPosts.length / itemsPerPage);
   const handlePageChange = (page: number | 'prev' | 'next') => {
@@ -166,57 +151,56 @@ const WhatIWrote = () => {
       setCurrentPage(page);
     }
   };
-  // const startIndex = (currentPage - 1) * itemsPerPage;
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
   return Array.isArray(userPosts) && userPosts.length > 0 ? (
-    <Container>
-      <ul>
-        {userPosts
-          .slice((page - 1) * itemsPerPage, page * itemsPerPage)
-          .map((post) => {
-            // const likesForPost = userPostLike.filter(
-            //   (like) => like.post_id === post.id,
-            // ).length;
+    <WriteContainer>
+      <PostContainer>
+        {userPosts.slice(startIndex, endIndex).map((post) => {
+          // const likesForPost = userPostLike.filter(
+          //   (like) => like.post_id === post.id,
+          // ).length;
 
-            return (
-              <li key={post.id}>
-                <Post.Box>
-                  <Post.Input
-                    type="checkbox"
-                    checked={selectedPosts.includes(post.id?.toString() ?? '')}
-                    onChange={() =>
-                      handleCheckboxChange(post.id?.toString() ?? '')
-                    }
-                  />
-                  <StyledPostCategory category={post.category}>
-                    {post.category}
-                  </StyledPostCategory>
-                  <Post.Content>
-                    <Post.Title
-                      onClick={() => handlePostClick(post.id?.toString() ?? '')}
-                    >
-                      {post.title}
-                      <Post.Date>
-                        {new Date(post.created_at).toLocaleString()}{' '}
-                      </Post.Date>
-                    </Post.Title>
+          return (
+            <div key={post.id}>
+              <Post.Box>
+                <Post.Input
+                  type="checkbox"
+                  checked={selectedPosts.includes(post.id?.toString() ?? '')}
+                  onChange={() =>
+                    handleCheckboxChange(post.id?.toString() ?? '')
+                  }
+                />
+                <StyledPostCategory category={post.category}>
+                  {post.category}
+                </StyledPostCategory>
+                <Post.Content>
+                  <Post.Title
+                    onClick={() => handlePostClick(post.id?.toString() ?? '')}
+                  >
+                    {post.title}
+                    <Post.Date>
+                      {new Date(post.created_at).toLocaleString()}{' '}
+                    </Post.Date>
+                  </Post.Title>
 
-                    {/* <div>받은 추천 수: {likesForPost}</div> */}
-                  </Post.Content>
-                </Post.Box>
-                <Divider />
-              </li>
-            );
-          })}
-      </ul>
-      <Post.ButtonBox>
-        <Post.Button onClick={handleDeleteSelectedPosts}>선택삭제</Post.Button>
-        <Post.ButtonAll onClick={handleSelectAll}>
+                  {/* <div>받은 추천 수: {likesForPost}</div> */}
+                </Post.Content>
+              </Post.Box>
+              <Divider />
+            </div>
+          );
+        })}
+      </PostContainer>
+      <PickButtonBox>
+        <PickButton onClick={handleDeleteSelectedPosts}>선택삭제</PickButton>
+        <PickButtonAll onClick={handleSelectAll}>
           {selectedPosts.length === userPosts.length
             ? '전체 선택 해제'
             : '전체 선택'}
-        </Post.ButtonAll>
-      </Post.ButtonBox>
-      <WriteP $mediawidth={width}>
+        </PickButtonAll>
+      </PickButtonBox>
+      <WriteP>
         <Pagination
           currentPage={currentPage}
           totalPages={totalPages}
@@ -225,7 +209,7 @@ const WhatIWrote = () => {
           isNextDisabled={currentPage >= totalPages}
         />
       </WriteP>
-    </Container>
+    </WriteContainer>
   ) : (
     <NoPostsContainer>
       <NoPostsMessage>작성한 글이 없어요!</NoPostsMessage>
@@ -237,12 +221,19 @@ const WhatIWrote = () => {
 };
 
 export default WhatIWrote;
-export const WriteP = styled.div<{ $mediawidth: number }>`
-  height: 10vh;
-  ${(props) => `width:${250 * (props.$mediawidth / 1920)}px;`}
-  margin-bottom: -330px;
-  justify-content: center;
-  margin-left: 400px;
+export const WriteContainer = styled.div`
+  position: absolute;
+  top: 23%;
+  left: 30%;
+`;
+export const PostContainer = styled.div`
+  position: absolute;
+`;
+
+export const WriteP = styled.div`
+  position: relative;
+  top: 550px;
+  left: 350px;
 `;
 const NoPostsContainer = styled.div`
   display: grid;
@@ -271,4 +262,33 @@ const NoPostsMessage = styled.div`
   justify-content: center;
   align-items: center;
   margin: 10px;
+`;
+const PickButton = styled.button`
+  padding: 8px;
+  margin: 2px;
+  border: 1px solid #c88fff;
+  border-radius: 12px;
+  background-color: white;
+  width: auto;
+  height: 30px;
+  text-align: center;
+  cursor: pointer;
+`;
+const PickButtonAll = styled.button`
+  padding: 8px;
+  border: 1px solid #c88fff;
+  border-radius: 12px;
+  background-color: #8200ff;
+  color: white;
+  width: auto;
+  height: 30px;
+  text-align: center;
+  float: right;
+  cursor: pointer;
+`;
+const PickButtonBox = styled.div`
+  position: relative;
+  display: flex;
+  top: 640px;
+  left: 780px;
 `;

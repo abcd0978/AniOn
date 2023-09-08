@@ -34,6 +34,7 @@ const Button = styled.button`
   background: #fff;
   width: 32px;
   height: 32px;
+  cursor: pointer;
 `;
 const Current = styled.div`
   color: #191919;

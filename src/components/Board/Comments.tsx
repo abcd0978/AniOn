@@ -82,9 +82,6 @@ const Comments = () => {
   const deleteMutation = useMutation(deleteComment, {
     onSuccess: () => {
       queryClient.invalidateQueries(['post_comments']);
-      toast.success('댓글을 삭제했습니다❗', {
-        autoClose: 800,
-      });
     },
   });
   const handleCommentDelete = async (commentId: string) => {

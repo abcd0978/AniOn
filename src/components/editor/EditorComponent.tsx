@@ -10,6 +10,7 @@ Quill.register('modules/imageActions', ImageActions);
 Quill.register('modules/imageFormats', ImageFormats);
 type Props = {
   value?: string;
+  onChangePic?: React.Dispatch<React.SetStateAction<string>>;
   onChange: React.Dispatch<React.SetStateAction<string>>;
 };
 
