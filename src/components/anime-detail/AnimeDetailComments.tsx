@@ -5,6 +5,7 @@ import Pagination from '../Pagenation';
 import { S } from '../anime-detail/animeDetailComments.style';
 import * as userStore from '../../store/userStore';
 import commentpointer from '../../assets/commentpointer.svg';
+import commentpointerUp from '../../assets/commentPointerUp.svg';
 import {
   fetchComments,
   addComment,
@@ -110,6 +111,9 @@ const AnimeDetailComments = () => {
       // 수정 할 내용 빈 input 일 경우
       if (!editedCommentText) {
         // 이전 댓글 내용으로 복원
+        setEditedCommentText(comment.comment);
+        setEditingCommentId(null);
+      } else if (editedCommentText === comment.comment) {
         setEditedCommentText(comment.comment);
         setEditingCommentId(null);
       } else {
@@ -317,11 +321,11 @@ const AnimeDetailComments = () => {
                   >
                     {collapsedComments.includes(comment.id) ? (
                       <>
-                        접기 <img src={commentpointer} alt="접기" />
+                        댓글 접기 <img src={commentpointerUp} alt="접기" />
                       </>
                     ) : (
                       <>
-                        더보기 <img src={commentpointer} alt="더보기" />
+                        댓글 더보기 <img src={commentpointer} alt="더보기" />
                       </>
                     )}
                   </S.CommentMore>

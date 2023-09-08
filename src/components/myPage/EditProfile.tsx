@@ -2,15 +2,12 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import supabase from '../../supabaseClient';
 import { v4 as uuidv4 } from 'uuid';
-import { Database } from '../../types/supabase';
-import { useAtomValue, useSetAtom } from 'jotai';
+import { useSetAtom } from 'jotai';
 import * as authApi from '../../api/auth';
 import * as userStore from '../../store/userStore';
 import { Profile } from './MyPage.styles';
-import { Review } from './Wrote.styles';
 import { useAtom } from 'jotai';
 import { toast } from 'react-toastify';
-import PasswordReset from './ResetPassword';
 //2-2-1.닉넴중복확인
 type ErrorType = {
   error: boolean;
@@ -191,7 +188,7 @@ const EditProfile = () => {
                     />
                   </div>
                 )}
-                <FileInput
+                <StyledFileInput
                   type="file"
                   onChange={(event) => {
                     if (event.target.files) {
@@ -237,11 +234,7 @@ const EditProfile = () => {
             <div>{user?.email}</div>
           </EtcItem>
           <Divider />
-          <EtcItem>
-            <Label>비밀번호</Label>
-          </EtcItem>
-          <PasswordReset />
-          <Divider />
+
           <EtcItem>
             <Label>닉네임</Label>
 
@@ -393,12 +386,6 @@ const Input = styled.input`
   border: none;
   background-color: #f9f3ff;
 `;
-const FileInput = styled.input`
-  padding: 8px;
-  border-radius: 4px;
-  border: none;
-  background-color: transparent;
-`;
 const CancelButton = styled.button`
   position: absolute;
   right: 80px;
@@ -496,4 +483,7 @@ const ButtonArray = styled.div`
   gap: 8px;
   align-items: center;
   justify-content: center;
+`;
+const StyledFileInput = styled.input.attrs({ type: 'file' })`
+  color: pink;
 `;

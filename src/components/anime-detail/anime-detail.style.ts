@@ -256,10 +256,20 @@ export const S = {
   `,
 
   DetailLabel: styled.p`
+    display: flex;
+    align-items: center;
     font-weight: 700;
     font-size: 24px;
     margin-top: 100px;
     color: #8200ff;
+    gap: 7px;
+
+    p {
+      font-size: 13px;
+      color: #ffa8dc;
+      font-weight: 600;
+    }
+
     @media screen and (max-width: 1295px) {
       line-height: 32px;
     }

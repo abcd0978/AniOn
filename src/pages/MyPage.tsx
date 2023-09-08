@@ -1,9 +1,7 @@
 import React from 'react';
 import MyProfile from '../components/myPage/MyProfile';
-import { useParams } from 'react-router-dom';
 import MyInfoMenu from '../components/myPage/MyInfoMenu';
 import { Profile } from '../components/myPage/MyPage.styles';
-import Footer from '../components/Footer';
 import { styled } from 'styled-components';
 
 type Props = {};
