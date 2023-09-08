@@ -5,7 +5,7 @@ export const S = {
   DetailContainer: styled.div`
     display: flex;
     // padding: 93px 240px 60px 240px;
-    padding: 93px 240px 129px 240px;
+    padding: 45px 240px 129px 240px;
     align-items: flex-start;
     gap: 146px;
     width: 100vw;

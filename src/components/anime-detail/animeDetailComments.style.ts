@@ -157,7 +157,6 @@ export const S = {
     margin: 10px 0px 0px 80px;
     resize: none;
     outline: none;
-    resize: none;
     line-height: 1.6;
     font-size: 16px;
   `,

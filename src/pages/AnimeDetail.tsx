@@ -12,13 +12,13 @@ import { useAtomValue } from 'jotai';
 import * as userStore from '../store/userStore';
 import { ReadAnimeLikeG } from '../types/likes';
 import play_arrow from '../assets/play_arrow.svg';
-import StarRating from '../components/anime-detail/StarRating';
 import detaillike from '../assets/detaillike.svg';
 import ScrollToTop from '../components/ScrollToTop';
 import { toast } from 'react-toastify';
 import Loading from '../components/Loading/Loading';
 import seemoreIcon from '../assets/stat_minus_1.svg';
 import seemoreIconUp from '../assets/stat_minus_2.svg';
+import StarRatings from '../components/anime-detail/StarRatings';
 
 function AnimeDetail() {
   const previewRef = useRef<HTMLDivElement>(null);
@@ -139,6 +139,8 @@ function AnimeDetail() {
     }
   };
 
+  // console.log('별점 받는 곳:', animeStar.average_score);
+
   return (
     <>
       <S.DetailContainer>
@@ -233,10 +235,7 @@ function AnimeDetail() {
                   {animeStar?.average_score && (
                     <>
                       <p>{animeStar?.average_score}</p>
-                      <StarRating
-                        rating={animeStar?.average_score}
-                        maxRating={5}
-                      />
+                      <StarRatings rating={animeStar.average_score} />
                     </>
                   )}
                 </S.StarNumBox>

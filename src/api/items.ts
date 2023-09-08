@@ -20,14 +20,15 @@ export type purchaseRes = {
   msg: string | null;
 };
 
-// 가격 비교 등 간단한 검사는 supabase(items.ts), 컴포넌트 양쪽에서
-// ------------------------------- 인벤토리 관련 ----------------------------
-// 장착
-export const equipItem = async (params: {
+export type equipParam = {
   user_id: string;
   item_id?: string;
   category: number;
-}): Promise<purchaseRes> => {
+};
+// 가격 비교 등 간단한 검사는 supabase(items.ts), 컴포넌트 양쪽에서
+// ------------------------------- 인벤토리 관련 ----------------------------
+// 장착
+export const equipItem = async (params: equipParam): Promise<purchaseRes> => {
   try {
     const equipped = await fetchEquippedItem({
       user_id: params.user_id,
@@ -58,13 +59,42 @@ export const equipItem = async (params: {
   }
 };
 
+// 장착 해제
+export const unEquipItem = async (
+  params: Omit<equipParam, 'category'>,
+): Promise<purchaseRes> => {
+  try {
+    const { error } = await supabase
+      .from('inventory')
+      .update({ is_equipped: false })
+      .eq('item_id', params.item_id)
+      .eq('user_id', params.user_id);
+    if (error) {
+      return {
+        success: false,
+        msg: `장착해제 오류가 발생했습니다. error : ${error} `,
+      };
+    }
+    return {
+      success: true,
+      msg: '장착 해제',
+    };
+  } catch (error) {
+    return {
+      success: false,
+      msg: `장착해제 오류가 발생했습니다. error : ${error} `,
+    };
+  }
+};
+
 // 전체
 export const fetchMyItems = async (user_id: string) => {
   try {
     const { data, error } = await supabase
       .from('inventory')
       .select('*,items(*)')
-      .eq('user_id', user_id);
+      .eq('user_id', user_id)
+      .order('name', { ascending: false });
     if (error) {
       console.log('items.ts fetchMyItems error > ', error);
       return [];
@@ -84,7 +114,8 @@ export const fetchMyAwards = async (user_id: string) => {
       .from('inventory')
       .select(`*,items!inner(name,img_url)`)
       .eq('user_id', user_id)
-      .eq('items.category', 1);
+      .eq('items.category', 1)
+      .order('id', { ascending: false });
 
     if (error) {
       console.log('items.ts fetchMyAwards error > ', error);
@@ -108,14 +139,13 @@ export const fetchMyBorders = async (user_id: string) => {
     const { data, error } = await supabase
       .from('inventory')
       .select('*, items!inner(*)')
+      .eq('user_id', user_id)
       .eq('items.category', 0)
-      .eq('user_id', user_id);
+      .order('id', { ascending: false });
     if (error) {
       console.log('items.ts fetchMyBorders error > ', error);
       return [];
     }
-    const item: ItemRow[] = data;
-    // console.log(item);
     return data;
   } catch (error) {
     console.log('items.ts fetchMyBorders error > ', error);
@@ -225,13 +255,12 @@ export const fetchAwards = async () => {
       .from('items')
       .select('*')
       .eq('category', 1)
-      .eq('is_on_sale', true);
+      .eq('is_on_sale', true)
+      .order('name', { ascending: false });
     if (error) {
       console.log('items.ts fetchAwards error > ', error);
       return;
     }
-    // console.log(data);
-    // const items:ItemRow[] = data[0];
     return data;
   } catch (error) {
     console.log('items.ts fetchTitles error > ', error);
@@ -284,6 +313,9 @@ export const fetchItem = async (itemId: string): Promise<ItemRow> => {
     return null;
   }
 };
+
+// ------------------------- 포인트 -----------------------
+
 //포인트 업데이트
 export const updatePoint = async (params: {
   userId: string;
@@ -297,6 +329,7 @@ export const updatePoint = async (params: {
     console.log(rpcError);
   }
 };
+
 export const makePoint = async (params: { userId: string }) => {
   const { error } = await supabase
     .from('point')
@@ -305,6 +338,7 @@ export const makePoint = async (params: { userId: string }) => {
     console.log(error);
   }
 };
+
 // 구매 ( 포인트 차감 )
 export const purchase = async (params: {
   user_id: string;
@@ -361,8 +395,6 @@ export const purchase = async (params: {
     return { success: false, msg: '서버 에러입니다.' };
   }
 };
-
-// 포인트
 
 // 내 포인트 가져오기
 export const fetchMyPoint = async (user_id: string) => {
