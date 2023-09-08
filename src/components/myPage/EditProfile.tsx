@@ -169,177 +169,215 @@ const EditProfile = () => {
   const renderContent = () => {
     let updatedUser = user;
     return (
-      <Container>
-        <Divider />
-        <Item>
-          <Label>사진</Label>
-          {user && editMode === 'photo' ? (
-            <ButtonArray>
-              {/* 프로필 이미지를 표시하는 부분 */}
-              {selectedFile ? (
-                <Profile.BasicImage
-                  src={URL.createObjectURL(selectedFile)}
-                  alt="Selected profile picture"
+      <EditPage>
+        <Container>
+          <EditTitle>프로필 수정</EditTitle>
+          <Divider />
+          <PhotoItem>
+            <Label>사진</Label>
+            {user && editMode === 'photo' ? (
+              <ButtonArray>
+                {/* 프로필 이미지를 표시하는 부분 */}
+                {selectedFile ? (
+                  <Profile.BasicImage
+                    src={URL.createObjectURL(selectedFile)}
+                    alt="Selected profile picture"
+                  />
+                ) : (
+                  <div key={user?.id}>
+                    <Profile.BasicImage
+                      src={user?.profile_img_url!}
+                      alt="Profile picture"
+                    />
+                  </div>
+                )}
+                <FileInput
+                  type="file"
+                  onChange={(event) => {
+                    if (event.target.files) {
+                      setSelectedFile(event.target.files[0]);
+                    }
+                  }}
                 />
-              ) : (
+                <CancelButton onClick={() => setEditMode('')}>
+                  취소
+                </CancelButton>
+                <DoneButton
+                  onClick={() => {
+                    handleUpload();
+                    setEditMode('');
+                  }}
+                >
+                  완료
+                </DoneButton>
+              </ButtonArray>
+            ) : (
+              <ButtonArray>
+                {/* 변경 버튼을 누르기 전에 현재 프로필 이미지를 표시하는 부분 */}
+
                 <div key={user?.id}>
                   <Profile.BasicImage
                     src={user?.profile_img_url!}
                     alt="Profile picture"
                   />
                 </div>
-              )}
-              <FileInput
-                type="file"
-                onChange={(event) => {
-                  if (event.target.files) {
-                    setSelectedFile(event.target.files[0]);
-                  }
-                }}
-              />
-              <CancelButton onClick={() => setEditMode('')}>취소</CancelButton>
-              <DoneButton
-                onClick={() => {
-                  handleUpload();
-                  setEditMode('');
-                }}
-              >
-                완료
-              </DoneButton>
-            </ButtonArray>
-          ) : (
-            <ButtonArray>
-              {/* 변경 버튼을 누르기 전에 현재 프로필 이미지를 표시하는 부분 */}
 
-              <div key={user?.id}>
-                <Profile.BasicImage
-                  src={user?.profile_img_url!}
-                  alt="Profile picture"
+                <ChangeButton onClick={() => setEditMode('photo')}>
+                  변경
+                </ChangeButton>
+              </ButtonArray>
+            )}
+          </PhotoItem>
+          <TextBelowPhoto>
+            등록된 사진은 회원님의 게시물이나 댓글들에 사용됩니다.
+          </TextBelowPhoto>
+          <Divider />
+          <EtcItem>
+            <Label>이메일</Label>
+            <div>{user?.email}</div>
+          </EtcItem>
+          <Divider />
+          <EtcItem>
+            <Label>비밀번호</Label>
+          </EtcItem>
+          <PasswordReset />
+          <Divider />
+          <EtcItem>
+            <Label>닉네임</Label>
+
+            {editMode === 'nickname' ? (
+              <form onSubmit={handleSubmitNickname}>
+                <TextBelowNickname>
+                  {nicknameValidationMessage && (
+                    <Warning>{nicknameValidationMessage}</Warning>
+                  )}
+                  • 중복 닉네임 불가합니다.
+                  <br /> • 2~8자 이내로 작성해주세요.
+                </TextBelowNickname>
+                <Input
+                  type="text"
+                  value={newNickname}
+                  onChange={handleNicknameChange}
+                  placeholder={updatedUser?.nickname}
                 />
-              </div>
-
-              <ChangeButton onClick={() => setEditMode('photo')}>
-                변경
-              </ChangeButton>
-            </ButtonArray>
-          )}
-        </Item>
-        <TextBelowPhoto>
-          등록된 사진은 회원님의 게시물이나 댓글들에 사용됩니다.
-        </TextBelowPhoto>
-        <Divider />
-        <Item>
-          <Label>이메일</Label>
-          <div>{user?.email}</div>
-        </Item>
-        <Divider />
-        <Label>비밀번호</Label>
-        <PasswordReset />
-        <Divider />
-        <Item>
-          <Label>닉네임</Label>
-
-          {editMode === 'nickname' ? (
-            <form onSubmit={handleSubmitNickname}>
-              <TextBelowNickname>
-                {nicknameValidationMessage && (
-                  <Warning>{nicknameValidationMessage}</Warning>
-                )}
-                • 중복 닉네임 불가합니다.
-                <br /> • 2~8자 이내로 작성해주세요.
-              </TextBelowNickname>
-              <Input
-                type="text"
-                value={newNickname}
-                onChange={handleNicknameChange}
-                placeholder={updatedUser?.nickname}
-              />
-              <NickNameCheck
-                onClick={async (e) => {
-                  e.preventDefault();
-                  const val = validateNickname(newNickname);
-                  if (val.error) {
-                    setNicknameError(val);
-                    return;
-                  }
-                  try {
-                    const isNicknameAvailable = await nicknameDupCheck(
-                      newNickname,
-                    );
-                    if (isNicknameAvailable) {
-                      toast.success('사용가능한 닉네임입니다.✔️', {
-                        autoClose: 800,
-                      });
-                      setNicknameDupChecked(true);
-                      setNicknameError(initialError);
-                    } else {
-                      toast.warn('이미 사용 중인 닉네임 입니다.', {
-                        autoClose: 800,
-                      });
-                      setNicknameError({
-                        error: true,
-                        errorMsg: '중복되는 닉네임입니다.',
-                      });
-                      setNicknameDupChecked(false); // 중복확인 실패 시 초기화
+                <NickNameCheck
+                  onClick={async (e) => {
+                    e.preventDefault();
+                    const val = validateNickname(newNickname);
+                    if (val.error) {
+                      setNicknameError(val);
+                      return;
                     }
-                  } catch (error) {
-                    console.error(error);
+                    try {
+                      const isNicknameAvailable = await nicknameDupCheck(
+                        newNickname,
+                      );
+                      if (isNicknameAvailable) {
+                        toast.success('사용가능한 닉네임입니다.✔️', {
+                          autoClose: 800,
+                        });
+                        setNicknameDupChecked(true);
+                        setNicknameError(initialError);
+                      } else {
+                        toast.warn('이미 사용 중인 닉네임 입니다.', {
+                          autoClose: 800,
+                        });
+                        setNicknameError({
+                          error: true,
+                          errorMsg: '중복되는 닉네임입니다.',
+                        });
+                        setNicknameDupChecked(false); // 중복확인 실패 시 초기화
+                      }
+                    } catch (error) {
+                      console.error(error);
+                    }
+                  }}
+                  disabled={
+                    newNickname === '' ||
+                    newNickname === user?.nickname ||
+                    !(newNickname.length >= 2 && newNickname.length <= 8)
                   }
-                }}
-                disabled={
-                  newNickname === '' ||
-                  newNickname === user?.nickname ||
-                  !(newNickname.length >= 2 && newNickname.length <= 8)
-                }
-              >
-                중복확인
-              </NickNameCheck>
-              <DoneButton
-                type="submit"
-                disabled={
-                  newNickname === '' ||
-                  newNickname === user?.nickname ||
-                  !(newNickname.length >= 2 && newNickname.length <= 8)
-                }
-              >
-                완료
-              </DoneButton>
-              <CancelButton onClick={() => setEditMode('')}>취소</CancelButton>
-            </form>
-          ) : (
-            <ButtonArray>
-              <div>{updatedUser?.nickname}</div>
-              <ChangeButton onClick={() => setEditMode('nickname')}>
-                변경
-              </ChangeButton>
-            </ButtonArray>
-          )}
-        </Item>
-        <Divider />
-      </Container>
+                >
+                  중복확인
+                </NickNameCheck>
+                <DoneButton
+                  type="submit"
+                  disabled={
+                    newNickname === '' ||
+                    newNickname === user?.nickname ||
+                    !(newNickname.length >= 2 && newNickname.length <= 8)
+                  }
+                >
+                  완료
+                </DoneButton>
+                <CancelButton onClick={() => setEditMode('')}>
+                  취소
+                </CancelButton>
+              </form>
+            ) : (
+              <ButtonArray>
+                <div>{updatedUser?.nickname}</div>
+                <ChangeButton onClick={() => setEditMode('nickname')}>
+                  변경
+                </ChangeButton>
+              </ButtonArray>
+            )}
+          </EtcItem>
+          <Divider />
+        </Container>
+      </EditPage>
     );
   };
 
-  return <>{renderContent()}</>;
+  return <EditContainer>{renderContent()}</EditContainer>;
 };
 
 export default EditProfile;
-
+export const EditTitle = styled.div`
+  position: absolute;
+  top: -50px;
+  left: 10px;
+  width: 200px;
+  height: 32px;
+  color: #000;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: -0.36px;
+`;
+export const EditPage = styled.div`
+  position: absolute;
+  top: -150px;
+  left: -100px;
+`;
+export const EditContainer = styled.div`
+  position: absolute;
+  left: 550px;
+  top: 250px;
+`;
 export const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  align-items: flex-start;
-  position: relative;
-  top: -300px;
-  margin-left: 160px;
-  margin-bottom: 130px;
+  position: absolute;
+  top: 100px;
+  left: 100px;
 `;
 
-const Item = styled.div`
+const PhotoItem = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
+  height: 148px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  gap: 8px;
+`;
+const EtcItem = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 64px;
+  padding-top: 12px;
+  padding-bottom: 12px;
   gap: 8px;
 `;
 
@@ -445,7 +483,7 @@ const TextBelowNickname = styled.div`
 export const Divider = styled.div`
   width: 900px;
   height: 1px;
-  background-color: #ccc;
+  background: var(--achromatic-colors-midgray-2, #dbdbdb);
   margin-top: 8px;
   margin-bottom: 8px;
 `;

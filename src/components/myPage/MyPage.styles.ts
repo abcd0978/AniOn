@@ -177,6 +177,18 @@ export const MyAward = {
     margin-top: 20px;
     margin-bottom: 20px;
   `,
+  NoAward: styled.div`
+    display: flex;
+    height: 32px;
+    width: 172px;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border-radius: 999px;
+    background: #f4f4f4;
+    font-size: 15px;
+    border: 1px solid #dbdbdb;
+  `,
 };
 export const MyProfilePoint = {
   RenderPoint: styled.div`

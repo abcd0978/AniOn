@@ -52,8 +52,8 @@ const ResetButton = styled.button`
   width: auto;
   height: 32px;
   border: 1px solid var(--main-mid-2, #c88fff);
-  position: relative;
-  bottom: 35px;
+  position: absolute;
+  bottom: 150px;
   left: 70px;
   color: #000;
   cursor: pointer;

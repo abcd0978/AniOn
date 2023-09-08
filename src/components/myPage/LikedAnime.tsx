@@ -14,7 +14,6 @@ import LikedSkeleton from './LikedSkeleton';
 import goShop from '../../assets/goShop.png';
 import { PaginationTwo } from '../PagenationTwo';
 
-const itemsPerPage = 9;
 const LikedAnime = () => {
   const [page, setPage] = useState<number>(1);
   const { width, height, isMobile, isLoaded } = useViewport();
@@ -67,6 +66,7 @@ const LikedAnime = () => {
 
         try {
           const animeDataList = await Promise.all(animePromises);
+          console.log('animeDataList', animeDataList);
 
           const newAnimeTitles: Record<string, AnimeG> = {};
           for (let i = 0; i < liked.length; i++) {
@@ -94,8 +94,12 @@ const LikedAnime = () => {
   if (isError) {
     return <div>좋아요 목록을 불러오지 못했어요</div>;
   }
+  const itemsPerPage = 9;
+
   const filteredLiked = liked?.filter((liked) => liked.length !== 0);
-  // console.log('filetedLiked', filteredLiked);
+  console.log('filetedLiked', filteredLiked);
+  console.log('liked', liked);
+
   const totalPages = Math.ceil(filteredLiked.length / itemsPerPage);
 
   const startIndex = (currentPage - 1) * itemsPerPage;
@@ -184,18 +188,18 @@ const LikedAnime = () => {
       </GoAnimeContainer>
     );
   return (
-    <div>
+    <LikedContainer>
       {user && topTags.length > 0 && (
         <TopTags>
           {user?.nickname}님은 <Tags>#{topTags.join('#')}</Tags>을 좋아해요!
         </TopTags>
       )}
-      <DecoTitle>찜한 목록</DecoTitle>
+      <LikedTitle>찜한 목록</LikedTitle>
 
       <FullPage>
-        <div>{likedList}</div>
-        {Array.isArray(filteredLiked) && filteredLiked.length > 0 && (
-          <Page $mediawidth={width}>
+        <LikedList>{likedList}</LikedList>
+        {Array.isArray(displayedAnime) && displayedAnime.length >= 0 && (
+          <Page>
             <PaginationTwo
               currentPage={currentPage}
               totalPages={totalPages}
@@ -206,40 +210,54 @@ const LikedAnime = () => {
           </Page>
         )}
       </FullPage>
-    </div>
+    </LikedContainer>
   );
 };
 export default LikedAnime;
-const Page = styled.div<{ $mediawidth: number }>`
-  margin-top: -94%;
-  margin-left: 76%;
+const LikedContainer = styled.div`
+  margin-top: 10px;
+`;
+
+const Page = styled.div`
+  position: absolute;
+  margin-right: -680px;
+  margin-top: -330px;
 `;
 const TopTags = styled.div`
   border-radius: 999px;
   position: absolute;
   background: var(--main-light-2, #f3e7ff);
   width: auto;
-  display: inline-flex;
+  display: flex;
   height: 32px;
   padding: 8px 20px;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   gap: 8px;
-  margin-top: -21%;
+  margin-top: -360px;
   margin-left: 130px;
 `;
 const FullPage = styled.div`
-  margin-top: -15%;
   position: absolute;
-  margin-left: 8%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-left: 150px;
 `;
 const Tags = styled.div`
   font-weight: 600;
 `;
-const DecoTitle = styled.div`
+const LikedList = styled.div`
+  margin-top: -280px;
   position: absolute;
+  left: 10px;
+`;
+const LikedTitle = styled.div`
+  position: relative;
   margin-left: 150px;
-  margin-top: -18%;
+  top: -300px;
   width: 200px;
   height: 32px;
   color: #000;
@@ -251,9 +269,8 @@ const DecoTitle = styled.div`
 `;
 const GridContainer = styled.div`
   display: grid;
-  gap: 10px 30px;
+  gap: 0px 20px;
   grid-template-columns: repeat(3, 1fr);
-  margin-top: 0%;
 `;
 const AnimeTitle = styled.div`
   width: 220px;
@@ -276,6 +293,7 @@ const HoverViewDetail = styled.div`
   visibility: hidden;
   display: flex;
   margin-top: -250px;
+  margin-left: -30px;
   align-items: center;
   position: absolute;
   padding: 6px 12px;
@@ -291,24 +309,20 @@ const HoverViewDetail = styled.div`
 const LikedAnimeGenre = styled.div`
   height: 16px;
   display: flex;
-  align-items: flex-start;
-  margin-left: -55%;
-  margin-bottom: 20%;
-  margin-top: -8%;
+  justify-content: flex-start;
+  margin-left: -110px;
+  margin-bottom: 24px;
+  margin-top: -12px;
   padding: 5px;
   gap: 4px;
 `;
 const GenreTag = styled.div`
-  color: #333;
   justify-content: center;
   align-items: center;
-  background-color: #eee;
-  padding: 7px;
-  border-radius: 3px;
-  width: 80px;
-  height: auto;
-  border-radius: 50px;
-  text-align: center;
+  padding: 4px 12px;
+  height: 16px;
+  background: #efefef;
+  border-radius: 999px;
 `;
 const HoveredAnimeGenre = styled.div`
   visibility: hidden;

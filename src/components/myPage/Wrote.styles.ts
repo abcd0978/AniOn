@@ -3,13 +3,12 @@ import styled, { CSSProp } from 'styled-components';
 //리뷰 관리 css
 export const Review = {
   Container: styled.div`
+    position: absolute;
+    top: 23%;
+    left: 30%;
     display: flex;
     flex-direction: column;
     gap: 16px;
-    // align-items: flex-start;
-    position: relative;
-    top: -290px;
-    margin-left: 150px;
   `,
   Top: styled.div`
     display: flex;
@@ -19,6 +18,7 @@ export const Review = {
   `,
   Outer: styled.div`
     list-style-type: none;
+
     width: 900px;
     height: 132px;
   `,
@@ -30,7 +30,6 @@ export const Review = {
   ButtonArray: styled.div`
     display: flex;
     justify-content: space-between;
-    margin-top: 5px;
   `,
   ButtonIcon: styled.img`
     width: 12px;
@@ -52,7 +51,7 @@ export const Review = {
   Button: styled.button`
     border-radius: 6px;
     border: 1px solid var(--main-mid-2, #c88fff);
-    background-color: white;
+    background: #fdfbff;
     width: 64px;
     height: 28px;
     text-align: center;

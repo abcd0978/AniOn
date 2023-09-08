@@ -25,7 +25,7 @@ const MyProfileAward = () => {
           style={{ width: '215px', height: '40px' }}
         />
       ) : (
-        '칭호 없음'
+        <MyAward.NoAward>칭호없음</MyAward.NoAward>
       )}
     </MyAward.MyProfileAward>
   );
