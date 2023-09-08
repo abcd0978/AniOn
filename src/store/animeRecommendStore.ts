@@ -12,3 +12,5 @@ export const isEndingAtom = atom<laftelParamsM['ending']>(null);
 export const offsetAtom = atom<laftelParamsM['offset']>(0);
 
 export const keywordAtom = atom<laftelParamsM['keyword']>('');
+
+export const isMobileFilterAtom = atom<boolean>(false);
