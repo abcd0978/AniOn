@@ -53,7 +53,7 @@ export const S = {
 
     @media (max-width: 768px) {
       width: 43px;
-      top: 33%;
+      top: 36%;
     }
   `,
 
@@ -109,6 +109,7 @@ export const S = {
     box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.1);
     transform: scale(1);
     transition: transform 0.3s ease-in-out;
+    border: 4px solid #fdfbff;
 
     &:hover {
       /* 호버 상태일 때 크게 확대 */
