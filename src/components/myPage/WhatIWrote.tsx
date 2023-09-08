@@ -155,6 +155,7 @@ const WhatIWrote = () => {
   const endIndex = startIndex + itemsPerPage;
   return Array.isArray(userPosts) && userPosts.length > 0 ? (
     <WriteContainer>
+      <WriteTitle>작성한 글</WriteTitle>
       <PostContainer>
         {userPosts.slice(startIndex, endIndex).map((post) => {
           // const likesForPost = userPostLike.filter(
@@ -193,12 +194,12 @@ const WhatIWrote = () => {
         })}
       </PostContainer>
       <PickButtonBox>
-        <PickButton onClick={handleDeleteSelectedPosts}>선택삭제</PickButton>
         <PickButtonAll onClick={handleSelectAll}>
           {selectedPosts.length === userPosts.length
             ? '전체 선택 해제'
             : '전체 선택'}
         </PickButtonAll>
+        <PickButton onClick={handleDeleteSelectedPosts}>선택삭제</PickButton>
       </PickButtonBox>
       <WriteP>
         <Pagination
@@ -222,12 +223,26 @@ const WhatIWrote = () => {
 
 export default WhatIWrote;
 export const WriteContainer = styled.div`
+  position: relative;
+  top: -73%;
+  left: 15%;
+`;
+const WriteTitle = styled.div`
   position: absolute;
-  top: 23%;
-  left: 30%;
+  top: -50px;
+  left: 0px;
+  width: 200px;
+  height: 32px;
+  color: #000;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: -0.36px;
+  display: block;
 `;
 export const PostContainer = styled.div`
-  position: absolute;
+  margin-bottom: 28px;
 `;
 
 export const WriteP = styled.div`
@@ -269,8 +284,8 @@ const PickButton = styled.button`
   border: 1px solid #c88fff;
   border-radius: 12px;
   background-color: white;
-  width: auto;
-  height: 30px;
+  width: 112px;
+  height: 32px;
   text-align: center;
   cursor: pointer;
 `;
@@ -280,15 +295,15 @@ const PickButtonAll = styled.button`
   border-radius: 12px;
   background-color: #8200ff;
   color: white;
-  width: auto;
-  height: 30px;
+  width: 112px;
+  height: 32px;
   text-align: center;
   float: right;
   cursor: pointer;
 `;
 const PickButtonBox = styled.div`
-  position: relative;
   display: flex;
-  top: 640px;
-  left: 780px;
+  justify-content: space-between;
+  width: calc(100% - 5px);
+  margin-top: 12px;
 `;
