@@ -3,8 +3,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useAtomValue } from 'jotai';
 import * as userStore from '../../store/userStore';
 import goShop from '../../assets/goShop.png';
-import { B } from './Deco.styles';
-// import useViewport from '../../hooks/useViewPort';
+import { B } from './Styled.MyPage/Deco.styles';
 import { useNavigate } from 'react-router-dom';
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
@@ -82,9 +81,9 @@ const MyBorder = () => {
 
   if (isLoading) {
     return (
-      <BorderLoading>
+      <B.BorderLoading>
         <Loading />
-      </BorderLoading>
+      </B.BorderLoading>
     );
   }
   if (isError) {
@@ -152,9 +151,9 @@ const MyBorder = () => {
     );
 
   return (
-    <BorderContainer>
+    <B.BorderContainer>
       <B.Container>{borderList}</B.Container>
-      <BorderPage>
+      <B.BorderPage>
         {Array.isArray(filteredBorders) &&
           filteredBorders.length >= itemsPerPage && (
             <PaginationTwo
@@ -165,28 +164,9 @@ const MyBorder = () => {
               isNextDisabled={currentPage >= totalPages}
             />
           )}
-      </BorderPage>
-    </BorderContainer>
+      </B.BorderPage>
+    </B.BorderContainer>
   );
 };
 
 export default MyBorder;
-export const BorderContainer = styled.div`
-  position: absolute;
-`;
-export const BorderPage = styled.div`
-  position: absolute;
-  justify-content: center;
-  top: -45px;
-  left: 810px;
-`;
-
-export const Outer = styled.div`
-  width: 1430px;
-  height: 999px;
-  margin-top: -100px;
-  margin-left: 20px;
-`;
-const BorderLoading = styled.div`
-  margin-left: 500px;
-`;

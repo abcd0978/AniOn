@@ -5,12 +5,12 @@ import { Database } from '../../types/supabase';
 import * as userStore from '../../store/userStore';
 import { useNavigate } from 'react-router-dom';
 import { deleteComment } from '../../api/aniComment';
-import { Review } from './Wrote.styles';
-import { Divider } from './EditProfile';
+import { R } from './Styled.MyPage/Wrote.styles';
+import { Divider } from './Styled.MyPage/MyPage.styles';
 import goReview from '../../assets/next (1).png';
 import Pagination from '../Pagenation';
 import { getAnimeById } from '../../api/laftel';
-import ReviewSkeleton from './MyReviewSkeleton';
+import ReviewSkeleton from './Skeleton.MyPage/MyReviewSkeleton';
 import { styled } from 'styled-components';
 import goShop from '../../assets/goShop.png';
 import { useConfirm } from '../../hooks/useConfirm';
@@ -120,40 +120,37 @@ const MyReviews = () => {
   const endIndex = startIndex + reviewsPerPage;
 
   return Array.isArray(userReview) && userReview.length > 0 ? (
-    <Review.Container>
-      <ReviewTitle>리뷰 관리</ReviewTitle>
+    <R.Container>
+      <R.Title>리뷰 관리</R.Title>
       <Divider />
-      <Review.Outer>
+      <R.Outer>
         {isLoadingTitles ? (
           <ReviewSkeleton count={reviewsPerPage} />
         ) : (
           userReview.slice(startIndex, endIndex).map((review) => (
             <li key={review.id}>
-              <Review.Top>
-                <Review.Title>{animeTitles[review.ani_id]}</Review.Title>
-                <Review.Date>
-                  {new Date(review.created_at).toLocaleString()}
-                </Review.Date>
-              </Review.Top>
+              <R.Top>
+                <R.Content>
+                  <R.ReviewTitle>{animeTitles[review.ani_id]}</R.ReviewTitle>
+                  <R.Comments>{review.comment}</R.Comments>
+                </R.Content>
+                <R.Date>{new Date(review.created_at).toLocaleString()}</R.Date>
+              </R.Top>
 
-              <Review.ReviewComments>{review.comment}</Review.ReviewComments>
-
-              <Review.ButtonArray>
-                <Review.GoButton
-                  onClick={() => handleReviewClick(review.ani_id)}
-                >
+              <R.ButtonArray>
+                <R.GoButton onClick={() => handleReviewClick(review.ani_id)}>
                   보러가기
-                  <Review.ButtonIcon src={goReview} />
-                </Review.GoButton>
-                <Review.Button onClick={() => handleRemoveReview(review.id)}>
+                  <R.ButtonIcon src={goReview} />
+                </R.GoButton>
+                <R.Button onClick={() => handleRemoveReview(review.id)}>
                   삭제
-                </Review.Button>
-              </Review.ButtonArray>
+                </R.Button>
+              </R.ButtonArray>
               <Divider />
             </li>
           ))
         )}
-        <ReviewPage>
+        <R.Page>
           <Pagination
             currentPage={currentPage}
             totalPages={totalPages}
@@ -161,68 +158,22 @@ const MyReviews = () => {
             isPreviousDisabled={currentPage === 1}
             isNextDisabled={currentPage >= totalPages}
           />
-        </ReviewPage>
-      </Review.Outer>
-    </Review.Container>
+        </R.Page>
+      </R.Outer>
+    </R.Container>
   ) : (
-    <NoReviewContainer>
-      <NoReviewMessage>작성한 리뷰가 없어요 !</NoReviewMessage>
-      <GoWriteReview
+    <R.NoContainer>
+      <R.NoMessage>작성한 리뷰가 없어요 !</R.NoMessage>
+      <R.GoWriteReview
         onClick={() => {
           navigate('/recommend');
         }}
       >
         리뷰 쓰러 가기
-      </GoWriteReview>
+      </R.GoWriteReview>
       <img src={goShop} alt="고샾" />
-    </NoReviewContainer>
+    </R.NoContainer>
   );
 };
 
 export default MyReviews;
-const ReviewTitle = styled.div`
-  position: absolute;
-  top: -50px;
-  left: 0px;
-  width: 200px;
-  height: 32px;
-  color: #000;
-  font-size: 24px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: normal;
-  letter-spacing: -0.36px;
-`;
-export const ReviewPage = styled.div`
-  position: absolute;
-  bottom: 100;
-  top: 600px;
-  left: 350px;
-`;
-const NoReviewMessage = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 10px;
-`;
-const GoWriteReview = styled.button`
-  background-color: #8200ff;
-  color: #fff;
-  width: 226.5px;
-  height: 48px;
-  border-radius: 30px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 10px;
-  cursor: pointer;
-  border-color: transparent;
-`;
-const NoReviewContainer = styled.div`
-  display: grid;
-  align-items: center;
-
-  justify-content: center;
-  margin-left: 250%;
-  margin-top: -20%;
-`;

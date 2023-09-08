@@ -1,7 +1,7 @@
 import React from 'react';
 import MyProfile from '../components/myPage/MyProfile';
 import MyInfoMenu from '../components/myPage/MyInfoMenu';
-import { Profile } from '../components/myPage/MyPage.styles';
+import { Profile } from '../components/myPage/Styled.MyPage/MyPage.styles';
 import { styled } from 'styled-components';
 
 type Props = {};

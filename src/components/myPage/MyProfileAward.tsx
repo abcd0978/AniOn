@@ -1,4 +1,4 @@
-import { MyAward } from './MyPage.styles';
+import { MyAward } from './Styled.MyPage/MyPage.styles';
 import * as userStore from '../../store/userStore';
 import { useAtomValue } from 'jotai';
 import { fetchEquippedItem } from '../../api/items';
