@@ -32,6 +32,7 @@ interface ButtonProps {
 }
 interface DotButtonProps extends ButtonProps {
   clicked: boolean;
+  width: number;
 }
 const buttonStyle: CSSProperties = {
   zIndex: '1',
@@ -151,8 +152,9 @@ export const Banner = (props: PropType) => {
             onClickfunc={() => {
               scrollTo(index);
             }}
+            width={width}
             clicked={selectedIndex === index}
-            buttonStyle={buttonStyle}
+            buttonStyle={{ ...buttonStyle }}
           />
         ))}
       </StDotContainer>
@@ -161,14 +163,14 @@ export const Banner = (props: PropType) => {
 };
 const PrevButton = (props: ButtonProps) => {
   return (
-    <button onClick={props.onClickfunc} style={props.buttonStyle}>
+    <button onClick={props.onClickfunc} style={{ ...props.buttonStyle }}>
       <img src={prev} alt="prev" />
     </button>
   );
 };
 const NextButton = (props: ButtonProps) => {
   return (
-    <button onClick={props.onClickfunc} style={props.buttonStyle}>
+    <button onClick={props.onClickfunc} style={{ ...props.buttonStyle }}>
       <img src={next} alt="next" />
     </button>
   );
@@ -182,24 +184,32 @@ const DotButton = (props: DotButtonProps) => {
         ...{ paddingLeft: '8px', paddingRight: '8px' },
       }}
     >
-      <img src={props.clicked ? dot : dotDeactivated} alt="dot" />
+      <img
+        style={{ height: `${15 * (props.width / 1920)}px` }}
+        src={props.clicked ? dot : dotDeactivated}
+        alt="dot"
+      />
     </button>
   );
 };
-const StButtonContainer = styled.div<{ $carouselheight: number }>`
+const StButtonContainer = styled.div<{
+  $carouselheight: number;
+}>`
   width: 100%;
   display: flex;
   position: relative;
   justify-content: space-between;
   align-items: center;
   bottom: ${(props) => props.$carouselheight / 2 + 30}px;
+  @media (max-width: 768px) {
+    visibility: hidden;
+  }
 `;
 const StDotContainer = styled.div<{ $carouselheight: number }>`
   width: 100%;
   display: flex;
   position: relative;
   justify-content: center;
-  // bottom: ${(props) => props.$carouselheight / 2}px;
-  bottom: 100px;
+  bottom: 80px;
 `;
 export default Banner;

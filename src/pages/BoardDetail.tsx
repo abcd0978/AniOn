@@ -400,6 +400,7 @@ const BoardDetail = () => {
                   </S.EditBox>
                 ) : (
                   <S.Content
+                    id="post-content"
                     dangerouslySetInnerHTML={{ __html: post.content }}
                   ></S.Content>
                 )}
