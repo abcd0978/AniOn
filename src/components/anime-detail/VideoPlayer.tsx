@@ -46,6 +46,6 @@ const ContentVideo = styled.video`
     width: 500px;
   }
   @media screen and (max-width: 570px) {
-    width: 400px;
+    width: 302px;
   }
 `;
