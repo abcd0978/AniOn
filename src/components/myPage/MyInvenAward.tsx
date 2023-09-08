@@ -137,20 +137,22 @@ const MyInvenAward = () => {
     );
 
   return (
-    <div>
+    <A.Container>
       <GridContainer>{awardsList}</GridContainer>
-      {Array.isArray(filteredAwards) && filteredAwards.length > 0 && (
+      <div>
         <Page>
-          <PaginationTwo
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onClick={handlePageChange}
-            isPreviousDisabled={currentPage === 1}
-            isNextDisabled={currentPage >= totalPages}
-          />
+          {Array.isArray(filteredAwards) && filteredAwards.length > 0 && (
+            <PaginationTwo
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onClick={handlePageChange}
+              isPreviousDisabled={currentPage === 1}
+              isNextDisabled={currentPage >= totalPages}
+            />
+          )}
         </Page>
-      )}
-    </div>
+      </div>
+    </A.Container>
   );
 };
 
@@ -163,8 +165,8 @@ const GridContainer = styled.div`
 `;
 
 export const Page = styled.div`
-  display: flex;
+  position: absolute;
   justify-content: center;
-  margin-top: -35%;
-  margin-left: 20%;
+  margin-top: -30%;
+  margin-left: 66%;
 `;

@@ -148,29 +148,33 @@ const MyBorder = () => {
     );
 
   return (
-    <div>
-      <>{borderList}</>
-      {Array.isArray(filteredBorders) && filteredBorders.length > 0 && (
-        <BorderPage>
-          <PaginationTwo
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onClick={handlePageChange}
-            isPreviousDisabled={currentPage === 1}
-            isNextDisabled={currentPage >= totalPages}
-          />
-        </BorderPage>
-      )}
-    </div>
+    <BorderContainer>
+      <B.Container>{borderList}</B.Container>
+      <BorderPage>
+        {Array.isArray(filteredBorders) &&
+          filteredBorders.length >= itemsPerPage && (
+            <PaginationTwo
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onClick={handlePageChange}
+              isPreviousDisabled={currentPage === 1}
+              isNextDisabled={currentPage >= totalPages}
+            />
+          )}
+      </BorderPage>
+    </BorderContainer>
   );
 };
 
 export default MyBorder;
+export const BorderContainer = styled.div`
+  position: absolute;
+`;
 export const BorderPage = styled.div`
-  display: flex;
+  position: absolute;
   justify-content: center;
-  margin-top: -60%;
-  margin-left: 70%;
+  top: -45px;
+  left: 810px;
 `;
 
 export const Outer = styled.div`
@@ -179,3 +183,17 @@ export const Outer = styled.div`
   margin-top: -100px;
   margin-left: 20px;
 `;
+{
+  /* <BorderPage>
+        {Array.isArray(filteredBorders) &&
+          filteredBorders.length >= itemsPerPage && (
+            <PaginationTwo
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onClick={handlePageChange}
+              isPreviousDisabled={currentPage === 1}
+              isNextDisabled={currentPage >= totalPages}
+            />
+          )}
+      </BorderPage> */
+}
