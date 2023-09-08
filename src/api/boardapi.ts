@@ -95,6 +95,7 @@ const updatePost = async (editPost: UpdatePost): Promise<void> => {
       title: editPost.title,
       content: editPost.content,
       category: editPost.category,
+      thumbnail: editPost.thumbnail,
     };
 
     await supabase.from('posts').update(updatedFields).eq('id', editPost.id);
