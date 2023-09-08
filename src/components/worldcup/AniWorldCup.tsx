@@ -39,6 +39,27 @@ function AniWorldCup() {
     }
   };
 
+  // 현재 라운드 진행도 계산 함수
+  const totalMatchesPerRound = () => {
+    if (currentRound === '16강') {
+      return 8;
+    } else if (currentRound === '8강') {
+      return 4;
+    } else if (currentRound === '4강') {
+      return 2;
+    } else {
+      return 1;
+    }
+  };
+
+  // 현재 라운드 진행도 계산 함수
+  const calculateProgress = () => {
+    const currentRoundTotalMatches = totalMatchesPerRound(); // 현재 라운드의 총 매치 수
+    const completedMatches = winners.length + 1; // 현재까지 완료된 매치 수
+
+    return `${completedMatches}/${currentRoundTotalMatches}`;
+  };
+
   // 현재 라운드 정보 계산
   useEffect(() => {
     const charactersLeft = characters.length + winners.length;
@@ -78,7 +99,7 @@ function AniWorldCup() {
       if (winners.length === 0) {
         await updateNumOfWin(character.id);
         setDisplays([character]);
-        // await updatePoint({ userId: user?.id!, point: 2 });
+
         if (!user) {
           toast.success('친구에게 테스트를 공유해보세요!', {
             autoClose: 1200,
@@ -110,7 +131,7 @@ function AniWorldCup() {
       <S.WorldCupContainer>
         <S.WorldCupMainTitle>
           {gender === 'man' ? '남자' : '여자'} 애니메이션 캐릭터 이상형 월드컵{' '}
-          {currentRound}
+          {currentRound} <p>{calculateProgress()}</p>
         </S.WorldCupMainTitle>
         <S.WorldCupRealTestContainer>
           {displays.map((character: ReadCharacters, index) => {

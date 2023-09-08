@@ -17,8 +17,8 @@ import { fetchAllAnimeLikes, toggleAnimeLike } from '../../api/likeApi';
 import { fetchAnimeList } from '../../api/laftel';
 
 // store
-import * as animeStore from '../../store/animeRecommendStore';
 import * as userStore from '../../store/userStore';
+import * as animeStore from '../../store/animeRecommendStore';
 
 // type
 import type { ReadAnimeLikeG } from '../../types/likes';
@@ -33,6 +33,7 @@ const AnimeList = () => {
   const years = useAtomValue(animeStore.selectedYearsAtom);
   const ending = useAtomValue(animeStore.isEndingAtom);
   const keyword = useAtomValue(animeStore.keywordAtom);
+  const isMobileFilterOpen = useAtomValue(animeStore.isMobileFilterAtom);
 
   const size = 18;
   const sort = 'rank';
@@ -107,15 +108,17 @@ const AnimeList = () => {
   // 스로틀링된 무한 스크롤 콜백 함수
   // 카테고리를 변경할 때 무한스크롤 실행되는 이슈 발견 > 아래 useEffect를 clean-up 함수로 변경.
   const throttledLoadMore = throttle(() => {
-    if (isNextPage && !isFetching) {
+    if (isNextPage && !isFetching && !isLoading) {
       // 이전 offset에 size를 더하여 다음 페이지 데이터를 가져오도록 설정
       setOffset((prevOffset) => prevOffset! + size);
     }
-  }, 2000); // 1초에 한 번만 호출되도록 설정
+  }, 2000);
 
   const ref = useIntersect(async (entry, observer) => {
     observer.unobserve(entry.target);
-    throttledLoadMore();
+    if (!isFetching || !isLoading) {
+      throttledLoadMore(); // 요소를 관찰 대상으로 추가
+    }
   });
 
   // 장르, 카테고리, 분기 선택 시 변경.
@@ -140,16 +143,13 @@ const AnimeList = () => {
   }
 
   return (
-    <div
-      style={{ display: 'flex', flexDirection: 'column', marginBottom: '20px' }}
-    >
+    <S.AnimeListSection $isMobileFilterOpen={isMobileFilterOpen}>
       <S.PageNameDiv>
         <S.PageNameFisrt>애니 </S.PageNameFisrt>
         <S.PageNameSecond>추천</S.PageNameSecond>
       </S.PageNameDiv>
       <AnimeFilter count={count} setAnimeList={setAnimeList} />
       <S.AnimeContainer>
-        {/* 스켈레톤으로 변경하기! > mvp 종료 후에 */}
         {isLoading && !animeList.length ? (
           <>
             {Array(18)
@@ -178,7 +178,7 @@ const AnimeList = () => {
       </S.AnimeContainer>
       <ScrollToTop />
       {isNextPage && !isLoading && <S.Target ref={ref} />}
-    </div>
+    </S.AnimeListSection>
   );
 };
 
