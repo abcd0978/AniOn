@@ -66,6 +66,7 @@ const LikedAnime = () => {
 
         try {
           const animeDataList = await Promise.all(animePromises);
+          console.log('animeDataList', animeDataList);
 
           const newAnimeTitles: Record<string, AnimeG> = {};
           for (let i = 0; i < liked.length; i++) {
@@ -96,7 +97,9 @@ const LikedAnime = () => {
   const itemsPerPage = 9;
 
   const filteredLiked = liked?.filter((liked) => liked.length !== 0);
-  // console.log('filetedLiked', filteredLiked);
+  console.log('filetedLiked', filteredLiked);
+  console.log('liked', liked);
+
   const totalPages = Math.ceil(filteredLiked.length / itemsPerPage);
 
   const startIndex = (currentPage - 1) * itemsPerPage;
