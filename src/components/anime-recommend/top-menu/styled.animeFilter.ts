@@ -12,13 +12,27 @@ export const S = {
     display: flex;
     justify-content: space-between;
 
-    @media (max-width: 870px) {
+    @media (max-width: 800px) {
       flex-direction: column;
     }
   `,
 
-  CountDiv: styled.div`
+  FilterBottomContainer: styled.div`
+    display: flex;
+    justify-content: space-between;
     margin: 40px 0px 20px 0px;
-    font-weight: 600;
   `,
+  CountText: styled.p`
+    font-weight: 600;
+    font-size: 18px;
+    @media (max-width: 800px) {
+      font-size: 14px;
+      font-weight: 400;
+    }
+  `,
+  MobileFilterButton: styled.div`
+    display: flex;
+    font-size: 14px;
+  `,
+  MobileFilterImg: styled.img``,
 };

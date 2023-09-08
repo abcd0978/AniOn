@@ -2,17 +2,14 @@ import React from 'react';
 import { useAtom, useAtomValue } from 'jotai';
 import { S } from './styled.animeCategory';
 
-import {
-  selectedCategoryAtom,
-  selectedGenresAtom,
-  selectedYearsAtom,
-} from '../../../store/animeRecommendStore';
+import * as animeStore from '../../../store/animeRecommendStore';
+
 import { Genres, Years } from '../../../types/anime';
 
 const AnimeCategory = () => {
-  const [genres, setGenres] = useAtom(selectedGenresAtom);
-  const category = useAtomValue(selectedCategoryAtom);
-  const [years, setYears] = useAtom(selectedYearsAtom);
+  const [genres, setGenres] = useAtom(animeStore.selectedGenresAtom);
+  const category = useAtomValue(animeStore.selectedCategoryAtom);
+  const [years, setYears] = useAtom(animeStore.selectedYearsAtom);
 
   const handleClick = (item: Genres | Years) => {
     if (category === '분기별') {
@@ -52,7 +49,7 @@ const AnimeCategory = () => {
     return (
       <S.CategorySection>
         {Object.values(enumToShow).map((item) => (
-          <S.CategoryDiv
+          <S.CategoryContainer
             key={item}
             onClick={() => handleClick(item)}
             // category가 분기이고 years === item이면 true.
@@ -64,7 +61,7 @@ const AnimeCategory = () => {
             }
           >
             # {item}
-          </S.CategoryDiv>
+          </S.CategoryContainer>
         ))}
       </S.CategorySection>
     );
