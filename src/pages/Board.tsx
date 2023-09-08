@@ -107,62 +107,62 @@ const Board = () => {
       <S.Title>게시판</S.Title>
 
       <S.Search>
-        <S.Button
-          onClick={() => handleAllClick()}
-          style={{
-            backgroundColor: selectedCategory === '' ? '#FF96DB' : '#FFEBF7',
-            color: selectedCategory === '' ? '#ffffff' : 'black',
-          }}
-        >
-          전체
-        </S.Button>
-        <S.Button
-          onClick={() => handleCategoryClick('애니')}
-          style={{
-            backgroundColor:
-              selectedCategory === '애니' ? '#FF96DB' : '#FFEBF7',
-            color: selectedCategory === '애니' ? '#ffffff' : 'black',
-          }}
-        >
-          애니
-        </S.Button>
-        <S.Button
-          onClick={() => handleCategoryClick('자유')}
-          style={{
-            backgroundColor:
-              selectedCategory === '자유' ? '#FF96DB' : '#FFEBF7',
-            color: selectedCategory === '자유' ? '#ffffff' : 'black',
-          }}
-        >
-          자유
-        </S.Button>
-
-        <S.Button
-          onClick={() => handleCategoryClick('오류 신고')}
-          style={{
-            backgroundColor:
-              selectedCategory === '오류 신고' ? '#FF96DB' : '#FFEBF7',
-            color: selectedCategory === '오류 신고' ? '#ffffff' : 'black',
-          }}
-        >
-          오류 신고
-        </S.Button>
         <S.Write>
+          <S.Button
+            onClick={() => handleAllClick()}
+            style={{
+              backgroundColor: selectedCategory === '' ? '#FF96DB' : '#FFEBF7',
+              color: selectedCategory === '' ? '#ffffff' : 'black',
+            }}
+          >
+            전체
+          </S.Button>
+          <S.Button
+            onClick={() => handleCategoryClick('애니')}
+            style={{
+              backgroundColor:
+                selectedCategory === '애니' ? '#FF96DB' : '#FFEBF7',
+              color: selectedCategory === '애니' ? '#ffffff' : 'black',
+            }}
+          >
+            애니
+          </S.Button>
+          <S.Button
+            onClick={() => handleCategoryClick('자유')}
+            style={{
+              backgroundColor:
+                selectedCategory === '자유' ? '#FF96DB' : '#FFEBF7',
+              color: selectedCategory === '자유' ? '#ffffff' : 'black',
+            }}
+          >
+            자유
+          </S.Button>
+
+          <S.Button
+            onClick={() => handleCategoryClick('오류 신고')}
+            style={{
+              backgroundColor:
+                selectedCategory === '오류 신고' ? '#FF96DB' : '#FFEBF7',
+              color: selectedCategory === '오류 신고' ? '#ffffff' : 'black',
+            }}
+          >
+            오류 신고
+          </S.Button>
+        </S.Write>
+        <S.SearchInputContainer>
           <form onSubmit={handleSearchSubmit}>
-            <S.SearchInputContainer>
-              <S.SearchInput
-                type="text"
-                placeholder="검색어를 입력해주세요!"
-                value={searchKeyword}
-                onChange={(e) => setSearchKeyword(e.target.value)}
-              />
-              <S.SearchIcon src={search} alt="Search Icon" />
-            </S.SearchInputContainer>
+            <S.SearchInput
+              type="text"
+              placeholder="검색어를 입력해주세요!"
+              value={searchKeyword}
+              onChange={(e) => setSearchKeyword(e.target.value)}
+            />
+            <S.SearchIcon src={search} alt="Search Icon" />
           </form>
           <S.WriteButton onClick={handleWriteClick}>
             <img src={pencil} alt="작성" /> 작성하기
           </S.WriteButton>
-        </S.Write>
+        </S.SearchInputContainer>
       </S.Search>
 
       <ul>
@@ -179,11 +179,13 @@ const Board = () => {
                 <S.PostTop>
                   <S.PostTopLeft>
                     #{postsAndTotalPages?.count! - (page - 1) * 12 - index}
-                    <S.Category>{post.category}게시판</S.Category>
+                    <S.Category>{post.category} 게시판</S.Category>
                   </S.PostTopLeft>
                   <S.PostTopRight>
-                    <S.Ddabong src={ddabong} alt="추천수" /> 추천수
-                    {post.likes?.length}
+                    <S.Ddabong src={ddabong} alt="추천수" />
+                    <div style={{ marginTop: '3px', marginRight: '5px' }}>
+                      추천수{post.likes?.length}
+                    </div>
                   </S.PostTopRight>
                 </S.PostTop>
                 <S.PostMiddle>
@@ -222,8 +224,16 @@ const Board = () => {
                 </S.PostMiddle>
               </div>
               <S.PostBottom>
-                <div>{post.title}</div>
-                {/* <div>{post.content} </div> */}
+                <S.PostBottomLeft>
+                  <S.PostTitle>{post.title}</S.PostTitle>
+                  <S.PostContent
+                    id="post-content"
+                    dangerouslySetInnerHTML={{ __html: post.content }}
+                  ></S.PostContent>
+                </S.PostBottomLeft>
+                <S.PostBottomRight>
+                  <S.Thumbnail src={post?.thumbnail} />
+                </S.PostBottomRight>
               </S.PostBottom>
             </S.Post>
           ))

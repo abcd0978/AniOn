@@ -1,20 +1,18 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  width: 1440px;
-  height: 2098px;
+  // width: 1440px;
+  // height: 2098px;
 `;
 
 export const Post = styled.div`
-  width: 680px;
+  width: 47%;
   min-height: 235px;
   max-height: 357px;
   border: 2px solid #c88fff;
   border-radius: 12px;
-  padding: 0px, 0px, 20px, 0px;
-  gap: 12px;
   display: inline-block;
-  margin-bottom: 40px;
+  // margin-bottom: 20px;
   margin-right: 20px;
   margin-top: 30px;
 `;
@@ -33,27 +31,28 @@ export const PostTop = styled.div`
 export const PostTopLeft = styled.div`
   display: flex;
   margin-left: 15px;
+  color: #4f4f4f;
 `;
 export const PostTopRight = styled.div`
   display: flex;
-  color: #4f4f4f;
   margin-right: 15px;
   font-size: 15px;
 `;
 export const Ddabong = styled.img`
   margin-right: 2px;
   width: 14px;
-  margin-bottom: 3px;
   color: #4f4f4f;
+  margin-right: 7px;
 `;
 export const PostMiddle = styled.div`
-  width: 670px;
+  width: 95%;
   height: 49px;
   gap: 12px;
   border-bottom: 1px solid #d9d9d9;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-left: 19px;
 `;
 export const PostMiddleLeft = styled.div`
   display: flex;
@@ -71,9 +70,48 @@ export const Ninkname = styled.div`
   margin-right: 10px;
 `;
 export const PostBottom = styled.div`
-  width: 670px;
-  height: 220px;
+  width: 100%;
+  // height: 220px;
   gap: 12px;
+  margin-left: 20px;
+  margin-top: 10px;
+  display: flex;
+  flex-direction: row;
+`;
+export const PostBottomLeft = styled.div`
+  width: 45%;
+  gap: 8px;
+  display: flex;
+  flex-direction: column;
+`;
+export const PostBottomRight = styled.div`
+  width: 43%;
+  // height: 220px;
+  border-radius: 20px;
+`;
+
+export const PostTitle = styled.div`
+  font-size: 20px;
+  font-weight: 700;
+  width: 100%;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`;
+export const PostContent = styled.div`
+  font-size: 18px;
+  width: 640px;
+  height: 98px;
+  margin-top: 10px;
+  color: #4f4f4f;
+  white-space: pre-wrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`;
+export const Thumbnail = styled.img`
+  width: 100%;
+  border-radius: 20px;
 `;
 
 export const Category = styled.div`
@@ -119,12 +157,14 @@ export const WriteButton = styled.button`
 
 export const Search = styled.div`
   display: flex;
+  justify-content: space-between;
 `;
 export const Write = styled.div`
   display: flex;
 `;
 export const SearchInputContainer = styled.div`
-  position: relative;
+  display: flex;
+  margin-right: 53px;
 `;
 
 export const SearchInput = styled.input`
