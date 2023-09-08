@@ -66,6 +66,13 @@ const WriteBoard = () => {
         .replace(/&nbsp;/gi, '');
       return result;
     };
+    const getImg = (bodyStr: string) => {
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(bodyStr, 'text/html');
+      const img = doc.querySelector<HTMLImageElement>('img[src]');
+      const src = img?.src;
+      return src ? src : null;
+    };
     if (user) {
       // 유효성 검사
       if (!category) {
@@ -112,6 +119,7 @@ const WriteBoard = () => {
         title,
         content,
         created_at: formattedDateTime,
+        thumbnail: getImg(content),
       };
 
       // DB 추가
