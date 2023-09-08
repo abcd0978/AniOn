@@ -1,6 +1,16 @@
 import styled from 'styled-components';
 
+type Props = {
+  $isMobileFilterOpen: boolean;
+};
+
 export const S = {
+  AnimeListSection: styled.section<Props>`
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+  `,
+
   PageNameDiv: styled.div`
     /* width: 100%; */
     margin-top: 30px;

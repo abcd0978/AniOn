@@ -14,6 +14,7 @@ import * as userStore from '../../store/userStore';
 import { useAtomValue } from 'jotai';
 import { toast } from 'react-toastify';
 import commentpointer from '../../assets/commentpointer.svg';
+import commentpointerUp from '../../assets/commentPointerUp.svg';
 import {
   CommentType,
   InsertPostComment,
@@ -110,6 +111,9 @@ const Comments = () => {
       // 수정 할 내용 빈 input 일 경우
       if (!editedCommentText) {
         // 이전 댓글 내용으로 복원
+        setEditedCommentText(comment.comment);
+        setEditingCommentId(null);
+      } else if (editedCommentText === comment.comment) {
         setEditedCommentText(comment.comment);
         setEditingCommentId(null);
       } else {
@@ -286,7 +290,7 @@ const Comments = () => {
                         <S.CommentMore
                           onClick={() => toggleCommentCollapse(comment.id)}
                         >
-                          접기 <img src={commentpointer} />
+                          접기 <img src={commentpointerUp} />
                         </S.CommentMore>
                       )}
                     </>

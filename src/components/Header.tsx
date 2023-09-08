@@ -172,6 +172,16 @@ function Header({}: Props) {
               >
                 상점
               </StHeaderMenu>
+              <StHeaderMenu
+                onClick={() => {
+                  navigate('/worldcup');
+                  setActiveMenu('/worldcup');
+                }}
+                $isactive={activeMenu.includes('/worldcup') ? true : false}
+                color="#8200FF"
+              >
+                이상형 월드컵
+              </StHeaderMenu>
             </StHeaderMenuSection>
           </div>
 
@@ -309,7 +319,7 @@ const StHeaderMenuSection = styled.div`
   }
 `;
 const StHeaderMenu = styled.div<{ $isactive: boolean; color?: string }>`
-  width: 72px;
+  width: 99px;
   text-align: center;
   font-weight: 700;
   cursor: pointer;

@@ -32,7 +32,7 @@ export const Profile = {
     background: #fdfbff;
     box-shadow: 0px 0px 25px 0px rgba(0, 0, 0, 0.1);
     width: 300px;
-    height: 800px;
+    height: 850px;
     padding: 20px;
     margin-top: 20px;
     margin-bottom: 200px;
