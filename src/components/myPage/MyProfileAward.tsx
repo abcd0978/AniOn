@@ -3,7 +3,6 @@ import * as userStore from '../../store/userStore';
 import { useAtomValue } from 'jotai';
 import { fetchEquippedItem } from '../../api/items';
 import { useQuery } from '@tanstack/react-query';
-import { styled } from 'styled-components';
 const MyProfileAward = () => {
   const user = useAtomValue(userStore.user);
 
