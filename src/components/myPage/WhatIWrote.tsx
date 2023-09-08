@@ -5,8 +5,8 @@ import * as userStore from '../../store/userStore';
 import { useNavigate } from 'react-router-dom';
 import supabase from '../../supabaseClient';
 import { deletePost } from '../../api/boardapi';
-import { Post, Review } from './Wrote.styles';
-import { Button, Container, Divider } from './EditProfile';
+import { Post } from './Wrote.styles';
+import { Divider } from './EditProfile';
 import Pagination from '../Pagenation';
 import { useQuery } from '@tanstack/react-query';
 import { getPosts } from '../../api/boardapi';
@@ -14,7 +14,10 @@ import { StyledPostCategory } from './Wrote.styles';
 import useViewport from '../../hooks/useViewPort';
 import { styled } from 'styled-components';
 import { useConfirm } from '../../hooks/useConfirm';
-// import { getLikesForPost } from '../../api/boardapi';
+import CheckBox from '../../assets/check_box.png';
+import Delete from '../../assets/delete.png';
+import { toast } from 'react-toastify';
+import MyPostsSkeleton from './MyPostsSkeleton';
 type ReadMyBoard = Database['public']['Tables']['posts']['Row'];
 type ReadMyBoardLikes = Database['public']['Tables']['likes']['Row'];
 const userPostsAtom = atom<ReadMyBoard[]>([]);
@@ -30,10 +33,9 @@ const WhatIWrote = () => {
   const [searchKeyword, setSearchKeyword] = useState<string>('');
   const [selectedPosts, setSelectedPosts] = useState<string[]>([]);
   const [page, setPage] = useState<number>(1);
-  const { width } = useViewport();
   const [currentPage, setCurrentPage] = useState(1);
 
-  const { data: postsAndTotalPages } = useQuery(
+  const { data: postsAndTotalPages, isLoading } = useQuery(
     ['posts', selectedCategory, searchKeyword, page],
     () => getPosts(selectedCategory || '', page),
     {
@@ -119,6 +121,10 @@ const WhatIWrote = () => {
   };
   const handleDeleteSelectedPosts = async () => {
     try {
+      if (selectedPosts.length === 0) {
+        toast.info('선택된 게시글이 없습니다.');
+        return;
+      }
       const deleteConfirmData = {
         title: '게시글 삭제',
         content: '정말 삭제하실건가요??',
@@ -153,7 +159,9 @@ const WhatIWrote = () => {
   };
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  return Array.isArray(userPosts) && userPosts.length > 0 ? (
+  return isLoading ? (
+    <MyPostsSkeleton />
+  ) : Array.isArray(userPosts) && userPosts.length > 0 ? (
     <WriteContainer>
       <WriteTitle>작성한 글</WriteTitle>
       <PostContainer>
@@ -195,11 +203,15 @@ const WhatIWrote = () => {
       </PostContainer>
       <PickButtonBox>
         <PickButtonAll onClick={handleSelectAll}>
+          <img src={CheckBox} alt="체크박스" />
           {selectedPosts.length === userPosts.length
             ? '전체 선택 해제'
             : '전체 선택'}
         </PickButtonAll>
-        <PickButton onClick={handleDeleteSelectedPosts}>선택삭제</PickButton>
+        <PickButton onClick={handleDeleteSelectedPosts}>
+          <img src={Delete} alt="삭제" />
+          선택삭제
+        </PickButton>
       </PickButtonBox>
       <WriteP>
         <Pagination
@@ -280,26 +292,46 @@ const NoPostsMessage = styled.div`
 `;
 const PickButton = styled.button`
   padding: 8px;
+  display: flex;
+  align-items: center;
   margin: 2px;
   border: 1px solid #c88fff;
-  border-radius: 12px;
-  background-color: white;
+  border-radius: 6px;
+  background-color: #8200ff;
   width: 112px;
   height: 32px;
   text-align: center;
+  justify-content: center;
   cursor: pointer;
+  color: var(--achromatic-colors-white, #fff);
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: -0.225px;
 `;
 const PickButtonAll = styled.button`
   padding: 8px;
-  border: 1px solid #c88fff;
-  border-radius: 12px;
-  background-color: #8200ff;
+  display: flex;
+  border-radius: 6px;
+  border: 1px solid var(--main-mid-2, #c88fff);
+  background: var(--main-light, #fdfbff);
+  border-radius: 6px;
+  align-items: center;
+
   color: white;
-  width: 112px;
+  width: auto;
   height: 32px;
   text-align: center;
   float: right;
   cursor: pointer;
+  color: var(--achromatic-colors-darkgray, #4f4f4f);
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: -0.225px;
+  justify-content: center;
 `;
 const PickButtonBox = styled.div`
   display: flex;
