@@ -1,5 +1,8 @@
 import styled from 'styled-components';
 
+interface PostContentProps {
+  hasImage: boolean;
+}
 export const Container = styled.div`
   // width: 1440px;
   // height: 2098px;
@@ -15,6 +18,8 @@ export const Post = styled.div`
   // margin-bottom: 20px;
   margin-right: 20px;
   margin-top: 30px;
+  cursor: pointer;
+  background-color: #fdfbff;
 `;
 
 export const PostTop = styled.div`
@@ -84,33 +89,35 @@ export const PostBottomLeft = styled.div`
   display: flex;
   flex-direction: column;
 `;
-export const PostBottomRight = styled.div`
-  width: 43%;
-  // height: 220px;
-  border-radius: 20px;
-`;
-
 export const PostTitle = styled.div`
   font-size: 20px;
   font-weight: 700;
   width: 100%;
-  white-space: pre-wrap;
-  word-wrap: break-word;
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: nowrap;
 `;
-export const PostContent = styled.div`
+export const PostContent = styled.div<PostContentProps>`
   font-size: 18px;
-  width: 640px;
+  width: ${(props) => (props.hasImage ? 'auto' : '640px')};
   height: 98px;
   margin-top: 10px;
   color: #4f4f4f;
-  white-space: pre-wrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  word-wrap: break-word;
 `;
+export const PostBottomRight = styled.div`
+  width: 45%;
+  // height: 220px;
+  border-radius: 20px;
+  margin-left: 20px;
+  margin-bottom: 10px;
+`;
+
 export const Thumbnail = styled.img`
   width: 100%;
+  height: 220px;
   border-radius: 20px;
 `;
 
@@ -160,11 +167,12 @@ export const Search = styled.div`
   justify-content: space-between;
 `;
 export const Write = styled.div`
-  display: flex;
+  // display: flex;
 `;
 export const SearchInputContainer = styled.div`
+  position: relative;
   display: flex;
-  margin-right: 53px;
+  margin-right: 60px;
 `;
 
 export const SearchInput = styled.input`
@@ -178,8 +186,8 @@ export const SearchInput = styled.input`
 
 export const SearchIcon = styled.img`
   position: absolute;
-  top: 50%;
-  right: 10px;
+  top: 40%;
+  right: 145px;
   transform: translateY(-50%);
   width: 20px;
   height: 20px;

@@ -96,18 +96,34 @@ const Board = () => {
 
   const handleSearchSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const processBody = (bodyStr: string) => {
+      let result = '';
+      result = bodyStr
+        .replace(/\n/g, '')
+        .replace(/<[^>]*>?/g, '')
+        .replace(/&nbsp;/gi, '');
+      return result;
+    };
     const ppp = await searchPost(searchKeyword);
     // console.log('보드 검색', ppp);
     setSelectedCategory('');
     queryClient.invalidateQueries(['posts', null, searchKeyword]);
   };
 
+  // 글 이미지 미리보기에서 사진 없애기
+  const removeImageTags = (html: string) => {
+    // 이미지 태그를 제거하는 정규식 패턴
+    const pattern = /<img[^>]*>/g;
+    // HTML 문자열에서 이미지 태그를 제거
+    const cleanHtml = html.replace(pattern, '');
+    return cleanHtml;
+  };
+
   return (
     <S.Container>
       <S.Title>게시판</S.Title>
-
       <S.Search>
-        <S.Write>
+        <div>
           <S.Button
             onClick={() => handleAllClick()}
             style={{
@@ -148,7 +164,7 @@ const Board = () => {
           >
             오류 신고
           </S.Button>
-        </S.Write>
+        </div>
         <S.SearchInputContainer>
           <form onSubmit={handleSearchSubmit}>
             <S.SearchInput
@@ -159,6 +175,7 @@ const Board = () => {
             />
             <S.SearchIcon src={search} alt="Search Icon" />
           </form>
+
           <S.WriteButton onClick={handleWriteClick}>
             <img src={pencil} alt="작성" /> 작성하기
           </S.WriteButton>
@@ -171,11 +188,10 @@ const Board = () => {
         ) : filteredAndSortedPosts ? (
           filteredAndSortedPosts.map((post: PostType, index: number) => (
             //포스트
-            <S.Post>
-              <div
-                key={post.id}
-                onClick={() => post.id && handlePostClick(post.id.toString())}
-              >
+            <S.Post
+              onClick={() => post.id && handlePostClick(post.id.toString())}
+            >
+              <div key={post.id}>
                 <S.PostTop>
                   <S.PostTopLeft>
                     #{postsAndTotalPages?.count! - (page - 1) * 12 - index}
@@ -184,7 +200,7 @@ const Board = () => {
                   <S.PostTopRight>
                     <S.Ddabong src={ddabong} alt="추천수" />
                     <div style={{ marginTop: '3px', marginRight: '5px' }}>
-                      추천수{post.likes?.length}
+                      추천수 {post.likes?.length}
                     </div>
                   </S.PostTopRight>
                 </S.PostTop>
@@ -228,12 +244,19 @@ const Board = () => {
                   <S.PostTitle>{post.title}</S.PostTitle>
                   <S.PostContent
                     id="post-content"
-                    dangerouslySetInnerHTML={{ __html: post.content }}
+                    hasImage={post.thumbnail ? true : false}
+                    dangerouslySetInnerHTML={{
+                      __html: removeImageTags(post.content),
+                    }}
                   ></S.PostContent>
                 </S.PostBottomLeft>
-                <S.PostBottomRight>
-                  <S.Thumbnail src={post?.thumbnail} />
-                </S.PostBottomRight>
+                {post.thumbnail ? (
+                  <S.PostBottomRight>
+                    <S.Thumbnail src={post?.thumbnail} />
+                  </S.PostBottomRight>
+                ) : (
+                  ''
+                )}
               </S.PostBottom>
             </S.Post>
           ))
