@@ -292,6 +292,7 @@ export interface Database {
           title: string;
           updated_at: string | null;
           user_id: string;
+          thumbnail: string | null;
           users?: {
             nickname?: string;
             profile_img_url?: string;
@@ -313,6 +314,7 @@ export interface Database {
           title: string;
           updated_at?: string | null;
           user_id: string;
+          thumbnail: string | null;
         };
         Update: {
           category?: string;
@@ -323,6 +325,7 @@ export interface Database {
           title: string;
           updated_at?: string | null;
           user_id: string;
+          thumbnail: string | null;
         };
         Relationships: [
           {
