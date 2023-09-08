@@ -63,6 +63,18 @@ export const S = {
     font-weight: 700;
     letter-spacing: -0.48px;
     margin-bottom: 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    p {
+      font-size: 24px;
+      font-weight: 400;
+      line-height: 29px;
+      letter-spacing: -0.015em;
+      text-align: left;
+      color: #000000;
+    }
 
     @media (max-width: 768px) {
       font-size: 18px;
