@@ -1,4 +1,4 @@
-import React, { SetStateAction, useEffect, useState } from 'react';
+import React, { SetStateAction } from 'react';
 import { useAtomValue, useSetAtom } from 'jotai';
 
 // 컴포넌트, 파일
@@ -7,6 +7,9 @@ import AnimeCategory from './AnimeCategory';
 import { S } from './styled.animeFilter';
 import AnimeSearch from './AnimeSearch';
 import Filter from '../../../assets/filter.svg';
+
+// hook
+import useViewport from '../../../hooks/useViewPort';
 
 // jotai store
 import * as recommendStore from '../../../store/animeRecommendStore';
@@ -21,23 +24,10 @@ interface Props {
 }
 
 const AnimeFilter = ({ count, setAnimeList }: Props) => {
+  const { isMobile } = useViewport();
+
   const selectedCategory = useAtomValue(recommendStore.selectedCategoryAtom);
   const setMobileFilterOpen = useSetAtom(recommendStore.isMobileFilterAtom);
-
-  // 모바일 버전 감지
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth < 768);
-
-    // 컴포넌트가 마운트될 때 한 번 실행하고, 화면 크기가 변경될 때마다 실행
-    handleResize(); // 초기 화면 크기 확인
-    window.addEventListener('resize', handleResize);
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
 
   const handleMobileFilterToggle = () => setMobileFilterOpen((cur) => !cur);
 
@@ -46,7 +36,7 @@ const AnimeFilter = ({ count, setAnimeList }: Props) => {
       <S.FilterContainer>
         <S.FilterOptions>
           <AnimeCategoryButtons />
-          <AnimeSearch setAnimeList={setAnimeList} />
+          {!isMobile && <AnimeSearch setAnimeList={setAnimeList} />}
         </S.FilterOptions>
       </S.FilterContainer>
       {selectedCategory && !isMobile && <AnimeCategory />}

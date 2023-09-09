@@ -1,8 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 
-interface Props {}
-
 const AnimeCardSkeleton = () => {
   return (
     <CardDiv>
@@ -17,15 +15,14 @@ const AnimeCardSkeleton = () => {
     </CardDiv>
   );
 };
-const HoverDiv = styled.div`
-  position: relative;
-`;
+
 const ImgImitate = styled.div`
   width: 100%;
   height: 320px;
   background-color: #d5d5d5;
   border-radius: 10px;
 `;
+
 const CardDiv = styled.div`
   position: relative; // hover 요소들을 absolute로 사용하기 위해 사용
   display: flex;
@@ -36,6 +33,7 @@ const CardDiv = styled.div`
   width: 100%;
   height: 100%;
 `;
+
 const CardInfo = styled.div`
   display: flex;
   border-radius: 10px;
@@ -63,7 +61,7 @@ export const HoverInfo = styled.div`
   padding: 16px;
 `;
 const CardTitle = styled.div`
-  width: 220px;
+  width: 100%;
   height: 19px;
   background-color: #d5d5d5;
   font-weight: 600;
