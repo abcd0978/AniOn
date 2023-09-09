@@ -14,7 +14,6 @@ import ScrollToTop from '../components/ScrollTop';
 import AniWorldCup from '../components/worldcup/AniWorldCup';
 import WorldCupResult from '../pages/WorldCupResult';
 import Layout from '../styles/Layout';
-import NewPassword from '../components/myPage/NewPassword';
 import AfterSocialLogin from '../pages/AfterSocialLogin';
 import PrivateRoute from '../hoc/PrivateRoute';
 const Router = () => {
@@ -43,7 +42,6 @@ const Router = () => {
           </Route>
           <Route path="/*" element={<NotFoundPage />} />
           <Route path="/board/:post_id" element={<BoardDetail />} />
-          <Route path="/newPassword/:user_id" element={<NewPassword />} />
         </Routes>
       </Layout>
     </BrowserRouter>

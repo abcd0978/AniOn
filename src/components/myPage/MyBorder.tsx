@@ -10,7 +10,7 @@ import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 import { styled } from 'styled-components';
 import { PaginationTwo } from '../PagenationTwo';
-
+import Loading from '../Loading/Loading';
 const itemsPerPage = 8;
 
 const MyBorder = () => {
@@ -81,7 +81,11 @@ const MyBorder = () => {
   };
 
   if (isLoading) {
-    return <div>테두리를 불러오는 중</div>;
+    return (
+      <BorderLoading>
+        <Loading />
+      </BorderLoading>
+    );
   }
   if (isError) {
     return <div>테두리를 불러오지 못했어요.</div>;
@@ -183,17 +187,6 @@ export const Outer = styled.div`
   margin-top: -100px;
   margin-left: 20px;
 `;
-{
-  /* <BorderPage>
-        {Array.isArray(filteredBorders) &&
-          filteredBorders.length >= itemsPerPage && (
-            <PaginationTwo
-              currentPage={currentPage}
-              totalPages={totalPages}
-              onClick={handlePageChange}
-              isPreviousDisabled={currentPage === 1}
-              isNextDisabled={currentPage >= totalPages}
-            />
-          )}
-      </BorderPage> */
-}
+const BorderLoading = styled.div`
+  margin-left: 500px;
+`;

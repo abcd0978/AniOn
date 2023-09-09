@@ -252,7 +252,9 @@ function AnimeDetail() {
         </S.ContentsImg>
       </S.DetailContainer>
       <div>
-        <S.DetailLabel ref={previewRef}>1화 맛보기</S.DetailLabel>
+        <S.DetailLabel ref={previewRef}>
+          1화 맛보기 <p> 애니온은 저작권을 준수하며 미리보기만 지원합니다. </p>
+        </S.DetailLabel>
         <S.ContentVideoLayout>
           {animeVideo.public_streaming_info &&
           animeVideo.public_streaming_info.hls_preview_url ? (

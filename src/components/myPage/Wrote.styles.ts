@@ -57,6 +57,10 @@ export const Review = {
     text-align: center;
     cursor: pointer;
     font-size: 14px;
+    &:hover {
+      background-color: #c88fff;
+      color: white;
+    }
   `,
 
   ReviewComments: styled.div`
