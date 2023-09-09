@@ -8,13 +8,13 @@ const fetchAllAnimeComments = async () => {
     const { data, error } = await supabase
       .from('ani_comments')
       .select('ani_id', { count: 'exact' });
-    console.log('애니 리스트 댓글', data);
+
     if (error) {
-      console.log('애니 리스트 댓글', error);
+      // console.log('애니 리스트 댓글', error);
     }
     return data;
   } catch (error) {
-    console.log('애니 리스트 댓글', error);
+    // console.log('애니 리스트 댓글', error);
   }
 };
 
@@ -37,12 +37,12 @@ const fetchComments = async (ani_id: string, page: number): Promise<any> => {
     const totalPages = Math.ceil(count! / itemsPerPage);
 
     if (error) {
-      console.log('aniComment > fetchComments > ', error);
+      // console.log('aniComment > fetchComments > ', error);
     }
 
     return { data, totalPages };
   } catch (error) {
-    console.log('aniComment > fetchComments > ', error);
+    // console.log('aniComment > fetchComments > ', error);
   }
 };
 
