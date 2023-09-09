@@ -3,6 +3,21 @@ import { Database } from '../types/supabase';
 type InsertAniComment = Database['public']['Tables']['ani_comments']['Insert'];
 type UpdateAniComment = Database['public']['Tables']['ani_comments']['Update'];
 
+const fetchAllAnimeComments = async () => {
+  try {
+    const { data, error } = await supabase
+      .from('ani_comments')
+      .select('ani_id', { count: 'exact' });
+    console.log('애니 리스트 댓글', data);
+    if (error) {
+      console.log('애니 리스트 댓글', error);
+    }
+    return data;
+  } catch (error) {
+    console.log('애니 리스트 댓글', error);
+  }
+};
+
 const fetchComments = async (ani_id: string, page: number): Promise<any> => {
   const itemsPerPage = 5;
 
@@ -53,4 +68,10 @@ const updateComment = async (editComment: UpdateAniComment) => {
   await supabase.from('ani_comments').update(editData).eq('id', id);
 };
 
-export { fetchComments, addComment, deleteComment, updateComment };
+export {
+  fetchComments,
+  addComment,
+  deleteComment,
+  updateComment,
+  fetchAllAnimeComments,
+};

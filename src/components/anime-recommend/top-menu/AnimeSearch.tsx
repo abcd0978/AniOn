@@ -1,8 +1,6 @@
 import React, { SetStateAction } from 'react';
 import { S } from './styled.animeSearch';
 import useInput from '../../../hooks/useInput';
-// import { useQuery } from '@tanstack/react-query';
-// import { fetchSearchedAnime } from '../../../api/laftel';
 import { useSetAtom } from 'jotai';
 import {
   keywordAtom,
@@ -16,24 +14,11 @@ interface Props {
 }
 
 const AnimeSearch = ({ setAnimeList }: Props) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [keyword, __, onChangeKeyword] = useInput('');
   const setOffset = useSetAtom(offsetAtom);
   const setCategory = useSetAtom(selectedCategoryAtom);
   const setKeywordAtom = useSetAtom(keywordAtom);
-
-  // 자동완성의 흔적.
-  // const searchQueryOptions = {
-  //   queryKey: ['searchAnime', offset],
-  //   queryFn: () => fetchSearchedAnime({ keyword, offset, size: 18 }),
-  //   refetchOnWindowFocus: false,
-  //   enabled: false,
-  // };
-
-  // const {
-  //   data: searchData,
-  //   isError: searchError,
-  //   refetch,
-  // } = useQuery(searchQueryOptions);
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
@@ -60,6 +45,7 @@ const AnimeSearch = ({ setAnimeList }: Props) => {
           value={keyword}
           onKeyDown={handleKeyPress}
         />
+        {/* svg asstes에 넣을지 고민. */}
         <S.SearchSVG
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 16 16"

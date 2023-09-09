@@ -7,7 +7,7 @@ import AnimeDetailComments from '../components/anime-detail/AnimeDetailComments'
 import { useRef, useState } from 'react';
 import unfilled from '../assets/unfilledLike.svg';
 import share from '../assets/share.svg';
-import { fetchAnimeLikes, toggleAnimeLike } from '../api/likeApi';
+import { fetchAnimeLikes, toggleAnimeLike } from '../api/aniLike';
 import { useAtomValue } from 'jotai';
 import * as userStore from '../store/userStore';
 import { ReadAnimeLikeG } from '../types/likes';

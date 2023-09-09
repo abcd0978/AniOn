@@ -3,6 +3,7 @@ import { styled } from 'styled-components';
 export const S = {
   // 전체 container
   FilterContainer: styled.div`
+    width: 100%;
     display: flex;
     flex-direction: column;
     margin: 10px 0px 24px 0px;
@@ -12,7 +13,7 @@ export const S = {
     display: flex;
     justify-content: space-between;
 
-    @media (max-width: 800px) {
+    @media (max-width: 768px) {
       flex-direction: column;
     }
   `,
@@ -21,11 +22,14 @@ export const S = {
     display: flex;
     justify-content: space-between;
     margin: 40px 0px 20px 0px;
+    @media (max-width: 768px) {
+      margin: 20px 0px;
+    }
   `,
   CountText: styled.p`
     font-weight: 600;
     font-size: 18px;
-    @media (max-width: 800px) {
+    @media (max-width: 768px) {
       font-size: 14px;
       font-weight: 400;
     }

@@ -1,5 +1,5 @@
 import { useAtomValue } from 'jotai';
-import { fetchAllAnimeMyLikes } from '../../api/likeApi';
+import { fetchAllAnimeMyLikes } from '../../api/aniLike';
 import { getAnimeById } from '../../api/laftel';
 import * as userStore from '../../store/userStore';
 import { useQuery } from '@tanstack/react-query';
