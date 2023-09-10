@@ -30,6 +30,9 @@ body{
     max-width: 75%;
     overflow-x: hidden;
     font-family: 'Pretendard-Regular';
+    @media (max-width: 540px) {
+      max-width: 90%;
+    }
 }
 header{
     width:100vw;
