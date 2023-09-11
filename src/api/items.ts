@@ -167,7 +167,6 @@ export const fetchEquippedItem = async (params: {
       .eq('is_equipped', true)
       .single();
     if (error) {
-      console.log('items.ts fetchEquippedTitle error > ', error);
       return '';
     }
     const item: AwardsRow = data;
@@ -219,7 +218,7 @@ export const fetchEquippedBorder = async (user_id: string) => {
       .eq('user_id', user_id)
       .eq('is_equipped', true);
     if (error) {
-      console.log('items.ts fetchEquippedBorder error > ', error);
+      // console.log('items.ts fetchEquippedBorder error > ', error);
       return {
         id: '',
         name: 'Not Found',
@@ -233,7 +232,7 @@ export const fetchEquippedBorder = async (user_id: string) => {
     // console.log(item);
     return item;
   } catch (error) {
-    console.log('items.ts fetchEquippedBorder error > ', error);
+    // console.log('items.ts fetchEquippedBorder error > ', error);
     return {
       id: '',
       name: 'Not Found',
@@ -309,7 +308,7 @@ export const fetchItem = async (itemId: string): Promise<ItemRow> => {
     const item: ItemRow = data[0];
     return item;
   } catch (e) {
-    console.log(e);
+    // console.log(e);
     return null;
   }
 };

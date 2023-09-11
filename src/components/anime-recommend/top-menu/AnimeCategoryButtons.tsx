@@ -41,6 +41,7 @@ const AnimeCategory = () => {
       setSelectedCategory('전체');
       setIsEnding(null);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

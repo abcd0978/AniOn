@@ -56,12 +56,12 @@ export const Banner = (props: PropType) => {
   const [emblaRef, emblaApi] = useEmblaCarousel(options, [
     Autoplay({ stopOnInteraction: false }),
   ]);
-  //const [emblaRef, emblaApi] = useEmblaCarousel(options);
+
   const [nextButtonDisabled, setNextButtonDisabled] = useState(true);
   const [prevButtonDisabled, setPrevButtonDisabled] = useState(true);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [scrollSnaps, setScrollSnaps] = useState<number[]>([]);
-  const { width } = useViewport();
+  const { width, isMobile } = useViewport();
 
   const scrollPrev = useCallback(() => {
     if (emblaApi) {
@@ -108,7 +108,10 @@ export const Banner = (props: PropType) => {
             {slides.map((slide, index) => (
               <div
                 className="embla__slide"
-                style={{ ...slideStyle, height: `${width * 0.36}px` }}
+                style={{
+                  ...slideStyle,
+                  height: `${isMobile ? width * 0.9 : width * 0.36}px`,
+                }}
                 key={index}
               >
                 <BannerSlide
@@ -185,7 +188,7 @@ const DotButton = (props: DotButtonProps) => {
       }}
     >
       <img
-        style={{ height: `${15 * (props.width / 1920)}px` }}
+        style={{ height: `max(6px, ${15 * (props.width / 1920)}px)` }}
         src={props.clicked ? dot : dotDeactivated}
         alt="dot"
       />

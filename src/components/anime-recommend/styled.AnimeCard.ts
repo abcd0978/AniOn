@@ -19,7 +19,7 @@ export const S = {
     flex-direction: column;
     align-items: flex-start;
     padding: 0px;
-    gap: 4px;
+    gap: 8px;
     width: 100%;
     height: 100%;
 
@@ -94,9 +94,15 @@ export const S = {
     position: absolute;
     display: flex;
     align-items: center;
-    gap: 3px;
+    gap: 6px;
     right: 16px;
     bottom: 16px;
+  `,
+
+  HoverCountDisplay: styled.div`
+    display: flex;
+    gap: 2px;
+    align-items: flex-end;
   `,
 
   CardInfo: styled.div`
@@ -118,10 +124,6 @@ export const S = {
     width: 100%;
     height: 100%;
     border-radius: 10px;
-    @media (max-width: 540px) {
-      width: 100%;
-      height: 100%;
-    }
   `,
 
   GenreText: styled.div`
@@ -132,7 +134,25 @@ export const S = {
     color: #000000;
   `,
 
+  AnimeInfo: styled.div`
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  `,
+
+  CardTitle: styled.div`
+    width: 100%;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 19px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  `,
+
   CardGenres: styled.div`
+    width: 100%;
     display: flex;
     flex-direction: row;
     align-items: flex-start;
@@ -144,16 +164,7 @@ export const S = {
     order: 1;
     flex-grow: 0;
   `,
-  CardTitle: styled.div`
-    width: 220px;
-    height: 19px;
-    font-weight: 600;
-    font-size: 16px;
-    line-height: 19px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  `,
+
   Genre: styled.div`
     justify-content: center;
     align-items: center;

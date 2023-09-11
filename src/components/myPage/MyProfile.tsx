@@ -1,10 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import { createClient } from '@supabase/supabase-js';
-import { Database } from '../../types/supabase';
-import myAnonymousImg from '../../assets/anonymous_img.jpg';
-import { styled } from 'styled-components';
-import { useParams } from 'react-router-dom';
-import { atom, useAtom, useAtomValue } from 'jotai'; // Import from jotai
+import { useAtomValue } from 'jotai'; // Import from jotai
 import { Profile } from './MyPage.styles';
 import MyProfileAward from './MyProfileAward';
 import MyPoint from './MyPoint';

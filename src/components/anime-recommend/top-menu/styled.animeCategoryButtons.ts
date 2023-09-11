@@ -20,7 +20,8 @@ export const S = {
     border: none;
     border-radius: 999px;
     position: relative;
-    font-weight: bold;
+    font-weight: 700;
+    font-size: 14px;
     color: ${(props) => (props.$isSelected ? 'white' : 'black')};
     background-color: ${(props) => (props.$isSelected ? '#FF96DB' : '#FFEBF7')};
     cursor: pointer;

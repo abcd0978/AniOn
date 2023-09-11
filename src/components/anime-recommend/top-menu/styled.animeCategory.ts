@@ -19,7 +19,7 @@ export const S = {
     justify-content: center;
     align-items: center;
     border-radius: 6px;
-    font-size: 12px;
+    font-size: 14px;
     height: 17px;
     padding: 4px 12px;
     border: 1px solid;
@@ -31,6 +31,7 @@ export const S = {
       color: black;
     }
     @media (max-width: 768px) {
+      font-size: 12px;
       padding: 4px 8px;
     }
   `,

@@ -11,6 +11,7 @@ import Pagination from '../components/Pagenation';
 import { toast } from 'react-toastify';
 import pencil from '../assets/pencil.svg';
 import search from '../assets/search.svg';
+import ddabong from '../assets/ddabong.svg';
 import ProfileWithBorder, {
   processItem,
 } from '../components/ProfileWithBorder';
@@ -95,17 +96,34 @@ const Board = () => {
 
   const handleSearchSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const processBody = (bodyStr: string) => {
+      let result = '';
+      result = bodyStr
+        .replace(/\n/g, '')
+        .replace(/<[^>]*>?/g, '')
+        .replace(/&nbsp;/gi, '');
+      return result;
+    };
     const ppp = await searchPost(searchKeyword);
     // console.log('보드 검색', ppp);
     setSelectedCategory('');
     queryClient.invalidateQueries(['posts', null, searchKeyword]);
   };
 
+  // 글 이미지 미리보기에서 사진 없애기
+  const removeImageTags = (html: string) => {
+    // 이미지 태그를 제거하는 정규식 패턴
+    const pattern = /<img[^>]*>/g;
+    // HTML 문자열에서 이미지 태그를 제거
+    const cleanHtml = html.replace(pattern, '');
+    return cleanHtml;
+  };
+
   return (
     <S.Container>
       <S.Title>게시판</S.Title>
-      <S.Post>
-        <S.Search>
+      <S.Search>
+        <div>
           <S.Button
             onClick={() => handleAllClick()}
             style={{
@@ -146,107 +164,106 @@ const Board = () => {
           >
             오류 신고
           </S.Button>
-        </S.Search>
-        <S.Write>
+        </div>
+        <S.SearchInputContainer>
           <form onSubmit={handleSearchSubmit}>
-            <S.SearchInputContainer>
-              <S.SearchInput
-                type="text"
-                placeholder="검색어를 입력해주세요!"
-                value={searchKeyword}
-                onChange={(e) => setSearchKeyword(e.target.value)}
-              />
-              <S.SearchIcon src={search} alt="Search Icon" />
-            </S.SearchInputContainer>
+            <S.SearchInput
+              type="text"
+              placeholder="검색어를 입력해주세요!"
+              value={searchKeyword}
+              onChange={(e) => setSearchKeyword(e.target.value)}
+            />
+            <S.SearchIcon src={search} alt="Search Icon" />
           </form>
+
           <S.WriteButton onClick={handleWriteClick}>
             <img src={pencil} alt="작성" /> 작성하기
           </S.WriteButton>
-        </S.Write>
-      </S.Post>
+        </S.SearchInputContainer>
+      </S.Search>
 
       <ul>
-        <S.Header>
-          <S.HeaderNo> NO.</S.HeaderNo>
-          <S.HeaderTitle> 게시글 제목</S.HeaderTitle>
-          <S.HeaderNick>유저 닉네임</S.HeaderNick>
-          <S.Headerdate>작성일자</S.Headerdate>
-          <S.HeaderLike> 추천수</S.HeaderLike>
-        </S.Header>
-
         {isFetching ? (
           <div>로딩중...</div>
         ) : filteredAndSortedPosts ? (
           filteredAndSortedPosts.map((post: PostType, index: number) => (
-            <S.Postbox
-              key={post.id}
+            //포스트
+            <S.Post
               onClick={() => post.id && handlePostClick(post.id.toString())}
             >
-              <S.BottomNo>
-                {postsAndTotalPages?.count! - (page - 1) * 12 - index}
-              </S.BottomNo>
-              <S.BottomTitle>{post.title}</S.BottomTitle>
+              <div key={post.id}>
+                <S.PostTop>
+                  <S.PostTopLeft>
+                    #{postsAndTotalPages?.count! - (page - 1) * 12 - index}
+                    <S.Category>{post.category} 게시판</S.Category>
+                  </S.PostTopLeft>
+                  <S.PostTopRight>
+                    <S.Ddabong src={ddabong} alt="추천수" />
+                    <div style={{ marginTop: '3px', marginRight: '5px' }}>
+                      추천수 {post.likes?.length}
+                    </div>
+                  </S.PostTopRight>
+                </S.PostTop>
+                <S.PostMiddle>
+                  <S.PostMiddleLeft>
+                    <ProfileWithBorder
+                      width={40}
+                      $mediawidth={1920}
+                      border_img_url={
+                        post.users.inventory.length > 0
+                          ? processItem(post.users.inventory).border
+                          : undefined
+                      }
+                      profile_img_url={post.users?.profile_img_url}
+                      key={post.id!}
+                    />
 
-              <S.BottomNick>
-                <ProfileWithBorder
-                  width={45}
-                  $mediawidth={1920}
-                  border_img_url={
-                    post.users.inventory.length > 0
-                      ? processItem(post.users.inventory).border
-                      : undefined
-                  }
-                  profile_img_url={post.users?.profile_img_url}
-                  key={post.id!}
-                />
-                <div style={{ display: 'flex', flexDirection: 'column' }}>
-                  <div
-                    style={{
-                      color: 'var(--achromatic-colors-black, #050505)',
-                      fontSize: '15px',
-                      fontStyle: 'normal',
-                      fontWeight: '400',
-                      lineHeight: 'normal',
-                    }}
-                  >
-                    {post.users?.nickname}
-                  </div>
-                  <div
-                    style={{
-                      color: 'var(--achromatic-colors-midgray-1, #999)',
-                      fontSize: '14px',
-                      fontStyle: 'normal',
-                      fontWeight: '400',
-                      lineHeight: 'normal',
-                      letterSpacing: '-0.21px',
-                    }}
-                  >
+                    <S.Ninkname>{post.users?.nickname}</S.Ninkname>
                     {post.users.inventory.length > 0 &&
                     processItem(post.users.inventory).award.img_url ? (
                       <img
                         src={processItem(post.users.inventory).award.img_url!}
                         alt={processItem(post.users.inventory).award.name!}
-                        style={{ width: '140px', height: '26px' }}
+                        style={{
+                          width: '172px',
+                          height: '32px',
+                          marginRight: '8px',
+                        }}
                       />
                     ) : (
                       <S.AwardNo>칭호없음</S.AwardNo>
                     )}
-                    {/* // processItem(post.users.inventory).award.img_url
-                      // : undefined} */}
-                  </div>
-                </div>
-              </S.BottomNick>
-              <S.Bottomdate>
-                {new Date(post.created_at).toLocaleString()}
-              </S.Bottomdate>
-              <S.BottomLike>{post.likes?.length}</S.BottomLike>
-            </S.Postbox>
+                  </S.PostMiddleLeft>
+                  <S.PostMiddleRight>
+                    {new Date(post.created_at).toLocaleString()}
+                  </S.PostMiddleRight>
+                </S.PostMiddle>
+              </div>
+              <S.PostBottom>
+                <S.PostBottomLeft>
+                  <S.PostTitle>{post.title}</S.PostTitle>
+                  <S.PostContent
+                    id="post-content"
+                    hasImage={post.thumbnail ? true : false}
+                    dangerouslySetInnerHTML={{
+                      __html: removeImageTags(post.content),
+                    }}
+                  ></S.PostContent>
+                </S.PostBottomLeft>
+                {post.thumbnail ? (
+                  <S.PostBottomRight>
+                    <S.Thumbnail src={post?.thumbnail} />
+                  </S.PostBottomRight>
+                ) : (
+                  ''
+                )}
+              </S.PostBottom>
+            </S.Post>
           ))
         ) : (
           <div>검색 결과 없음</div>
         )}
       </ul>
-
       <S.Page>
         <Pagination
           currentPage={page}

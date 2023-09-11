@@ -128,7 +128,7 @@ export const A = {
     align-items: center;
 
     justify-content: center;
-    margin-left: 150%;
+    margin-left: 200%;
     margin-top: 75%;
   `,
   NoneButton: styled.div`
