@@ -1,13 +1,10 @@
 import styled from 'styled-components';
 
 export const Outer = styled.div`
-  width: 1360px;
-  margin: 0 auto;
-  padding: 0 auto;
-  display: flex;
+  // width: 1360px;
+  // display: flex;
   align-items: center;
   justify-content: center;
-  margin-left: 18px;
   margin-bottom: 80px;
 `;
 export const CommentContainer = styled.div`
@@ -20,13 +17,16 @@ export const CommentContainer = styled.div`
 `;
 
 export const CommentTop = styled.div`
-  width: 1440px;
+  width: 1430px;
   height: auto;
   border: 1px solid #c88fff;
   background-color: #f9f3ff;
   border-radius: 10px;
   align-items: center;
   flex-direction: row;
+  @media (max-width: 768px) {
+    width: 24%;
+  }
 `;
 
 export const CommentTitle = styled.div`
@@ -56,6 +56,9 @@ export const WriteInput = styled.textarea`
   resize: none;
   line-height: 1.6;
   font-size: 16px;
+  @media (max-width: 768px) {
+    width: 87%;
+  }
 `;
 
 export const WriteButton = styled.button`
@@ -105,8 +108,11 @@ export const Comment = styled.div`
   border-bottom: 2px solid #d9d9d9;
   margin-top: 28px;
   background-color: #ffffff;
-  width: 1440px;
+  width: 1430px;
   min-height: 218px;
+  @media (max-width: 768px) {
+    width: 24%;
+  }
 `;
 
 export const CommentDate = styled.div`
@@ -134,6 +140,9 @@ export const EditInput = styled.textarea`
   resize: none;
   line-height: 1.6;
   font-size: 16px;
+  @media (max-width: 768px) {
+    width: 70%;
+  }
 `;
 
 export const profile = styled.div`
@@ -186,11 +195,17 @@ export const CommentBox = styled.div`
   margin-left: 80px;
   word-wrap: break-word;
   white-space: pre-wrap;
+  @media (max-width: 768px) {
+    width: 80%;
+  }
 `;
 export const Page = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  @media (max-width: 768px) {
+    width: 24%;
+  }
 `;
 export const CommentMore = styled.button`
   background-color: #ffffff;
