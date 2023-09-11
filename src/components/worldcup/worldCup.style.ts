@@ -78,6 +78,10 @@ export const S = {
 
     @media (max-width: 768px) {
       font-size: 18px;
+
+      p {
+        font-size: 13px;
+      }
     }
   `,
 
@@ -102,7 +106,7 @@ export const S = {
     @media (max-width: 768px) {
       width: 100%;
       height: 100%;
-      // flex-direction: column;
+      flex-direction: column;
       gap: 20px;
     }
   `,
@@ -130,9 +134,10 @@ export const S = {
     }
 
     @media (max-width: 768px) {
-      width: 40%;
+      width: 80%;
       height: 100%;
-      padding: 10px;
+      gap: 27px;
+
       &:hover {
         /* transform: scale(1); */
         border: 4px solid #8200ff;
@@ -169,6 +174,10 @@ export const S = {
     width: 100%;
     height: 100%;
   `,
+
+  // WorldCupOnlyText: styled.div`
+  //   align-items: center;
+  // `,
 
   WorldCupGender: styled.div`
     display: flex;
@@ -230,7 +239,7 @@ export const S = {
     width: 600px;
 
     @media (max-width: 768px) {
-      font-size: 15px;
+      font-size: 18px;
     }
   `,
 
@@ -241,7 +250,8 @@ export const S = {
     border-radius: 400px;
 
     @media (max-width: 768px) {
-      width: 100%;
+      margin-top: 0px;
+      width: 53%;
       height: 100%;
     }
   `,
@@ -265,6 +275,7 @@ export const S = {
       width: 100%;
       height: 100%;
       font-size: 10px;
+      display: none;
     }
   `,
 
@@ -297,8 +308,10 @@ export const S = {
     }
 
     @media (max-width: 768px) {
-      width: 200px;
+      width: 318px;
+      height: 50px;
       padding: 12px 20px 12px 32px;
+      background: #8200ff;
     }
 
     // img {
@@ -331,7 +344,7 @@ export const S = {
     }
 
     @media (max-width: 768px) {
-      width: 100px;
+      width: 211px;
       font-size: 15px;
       font-weight: 400;
       height: 40px;
@@ -375,11 +388,11 @@ export const S = {
     @media (max-width: 768px) {
       width: 80%;
       height: 100%;
-      padding: 20px;
+      gap: 34px;
     }
   `,
 
   WorldcupWinnerContainer: styled.div`
-    width: 100%;
+    width: 120%;
   `,
 };

@@ -281,6 +281,9 @@ const AnimeDetailComments = () => {
                   </S.AniCommentText>
                 </div>
               )}
+              <S.MobileDate>
+                {new Date(comment.created_at).toLocaleString()}
+              </S.MobileDate>
               {user?.id === comment.user_id && (
                 <S.AniCommentButtonBox>
                   {comment.id === editingCommentId ? (

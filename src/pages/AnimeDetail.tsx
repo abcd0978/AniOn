@@ -156,24 +156,33 @@ function AnimeDetail() {
                 <S.AniLabel>{animeDetail.name}</S.AniLabel>
               </S.AniTextLayoutToptoTop>
               <S.ContentsOptions>
-                <S.PreviewBox onClick={scrollToPreview}>
-                  <img src={play_arrow} alt="goVideo" />
-                  1화 맛보기
-                </S.PreviewBox>
-                <S.LikeShareBox>
-                  <S.LikeBox>
-                    {isLike() ? (
-                      <img src={detaillike} alt="like" onClick={handleLike} />
-                    ) : (
-                      <img src={unfilled} alt="like" onClick={handleLike} />
-                    )}
-                    <p>찜</p>
-                  </S.LikeBox>
-                  <S.ShareBox>
-                    <img src={share} alt="share" onClick={isShare}></img>
-                    <p>공유하기</p>
-                  </S.ShareBox>
-                </S.LikeShareBox>
+                <S.PreviewLike>
+                  <S.PreviewBox onClick={scrollToPreview}>
+                    <img src={play_arrow} alt="goVideo" />
+                    1화 맛보기
+                  </S.PreviewBox>
+                  <S.LikeShareBox>
+                    <S.LikeBox>
+                      {isLike() ? (
+                        <img src={detaillike} alt="like" onClick={handleLike} />
+                      ) : (
+                        <img src={unfilled} alt="like" onClick={handleLike} />
+                      )}
+                      <p>찜</p>
+                    </S.LikeBox>
+                    <S.ShareBox>
+                      <img src={share} alt="share" onClick={isShare}></img>
+                      <p>공유하기</p>
+                    </S.ShareBox>
+                  </S.LikeShareBox>
+                </S.PreviewLike>
+                <S.MobileContentsImg>
+                  {animeDetail?.images[0].img_url ? (
+                    <img src={animeDetail?.images[0].img_url} alt="포스터" />
+                  ) : (
+                    <img src={animeDetail.img} alt="포스터" />
+                  )}
+                </S.MobileContentsImg>
               </S.ContentsOptions>
             </S.AniTextLayoutTop>
             <S.ContentsText>
