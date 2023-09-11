@@ -172,7 +172,7 @@ const Main = () => {
   }, []);
 
   useEffect(() => {
-    if (!newEmblaApi || !weeklyEmblaApi) return;
+    if (!newEmblaApi || !weeklyEmblaApi || !recommendEmblaApi) return;
 
     onSelectN(newEmblaApi!);
     onSelectW(weeklyEmblaApi!);
@@ -228,427 +228,423 @@ const Main = () => {
   return (
     <>
       <Banner options={{ loop: true, duration: 20 }} slides={bannerInfo} />
-      <StMainCardContainerContainer>
-        <StMainCardContainerWithTypo>
-          <div>
-            <p
-              style={{
-                display: 'inline',
-                ...boldFontStyle,
-                color: '#8200FF',
-                fontSize: `${isMobile ? 20 : (32 * width) / 1920}px`,
-              }}
-            >
-              종합
-            </p>
-            <p
-              style={{
-                display: 'inline',
-                ...RegularFontStyle,
-                color: '#8200FF',
-                fontSize: `${isMobile ? 20 : (32 * width) / 1920}px`,
-              }}
-            >
-              순위
-            </p>
-          </div>
-          <StMainCardContainer $mediawidth={width}>
-            <div
-              className="embla middle"
-              style={{ maxWidth: `${isMobile ? width * 0.9 : width * 0.75}px` }}
-              ref={historyEmblaRef}
-            >
-              <div
-                className="embla__container"
+      <div
+        style={
+          isMobile
+            ? { display: 'flex', flexDirection: 'column', gap: '20px' }
+            : {}
+        }
+      >
+        <StMainCardContainerContainer>
+          <StMainCardContainerWithTypo>
+            <div>
+              <p
                 style={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  gap: '16px',
+                  display: 'inline',
+                  ...boldFontStyle,
+                  color: '#8200FF',
+                  fontSize: `${isMobile ? 20 : (32 * width) / 1920}px`,
                 }}
               >
-                {dataH ? (
-                  <>
-                    <div
-                      style={{ cursor: 'pointer' }}
-                      onClick={() => navigate(`/recommend/${dataH[0].id}`)}
-                    >
-                      <MainCard
-                        key={dataH[0].id + 132}
-                        index={1}
-                        data={dataH[0]}
-                        width={BigCardWidth}
-                      />
-                    </div>
-                    <div
-                      style={{ cursor: 'pointer' }}
-                      onClick={() => navigate(`/recommend/${dataH[1].id}`)}
-                    >
-                      <MainCard
-                        key={dataH[1].id + 133}
-                        index={2}
-                        data={dataH[1]}
-                        width={BigCardWidth}
-                      />
-                    </div>
-                    <div
-                      style={{ cursor: 'pointer' }}
-                      onClick={() => navigate(`/recommend/${dataH[2].id}`)}
-                    >
-                      <MainCard
-                        key={dataH[2].id + 134}
-                        index={3}
-                        data={dataH[2]}
-                        width={BigCardWidth}
-                      />
-                    </div>
-                  </>
-                ) : (
-                  <>
-                    <MainCardSkeleton width={BigCardWidth} />
-                    <MainCardSkeleton width={BigCardWidth} />
-                    <MainCardSkeleton width={BigCardWidth} />
-                  </>
-                )}
-              </div>
+                종합
+              </p>
+              <p
+                style={{
+                  display: 'inline',
+                  ...RegularFontStyle,
+                  color: '#8200FF',
+                  fontSize: `${isMobile ? 20 : (32 * width) / 1920}px`,
+                }}
+              >
+                순위
+              </p>
             </div>
-          </StMainCardContainer>
-        </StMainCardContainerWithTypo>
-      </StMainCardContainerContainer>
-      <StMainCardContainerContainer>
-        <StMainCardContainerWithTypo>
-          <div>
-            <p
-              style={{
-                display: 'inline',
-                ...boldFontStyle,
-                color: '#8200FF',
-                fontSize: `${isMobile ? 20 : (32 * width) / 1920}px`,
-              }}
-            >
-              이번주
-            </p>
-            <p
-              style={{
-                display: 'inline',
-                ...RegularFontStyle,
-                color: '#8200FF',
-                fontSize: `${isMobile ? 20 : (32 * width) / 1920}px`,
-              }}
-            >
-              순위
-            </p>
-          </div>
-          <StMainCardContainer
-            $mediawidth={width}
-            style={{ alignContent: 'center' }}
-          >
-            <div
-              className="embla middle"
-              style={{ maxWidth: `${isMobile ? width * 0.9 : width * 0.75}px` }}
-              ref={weeklyEmblaRef}
-            >
+            <StMainCardContainer $mediawidth={width}>
               <div
-                className="embla__container"
+                className="embla middle"
                 style={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  gap: '16px',
+                  maxWidth: `${isMobile ? width * 0.9 : width * 0.75}px`,
                 }}
+                ref={historyEmblaRef}
               >
-                {dataW ? (
-                  dataW.map((data, index) => {
-                    return (
+                <div
+                  className="embla__container"
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    gap: '16px',
+                  }}
+                >
+                  {dataH ? (
+                    <>
                       <div
-                        onClick={() => navigate(`/recommend/${data.id}`)}
-                        key={data.id + 2}
-                        className="embla__slide"
                         style={{ cursor: 'pointer' }}
+                        onClick={() => navigate(`/recommend/${dataH[0].id}`)}
                       >
                         <MainCard
-                          key={data.id + 1}
-                          index={index + 1}
-                          data={data}
-                          width={smallCardWidth}
+                          key={dataH[0].id + 132}
+                          index={1}
+                          data={dataH[0]}
+                          width={BigCardWidth}
                         />
                       </div>
-                    );
-                  })
-                ) : (
-                  <>
-                    <div className="embla__slide">
-                      <MainCardSkeleton width={smallCardWidth} />
-                    </div>
-                    <div className="embla__slide">
-                      <MainCardSkeleton width={smallCardWidth} />
-                    </div>
-                    <div className="embla__slide">
-                      <MainCardSkeleton width={smallCardWidth} />
-                    </div>
-                    <div className="embla__slide">
-                      <MainCardSkeleton width={smallCardWidth} />
-                    </div>
-                    <div className="embla__slide">
-                      <MainCardSkeleton width={smallCardWidth} />
-                    </div>
-                    <div className="embla__slide">
-                      <MainCardSkeleton width={smallCardWidth} />
-                    </div>
-                    <div className="embla__slide">
-                      <MainCardSkeleton width={smallCardWidth} />
-                    </div>
-                    <div className="embla__slide">
-                      <MainCardSkeleton width={smallCardWidth} />
-                    </div>
-                    <div className="embla__slide">
-                      <MainCardSkeleton width={smallCardWidth} />
-                    </div>
-                    <div className="embla__slide">
-                      <MainCardSkeleton width={smallCardWidth} />
-                    </div>
-                  </>
-                )}
-              </div>
-              <StButtonContainer
-                IsMobile={isMobile}
-                $mediawidth={width * 0.75}
-                $carouselheight={smallCardWidth}
-              >
-                <PrevButton
-                  onClickfunc={() => scrollPrevW(weeklyEmblaApi)}
-                  buttonStyle={buttonStyle}
-                  disabled={prevButtonDisabledW}
-                />
-                <NextButton
-                  onClickfunc={() => scrollNextW(weeklyEmblaApi)}
-                  buttonStyle={buttonStyle}
-                  disabled={nextButtonDisabledW}
-                />
-              </StButtonContainer>
-            </div>
-          </StMainCardContainer>
-        </StMainCardContainerWithTypo>
-      </StMainCardContainerContainer>
-      <StMainCardContainerContainer>
-        <StMainCardContainerWithTypo>
-          <div>
-            <p
-              style={{
-                display: 'inline',
-                ...boldFontStyle,
-                color: '#8200FF',
-                fontSize: `${isMobile ? 20 : (32 * width) / 1920}px`,
-              }}
-            >
-              신작
-            </p>
-            <p
-              style={{
-                display: 'inline',
-                ...RegularFontStyle,
-                color: '#8200FF',
-                fontSize: `${isMobile ? 20 : (32 * width) / 1920}px`,
-              }}
-            >
-              순위
-            </p>
-          </div>
-          <StMainCardContainer
-            $mediawidth={width}
-            style={{ alignContent: 'center' }}
-          >
-            <div
-              className="embla middle"
-              style={{ maxWidth: `${isMobile ? width * 0.9 : width * 0.75}px` }}
-              ref={newEmblaRef}
-            >
-              <div
-                className="embla__container"
-                style={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  gap: '16px',
-                }}
-              >
-                {dataQ ? (
-                  dataQ.map((data, index) => {
-                    return (
                       <div
-                        onClick={() => navigate(`/recommend/${data.id}`)}
-                        key={data.id + 3}
-                        className="embla__slide"
                         style={{ cursor: 'pointer' }}
+                        onClick={() => navigate(`/recommend/${dataH[1].id}`)}
                       >
                         <MainCard
-                          key={data.id + 4}
-                          index={index + 1}
-                          data={data}
-                          width={smallCardWidth}
+                          key={dataH[1].id + 133}
+                          index={2}
+                          data={dataH[1]}
+                          width={BigCardWidth}
                         />
                       </div>
-                    );
-                  })
-                ) : (
-                  <>
-                    <div className="embla__slide">
-                      <MainCardSkeleton width={smallCardWidth} />
-                    </div>
-                    <div className="embla__slide">
-                      <MainCardSkeleton width={smallCardWidth} />
-                    </div>
-                    <div className="embla__slide">
-                      <MainCardSkeleton width={smallCardWidth} />
-                    </div>
-                    <div className="embla__slide">
-                      <MainCardSkeleton width={smallCardWidth} />
-                    </div>
-                    <div className="embla__slide">
-                      <MainCardSkeleton width={smallCardWidth} />
-                    </div>
-                    <div className="embla__slide">
-                      <MainCardSkeleton width={smallCardWidth} />
-                    </div>
-                    <div className="embla__slide">
-                      <MainCardSkeleton width={smallCardWidth} />
-                    </div>
-                    <div className="embla__slide">
-                      <MainCardSkeleton width={smallCardWidth} />
-                    </div>
-                    <div className="embla__slide">
-                      <MainCardSkeleton width={smallCardWidth} />
-                    </div>
-                  </>
-                )}
-              </div>
-              <StButtonContainer
-                IsMobile={isMobile}
-                $mediawidth={width * 0.75}
-                $carouselheight={smallCardWidth}
-              >
-                <PrevButton
-                  onClickfunc={() => scrollPrevN(newEmblaApi)}
-                  buttonStyle={buttonStyle}
-                  disabled={prevButtonDisabledN}
-                />
-                <NextButton
-                  onClickfunc={() => scrollNextN(newEmblaApi)}
-                  buttonStyle={buttonStyle}
-                  disabled={nextButtonDisabledN}
-                />
-              </StButtonContainer>
-            </div>
-          </StMainCardContainer>
-        </StMainCardContainerWithTypo>
-      </StMainCardContainerContainer>
-      <StMainCardContainerContainer>
-        <StMainCardContainerWithTypo>
-          <div>
-            <p
-              style={{
-                display: 'inline',
-                ...boldFontStyle,
-                color: '#8200FF',
-                fontSize: `${isMobile ? 20 : (32 * width) / 1920}px`,
-              }}
-            >
-              {dataR && dataR[0].name}
-            </p>
-          </div>
-          <StMainCardContainer
-            $mediawidth={width}
-            style={{ alignContent: 'center' }}
-          >
-            <div
-              className="embla middle"
-              style={{ maxWidth: `${isMobile ? width * 0.9 : width * 0.75}px` }}
-              ref={recommendEmblaRef}
-            >
-              <div
-                className="embla__container"
-                style={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  gap: '16px',
-                }}
-              >
-                {dataR ? (
-                  dataR[0].item_list.map((data: any, index: number) => {
-                    return (
                       <div
-                        onClick={() => navigate(`/recommend/${data.id}`)}
-                        key={Math.random()}
-                        className="embla__slide"
                         style={{ cursor: 'pointer' }}
+                        onClick={() => navigate(`/recommend/${dataH[2].id}`)}
                       >
                         <MainCard
+                          key={dataH[2].id + 134}
+                          index={3}
+                          data={dataH[2]}
+                          width={BigCardWidth}
+                        />
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <MainCardSkeleton width={BigCardWidth} />
+                      <MainCardSkeleton width={BigCardWidth} />
+                      <MainCardSkeleton width={BigCardWidth} />
+                    </>
+                  )}
+                </div>
+              </div>
+            </StMainCardContainer>
+          </StMainCardContainerWithTypo>
+        </StMainCardContainerContainer>
+        <StMainCardContainerContainer>
+          <StMainCardContainerWithTypo>
+            <div>
+              <p
+                style={{
+                  display: 'inline',
+                  ...boldFontStyle,
+                  color: '#8200FF',
+                  fontSize: `${isMobile ? 20 : (32 * width) / 1920}px`,
+                }}
+              >
+                이번주
+              </p>
+              <p
+                style={{
+                  display: 'inline',
+                  ...RegularFontStyle,
+                  color: '#8200FF',
+                  fontSize: `${isMobile ? 20 : (32 * width) / 1920}px`,
+                }}
+              >
+                순위
+              </p>
+            </div>
+            <StMainCardContainer
+              $mediawidth={width}
+              style={{ alignContent: 'center' }}
+            >
+              <div
+                className="embla middle"
+                style={{
+                  maxWidth: `${isMobile ? width * 0.9 : width * 0.75}px`,
+                }}
+                ref={weeklyEmblaRef}
+              >
+                <div
+                  className="embla__container"
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    gap: '16px',
+                  }}
+                >
+                  {dataW ? (
+                    dataW.map((data, index) => {
+                      return (
+                        <div
+                          onClick={() => navigate(`/recommend/${data.id}`)}
+                          key={data.id + 2}
+                          className="embla__slide"
+                          style={{ cursor: 'pointer' }}
+                        >
+                          <MainCard
+                            key={data.id + 1}
+                            index={index + 1}
+                            data={data}
+                            width={smallCardWidth}
+                          />
+                        </div>
+                      );
+                    })
+                  ) : (
+                    <>
+                      <div className="embla__slide">
+                        <MainCardSkeleton width={smallCardWidth} />
+                      </div>
+                      <div className="embla__slide">
+                        <MainCardSkeleton width={smallCardWidth} />
+                      </div>
+                      <div className="embla__slide">
+                        <MainCardSkeleton width={smallCardWidth} />
+                      </div>
+                      <div className="embla__slide">
+                        <MainCardSkeleton width={smallCardWidth} />
+                      </div>
+                      <div className="embla__slide">
+                        <MainCardSkeleton width={smallCardWidth} />
+                      </div>
+                      <div className="embla__slide">
+                        <MainCardSkeleton width={smallCardWidth} />
+                      </div>
+                      <div className="embla__slide">
+                        <MainCardSkeleton width={smallCardWidth} />
+                      </div>
+                      <div className="embla__slide">
+                        <MainCardSkeleton width={smallCardWidth} />
+                      </div>
+                      <div className="embla__slide">
+                        <MainCardSkeleton width={smallCardWidth} />
+                      </div>
+                      <div className="embla__slide">
+                        <MainCardSkeleton width={smallCardWidth} />
+                      </div>
+                    </>
+                  )}
+                </div>
+                <StButtonContainer
+                  IsMobile={isMobile}
+                  $mediawidth={width * 0.75}
+                  $carouselheight={smallCardWidth}
+                >
+                  <PrevButton
+                    onClickfunc={() => scrollPrevW(weeklyEmblaApi)}
+                    buttonStyle={buttonStyle}
+                    disabled={prevButtonDisabledW}
+                  />
+                  <NextButton
+                    onClickfunc={() => scrollNextW(weeklyEmblaApi)}
+                    buttonStyle={buttonStyle}
+                    disabled={nextButtonDisabledW}
+                  />
+                </StButtonContainer>
+              </div>
+            </StMainCardContainer>
+          </StMainCardContainerWithTypo>
+        </StMainCardContainerContainer>
+        <StMainCardContainerContainer>
+          <StMainCardContainerWithTypo>
+            <div>
+              <p
+                style={{
+                  display: 'inline',
+                  ...boldFontStyle,
+                  color: '#8200FF',
+                  fontSize: `${isMobile ? 20 : (32 * width) / 1920}px`,
+                }}
+              >
+                신작
+              </p>
+              <p
+                style={{
+                  display: 'inline',
+                  ...RegularFontStyle,
+                  color: '#8200FF',
+                  fontSize: `${isMobile ? 20 : (32 * width) / 1920}px`,
+                }}
+              >
+                순위
+              </p>
+            </div>
+            <StMainCardContainer
+              $mediawidth={width}
+              style={{ alignContent: 'center' }}
+            >
+              <div
+                className="embla middle"
+                style={{
+                  maxWidth: `${isMobile ? width * 0.9 : width * 0.75}px`,
+                }}
+                ref={newEmblaRef}
+              >
+                <div
+                  className="embla__container"
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    gap: '16px',
+                  }}
+                >
+                  {dataQ ? (
+                    dataQ.map((data, index) => {
+                      return (
+                        <div
+                          onClick={() => navigate(`/recommend/${data.id}`)}
+                          key={data.id + 3}
+                          className="embla__slide"
+                          style={{ cursor: 'pointer' }}
+                        >
+                          <MainCard
+                            key={data.id + 4}
+                            index={index + 1}
+                            data={data}
+                            width={smallCardWidth}
+                          />
+                        </div>
+                      );
+                    })
+                  ) : (
+                    <>
+                      <div className="embla__slide">
+                        <MainCardSkeleton width={smallCardWidth} />
+                      </div>
+                      <div className="embla__slide">
+                        <MainCardSkeleton width={smallCardWidth} />
+                      </div>
+                      <div className="embla__slide">
+                        <MainCardSkeleton width={smallCardWidth} />
+                      </div>
+                      <div className="embla__slide">
+                        <MainCardSkeleton width={smallCardWidth} />
+                      </div>
+                      <div className="embla__slide">
+                        <MainCardSkeleton width={smallCardWidth} />
+                      </div>
+                      <div className="embla__slide">
+                        <MainCardSkeleton width={smallCardWidth} />
+                      </div>
+                      <div className="embla__slide">
+                        <MainCardSkeleton width={smallCardWidth} />
+                      </div>
+                      <div className="embla__slide">
+                        <MainCardSkeleton width={smallCardWidth} />
+                      </div>
+                      <div className="embla__slide">
+                        <MainCardSkeleton width={smallCardWidth} />
+                      </div>
+                    </>
+                  )}
+                </div>
+                <StButtonContainer
+                  IsMobile={isMobile}
+                  $mediawidth={width * 0.75}
+                  $carouselheight={smallCardWidth}
+                >
+                  <PrevButton
+                    onClickfunc={() => scrollPrevN(newEmblaApi)}
+                    buttonStyle={buttonStyle}
+                    disabled={prevButtonDisabledN}
+                  />
+                  <NextButton
+                    onClickfunc={() => scrollNextN(newEmblaApi)}
+                    buttonStyle={buttonStyle}
+                    disabled={nextButtonDisabledN}
+                  />
+                </StButtonContainer>
+              </div>
+            </StMainCardContainer>
+          </StMainCardContainerWithTypo>
+        </StMainCardContainerContainer>
+
+        <StMainCardContainerContainer>
+          <StMainCardContainerWithTypo>
+            <div>
+              <p
+                style={{
+                  display: 'inline',
+                  ...boldFontStyle,
+                  color: '#8200FF',
+                  fontSize: `${isMobile ? 20 : (32 * width) / 1920}px`,
+                }}
+              >
+                {dataR && dataR[0].name}
+              </p>
+            </div>
+            <StMainCardContainer
+              $mediawidth={width}
+              style={{ alignContent: 'center' }}
+            >
+              <div
+                className="embla middle"
+                style={{
+                  maxWidth: `${isMobile ? width * 0.9 : width * 0.75}px`,
+                }}
+                ref={recommendEmblaRef}
+              >
+                <div
+                  className="embla__container"
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    gap: '16px',
+                  }}
+                >
+                  {dataR ? (
+                    dataR[0].item_list.map((data: any, index: number) => {
+                      return (
+                        <div
+                          onClick={() => navigate(`/recommend/${data.id}`)}
                           key={Math.random()}
-                          index={index + 1}
-                          data={data}
-                          width={smallCardWidth}
-                        />
+                          className="embla__slide"
+                          style={{ cursor: 'pointer' }}
+                        >
+                          <MainCard
+                            key={Math.random()}
+                            index={index + 1}
+                            data={data}
+                            width={smallCardWidth}
+                          />
+                        </div>
+                      );
+                    })
+                  ) : (
+                    <>
+                      <div className="embla__slide">
+                        <MainCardSkeleton width={smallCardWidth} />
                       </div>
-                    );
-                  })
-                ) : (
-                  <>
-                    <div className="embla__slide">
-                      <MainCardSkeleton width={smallCardWidth} />
-                    </div>
-                    <div className="embla__slide">
-                      <MainCardSkeleton width={smallCardWidth} />
-                    </div>
-                    <div className="embla__slide">
-                      <MainCardSkeleton width={smallCardWidth} />
-                    </div>
-                    <div className="embla__slide">
-                      <MainCardSkeleton width={smallCardWidth} />
-                    </div>
-                    <div className="embla__slide">
-                      <MainCardSkeleton width={smallCardWidth} />
-                    </div>
-                    <div className="embla__slide">
-                      <MainCardSkeleton width={smallCardWidth} />
-                    </div>
-                    <div className="embla__slide">
-                      <MainCardSkeleton width={smallCardWidth} />
-                    </div>
-                    <div className="embla__slide">
-                      <MainCardSkeleton width={smallCardWidth} />
-                    </div>
-                    <div className="embla__slide">
-                      <MainCardSkeleton width={smallCardWidth} />
-                    </div>
-                    <div className="embla__slide">
-                      <MainCardSkeleton width={smallCardWidth} />
-                    </div>
-                    <div className="embla__slide">
-                      <MainCardSkeleton width={smallCardWidth} />
-                    </div>
-                    <div className="embla__slide">
-                      <MainCardSkeleton width={smallCardWidth} />
-                    </div>
-                  </>
-                )}
+                      <div className="embla__slide">
+                        <MainCardSkeleton width={smallCardWidth} />
+                      </div>
+                      <div className="embla__slide">
+                        <MainCardSkeleton width={smallCardWidth} />
+                      </div>
+                      <div className="embla__slide">
+                        <MainCardSkeleton width={smallCardWidth} />
+                      </div>
+                      <div className="embla__slide">
+                        <MainCardSkeleton width={smallCardWidth} />
+                      </div>
+                    </>
+                  )}
+                </div>
+                <StButtonContainer
+                  IsMobile={isMobile}
+                  $mediawidth={width * 0.75}
+                  $carouselheight={smallCardWidth}
+                >
+                  <PrevButton
+                    onClickfunc={() => scrollPrevR(recommendEmblaApi)}
+                    buttonStyle={buttonStyle}
+                    disabled={prevButtonDisabledR}
+                  />
+                  <NextButton
+                    onClickfunc={() => scrollNextR(recommendEmblaApi)}
+                    buttonStyle={buttonStyle}
+                    disabled={nextButtonDisabledR}
+                  />
+                </StButtonContainer>
               </div>
-              <StButtonContainer
-                IsMobile={isMobile}
-                $mediawidth={width * 0.75}
-                $carouselheight={smallCardWidth}
-              >
-                <PrevButton
-                  onClickfunc={() => scrollPrevR(recommendEmblaApi)}
-                  buttonStyle={buttonStyle}
-                  disabled={prevButtonDisabledR}
-                />
-                <NextButton
-                  onClickfunc={() => scrollNextR(recommendEmblaApi)}
-                  buttonStyle={buttonStyle}
-                  disabled={nextButtonDisabledR}
-                />
-              </StButtonContainer>
-            </div>
-          </StMainCardContainer>
-        </StMainCardContainerWithTypo>
-      </StMainCardContainerContainer>
+            </StMainCardContainer>
+          </StMainCardContainerWithTypo>
+        </StMainCardContainerContainer>
+      </div>
       <ScrollToTop />
     </>
   );
@@ -720,6 +716,7 @@ const StMainCardContainerContainer = styled.div`
   align-items: flex-start;
   overflow: hidden;
   @media (max-width: 768px) {
+    width: 105%;
     padding: 0px;
   }
 `;
