@@ -354,7 +354,7 @@ const BoardDetail = () => {
                     <S.Top>
                       <S.Title>{title}</S.Title>
                       <S.Date>
-                        {new Date(post.created_at).toLocaleString()}
+                        {new Date(post.created_at).toLocaleDateString()}
                       </S.Date>
                     </S.Top>
 
@@ -417,6 +417,7 @@ const BoardDetail = () => {
                   </S.EditBox>
                 ) : (
                   <S.Content
+                    width={width}
                     id="post-content"
                     dangerouslySetInnerHTML={{ __html: post.content }}
                   ></S.Content>
