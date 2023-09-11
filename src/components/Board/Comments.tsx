@@ -22,6 +22,7 @@ import {
 } from '../../types/comment';
 import { updatePoint } from '../../api/items';
 import { useConfirm } from '../../hooks/useConfirm';
+import useViewport from '../../hooks/useViewPort';
 
 const Comments = () => {
   const { post_id } = useParams() as { post_id: string };
@@ -30,6 +31,7 @@ const Comments = () => {
 
   const queryClient = useQueryClient();
   const { openConfirm } = useConfirm();
+  const { width, isMobile } = useViewport();
 
   const [newComment, setNewComment] = useState<string>('');
 
@@ -231,16 +233,17 @@ const Comments = () => {
                     <S.Award
                       src={processItem(comment.users.inventory).award.img_url!}
                       alt={processItem(comment.users.inventory).award.name!}
-                      style={{ width: '172px', height: '32px' }}
                     />
                   ) : (
                     <S.AwardNo>칭호없음</S.AwardNo>
                   )}
                   {/* </S.Award> */}
                 </S.profile>
-                <S.CommentDate>
-                  {new Date(comment.created_at).toLocaleString()}
-                </S.CommentDate>
+                {!isMobile && (
+                  <S.CommentDate>
+                    {new Date(comment.created_at).toLocaleString()}
+                  </S.CommentDate>
+                )}
               </div>
               {user?.id === comment.user_id && (
                 <S.ButtonBox>
@@ -265,6 +268,7 @@ const Comments = () => {
                   )}
                 </S.ButtonBox>
               )}
+
               {comment.id === editingCommentId ? (
                 <S.EditInput
                   value={editedCommentText}
@@ -280,7 +284,7 @@ const Comments = () => {
                       <S.CommentMore
                         onClick={() => toggleCommentCollapse(comment.id)}
                       >
-                        더보기 <img src={commentpointer} />
+                        댓글 더보기 <img src={commentpointer} />
                       </S.CommentMore>
                     </>
                   ) : (
@@ -294,6 +298,11 @@ const Comments = () => {
                         </S.CommentMore>
                       )}
                     </>
+                  )}
+                  {isMobile && ( // 모바일일 때 날짜
+                    <S.MobieDate>
+                      {new Date(comment.created_at).toLocaleString()}
+                    </S.MobieDate>
                   )}
                 </S.CommentBox>
               )}

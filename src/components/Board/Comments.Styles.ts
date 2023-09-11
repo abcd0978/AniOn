@@ -1,13 +1,10 @@
 import styled from 'styled-components';
 
 export const Outer = styled.div`
-  width: 1360px;
-  margin: 0 auto;
-  padding: 0 auto;
-  display: flex;
+  // width: 1360px;
+  // display: flex;
   align-items: center;
   justify-content: center;
-  margin-left: 18px;
   margin-bottom: 80px;
 `;
 export const CommentContainer = styled.div`
@@ -20,13 +17,16 @@ export const CommentContainer = styled.div`
 `;
 
 export const CommentTop = styled.div`
-  width: 1440px;
+  width: 1430px;
   height: auto;
   border: 1px solid #c88fff;
   background-color: #f9f3ff;
   border-radius: 10px;
   align-items: center;
   flex-direction: row;
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 `;
 
 export const CommentTitle = styled.div`
@@ -45,9 +45,8 @@ export const WriteInput = styled.textarea`
   display: flex;
   margin-top: 10px;
   border-radius: 10px;
-  border: 1px solid #d9d9d9;
   background-color: #f9f3ff;
-  width: 1277px;
+  width: 95%;
   height: 48px;
   padding: 20px;
   border: none;
@@ -56,6 +55,9 @@ export const WriteInput = styled.textarea`
   resize: none;
   line-height: 1.6;
   font-size: 16px;
+  @media (max-width: 768px) {
+    width: 87%;
+  }
 `;
 
 export const WriteButton = styled.button`
@@ -105,17 +107,24 @@ export const Comment = styled.div`
   border-bottom: 2px solid #d9d9d9;
   margin-top: 28px;
   background-color: #ffffff;
-  width: 1440px;
+  width: 1430px;
   min-height: 218px;
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 `;
 
 export const CommentDate = styled.div`
   color: #6e6c69;
   font-size: 12px;
   margin-bottom: 33px;
-  margin-top: -36px;
   float: right;
   margin-right: 15px;
+`;
+export const MobieDate = styled.div`
+  color: #999999;
+  font-size: 12px;
+  margin-top: 5px;
 `;
 export const EditInput = styled.textarea`
   display: flex;
@@ -134,6 +143,9 @@ export const EditInput = styled.textarea`
   resize: none;
   line-height: 1.6;
   font-size: 16px;
+  @media (max-width: 768px) {
+    width: 63%;
+  }
 `;
 
 export const profile = styled.div`
@@ -151,18 +163,23 @@ export const Ninkname = styled.div`
   align-items: center;
   font-size: 16px;
   font-weight: 600;
+  @media (max-width: 768px) {
+    font-size: 15px;
+  }
 `;
 export const Award = styled.img`
   display: flex;
-  // width: 172px;
+  width: 172px;
   height: 36px;
   padding: 8px 12px;
   align-items: center;
-  gap: 8px;
   border-radius: 999px;
-  margin-left: 10px;
   font-size: 14px;
-  margin-top: 12px;
+  margin-top: 16px;
+  @media (max-width: 768px) {
+    width: 120px;
+    height: 22.32px;
+  }
 `;
 export const AwardNo = styled.div`
   display: flex;
@@ -186,11 +203,18 @@ export const CommentBox = styled.div`
   margin-left: 80px;
   word-wrap: break-word;
   white-space: pre-wrap;
+  @media (max-width: 768px) {
+    width: 80%;
+    margin-left: 32px;
+  }
 `;
 export const Page = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 `;
 export const CommentMore = styled.button`
   background-color: #ffffff;

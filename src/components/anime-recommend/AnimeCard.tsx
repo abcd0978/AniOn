@@ -5,16 +5,23 @@ import { AnimeG } from '../../types/anime';
 import { useNavigate } from 'react-router-dom';
 
 import LikeSvg from './LikeSvg';
-import viewDetail from '../../assets/viewdetail.svg';
-
+import { ReactComponent as ViewDetail } from '../../assets/viewdetail.svg';
+import { ReactComponent as Review } from '../../assets/review.svg';
 interface Props {
   anime: AnimeG;
-  likesCount: (anime_id: string) => number;
-  isLike: (anime_id: string) => boolean;
-  handleLike: (anime_id: string) => void;
+  likesCount: (animeId: string) => number;
+  commentsCount: (animeId: string) => number;
+  isLike: (animeId: string) => boolean;
+  handleLike: (animeId: string) => void;
 }
 
-const AnimeCard = ({ anime, likesCount, isLike, handleLike }: Props) => {
+const AnimeCard = ({
+  anime,
+  likesCount,
+  commentsCount,
+  isLike,
+  handleLike,
+}: Props) => {
   const navigate = useNavigate();
 
   return (
@@ -35,30 +42,38 @@ const AnimeCard = ({ anime, likesCount, isLike, handleLike }: Props) => {
               <S.HoverTitle>{anime.name}</S.HoverTitle>
               <S.HoverViewDetail>
                 <p>자세히 보기</p>
-                <img className="viewDetail" src={viewDetail} alt="viewdetail" />
+                <ViewDetail />
               </S.HoverViewDetail>
             </S.HoverTitleAndDetail>
 
             <S.HoverLikeBox>
-              <LikeSvg
-                onClick={() => handleLike(String(anime.id))}
-                is_like={isLike(String(anime.id))}
-              />
-              <div>{likesCount(String(anime.id))}</div>
+              <S.HoverCountDisplay>
+                <LikeSvg
+                  onClick={() => handleLike(String(anime.id))}
+                  is_like={isLike(String(anime.id))}
+                />
+                {likesCount(String(anime.id))}
+              </S.HoverCountDisplay>
+              <S.HoverCountDisplay>
+                <Review />
+                {commentsCount(String(anime.id))}
+              </S.HoverCountDisplay>
             </S.HoverLikeBox>
           </HoverInfo>
         </S.HoverDiv>
-        <S.CardTitle>{anime.name}</S.CardTitle>
       </S.CardInfo>
-      <S.CardGenres>
-        {anime.genres?.slice(0, 2).map((genre, index) => {
-          return (
-            <S.Genre key={index}>
-              <S.GenreText># {genre}</S.GenreText>
-            </S.Genre>
-          );
-        })}
-      </S.CardGenres>
+      <S.AnimeInfo>
+        <S.CardTitle>{anime.name}</S.CardTitle>
+        <S.CardGenres>
+          {anime.genres?.slice(0, 2).map((genre, index) => {
+            return (
+              <S.Genre key={index}>
+                <S.GenreText># {genre}</S.GenreText>
+              </S.Genre>
+            );
+          })}
+        </S.CardGenres>
+      </S.AnimeInfo>
     </S.CardDiv>
   );
 };

@@ -8,7 +8,10 @@ type Props = {
 const MainCardSkeleton = ({ width }: Props) => {
   const { width: $mediawidth } = useViewport();
   return (
-    <StMainCardSkeleton width={width} $mediawidth={$mediawidth}>
+    <StMainCardSkeleton
+      width={width}
+      $mediawidth={$mediawidth > 1092 ? $mediawidth : 1092}
+    >
       <StMainCardSkeletonImgContainer>
         <StMainCardSkeletonImgIndex />
       </StMainCardSkeletonImgContainer>
@@ -18,13 +21,19 @@ const MainCardSkeleton = ({ width }: Props) => {
         </StCardInfo>
         <StCardHashTagContainer>
           <StCardHashTag>
-            <StCardHashTagTypo $mediawidth={$mediawidth} />
+            <StCardHashTagTypo
+              $mediawidth={$mediawidth > 1092 ? $mediawidth : 1092}
+            />
           </StCardHashTag>
           <StCardHashTag>
-            <StCardHashTagTypo $mediawidth={$mediawidth} />
+            <StCardHashTagTypo
+              $mediawidth={$mediawidth > 1092 ? $mediawidth : 1092}
+            />
           </StCardHashTag>
           <StCardHashTag>
-            <StCardHashTagTypo $mediawidth={$mediawidth} />
+            <StCardHashTagTypo
+              $mediawidth={$mediawidth > 1092 ? $mediawidth : 1092}
+            />
           </StCardHashTag>
         </StCardHashTagContainer>
       </StCardInfoContainer>

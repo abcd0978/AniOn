@@ -8,11 +8,17 @@ const S = {
     margin-bottom: 20px;
     margin-left: 30px;
     color: #8200ff;
+    @media (max-width: 768px) {
+      font-size: 20px;
+    }
   `,
   Container: styled.div<{ width?: number }>`
     max-width: 1440px;
     height: 827px;
     border-radius: 20px;
+    @media (max-width: 768px) {
+      width: 357px;
+    }
   `,
   Layout: styled.div<{ width?: number }>`
     width: 100%;
@@ -39,12 +45,28 @@ const S = {
     height: 40px;
     display: flex;
     margin-bottom: 15px;
+    @media (max-width: 768px) {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      height: 79px;
+      margin-top: 15px;
+      margin-left: 30px;
+    }
   `,
   TitleInput: styled.div<{ width?: number }>`
     width: 100%;
     height: 44px;
     display: flex;
     margin-bottom: 5px;
+    @media (max-width: 768px) {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      height: 79px;
+      margin-top: -10px;
+      margin-left: 30px;
+    }
   `,
 
   ContentInput: styled.div<{ width?: number }>`
@@ -53,6 +75,12 @@ const S = {
     margin: 10px;
     display: flex;
     margin-bottom: 5px;
+    @media (max-width: 768px) {
+      display: flex;
+      flex-direction: column;
+      width: 90%;
+      margin-top: -10px;
+    }
   `,
 
   Label: styled.div<{ width?: number }>`
@@ -60,12 +88,18 @@ const S = {
     height: 18px;
     width: 100px;
     margin-left: 20px;
+    @media (max-width: 768px) {
+      margin-top: -20px;
+    }
   `,
   LabelContent: styled.div<{ width?: number }>`
     font-size: 15px;
     height: 18px;
     width: 100px;
     margin-left: 20px;
+    @media (max-width: 768px) {
+      margin-top: -10px;
+    }
   `,
 
   Select: styled.select<{ width?: number }>`
@@ -76,6 +110,10 @@ const S = {
     // border: 1px #c88fff solid;
     cursor: pointer;
     background-color: #f9f3ff;
+    @media (max-width: 768px) {
+      width: 96px;
+      height: 34px;
+    }
   `,
 
   Input: styled.input<{ width?: number }>`
@@ -107,6 +145,10 @@ const S = {
     margin-right: 40px;
     display: flex;
     justify-content: flex-end;
+    @media (max-width: 768px) {
+      margin-top: -1px;
+      margin-left: 40px;
+    }
   `,
   Button: styled.button<{ width?: number }>`
     background-color: #757575;

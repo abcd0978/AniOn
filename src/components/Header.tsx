@@ -1,16 +1,18 @@
-import React, { useRef, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import styled from 'styled-components';
-import { useAtom, useAtomValue } from 'jotai';
+import { useAtom, useSetAtom } from 'jotai';
 import * as modalStore from '../store/modalStore';
-import { isDropDownOn } from '../store/dropDownStore';
 import * as sidebarStore from '../store/sidebarStore';
 import useViewport from '../hooks/useViewPort';
 import * as userStore from '../store/userStore';
 import * as headerStore from '../store/headerStore';
+import * as animeRecommendStore from '../store/animeRecommendStore';
 import dropdown from '../assets/dropdown.svg';
 import dropdownUp from '../assets/dropdownUp.svg';
+import serachMobile from '../assets/searchMobile.svg';
 import menu from '../assets/menu.svg';
 import closeMenu from '../assets/closeMenuMobile.svg';
+import searchOptionMobile from '../assets/searchOptionMobile.svg';
 import * as authApi from '../api/auth';
 import logout from '../assets/logout.svg';
 import account from '../assets/account.svg';
@@ -28,19 +30,33 @@ import PurchaseAwardModalContents from './Modal/PurchaseAwardModalContents';
 import { useNavigate } from 'react-router-dom';
 import { fetchEquippedItem } from '../api/items';
 import { useQuery } from '@tanstack/react-query';
+import useInput from '../hooks/useInput';
 
 type Props = {};
 
 function Header({}: Props) {
   const navigate = useNavigate();
-  const [isDropdownOnB, setIsDowpdownOn] = useAtom(isDropDownOn);
   const [__, logoutStore] = useAtom(userStore.logoutUser);
   const { width, height, isMobile, isLoaded } = useViewport();
   const [user, setUser] = useAtom(userStore.user);
   const [isModalOpened, setIsModalOpened] = useAtom(modalStore.isModalOpened);
   const [modalContents, setModalContents] = useAtom(modalStore.modalContents);
-  const [menuMobileClicked, setMenuMobileClicked] = useAtom(
-    sidebarStore.sideBarOpened,
+  const setKeyword = useSetAtom(animeRecommendStore.keywordAtom);
+  const setAnimeList = useSetAtom(animeRecommendStore.animeListAtom);
+  const setOffset = useSetAtom(animeRecommendStore.offsetAtom);
+  const [isDropdownOnD, setIsDropdownOnD] = useState(false);
+  const dropdownOpenerDRef = useRef<HTMLDivElement>(null);
+  const [isDropdownOnB, setIsDropdownOnB] = useState(false);
+  const dropdownOpenerBRef = useRef<HTMLDivElement>(null);
+  const [mobileSearchCategory, setMobileSearchCategory] = useState<
+    string | null
+  >(null);
+  const [mobileSearchInput, ___, onChangeSearchInput, ____] = useInput('');
+
+  const [sideBarOpened, setSideBarOpened] = useAtom(sidebarStore.sideBarOpened);
+  const setDownBarOpened = useSetAtom(sidebarStore.downBarOpened);
+  const [menuSearchClicked, setMenuSearchCliked] = useAtom(
+    headerStore.searchMobileClicked,
   );
   const [activeMenu, setActiveMenu] = useAtom(headerStore.activeMenu);
   const equipedAwardQueryOptions = {
@@ -72,6 +88,26 @@ function Header({}: Props) {
       }
     }
   };
+  const searchAndSetRecentSearch = (keyword: string) => {
+    const recentSearch: Array<string> | null = JSON.parse(
+      localStorage.getItem('recentSearch')!,
+    );
+    if (recentSearch) {
+      recentSearch.push(keyword);
+      const stringifiedArr = JSON.stringify(recentSearch);
+      localStorage.setItem('recentSearch', stringifiedArr);
+    } else {
+      const stringifiedArr = JSON.stringify([keyword]);
+      localStorage.setItem('recentSearch', stringifiedArr);
+    }
+  };
+  const goSearch = (keyword: string) => {
+    setAnimeList([]);
+    setKeyword(keyword);
+    setOffset(0);
+    searchAndSetRecentSearch(keyword);
+    navigate('/recommend');
+  };
   const dropdownContents: DropdownContentsType[] = [
     {
       content: '프로필설정',
@@ -95,23 +131,26 @@ function Header({}: Props) {
   return (
     <>
       {isModalOpened && <Modal>{modalContentsFunc(modalContents)}</Modal>}
-      <StHeader $mediawidth={width}>
+      <StHeader
+        className={menuSearchClicked ? 'search' : ''}
+        $mediawidth={width}
+      >
         <StHeaderContainer>
           <StHeaderMenuMobile
             onClick={() => {
-              setMenuMobileClicked((prev) => {
+              setSideBarOpened((prev) => {
                 document.body.style.overflow = !prev ? 'hidden' : 'unset';
                 return !prev;
               });
             }}
           >
             <img
-              style={{ display: `${menuMobileClicked ? 'none' : 'block'}` }}
+              style={{ display: `${sideBarOpened ? 'none' : 'block'}` }}
               src={menu}
               alt="menu"
             />
             <img
-              style={{ display: `${menuMobileClicked ? 'block' : 'none'}` }}
+              style={{ display: `${sideBarOpened ? 'block' : 'none'}` }}
               src={closeMenu}
               alt="close"
             />
@@ -121,6 +160,7 @@ function Header({}: Props) {
               display: 'flex',
               alignItems: 'center',
               gap: '32px',
+              textAlign: 'center',
             }}
           >
             <StHeaderLogoSection
@@ -186,6 +226,18 @@ function Header({}: Props) {
           </div>
 
           <StHeaderUserInfoSection>
+            <StSearchMobile
+              className={menuSearchClicked ? 'search' : ''}
+              onClick={() => {
+                setMenuSearchCliked(!menuSearchClicked);
+                setDownBarOpened((prev) => {
+                  document.body.style.overflow = !prev ? 'hidden' : 'unset';
+                  return !prev;
+                });
+              }}
+            >
+              <img src={serachMobile} alt="검색" />
+            </StSearchMobile>
             {user ? (
               <StHeaderUserInfoContainer>
                 <ProfileWithBorder
@@ -213,18 +265,24 @@ function Header({}: Props) {
                   </StHeaderUserAppellation>
                 </StHeaderUserInfo>
                 <StHeaderDropDownImgContainer
-                  style={{ cursor: isDropdownOnB ? 'default' : 'pointer' }}
-                  onClick={() => {
-                    setIsDowpdownOn(true);
-                  }}
+                  ref={dropdownOpenerDRef}
+                  style={{ cursor: 'pointer' }}
+                  onClick={() => setIsDropdownOnD((prev) => !prev)}
                 >
-                  {isDropdownOnB ? (
+                  {isDropdownOnD ? (
                     <img src={dropdownUp} alt="dropdownImg" />
                   ) : (
                     <img src={dropdown} alt="dropdownImg" />
                   )}
                 </StHeaderDropDownImgContainer>
-                {isDropdownOnB && <DropDown children={dropdownContents} />}
+                {isDropdownOnD && (
+                  <DropDown
+                    openerRef={dropdownOpenerDRef}
+                    top={80}
+                    setActive={setIsDropdownOnD}
+                    children={dropdownContents}
+                  />
+                )}
               </StHeaderUserInfoContainer>
             ) : (
               <StHeaderLoginRegister>
@@ -251,6 +309,78 @@ function Header({}: Props) {
             )}
           </StHeaderUserInfoSection>
         </StHeaderContainer>
+        <StHeaderContainerSearch className={menuSearchClicked ? 'search' : ''}>
+          {isDropdownOnB && (
+            <DropDown
+              openerRef={dropdownOpenerBRef}
+              top={90}
+              setActive={setIsDropdownOnB}
+              children={[
+                {
+                  content: '애니찾기',
+                  func: () => {
+                    setMobileSearchCategory('애니찾기');
+                    setIsDropdownOnB(false);
+                  },
+                },
+
+                {
+                  content: '게시글',
+                  func: () => {
+                    setMobileSearchCategory('게시글');
+                    setIsDropdownOnB(false);
+                  },
+                },
+              ]}
+            />
+          )}
+
+          <StHeaderMobileOption>
+            <StHeaderMobileSearchTypo
+              selcted={mobileSearchCategory ? true : false}
+            >
+              {mobileSearchCategory ? mobileSearchCategory : '선택'}
+            </StHeaderMobileSearchTypo>
+            <div
+              onClick={() => setIsDropdownOnB(!isDropdownOnB)}
+              ref={dropdownOpenerBRef}
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                textAlign: 'center',
+              }}
+            >
+              <img src={searchOptionMobile} alt="som" />
+            </div>
+          </StHeaderMobileOption>
+          <StHeaderMobileSearchInputContainer>
+            <StHeaderMobileSearchInput
+              value={mobileSearchInput}
+              onChange={onChangeSearchInput}
+              placeholder="검색어를 입력해주세요"
+            />
+            <StSearchMobile
+              className={menuSearchClicked ? '' : 'search'}
+              onClick={() => {
+                setMenuSearchCliked(false);
+                setDownBarOpened(false);
+                document.body.style.overflow = 'unset';
+                goSearch(mobileSearchInput);
+              }}
+            >
+              <img src={serachMobile} alt="검색" />
+            </StSearchMobile>
+          </StHeaderMobileSearchInputContainer>
+          <StHeaderMobileSearchCancel
+            onClick={() => {
+              setMenuSearchCliked(false);
+              setDownBarOpened(false);
+              document.body.style.overflow = 'unset';
+            }}
+          >
+            취소
+          </StHeaderMobileSearchCancel>
+        </StHeaderContainerSearch>
       </StHeader>
     </>
   );
@@ -259,6 +389,19 @@ function Header({}: Props) {
 const headerMenuColor = '#999999';
 const headerMenuColorActivated = '#4f4f4f';
 
+const StSearchMobile = styled.div`
+  transition: 0.1s;
+  display: none;
+  @media (max-width: 768px) {
+    display: inline-block;
+    &.search {
+      & > img {
+        transition: 0.2s;
+        opacity: 0;
+      }
+    }
+  }
+`;
 const StHeaderMenuMobile = styled.div`
   display: none;
   @media (max-width: 768px) {
@@ -278,12 +421,14 @@ const StHeader = styled.header<{ $mediawidth: number }>`
   display: grid;
   align-items: center;
   background: var(--achromatic-colors-white, #fff);
-  box-shadow: 0px 0px 16px 0px rgba(0, 0, 0, 0.06);
+  box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.06);
   backdrop-filter: blur(25px);
   z-index: 4;
-  @media (max-width: 768px) {
-    //position: fixed;
-    //margin-left: calc(-50vw + 50%);
+  transition: 0.2s;
+  &.search {
+    padding-bottom: 12px;
+    transition: 0.2s;
+    min-height: 90px;
   }
 `;
 
@@ -301,11 +446,86 @@ const StHeaderContainer = styled.div`
   }
 `;
 
+const StHeaderContainerSearch = styled.div`
+  margin: auto;
+  width: 75%;
+  height: 0px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: 0.2s;
+  & > * {
+    transition: 0.1s;
+    opacity: 0;
+    display: none;
+  }
+  @media (max-width: 768px) {
+    width: inherit;
+    flex-direction: row;
+    gap: 8px;
+    box-sizing: border-box;
+    border-left: 18px solid #fff;
+    border-right: 18px solid #fff;
+  }
+  &.search {
+    border-left: 18px solid rgba(0, 0, 0, 0);
+    border-right: 18px solid rgba(0, 0, 0, 0);
+    height: 45px;
+    & > * {
+      transition: 0.1s;
+      display: flex;
+      opacity: 1;
+    }
+  }
+`;
+const StHeaderMobileSearchTypo = styled.p<{ selcted: boolean }>`
+  color: ${(props) =>
+    props.selcted ? '#000;' : 'var(--achromatic-colors-midgray-1, #999);'};
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: -0.21px;
+`;
+const StHeaderMobileOption = styled.div`
+  width: 68px;
+  height: 24px;
+  padding: 8px 4px 8px 8px;
+  align-items: center;
+  position: relative;
+  justify-content: space-between;
+  border-radius: 10px;
+  background: var(--main-light-3, #f9f3ff);
+`;
+const StHeaderMobileSearchInputContainer = styled.div`
+  height: 24px;
+  padding: 8px;
+  justify-content: space-between;
+  align-items: center;
+  border: none;
+  flex: 1 0 0;
+  border-radius: 10px;
+  background: var(--main-light-3, #f9f3ff);
+  &:focus {
+    border: none;
+  }
+`;
+const StHeaderMobileSearchInput = styled.input`
+  border: none;
+  background: transparent;
+  height: 100%;
+  &:focus {
+    border: none;
+    outline: none;
+  }
+`;
+const StHeaderMobileSearchCancel = styled.div``;
 const StHeaderLogoSection = styled.div`
   cursor: pointer;
-
-  // height: 100%;
-  //margin-right: 40px;
+  @media (max-width: 768px) {
+    position: absolute;
+    left: calc(50% - 50px);
+  }
 `;
 
 const StHeaderMenuSection = styled.div`
@@ -334,7 +554,7 @@ const StHeaderMenu = styled.div<{ $isactive: boolean; color?: string }>`
 const StHeaderUserInfoSection = styled.div`
   display: flex;
   align-items: center;
-
+  gap: 8px;
   height: 100%;
 `;
 const StHeaderUserInfoContainer = styled.div`

@@ -30,7 +30,14 @@ const WriteBoard = () => {
     setCategory(e.target.value);
   };
   const onChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(e.target.value);
+    const inputValue = e.target.value;
+    if (inputValue.length <= 20) {
+      setTitle(inputValue);
+    } else {
+      toast.warning('20자 이하로 입력해주세요!', {
+        autoClose: 800,
+      });
+    }
   };
 
   // 취소

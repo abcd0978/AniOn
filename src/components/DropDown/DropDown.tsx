@@ -11,24 +11,31 @@ export type DropdownContentsType = {
 };
 type Props = {
   children: DropdownContentsType[];
+  setActive: React.Dispatch<React.SetStateAction<boolean>>;
+  openerRef: React.RefObject<HTMLDivElement>;
+  top: number;
 };
-function DropDown({ children }: Props) {
+function DropDown({ children, setActive, top, openerRef }: Props) {
   const { width } = useViewport();
-  const dropDownOpenned = useSetAtom(dropDownStore.isDropDownOn);
   const dropDownRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     function handleOutside(e: any) {
-      if (dropDownRef.current && !dropDownRef.current.contains(e.target)) {
-        dropDownOpenned(false);
+      if (
+        dropDownRef.current &&
+        !dropDownRef.current.contains(e.target) &&
+        openerRef &&
+        !openerRef.current?.contains(e.target)
+      ) {
+        setActive(false);
       }
     }
-    document.addEventListener('mouseup', handleOutside);
+    document.addEventListener('mousedown', handleOutside);
     return () => {
-      document.removeEventListener('mouseup', handleOutside);
+      document.removeEventListener('mousedown', handleOutside);
     };
-  }, [dropDownRef, dropDownOpenned]);
+  }, [dropDownRef, setActive, openerRef]);
   return (
-    <StDropdownContainer ref={dropDownRef} $mediawidth={width}>
+    <StDropdownContainer top={top} ref={dropDownRef} $mediawidth={width}>
       {children.map((child, index) => (
         <DropDownContents
           NumOfChildren={children.length}
@@ -40,12 +47,19 @@ function DropDown({ children }: Props) {
     </StDropdownContainer>
   );
 }
-const StDropdownContainer = styled.div<{ $mediawidth: number }>`
+const StDropdownContainer = styled.div<{
+  $mediawidth: number;
+  top: number;
+}>`
   display: flex;
   position: absolute;
   flex-direction: column;
   align-items: flex-start;
   z-index: 9;
-  top: ${(props) => `${80 * (props.$mediawidth / 1920)}px`};
+
+  top: ${(props) => `${props.top * (props.$mediawidth / 1920)}px`};
+  @media (max-width: 768px) {
+    top: ${(props) => `${props.top}px`};
+  }
 `;
 export default DropDown;

@@ -160,7 +160,7 @@ function AniWorldCup() {
             );
           })}
         </S.WorldCupRealTestContainer>
-        <S.WorldcupVS src={vs} alt="vs" />
+        {/* <S.WorldcupVS src={vs} alt="vs" /> */}
       </S.WorldCupContainer>
     </>
   );

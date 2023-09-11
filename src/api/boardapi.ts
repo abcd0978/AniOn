@@ -14,53 +14,60 @@ import type { InsertPost, UpdatePost, InsertLike } from '../types/post';
 const getPosts = async (
   category?: string,
   page: number = 1,
+  searchKeyword?: string,
   itemsPerPage: number = 12,
 ) => {
   try {
     const startIndex = (page - 1) * itemsPerPage;
+    let query = supabase
+      .from('posts')
+      .select(
+        '*,users!inner(nickname,profile_img_url,inventory(id,items(name,img_url,category))),likes(*)',
+        {
+          count: 'exact',
+        },
+      )
+      .eq('users.inventory.is_equipped', true);
+
     if (category === '') {
-      let { data, error, count } = await supabase
-        .from('posts')
-        .select(
-          '*,users!inner(nickname,profile_img_url,inventory(id,items(name,img_url,category))),likes(*)',
-          {
-            count: 'exact',
-          },
-        )
-        .eq('users.inventory.is_equipped', true)
-        .order('created_at', { ascending: false })
-        .range(startIndex, startIndex + itemsPerPage - 1);
-
-      if (error) {
-        throw error;
+      if (searchKeyword === '') {
+        query = query
+          .order('created_at', { ascending: false })
+          .range(startIndex, startIndex + itemsPerPage - 1);
+      } else {
+        query = query
+          .or(
+            `content.ilike.%${searchKeyword}%, title.ilike.%${searchKeyword}%`,
+          )
+          .order('created_at', { ascending: false })
+          .range(startIndex, startIndex + itemsPerPage - 1);
       }
-
-      const totalPages = Math.ceil(count! / itemsPerPage);
-
-      return { data, totalPages, count };
     } else {
-      const { data, error, count } = await supabase
-        .from('posts')
-        .select(
-          '*,users!inner(nickname,profile_img_url,inventory(id,items(name,img_url,category))),likes(*)',
-          {
-            count: 'exact',
-          },
-        )
-        .eq('category', category)
-        .eq('users.inventory.is_equipped', true)
-        .order('created_at', { ascending: false })
-        .range(startIndex, startIndex + itemsPerPage - 1);
-
-      if (error) {
-        throw error;
+      if (searchKeyword === '') {
+        query = query
+          .eq('category', category)
+          .order('created_at', { ascending: false })
+          .range(startIndex, startIndex + itemsPerPage - 1);
+      } else {
+        query = query
+          .eq('category', category)
+          .or(
+            `content.ilike.%${searchKeyword}%, title.ilike.%${searchKeyword}%`,
+          )
+          .order('created_at', { ascending: false })
+          .range(startIndex, startIndex + itemsPerPage - 1);
       }
-      const totalPages = Math.ceil(count! / itemsPerPage);
-
-      return { data, totalPages, count };
     }
+
+    const { data, error, count } = await query;
+
+    if (error) {
+      throw error;
+    }
+    const totalPages = Math.ceil(count! / itemsPerPage);
+
+    return { data, totalPages, count };
   } catch (error) {
-    console.error('게시물을 불러오는 중 에러 발생:', error);
     throw error;
   }
 };
@@ -150,29 +157,6 @@ const deleteLike = async (likeId: string) => {
   await supabase.from('likes').delete().eq('id', likeId);
 };
 
-// 검색
-const searchPost = async (keyword: string) => {
-  try {
-    const { data: posts, error } = await supabase
-      .from('posts')
-      .select(
-        '*,users!inner(nickname,profile_img_url,inventory(id,items(name,img_url))),likes(*)',
-      )
-      .or(
-        `content.ilike.%${keyword}%, title.ilike.%${keyword}%, users.nickname.ilike.%${keyword}`,
-      )
-      .eq('users.inventory.is_equipped', true)
-      .order('created_at', { ascending: false });
-    if (error) {
-      console.log('검색 에러', error);
-    }
-    return posts;
-  } catch (error) {
-    console.log('검색 에러', error);
-  }
-};
-// .ilike('users.nickname', `%${keyword}%`)
-// .or(`users.nickname.ilike.%${keyword}%`)
 export {
   createPost,
   deletePost,
@@ -183,5 +167,4 @@ export {
   createLike,
   deleteLike,
   getLikeForPost,
-  searchPost,
 };

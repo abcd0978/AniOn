@@ -13,8 +13,9 @@ import { S } from './styled.AnimeList';
 import AnimeCard from './AnimeCard';
 
 // api
-import { fetchAllAnimeLikes, toggleAnimeLike } from '../../api/likeApi';
 import { fetchAnimeList } from '../../api/laftel';
+import { fetchAllAnimeComments } from '../../api/aniComment';
+import { fetchAllAnimeLikes, toggleAnimeLike } from '../../api/aniLike';
 
 // store
 import * as userStore from '../../store/userStore';
@@ -23,25 +24,27 @@ import * as animeStore from '../../store/animeRecommendStore';
 // type
 import type { ReadAnimeLikeG } from '../../types/likes';
 import type { AnimeG } from '../../types/anime';
+import { AniCommentType } from '../../types/comment';
 
 const AnimeList = () => {
+  // 상세페이지로 이동했을때만 offset, genres 등등 저장해서 뒤로가기시 데이터 그대로 보여주는 방법 찾아보기
   const queryClient = useQueryClient();
 
   const user = useAtomValue(userStore.user);
+  const ending = useAtomValue(animeStore.isEndingAtom);
+  const years = useAtomValue(animeStore.selectedYearsAtom);
   const genres = useAtomValue(animeStore.selectedGenresAtom);
   const category = useAtomValue(animeStore.selectedCategoryAtom);
-  const years = useAtomValue(animeStore.selectedYearsAtom);
-  const ending = useAtomValue(animeStore.isEndingAtom);
-  const keyword = useAtomValue(animeStore.keywordAtom);
   const isMobileFilterOpen = useAtomValue(animeStore.isMobileFilterAtom);
 
   const size = 18;
   const sort = 'rank';
 
-  const [offset, setOffset] = useAtom(animeStore.offsetAtom);
-  const [animeList, setAnimeList] = useState<AnimeG[]>([]);
-  const [isNextPage, setIsNextPage] = useState(false);
   const [count, setCount] = useState(0);
+  const [isNextPage, setIsNextPage] = useState(false);
+  const [animeList, setAnimeList] = useAtom(animeStore.animeListAtom);
+  const [offset, setOffset] = useAtom(animeStore.offsetAtom);
+  const [keyword, setKeyword] = useAtom(animeStore.keywordAtom);
 
   const animeListQueryOptions = {
     queryKey: ['animeList', genres, offset, years, ending, category, keyword],
@@ -62,12 +65,20 @@ const AnimeList = () => {
 
   const { data: likesData } = useQuery(likesQueryOptions);
 
+  const animeCommentsQueryOptions = {
+    queryKey: ['animeListComments'],
+    queryFn: () => fetchAllAnimeComments(),
+    refetchOnWindowFocus: false,
+  };
+
+  const { data: commentsData } = useQuery(animeCommentsQueryOptions);
+
   const toggleLikeMutation = useMutation(toggleAnimeLike, {
     onSuccess: () => {
       queryClient.invalidateQueries(['animeLikes']);
     },
     onError: (error) => {
-      toast.error(`toggleAnimeLike 오류가 발생했습니다. : ${error}`, {
+      toast.error(`좋아요 도중 오류가 발생했어요.. : ${error}`, {
         autoClose: 800,
       });
     },
@@ -105,9 +116,23 @@ const AnimeList = () => {
     return !!likedAnime;
   };
 
+  // 댓글 개수 확인
+  const commentsCount = (animeId: string): number => {
+    if (!commentsData) {
+      return 0;
+    }
+    return commentsData
+      ? commentsData.filter(
+          (comment: Pick<AniCommentType, 'ani_id'>) =>
+            comment.ani_id === animeId,
+        ).length
+      : 0;
+  };
+
   // 스로틀링된 무한 스크롤 콜백 함수
   // 카테고리를 변경할 때 무한스크롤 실행되는 이슈 발견 > 아래 useEffect를 clean-up 함수로 변경.
   const throttledLoadMore = throttle(() => {
+    console.log('살행됨');
     if (isNextPage && !isFetching && !isLoading) {
       // 이전 offset에 size를 더하여 다음 페이지 데이터를 가져오도록 설정
       setOffset((prevOffset) => prevOffset! + size);
@@ -126,7 +151,9 @@ const AnimeList = () => {
     return () => {
       setOffset(0);
       setAnimeList([]);
+      setKeyword('');
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [genres, category, years]);
 
   useEffect(() => {
@@ -150,9 +177,9 @@ const AnimeList = () => {
       </S.PageNameDiv>
       <AnimeFilter count={count} setAnimeList={setAnimeList} />
       <S.AnimeContainer>
-        {isLoading && !animeList.length ? (
+        {isLoading && isFetching && !animeList.length ? (
           <>
-            {Array(18)
+            {Array(36)
               .fill(undefined)
               .map((_, index) => (
                 <AnimeCardSkeleton key={index} />
@@ -166,18 +193,13 @@ const AnimeList = () => {
               likesCount={likesCount}
               isLike={isLike}
               handleLike={handleLike}
+              commentsCount={commentsCount}
             />
           ))
         )}
-        <>
-          {isFetching &&
-            Array(6)
-              .fill(undefined)
-              .map((_, index) => <AnimeCardSkeleton key={index} />)}
-        </>
       </S.AnimeContainer>
       <ScrollToTop />
-      {isNextPage && !isLoading && <S.Target ref={ref} />}
+      {isNextPage && !isLoading && !isFetching && <S.Target ref={ref} />}
     </S.AnimeListSection>
   );
 };

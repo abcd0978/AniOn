@@ -1,34 +1,40 @@
 import styled from 'styled-components';
 
-const S = {
+export const S = {
   Container: styled.div`
-    width: 1440px;
+    width: 100%;
     border-radius: 20px;
     box-shadow: 0px 0px 20px 0px #0000001a;
     gap: 20px;
     padding: 40px;
     margin-top: 20px;
     margin-bottom: 100px;
+
+    @media (max-width: 768px) {
+      width: 90%;
+      padding: 20px;
+    }
   `,
   Inner: styled.div`
-    width: 1360px;
+    // width: 100%;
     display: block;
     align-items: center;
     justify-content: center;
+    @media (max-width: 768px) {
+      width: 317px;
+    }
   `,
   Top: styled.div`
-    width: 1360px;
-    height: 45px;
+    width: 100%;
+    min-height: 45px;
     padding: 12px, 0px, 12px, 0px;
     gap: 16px;
-    margin-top: 20px;
   `,
 
   ButtonContainer: styled.div`
     display: flex;
     justify-content: right;
-    margin-top: -30px;
-    margin-right: -60px;
+    margin-bottom: 10px;
   `,
   Button: styled.button`
     background-color: #dddddd;
@@ -44,7 +50,7 @@ const S = {
   PostContainer: styled.div`
     display: flex;
     flex-direction: column;
-    width: 1360px;
+    width: 100%;
     margin-bottom: 50px;
     margin-top: -5px;
   `,
@@ -58,29 +64,32 @@ const S = {
 
   Date: styled.div`
     font-size: 16px;
-    width: 1360px;
+    width: 100%;
     text-align: right;
     float: right;
     color: gray;
-    margin-right: -60px;
     margin-bottom: 10px;
+    @media (max-width: 768px) {
+      font-size: 12px;
+    }
   `,
 
   Box: styled.div`
-    width: 1360px;
+    width: 100%;
     margin: 20px;
     padding: 0 auto;
   `,
   EditBox: styled.div`
-    width: 1360px;
+    width: 100%;
     height: 500px;
     margin: 20px;
     padding: 0 auto;
   `,
 
   Title: styled.div`
+    // 최대 수 글자수 제한하기
     line-height: 1.5;
-    width: 1184px;
+    display: inline-block;
     height: 21px;
     padding: 0 auto;
     font-size: 24px;
@@ -89,17 +98,30 @@ const S = {
     // margin: -5px;
     margin-top: -10px;
     margin-left: 12px;
+    text-overflow: ellipsis;
+    @media (max-width: 768px) {
+      font-size: 18px;
+      margin-bottom: 15px;
+      margin-top: 5px;
+    }
   `,
 
-  Content: styled.div`
-    white-space: wrap;
+  Content: styled.div<{ width: number }>`
     // word-wrap: break-word;
     // font-size: 16px;
     line-height: 1.6;
-    width: 1360px;
+    width: 100%;
+    @media (max-width: 768px) {
+      width: 100%;
+      margin: 0px;
+      gap: 10px;
+      img {
+        max-width: 100%;
+        max-height: 200px;
+      }
+    }
     margin: 20px;
     gap: 40px;
-
     h1 {
       display: block;
 
@@ -198,6 +220,10 @@ const S = {
     p {
       margin: 10px 0;
       padding: 5px;
+      word-wrap: break-word;
+      white-space: pre-wrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
   `,
 
@@ -228,7 +254,7 @@ const S = {
   `,
 
   Textarea: styled.textarea`
-    width: 1360px;
+    width: 100%;
     height: 450px;
     max-height: 4355px;
     line-height: 1.5;
@@ -271,6 +297,10 @@ const S = {
     justify-content: flex-end;
     padding: 10px;
     margin-right: -15px;
+    @media (max-width: 768px) {
+      height: 30px;
+      margin-top: 30px;
+    }
   `,
   Img: styled.img`
     background-color: white;
@@ -285,12 +315,16 @@ const S = {
     margin-top: 30px;
     margin-left: 5px;
     color: #8200ff;
+    @media (max-width: 768px) {
+      font-size: 20px;
+    }
   `,
 
   Post: styled.div`
     display: flex;
     justify-content: space-between;
   `,
+
   Search: styled.div`
     display: flex;
   `,
@@ -334,12 +368,15 @@ const S = {
     border: none;
     cursor: pointer;
     border-radius: 10px;
-    margin-left: 60px;
+    margin-bottom: 30px;
   `,
   Line: styled.div`
     border: 1px solid #d9d9d9;
-    width: 1440px;
+    width: 100%;
     margin-top: 20px;
+    @media (max-width: 768px) {
+      width: 317px;
+    }
   `,
 
   Award: styled.div`
@@ -356,11 +393,10 @@ const S = {
     margin-top: 5px;
   `,
   Comment: styled.div`
-    width: 1360px;
+    width: 100%;
     max-height: 2476px;
     gap: 20px;
-    margin-bottom: -150px;
-    margin-left: 30px;
+    margin-bottom: -140px;
   `,
   AwardNo: styled.div`
     display: flex;
@@ -375,5 +411,3 @@ const S = {
     border: 1px solid #dbdbdb;
   `,
 };
-
-export { S };

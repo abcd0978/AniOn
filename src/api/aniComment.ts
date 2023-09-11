@@ -3,6 +3,20 @@ import { Database } from '../types/supabase';
 type InsertAniComment = Database['public']['Tables']['ani_comments']['Insert'];
 type UpdateAniComment = Database['public']['Tables']['ani_comments']['Update'];
 
+const fetchAllAnimeComments = async () => {
+  try {
+    const { data, error } = await supabase
+      .from('ani_comments')
+      .select('ani_id');
+    if (error) {
+      return [];
+    }
+    return data;
+  } catch (error) {
+    return [];
+  }
+};
+
 const fetchComments = async (ani_id: string, page: number): Promise<any> => {
   const itemsPerPage = 5;
 
@@ -22,12 +36,12 @@ const fetchComments = async (ani_id: string, page: number): Promise<any> => {
     const totalPages = Math.ceil(count! / itemsPerPage);
 
     if (error) {
-      console.log('aniComment > fetchComments > ', error);
+      // console.log('aniComment > fetchComments > ', error);
     }
 
     return { data, totalPages };
   } catch (error) {
-    console.log('aniComment > fetchComments > ', error);
+    // console.log('aniComment > fetchComments > ', error);
   }
 };
 
@@ -53,4 +67,10 @@ const updateComment = async (editComment: UpdateAniComment) => {
   await supabase.from('ani_comments').update(editData).eq('id', id);
 };
 
-export { fetchComments, addComment, deleteComment, updateComment };
+export {
+  fetchComments,
+  addComment,
+  deleteComment,
+  updateComment,
+  fetchAllAnimeComments,
+};

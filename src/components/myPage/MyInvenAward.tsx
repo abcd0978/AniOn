@@ -10,6 +10,7 @@ import { styled } from 'styled-components';
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 import { PaginationTwo } from '../PagenationTwo';
+import Loading from '../Loading/Loading';
 const itemsPerPage = 15;
 
 const MyInvenAward = () => {
@@ -36,9 +37,6 @@ const MyInvenAward = () => {
         autoClose: 800,
       });
     },
-    // onError: (error) => {
-    //   console.log('장착 myInvenAward', error);
-    // },
   });
 
   const unEquipItemMutation = useMutation(unEquipItem, {
@@ -74,6 +72,16 @@ const MyInvenAward = () => {
       category: 1,
     });
   };
+  if (isLoading) {
+    return (
+      <AwardLoading>
+        <Loading />
+      </AwardLoading>
+    );
+  }
+  if (isError) {
+    return <div>칭호를 불러오지 못했어요.</div>;
+  }
 
   const filteredAwards = awards?.filter((award) => awards.length !== 0);
 
@@ -139,7 +147,7 @@ const MyInvenAward = () => {
   return (
     <A.Container>
       <GridContainer>{awardsList}</GridContainer>
-      <div>
+      <PageContainer>
         <Page>
           {Array.isArray(filteredAwards) && filteredAwards.length > 0 && (
             <PaginationTwo
@@ -151,7 +159,7 @@ const MyInvenAward = () => {
             />
           )}
         </Page>
-      </div>
+      </PageContainer>
     </A.Container>
   );
 };
@@ -163,10 +171,16 @@ const GridContainer = styled.div`
   gap: 50px;
   padding: 10px;
 `;
+const PageContainer = styled.div`
+  position: absolute;
+`;
 
 export const Page = styled.div`
   position: absolute;
   justify-content: center;
-  margin-top: -30%;
-  margin-left: 66%;
+  top: -565px;
+  left: 630px;
+`;
+const AwardLoading = styled.div`
+  margin-left: 500px;
 `;
