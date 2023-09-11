@@ -6,6 +6,7 @@ export type PostType = {
   created_at: string;
   deleted_at: string;
   id: string;
+  thumbnail?: string;
   post_id: string;
   likes: {
     id: string;
