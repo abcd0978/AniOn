@@ -17,7 +17,7 @@ export const R = {
       border-radius: 440px;
     }
     @media (max-width: 768px) {
-      width: 100%;
+      width: 55%;
       height: 90%;
       aspect-ratio: 1;
       margin-top: 0px;
@@ -110,7 +110,7 @@ export const R = {
 
     @media (max-width: 768px) {
       width: 50%;
-      font-size: 12px;
+      font-size: 13px;
       padding: 11px 20px;
 
       img {
@@ -152,7 +152,7 @@ export const R = {
     gap: 24px;
 
     @media (max-width: 768px) {
-      flex-direction: column;
+      flex-direction: row;
     }
   `,
 
@@ -169,8 +169,11 @@ export const R = {
     background: #fff;
     /* Drop Shadow */
     box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.1);
+
     @media (max-width: 768px) {
       flex-direction: column;
+      width: 101px;
+      border-radius: 21px;
     }
   `,
 
@@ -199,6 +202,12 @@ export const R = {
     font-weight: 700;
     line-height: 150%; /* 30px */
     letter-spacing: -0.3px;
+
+    @media (max-width: 768px) {
+      margin-left: 76px;
+      font-size: 17px;
+      margin-top: -18px;
+    }
   `,
 
   ResultTopTextBox: styled.div`
@@ -229,6 +238,10 @@ export const R = {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+
+    @media (max-width: 768px) {
+      font-size: 13px;
+    }
   `,
 
   ResultTopTextCha: styled.p`
@@ -238,6 +251,10 @@ export const R = {
     font-weight: 700;
     line-height: 150%; /* 30px */
     letter-spacing: -0.3px;
+
+    @media (max-width: 768px) {
+      font-size: 15px;
+    }
   `,
 
   OtherRankContainer: styled.div`
