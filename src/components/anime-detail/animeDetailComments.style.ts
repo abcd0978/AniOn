@@ -206,8 +206,10 @@ export const S = {
     flex-direction: column;
 
     @media (max-width: 768px) {
-      width:100%;
+      width: 100%;
+    }
   `,
+
   date: styled.div`
     color: #6e6c69;
     font-size: 12px;

@@ -84,3 +84,11 @@ export const getAnimeStars = async (animeId: string) => {
   const result = await api.get(`/items/v1/${animeId}/statistics/`);
   return result.data;
 };
+
+export const fetchAnimeRecommend = async () => {
+  const result = await api.post(`/home/v2/recommend/3/`);
+  // const item = result.data.map((dd: any) => {
+  //   console.log('dd', dd.name); '라프텔' / return
+  // });
+  return result.data;
+};
