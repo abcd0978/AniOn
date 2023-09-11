@@ -12,7 +12,7 @@ import dropdownUp from '../assets/dropdownUp.svg';
 import serachMobile from '../assets/searchMobile.svg';
 import menu from '../assets/menu.svg';
 import closeMenu from '../assets/closeMenuMobile.svg';
-import searchOptionMobile from '../components/assets/searchOptionMobile.svg';
+import searchOptionMobile from '../assets/searchOptionMobile.svg';
 import * as authApi from '../api/auth';
 import logout from '../assets/logout.svg';
 import account from '../assets/account.svg';
