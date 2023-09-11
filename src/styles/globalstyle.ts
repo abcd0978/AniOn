@@ -21,7 +21,6 @@ ${reset};
 
 *{
     font-family: 'Pretendard-Regular';
-
 }
 
 
@@ -30,8 +29,8 @@ body{
     max-width: 75%;
     overflow-x: hidden;
     font-family: 'Pretendard-Regular';
-    @media (max-width: 540px) {
-      max-width: 90%;
+    @media (max-width: 768px) {
+        max-width: 90%;
     }
 }
 header{
@@ -40,16 +39,15 @@ header{
 }
 .sidebar{
     width:100vw;
-height: 100vh;
-left: -100vw;
-  transition: all 0.3s ease;
+    height: 100vh;
+    left: -100vw;
+    transition: all 0.3s ease;
 }
 .sidebar.opened {
-
-  padding: 20px 0px;
-  left: 0;
+    padding: 20px 0px;
+    left: 0;
 }
-.embla{
+.embla:not(.middle){
     width:100vw;
     margin-left: calc(-50vw + 50%);
     overflow: hidden;

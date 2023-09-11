@@ -30,8 +30,7 @@ function DropDownContents({ data, NumOfChildren, index }: Props) {
   };
   return (
     <StDropdownMenu
-      className={'dropdoen_menu'}
-      $mediawidth={width}
+      $mediawidth={width >= 786 ? width : 786}
       order={processOrder()}
       onClick={() => {
         data.func();
@@ -46,28 +45,54 @@ const StDropdownMenu = styled.div<{ order: number; $mediawidth: number }>`
   display: flex;
   width: ${(props) => 156 * (props.$mediawidth / 1920)}px;
   height: ${(props) => 56 * (props.$mediawidth / 1920)}px;
+
   padding: ${(props) => {
     return `${13 * (props.$mediawidth / 1920)}px ${
       16 * (props.$mediawidth / 1920)
     }px `;
   }};
   align-items: center;
+  //justify-content:space-between;
   cursor: pointer;
-  box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.14);
+  place-content: center;
   gap: 8px;
   & :hover {
     background: #dfdfdf;
   }
   background: var(--achromatic-colors-white, #fff);
+  @media (max-width: 768px) {
+    border-radius: 10px;
+
+    ${(props) => {
+      if (props.order === 0) {
+        return `border-radius: 10px 10px 0px 0px;`;
+      } else if (props.order === 1) {
+        return ``;
+      } else if (props.order === 2) {
+        return `border-radius: 10px 10px 10px 10px;`;
+      } else {
+        return `border-radius: 0px 0px 14px 14px;`;
+      }
+    }}
+  }
+
   ${(props) => {
     if (props.order === 0) {
-      return `border-radius: 14px 14px 0px 0px;`;
+      return `border-radius: ${(14 * props.$mediawidth) / 1920}px ${
+        (14 * props.$mediawidth) / 1920
+      }px 0px 0px;`;
     } else if (props.order === 1) {
       return ``;
     } else if (props.order === 2) {
-      return `border-radius: 14px 14px 14px 14px;`;
+      return `border-radius: ${(14 * props.$mediawidth) / 1920}px ${
+        (14 * props.$mediawidth) / 1920
+      }px ${(14 * props.$mediawidth) / 1920}px ${
+        (14 * props.$mediawidth) / 1920
+      }px;`;
     } else {
-      return `border-radius: 0px 0px 14px 14px;`;
+      return `border-radius: 0px 0px ${(14 * props.$mediawidth) / 1920}px ${
+        (14 * props.$mediawidth) / 1920
+      }px;`;
     }
   }}
   z-index:9;
