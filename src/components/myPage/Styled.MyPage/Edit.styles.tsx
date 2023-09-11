@@ -1,12 +1,10 @@
 import styled from 'styled-components';
 export const E = {
   Page: styled.div`
-    position: relative;
-    top: -85vh;
-    left: 25vw;
+    margin-top: -700px;
+    margin-left: 450px;
   `,
   Title: styled.div`
-    position: relative;
     width: 200px;
     height: 32px;
     color: #000;
@@ -17,9 +15,7 @@ export const E = {
     letter-spacing: -0.36px;
   `,
 
-  Container: styled.div`
-    position: absolute;
-  `,
+  Container: styled.div``,
 
   PhotoItem: styled.div`
     display: flex;
@@ -54,7 +50,6 @@ export const E = {
     background-color: #f9f3ff;
   `,
   CancelButton: styled.button`
-    position: absolute;
     right: 80px;
     background-color: #dbdbdb;
     border-radius: 12px;
@@ -64,7 +59,6 @@ export const E = {
     cursor: pointer;
   `,
   DoneButton: styled.button`
-    position: absolute;
     right: -5px;
     background-color: #8200ff;
     border-radius: 12px;
@@ -90,7 +84,6 @@ export const E = {
     width: 72px;
     height: 32px;
     border: 1px solid var(--main-mid-2, #c88fff);
-    position: absolute;
     right: -5px;
     color: #000;
     cursor: pointer;
@@ -101,7 +94,6 @@ export const E = {
     }
   `,
   NickNameCheck: styled.button`
-    position: absolute;
     margin-left: 10px;
     background-color: #ff96db;
     border-radius: 12px;

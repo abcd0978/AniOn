@@ -227,6 +227,7 @@ export const HoverViewDetail = styled.div`
   border: none;
   background-color: #8200ff;
   color: white;
+
   cursor: pointer;
   p {
     margin-left: 12px;
@@ -245,12 +246,13 @@ export const LikedInfoTitle = styled.div`
   font-weight: 700;
   font-size: 24px;
   line-height: 34px;
-  white-space: normal;
   position: absolute;
-  top: 50%;
-  left: 50%;
+  margin-left: 20px;
+  margin-top: -140px;
+  white-space: normal;
   overflow: hidden;
   text-overflow: ellipsis;
+  max-width: calc(40% - (50px + (70px / 2)));
   white-space: nowrap;
   transform: translate(-45%, -90%);
   overflow: hidden;
@@ -259,13 +261,14 @@ export const HoveredAnimeGenreTag = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 150px;
+  width: auto;
   height: 16px;
   background: #f3e7ff;
-  padding: 7px;
+  padding: 7px 14px;
   border-radius: 3px;
-  width: 80px;
-  height: auto;
+  position: absolute;
+  margin-top: -220px;
+  margin-left: -100px;
   border-radius: 50px;
   text-align: center;
 `;
@@ -273,17 +276,13 @@ export const HoveredAnimeGenre = styled.div`
   visibility: hidden;
   display: flex;
   align-items: flex-start;
-  margin-left: -110px;
   padding: 5px;
-  position: absolute;
-  top: 0;
-  left: 50;
 `;
 
 const L = {
   LikedContainer: styled.div`
-    margin-top: -110%;
-    margin-left: 70%;
+    margin-top: -700px;
+    margin-left: 450px;
   `,
   GridContainer: styled.div`
     display: grid;
@@ -291,9 +290,6 @@ const L = {
     grid-template-columns: repeat(3, 1fr);
   `,
   Title: styled.div`
-    position: relative;
-    margin-left: 150px;
-    top: -300px;
     width: 200px;
     height: 32px;
     color: #000;
@@ -314,8 +310,7 @@ const L = {
     justify-content: space-between;
     align-items: center;
     gap: 8px;
-    margin-top: -360px;
-    margin-left: 130px;
+    margin-top: -60px;
   `,
 
   NoContainer: styled.div`
@@ -323,8 +318,6 @@ const L = {
     align-items: center;
 
     justify-content: center;
-    margin-left: 190%;
-    margin-top: 85%;
   `,
   GoRecommend: styled.button`
     background-color: #8200ff;
@@ -349,26 +342,24 @@ const L = {
 
   Page: styled.div`
     position: absolute;
-    margin-right: -680px;
-    margin-top: -330px;
+    justify-content: center;
+    display: block;
+    top: -50px;
+    right: 200px;
   `,
 
   FullPage: styled.div`
-    position: absolute;
+    position: relative;
+
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: flex-end;
-    margin-left: 150px;
   `,
   Tags: styled.div`
     font-weight: 600;
   `,
-  List: styled.div`
-    margin-top: -280px;
-    position: absolute;
-    left: 10px;
-  `,
+  List: styled.div``,
 
   AnimeTitle: styled.div`
     width: 220px;
@@ -408,7 +399,6 @@ const L = {
   `,
 
   Container: styled.div`
-    position: relative;
     display: flex;
     flex-direction: column;
     align-items: flex-start;

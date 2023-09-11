@@ -5,7 +5,7 @@ export const Profile = {
     border-radius: 20px;
     background: #fdfbff;
     box-shadow: 0px 0px 25px 0px rgba(0, 0, 0, 0.1);
-    width: 20.8vw;
+    width: 400px;
     height: 850px;
     padding: 20px;
     margin-top: 40px;
@@ -137,4 +137,5 @@ export const Divider = styled.div`
   height: 1px;
   background: var(--achromatic-colors-midgray-2, #dbdbdb);
   margin-top: 8px;
+  margin-bottom: 8px;
 `;

@@ -2,17 +2,14 @@ import styled, { CSSProp } from 'styled-components';
 
 export const R = {
   Container: styled.div`
-    position: absolute;
     display: flex;
     flex-direction: column;
     gap: 16px;
-    left: 25vw;
-    top: 20vh;
+    margin-top: -700px;
+    margin-left: 450px;
   `,
 
   Title: styled.div`
-    position: absolute;
-    top: -50px;
     width: 200px;
     height: auto;
     color: #000;
@@ -37,7 +34,6 @@ export const R = {
   Content: styled.div`
     display: flex;
     flex-direction: column;
-    top: 30vh;
   `,
   ReviewTitle: styled.div`
     min-width: 780px;
@@ -105,7 +101,7 @@ export const R = {
     color: white;
   `,
   Page: styled.div`
-    position: relative;
+    position: absolute;
     justify-content: center;
     margin-left: 25vw;
   `,
@@ -140,13 +136,10 @@ export const R = {
 
 export const P = {
   Container: styled.div`
-    position: absolute;
-    top: 10vh;
-    left: 25vw;
+    margin-top: -700px;
+    margin-left: 450px;
   `,
   Title: styled.div`
-    position: relative;
-    margin-bottom: 40px;
     width: 200px;
     height: 32px;
     color: #000;
@@ -160,9 +153,9 @@ export const P = {
   PostsContainer: styled.div``,
 
   WriteP: styled.div`
-    position: relative;
-    top: 550px;
-    left: 350px;
+    position: absolute;
+    justify-content: center;
+    margin-left: 20vw;
   `,
   NoContainer: styled.div`
     display: grid;

@@ -15,6 +15,7 @@ import useViewport from '../../hooks/useViewPort';
 import { useConfirm } from '../../hooks/useConfirm';
 import CheckBox from '../../assets/check_box.png';
 import Delete from '../../assets/delete.png';
+import ThumbnailIcon from '../../assets/image.png';
 import { toast } from 'react-toastify';
 import MyPostsSkeleton from './Skeleton.MyPage/MyPostsSkeleton';
 type ReadMyBoard = Database['public']['Tables']['posts']['Row'];
@@ -187,6 +188,9 @@ const WhatIWrote = () => {
                     onClick={() => handlePostClick(post.id?.toString() ?? '')}
                   >
                     {post.title}
+                    {post.thumbnail !== null && (
+                      <img src={ThumbnailIcon} alt="thumbnailIcon" />
+                    )}
                     <P.Date>
                       {new Date(post.created_at).toLocaleString()}{' '}
                     </P.Date>

@@ -1,9 +1,8 @@
 import styled from 'styled-components';
 export const D = {
   Page: styled.div`
-    position: relative;
-    top: -85vh;
-    left: 25vw;
+    margin-top: -700px;
+    margin-left: 450px;
   `,
   Title: styled.div`
     width: 200px;
@@ -17,10 +16,7 @@ export const D = {
   `,
   Container: styled.div`
     display: grid;
-    position: absolute;
     flex-direction: column;
-    margin-top: -18%;
-    margin-left: 150px;
   `,
   ButtonContainer: styled.div`
     display: flex;
@@ -28,7 +24,6 @@ export const D = {
 };
 export const B = {
   Container: styled.div`
-    position: relative;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 5px 1px;
@@ -59,10 +54,11 @@ export const B = {
     line-height: 25px;
   `,
   BorderPage: styled.div`
-    justify-content: center;
     position: absolute;
-    left: 29vw;
-    top: -0vh;
+    justify-content: center;
+    display: block;
+    top: 240px;
+    right: 400px;
   `,
 
   BorderLoading: styled.div`
@@ -129,15 +125,12 @@ export const B = {
   `,
 };
 export const A = {
-  Page: styled.div`
-    position: relative;
-  `,
+  Page: styled.div``,
   Container: styled.div`
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 50px;
-    margin-left: -5vw;
-    margin-top: 5vh;
+    margin-top: 10px;
   `,
 
   Loading: styled.div`
@@ -201,8 +194,10 @@ export const A = {
     }
   `,
   Pagination: styled.div`
-    position: relative;
-    margin-left: 60%;
-    margin-top: -73%;
+    position: absolute;
+    justify-content: center;
+    display: block;
+    top: 240px;
+    right: 470px;
   `,
 };

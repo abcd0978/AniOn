@@ -22,5 +22,4 @@ export default MyPage;
 const MyPageConainer = styled.div`
   margin: 0 auto;
   margin-bottom: 32px;
-  position: relative;
 `;
