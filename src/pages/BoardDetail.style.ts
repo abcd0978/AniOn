@@ -289,6 +289,9 @@ const S = {
     margin-top: 30px;
     margin-left: 5px;
     color: #8200ff;
+    @media (max-width: 768px) {
+      font-size: 20px;
+    }
   `,
 
   Post: styled.div`

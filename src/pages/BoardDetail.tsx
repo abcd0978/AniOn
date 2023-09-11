@@ -243,7 +243,7 @@ const BoardDetail = () => {
     <>
       <S.TopTitle>게시판</S.TopTitle>
 
-      <S.Post>
+      <S.Post className="hidden-on-small-screens">
         {!isEdit && (
           <>
             <S.Search>
