@@ -24,6 +24,7 @@ import * as animeStore from '../../store/animeRecommendStore';
 // type
 import type { ReadAnimeLikeG } from '../../types/likes';
 import type { AnimeG } from '../../types/anime';
+import { AniCommentType } from '../../types/comment';
 
 const AnimeList = () => {
   // 상세페이지로 이동했을때만 offset, genres 등등 저장해서 뒤로가기시 데이터 그대로 보여주는 방법 찾아보기
@@ -71,14 +72,13 @@ const AnimeList = () => {
   };
 
   const { data: commentsData } = useQuery(animeCommentsQueryOptions);
-  console.log('댓글', commentsData);
 
   const toggleLikeMutation = useMutation(toggleAnimeLike, {
     onSuccess: () => {
       queryClient.invalidateQueries(['animeLikes']);
     },
     onError: (error) => {
-      toast.error(`toggleAnimeLike 오류가 발생했습니다. : ${error}`, {
+      toast.error(`좋아요 도중 오류가 발생했어요.. : ${error}`, {
         autoClose: 800,
       });
     },
@@ -118,8 +118,14 @@ const AnimeList = () => {
 
   // 댓글 개수 확인
   const commentsCount = (animeId: string): number => {
-    return likesData
-      ? commentsData!.filter((comment) => comment.ani_id === animeId).length
+    if (!commentsData) {
+      return 0;
+    }
+    return commentsData
+      ? commentsData.filter(
+          (comment: Pick<AniCommentType, 'ani_id'>) =>
+            comment.ani_id === animeId,
+        ).length
       : 0;
   };
 
@@ -193,7 +199,7 @@ const AnimeList = () => {
         )}
       </S.AnimeContainer>
       <ScrollToTop />
-      {isNextPage && !isLoading && <S.Target ref={ref} />}
+      {isNextPage && !isLoading && !isFetching && <S.Target ref={ref} />}
     </S.AnimeListSection>
   );
 };

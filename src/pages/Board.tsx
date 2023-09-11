@@ -1,31 +1,30 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import * as userStore from '../store/userStore';
 import * as S from './Board.style';
-import { getPosts, searchPost } from '../api/boardapi';
-import { Database } from '../types/supabase';
+import { getPosts } from '../api/boardapi';
 import { useState } from 'react';
-import { atom, useAtom, useAtomValue } from 'jotai';
+import { useAtomValue } from 'jotai';
 import Pagination from '../components/Pagenation';
 import { toast } from 'react-toastify';
 import pencil from '../assets/pencil.svg';
 import search from '../assets/search.svg';
 import ddabong from '../assets/ddabong.svg';
+import ScrollToTop from '../components/ScrollToTop';
 import ProfileWithBorder, {
   processItem,
 } from '../components/ProfileWithBorder';
-import type { PostType, InsertPost, UpdatePost } from '../types/post';
+import type { PostType } from '../types/post';
 import useViewport from '../hooks/useViewPort';
 
 const Board = () => {
   const user = useAtomValue(userStore.user);
-  const queryClient = useQueryClient();
   const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState<string>('');
   const [searchKeyword, setSearchKeyword] = useState<string>('');
   const [page, setPage] = useState<number>(1);
-  const { width } = useViewport();
+  const { width, isMobile } = useViewport();
 
   const handleWriteClick = () => {
     if (!user) {
@@ -46,12 +45,16 @@ const Board = () => {
   };
 
   const postQueryOptions = {
-    queryKey: ['posts', selectedCategory, searchKeyword, page],
-    queryFn: () => getPosts(selectedCategory, page),
+    queryKey: ['posts', selectedCategory, page],
+    queryFn: () => getPosts(selectedCategory, page, searchKeyword),
     refetchOnWindowFocus: false,
   };
 
-  const { data: postsAndTotalPages, isFetching } = useQuery(postQueryOptions);
+  const {
+    data: postsAndTotalPages,
+    isFetching,
+    refetch,
+  } = useQuery(postQueryOptions);
 
   const onClickPage = (selected: number | string) => {
     if (page === selected) return;
@@ -69,45 +72,19 @@ const Board = () => {
     }
   };
 
-  // console.log('dd', postsAndTotalPages);
-  // 검색 결과에 따라 게시물 리스트를 필터링하고 정렬
-  const filteredAndSortedPosts: PostType[] | undefined = useMemo(() => {
-    if (!postsAndTotalPages?.data) return undefined;
-
-    return postsAndTotalPages.data
-      .filter((post: PostType) => {
-        const postTitleIncludesKeyword = post.title.includes(searchKeyword);
-        const postContentIncludesKeyword = post.content.includes(searchKeyword);
-        const postUserNicknameIncludesKeyword =
-          post.users?.nickname?.includes(searchKeyword) ?? false;
-
-        return (
-          postTitleIncludesKeyword ||
-          postContentIncludesKeyword ||
-          postUserNicknameIncludesKeyword
-        );
-      })
-      .sort((a, b) => b.created_at.localeCompare(a.created_at)); // 최신 글이 위로 가도록 정렬
-  }, [postsAndTotalPages, searchKeyword]);
-
   const handlePostClick = (postId: string) => {
     navigate(`/board/${postId}`);
   };
 
-  const handleSearchSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const processBody = (bodyStr: string) => {
-      let result = '';
-      result = bodyStr
-        .replace(/\n/g, '')
-        .replace(/<[^>]*>?/g, '')
-        .replace(/&nbsp;/gi, '');
-      return result;
-    };
-    const ppp = await searchPost(searchKeyword);
-    // console.log('보드 검색', ppp);
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      handleSearch();
+    }
+  };
+
+  const handleSearch = async () => {
+    refetch();
     setSelectedCategory('');
-    queryClient.invalidateQueries(['posts', null, searchKeyword]);
   };
 
   // 글 이미지 미리보기에서 사진 없애기
@@ -123,7 +100,7 @@ const Board = () => {
     <S.Container>
       <S.Title>게시판</S.Title>
       <S.Search>
-        <div>
+        <S.ButtonBox>
           <S.Button
             onClick={() => handleAllClick()}
             style={{
@@ -164,83 +141,86 @@ const Board = () => {
           >
             오류 신고
           </S.Button>
-        </div>
-        <S.SearchInputContainer>
-          <form onSubmit={handleSearchSubmit}>
+        </S.ButtonBox>
+        {!isMobile && (
+          <S.SearchInputContainer>
             <S.SearchInput
               type="text"
               placeholder="검색어를 입력해주세요!"
               value={searchKeyword}
               onChange={(e) => setSearchKeyword(e.target.value)}
+              onKeyDown={handleKeyPress}
             />
-            <S.SearchIcon src={search} alt="Search Icon" />
-          </form>
+            <S.SearchIcon
+              src={search}
+              alt="Search Icon"
+              onClick={handleSearch}
+            />
 
-          <S.WriteButton onClick={handleWriteClick}>
-            <img src={pencil} alt="작성" /> 작성하기
-          </S.WriteButton>
-        </S.SearchInputContainer>
+            <S.WriteButton onClick={handleWriteClick}>
+              <img src={pencil} alt="작성" /> 작성하기
+            </S.WriteButton>
+          </S.SearchInputContainer>
+        )}
       </S.Search>
 
-      <ul>
+      <S.PostWrapper>
         {isFetching ? (
           <div>로딩중...</div>
-        ) : filteredAndSortedPosts ? (
-          filteredAndSortedPosts.map((post: PostType, index: number) => (
-            //포스트
+        ) : postsAndTotalPages?.data.length !== 0 ? (
+          postsAndTotalPages?.data?.map((post: PostType, index: number) => (
             <S.Post
+              key={post.id}
               onClick={() => post.id && handlePostClick(post.id.toString())}
+              className={post.thumbnail ? 'tall' : 'small'}
             >
-              <div key={post.id}>
-                <S.PostTop>
-                  <S.PostTopLeft>
-                    #{postsAndTotalPages?.count! - (page - 1) * 12 - index}
-                    <S.Category>{post.category} 게시판</S.Category>
-                  </S.PostTopLeft>
-                  <S.PostTopRight>
-                    <S.Ddabong src={ddabong} alt="추천수" />
-                    <div style={{ marginTop: '3px', marginRight: '5px' }}>
-                      추천수 {post.likes?.length}
-                    </div>
-                  </S.PostTopRight>
-                </S.PostTop>
-                <S.PostMiddle>
-                  <S.PostMiddleLeft>
-                    <ProfileWithBorder
-                      width={40}
-                      $mediawidth={1920}
-                      border_img_url={
-                        post.users.inventory.length > 0
-                          ? processItem(post.users.inventory).border
-                          : undefined
-                      }
-                      profile_img_url={post.users?.profile_img_url}
-                      key={post.id!}
+              <S.PostTop>
+                <S.PostTopLeft>
+                  #{postsAndTotalPages?.count! - (page - 1) * 12 - index}
+                  <S.Category>{post.category} 게시판</S.Category>
+                </S.PostTopLeft>
+                <S.PostTopRight>
+                  <S.Ddabong src={ddabong} alt="추천수" />
+                  <div style={{ marginTop: '3px', marginRight: '5px' }}>
+                    추천수 {post.likes?.length}
+                  </div>
+                </S.PostTopRight>
+              </S.PostTop>
+              <S.PostMiddle>
+                <S.PostMiddleLeft>
+                  <ProfileWithBorder
+                    width={40}
+                    $mediawidth={1920}
+                    border_img_url={
+                      post.users.inventory.length > 0
+                        ? processItem(post.users.inventory).border
+                        : undefined
+                    }
+                    profile_img_url={post.users?.profile_img_url}
+                    key={post.id!}
+                  />
+                  <S.Ninkname>{post.users?.nickname}</S.Ninkname>
+                  {post.users.inventory.length > 0 &&
+                  processItem(post.users.inventory).award.img_url ? (
+                    <img
+                      src={processItem(post.users.inventory).award.img_url!}
+                      alt={processItem(post.users.inventory).award.name!}
+                      style={{
+                        width: '172px',
+                        height: '32px',
+                        marginRight: '8px',
+                      }}
                     />
-
-                    <S.Ninkname>{post.users?.nickname}</S.Ninkname>
-                    {post.users.inventory.length > 0 &&
-                    processItem(post.users.inventory).award.img_url ? (
-                      <img
-                        src={processItem(post.users.inventory).award.img_url!}
-                        alt={processItem(post.users.inventory).award.name!}
-                        style={{
-                          width: '172px',
-                          height: '32px',
-                          marginRight: '8px',
-                        }}
-                      />
-                    ) : (
-                      <S.AwardNo>칭호없음</S.AwardNo>
-                    )}
-                  </S.PostMiddleLeft>
-                  <S.PostMiddleRight>
-                    {new Date(post.created_at).toLocaleString()}
-                  </S.PostMiddleRight>
-                </S.PostMiddle>
-              </div>
+                  ) : (
+                    <S.AwardNo>칭호없음</S.AwardNo>
+                  )}
+                </S.PostMiddleLeft>
+                <S.PostMiddleRight>
+                  {new Date(post.created_at).toLocaleString()}
+                </S.PostMiddleRight>
+              </S.PostMiddle>
               <S.PostBottom>
-                <S.PostBottomLeft>
+                <S.PostBottomLeft $isFull={post.thumbnail ? false : true}>
                   <S.PostTitle>{post.title}</S.PostTitle>
                   <S.PostContent
                     id="post-content"
@@ -263,7 +243,7 @@ const Board = () => {
         ) : (
           <div>검색 결과 없음</div>
         )}
-      </ul>
+      </S.PostWrapper>
       <S.Page>
         <Pagination
           currentPage={page}
@@ -273,6 +253,7 @@ const Board = () => {
           isNextDisabled={page >= (postsAndTotalPages?.totalPages || 1)}
         />
       </S.Page>
+      <ScrollToTop />
     </S.Container>
   );
 };
