@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
 import supabase from '../../supabaseClient';
 import { v4 as uuidv4 } from 'uuid';
 import { useSetAtom } from 'jotai';

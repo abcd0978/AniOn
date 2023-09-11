@@ -3,18 +3,18 @@ import styled, { CSSProp } from 'styled-components';
 export const R = {
   Container: styled.div`
     position: absolute;
-    top: 23%;
-    left: 30%;
     display: flex;
     flex-direction: column;
     gap: 16px;
+    left: 25vw;
+    top: 20vh;
   `,
+
   Title: styled.div`
     position: absolute;
     top: -50px;
-    left: 0px;
     width: 200px;
-    height: 32px;
+    height: auto;
     color: #000;
     font-size: 24px;
     font-style: normal;
@@ -32,10 +32,12 @@ export const R = {
     display: flex;
     justify-content: space-between;
     width: 900px;
-    height: 19px;
+    height: auto;
   `,
   Content: styled.div`
     display: flex;
+    flex-direction: column;
+    top: 30vh;
   `,
   ReviewTitle: styled.div`
     min-width: 780px;
@@ -43,20 +45,28 @@ export const R = {
     align-items: center;
     display: flex;
     justify-content: space-between;
+    font-weight: 700;
   `,
   Date: styled.div`
     color: #999;
+    width: 500px;
     font-size: 13px;
     font-style: normal;
-    font-weight: 400;
-    line-height: normal;
     letter-spacing: -0.195px;
+    margin-left: -80px;
   `,
   Comments: styled.div`
     width: 900px;
     min-height: 48px;
-    margin-top: 10px;
     line-height: 24px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+
+    max-height: calc(1.5em * 2);
+    overflow-y: auto;
+
+    text-overflow: ellipsis;
   `,
 
   ButtonArray: styled.div`
@@ -95,10 +105,9 @@ export const R = {
     color: white;
   `,
   Page: styled.div`
-    position: absolute;
-    bottom: 100;
-    top: 600px;
-    left: 350px;
+    position: relative;
+    justify-content: center;
+    margin-left: 25vw;
   `,
   NoContainer: styled.div`
     display: grid;
@@ -131,14 +140,13 @@ export const R = {
 
 export const P = {
   Container: styled.div`
-    position: relative;
-    top: -73%;
-    left: 15%;
+    position: absolute;
+    top: 10vh;
+    left: 25vw;
   `,
   Title: styled.div`
-    position: absolute;
-    top: -50px;
-    left: 0px;
+    position: relative;
+    margin-bottom: 40px;
     width: 200px;
     height: 32px;
     color: #000;
@@ -149,9 +157,7 @@ export const P = {
     letter-spacing: -0.36px;
     display: block;
   `,
-  PostsContainer: styled.div`
-    margin-bottom: 28px;
-  `,
+  PostsContainer: styled.div``,
 
   WriteP: styled.div`
     position: relative;

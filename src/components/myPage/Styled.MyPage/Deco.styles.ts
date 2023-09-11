@@ -1,13 +1,11 @@
 import styled from 'styled-components';
 export const D = {
   Page: styled.div`
-    position: absolute;
-    top: 170px;
+    position: relative;
+    top: -85vh;
+    left: 25vw;
   `,
   Title: styled.div`
-    position: absolute;
-    top: -25px;
-    left: 150px;
     width: 200px;
     height: 32px;
     color: #000;
@@ -30,14 +28,14 @@ export const D = {
 };
 export const B = {
   Container: styled.div`
-    position: absolute;
+    position: relative;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 5px 1px;
+    left: -5vw;
+    top: 3vh;
   `,
-  BorderContainer: styled.div`
-    position: absolute;
-  `,
+  BorderContainer: styled.div``,
   BorderImg: styled.img`
     width: 150px;
     height: auto;
@@ -61,10 +59,10 @@ export const B = {
     line-height: 25px;
   `,
   BorderPage: styled.div`
-    position: absolute;
     justify-content: center;
-    top: -45px;
-    left: 810px;
+    position: absolute;
+    left: 29vw;
+    top: -0vh;
   `,
 
   BorderLoading: styled.div`
@@ -131,11 +129,15 @@ export const B = {
   `,
 };
 export const A = {
+  Page: styled.div`
+    position: relative;
+  `,
   Container: styled.div`
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 50px;
-    padding: 10px;
+    margin-left: -5vw;
+    margin-top: 5vh;
   `,
 
   Loading: styled.div`
@@ -174,12 +176,6 @@ export const A = {
     object-fit: cover;
     margin: 10px;
   `,
-  Page: styled.div`
-    position: absolute;
-    justify-content: center;
-    top: -565px;
-    left: 630px;
-  `,
 
   Equip: styled.button<{ is_equipped: boolean }>`
     width: 80px;
@@ -203,5 +199,10 @@ export const A = {
     &:disabled:hover {
       cursor: not-allowed;
     }
+  `,
+  Pagination: styled.div`
+    position: relative;
+    margin-left: 60%;
+    margin-top: -73%;
   `,
 };

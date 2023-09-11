@@ -5,11 +5,10 @@ export const Profile = {
     border-radius: 20px;
     background: #fdfbff;
     box-shadow: 0px 0px 25px 0px rgba(0, 0, 0, 0.1);
-    width: 300px;
+    width: 20.8vw;
     height: 850px;
     padding: 20px;
-    margin-top: 20px;
-    margin-bottom: 200px;
+    margin-top: 40px;
   `,
   // 내 프로필: 사진, 닉네임, 칭호, 포인트
   MyProfileContainer: styled.div`
@@ -30,12 +29,12 @@ export const Profile = {
   `,
   MyPageText: styled.div`
     color: #8200ff;
-    font-size: 25px;
+    font-size: 32px;
     font-style: normal;
     font-weight: 700;
     line-height: normal;
     letter-spacing: -0.48px;
-    margin-top: 20px;
+    margin-top: 32px;
   `,
   MyNickname: styled.div`
     width: auto;
@@ -138,5 +137,4 @@ export const Divider = styled.div`
   height: 1px;
   background: var(--achromatic-colors-midgray-2, #dbdbdb);
   margin-top: 8px;
-  margin-bottom: 8px;
 `;

@@ -20,5 +20,7 @@ const MyPage = (props: Props) => {
 
 export default MyPage;
 const MyPageConainer = styled.div`
-  margin-left: -50px;
+  margin: 0 auto;
+  margin-bottom: 32px;
+  position: relative;
 `;

@@ -29,17 +29,16 @@ export const ButtonBox = styled.div`
   background-color: transparent;
 `;
 export const Button = styled.button`
+  cursor: pointer;
+
   border: none;
   width: 100px;
   height: 36px;
   font-size: 13px;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  margin-right: 3px;
+  margin: 5px;
   font-size: 13px;
   border-radius: 999px;
   font-weight: bold;
-  cursor: pointer;
 `;
 
 export const Point = styled.div`
@@ -76,11 +75,9 @@ export const Item = styled.div`
 export const TopArea = styled.img`
   width: 80%;
   height: 80%;
-  // display: flex;
   margin-left: 28px;
   margin-top: 25px;
 
-  // box-shadow: 0px 0px 20px 0px #0000001a;
   border-radius: 20px;
 `;
 

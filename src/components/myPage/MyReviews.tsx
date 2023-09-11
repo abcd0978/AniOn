@@ -134,7 +134,9 @@ const MyReviews = () => {
                   <R.ReviewTitle>{animeTitles[review.ani_id]}</R.ReviewTitle>
                   <R.Comments>{review.comment}</R.Comments>
                 </R.Content>
-                <R.Date>{new Date(review.created_at).toLocaleString()}</R.Date>
+                <R.Date>
+                  {new Date(review.created_at).toLocaleDateString()}
+                </R.Date>
               </R.Top>
 
               <R.ButtonArray>

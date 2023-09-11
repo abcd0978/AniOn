@@ -145,10 +145,10 @@ const MyInvenAward = () => {
     );
 
   return (
-    <div>
+    <A.Page>
       <A.Container>{awardsList}</A.Container>
-      <A.Page>
-        {Array.isArray(filteredAwards) && filteredAwards.length > 0 && (
+      {Array.isArray(filteredAwards) && filteredAwards.length > 0 && (
+        <A.Pagination>
           <PaginationTwo
             currentPage={currentPage}
             totalPages={totalPages}
@@ -156,9 +156,9 @@ const MyInvenAward = () => {
             isPreviousDisabled={currentPage === 1}
             isNextDisabled={currentPage >= totalPages}
           />
-        )}
-      </A.Page>
-    </div>
+        </A.Pagination>
+      )}
+    </A.Page>
   );
 };
 

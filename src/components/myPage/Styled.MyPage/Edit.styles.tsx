@@ -1,14 +1,12 @@
 import styled from 'styled-components';
 export const E = {
   Page: styled.div`
-    position: absolute;
-    top: -150px;
-    left: -100px;
+    position: relative;
+    top: -85vh;
+    left: 25vw;
   `,
   Title: styled.div`
-    position: absolute;
-    top: -50px;
-    left: 10px;
+    position: relative;
     width: 200px;
     height: 32px;
     color: #000;
@@ -21,8 +19,6 @@ export const E = {
 
   Container: styled.div`
     position: absolute;
-    left: 550px;
-    top: 250px;
   `,
 
   PhotoItem: styled.div`

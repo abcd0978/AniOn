@@ -282,7 +282,8 @@ export const HoveredAnimeGenre = styled.div`
 
 const L = {
   LikedContainer: styled.div`
-    margin-top: 10px;
+    margin-top: -110%;
+    margin-left: 70%;
   `,
   GridContainer: styled.div`
     display: grid;
