@@ -11,6 +11,7 @@ import { toast } from 'react-toastify';
 import pencil from '../assets/pencil.svg';
 import search from '../assets/search.svg';
 import ddabong from '../assets/ddabong.svg';
+import ScrollToTop from '../components/ScrollToTop';
 import ProfileWithBorder, {
   processItem,
 } from '../components/ProfileWithBorder';
@@ -23,7 +24,7 @@ const Board = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>('');
   const [searchKeyword, setSearchKeyword] = useState<string>('');
   const [page, setPage] = useState<number>(1);
-  const { width } = useViewport();
+  const { width, isMobile } = useViewport();
 
   const handleWriteClick = () => {
     if (!user) {
@@ -99,7 +100,7 @@ const Board = () => {
     <S.Container>
       <S.Title>게시판</S.Title>
       <S.Search>
-        <div>
+        <S.ButtonBox>
           <S.Button
             onClick={() => handleAllClick()}
             style={{
@@ -140,24 +141,30 @@ const Board = () => {
           >
             오류 신고
           </S.Button>
-        </div>
-        <S.SearchInputContainer>
-          <S.SearchInput
-            type="text"
-            placeholder="검색어를 입력해주세요!"
-            value={searchKeyword}
-            onChange={(e) => setSearchKeyword(e.target.value)}
-            onKeyDown={handleKeyPress}
-          />
-          <S.SearchIcon src={search} alt="Search Icon" onClick={handleSearch} />
+        </S.ButtonBox>
+        {!isMobile && (
+          <S.SearchInputContainer>
+            <S.SearchInput
+              type="text"
+              placeholder="검색어를 입력해주세요!"
+              value={searchKeyword}
+              onChange={(e) => setSearchKeyword(e.target.value)}
+              onKeyDown={handleKeyPress}
+            />
+            <S.SearchIcon
+              src={search}
+              alt="Search Icon"
+              onClick={handleSearch}
+            />
 
-          <S.WriteButton onClick={handleWriteClick}>
-            <img src={pencil} alt="작성" /> 작성하기
-          </S.WriteButton>
-        </S.SearchInputContainer>
+            <S.WriteButton onClick={handleWriteClick}>
+              <img src={pencil} alt="작성" /> 작성하기
+            </S.WriteButton>
+          </S.SearchInputContainer>
+        )}
       </S.Search>
 
-      <ul>
+      <S.PostWrapper>
         {isFetching ? (
           <div>로딩중...</div>
         ) : postsAndTotalPages?.data.length !== 0 ? (
@@ -165,56 +172,55 @@ const Board = () => {
             <S.Post
               key={post.id}
               onClick={() => post.id && handlePostClick(post.id.toString())}
+              className={post.thumbnail ? 'tall' : 'small'}
             >
-              <div>
-                <S.PostTop>
-                  <S.PostTopLeft>
-                    #{postsAndTotalPages?.count! - (page - 1) * 12 - index}
-                    <S.Category>{post.category} 게시판</S.Category>
-                  </S.PostTopLeft>
-                  <S.PostTopRight>
-                    <S.Ddabong src={ddabong} alt="추천수" />
-                    <div style={{ marginTop: '3px', marginRight: '5px' }}>
-                      추천수 {post.likes?.length}
-                    </div>
-                  </S.PostTopRight>
-                </S.PostTop>
-                <S.PostMiddle>
-                  <S.PostMiddleLeft>
-                    <ProfileWithBorder
-                      width={40}
-                      $mediawidth={1920}
-                      border_img_url={
-                        post.users.inventory.length > 0
-                          ? processItem(post.users.inventory).border
-                          : undefined
-                      }
-                      profile_img_url={post.users?.profile_img_url}
-                      key={post.id!}
+              <S.PostTop>
+                <S.PostTopLeft>
+                  #{postsAndTotalPages?.count! - (page - 1) * 12 - index}
+                  <S.Category>{post.category} 게시판</S.Category>
+                </S.PostTopLeft>
+                <S.PostTopRight>
+                  <S.Ddabong src={ddabong} alt="추천수" />
+                  <div style={{ marginTop: '3px', marginRight: '5px' }}>
+                    추천수 {post.likes?.length}
+                  </div>
+                </S.PostTopRight>
+              </S.PostTop>
+              <S.PostMiddle>
+                <S.PostMiddleLeft>
+                  <ProfileWithBorder
+                    width={40}
+                    $mediawidth={1920}
+                    border_img_url={
+                      post.users.inventory.length > 0
+                        ? processItem(post.users.inventory).border
+                        : undefined
+                    }
+                    profile_img_url={post.users?.profile_img_url}
+                    key={post.id!}
+                  />
+                  <S.Ninkname>{post.users?.nickname}</S.Ninkname>
+                  {post.users.inventory.length > 0 &&
+                  processItem(post.users.inventory).award.img_url ? (
+                    <img
+                      src={processItem(post.users.inventory).award.img_url!}
+                      alt={processItem(post.users.inventory).award.name!}
+                      style={{
+                        width: '172px',
+                        height: '32px',
+                        marginRight: '8px',
+                      }}
                     />
-                    <S.Ninkname>{post.users?.nickname}</S.Ninkname>
-                    {post.users.inventory.length > 0 &&
-                    processItem(post.users.inventory).award.img_url ? (
-                      <img
-                        src={processItem(post.users.inventory).award.img_url!}
-                        alt={processItem(post.users.inventory).award.name!}
-                        style={{
-                          width: '172px',
-                          height: '32px',
-                          marginRight: '8px',
-                        }}
-                      />
-                    ) : (
-                      <S.AwardNo>칭호없음</S.AwardNo>
-                    )}
-                  </S.PostMiddleLeft>
-                  <S.PostMiddleRight>
-                    {new Date(post.created_at).toLocaleString()}
-                  </S.PostMiddleRight>
-                </S.PostMiddle>
-              </div>
+                  ) : (
+                    <S.AwardNo>칭호없음</S.AwardNo>
+                  )}
+                </S.PostMiddleLeft>
+                <S.PostMiddleRight>
+                  {new Date(post.created_at).toLocaleString()}
+                </S.PostMiddleRight>
+              </S.PostMiddle>
               <S.PostBottom>
-                <S.PostBottomLeft>
+                <S.PostBottomLeft $isFull={post.thumbnail ? false : true}>
                   <S.PostTitle>{post.title}</S.PostTitle>
                   <S.PostContent
                     id="post-content"
@@ -237,7 +243,7 @@ const Board = () => {
         ) : (
           <div>검색 결과 없음</div>
         )}
-      </ul>
+      </S.PostWrapper>
       <S.Page>
         <Pagination
           currentPage={page}
@@ -247,6 +253,7 @@ const Board = () => {
           isNextDisabled={page >= (postsAndTotalPages?.totalPages || 1)}
         />
       </S.Page>
+      <ScrollToTop />
     </S.Container>
   );
 };
