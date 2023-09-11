@@ -1,4 +1,5 @@
 import { styled } from 'styled-components';
+
 export const Profile = {
   // 내 프로필 전체 박스
   MyContainer: styled.div`
@@ -9,6 +10,11 @@ export const Profile = {
     height: 850px;
     padding: 20px;
     margin-top: 40px;
+    @media (max-width: 768px) {
+      background: transparent;
+      border: none;
+      box-shadow: none;
+    }
   `,
   // 내 프로필: 사진, 닉네임, 칭호, 포인트
   MyProfileContainer: styled.div`
@@ -18,6 +24,15 @@ export const Profile = {
     align-items: center;
     text-align: center;
     margin-top: 20px;
+    @media (max-width: 768px) {
+      border-radius: 20px;
+      box-shadow: 0px 0px 25px 0px rgba(0, 0, 0, 0.1);
+      margin-top: -50px;
+      margin-left: -20px;
+      width: 90vw;
+      height: 200px;
+      background: #fff;
+    }
   `,
   BasicImage: styled.img`
     width: 120px;
@@ -35,6 +50,14 @@ export const Profile = {
     line-height: normal;
     letter-spacing: -0.48px;
     margin-top: 32px;
+    @media (max-width: 768px) {
+      font-size: 20px;
+      font-style: normal;
+      font-weight: 700;
+      line-height: normal;
+      letter-spacing: -0.3px;
+      margin-top: 10px;
+    }
   `,
   MyNickname: styled.div`
     width: auto;
@@ -129,6 +152,16 @@ export const InfoMenu = {
     justify-contents: center;
     margin-left: 30px;
     margin-top: 18px;
+    @media (max-width: 768px) {
+      margin-right: 10px;
+      height: auto;
+      background: #fdfbff;
+      margin-left: -20px;
+      width: 90vw;
+      margin-top: 10px;
+      border-radius: 20px;
+      box-shadow: 0px 0px 25px 0px rgba(0, 0, 0, 0.1);
+    }
   `,
 };
 // divider

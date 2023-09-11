@@ -56,7 +56,6 @@ export const B = {
   BorderPage: styled.div`
     position: absolute;
     justify-content: center;
-    display: block;
     top: 240px;
     right: 400px;
   `,
