@@ -27,9 +27,8 @@ import gil from '../assets/gil.jpg';
 import cha from '../assets/cha.jpg';
 import jusul from '../assets/jusulgg.png';
 import ScrollToTop from '../components/ScrollToTop';
-// const BannerSlide: ReactNode[] = ['슬라이드1', '슬라이드2', '슬라이드3'];
-const smallCardHeight = 272;
-const BigCardHeight = 464;
+const smallCardWidth = 272;
+const BigCardWidth = 464;
 interface ButtonProps {
   onClickfunc: () => void;
   buttonStyle: CSSProperties;
@@ -50,7 +49,7 @@ const buttonStyle: CSSProperties = {
 
 const Main = () => {
   const navigate = useNavigate();
-  const { width } = useViewport();
+  const { width, isMobile } = useViewport();
   const [nextButtonDisabledW, setNextButtonDisabledW] =
     useState<boolean>(false);
   const [prevButtonDisabledW, setPrevButtonDisabledW] =
@@ -61,7 +60,7 @@ const Main = () => {
     useState<boolean>(false);
 
   const [weeklyEmblaRef, weeklyEmblaApi] = useEmblaCarousel(
-    { dragFree: true },
+    { slidesToScroll: 'auto', containScroll: 'trimSnaps' },
     [],
   );
   const [newEmblaRef, newEmblaApi] = useEmblaCarousel(
@@ -71,6 +70,19 @@ const Main = () => {
     },
     [],
   );
+  const [historyEmblaRef, historyEmblaApi] = useEmblaCarousel(
+    {
+      active: false,
+    },
+    [],
+  );
+  useEffect(() => {
+    if (isMobile) {
+      weeklyEmblaApi?.reInit({ dragFree: true });
+      newEmblaApi?.reInit({ dragFree: true });
+      historyEmblaApi?.reInit({ active: true, dragFree: true });
+    }
+  }, [isMobile, weeklyEmblaApi, newEmblaApi, historyEmblaApi]);
   const scrollPrevW = useCallback(
     (emblaApi: EmblaCarouselType | undefined) => {
       if (emblaApi) {
@@ -199,7 +211,12 @@ const Main = () => {
         <StMainCardContainerWithTypo>
           <div>
             <p
-              style={{ display: 'inline', ...boldFontStyle, color: '#8200FF' }}
+              style={{
+                display: 'inline',
+                ...boldFontStyle,
+                color: '#8200FF',
+                fontSize: `${isMobile ? 20 : (32 * width) / 1920}px`,
+              }}
             >
               종합
             </p>
@@ -208,55 +225,71 @@ const Main = () => {
                 display: 'inline',
                 ...RegularFontStyle,
                 color: '#8200FF',
+                fontSize: `${isMobile ? 20 : (32 * width) / 1920}px`,
               }}
             >
               순위
             </p>
           </div>
           <StMainCardContainer $mediawidth={width}>
-            {dataH ? (
-              <>
-                <div
-                  style={{ cursor: 'pointer' }}
-                  onClick={() => navigate(`/recommend/${dataH[0].id}`)}
-                >
-                  <MainCard
-                    key={dataH[0].id + 132}
-                    index={1}
-                    data={dataH[0]}
-                    width={BigCardHeight}
-                  />
-                </div>
-                <div
-                  style={{ cursor: 'pointer' }}
-                  onClick={() => navigate(`/recommend/${dataH[1].id}`)}
-                >
-                  <MainCard
-                    key={dataH[1].id + 133}
-                    index={2}
-                    data={dataH[1]}
-                    width={BigCardHeight}
-                  />
-                </div>
-                <div
-                  style={{ cursor: 'pointer' }}
-                  onClick={() => navigate(`/recommend/${dataH[2].id}`)}
-                >
-                  <MainCard
-                    key={dataH[2].id + 134}
-                    index={3}
-                    data={dataH[2]}
-                    width={BigCardHeight}
-                  />
-                </div>
-              </>
-            ) : (
-              <>
-                <MainCardSkeleton width={BigCardHeight} />
-                <MainCardSkeleton width={BigCardHeight} />
-                <MainCardSkeleton width={BigCardHeight} />
-              </>
-            )}
+            <div
+              className="embla middle"
+              style={{ maxWidth: `${isMobile ? width * 0.9 : width * 0.75}px` }}
+              ref={historyEmblaRef}
+            >
+              <div
+                className="embla__container"
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  gap: '16px',
+                }}
+              >
+                {dataH ? (
+                  <>
+                    <div
+                      style={{ cursor: 'pointer' }}
+                      onClick={() => navigate(`/recommend/${dataH[0].id}`)}
+                    >
+                      <MainCard
+                        key={dataH[0].id + 132}
+                        index={1}
+                        data={dataH[0]}
+                        width={BigCardWidth}
+                      />
+                    </div>
+                    <div
+                      style={{ cursor: 'pointer' }}
+                      onClick={() => navigate(`/recommend/${dataH[1].id}`)}
+                    >
+                      <MainCard
+                        key={dataH[1].id + 133}
+                        index={2}
+                        data={dataH[1]}
+                        width={BigCardWidth}
+                      />
+                    </div>
+                    <div
+                      style={{ cursor: 'pointer' }}
+                      onClick={() => navigate(`/recommend/${dataH[2].id}`)}
+                    >
+                      <MainCard
+                        key={dataH[2].id + 134}
+                        index={3}
+                        data={dataH[2]}
+                        width={BigCardWidth}
+                      />
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <MainCardSkeleton width={BigCardWidth} />
+                    <MainCardSkeleton width={BigCardWidth} />
+                    <MainCardSkeleton width={BigCardWidth} />
+                  </>
+                )}
+              </div>
+            </div>
           </StMainCardContainer>
         </StMainCardContainerWithTypo>
       </StMainCardContainerContainer>
@@ -264,7 +297,12 @@ const Main = () => {
         <StMainCardContainerWithTypo>
           <div>
             <p
-              style={{ display: 'inline', ...boldFontStyle, color: '#8200FF' }}
+              style={{
+                display: 'inline',
+                ...boldFontStyle,
+                color: '#8200FF',
+                fontSize: `${isMobile ? 20 : (32 * width) / 1920}px`,
+              }}
             >
               이번주
             </p>
@@ -273,6 +311,7 @@ const Main = () => {
                 display: 'inline',
                 ...RegularFontStyle,
                 color: '#8200FF',
+                fontSize: `${isMobile ? 20 : (32 * width) / 1920}px`,
               }}
             >
               순위
@@ -284,7 +323,7 @@ const Main = () => {
           >
             <div
               className="embla middle"
-              style={{ maxWidth: `${width * 0.9}px` }}
+              style={{ maxWidth: `${isMobile ? width * 0.9 : width * 0.75}px` }}
               ref={weeklyEmblaRef}
             >
               <div
@@ -308,7 +347,7 @@ const Main = () => {
                           key={data.id + 1}
                           index={index + 1}
                           data={data}
-                          width={smallCardHeight}
+                          width={smallCardWidth}
                         />
                       </div>
                     );
@@ -316,41 +355,42 @@ const Main = () => {
                 ) : (
                   <>
                     <div className="embla__slide">
-                      <MainCardSkeleton width={smallCardHeight} />
+                      <MainCardSkeleton width={smallCardWidth} />
                     </div>
                     <div className="embla__slide">
-                      <MainCardSkeleton width={smallCardHeight} />
+                      <MainCardSkeleton width={smallCardWidth} />
                     </div>
                     <div className="embla__slide">
-                      <MainCardSkeleton width={smallCardHeight} />
+                      <MainCardSkeleton width={smallCardWidth} />
                     </div>
                     <div className="embla__slide">
-                      <MainCardSkeleton width={smallCardHeight} />
+                      <MainCardSkeleton width={smallCardWidth} />
                     </div>
                     <div className="embla__slide">
-                      <MainCardSkeleton width={smallCardHeight} />
+                      <MainCardSkeleton width={smallCardWidth} />
                     </div>
                     <div className="embla__slide">
-                      <MainCardSkeleton width={smallCardHeight} />
+                      <MainCardSkeleton width={smallCardWidth} />
                     </div>
                     <div className="embla__slide">
-                      <MainCardSkeleton width={smallCardHeight} />
+                      <MainCardSkeleton width={smallCardWidth} />
                     </div>
                     <div className="embla__slide">
-                      <MainCardSkeleton width={smallCardHeight} />
+                      <MainCardSkeleton width={smallCardWidth} />
                     </div>
                     <div className="embla__slide">
-                      <MainCardSkeleton width={smallCardHeight} />
+                      <MainCardSkeleton width={smallCardWidth} />
                     </div>
                     <div className="embla__slide">
-                      <MainCardSkeleton width={smallCardHeight} />
+                      <MainCardSkeleton width={smallCardWidth} />
                     </div>
                   </>
                 )}
               </div>
               <StButtonContainer
+                IsMobile={isMobile}
                 $mediawidth={width * 0.75}
-                $carouselheight={smallCardHeight}
+                $carouselheight={smallCardWidth}
               >
                 <PrevButton
                   onClickfunc={() => scrollPrevW(weeklyEmblaApi)}
@@ -371,7 +411,12 @@ const Main = () => {
         <StMainCardContainerWithTypo>
           <div>
             <p
-              style={{ display: 'inline', ...boldFontStyle, color: '#8200FF' }}
+              style={{
+                display: 'inline',
+                ...boldFontStyle,
+                color: '#8200FF',
+                fontSize: `${isMobile ? 20 : (32 * width) / 1920}px`,
+              }}
             >
               신작
             </p>
@@ -380,6 +425,7 @@ const Main = () => {
                 display: 'inline',
                 ...RegularFontStyle,
                 color: '#8200FF',
+                fontSize: `${isMobile ? 20 : (32 * width) / 1920}px`,
               }}
             >
               순위
@@ -391,7 +437,7 @@ const Main = () => {
           >
             <div
               className="embla middle"
-              style={{ maxWidth: `${width * 0.9}px` }}
+              style={{ maxWidth: `${isMobile ? width * 0.9 : width * 0.75}px` }}
               ref={newEmblaRef}
             >
               <div
@@ -415,7 +461,7 @@ const Main = () => {
                           key={data.id + 4}
                           index={index + 1}
                           data={data}
-                          width={smallCardHeight}
+                          width={smallCardWidth}
                         />
                       </div>
                     );
@@ -423,38 +469,39 @@ const Main = () => {
                 ) : (
                   <>
                     <div className="embla__slide">
-                      <MainCardSkeleton width={smallCardHeight} />
+                      <MainCardSkeleton width={smallCardWidth} />
                     </div>
                     <div className="embla__slide">
-                      <MainCardSkeleton width={smallCardHeight} />
+                      <MainCardSkeleton width={smallCardWidth} />
                     </div>
                     <div className="embla__slide">
-                      <MainCardSkeleton width={smallCardHeight} />
+                      <MainCardSkeleton width={smallCardWidth} />
                     </div>
                     <div className="embla__slide">
-                      <MainCardSkeleton width={smallCardHeight} />
+                      <MainCardSkeleton width={smallCardWidth} />
                     </div>
                     <div className="embla__slide">
-                      <MainCardSkeleton width={smallCardHeight} />
+                      <MainCardSkeleton width={smallCardWidth} />
                     </div>
                     <div className="embla__slide">
-                      <MainCardSkeleton width={smallCardHeight} />
+                      <MainCardSkeleton width={smallCardWidth} />
                     </div>
                     <div className="embla__slide">
-                      <MainCardSkeleton width={smallCardHeight} />
+                      <MainCardSkeleton width={smallCardWidth} />
                     </div>
                     <div className="embla__slide">
-                      <MainCardSkeleton width={smallCardHeight} />
+                      <MainCardSkeleton width={smallCardWidth} />
                     </div>
                     <div className="embla__slide">
-                      <MainCardSkeleton width={smallCardHeight} />
+                      <MainCardSkeleton width={smallCardWidth} />
                     </div>
                   </>
                 )}
               </div>
               <StButtonContainer
+                IsMobile={isMobile}
                 $mediawidth={width * 0.75}
-                $carouselheight={smallCardHeight}
+                $carouselheight={smallCardWidth}
               >
                 <PrevButton
                   onClickfunc={() => scrollPrevN(newEmblaApi)}
@@ -512,9 +559,10 @@ const NextButton = (props: ButtonProps) => {
 const StButtonContainer = styled.div<{
   $carouselheight: number;
   $mediawidth: number;
+  IsMobile: boolean;
 }>`
   width: ${(props) => props.$mediawidth}px;
-  display: flex;
+  display: ${(props) => (props.IsMobile ? 'none' : 'flex')};
   position: relative;
   justify-content: space-between;
   bottom: ${(props) => props.$carouselheight / 2 + 30}px;
@@ -522,7 +570,6 @@ const StButtonContainer = styled.div<{
 const boldFontStyle: CSSProperties = {
   color: '#000',
   fontFamily: 'Pretendard Variable',
-  fontSize: '32px',
   fontStyle: 'normal',
   fontWeight: '700',
   lineHeight: 'normal',
@@ -531,7 +578,6 @@ const boldFontStyle: CSSProperties = {
 const RegularFontStyle: CSSProperties = {
   color: '#000',
   fontFamily: 'Pretendard Variable',
-  fontSize: '32px',
   fontStyle: 'normal',
   fontWeight: '400',
   lineHeight: 'normal',
@@ -540,10 +586,10 @@ const RegularFontStyle: CSSProperties = {
 const StMainCardContainerContainer = styled.div`
   display: flex;
   width: 100%;
-  padding: 50px 0px;
+  padding: 40px 0px;
   flex-direction: column;
   align-items: flex-start;
-  gap: 100px;
+  overflow: hidden;
 `;
 const StMainCardContainerWithTypo = styled.div`
   display: flex;
@@ -556,7 +602,6 @@ const StMainCardContainer = styled.div<{ $mediawidth: number }>`
   display: flex;
   gap: 14px;
   flex-direction: row;
-  overflow: hidden;
 `;
 
 export default Main;

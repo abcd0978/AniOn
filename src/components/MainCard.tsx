@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import viewDetail from '../assets/viewdetail.svg';
 import useViewport from '../hooks/useViewPort';
 type Props = {
   width: number;
@@ -11,7 +12,10 @@ type Props = {
 const MainCard = ({ width, data, index, key }: Props) => {
   const { width: mediaWidth } = useViewport();
   return (
-    <StMainCard width={width} $mediawidth={mediaWidth}>
+    <StMainCard
+      width={width}
+      $mediawidth={mediaWidth > 1092 ? mediaWidth : 1092}
+    >
       <StMainCardImgContainer
         img_url={
           data.images.length > 1
@@ -21,26 +25,33 @@ const MainCard = ({ width, data, index, key }: Props) => {
             : data.img
         }
       >
-        <StMainCardImgIndex mediawidth={mediaWidth}>
-          <div>
-            <p
-              style={{
-                fontSize: `${16 * (mediaWidth / 1920)}px`,
-                fontWeight: 'bold',
-                color: 'var(--achromatic-colors-white, #FFF)',
-                fontStyle: 'normal',
-                lineHeight: 'normal',
-                letterSpacing: '-0.24px',
-              }}
-            >
-              TOP {index}
-            </p>
-          </div>
+        <StMainCardImgIndex
+          className="index-card"
+          $mediawidth={mediaWidth <= 1092 ? mediaWidth : 1092}
+        >
+          <p
+            style={{
+              fontSize: `max(14px, ${16 * (mediaWidth / 1920)}px)`,
+              fontWeight: 'bold',
+              color: 'var(--achromatic-colors-white, #FFF)',
+              fontStyle: 'normal',
+              lineHeight: 'normal',
+              letterSpacing: '-0.24px',
+            }}
+          >
+            TOP {index}
+          </p>
         </StMainCardImgIndex>
+        <StHoverViewDetail className="viewmore">
+          <p>자세히보기</p>
+          <img className="viewDetail" src={viewDetail} alt="viewdetail" />
+        </StHoverViewDetail>
       </StMainCardImgContainer>
       <StCardInfoContainer>
         <StCardInfo>
-          <StCardTitle>{data.name}</StCardTitle>
+          <StCardTitle $mediaWidth={mediaWidth <= 1092 ? mediaWidth : 1092}>
+            {data.name}
+          </StCardTitle>
           {/* <StCardSubtitle>
             애니메이션 한줄 소개 애니메이션 한줄 소개
           </StCardSubtitle> */}
@@ -49,7 +60,9 @@ const MainCard = ({ width, data, index, key }: Props) => {
           {data.genres.slice(0, 3).map((g: string) => {
             return (
               <StCardHashTag key={key}>
-                <StCardHashTagTypo $mediawidth={mediaWidth}>
+                <StCardHashTagTypo
+                  $mediawidth={mediaWidth <= 1092 ? mediaWidth : 1092}
+                >
                   # {g!}
                 </StCardHashTagTypo>
               </StCardHashTag>
@@ -75,20 +88,39 @@ const StMainCardImgContainer = styled.div<{ img_url: string }>`
   aspect-ratio: 100 / 66;
   background-color: #d9d9d9;
   border-radius: 10px;
+  position: relative;
+  transition: 0.1s;
+  .viewmore {
+    display: none;
+  }
+  &:hover .index-card {
+    display: none;
+  }
+  &:hover .viewmore {
+    display: inline-flex;
+  }
+  &:hover {
+    display: flex;
+    filter: brightness(0.5);
+  }
 `;
-const StMainCardImgIndex = styled.div<{ mediawidth: number }>`
+const StMainCardImgIndex = styled.div<{ $mediawidth: number }>`
   display: inline-block;
-  padding: ${(props) =>
-    `${(8 * props.mediawidth) / 1920}px ${(12 * props.mediawidth) / 1920}px;`};
+  /* padding: ${(props) =>
+    `${(8 * props.$mediawidth) / 1920}px ${
+      (12 * props.$mediawidth) / 1920
+    }px;`}; */
+  padding: 8px 12px;
   justify-content: center;
   align-items: center;
   border-radius: 8px;
   background: rgba(0, 0, 0, 0.65);
   position: relative;
-  top: 4%;
+  top: 5%;
   left: 4.5%;
 `;
 const StCardInfoContainer = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -98,43 +130,57 @@ const StCardInfo = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  height: 54px;
+
   gap: 8px;
 `;
-const StCardTitle = styled.p`
+const StCardTitle = styled.p<{ $mediaWidth: number }>`
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
   overflow: hidden;
   color: #000;
-  font-family: Pretendard Variable;
-  font-size: 20px;
+  font-size: max(16px, ${(props) => 20 * (props.$mediaWidth / 1920)}px);
   font-style: normal;
   font-weight: 700;
   line-height: normal;
   letter-spacing: -0.3px;
 `;
 const StCardHashTagContainer = styled.div`
+  width: 100%;
   display: flex;
-  //grid-template-columns: repeat(auto-fill, minmax(100%, auto));
+  flex-wrap: wrap;
   gap: 8px;
 `;
 const StCardHashTag = styled.div`
-  display: flex;
+  display: inline-block;
   padding: 4px 8px;
+  white-space: nowrap;
   justify-content: center;
   align-items: center;
-  gap: 8px;
   border-radius: 999px;
   background: #efefef;
 `;
 const StCardHashTagTypo = styled.p<{ $mediawidth: number }>`
   color: #000;
-  font-size: ${(props) => 15 * (props.$mediawidth / 1920)}px;
+  font-size: max(13px, ${(props) => 14 * (props.$mediawidth / 1920)}px);
   text-size-adjust: auto;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
   letter-spacing: -0.195px;
+`;
+const StHoverViewDetail = styled.div`
+  display: inline-flex;
+  align-items: center;
+  margin: auto;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: none;
+  background-color: #8200ff;
+  color: white;
+  cursor: pointer;
+  p {
+    margin-left: 12px;
+  }
 `;
 export default MainCard;
