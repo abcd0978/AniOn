@@ -22,3 +22,4 @@ function process(path: string) {
   }
 }
 export const activeMenu = atom<string>(process(window.location.pathname)); // "/"
+export const searchMobileClicked = atom<boolean>(false);

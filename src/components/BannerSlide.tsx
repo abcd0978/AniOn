@@ -19,26 +19,44 @@ type Props = {
 };
 
 const BannerSlide = (props: Props) => {
-  const { width } = useViewport();
+  const { width, isMobile } = useViewport();
   return (
-    <SlideContainer image={props.image}>
-      <StSlideInfoContainer mediaWidth={width}>
-        <StSlideInfos mediaWidth={width}>
-          <StSlideTitleandDescContainer mediaWidth={width}>
+    <SlideContainer image={props.image} isMobile={isMobile}>
+      <StSlideInfoContainer mediaWidth={width <= 1200 ? 1200 : width}>
+        <StSlideInfos mediaWidth={width <= 1200 ? 1200 : width}>
+          <StSlideTitleandDescContainer
+            mediaWidth={width <= 1200 ? 1200 : width}
+          >
             <StAnionAndRecommend>
-              <StAnionTypo mediaWidth={width}>{props.name}</StAnionTypo>
-              <StText mediaWidth={width}> 의 추천</StText>
+              <StAnionTypo mediaWidth={width <= 1200 ? 1200 : width}>
+                {props.name}
+              </StAnionTypo>
+              <StText mediaWidth={width <= 1200 ? 1200 : width}>
+                {' '}
+                의 추천
+              </StText>
             </StAnionAndRecommend>
-            <StAniTitle mediaWidth={width}>{props.title}</StAniTitle>
+            <StAniTitle mediaWidth={width <= 1200 ? 1200 : width}>
+              {props.title}
+            </StAniTitle>
           </StSlideTitleandDescContainer>
-          <StText mediaWidth={width}>{props.desc}</StText>
+          <StText mediaWidth={width <= 1200 ? 1200 : width}>
+            {props.desc}
+          </StText>
         </StSlideInfos>
-        <StSlideButton mediaWidth={width} onClick={props.onClick}>
-          <StSlideButtonType mediaWidth={width}>
+        <StSlideButton
+          mediaWidth={width <= 1200 ? 1200 : width}
+          onClick={props.onClick}
+        >
+          <StSlideButtonType mediaWidth={width <= 1200 ? 1200 : width}>
             {props.buttonText}
           </StSlideButtonType>
           <img
-            style={{ width: `${(25 * width) / 1920}px` }}
+            style={{
+              width: `${
+                width <= 1200 ? (25 * 1200) / 1920 : (25 * width) / 1920
+              }px`,
+            }}
             src={goTest}
             alt=""
           />
@@ -65,10 +83,16 @@ const StGredient = styled.div`
     #000 100%
   );
 `;
-const SlideContainer = styled.div<{ image?: string; mediaWidth?: number }>`
+const SlideContainer = styled.div<{
+  image?: string;
+  mediaWidth?: number;
+  isMobile: boolean;
+}>`
   ${(props) =>
     props.image
-      ? `background-image: url(${props.image});background-size: 100%;`
+      ? props.isMobile
+        ? `background-image: url(${props.image});background-size: cover;background-position: 50%;`
+        : `background-image: url(${props.image});background-size: 100%;`
       : `background:#424242;`}
   height: 100%;
   position: relative;
