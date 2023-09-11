@@ -4,17 +4,10 @@ import * as modalStore from '../store/modalStore';
 import { useAtomValue, useSetAtom } from 'jotai';
 import * as userStore from '../store/userStore';
 import { useQuery } from '@tanstack/react-query';
-import {
-  fetchAwards,
-  fetchMyAwards,
-  purchase,
-  purchaseRes,
-} from '../api/items';
+import { fetchAwards, fetchMyAwards } from '../api/items';
 import Loading from './Loading/Loading';
-// type ReadAwards = Database['public']['Tables']['items']['Row'];
 
 const ShopAwardList = () => {
-  // const queryClient = useQueryClient();
   const [page, setPage] = useState<number>(1);
   const user = useAtomValue(userStore.user);
   const isModalOpened = useSetAtom(modalStore.isModalOpened);
@@ -41,7 +34,6 @@ const ShopAwardList = () => {
 
   const { data: myAwards } = useQuery(myAwardsQueryOptions);
 
-  // console.log('asd', awards);
   // 구매 여부 판단을 위한 배열
   const purchasedItemIds = myAwards?.map((item) => item.item_id) || [];
 
