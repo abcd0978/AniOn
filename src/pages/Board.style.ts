@@ -20,6 +20,11 @@ export const Post = styled.div`
   margin-top: 30px;
   cursor: pointer;
   background-color: #fdfbff;
+
+  @media (max-width: 768px) {
+    width: 350px;
+    height: 185px;
+  }
 `;
 
 export const PostTop = styled.div`
@@ -37,6 +42,10 @@ export const PostTopLeft = styled.div`
   display: flex;
   margin-left: 15px;
   color: #4f4f4f;
+
+  @media (max-width: 768px) {
+    font-size: 13px;
+  }
 `;
 export const PostTopRight = styled.div`
   display: flex;
@@ -58,6 +67,10 @@ export const PostMiddle = styled.div`
   justify-content: space-between;
   align-items: center;
   margin-left: 19px;
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 `;
 export const PostMiddleLeft = styled.div`
   display: flex;
@@ -69,10 +82,17 @@ export const PostMiddleRight = styled.div`
   display: flex;
   color: #999999;
   font-size: 15px;
+
+  @media (max-width: 768px) {
+    font-size: 13px;
+  }
 `;
 export const Ninkname = styled.div`
   margin-left: 10px;
   margin-right: 10px;
+  @media (max-width: 768px) {
+    font-size: 13px;
+  }
 `;
 export const PostBottom = styled.div`
   width: 100%;
@@ -119,6 +139,12 @@ export const Thumbnail = styled.img`
   width: 100%;
   height: 220px;
   border-radius: 20px;
+
+  @media (max-width: 768px) {
+    width: 88%;
+    height: 100%;
+    margin-top: -4px;
+  }
 `;
 
 export const Category = styled.div`
@@ -148,6 +174,11 @@ export const Button = styled.button`
   border-radius: 999px;
   font-weight: bold;
   cursor: pointer;
+
+  @media (max-width: 768px) {
+    width: 72px;
+    height: 36px;
+  }
 `;
 export const WriteButton = styled.button`
   background-color: #8200ff;
@@ -165,6 +196,12 @@ export const WriteButton = styled.button`
 export const Search = styled.div`
   display: flex;
   justify-content: space-between;
+`;
+export const ButtonBox = styled.div`
+  @media (max-width: 768px) {
+    display: flex;
+    flex-direction: row;
+  }
 `;
 export const Write = styled.div`
   // display: flex;

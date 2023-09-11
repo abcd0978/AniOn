@@ -123,7 +123,7 @@ const Board = () => {
     <S.Container>
       <S.Title>게시판</S.Title>
       <S.Search>
-        <div>
+        <S.ButtonBox>
           <S.Button
             onClick={() => handleAllClick()}
             style={{
@@ -164,7 +164,7 @@ const Board = () => {
           >
             오류 신고
           </S.Button>
-        </div>
+        </S.ButtonBox>
         <S.SearchInputContainer>
           <form onSubmit={handleSearchSubmit}>
             <S.SearchInput
