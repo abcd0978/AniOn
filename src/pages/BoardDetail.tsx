@@ -6,6 +6,7 @@ import ScrollToTop from '../components/ScrollToTop';
 import { Database } from '../types/supabase';
 import EditorComponent from '../components/editor/EditorComponent';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import useViewport from '../hooks/useViewPort';
 import {
   deletePost,
   updatePost,
@@ -32,6 +33,7 @@ import type { PostType, UpdatePost, Like } from '../types/post';
 
 const BoardDetail = () => {
   const user = useAtomValue(userStore.user);
+  const { width, isMobile } = useViewport();
 
   const queryClient = useQueryClient();
   const navigate = useNavigate();
@@ -242,55 +244,57 @@ const BoardDetail = () => {
     // <S.Layout>
     <>
       <S.TopTitle>게시판</S.TopTitle>
+      {!isMobile && (
+        <S.Post>
+          {!isEdit && (
+            <>
+              <S.Search>
+                <S.CateButton
+                  onClick={() => {}}
+                  style={{
+                    backgroundColor:
+                      selectedCategory === '애니' ? '#FF96DB' : '#FFEBF7',
+                    color: selectedCategory === '애니' ? '#ffffff' : 'black',
+                    cursor: 'not-allowed',
+                  }}
+                >
+                  애니
+                </S.CateButton>
+                <S.CateButton
+                  onClick={() => {}}
+                  style={{
+                    backgroundColor:
+                      selectedCategory === '자유' ? '#FF96DB' : '#FFEBF7',
+                    color: selectedCategory === '자유' ? '#ffffff' : 'black',
 
-      <S.Post className="hidden-on-small-screens">
-        {!isEdit && (
-          <>
-            <S.Search>
-              <S.CateButton
-                onClick={() => {}}
-                style={{
-                  backgroundColor:
-                    selectedCategory === '애니' ? '#FF96DB' : '#FFEBF7',
-                  color: selectedCategory === '애니' ? '#ffffff' : 'black',
-                  cursor: 'not-allowed',
-                }}
-              >
-                애니
-              </S.CateButton>
-              <S.CateButton
-                onClick={() => {}}
-                style={{
-                  backgroundColor:
-                    selectedCategory === '자유' ? '#FF96DB' : '#FFEBF7',
-                  color: selectedCategory === '자유' ? '#ffffff' : 'black',
+                    cursor: 'not-allowed',
+                  }}
+                >
+                  자유
+                </S.CateButton>
+                <S.CateButton
+                  onClick={() => {}}
+                  style={{
+                    backgroundColor:
+                      selectedCategory === '오류 신고' ? '#FF96DB' : '#FFEBF7',
+                    color:
+                      selectedCategory === '오류 신고' ? '#ffffff' : 'black',
 
-                  cursor: 'not-allowed',
-                }}
-              >
-                자유
-              </S.CateButton>
-              <S.CateButton
-                onClick={() => {}}
-                style={{
-                  backgroundColor:
-                    selectedCategory === '오류 신고' ? '#FF96DB' : '#FFEBF7',
-                  color: selectedCategory === '오류 신고' ? '#ffffff' : 'black',
-
-                  cursor: 'not-allowed',
-                }}
-              >
-                오류 신고
-              </S.CateButton>
-            </S.Search>
-            <S.Write>
-              <S.WriteButton onClick={handleWriteClick}>
-                <img src={pencil} /> 작성하기
-              </S.WriteButton>
-            </S.Write>
-          </>
-        )}
-      </S.Post>
+                    cursor: 'not-allowed',
+                  }}
+                >
+                  오류 신고
+                </S.CateButton>
+              </S.Search>
+              <S.Write>
+                <S.WriteButton onClick={handleWriteClick}>
+                  <img src={pencil} /> 작성하기
+                </S.WriteButton>
+              </S.Write>
+            </>
+          )}
+        </S.Post>
+      )}
 
       <S.Container>
         <S.Inner>
@@ -383,7 +387,7 @@ const BoardDetail = () => {
                                 alt={
                                   processItem(post.users.inventory).award.name!
                                 }
-                                style={{ width: '172px', height: '32px' }}
+                                style={{ width: '', height: '32px' }}
                               />
                             ) : (
                               <S.AwardNo>칭호없음</S.AwardNo>
@@ -424,12 +428,11 @@ const BoardDetail = () => {
           ) : (
             <div>Loading...</div>
           )}
-          {isEdit ? null : (
-            <S.ListButton onClick={handleListClick}>목록</S.ListButton>
-          )}
+
           <ScrollToTop />
         </S.Inner>
       </S.Container>
+      <S.ListButton onClick={handleListClick}>목록</S.ListButton>
       {/* </S.Layout> */}
     </>
   );

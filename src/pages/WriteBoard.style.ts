@@ -48,9 +48,10 @@ const S = {
     @media (max-width: 768px) {
       display: flex;
       flex-direction: column;
-      width: 90%;
+      width: 100%;
       height: 79px;
-      margin-top: 10px;
+      margin-top: 15px;
+      margin-left: 30px;
     }
   `,
   TitleInput: styled.div<{ width?: number }>`
@@ -61,9 +62,10 @@ const S = {
     @media (max-width: 768px) {
       display: flex;
       flex-direction: column;
-      width: 90%;
+      width: 100%;
       height: 79px;
       margin-top: -10px;
+      margin-left: 30px;
     }
   `,
 

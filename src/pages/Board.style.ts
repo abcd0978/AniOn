@@ -1,57 +1,60 @@
 import styled from 'styled-components';
 
 interface PostContentProps {
-  hasImage: boolean;
+  hasImage?: boolean;
+  $isFull?: boolean;
 }
-export const Container = styled.div`
-  // width: 1440px;
-  // height: 2098px;
-`;
-
-export const Post = styled.div`
-  width: 47%;
-  min-height: 235px;
-  max-height: 357px;
-  border: 2px solid #c88fff;
-  border-radius: 12px;
-  display: inline-block;
-  // margin-bottom: 20px;
-  margin-right: 20px;
-  margin-top: 30px;
-  cursor: pointer;
-  background-color: #fdfbff;
-
-  @media (max-width: 768px) {
-    width: 350px;
-    height: 185px;
+export const Container = styled.div``;
+export const PostWrapper = styled.div`
+  gap: 20px;
+  display: grid;
+  row-gap: 20px;
+  margin-top: 40px;
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(2, minmax(50%, 1fr));
+    // grid-template-rows: 4rem;
+    .tall {
+      grid-row: span 2;
+    }
+    .small {
+      grid-row: span 1;
+    }
   }
 `;
 
-export const PostTop = styled.div`
-  width: 100%;
-  height: 44px;
-  border-bottom: 2px solid #c88fff;
-  border-radius: 12px 12px 0 0;
-  padding: 8px, 20px, 8px, 20px;
-  background-color: #f3e7ff;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+export const Post = styled.div`
+  border: 2px solid #c88fff;
+  border-radius: 12px;
+  display: inline-block;
+  cursor: pointer;
+  background-color: #fdfbff;
 `;
+
+export const PostTop = styled.div`
+  height: 28px;
+  padding: 8px 20px;
+  display: flex;
+  align-items: center;
+  background-color: #f3e7ff;
+  border-radius: 12px 12px 0 0;
+  justify-content: space-between;
+  border-bottom: 2px solid #c88fff;
+`;
+
 export const PostTopLeft = styled.div`
   display: flex;
-  margin-left: 15px;
   color: #4f4f4f;
 
   @media (max-width: 768px) {
     font-size: 13px;
   }
 `;
+
 export const PostTopRight = styled.div`
   display: flex;
-  margin-right: 15px;
   font-size: 15px;
 `;
+
 export const Ddabong = styled.img`
   margin-right: 2px;
   width: 14px;
@@ -95,20 +98,27 @@ export const Ninkname = styled.div`
   }
 `;
 export const PostBottom = styled.div`
-  width: 100%;
-  // height: 220px;
+  width: 95%;
   gap: 12px;
-  margin-left: 20px;
-  margin-top: 10px;
   display: flex;
-  flex-direction: row;
+  justify-content: space-between;
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
 `;
-export const PostBottomLeft = styled.div`
-  width: 45%;
+
+export const PostBottomLeft = styled.div<PostContentProps>`
+  width: ${(props) => (props.$isFull ? '90%' : '45%')};
+  padding: 25px;
   gap: 8px;
   display: flex;
   flex-direction: column;
+
+  @media (max-width: 768px) {
+    width: 90%;
+  }
 `;
+
 export const PostTitle = styled.div`
   font-size: 20px;
   font-weight: 700;
@@ -117,33 +127,31 @@ export const PostTitle = styled.div`
   text-overflow: ellipsis;
   white-space: nowrap;
 `;
+
 export const PostContent = styled.div<PostContentProps>`
   font-size: 18px;
-  width: ${(props) => (props.hasImage ? 'auto' : '640px')};
-  height: 98px;
   margin-top: 10px;
   color: #4f4f4f;
   overflow: hidden;
   text-overflow: ellipsis;
   word-wrap: break-word;
+  @media (max-width: 768px) {
+    width: 90%;
+  }
 `;
+
 export const PostBottomRight = styled.div`
-  width: 45%;
-  // height: 220px;
-  border-radius: 20px;
-  margin-left: 20px;
-  margin-bottom: 10px;
+  padding: 8px 0px;
+  width: 60%;
 `;
 
 export const Thumbnail = styled.img`
   width: 100%;
-  height: 220px;
-  border-radius: 20px;
-
+  object-fit: cover;
+  margin-left: 15px;
+  margin-top: 10px;
   @media (max-width: 768px) {
-    width: 88%;
-    height: 100%;
-    margin-top: -4px;
+    width: 320px;
   }
 `;
 
@@ -196,12 +204,13 @@ export const WriteButton = styled.button`
 export const Search = styled.div`
   display: flex;
   justify-content: space-between;
+
+  @media (max-width: 1200px) {
+    flex-direction: column;
+  }
 `;
 export const ButtonBox = styled.div`
-  @media (max-width: 768px) {
-    display: flex;
-    flex-direction: row;
-  }
+  display: flex;
 `;
 export const Write = styled.div`
   // display: flex;
@@ -209,7 +218,6 @@ export const Write = styled.div`
 export const SearchInputContainer = styled.div`
   position: relative;
   display: flex;
-  margin-right: 60px;
 `;
 
 export const SearchInput = styled.input`
@@ -222,7 +230,6 @@ export const SearchInput = styled.input`
 `;
 
 export const SearchIcon = styled.img`
-  position: absolute;
   top: 40%;
   right: 145px;
   transform: translateY(-50%);
