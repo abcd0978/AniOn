@@ -1,18 +1,18 @@
-import React, { useRef, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import styled from 'styled-components';
-import { useAtom, useAtomValue } from 'jotai';
+import { useAtom, useSetAtom } from 'jotai';
 import * as modalStore from '../store/modalStore';
-import { isDropDownOn } from '../store/dropDownStore';
 import * as sidebarStore from '../store/sidebarStore';
 import useViewport from '../hooks/useViewPort';
 import * as userStore from '../store/userStore';
 import * as headerStore from '../store/headerStore';
+import * as animeRecommendStore from '../store/animeRecommendStore';
 import dropdown from '../assets/dropdown.svg';
 import dropdownUp from '../assets/dropdownUp.svg';
 import serachMobile from '../assets/searchMobile.svg';
 import menu from '../assets/menu.svg';
 import closeMenu from '../assets/closeMenuMobile.svg';
-import searchOptionMobile from '../assets/searchOptionMobile.svg';
+import searchOptionMobile from '../components/assets/searchOptionMobile.svg';
 import * as authApi from '../api/auth';
 import logout from '../assets/logout.svg';
 import account from '../assets/account.svg';
@@ -30,6 +30,7 @@ import PurchaseAwardModalContents from './Modal/PurchaseAwardModalContents';
 import { useNavigate } from 'react-router-dom';
 import { fetchEquippedItem } from '../api/items';
 import { useQuery } from '@tanstack/react-query';
+import useInput from '../hooks/useInput';
 
 type Props = {};
 
@@ -40,11 +41,20 @@ function Header({}: Props) {
   const [user, setUser] = useAtom(userStore.user);
   const [isModalOpened, setIsModalOpened] = useAtom(modalStore.isModalOpened);
   const [modalContents, setModalContents] = useAtom(modalStore.modalContents);
+  const setKeyword = useSetAtom(animeRecommendStore.keywordAtom);
+  const setAnimeList = useSetAtom(animeRecommendStore.animeListAtom);
+  const setOffset = useSetAtom(animeRecommendStore.offsetAtom);
   const [isDropdownOnD, setIsDropdownOnD] = useState(false);
+  const dropdownOpenerDRef = useRef<HTMLDivElement>(null);
   const [isDropdownOnB, setIsDropdownOnB] = useState(false);
-  const [menuMobileClicked, setMenuMobileClicked] = useAtom(
-    sidebarStore.sideBarOpened,
-  );
+  const dropdownOpenerBRef = useRef<HTMLDivElement>(null);
+  const [mobileSearchCategory, setMobileSearchCategory] = useState<
+    string | null
+  >(null);
+  const [mobileSearchInput, ___, onChangeSearchInput, ____] = useInput('');
+
+  const [sideBarOpened, setSideBarOpened] = useAtom(sidebarStore.sideBarOpened);
+  const setDownBarOpened = useSetAtom(sidebarStore.downBarOpened);
   const [menuSearchClicked, setMenuSearchCliked] = useAtom(
     headerStore.searchMobileClicked,
   );
@@ -78,6 +88,26 @@ function Header({}: Props) {
       }
     }
   };
+  const searchAndSetRecentSearch = (keyword: string) => {
+    const recentSearch: Array<string> | null = JSON.parse(
+      localStorage.getItem('recentSearch')!,
+    );
+    if (recentSearch) {
+      recentSearch.push(keyword);
+      const stringifiedArr = JSON.stringify(recentSearch);
+      localStorage.setItem('recentSearch', stringifiedArr);
+    } else {
+      const stringifiedArr = JSON.stringify([keyword]);
+      localStorage.setItem('recentSearch', stringifiedArr);
+    }
+  };
+  const goSearch = (keyword: string) => {
+    setAnimeList([]);
+    setKeyword(keyword);
+    setOffset(0);
+    searchAndSetRecentSearch(keyword);
+    navigate('/recommend');
+  };
   const dropdownContents: DropdownContentsType[] = [
     {
       content: '프로필설정',
@@ -108,19 +138,19 @@ function Header({}: Props) {
         <StHeaderContainer>
           <StHeaderMenuMobile
             onClick={() => {
-              setMenuMobileClicked((prev) => {
+              setSideBarOpened((prev) => {
                 document.body.style.overflow = !prev ? 'hidden' : 'unset';
                 return !prev;
               });
             }}
           >
             <img
-              style={{ display: `${menuMobileClicked ? 'none' : 'block'}` }}
+              style={{ display: `${sideBarOpened ? 'none' : 'block'}` }}
               src={menu}
               alt="menu"
             />
             <img
-              style={{ display: `${menuMobileClicked ? 'block' : 'none'}` }}
+              style={{ display: `${sideBarOpened ? 'block' : 'none'}` }}
               src={closeMenu}
               alt="close"
             />
@@ -198,7 +228,13 @@ function Header({}: Props) {
           <StHeaderUserInfoSection>
             <StSearchMobile
               className={menuSearchClicked ? 'search' : ''}
-              onClick={() => setMenuSearchCliked(!menuSearchClicked)}
+              onClick={() => {
+                setMenuSearchCliked(!menuSearchClicked);
+                setDownBarOpened((prev) => {
+                  document.body.style.overflow = !prev ? 'hidden' : 'unset';
+                  return !prev;
+                });
+              }}
             >
               <img src={serachMobile} alt="검색" />
             </StSearchMobile>
@@ -229,10 +265,9 @@ function Header({}: Props) {
                   </StHeaderUserAppellation>
                 </StHeaderUserInfo>
                 <StHeaderDropDownImgContainer
-                  style={{ cursor: isDropdownOnD ? 'default' : 'pointer' }}
-                  onClick={() => {
-                    setIsDropdownOnD(true);
-                  }}
+                  ref={dropdownOpenerDRef}
+                  style={{ cursor: 'pointer' }}
+                  onClick={() => setIsDropdownOnD((prev) => !prev)}
                 >
                   {isDropdownOnD ? (
                     <img src={dropdownUp} alt="dropdownImg" />
@@ -242,6 +277,7 @@ function Header({}: Props) {
                 </StHeaderDropDownImgContainer>
                 {isDropdownOnD && (
                   <DropDown
+                    openerRef={dropdownOpenerDRef}
                     top={80}
                     setActive={setIsDropdownOnD}
                     children={dropdownContents}
@@ -276,48 +312,71 @@ function Header({}: Props) {
         <StHeaderContainerSearch className={menuSearchClicked ? 'search' : ''}>
           {isDropdownOnB && (
             <DropDown
+              openerRef={dropdownOpenerBRef}
               top={90}
               setActive={setIsDropdownOnB}
               children={[
                 {
                   content: '애니찾기',
-                  func: () => {},
+                  func: () => {
+                    setMobileSearchCategory('애니찾기');
+                    setIsDropdownOnB(false);
+                  },
                 },
+
                 {
                   content: '게시글',
-                  func: () => {},
+                  func: () => {
+                    setMobileSearchCategory('게시글');
+                    setIsDropdownOnB(false);
+                  },
                 },
               ]}
             />
           )}
 
           <StHeaderMobileOption>
-            <StHeaderMobileSearchTypo>선택</StHeaderMobileSearchTypo>
+            <StHeaderMobileSearchTypo
+              selcted={mobileSearchCategory ? true : false}
+            >
+              {mobileSearchCategory ? mobileSearchCategory : '선택'}
+            </StHeaderMobileSearchTypo>
             <div
+              onClick={() => setIsDropdownOnB(!isDropdownOnB)}
+              ref={dropdownOpenerBRef}
               style={{
                 display: 'flex',
                 flexDirection: 'column',
                 textAlign: 'center',
               }}
             >
-              <img
-                onClick={() => setIsDropdownOnB(!isDropdownOnB)}
-                src={searchOptionMobile}
-                alt="som"
-              />
+              <img src={searchOptionMobile} alt="som" />
             </div>
           </StHeaderMobileOption>
           <StHeaderMobileSearchInputContainer>
-            <StHeaderMobileSearchInput placeholder="검색어를 입력해주세요"></StHeaderMobileSearchInput>
+            <StHeaderMobileSearchInput
+              value={mobileSearchInput}
+              onChange={onChangeSearchInput}
+              placeholder="검색어를 입력해주세요"
+            />
             <StSearchMobile
               className={menuSearchClicked ? '' : 'search'}
-              onClick={() => {}}
+              onClick={() => {
+                setMenuSearchCliked(false);
+                setDownBarOpened(false);
+                document.body.style.overflow = 'unset';
+                goSearch(mobileSearchInput);
+              }}
             >
               <img src={serachMobile} alt="검색" />
             </StSearchMobile>
           </StHeaderMobileSearchInputContainer>
           <StHeaderMobileSearchCancel
-            onClick={() => setMenuSearchCliked(false)}
+            onClick={() => {
+              setMenuSearchCliked(false);
+              setDownBarOpened(false);
+              document.body.style.overflow = 'unset';
+            }}
           >
             취소
           </StHeaderMobileSearchCancel>
@@ -362,7 +421,7 @@ const StHeader = styled.header<{ $mediawidth: number }>`
   display: grid;
   align-items: center;
   background: var(--achromatic-colors-white, #fff);
-  box-shadow: 0px 0px 16px 0px rgba(0, 0, 0, 0.06);
+  box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.06);
   backdrop-filter: blur(25px);
   z-index: 4;
   transition: 0.2s;
@@ -419,9 +478,9 @@ const StHeaderContainerSearch = styled.div`
     }
   }
 `;
-const StHeaderMobileSearchTypo = styled.p`
-  color: var(--achromatic-colors-midgray-1, #999);
-  width: 36px;
+const StHeaderMobileSearchTypo = styled.p<{ selcted: boolean }>`
+  color: ${(props) =>
+    props.selcted ? '#000;' : 'var(--achromatic-colors-midgray-1, #999);'};
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
@@ -429,12 +488,12 @@ const StHeaderMobileSearchTypo = styled.p`
   letter-spacing: -0.21px;
 `;
 const StHeaderMobileOption = styled.div`
-  width: 64px;
+  width: 68px;
   height: 24px;
   padding: 8px 4px 8px 8px;
   align-items: center;
   position: relative;
-  gap: 4px;
+  justify-content: space-between;
   border-radius: 10px;
   background: var(--main-light-3, #f9f3ff);
 `;

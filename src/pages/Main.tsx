@@ -590,6 +590,9 @@ const StMainCardContainerContainer = styled.div`
   flex-direction: column;
   align-items: flex-start;
   overflow: hidden;
+  @media (max-width: 768px) {
+    padding: 0px;
+  }
 `;
 const StMainCardContainerWithTypo = styled.div`
   display: flex;

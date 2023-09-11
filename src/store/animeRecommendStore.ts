@@ -1,5 +1,8 @@
 import { atom } from 'jotai';
 import { laftelParamsM } from '../types/anime';
+import type { AnimeG } from '../types/anime';
+
+export const animeListAtom = atom<AnimeG[]>([]);
 
 export const selectedCategoryAtom = atom('전체');
 
