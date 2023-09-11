@@ -18,7 +18,7 @@ const S = {
   `,
   Top: styled.div`
     width: 1360px;
-    height: 45px;
+    min-height: 45px;
     padding: 12px, 0px, 12px, 0px;
     gap: 16px;
     margin-top: 20px;
@@ -198,6 +198,10 @@ const S = {
     p {
       margin: 10px 0;
       padding: 5px;
+      word-wrap: break-word;
+      white-space: pre-wrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
   `,
 
