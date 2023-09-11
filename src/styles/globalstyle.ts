@@ -21,7 +21,6 @@ ${reset};
 
 *{
     font-family: 'Pretendard-Regular';
-
 }
 
 
@@ -40,14 +39,13 @@ header{
 }
 .sidebar{
     width:100vw;
-height: 100vh;
-left: -100vw;
-  transition: all 0.3s ease;
+    height: 100vh;
+    left: -100vw;
+    transition: all 0.3s ease;
 }
 .sidebar.opened {
-
-  padding: 20px 0px;
-  left: 0;
+    padding: 20px 0px;
+    left: 0;
 }
 .embla:not(.middle){
     width:100vw;

@@ -280,7 +280,7 @@ const Comments = () => {
                       <S.CommentMore
                         onClick={() => toggleCommentCollapse(comment.id)}
                       >
-                        더보기 <img src={commentpointer} />
+                        댓글 더보기 <img src={commentpointer} />
                       </S.CommentMore>
                     </>
                   ) : (

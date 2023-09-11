@@ -4,8 +4,6 @@ type Props = {
   $isOpen: boolean;
 };
 
-// 배경 40퍼
-
 export const S = {
   MobileFilterSection: styled.section<Props>`
     position: fixed;
@@ -59,7 +57,7 @@ export const S = {
   FilterResetContainer: styled.div`
     width: 30%;
     display: flex;
-    font-size: 14px;
+    font-size: 12px;
     align-items: center;
   `,
 
@@ -71,5 +69,6 @@ export const S = {
     background: #8200ff;
     border-radius: 999px;
     height: 36px;
+    font-size: 15px;
   `,
 };

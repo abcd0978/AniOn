@@ -1,9 +1,130 @@
 import styled from 'styled-components';
 
+interface PostContentProps {
+  hasImage: boolean;
+}
 export const Container = styled.div`
-  // margin-bottom: 40px;
-  width: 1440px;
-  min-height: 854px;
+  // width: 1440px;
+  // height: 2098px;
+`;
+
+export const Post = styled.div`
+  width: 47%;
+  min-height: 235px;
+  max-height: 357px;
+  border: 2px solid #c88fff;
+  border-radius: 12px;
+  display: inline-block;
+  // margin-bottom: 20px;
+  margin-right: 20px;
+  margin-top: 30px;
+  cursor: pointer;
+  background-color: #fdfbff;
+`;
+
+export const PostTop = styled.div`
+  width: 100%;
+  height: 44px;
+  border-bottom: 2px solid #c88fff;
+  border-radius: 12px 12px 0 0;
+  padding: 8px, 20px, 8px, 20px;
+  background-color: #f3e7ff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+export const PostTopLeft = styled.div`
+  display: flex;
+  margin-left: 15px;
+  color: #4f4f4f;
+`;
+export const PostTopRight = styled.div`
+  display: flex;
+  margin-right: 15px;
+  font-size: 15px;
+`;
+export const Ddabong = styled.img`
+  margin-right: 2px;
+  width: 14px;
+  color: #4f4f4f;
+  margin-right: 7px;
+`;
+export const PostMiddle = styled.div`
+  width: 95%;
+  height: 49px;
+  gap: 12px;
+  border-bottom: 1px solid #d9d9d9;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-left: 19px;
+`;
+export const PostMiddleLeft = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 15px;
+`;
+export const PostMiddleRight = styled.div`
+  display: flex;
+  color: #999999;
+  font-size: 15px;
+`;
+export const Ninkname = styled.div`
+  margin-left: 10px;
+  margin-right: 10px;
+`;
+export const PostBottom = styled.div`
+  width: 100%;
+  // height: 220px;
+  gap: 12px;
+  margin-left: 20px;
+  margin-top: 10px;
+  display: flex;
+  flex-direction: row;
+`;
+export const PostBottomLeft = styled.div`
+  width: 45%;
+  gap: 8px;
+  display: flex;
+  flex-direction: column;
+`;
+export const PostTitle = styled.div`
+  font-size: 20px;
+  font-weight: 700;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+`;
+export const PostContent = styled.div<PostContentProps>`
+  font-size: 18px;
+  width: ${(props) => (props.hasImage ? 'auto' : '640px')};
+  height: 98px;
+  margin-top: 10px;
+  color: #4f4f4f;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-wrap: break-word;
+`;
+export const PostBottomRight = styled.div`
+  width: 45%;
+  // height: 220px;
+  border-radius: 20px;
+  margin-left: 20px;
+  margin-bottom: 10px;
+`;
+
+export const Thumbnail = styled.img`
+  width: 100%;
+  height: 220px;
+  border-radius: 20px;
+`;
+
+export const Category = styled.div`
+  color: #4f4f4f;
+  font-size: 15px;
+  margin-left: 10px;
 `;
 
 export const Title = styled.div`
@@ -40,129 +161,18 @@ export const WriteButton = styled.button`
   margin-left: 10px;
   cursor: pointer;
 `;
-export const Postbox = styled.div`
-  border-bottom: 1px solid #d9d9d9;
-  margin-bottom: 10px;
-  margin-top: 10px;
-  display: flex;
-  width: 1440px;
-  height: 45px;
-  align-items: center;
-  cursor: pointer;
-`;
-export const Header = styled.div`
-  display: flex;
-  align-items: center;
-  border-bottom: 1px solid #d9d9d9;
-  border-top: 1px solid #d9d9d9;
-  font-size: 15px;
-  margin-top: 20px;
-  width: 1440px;
-  height: 44px;
-`;
-export const HeaderNo = styled.div`
-  font-size: 15px;
-  width: 72px;
-  height: 44px;
-  display: flex;
-  align-items: center;
-  font-weight: 600;
-  justify-content: center;
-`;
-export const BottomNo = styled.div`
-  font-size: 15px;
-  width: 72px;
-  height: 44px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-export const HeaderTitle = styled.div`
-  font-size: 15px;
-  width: 936px;
-  height: 44px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 600;
-`;
-export const BottomTitle = styled.div`
-  font-size: 15px;
-  width: 936px;
-  height: 44px;
-  display: flex;
-  align-items: center;
-`;
-export const HeaderNick = styled.div`
-  font-size: 15px;
-  width: 220px;
-  height: 44px;
-  display: flex;
-  align-items: center;
-  font-weight: 600;
-`;
-export const BottomNick = styled.div`
-  font-size: 15px;
-  width: 220px;
-  height: 44px;
-  display: flex;
-  align-items: center;
-`;
-export const Headerdate = styled.div`
-  font-size: 15px;
-  width: 270px;
-  height: 44px;
-  display: flex;
-  align-items: center;
-  font-weight: 600;
-`;
-export const Bottomdate = styled.div`
-  font-size: 15px;
-  width: 270px;
-  height: 44px;
-  display: flex;
-  align-items: center;
-`;
-export const HeaderLike = styled.div`
-  font-size: 15px;
-  width: 90px;
-  height: 44px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 600;
-`;
-export const BottomLike = styled.div`
-  font-size: 15px;
-  width: 90px;
-  height: 44px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
 
-export const Img = styled.img`
-  width: 30px;
-  height: 30px;
-  border-radius: 100px;
-  margin-right: 10px;
-`;
-export const User = styled.div`
-  display: flex;
-`;
-
-export const Post = styled.div`
+export const Search = styled.div`
   display: flex;
   justify-content: space-between;
 `;
-export const Search = styled.div`
-  display: flex;
-`;
 export const Write = styled.div`
-  display: flex;
+  // display: flex;
 `;
 export const SearchInputContainer = styled.div`
   position: relative;
+  display: flex;
+  margin-right: 60px;
 `;
 
 export const SearchInput = styled.input`
@@ -176,8 +186,8 @@ export const SearchInput = styled.input`
 
 export const SearchIcon = styled.img`
   position: absolute;
-  top: 50%;
-  right: 10px;
+  top: 40%;
+  right: 145px;
   transform: translateY(-50%);
   width: 20px;
   height: 20px;
