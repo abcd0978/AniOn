@@ -237,7 +237,7 @@ export const S = {
     width: 830px;
     flex-direction: column;
     align-items: flex-start;
-    gap: 20px;
+    gap: 3px;
     height: 176px;
   `,
 
@@ -272,6 +272,12 @@ export const S = {
 
     @media screen and (max-width: 1295px) {
       line-height: 32px;
+    }
+
+    @media screen and (max-width: 768px) {
+      p {
+        font-size: 11px;
+      }
     }
   `,
 

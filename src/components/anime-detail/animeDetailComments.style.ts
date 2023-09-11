@@ -14,6 +14,11 @@ export const S = {
     min-height: 218px;
     border-bottom: 2px solid #d9d9d9;
     position: relative;
+
+    @media (max-width: 768px) {
+      width: 308px;
+      min-height: 308px;
+    }
   `,
 
   AniCommentUser: styled.div`
@@ -78,6 +83,10 @@ export const S = {
     white-space: pre-wrap;
     /* overflow: hidden; //우선 걸어놓음 더 길게 쓰면 더보기 추가해야함 */
     line-height: 1.6;
+
+    @media (max-width: 768px) {
+      margin-left: 0px;
+    }
   `,
 
   AniCommentInputBox: styled.div`
@@ -87,6 +96,10 @@ export const S = {
     border-radius: 10px;
     border: 1px solid #c88fff;
     background-color: #f9f3ff;
+
+    @media (max-width: 768px) {
+      width: 293px;
+    }
   `,
 
   AniCommentInput: styled.textarea`
@@ -101,6 +114,10 @@ export const S = {
     resize: none;
     line-height: 1.6;
     font-size: 16px;
+
+    @media (max-width: 768px) {
+      width: 237px;
+    }
   `,
   AniCommentInputButton: styled.button`
     border-radius: 10px;
@@ -159,6 +176,11 @@ export const S = {
     outline: none;
     line-height: 1.6;
     font-size: 16px;
+
+    @media (max-width: 768px) {
+      margin: 10px 0px 0px 13px;
+      width: 240px;
+    }
   `,
 
   AniCommentPageBox: styled.div`
@@ -171,6 +193,9 @@ export const S = {
   Outer: styled.div`
     display: flex;
     flex-direction: column;
+
+    @media (max-width: 768px) {
+      width:75%;
   `,
   date: styled.div`
     color: #6e6c69;
@@ -187,5 +212,9 @@ export const S = {
     display: block;
     margin-bottom: 5px;
     margin-top: 13px;
+
+    @media (max-width: 768px) {
+      margin-left: 0px;
+    }
   `,
 };
