@@ -45,7 +45,7 @@ const ContentVideo = styled.video`
   @media screen and (max-width: 775px) {
     width: 500px;
   }
-  @media screen and (max-width: 570px) {
-    width: 354px;
+  @media screen and (max-width: 768px) {
+    width: 353px;
   }
 `;

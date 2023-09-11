@@ -1,4 +1,3 @@
-import { tSTypeAliasDeclaration } from '@babel/types';
 import styled from 'styled-components';
 
 export const S = {
@@ -12,6 +11,11 @@ export const S = {
     height: 662px;
     margin-left: calc(-50vw + 50%);
     background: #4f4f4f;
+
+    @media screen and (max-width: 768px) {
+      height: 920px;
+      padding: 0px 20px 0px 20px;
+    }
   `,
 
   ContentsContainer: styled.div`
@@ -22,11 +26,11 @@ export const S = {
     height: 627px;
     width: 830px;
 
-    // @media screen and (max-width: 1219px) {
-    //   display: flex;
-    //   flex-direction: column;
-    //   align-items: center;
-    // }
+    @media screen and (max-width: 768px) {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
   `,
 
   ContentsBox: styled.div`
@@ -36,6 +40,10 @@ export const S = {
     gap: 40px;
     width: 830px;
     height: 983px;
+
+    @media screen and (max-width: 768px) {
+      gap: 10px;
+    }
   `,
 
   ContentsImg: styled.div`
@@ -43,6 +51,24 @@ export const S = {
       width: 464px;
       height: 662px;
       border-radius: 20px;
+    }
+
+    @media screen and (max-width: 768px) {
+      display: none;
+    }
+  `,
+
+  MobileContentsImg: styled.div`
+    display: none;
+
+    @media screen and (max-width: 768px) {
+      display: flex;
+
+      img {
+        width: 131.77px;
+        height: 188px;
+        border-radius: 10px;
+      }
     }
   `,
 
@@ -63,6 +89,11 @@ export const S = {
     font-weight: 700;
     line-height: normal;
     letter-spacing: -0.3px;
+
+    @media screen and (max-width: 768px) {
+      padding: 8px 16px 8px 8px;
+      font-size: 16px;
+    }
   `,
 
   ContentsText: styled.p`
@@ -112,6 +143,11 @@ export const S = {
     letter-spacing: -0.24px;
     width: 830px;
     flex-shrink: 0;
+
+    @media screen and (max-width: 768px) {
+      width: 362px;
+      font-size: 15px;
+    }
   `,
 
   ContentsOptions: styled.div`
@@ -121,6 +157,22 @@ export const S = {
     align-items: flex-start;
     img {
       cursor: pointer;
+    }
+
+    @media screen and (max-width: 768px) {
+      width: 344px;
+    }
+  `,
+
+  PreviewLike: styled.div`
+    display: flex;
+    width: 829px;
+    justify-content: space-between;
+    align-items: flex-start;
+
+    @media screen and (max-width: 768px) {
+      flex-direction: column;
+      gap: 13px;
     }
   `,
 
@@ -204,6 +256,10 @@ export const S = {
     align-self: stretch;
     width: 830px;
     height: 132px;
+
+    @media screen and (max-width: 768px) {
+      justify-content: unset;
+    }
   `,
 
   StarNumBox: styled.div`
@@ -253,6 +309,11 @@ export const S = {
     color: #fff;
     font-style: normal;
     line-height: normal;
+
+    @media screen and (max-width: 768px) {
+      font-size: 24px;
+      width: 362px;
+    }
   `,
 
   DetailLabel: styled.p`
@@ -278,6 +339,8 @@ export const S = {
       p {
         font-size: 11px;
       }
+
+      margin-top: 69px;
     }
   `,
 
@@ -304,6 +367,10 @@ export const S = {
     gap: 5px;
     row-gap: 15px;
     margin: 10px 0px;
+
+    @media screen and (max-width: 768px) {
+      max-width: 361px;
+    }
   `,
 
   AniDetailTag: styled.div`
@@ -322,6 +389,10 @@ export const S = {
     line-height: 18px;
     letter-spacing: -0.015em;
     text-align: left;
+
+    @media screen and (max-width: 768px) {
+      font-size: 13px;
+    }
   `,
 
   NonPreview: styled.div`

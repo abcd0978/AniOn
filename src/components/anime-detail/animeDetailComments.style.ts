@@ -7,6 +7,10 @@ export const S = {
     justify-content: center;
     align-items: center;
     /* background-color: #fdfbff; */
+
+    @media (max-width: 768px) {
+      display: block;
+    }
   `,
 
   AniCommentBox: styled.div`
@@ -16,7 +20,7 @@ export const S = {
     position: relative;
 
     @media (max-width: 768px) {
-      width: 308px;
+      width: 355px;
       min-height: 308px;
     }
   `,
@@ -45,6 +49,10 @@ export const S = {
     font-weight: 600;
     line-height: normal;
     letter-spacing: -0.24px;
+
+    @media (max-width: 768px) {
+      font-size: 13px;
+    }
   `,
 
   AniUserAward: styled.div`
@@ -75,7 +83,7 @@ export const S = {
     width: 1380px;
     min-height: 48px;
     padding: 0px, 0px, 0px, 60px;
-    margin-top: 23px;
+    margin-top: 10px;
     margin-left: 80px;
     // max-width: 1380px;
     max-width: 100%;
@@ -85,7 +93,9 @@ export const S = {
     line-height: 1.6;
 
     @media (max-width: 768px) {
-      margin-left: 0px;
+      margin-left: 17px;
+      margin-top: 14px;
+      width: 325px;
     }
   `,
 
@@ -98,7 +108,7 @@ export const S = {
     background-color: #f9f3ff;
 
     @media (max-width: 768px) {
-      width: 293px;
+      width: 355px;
     }
   `,
 
@@ -116,7 +126,7 @@ export const S = {
     font-size: 16px;
 
     @media (max-width: 768px) {
-      width: 237px;
+      width: 306px;
     }
   `,
   AniCommentInputButton: styled.button`
@@ -179,7 +189,8 @@ export const S = {
 
     @media (max-width: 768px) {
       margin: 10px 0px 0px 13px;
-      width: 240px;
+      width: 80%;
+      height: 80%;
     }
   `,
 
@@ -195,12 +206,28 @@ export const S = {
     flex-direction: column;
 
     @media (max-width: 768px) {
-      width:75%;
+      width:100%;
   `,
   date: styled.div`
     color: #6e6c69;
     font-size: 12px;
+    @media (max-width: 768px) {
+      display: none;
+    }
   `,
+
+  MobileDate: styled.div`
+    display: none;
+
+    @media (max-width: 768px) {
+      display: flex;
+      margin-left: 17px;
+      color: #6e6c69;
+      font-size: 12px;
+      margin-top: 10px;
+    }
+  `,
+
   CommentMore: styled.button`
     background-color: #ffffff;
     border: 1px solid #dbdbdb;
@@ -214,7 +241,7 @@ export const S = {
     margin-top: 13px;
 
     @media (max-width: 768px) {
-      margin-left: 0px;
+      margin-left: 17px;
     }
   `,
 };
