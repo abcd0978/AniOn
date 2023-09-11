@@ -30,6 +30,17 @@ const AnimeSearch = ({ setAnimeList }: Props) => {
     if (!keyword) {
       return;
     }
+    const recentSearch: Array<string> | null = JSON.parse(
+      localStorage.getItem('recentSearch')!,
+    );
+    if (recentSearch) {
+      recentSearch.push(keyword);
+      const stringifiedArr = JSON.stringify(recentSearch);
+      localStorage.setItem('recentSearch', stringifiedArr);
+    } else {
+      const stringifiedArr = JSON.stringify([keyword]);
+      localStorage.setItem('recentSearch', stringifiedArr);
+    }
     setKeywordAtom(keyword);
     setCategory('전체');
     setAnimeList([]);

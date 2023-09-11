@@ -10,7 +10,7 @@ type Props = {
 };
 
 const MainCard = ({ width, data, index, key }: Props) => {
-  const { width: mediaWidth } = useViewport();
+  const { width: mediaWidth, isMobile } = useViewport();
   return (
     <StMainCard
       width={width}
@@ -58,7 +58,7 @@ const MainCard = ({ width, data, index, key }: Props) => {
         </StCardInfo>
         <StCardHashTagContainer>
           {data.genres
-            ? data.genres.slice(0, 3).map((g: string) => {
+            ? data.genres.slice(0, isMobile ? 2 : 3).map((g: string) => {
                 return (
                   <StCardHashTag key={key}>
                     <StCardHashTagTypo

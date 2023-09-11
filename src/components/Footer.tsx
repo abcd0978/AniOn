@@ -85,8 +85,10 @@ const Stfooter = styled.div`
   margin-top: auto;
   padding-bottom: 10px;
   @media (max-width: 768px) {
-    width: 102.5%;
-    padding: 5px 15px;
+    width: 100vw;
+    box-sizing: border-box;
+    border-left: 12px solid #f9f3ff;
+    border-right: 12px solid #f9f3ff;
   }
 `;
 

@@ -42,7 +42,7 @@ const AnimeList = () => {
 
   const [count, setCount] = useState(0);
   const [isNextPage, setIsNextPage] = useState(false);
-  const [animeList, setAnimeList] = useState<AnimeG[]>([]);
+  const [animeList, setAnimeList] = useAtom(animeStore.animeListAtom);
   const [offset, setOffset] = useAtom(animeStore.offsetAtom);
   const [keyword, setKeyword] = useAtom(animeStore.keywordAtom);
 
@@ -132,6 +132,7 @@ const AnimeList = () => {
   // 스로틀링된 무한 스크롤 콜백 함수
   // 카테고리를 변경할 때 무한스크롤 실행되는 이슈 발견 > 아래 useEffect를 clean-up 함수로 변경.
   const throttledLoadMore = throttle(() => {
+    console.log('살행됨');
     if (isNextPage && !isFetching && !isLoading) {
       // 이전 offset에 size를 더하여 다음 페이지 데이터를 가져오도록 설정
       setOffset((prevOffset) => prevOffset! + size);
