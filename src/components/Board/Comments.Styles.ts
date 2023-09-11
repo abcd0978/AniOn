@@ -25,7 +25,7 @@ export const CommentTop = styled.div`
   align-items: center;
   flex-direction: row;
   @media (max-width: 768px) {
-    width: 24%;
+    width: 100%;
   }
 `;
 
@@ -45,9 +45,8 @@ export const WriteInput = styled.textarea`
   display: flex;
   margin-top: 10px;
   border-radius: 10px;
-  border: 1px solid #d9d9d9;
   background-color: #f9f3ff;
-  width: 1277px;
+  width: 95%;
   height: 48px;
   padding: 20px;
   border: none;
@@ -111,7 +110,7 @@ export const Comment = styled.div`
   width: 1430px;
   min-height: 218px;
   @media (max-width: 768px) {
-    width: 24%;
+    width: 100%;
   }
 `;
 
@@ -119,9 +118,13 @@ export const CommentDate = styled.div`
   color: #6e6c69;
   font-size: 12px;
   margin-bottom: 33px;
-  margin-top: -36px;
   float: right;
   margin-right: 15px;
+`;
+export const MobieDate = styled.div`
+  color: #999999;
+  font-size: 12px;
+  margin-top: 5px;
 `;
 export const EditInput = styled.textarea`
   display: flex;
@@ -141,7 +144,7 @@ export const EditInput = styled.textarea`
   line-height: 1.6;
   font-size: 16px;
   @media (max-width: 768px) {
-    width: 70%;
+    width: 63%;
   }
 `;
 
@@ -160,18 +163,23 @@ export const Ninkname = styled.div`
   align-items: center;
   font-size: 16px;
   font-weight: 600;
+  @media (max-width: 768px) {
+    font-size: 15px;
+  }
 `;
 export const Award = styled.img`
   display: flex;
-  // width: 172px;
+  width: 172px;
   height: 36px;
   padding: 8px 12px;
   align-items: center;
-  gap: 8px;
   border-radius: 999px;
-  margin-left: 10px;
   font-size: 14px;
-  margin-top: 12px;
+  margin-top: 16px;
+  @media (max-width: 768px) {
+    width: 120px;
+    height: 22.32px;
+  }
 `;
 export const AwardNo = styled.div`
   display: flex;
@@ -197,6 +205,7 @@ export const CommentBox = styled.div`
   white-space: pre-wrap;
   @media (max-width: 768px) {
     width: 80%;
+    margin-left: 32px;
   }
 `;
 export const Page = styled.div`
@@ -204,7 +213,7 @@ export const Page = styled.div`
   justify-content: center;
   align-items: center;
   @media (max-width: 768px) {
-    width: 24%;
+    width: 100%;
   }
 `;
 export const CommentMore = styled.button`

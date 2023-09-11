@@ -12,7 +12,8 @@ export const PostWrapper = styled.div`
   margin-top: 40px;
   @media (min-width: 768px) {
     grid-template-columns: repeat(2, minmax(50%, 1fr));
-    // grid-template-rows: 4rem;
+    /* grid-template-rows: fit-content(100px); */
+    /* grid-auto-rows: auto; */
     .tall {
       grid-row: span 2;
     }
@@ -69,10 +70,11 @@ export const PostMiddle = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-left: 19px;
+  margin-left: 12px;
 
   @media (max-width: 768px) {
-    width: 100%;
+    width: 90%;
+    margin-left: 12px;
   }
 `;
 export const PostMiddleLeft = styled.div`
@@ -87,10 +89,11 @@ export const PostMiddleRight = styled.div`
   font-size: 15px;
 
   @media (max-width: 768px) {
-    font-size: 13px;
+    font-size: 10px;
   }
 `;
 export const Ninkname = styled.div`
+  white-space: nowrap;
   margin-left: 10px;
   margin-right: 10px;
   @media (max-width: 768px) {
@@ -120,12 +123,19 @@ export const PostBottomLeft = styled.div<PostContentProps>`
 `;
 
 export const PostTitle = styled.div`
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
   font-size: 20px;
   font-weight: 700;
   width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap;
+  @media (max-width: 768px) {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 18px;
+  }
 `;
 
 export const PostContent = styled.div<PostContentProps>`
@@ -137,6 +147,7 @@ export const PostContent = styled.div<PostContentProps>`
   word-wrap: break-word;
   @media (max-width: 768px) {
     width: 90%;
+    font-size: 15px;
   }
 `;
 
@@ -150,11 +161,19 @@ export const Thumbnail = styled.img`
   object-fit: cover;
   margin-left: 15px;
   margin-top: 10px;
+  border-radius: 20px;
   @media (max-width: 768px) {
     width: 320px;
   }
 `;
-
+export const StAwardImg = styled.img`
+  width: 172px;
+  height: 32px;
+  @media (max-width: 768px) {
+    width: 120px;
+    height: 22.32px;
+  }
+`;
 export const Category = styled.div`
   color: #4f4f4f;
   font-size: 15px;
@@ -199,6 +218,20 @@ export const WriteButton = styled.button`
   color: white;
   margin-left: 10px;
   cursor: pointer;
+`;
+export const MobileWrite = styled.button`
+
+  width: 30px;
+  height: 30px;
+  border-radius: 999px;
+  background-color: #8200FF;
+  border:none;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin-top:12px;
+  margin-left:10px;
+}}
 `;
 
 export const Search = styled.div`

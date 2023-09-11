@@ -71,7 +71,14 @@ const Board = () => {
       return;
     }
   };
-
+  const processBody = (bodyStr: string) => {
+    let result = '';
+    result = bodyStr
+      .replace(/\n/g, '')
+      .replace(/<[^>]*>?/g, '')
+      .replace(/&nbsp;/gi, '');
+    return result;
+  };
   const handlePostClick = (postId: string) => {
     navigate(`/board/${postId}`);
   };
@@ -141,6 +148,11 @@ const Board = () => {
           >
             오류 신고
           </S.Button>
+          {isMobile && ( // 모바일일 때 작성 버튼
+            <S.MobileWrite onClick={handleWriteClick}>
+              <img src={pencil} alt="작성" />
+            </S.MobileWrite>
+          )}
         </S.ButtonBox>
         {!isMobile && (
           <S.SearchInputContainer>
@@ -202,21 +214,16 @@ const Board = () => {
                   <S.Ninkname>{post.users?.nickname}</S.Ninkname>
                   {post.users.inventory.length > 0 &&
                   processItem(post.users.inventory).award.img_url ? (
-                    <img
+                    <S.StAwardImg
                       src={processItem(post.users.inventory).award.img_url!}
                       alt={processItem(post.users.inventory).award.name!}
-                      style={{
-                        width: '172px',
-                        height: '32px',
-                        marginRight: '8px',
-                      }}
                     />
                   ) : (
                     <S.AwardNo>칭호없음</S.AwardNo>
                   )}
                 </S.PostMiddleLeft>
                 <S.PostMiddleRight>
-                  {new Date(post.created_at).toLocaleString()}
+                  {new Date(post.created_at).toLocaleDateString()}
                 </S.PostMiddleRight>
               </S.PostMiddle>
               <S.PostBottom>
@@ -225,10 +232,9 @@ const Board = () => {
                   <S.PostContent
                     id="post-content"
                     hasImage={post.thumbnail ? true : false}
-                    dangerouslySetInnerHTML={{
-                      __html: removeImageTags(post.content),
-                    }}
-                  ></S.PostContent>
+                  >
+                    {processBody(post.content)}
+                  </S.PostContent>
                 </S.PostBottomLeft>
                 {post.thumbnail ? (
                   <S.PostBottomRight>
