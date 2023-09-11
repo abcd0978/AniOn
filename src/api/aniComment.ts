@@ -7,14 +7,13 @@ const fetchAllAnimeComments = async () => {
   try {
     const { data, error } = await supabase
       .from('ani_comments')
-      .select('ani_id', { count: 'exact' });
-
+      .select('ani_id');
     if (error) {
-      // console.log('애니 리스트 댓글', error);
+      return [];
     }
     return data;
   } catch (error) {
-    // console.log('애니 리스트 댓글', error);
+    return [];
   }
 };
 

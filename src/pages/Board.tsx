@@ -1,12 +1,11 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import * as userStore from '../store/userStore';
 import * as S from './Board.style';
-import { getPosts, searchPost } from '../api/boardapi';
-import { Database } from '../types/supabase';
+import { getPosts } from '../api/boardapi';
 import { useState } from 'react';
-import { atom, useAtom, useAtomValue } from 'jotai';
+import { useAtomValue } from 'jotai';
 import Pagination from '../components/Pagenation';
 import { toast } from 'react-toastify';
 import pencil from '../assets/pencil.svg';
@@ -15,12 +14,11 @@ import ddabong from '../assets/ddabong.svg';
 import ProfileWithBorder, {
   processItem,
 } from '../components/ProfileWithBorder';
-import type { PostType, InsertPost, UpdatePost } from '../types/post';
+import type { PostType } from '../types/post';
 import useViewport from '../hooks/useViewPort';
 
 const Board = () => {
   const user = useAtomValue(userStore.user);
-  const queryClient = useQueryClient();
   const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState<string>('');
   const [searchKeyword, setSearchKeyword] = useState<string>('');
@@ -46,12 +44,16 @@ const Board = () => {
   };
 
   const postQueryOptions = {
-    queryKey: ['posts', selectedCategory, searchKeyword, page],
-    queryFn: () => getPosts(selectedCategory, page),
+    queryKey: ['posts', selectedCategory, page],
+    queryFn: () => getPosts(selectedCategory, page, searchKeyword),
     refetchOnWindowFocus: false,
   };
 
-  const { data: postsAndTotalPages, isFetching } = useQuery(postQueryOptions);
+  const {
+    data: postsAndTotalPages,
+    isFetching,
+    refetch,
+  } = useQuery(postQueryOptions);
 
   const onClickPage = (selected: number | string) => {
     if (page === selected) return;
@@ -69,45 +71,19 @@ const Board = () => {
     }
   };
 
-  // console.log('dd', postsAndTotalPages);
-  // 검색 결과에 따라 게시물 리스트를 필터링하고 정렬
-  const filteredAndSortedPosts: PostType[] | undefined = useMemo(() => {
-    if (!postsAndTotalPages?.data) return undefined;
-
-    return postsAndTotalPages.data
-      .filter((post: PostType) => {
-        const postTitleIncludesKeyword = post.title.includes(searchKeyword);
-        const postContentIncludesKeyword = post.content.includes(searchKeyword);
-        const postUserNicknameIncludesKeyword =
-          post.users?.nickname?.includes(searchKeyword) ?? false;
-
-        return (
-          postTitleIncludesKeyword ||
-          postContentIncludesKeyword ||
-          postUserNicknameIncludesKeyword
-        );
-      })
-      .sort((a, b) => b.created_at.localeCompare(a.created_at)); // 최신 글이 위로 가도록 정렬
-  }, [postsAndTotalPages, searchKeyword]);
-
   const handlePostClick = (postId: string) => {
     navigate(`/board/${postId}`);
   };
 
-  const handleSearchSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const processBody = (bodyStr: string) => {
-      let result = '';
-      result = bodyStr
-        .replace(/\n/g, '')
-        .replace(/<[^>]*>?/g, '')
-        .replace(/&nbsp;/gi, '');
-      return result;
-    };
-    const ppp = await searchPost(searchKeyword);
-    // console.log('보드 검색', ppp);
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      handleSearch();
+    }
+  };
+
+  const handleSearch = async () => {
+    refetch();
     setSelectedCategory('');
-    queryClient.invalidateQueries(['posts', null, searchKeyword]);
   };
 
   // 글 이미지 미리보기에서 사진 없애기
@@ -166,15 +142,14 @@ const Board = () => {
           </S.Button>
         </S.ButtonBox>
         <S.SearchInputContainer>
-          <form onSubmit={handleSearchSubmit}>
-            <S.SearchInput
-              type="text"
-              placeholder="검색어를 입력해주세요!"
-              value={searchKeyword}
-              onChange={(e) => setSearchKeyword(e.target.value)}
-            />
-            <S.SearchIcon src={search} alt="Search Icon" />
-          </form>
+          <S.SearchInput
+            type="text"
+            placeholder="검색어를 입력해주세요!"
+            value={searchKeyword}
+            onChange={(e) => setSearchKeyword(e.target.value)}
+            onKeyDown={handleKeyPress}
+          />
+          <S.SearchIcon src={search} alt="Search Icon" onClick={handleSearch} />
 
           <S.WriteButton onClick={handleWriteClick}>
             <img src={pencil} alt="작성" /> 작성하기
@@ -185,13 +160,13 @@ const Board = () => {
       <ul>
         {isFetching ? (
           <div>로딩중...</div>
-        ) : filteredAndSortedPosts ? (
-          filteredAndSortedPosts.map((post: PostType, index: number) => (
-            //포스트
+        ) : postsAndTotalPages?.data.length !== 0 ? (
+          postsAndTotalPages?.data?.map((post: PostType, index: number) => (
             <S.Post
+              key={post.id}
               onClick={() => post.id && handlePostClick(post.id.toString())}
             >
-              <div key={post.id}>
+              <div>
                 <S.PostTop>
                   <S.PostTopLeft>
                     #{postsAndTotalPages?.count! - (page - 1) * 12 - index}
@@ -217,7 +192,6 @@ const Board = () => {
                       profile_img_url={post.users?.profile_img_url}
                       key={post.id!}
                     />
-
                     <S.Ninkname>{post.users?.nickname}</S.Ninkname>
                     {post.users.inventory.length > 0 &&
                     processItem(post.users.inventory).award.img_url ? (
