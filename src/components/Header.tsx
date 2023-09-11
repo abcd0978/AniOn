@@ -9,8 +9,10 @@ import * as userStore from '../store/userStore';
 import * as headerStore from '../store/headerStore';
 import dropdown from '../assets/dropdown.svg';
 import dropdownUp from '../assets/dropdownUp.svg';
+import serachMobile from '../assets/searchMobile.svg';
 import menu from '../assets/menu.svg';
 import closeMenu from '../assets/closeMenuMobile.svg';
+import searchOptionMobile from '../assets/searchOptionMobile.svg';
 import * as authApi from '../api/auth';
 import logout from '../assets/logout.svg';
 import account from '../assets/account.svg';
@@ -33,14 +35,18 @@ type Props = {};
 
 function Header({}: Props) {
   const navigate = useNavigate();
-  const [isDropdownOnB, setIsDowpdownOn] = useAtom(isDropDownOn);
   const [__, logoutStore] = useAtom(userStore.logoutUser);
   const { width, height, isMobile, isLoaded } = useViewport();
   const [user, setUser] = useAtom(userStore.user);
   const [isModalOpened, setIsModalOpened] = useAtom(modalStore.isModalOpened);
   const [modalContents, setModalContents] = useAtom(modalStore.modalContents);
+  const [isDropdownOnD, setIsDropdownOnD] = useState(false);
+  const [isDropdownOnB, setIsDropdownOnB] = useState(false);
   const [menuMobileClicked, setMenuMobileClicked] = useAtom(
     sidebarStore.sideBarOpened,
+  );
+  const [menuSearchClicked, setMenuSearchCliked] = useAtom(
+    headerStore.searchMobileClicked,
   );
   const [activeMenu, setActiveMenu] = useAtom(headerStore.activeMenu);
   const equipedAwardQueryOptions = {
@@ -95,7 +101,10 @@ function Header({}: Props) {
   return (
     <>
       {isModalOpened && <Modal>{modalContentsFunc(modalContents)}</Modal>}
-      <StHeader $mediawidth={width}>
+      <StHeader
+        className={menuSearchClicked ? 'search' : ''}
+        $mediawidth={width}
+      >
         <StHeaderContainer>
           <StHeaderMenuMobile
             onClick={() => {
@@ -121,6 +130,7 @@ function Header({}: Props) {
               display: 'flex',
               alignItems: 'center',
               gap: '32px',
+              textAlign: 'center',
             }}
           >
             <StHeaderLogoSection
@@ -186,6 +196,12 @@ function Header({}: Props) {
           </div>
 
           <StHeaderUserInfoSection>
+            <StSearchMobile
+              className={menuSearchClicked ? 'search' : ''}
+              onClick={() => setMenuSearchCliked(!menuSearchClicked)}
+            >
+              <img src={serachMobile} alt="검색" />
+            </StSearchMobile>
             {user ? (
               <StHeaderUserInfoContainer>
                 <ProfileWithBorder
@@ -213,18 +229,24 @@ function Header({}: Props) {
                   </StHeaderUserAppellation>
                 </StHeaderUserInfo>
                 <StHeaderDropDownImgContainer
-                  style={{ cursor: isDropdownOnB ? 'default' : 'pointer' }}
+                  style={{ cursor: isDropdownOnD ? 'default' : 'pointer' }}
                   onClick={() => {
-                    setIsDowpdownOn(true);
+                    setIsDropdownOnD(true);
                   }}
                 >
-                  {isDropdownOnB ? (
+                  {isDropdownOnD ? (
                     <img src={dropdownUp} alt="dropdownImg" />
                   ) : (
                     <img src={dropdown} alt="dropdownImg" />
                   )}
                 </StHeaderDropDownImgContainer>
-                {isDropdownOnB && <DropDown children={dropdownContents} />}
+                {isDropdownOnD && (
+                  <DropDown
+                    top={80}
+                    setActive={setIsDropdownOnD}
+                    children={dropdownContents}
+                  />
+                )}
               </StHeaderUserInfoContainer>
             ) : (
               <StHeaderLoginRegister>
@@ -251,6 +273,55 @@ function Header({}: Props) {
             )}
           </StHeaderUserInfoSection>
         </StHeaderContainer>
+        <StHeaderContainerSearch className={menuSearchClicked ? 'search' : ''}>
+          {isDropdownOnB && (
+            <DropDown
+              top={90}
+              setActive={setIsDropdownOnB}
+              children={[
+                {
+                  content: '애니찾기',
+                  func: () => {},
+                },
+                {
+                  content: '게시글',
+                  func: () => {},
+                },
+              ]}
+            />
+          )}
+
+          <StHeaderMobileOption>
+            <StHeaderMobileSearchTypo>선택</StHeaderMobileSearchTypo>
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                textAlign: 'center',
+              }}
+            >
+              <img
+                onClick={() => setIsDropdownOnB(!isDropdownOnB)}
+                src={searchOptionMobile}
+                alt="som"
+              />
+            </div>
+          </StHeaderMobileOption>
+          <StHeaderMobileSearchInputContainer>
+            <StHeaderMobileSearchInput placeholder="검색어를 입력해주세요"></StHeaderMobileSearchInput>
+            <StSearchMobile
+              className={menuSearchClicked ? '' : 'search'}
+              onClick={() => {}}
+            >
+              <img src={serachMobile} alt="검색" />
+            </StSearchMobile>
+          </StHeaderMobileSearchInputContainer>
+          <StHeaderMobileSearchCancel
+            onClick={() => setMenuSearchCliked(false)}
+          >
+            취소
+          </StHeaderMobileSearchCancel>
+        </StHeaderContainerSearch>
       </StHeader>
     </>
   );
@@ -259,6 +330,19 @@ function Header({}: Props) {
 const headerMenuColor = '#999999';
 const headerMenuColorActivated = '#4f4f4f';
 
+const StSearchMobile = styled.div`
+  transition: 0.1s;
+  display: none;
+  @media (max-width: 768px) {
+    display: inline-block;
+    &.search {
+      & > img {
+        transition: 0.2s;
+        opacity: 0;
+      }
+    }
+  }
+`;
 const StHeaderMenuMobile = styled.div`
   display: none;
   @media (max-width: 768px) {
@@ -281,9 +365,11 @@ const StHeader = styled.header<{ $mediawidth: number }>`
   box-shadow: 0px 0px 16px 0px rgba(0, 0, 0, 0.06);
   backdrop-filter: blur(25px);
   z-index: 4;
-  @media (max-width: 768px) {
-    //position: fixed;
-    //margin-left: calc(-50vw + 50%);
+  transition: 0.2s;
+  &.search {
+    padding-bottom: 12px;
+    transition: 0.2s;
+    min-height: 90px;
   }
 `;
 
@@ -301,11 +387,86 @@ const StHeaderContainer = styled.div`
   }
 `;
 
+const StHeaderContainerSearch = styled.div`
+  margin: auto;
+  width: 75%;
+  height: 0px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: 0.2s;
+  & > * {
+    transition: 0.1s;
+    opacity: 0;
+    display: none;
+  }
+  @media (max-width: 768px) {
+    width: inherit;
+    flex-direction: row;
+    gap: 8px;
+    box-sizing: border-box;
+    border-left: 18px solid #fff;
+    border-right: 18px solid #fff;
+  }
+  &.search {
+    border-left: 18px solid rgba(0, 0, 0, 0);
+    border-right: 18px solid rgba(0, 0, 0, 0);
+    height: 45px;
+    & > * {
+      transition: 0.1s;
+      display: flex;
+      opacity: 1;
+    }
+  }
+`;
+const StHeaderMobileSearchTypo = styled.p`
+  color: var(--achromatic-colors-midgray-1, #999);
+  width: 36px;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: -0.21px;
+`;
+const StHeaderMobileOption = styled.div`
+  width: 64px;
+  height: 24px;
+  padding: 8px 4px 8px 8px;
+  align-items: center;
+  position: relative;
+  gap: 4px;
+  border-radius: 10px;
+  background: var(--main-light-3, #f9f3ff);
+`;
+const StHeaderMobileSearchInputContainer = styled.div`
+  height: 24px;
+  padding: 8px;
+  justify-content: space-between;
+  align-items: center;
+  border: none;
+  flex: 1 0 0;
+  border-radius: 10px;
+  background: var(--main-light-3, #f9f3ff);
+  &:focus {
+    border: none;
+  }
+`;
+const StHeaderMobileSearchInput = styled.input`
+  border: none;
+  background: transparent;
+  height: 100%;
+  &:focus {
+    border: none;
+    outline: none;
+  }
+`;
+const StHeaderMobileSearchCancel = styled.div``;
 const StHeaderLogoSection = styled.div`
   cursor: pointer;
-
-  // height: 100%;
-  //margin-right: 40px;
+  @media (max-width: 768px) {
+    position: absolute;
+    left: calc(50% - 50px);
+  }
 `;
 
 const StHeaderMenuSection = styled.div`
@@ -334,7 +495,7 @@ const StHeaderMenu = styled.div<{ $isactive: boolean; color?: string }>`
 const StHeaderUserInfoSection = styled.div`
   display: flex;
   align-items: center;
-
+  gap: 8px;
   height: 100%;
 `;
 const StHeaderUserInfoContainer = styled.div`
