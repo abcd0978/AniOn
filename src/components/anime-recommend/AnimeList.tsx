@@ -163,6 +163,7 @@ const AnimeList = () => {
     setIsNextPage(data.isNextPage);
     setCount(data.count);
     setAnimeList((prevAnimeList) => [...prevAnimeList, ...data.animeList]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
   if (isError) {
