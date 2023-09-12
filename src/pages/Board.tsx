@@ -11,7 +11,7 @@ import { toast } from 'react-toastify';
 import pencil from '../assets/pencil.svg';
 import search from '../assets/search.svg';
 import ddabong from '../assets/ddabong.svg';
-import ScrollToTop from '../components/ScrollToTop';
+import ScrollToTop from '../components/scroll/ScrollToTop';
 import ProfileWithBorder, {
   processItem,
 } from '../components/ProfileWithBorder';

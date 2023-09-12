@@ -19,21 +19,24 @@ const BorderCard = ({ border }: Props) => {
   const setModal = useSetAtom(modalStore.modalContents);
   const isModalOpened = useSetAtom(modalStore.isModalOpened);
   const setBorderModalContent = useSetAtom(modalStore.borderModalContent);
+
   // 보유중인 테두리 불러오기
-  const inventoryQueryOptions = {
+  const borderCardQueryOptions = {
     queryKey: ['myBorders'],
     queryFn: () => fetchMyBorders(user!.id),
     refetchOnWindowFocus: false,
     enabled: !!user,
   };
 
-  const { data: myBorders } = useQuery(inventoryQueryOptions);
+  const { data: myBorders } = useQuery(borderCardQueryOptions);
 
   const purchasedBorder = myBorders?.map((item) => item.item_id) || [];
 
   return (
     <S.Item key={border.index}>
-      <S.TopArea src={border.img_url} alt={border.name} />
+      <S.ImgArea>
+        <S.TopArea src={border.img_url} alt={border.name} />
+      </S.ImgArea>
       <S.BottomArea>
         {border.name}
         <br />
