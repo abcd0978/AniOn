@@ -257,10 +257,13 @@ const StLoginContainer = styled.div<{
   display: flex;
   padding: 40px 0px;
   width: ${(props) => 564 * (props.$mediawidth / 1920)}px;
-  min-width: 400px;
+  min-width: 350px;
   flex-direction: column;
   align-items: center;
   gap: ${(props) => 80 * (props.mediaHeight / 1080)}px;
+  @media (max-width: 768px) {
+    padding: 20px 0px;
+  }
 `;
 const StLoginUpperContents = styled.div`
   display: flex;
@@ -312,7 +315,7 @@ const StLoginInput = styled.input<{
   display: flex;
   border-radius: 10px;
   background: var(--main-light-3, #f9f3ff);
-  height: ${(props) => 44 * (props.$mediawidth / 1920)}px;
+  height: 40px;
   border: ${(props) =>
     props.loginError || props.error
       ? '1px solid var(--error, #FF535D)'
@@ -380,7 +383,7 @@ const StLoginOptions = styled.div<{ $mediawidth: number }>`
 `;
 const StLoginOptionsTypo = styled.p<{ $mediawidth: number }>`
   color: var(--achromatic-colors-dark-gray, #4f4f4f);
-  font-size: ${(props) => 13 * (props.$mediawidth / 1920)}px;
+  font-size: 13px;
   font-style: normal;
   font-weight: 400;
   line-height: normal;

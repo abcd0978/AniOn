@@ -91,7 +91,7 @@ const StHamburgerMenu = styled.div<{ IsActive?: boolean }>`
   ${(props) => {
     return props.IsActive
       ? 'color: var(--main-default, #8200ff);'
-      : 'color:#d4d4d4;';
+      : 'color: var(--achromatic-colors-darkgray, #4F4F4F);';
   }}
 `;
 const StHamburger = styled.div`
