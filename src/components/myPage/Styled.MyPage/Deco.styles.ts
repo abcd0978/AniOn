@@ -33,6 +33,9 @@ export const D = {
   `,
   ButtonContainer: styled.div`
     display: flex;
+    @media (max-width: 768px) {
+      margin-left: -20px;
+    }
   `,
   Button: styled.button`
     border: none;
@@ -61,9 +64,14 @@ export const B = {
     top: 3vh;
     @media (max-width: 768px) {
       grid-template-columns: repeat(2, 1fr);
+      gap: 1px;
     }
   `,
-  BorderContainer: styled.div``,
+  BorderContainer: styled.div`
+    @media (max-width: 768px) {
+      left: -50vw;
+    }
+  `,
   BorderImg: styled.img`
     width: 150px;
     height: auto;
@@ -74,6 +82,7 @@ export const B = {
     box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.1);
     @media (max-width: 768px) {
       width: 120px;
+      margin: 10px;
     }
   `,
   ButtonContainer: styled.div`
@@ -113,6 +122,9 @@ export const B = {
     justify-content: center;
     margin-left: 200%;
     margin-top: 80%;
+    @media (max-width: 768px) {
+      transform: translate(-350px, -100px);
+    }
   `,
   GoIcon: styled.img`
     width: 50%;
@@ -189,7 +201,7 @@ export const A = {
     width: 240px;
 
     @media (max-width: 768px) {
-      width: 170px;
+      width: 150px;
     }
   `,
   Loading: styled.div`
@@ -209,6 +221,9 @@ export const A = {
     justify-content: center;
     margin-left: 200%;
     margin-top: 75%;
+    @media (max-width: 768px) {
+      transform: translate(-350px, -100px);
+    }
   `,
   NoneButton: styled.div`
     background-color: #8200ff;

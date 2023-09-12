@@ -49,7 +49,7 @@ export const R = {
     display: flex;
     justify-content: space-between;
     width: 900px;
-    height: auto;
+    height: 100px;
     @media (max-width: 768px) {
       max-width: auto;
       margin-top: 20px;
@@ -67,11 +67,13 @@ export const R = {
     display: flex;
     justify-content: space-between;
     font-weight: 700;
-    font-size: 13px;
+    font-size: 16px;
     @media (max-width: 768px) {
       font-style: normal;
       font-weight: 700;
       line-height: 150%;
+      font-size: 13px;
+
       letter-spacing: -0.195px;
     }
   `,
@@ -79,6 +81,9 @@ export const R = {
     color: #999;
     width: auto;
     font-size: 13px;
+    right: 300px;
+
+    position: absolute;
     font-style: normal;
     letter-spacing: -0.195px;
     @media (max-width: 768px) {
@@ -90,9 +95,10 @@ export const R = {
     }
   `,
   Comments: styled.div`
-    width: 100%;
+    max-width: 100%;
     min-height: 48px;
     line-height: 24px;
+    margin-top: 10px;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
@@ -135,12 +141,13 @@ export const R = {
     text-align: center;
     cursor: pointer;
     font-size: 14px;
-    font-size: 12px;
     @media (max-width: 768px) {
       font-style: normal;
       font-weight: 400;
       line-height: 150%; /* 18px */
       letter-spacing: -0.18px;
+      font-size: 12px;
+
       width: 25%;
       height: 24px;
     }
@@ -179,7 +186,7 @@ export const R = {
     position: absolute;
     display: flex;
     justify-content: flex-end;
-    left: 20vw;
+    left: 55%;
     @media (max-width: 768px) {
     }
   `,
@@ -190,6 +197,9 @@ export const R = {
     justify-content: center;
     margin-left: 250%;
     margin-top: -20%;
+    @media (max-width: 768px) {
+      transform: translate(-625px, 100px);
+    }
   `,
   NoMessage: styled.div`
     display: flex;
@@ -258,6 +268,9 @@ export const P = {
     justify-content: center;
     margin-left: 250%;
     margin-top: -20%;
+    @media (max-width: 768px) {
+      transform: translate(-625px, 100px);
+    }
   `,
   NoButton: styled.button`
     background-color: #8200ff;

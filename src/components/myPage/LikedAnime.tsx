@@ -226,8 +226,27 @@ export const HoverViewDetail = styled.div`
   color: white;
 
   cursor: pointer;
+  @media (max-width: 768px) {
+    visibility: hidden;
+    display: flex;
+    align-items: center;
+    position: absolute;
+    border-radius: 999px;
+    border: none;
+    background-color: #8200ff;
+    color: white;
+    width: 100px;
+    height: 20px;
+    padding: 6px 8px;
+    top: 300px;
+    justify-content: flex-start;
+    left: 30px;
+  }
   p {
     margin-left: 12px;
+    @media (max-width: 768px) {
+      font-size: 12px;
+    }
   }
 `;
 export const PosterImage = styled.img`
@@ -339,6 +358,10 @@ const L = {
     align-items: center;
 
     justify-content: center;
+    @media (max-width: 768px) {
+      align-items: center;
+      transform: translate(-30px, 80px);
+    }
   `,
   GoRecommend: styled.button`
     background-color: #8200ff;
@@ -398,8 +421,12 @@ const L = {
     text-overflow: ellipsis;
     white-space: nowrap;
     margin: 10px;
-    @media (max-width: 768px) {
-      font-size: 14px;
+    @media (max-width: 768px){
+      font-size:14px ;
+      width:100 % ; 
+      
+      white-space :normal ;
+      }
     }
   `,
   HoverContent: styled.div`
@@ -445,6 +472,12 @@ const L = {
     @media (max-width: 768px) {
       gap: 0px;
       margin-right: -60px;
+      &:hover ${HoverViewDetail},&:hover${PosterImage},& hover${LikedInfoTitle},& hover${HoveredAnimeGenre}{
+        visibility:hidden ; 
+        opacity:0 ; 
+        filter:none ;
+       }
+   }
     }
     &:hover ${HoverViewDetail} {
       visibility: visible;
