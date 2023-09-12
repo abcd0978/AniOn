@@ -11,8 +11,11 @@ export const R = {
       display: flex;
       flex-direction: column;
       justify-contents: center;
-      margin-left: 0px;
       margin-top: -20px;
+      height: auto;
+      width: 100%;
+
+      margin-left: 0px;
     }
   `,
 
@@ -27,6 +30,8 @@ export const R = {
     letter-spacing: -0.36px;
     @media (max-width: 768px) {
       font-size: 16px;
+      margin-left: 10px;
+      margin-top: -10px;
     }
   `,
   Outer: styled.div`
@@ -34,6 +39,9 @@ export const R = {
     width: 900px;
     height: 132px;
     @media (max-width: 768px) {
+      height: 132px;
+      width: auto;
+      margin-top: -20px;
     }
   `,
 
@@ -43,7 +51,7 @@ export const R = {
     width: 900px;
     height: auto;
     @media (max-width: 768px) {
-      max-width: 768px;
+      max-width: auto;
       margin-top: 20px;
       justify-content: flex-start;
     }
@@ -53,8 +61,8 @@ export const R = {
     flex-direction: column;
   `,
   ReviewTitle: styled.div`
-    min-width: 780px;
-    min-height: 40px;
+    min-width: auto;
+    min-height: auto;
     align-items: center;
     display: flex;
     justify-content: space-between;
@@ -69,18 +77,20 @@ export const R = {
   `,
   Date: styled.div`
     color: #999;
-    width: 500px;
+    width: auto;
     font-size: 13px;
     font-style: normal;
     letter-spacing: -0.195px;
-    margin-left: -80px;
     @media (max-width: 768px) {
+      position: absolute;
+      right: 25px;
+      display: flex;
+      justify-content: flex-end;
       width: auto;
-      margin-left: -80%;
     }
   `,
   Comments: styled.div`
-    width: 900px;
+    width: 100%;
     min-height: 48px;
     line-height: 24px;
     display: -webkit-box;
@@ -92,12 +102,11 @@ export const R = {
 
     text-overflow: ellipsis;
     @media (max-width: 768px) {
-      width: 30%;
-      max-height: calc(5em * 5);
-      overflow-y: auto;
-
+      max-width: 80vw;
+      max-height: calc(1.5em * 2);
+      overflow: hidden;
       text-overflow: ellipsis;
-      display: -webkit-box;
+      display: block;
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
       font-size: 13px;
@@ -112,8 +121,7 @@ export const R = {
     display: flex;
     justify-content: space-between;
     @media (max-width: 768px) {
-      margin-top: 5px;
-      width: auto;
+      display: flex;
     }
   `,
   GoButton: styled.button`
@@ -133,7 +141,7 @@ export const R = {
       font-weight: 400;
       line-height: 150%; /* 18px */
       letter-spacing: -0.18px;
-      width: 67px;
+      width: 25%;
       height: 24px;
     }
   `,

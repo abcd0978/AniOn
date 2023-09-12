@@ -51,9 +51,9 @@ const MyInfoMenuMobile = () => {
       {selectedComponent ? (
         <>
           {renderSelectedComponent()}
-          <InfoMenu.Button onClick={() => setSelectedComponent(null)}>
-            뒤로가기
-          </InfoMenu.Button>
+          <InfoMenu.BackButton onClick={() => setSelectedComponent(null)}>
+            ←
+          </InfoMenu.BackButton>
         </>
       ) : (
         <>

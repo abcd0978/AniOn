@@ -288,7 +288,7 @@ const L = {
       display: flex;
       flex-direction: column;
       justify-contents: center;
-      margin-left: -10px;
+      margin-left: 10px;
       margin-top: -10px;
     }
   `,

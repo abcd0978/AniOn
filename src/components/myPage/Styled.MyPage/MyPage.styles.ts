@@ -174,6 +174,23 @@ export const InfoMenu = {
     line-height: normal;
     letter-spacing: -0.24px;
   `,
+  BackButton: styled.button`
+    position: absolute;
+    margin-top: -20px;
+    margin-left: -20px;
+    cursor: pointer;
+    display: flex;
+    width: auto;
+    background-color: transparent;
+    border-color: transparent;
+    color: #838383;
+    text-align: center;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: -0.24px;
+  `,
 
   ButtonIcon: styled.img`
     height: 36px;
