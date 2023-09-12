@@ -220,18 +220,16 @@ export const WriteButton = styled.button`
   cursor: pointer;
 `;
 export const MobileWrite = styled.button`
-
   width: 30px;
   height: 30px;
   border-radius: 999px;
-  background-color: #8200FF;
-  border:none;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  margin-top:12px;
-  margin-left:10px;
-}}
+  background-color: #8200ff;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 12px;
+  margin-left: 10px;
 `;
 
 export const Search = styled.div`

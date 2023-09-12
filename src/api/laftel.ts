@@ -86,9 +86,11 @@ export const getAnimeStars = async (animeId: string) => {
 };
 
 export const fetchAnimeRecommend = async () => {
-  const result = await api.post(`/home/v2/recommend/3/`);
-  // const item = result.data.map((dd: any) => {
-  //   console.log('dd', dd.name); '라프텔' / return
-  // });
-  return result.data;
+  const result = await api.post(`/home/v2/recommend/5/`);
+  const filteredData = result.data
+    .filter((item: { name: string | string[] }) => {
+      return !(item.name.includes('라프텔') || item.name.includes('판권'));
+    })
+    .slice(0, 3);
+  return filteredData;
 };
