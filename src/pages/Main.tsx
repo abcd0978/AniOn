@@ -14,7 +14,7 @@ import hosino from '../assets/hosihoii.jpg';
 import gil from '../assets/gil.jpg';
 import cha from '../assets/cha.jpg';
 import jusul from '../assets/jusulgg.png';
-import ScrollToTop from '../components/ScrollToTop';
+import ScrollToTop from '../components/scroll/ScrollToTop';
 
 const smallCardWidth = 272;
 const BigCardWidth = 464;

@@ -27,7 +27,6 @@ declare global {
 
 const WorldCupResult = () => {
   const navigate = useNavigate();
-  const location = useLocation();
   //현재 URL 가져오기
   const currentUrl = window.location.href;
   const { gender } = useParams() as { gender: string };
@@ -59,15 +58,16 @@ const WorldCupResult = () => {
   };
 
   // 월드컵 전체 결과 가져오기
+  const worldcupResultQueryOption = {
+    queryKey: ['worldcupResult'],
+    queryFn: () => winnerResult(gender),
+    refetchOnWindowFocus: false,
+  };
   const {
     isLoading: isResultLoading,
     isError: isResultError,
     data: totalResult,
-  } = useQuery({
-    queryKey: ['worldcupResult'],
-    queryFn: () => winnerResult(gender),
-    refetchOnWindowFocus: false,
-  });
+  } = useQuery(worldcupResultQueryOption);
 
   useEffect(() => {
     if (!totalResult) {

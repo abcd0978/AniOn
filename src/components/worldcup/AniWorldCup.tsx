@@ -67,15 +67,16 @@ function AniWorldCup() {
     setCurrentRound(currentRound);
   }, [characters, winners]);
 
+  const aniCharacterQueryOption = {
+    queryKey: ['aniCharacter', gender],
+    queryFn: () => fetchCharacter(gender),
+    refetchOnWindowFocus: false,
+  };
   const {
     isLoading: isCharacterLoading,
     isError: isCharacterError,
     data: aniCharacter,
-  } = useQuery({
-    queryKey: ['aniCharacter', gender],
-    queryFn: () => fetchCharacter(gender),
-    refetchOnWindowFocus: false,
-  });
+  } = useQuery(aniCharacterQueryOption);
 
   useEffect(() => {
     if (!isDataLoaded && aniCharacter) {

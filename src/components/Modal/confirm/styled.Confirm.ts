@@ -30,6 +30,9 @@ export const ModalContents = styled.div`
   flex-direction: column;
   align-items: flex-start;
   gap: 30px;
+  @media (max-width: 768px) {
+    width: 60vw;
+  }
 `;
 
 export const ButtonContainer = styled.div`

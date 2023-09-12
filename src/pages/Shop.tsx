@@ -15,11 +15,12 @@ const Shop = () => {
   );
 
   //현재 포인트 불러오기
-  const { data: userPoint } = useQuery({
+  const userPointQueryOption = {
     queryKey: ['userPoint'],
     queryFn: () => fetchMyPoint(user?.id!),
     enabled: !!user,
-  });
+  };
+  const { data: userPoint } = useQuery(userPointQueryOption);
 
   const handleCategoryClick = (category: string) => {
     setSelectedCategory(category);

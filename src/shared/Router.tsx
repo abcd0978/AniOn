@@ -10,7 +10,7 @@ import NotFoundPage from '../pages/notfound/NotFoundPage';
 import AnimeDetail from '../pages/AnimeDetail';
 import BoardDetail from '../pages/BoardDetail';
 import { GlobalStyle } from '../styles/globalstyle';
-import ScrollToTop from '../components/ScrollTop';
+import ScrollToTop from '../components/scroll/ScrollTop';
 import AniWorldCup from '../components/worldcup/AniWorldCup';
 import WorldCupResult from '../pages/WorldCupResult';
 import Layout from '../styles/Layout';

@@ -20,21 +20,15 @@ const MyBorder = () => {
   const user = useAtomValue(userStore.user);
   // const { width, height, isMobile, isLoaded } = useViewport();
   const navigate = useNavigate();
-  const {
-    isLoading,
-    isError,
-    data: borders,
-  } = useQuery(
-    ['myBorders', user?.id],
-    async () => {
-      if (!user?.id) return [];
-      const result = await fetchMyBorders(user.id);
-      return result;
-    },
-    {
-      enabled: !!user?.id,
-    },
-  );
+
+  const inventoryQueryOptions = {
+    queryKey: ['myBorders'],
+    queryFn: () => fetchMyBorders(user!.id),
+    refetchOnWindowFocus: false,
+    enabled: !!user,
+  };
+
+  const { isLoading, isError, data: borders } = useQuery(inventoryQueryOptions);
 
   const applyBorderMutation = useMutation(equipItem, {
     onSuccess: () => {
