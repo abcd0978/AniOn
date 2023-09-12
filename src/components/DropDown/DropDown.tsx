@@ -26,6 +26,7 @@ function DropDown({ children, setActive, top, openerRef }: Props) {
         openerRef &&
         !openerRef.current?.contains(e.target)
       ) {
+        e.stopPropagation();
         setActive(false);
       }
     }
