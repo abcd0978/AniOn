@@ -39,8 +39,7 @@ export const E = {
     @media (max-width: 768px) {
       display: flex;
       flex-direction: row;
-      align-items: center;
-      height: 140px;
+      height: 200px;
       padding-top: 12px;
       padding-bottom: 12px;
       gap: 8px;
@@ -71,6 +70,20 @@ export const E = {
     border-radius: 4px;
     border: none;
     background-color: #f9f3ff;
+    @media (max-width: 768px) {
+      display: flex;
+      width: 150px;
+      margin-bottom: 5px;
+      gap: 10px;
+      left: 50%;
+    }
+  `,
+  CancelAndDone: styled.div`
+    @media (max-width: 768px) {
+      display: flex;
+      gap: 10px;
+      left: 50%;
+    }
   `,
   CancelButton: styled.button`
     right: 80px;
@@ -80,6 +93,16 @@ export const E = {
     height: 32px;
     border: transparent;
     cursor: pointer;
+    @media (max-width: 768px) {
+      display: flex;
+      width: 60px;
+      height: 24px;
+      padding: 4px 14px;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      border-radius: 6px;
+    }
   `,
   DoneButton: styled.button`
     right: -5px;
@@ -90,7 +113,16 @@ export const E = {
     border: transparent;
     color: #fff;
     cursor: pointer;
-
+    @media (max-width: 768px) {
+      display: flex;
+      width: 60px;
+      height: 24px;
+      padding: 4px 14px;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      border-radius: 6px;
+    }
     &:disabled {
       background-color: white;
       color: #cccccc;
@@ -126,6 +158,18 @@ export const E = {
       border-radius: 6px;
     }
   `,
+  NickNameContainer: styled.div`
+    align-items: center;
+    padding-left: 50px;
+  `,
+  NickNameInputAndCheck: styled.div`
+    display: flex;
+  `,
+  NickNameButtons: styled.div`
+    align-items: center;
+    display: flex;
+    gap: 5px;
+  `,
   NickNameCheck: styled.button`
     margin-left: 10px;
     background-color: #ff96db;
@@ -141,6 +185,17 @@ export const E = {
       color: #cccccc;
       cursor: not-allowed;
     }
+    @media (max-width: 768px) {
+      display: flex;
+      width: auto;
+      height: 30px;
+      padding: 4px 14px;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      border-radius: 6px;
+      margin-left: 5px;
+    }
   `,
 
   TextBelowPhoto: styled.div`
@@ -150,8 +205,8 @@ export const E = {
     margin-left: -130px;
     width: 400px;
     @media (max-width: 768px) {
-      margin-top: 40%;
-      margin-left: -80px;
+      margin-top: 60%;
+      margin-left: -100px;
     }
   `,
   TextBelowNickname: styled.div`
@@ -190,7 +245,12 @@ export const E = {
     color: black;
     cursor: pointer;
     padding: 4px;
+    @media (max-width: 768px) {
+      width: 60px;
+      height: 24px;
 
+      border-radius: 6px;
+    }
     &:hover {
       background-color: #dbdbdb;
       color: black;
@@ -199,5 +259,9 @@ export const E = {
   FileSelectContainer: styled.div`
     margin-top: 250px;
     margin-left: -130px;
+    @media (max-width: 768px) {
+      margin-top: 0px;
+      margin-left: 0px;
+    }
   `,
 };

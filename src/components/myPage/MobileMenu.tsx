@@ -15,6 +15,7 @@ import review from '../../assets/rate_review.png';
 import write from '../../assets/edit_note.png';
 import favorite from '../../assets/favorite.png';
 import { InfoMenu } from './Styled.MyPage/MyPage.styles';
+
 const MyInfoMenuMobile = () => {
   const [__, logoutStore] = useAtom(userStore.logoutUser);
   const navigate = useNavigate();

@@ -51,6 +51,19 @@ export const Profile = {
       height: 60px;
     }
   `,
+  EditImage: styled.img`
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center;
+    @media (max-width: 768px) {
+      order: -1;
+      width: 60px;
+      height: 60px;
+    }
+  `,
   MyPageText: styled.div`
     color: #8200ff;
     font-size: 32px;

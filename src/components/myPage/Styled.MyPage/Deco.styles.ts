@@ -98,8 +98,8 @@ export const B = {
     top: 240px;
     right: 400px;
     @media (max-width: 768px) {
-      top: 360px;
-      right: 160px;
+      right: 150px;
+      top: 320px;
     }
   `,
 
@@ -152,7 +152,8 @@ export const B = {
     border-radius: 6px;
     @media (max-width: 768px) {
       width: 48px; 
-      font-size: 14px;
+      font-size: 13px;
+      height:24px;
 
     }
     border: ${(props) =>
@@ -236,8 +237,12 @@ export const A = {
     color: black;
     border-radius: 6px;
     @media (max-width: 768px) {
-      width: 48px; 
-      font-size: 14px;
+      
+        width: 48px; 
+        font-size: 13px;
+        height:24px;
+  
+      
 
     }
     border: ${(props) =>
@@ -264,8 +269,8 @@ export const A = {
     top: 240px;
     right: 470px;
     @media (max-width: 768px) {
-      top: 360px;
-      right: 160px;
+      right: 150px;
+      top: 320px;
     }
   `,
 };

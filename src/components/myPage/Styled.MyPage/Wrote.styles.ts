@@ -34,7 +34,6 @@ export const R = {
     width: 900px;
     height: 132px;
     @media (max-width: 768px) {
-      width: 80vw;
     }
   `,
 
@@ -44,6 +43,9 @@ export const R = {
     width: 900px;
     height: auto;
     @media (max-width: 768px) {
+      max-width: 768px;
+      margin-top: 20px;
+      justify-content: flex-start;
     }
   `,
   Content: styled.div`
@@ -61,7 +63,7 @@ export const R = {
     @media (max-width: 768px) {
       font-style: normal;
       font-weight: 700;
-      line-height: 150%; /* 19.5px */
+      line-height: 150%;
       letter-spacing: -0.195px;
     }
   `,
@@ -73,7 +75,8 @@ export const R = {
     letter-spacing: -0.195px;
     margin-left: -80px;
     @media (max-width: 768px) {
-      margin-left: -1500px;
+      width: auto;
+      margin-left: -80%;
     }
   `,
   Comments: styled.div`
@@ -108,6 +111,10 @@ export const R = {
   ButtonArray: styled.div`
     display: flex;
     justify-content: space-between;
+    @media (max-width: 768px) {
+      margin-top: 5px;
+      width: auto;
+    }
   `,
   GoButton: styled.button`
     border-radius: 6px;
@@ -149,6 +156,10 @@ export const R = {
       line-height: 150%;
       letter-spacing: -0.18px;
       left: -20px;
+
+      width: 48px;
+      font-size: 13px;
+      height: 24px;
     }
   `,
   ButtonIcon: styled.img`
@@ -158,8 +169,11 @@ export const R = {
   `,
   Page: styled.div`
     position: absolute;
-    justify-content: center;
-    margin-left: 25vw;
+    display: flex;
+    justify-content: flex-end;
+    left: 20vw;
+    @media (max-width: 768px) {
+    }
   `,
   NoContainer: styled.div`
     display: grid;
@@ -224,6 +238,9 @@ export const P = {
     margin-left: 20vw;
     @media (max-width: 768px) {
       position: relative;
+      display: flex;
+      justify-content: center;
+      margin-left: 0vw;
     }
   `,
   NoContainer: styled.div`
@@ -273,6 +290,13 @@ export const P = {
     font-weight: 500;
     line-height: normal;
     letter-spacing: -0.225px;
+    @media (max-width: 768px) {
+      width: auto;
+      height: 30px;
+      padding: 4px 
+      border-radius: 6px;
+      font-size: 13px;
+    }
   `,
   PickButtonAll: styled.button`
     padding: 8px;
@@ -296,6 +320,13 @@ export const P = {
     line-height: normal;
     letter-spacing: -0.225px;
     justify-content: center;
+    @media (max-width: 768px) {
+      width: auto;
+      height: 30px;
+      padding: 4px 
+      border-radius: 6px;
+      font-size: 13px;
+    }
   `,
   PickButtonBox: styled.div`
     display: flex;
@@ -425,6 +456,7 @@ export const StyledPostCategory = styled.span<StyledPostCategoryProps>`
   }};
   @media (max-width: 768px) {
     font-size: 12px;
-    min-width: 68px;
+    min-width: 48px;
+    height: 24px;
   }
 `;

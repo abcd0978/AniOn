@@ -177,7 +177,7 @@ const EditProfile = () => {
                   />
                 ) : (
                   <div key={user?.id}>
-                    <Profile.BasicImage
+                    <Profile.EditImage
                       src={user?.profile_img_url!}
                       alt="Profile picture"
                     />
@@ -194,17 +194,19 @@ const EditProfile = () => {
                     }}
                   />
                 </E.FileSelectContainer>
-                <E.CancelButton onClick={() => setEditMode('')}>
-                  취소
-                </E.CancelButton>
-                <E.DoneButton
-                  onClick={() => {
-                    handleUpload();
-                    setEditMode('');
-                  }}
-                >
-                  완료
-                </E.DoneButton>
+                <E.CancelAndDone>
+                  <E.CancelButton onClick={() => setEditMode('')}>
+                    취소
+                  </E.CancelButton>
+                  <E.DoneButton
+                    onClick={() => {
+                      handleUpload();
+                      setEditMode('');
+                    }}
+                  >
+                    완료
+                  </E.DoneButton>
+                </E.CancelAndDone>
               </E.ButtonArray>
             ) : (
               <E.ButtonArray>
@@ -237,85 +239,92 @@ const EditProfile = () => {
           {/* 닉넴 */}
           <E.EtcItem>
             <E.Label>닉네임</E.Label>
+            <E.NickNameContainer>
+              {editMode === 'nickname' ? (
+                <form onSubmit={handleSubmitNickname}>
+                  <E.TextBelowNickname>
+                    {nicknameValidationMessage && (
+                      <E.Warning>{nicknameValidationMessage}</E.Warning>
+                    )}
+                    • 중복 닉네임 불가합니다.
+                    <br /> • 2~8자 이내로 작성해주세요.
+                  </E.TextBelowNickname>
+                  <E.NickNameInputAndCheck>
+                    <E.Input
+                      type="text"
+                      value={newNickname}
+                      onChange={handleNicknameChange}
+                      placeholder={updatedUser?.nickname}
+                    />
 
-            {editMode === 'nickname' ? (
-              <form onSubmit={handleSubmitNickname}>
-                <E.TextBelowNickname>
-                  {nicknameValidationMessage && (
-                    <E.Warning>{nicknameValidationMessage}</E.Warning>
-                  )}
-                  • 중복 닉네임 불가합니다.
-                  <br /> • 2~8자 이내로 작성해주세요.
-                </E.TextBelowNickname>
-                <E.Input
-                  type="text"
-                  value={newNickname}
-                  onChange={handleNicknameChange}
-                  placeholder={updatedUser?.nickname}
-                />
-                <E.NickNameCheck
-                  onClick={async (e) => {
-                    e.preventDefault();
-                    const val = validateNickname(newNickname);
-                    if (val.error) {
-                      setNicknameError(val);
-                      return;
-                    }
-                    try {
-                      const isNicknameAvailable = await nicknameDupCheck(
-                        newNickname,
-                      );
-                      if (isNicknameAvailable) {
-                        toast.success('사용가능한 닉네임입니다.✔️', {
-                          autoClose: 800,
-                        });
-                        setNicknameDupChecked(true);
-                        setNicknameError(initialError);
-                      } else {
-                        toast.warn('이미 사용 중인 닉네임 입니다.', {
-                          autoClose: 800,
-                        });
-                        setNicknameError({
-                          error: true,
-                          errorMsg: '중복되는 닉네임입니다.',
-                        });
-                        setNicknameDupChecked(false); // 중복확인 실패 시 초기화
+                    <E.NickNameCheck
+                      onClick={async (e) => {
+                        e.preventDefault();
+                        const val = validateNickname(newNickname);
+                        if (val.error) {
+                          setNicknameError(val);
+                          return;
+                        }
+                        try {
+                          const isNicknameAvailable = await nicknameDupCheck(
+                            newNickname,
+                          );
+                          if (isNicknameAvailable) {
+                            toast.success('사용가능한 닉네임입니다.✔️', {
+                              autoClose: 800,
+                            });
+                            setNicknameDupChecked(true);
+                            setNicknameError(initialError);
+                          } else {
+                            toast.warn('이미 사용 중인 닉네임 입니다.', {
+                              autoClose: 800,
+                            });
+                            setNicknameError({
+                              error: true,
+                              errorMsg: '중복되는 닉네임입니다.',
+                            });
+                            setNicknameDupChecked(false); // 중복확인 실패 시 초기화
+                          }
+                        } catch (error) {
+                          console.error(error);
+                        }
+                      }}
+                      disabled={
+                        newNickname === '' ||
+                        newNickname === user?.nickname ||
+                        !(newNickname.length >= 2 && newNickname.length <= 8)
                       }
-                    } catch (error) {
-                      console.error(error);
-                    }
-                  }}
-                  disabled={
-                    newNickname === '' ||
-                    newNickname === user?.nickname ||
-                    !(newNickname.length >= 2 && newNickname.length <= 8)
-                  }
-                >
-                  중복확인
-                </E.NickNameCheck>
-                <E.DoneButton
-                  type="submit"
-                  disabled={
-                    newNickname === '' ||
-                    newNickname === user?.nickname ||
-                    !(newNickname.length >= 2 && newNickname.length <= 8)
-                  }
-                >
-                  완료
-                </E.DoneButton>
-                <E.CancelButton onClick={() => setEditMode('')}>
-                  취소
-                </E.CancelButton>
-              </form>
-            ) : (
-              <E.ButtonArray>
-                <div>{updatedUser?.nickname}</div>
-                <E.ChangeButton onClick={() => setEditMode('nickname')}>
-                  변경
-                </E.ChangeButton>
-              </E.ButtonArray>
-            )}
+                    >
+                      중복확인
+                    </E.NickNameCheck>
+                  </E.NickNameInputAndCheck>
+                  <E.NickNameButtons>
+                    <E.DoneButton
+                      type="submit"
+                      disabled={
+                        newNickname === '' ||
+                        newNickname === user?.nickname ||
+                        !(newNickname.length >= 2 && newNickname.length <= 8)
+                      }
+                    >
+                      완료
+                    </E.DoneButton>
+                    <E.CancelButton onClick={() => setEditMode('')}>
+                      취소
+                    </E.CancelButton>
+                  </E.NickNameButtons>
+                </form>
+              ) : (
+                <E.ButtonArray>
+                  <div>{updatedUser?.nickname}</div>
+                  <E.ChangeButton onClick={() => setEditMode('nickname')}>
+                    변경
+                  </E.ChangeButton>
+                </E.ButtonArray>
+              )}
+            </E.NickNameContainer>
           </E.EtcItem>
+
           <Divider />
         </E.Container>
       </E.Page>
