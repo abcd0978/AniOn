@@ -57,6 +57,7 @@ const validatePassword = (password: string) => {
 };
 const validatePasswordConfirm = (password: string, passwordConfirm: string) => {
   let result: ErrorType = { error: false, errorMsg: '' };
+  console.log(password, passwordConfirm);
   if (password !== passwordConfirm) {
     result.error = true;
     result.errorMsg = '비밀번호가 일치하지 않습니다.';
@@ -254,14 +255,12 @@ const LoginModalContents = (props: Props) => {
             <StRegisterInput
               error={passwordError.error}
               errorBorder={ErrorBorder}
-              onBlur={() => {
-                setPasswordError(validatePassword(password));
-              }}
               onFocus={() => {
                 setPasswordError({ error: false, errorMsg: '' });
               }}
               onChange={(e) => {
                 onChangePassword(e);
+                setPasswordError(validatePassword(e.target.value));
                 setValidated(false);
               }}
               type="password"
@@ -271,20 +270,18 @@ const LoginModalContents = (props: Props) => {
             <StRegisterInput
               error={passwordConfirmError.error}
               errorBorder={ErrorBorder}
-              onBlur={() => {
-                const errorResult = validatePasswordConfirm(
-                  password,
-                  passwordConfirm,
-                );
-                setPasswordConfirmError(errorResult);
-                setPasswordError(errorResult);
-              }}
               onFocus={() => {
                 setPasswordError({ error: false, errorMsg: '' });
                 setPasswordConfirmError({ error: false, errorMsg: '' });
               }}
               onChange={(e) => {
                 onChangePasswordConfirm(e);
+                const errorResult = validatePasswordConfirm(
+                  password,
+                  e.target.value,
+                );
+                setPasswordConfirmError(errorResult);
+                setPasswordError(errorResult);
                 setValidated(false);
               }}
               type="password"
@@ -379,10 +376,13 @@ const StRegisterContainer = styled.div<{
   display: flex;
   padding: 40px 0px;
   width: ${(props) => 564 * (props.$mediawidth / 1920)}px;
-  min-width: 400px;
+  min-width: 350px;
   flex-direction: column;
   align-items: center;
   gap: 40px;
+  @media (max-width: 768px) {
+    padding: 20px 0px;
+  }
 `;
 
 const StRegisteContentsContainer = styled.div<{
@@ -392,7 +392,11 @@ const StRegisteContentsContainer = styled.div<{
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  width: 360px;
+  width: ${(props) => `${(360 * props.$mediawidth) / 1920}px`};
+  min-width: 330px;
+  @media (max-width: 768px) {
+    width: 330px;
+  }
   gap: 48px;
 `;
 const StRegisterTitleContainer = styled.div`

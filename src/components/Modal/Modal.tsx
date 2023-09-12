@@ -36,6 +36,9 @@ const StModalBackGround = styled.div`
 const StModalContent = styled.div`
   background-color: #fff;
   padding: 40px 0px;
+  @media (max-width: 768px) {
+    padding: 20px 0px;
+  }
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;
