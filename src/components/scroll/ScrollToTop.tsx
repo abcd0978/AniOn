@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { styled } from 'styled-components';
-import topButton from '../assets/topButton.svg';
+import topButton from '../../assets/topButton.svg';
 
 const ScrollToTop = () => {
   const [isShowButton, setIsShowButton] = useState(false);

@@ -3,8 +3,8 @@ import * as itemApi from '../api/items';
 import * as S from '../pages/Shop.style';
 import BorderCard from '../components/BorderCard';
 import { useQuery } from '@tanstack/react-query';
-import * as userStore from '../store/userStore';
-import { useAtomValue } from 'jotai';
+// import * as userStore from '../store/userStore';
+// import { useAtomValue } from 'jotai';
 import Pagination from '../components/Pagenation';
 import Loading from '../components/Loading/Loading';
 
@@ -15,7 +15,7 @@ const ShopBorder = () => {
     totalPages: 0,
   });
 
-  const itemsPerPage = 10;
+  // const itemsPerPage = 10;
 
   const getBorders = {
     queryKey: ['borders', currentPage],

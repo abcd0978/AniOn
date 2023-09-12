@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useAtom, useAtomValue } from 'jotai';
-import ScrollToTop from '../ScrollToTop';
+import ScrollToTop from '../scroll/ScrollToTop';
 import { toast } from 'react-toastify';
 import { throttle } from 'lodash';
 
