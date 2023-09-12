@@ -35,6 +35,10 @@ const Button = styled.button`
   width: 32px;
   height: 32px;
   cursor: pointer;
+  @media (max-width: 768px) {
+    width: 28px;
+    height: 28px;
+  }
 `;
 const Current = styled.div`
   color: #191919;
@@ -48,4 +52,7 @@ const PaginationContainer = styled.div`
   justify-content: center;
   align-items: center;
   gap: 32px;
+  @media (max-width: 768px) {
+    gap: 14px;
+  }
 `;

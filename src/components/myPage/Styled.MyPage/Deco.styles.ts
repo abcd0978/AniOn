@@ -34,6 +34,23 @@ export const D = {
   ButtonContainer: styled.div`
     display: flex;
   `,
+  Button: styled.button`
+    border: none;
+    width: 100px;
+    height: 36px;
+    font-size: 13px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-right: 3px;
+    font-size: 13px;
+    border-radius: 999px;
+    font-weight: bold;
+    cursor: pointer;
+    @media (max-width: 768px) {
+      width: 72px;
+      height: 28px;
+    }
+  `,
 };
 export const B = {
   Container: styled.div`
@@ -81,6 +98,8 @@ export const B = {
     top: 240px;
     right: 400px;
     @media (max-width: 768px) {
+      top: 360px;
+      right: 160px;
     }
   `,
 
@@ -244,5 +263,9 @@ export const A = {
     display: block;
     top: 240px;
     right: 470px;
+    @media (max-width: 768px) {
+      top: 360px;
+      right: 160px;
+    }
   `,
 };

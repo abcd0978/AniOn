@@ -298,6 +298,7 @@ const L = {
     grid-template-columns: repeat(3, 1fr);
     @media (max-width: 768px) {
       grid-template-columns: repeat(2, 1fr);
+      gap: 0px;
     }
   `,
   Title: styled.div`

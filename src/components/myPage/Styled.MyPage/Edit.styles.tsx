@@ -35,6 +35,16 @@ export const E = {
     padding-top: 12px;
     padding-bottom: 90px;
     gap: 8px;
+    display: flex;
+    @media (max-width: 768px) {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      height: 140px;
+      padding-top: 12px;
+      padding-bottom: 12px;
+      gap: 8px;
+    }
   `,
 
   EtcItem: styled.div`
@@ -45,6 +55,9 @@ export const E = {
     padding-top: 12px;
     padding-bottom: 12px;
     gap: 8px;
+    @media (max-width: 768px) {
+      height: auto;
+    }
   `,
 
   Label: styled.div`
@@ -136,6 +149,10 @@ export const E = {
     margin-top: 20%;
     margin-left: -130px;
     width: 400px;
+    @media (max-width: 768px) {
+      margin-top: 40%;
+      margin-left: -80px;
+    }
   `,
   TextBelowNickname: styled.div`
     color: #838383;
@@ -152,6 +169,10 @@ export const E = {
     gap: 8px;
     align-items: center;
     justify-content: center;
+    @media (max-width: 768px) {
+      flex-direction: column;
+      display: flex;
+    }
   `,
   HiddenFileInput: styled.input.attrs({ type: 'file' })`
     display: none;

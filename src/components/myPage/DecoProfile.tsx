@@ -23,7 +23,7 @@ const DecoProfile = () => {
       <D.Title>프로필 꾸미기</D.Title>
 
       <D.ButtonContainer>
-        <S.Button
+        <D.Button
           onClick={() => setSelectedDecoMenu('Border')}
           style={{
             backgroundColor:
@@ -32,8 +32,8 @@ const DecoProfile = () => {
           }}
         >
           테두리
-        </S.Button>
-        <S.Button
+        </D.Button>
+        <D.Button
           onClick={() => setSelectedDecoMenu('Award')}
           style={{
             backgroundColor:
@@ -42,7 +42,7 @@ const DecoProfile = () => {
           }}
         >
           칭호
-        </S.Button>
+        </D.Button>
       </D.ButtonContainer>
       <D.Container>{renderDecoComponent()}</D.Container>
     </D.Page>
