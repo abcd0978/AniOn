@@ -11,7 +11,7 @@ export const R = {
       display: flex;
       flex-direction: column;
       justify-contents: center;
-      margin-left: 10px;
+      margin-left: 0px;
       margin-top: -20px;
     }
   `,
@@ -33,6 +33,9 @@ export const R = {
     list-style-type: none;
     width: 900px;
     height: 132px;
+    @media (max-width: 768px) {
+      width: 80vw;
+    }
   `,
 
   Top: styled.div`
@@ -40,6 +43,8 @@ export const R = {
     justify-content: space-between;
     width: 900px;
     height: auto;
+    @media (max-width: 768px) {
+    }
   `,
   Content: styled.div`
     display: flex;
@@ -52,6 +57,13 @@ export const R = {
     display: flex;
     justify-content: space-between;
     font-weight: 700;
+    font-size: 13px;
+    @media (max-width: 768px) {
+      font-style: normal;
+      font-weight: 700;
+      line-height: 150%; /* 19.5px */
+      letter-spacing: -0.195px;
+    }
   `,
   Date: styled.div`
     color: #999;
@@ -60,6 +72,9 @@ export const R = {
     font-style: normal;
     letter-spacing: -0.195px;
     margin-left: -80px;
+    @media (max-width: 768px) {
+      margin-left: -1500px;
+    }
   `,
   Comments: styled.div`
     width: 900px;
@@ -74,13 +89,19 @@ export const R = {
 
     text-overflow: ellipsis;
     @media (max-width: 768px) {
-      max-height: calc(1em * 2);
+      width: 30%;
+      max-height: calc(5em * 5);
       overflow-y: auto;
 
       text-overflow: ellipsis;
       display: -webkit-box;
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
+      font-size: 13px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 150%; /* 19.5px */
+      letter-spacing: -0.195px;
     }
   `,
 
@@ -99,6 +120,15 @@ export const R = {
     text-align: center;
     cursor: pointer;
     font-size: 14px;
+    font-size: 12px;
+    @media (max-width: 768px) {
+      font-style: normal;
+      font-weight: 400;
+      line-height: 150%; /* 18px */
+      letter-spacing: -0.18px;
+      width: 67px;
+      height: 24px;
+    }
   `,
   Button: styled.button`
     border-radius: 6px;
@@ -112,6 +142,13 @@ export const R = {
     &:hover {
       background-color: #c88fff;
       color: white;
+    }
+    @media (max-width: 768px) {
+      font-style: normal;
+      font-weight: 400;
+      line-height: 150%;
+      letter-spacing: -0.18px;
+      left: -20px;
     }
   `,
   ButtonIcon: styled.img`
@@ -185,6 +222,9 @@ export const P = {
     position: absolute;
     justify-content: center;
     margin-left: 20vw;
+    @media (max-width: 768px) {
+      position: relative;
+    }
   `,
   NoContainer: styled.div`
     display: grid;

@@ -235,8 +235,8 @@ export const PosterImage = styled.img`
   height: 175px;
   border-radius: 10px;
   @media (max-width: 768px) {
-    width: 180px;
-    height: 112.5px;
+    width: 160px;
+    height: 100px;
   }
 `;
 export const LikedInfoTitle = styled.div`
@@ -288,8 +288,8 @@ const L = {
       display: flex;
       flex-direction: column;
       justify-contents: center;
-      margin-left: 10px;
-      margin-top: -20px;
+      margin-left: -10px;
+      margin-top: -10px;
     }
   `,
   GridContainer: styled.div`
@@ -299,6 +299,7 @@ const L = {
     @media (max-width: 768px) {
       grid-template-columns: repeat(2, 1fr);
       gap: 0px;
+      margin-left: 10%;
     }
   `,
   Title: styled.div`
@@ -366,6 +367,10 @@ const L = {
     display: block;
     top: -50px;
     right: 200px;
+    @media (max-width: 768px) {
+      top: -35px;
+      right: 120px;
+    }
   `,
 
   FullPage: styled.div`
@@ -375,6 +380,8 @@ const L = {
     flex-direction: column;
     justify-content: space-between;
     align-items: flex-end;
+    @media (max-width: 768px) {
+    }
   `,
   Tags: styled.div`
     font-weight: 600;
@@ -391,6 +398,9 @@ const L = {
     text-overflow: ellipsis;
     white-space: nowrap;
     margin: 10px;
+    @media (max-width: 768px) {
+      font-size: 14px;
+    }
   `,
   HoverContent: styled.div`
     align-items: center;
@@ -408,6 +418,9 @@ const L = {
     margin-top: -12px;
     padding: 5px;
     gap: 4px;
+    @media (max-width: 768px) {
+      font-size: 12px;
+    }
   `,
   GenreTag: styled.div`
     justify-content: center;
@@ -429,6 +442,10 @@ const L = {
     height: 100%;
 
     cursor: pointer;
+    @media (max-width: 768px) {
+      gap: 0px;
+      margin-right: -60px;
+    }
     &:hover ${HoverViewDetail} {
       visibility: visible;
       opacity: 1;

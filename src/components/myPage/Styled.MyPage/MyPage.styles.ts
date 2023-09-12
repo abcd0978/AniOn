@@ -27,13 +27,14 @@ export const Profile = {
     text-align: center;
     margin-top: 20px;
     @media (max-width: 768px) {
+      display: flex;
+      justify-content: space-between;
       border-radius: 20px;
       box-shadow: 0px 0px 25px 0px rgba(0, 0, 0, 0.1);
       margin-top: -50px;
       margin-left: -20px;
-      width: 90vw;
-      height: 200px;
-      background: #fff;
+      width: 83vw;
+      padding: 15px;
     }
   `,
   BasicImage: styled.img`
@@ -44,6 +45,8 @@ export const Profile = {
     background-size: cover;
     background-position: center;
     @media (max-width: 768px) {
+      order: -1;
+
       width: 60px;
       height: 60px;
     }
@@ -74,6 +77,18 @@ export const Profile = {
     line-height: normal;
     letter-spacing: -0.36px;
     margin-top: 8px;
+    font-size: 20px;
+    @media (max-width: 768px) {
+      font-size: 20px;
+      letter-spacing: -0.3px;
+    }
+  `,
+  MobileInfo: styled.div`
+    @media (max-width: 768px) {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
   `,
 };
 export const MyAward = {
@@ -86,6 +101,18 @@ export const MyAward = {
     gap: 8px;
     margin-top: 20px;
     margin-bottom: 20px;
+    @media (max-width: 768px) {
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+  `,
+  AwardImg: styled.img`
+    width: 215px;
+    height: 40px;
+    @media (max-width: 768px) {
+      width: 140px;
+      height: 25px;
+    }
   `,
   NoAward: styled.div`
     display: flex;
@@ -161,10 +188,11 @@ export const InfoMenu = {
 
     @media (max-width: 768px) {
       margin-right: 10px;
-      height: 409px;
+      height: auto;
       background: #fdfbff;
       margin-left: -20px;
-      width: 90vw;
+      width: 83vw;
+      padding: 15px;
       padding-top: 32px;
       padding-left: 20 px;
       margin-top: 10 px;
@@ -188,5 +216,7 @@ export const Divider = styled.div`
   margin-bottom: 8px;
   @media (max-width: 768px) {
     width: auto;
+    margin-top: 4px;
+    margin-bottom: 4px;
   }
 `;

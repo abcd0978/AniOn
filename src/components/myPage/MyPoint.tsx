@@ -58,4 +58,10 @@ const Point = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  @media (max-width: 768px) {
+    font-size: 14px;
+    width: 120px;
+    height: 30px;
+    font-weight: 500;
+  }
 `;
