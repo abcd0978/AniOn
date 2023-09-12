@@ -356,6 +356,7 @@ const L = {
   NoContainer: styled.div`
     display: grid;
     align-items: center;
+    transform: translate(300px, 300px);
 
     justify-content: center;
     @media (max-width: 768px) {
@@ -388,9 +389,12 @@ const L = {
     position: absolute;
     justify-content: center;
     display: block;
-    top: -50px;
-    right: 200px;
+    top: -45px;
+    right: 250px;
     @media (max-width: 768px) {
+      position: absolute;
+      justify-content: center;
+      display: block;
       top: -35px;
       right: 120px;
     }
@@ -469,16 +473,7 @@ const L = {
     height: 100%;
 
     cursor: pointer;
-    @media (max-width: 768px) {
-      gap: 0px;
-      margin-right: -60px;
-      &:hover ${HoverViewDetail},&:hover${PosterImage},& hover${LikedInfoTitle},& hover${HoveredAnimeGenre}{
-        visibility:hidden ; 
-        opacity:0 ; 
-        filter:none ;
-       }
-   }
-    }
+
     &:hover ${HoverViewDetail} {
       visibility: visible;
       opacity: 1;

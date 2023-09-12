@@ -12,6 +12,7 @@ export const Profile = {
     height: 850px;
     padding: 20px;
     margin-top: 40px;
+
     @media (max-width: 768px) {
       background: transparent;
       border: none;
@@ -87,10 +88,12 @@ export const Profile = {
     font-size: 24px;
     font-style: normal;
     font-weight: 700;
+    justify-contents: center;
+    align-items: center;
     line-height: normal;
     letter-spacing: -0.36px;
     margin-top: 8px;
-    font-size: 20px;
+    font-size: 24px;
     @media (max-width: 768px) {
       font-size: 20px;
       letter-spacing: -0.3px;

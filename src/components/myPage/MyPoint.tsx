@@ -45,19 +45,20 @@ const MyPoint = () => {
 export default MyPoint;
 
 const Point = styled.div`
+  justify-content: center;
+  align-items: center;
   width: 132px;
   height: 34px;
   background-color: #f3e7ff;
   text-align: center;
   color: #4f4f4f;
   border-radius: 10px;
-  font-size: 15px;
+  font-size: 16px;
   font-style: normal;
   font-weight: 700;
   line-height: normal;
   display: flex;
-  justify-content: center;
-  align-items: center;
+
   @media (max-width: 768px) {
     font-size: 14px;
     width: 120px;
