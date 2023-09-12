@@ -13,7 +13,7 @@ import * as userStore from '../store/userStore';
 import { ReadAnimeLikeG } from '../types/likes';
 import play_arrow from '../assets/play_arrow.svg';
 import detaillike from '../assets/detaillike.svg';
-import ScrollToTop from '../components/ScrollToTop';
+import ScrollToTop from '../components/scroll/ScrollToTop';
 import { toast } from 'react-toastify';
 import Loading from '../components/Loading/Loading';
 import seemoreIcon from '../assets/stat_minus_1.svg';

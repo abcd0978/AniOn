@@ -2,7 +2,7 @@ import React, { useEffect, useMemo } from 'react';
 import Comments from '../components/Board/Comments';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAtomValue } from 'jotai';
-import ScrollToTop from '../components/ScrollToTop';
+import ScrollToTop from '../components/scroll/ScrollToTop';
 import { Database } from '../types/supabase';
 import EditorComponent from '../components/editor/EditorComponent';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
