@@ -10,7 +10,7 @@ type Props = {
 };
 
 const MainCard = ({ width, data, index, key }: Props) => {
-  const { width: mediaWidth } = useViewport();
+  const { width: mediaWidth, isMobile } = useViewport();
   return (
     <StMainCard
       width={width}
@@ -57,22 +57,35 @@ const MainCard = ({ width, data, index, key }: Props) => {
           </StCardSubtitle> */}
         </StCardInfo>
         <StCardHashTagContainer>
-          {data.genres.slice(0, 3).map((g: string) => {
-            return (
-              <StCardHashTag key={key}>
-                <StCardHashTagTypo
-                  $mediawidth={mediaWidth <= 1092 ? mediaWidth : 1092}
-                >
-                  # {g!}
-                </StCardHashTagTypo>
-              </StCardHashTag>
-            );
-          })}
+          {data.genres
+            ? data.genres.slice(0, isMobile ? 2 : 3).map((g: string) => {
+                return (
+                  <StCardHashTag key={key}>
+                    <StCardHashTagTypo
+                      $mediawidth={mediaWidth <= 1092 ? mediaWidth : 1092}
+                    >
+                      # {g!}
+                    </StCardHashTagTypo>
+                  </StCardHashTag>
+                );
+              })
+            : data.genre.slice(0, 3).map((g: string) => {
+                return (
+                  <StCardHashTag key={key}>
+                    <StCardHashTagTypo
+                      $mediawidth={mediaWidth <= 1092 ? mediaWidth : 1092}
+                    >
+                      # {g!}
+                    </StCardHashTagTypo>
+                  </StCardHashTag>
+                );
+              })}
         </StCardHashTagContainer>
       </StCardInfoContainer>
     </StMainCard>
   );
 };
+
 const StMainCard = styled.div<{ width: number; $mediawidth: number }>`
   display: flex;
   flex-direction: column;
@@ -81,6 +94,7 @@ const StMainCard = styled.div<{ width: number; $mediawidth: number }>`
   width: ${(props) => (props.width * props.$mediawidth) / 1920}px;
   flex-shrink: 0;
 `;
+
 const StMainCardImgContainer = styled.div<{ img_url: string }>`
   background-image: ${(props) => `url(${props.img_url})`};
   background-size: cover;
@@ -104,6 +118,7 @@ const StMainCardImgContainer = styled.div<{ img_url: string }>`
     filter: brightness(0.5);
   }
 `;
+
 const StMainCardImgIndex = styled.div<{ $mediawidth: number }>`
   display: inline-block;
   /* padding: ${(props) =>
@@ -119,6 +134,7 @@ const StMainCardImgIndex = styled.div<{ $mediawidth: number }>`
   top: 5%;
   left: 4.5%;
 `;
+
 const StCardInfoContainer = styled.div`
   width: 100%;
   display: flex;
@@ -126,6 +142,7 @@ const StCardInfoContainer = styled.div`
   align-items: flex-start;
   gap: 16px;
 `;
+
 const StCardInfo = styled.div`
   display: flex;
   flex-direction: column;
@@ -133,6 +150,7 @@ const StCardInfo = styled.div`
 
   gap: 8px;
 `;
+
 const StCardTitle = styled.p<{ $mediaWidth: number }>`
   display: -webkit-box;
   -webkit-box-orient: vertical;
@@ -145,12 +163,14 @@ const StCardTitle = styled.p<{ $mediaWidth: number }>`
   line-height: normal;
   letter-spacing: -0.3px;
 `;
+
 const StCardHashTagContainer = styled.div`
   width: 100%;
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
 `;
+
 const StCardHashTag = styled.div`
   display: inline-block;
   padding: 4px 8px;
@@ -160,6 +180,7 @@ const StCardHashTag = styled.div`
   border-radius: 999px;
   background: #efefef;
 `;
+
 const StCardHashTagTypo = styled.p<{ $mediawidth: number }>`
   color: #000;
   font-size: max(13px, ${(props) => 14 * (props.$mediawidth / 1920)}px);
@@ -169,6 +190,7 @@ const StCardHashTagTypo = styled.p<{ $mediawidth: number }>`
   line-height: normal;
   letter-spacing: -0.195px;
 `;
+
 const StHoverViewDetail = styled.div`
   display: inline-flex;
   align-items: center;
@@ -183,4 +205,5 @@ const StHoverViewDetail = styled.div`
     margin-left: 12px;
   }
 `;
+
 export default MainCard;

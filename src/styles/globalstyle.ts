@@ -47,6 +47,19 @@ header{
     padding: 20px 0px;
     left: 0;
 }
+
+.downbar{
+    width:100vw;
+    height: 100vh;
+    left:0;
+    top:-100vh;
+    transition: all .3s ease;
+}
+.downbar.opened {
+    padding: 20px 0px;
+    top:90px;
+}
+
 .embla:not(.middle){
     width:100vw;
     margin-left: calc(-50vw + 50%);

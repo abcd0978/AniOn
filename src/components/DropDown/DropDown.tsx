@@ -12,22 +12,28 @@ export type DropdownContentsType = {
 type Props = {
   children: DropdownContentsType[];
   setActive: React.Dispatch<React.SetStateAction<boolean>>;
+  openerRef: React.RefObject<HTMLDivElement>;
   top: number;
 };
-function DropDown({ children, setActive, top }: Props) {
+function DropDown({ children, setActive, top, openerRef }: Props) {
   const { width } = useViewport();
   const dropDownRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     function handleOutside(e: any) {
-      if (dropDownRef.current && !dropDownRef.current.contains(e.target)) {
+      if (
+        dropDownRef.current &&
+        !dropDownRef.current.contains(e.target) &&
+        openerRef &&
+        !openerRef.current?.contains(e.target)
+      ) {
         setActive(false);
       }
     }
-    document.addEventListener('mouseup', handleOutside);
+    document.addEventListener('mousedown', handleOutside);
     return () => {
-      document.removeEventListener('mouseup', handleOutside);
+      document.removeEventListener('mousedown', handleOutside);
     };
-  }, [dropDownRef, setActive]);
+  }, [dropDownRef, setActive, openerRef]);
   return (
     <StDropdownContainer top={top} ref={dropDownRef} $mediawidth={width}>
       {children.map((child, index) => (
@@ -50,6 +56,7 @@ const StDropdownContainer = styled.div<{
   flex-direction: column;
   align-items: flex-start;
   z-index: 9;
+
   top: ${(props) => `${props.top * (props.$mediawidth / 1920)}px`};
   @media (max-width: 768px) {
     top: ${(props) => `${props.top}px`};

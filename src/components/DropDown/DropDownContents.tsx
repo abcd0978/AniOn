@@ -60,18 +60,23 @@ const StDropdownMenu = styled.div<{ order: number; $mediawidth: number }>`
     background: #dfdfdf;
   }
   background: var(--achromatic-colors-white, #fff);
-  @media (max-width: 768px) {
-    border-radius: 10px;
 
+  @media (max-width: 768px) {
+    font-size: 14px;
+    padding: 8px;
     ${(props) => {
       if (props.order === 0) {
-        return `border-radius: 10px 10px 0px 0px;`;
+        //처음시작하는애
+        return `border-radius: 10px 10px 0px 0px;  box-shadow: 0px -20px 40px 0px rgba(0, 0, 0, 0.1);`;
       } else if (props.order === 1) {
-        return ``;
+        //중간에 끼어있는애
+        return ``; //z-index:10;box-shadow: 1px 0px 10px 0px rgba(0, 0, 0, 0.1), -1px 0px 10px 0px rgba(0, 0, 0, 0.1);`;
       } else if (props.order === 2) {
-        return `border-radius: 10px 10px 10px 10px;`;
+        //혼자있는애
+        return `border-radius: 10px 10px 10px 10px;box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);`;
       } else {
-        return `border-radius: 0px 0px 14px 14px;`;
+        //마지막에 있는애
+        return `border-radius: 0px 0px 10px 10px; box-shadow: 0px 20px 40px 0px rgba(0, 0, 0, 0.1);`;
       }
     }}
   }

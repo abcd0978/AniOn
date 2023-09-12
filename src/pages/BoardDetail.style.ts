@@ -16,7 +16,7 @@ export const S = {
     }
   `,
   Inner: styled.div`
-    // width: 1360px;
+    // width: 100%;
     display: block;
     align-items: center;
     justify-content: center;
@@ -25,7 +25,7 @@ export const S = {
     }
   `,
   Top: styled.div`
-    width: 1360px;
+    width: 100%;
     min-height: 45px;
     padding: 12px, 0px, 12px, 0px;
     gap: 16px;
@@ -50,7 +50,7 @@ export const S = {
   PostContainer: styled.div`
     display: flex;
     flex-direction: column;
-    width: 1360px;
+    width: 100%;
     margin-bottom: 50px;
     margin-top: -5px;
   `,
@@ -64,29 +64,32 @@ export const S = {
 
   Date: styled.div`
     font-size: 16px;
-    width: 1360px;
+    width: 100%;
     text-align: right;
     float: right;
     color: gray;
-    margin-right: -60px;
     margin-bottom: 10px;
+    @media (max-width: 768px) {
+      font-size: 12px;
+    }
   `,
 
   Box: styled.div`
-    width: 1360px;
+    width: 100%;
     margin: 20px;
     padding: 0 auto;
   `,
   EditBox: styled.div`
-    width: 1360px;
+    width: 100%;
     height: 500px;
     margin: 20px;
     padding: 0 auto;
   `,
 
   Title: styled.div`
+    // 최대 수 글자수 제한하기
     line-height: 1.5;
-    width: 1184px;
+    display: inline-block;
     height: 21px;
     padding: 0 auto;
     font-size: 24px;
@@ -95,21 +98,30 @@ export const S = {
     // margin: -5px;
     margin-top: -10px;
     margin-left: 12px;
-
+    text-overflow: ellipsis;
     @media (max-width: 768px) {
       font-size: 18px;
+      margin-bottom: 15px;
+      margin-top: 5px;
     }
   `,
 
-  Content: styled.div`
-    white-space: wrap;
+  Content: styled.div<{ width: number }>`
     // word-wrap: break-word;
     // font-size: 16px;
     line-height: 1.6;
-    width: 1360px;
+    width: 100%;
+    @media (max-width: 768px) {
+      width: 100%;
+      margin: 0px;
+      gap: 10px;
+      img {
+        max-width: 100%;
+        max-height: 200px;
+      }
+    }
     margin: 20px;
     gap: 40px;
-
     h1 {
       display: block;
 
@@ -242,7 +254,7 @@ export const S = {
   `,
 
   Textarea: styled.textarea`
-    width: 1360px;
+    width: 100%;
     height: 450px;
     max-height: 4355px;
     line-height: 1.5;
@@ -285,6 +297,10 @@ export const S = {
     justify-content: flex-end;
     padding: 10px;
     margin-right: -15px;
+    @media (max-width: 768px) {
+      height: 30px;
+      margin-top: 30px;
+    }
   `,
   Img: styled.img`
     background-color: white;
@@ -356,7 +372,7 @@ export const S = {
   `,
   Line: styled.div`
     border: 1px solid #d9d9d9;
-    width: 1430px;
+    width: 100%;
     margin-top: 20px;
     @media (max-width: 768px) {
       width: 317px;
@@ -377,7 +393,7 @@ export const S = {
     margin-top: 5px;
   `,
   Comment: styled.div`
-    width: 1360px;
+    width: 100%;
     max-height: 2476px;
     gap: 20px;
     margin-bottom: -140px;
