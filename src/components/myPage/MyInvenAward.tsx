@@ -110,10 +110,9 @@ const MyInvenAward = () => {
       <A.Container>
         {displayedAwards?.map((filteredAwards, index) => (
           <div key={index}>
-            <img
+            <A.AwardImage
               src={filteredAwards.items.img_url}
               alt={filteredAwards.items.name}
-              style={{ width: '240px' }}
             />
 
             <A.Equip

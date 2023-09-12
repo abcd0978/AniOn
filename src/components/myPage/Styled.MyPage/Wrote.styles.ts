@@ -7,6 +7,13 @@ export const R = {
     gap: 16px;
     margin-top: -700px;
     margin-left: 450px;
+    @media (max-width: 768px) {
+      display: flex;
+      flex-direction: column;
+      justify-contents: center;
+      margin-left: 10px;
+      margin-top: -20px;
+    }
   `,
 
   Title: styled.div`
@@ -18,6 +25,9 @@ export const R = {
     font-weight: 700;
     line-height: normal;
     letter-spacing: -0.36px;
+    @media (max-width: 768px) {
+      font-size: 16px;
+    }
   `,
   Outer: styled.div`
     list-style-type: none;
@@ -63,6 +73,15 @@ export const R = {
     overflow-y: auto;
 
     text-overflow: ellipsis;
+    @media (max-width: 768px) {
+      max-height: calc(1em * 2);
+      overflow-y: auto;
+
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
   `,
 
   ButtonArray: styled.div`
@@ -138,6 +157,13 @@ export const P = {
   Container: styled.div`
     margin-top: -700px;
     margin-left: 450px;
+    @media (max-width: 768px) {
+      display: flex;
+      flex-direction: column;
+      justify-contents: center;
+      margin-left: 10px;
+      margin-top: -20px;
+    }
   `,
   Title: styled.div`
     width: 200px;
@@ -149,6 +175,9 @@ export const P = {
     line-height: normal;
     letter-spacing: -0.36px;
     display: block;
+    @media (max-width: 768px) {
+      font-size: 16px;
+    }
   `,
   PostsContainer: styled.div``,
 
@@ -259,6 +288,14 @@ export const P = {
     align-items: center;
     display: flex;
     justify-content: space-between;
+    @media (max-width: 768px) {
+      font-size: 13px;
+    }
+  `,
+  TitleAndThumbnail: styled.div`
+    display: flex;
+    aling-items: center;
+    gap: 10px;
   `,
   Box: styled.div`
     display: flex;
@@ -346,4 +383,8 @@ export const StyledPostCategory = styled.span<StyledPostCategoryProps>`
       return `background-color: #FF96DB; color: white; border-radius:10px;`;
     return `background-color: inherit; color: inherit;`;
   }};
+  @media (max-width: 768px) {
+    font-size: 12px;
+    min-width: 68px;
+  }
 `;

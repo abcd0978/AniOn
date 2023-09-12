@@ -187,10 +187,12 @@ const WhatIWrote = () => {
                   <P.PostTitle
                     onClick={() => handlePostClick(post.id?.toString() ?? '')}
                   >
-                    {post.title}
-                    {post.thumbnail !== null && (
-                      <img src={ThumbnailIcon} alt="thumbnailIcon" />
-                    )}
+                    <P.TitleAndThumbnail>
+                      {post.title}
+                      {post.thumbnail !== null && (
+                        <img src={ThumbnailIcon} alt="thumbnailIcon" />
+                      )}
+                    </P.TitleAndThumbnail>
                     <P.Date>
                       {new Date(post.created_at).toLocaleString()}{' '}
                     </P.Date>

@@ -3,6 +3,13 @@ export const E = {
   Page: styled.div`
     margin-top: -700px;
     margin-left: 450px;
+    @media (max-width: 768px) {
+      display: flex;
+      flex-direction: column;
+      justify-contents: center;
+      margin-left: 10px;
+      margin-top: -20px;
+    }
   `,
   Title: styled.div`
     width: 200px;
@@ -13,6 +20,9 @@ export const E = {
     font-weight: 700;
     line-height: normal;
     letter-spacing: -0.36px;
+    @media (max-width: 768px) {
+      font-size: 16px;
+    }
   `,
 
   Container: styled.div``,
@@ -91,6 +101,16 @@ export const E = {
     &:hover {
       background-color: #c88fff;
       color: white;
+    }
+    @media (max-width: 768px) {
+      display: flex;
+      width: 60px;
+      height: 24px;
+      padding: 4px 14px;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      border-radius: 6px;
     }
   `,
   NickNameCheck: styled.button`

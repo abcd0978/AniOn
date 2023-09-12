@@ -1,5 +1,7 @@
 import { styled } from 'styled-components';
-
+interface OuterProps {
+  selectedComponent: string | null;
+}
 export const Profile = {
   // 내 프로필 전체 박스
   MyContainer: styled.div`
@@ -41,6 +43,10 @@ export const Profile = {
     overflow: hidden;
     background-size: cover;
     background-position: center;
+    @media (max-width: 768px) {
+      width: 60px;
+      height: 60px;
+    }
   `,
   MyPageText: styled.div`
     color: #8200ff;
@@ -146,21 +152,30 @@ export const InfoMenu = {
     width: 60px;
     cursor: pointer;
   `,
-  Outer: styled.div`
+  Outer: styled.div<OuterProps>`
     display: flex;
     flex-direction: column;
     justify-contents: center;
     margin-left: 30px;
     margin-top: 18px;
+
     @media (max-width: 768px) {
       margin-right: 10px;
-      height: auto;
+      height: 409px;
       background: #fdfbff;
       margin-left: -20px;
       width: 90vw;
-      margin-top: 10px;
+      padding-top: 32px;
+      padding-left: 20 px;
+      margin-top: 10 px;
+
+      background-color: ${(props) =>
+        props.selectedComponent ? 'transparent' : '#fdfbff'};
+      box-shadow: ${(props) =>
+        props.selectedComponent
+          ? 'none'
+          : ' 0px 0px 25px 0px rgba(0, 0, 0, 0.1)'};
       border-radius: 20px;
-      box-shadow: 0px 0px 25px 0px rgba(0, 0, 0, 0.1);
     }
   `,
 };
@@ -171,4 +186,7 @@ export const Divider = styled.div`
   background: var(--achromatic-colors-midgray-2, #dbdbdb);
   margin-top: 8px;
   margin-bottom: 8px;
+  @media (max-width: 768px) {
+    width: auto;
+  }
 `;

@@ -3,6 +3,13 @@ export const D = {
   Page: styled.div`
     margin-top: -700px;
     margin-left: 450px;
+    @media (max-width: 768px) {
+      display: flex;
+      flex-direction: column;
+      justify-contents: center;
+      margin-left: 10px;
+      margin-top: -20px;
+    }
   `,
   Title: styled.div`
     width: 200px;
@@ -13,10 +20,16 @@ export const D = {
     font-weight: 700;
     line-height: normal;
     letter-spacing: -0.36px;
+    @media (max-width: 768px) {
+      font-size: 16px;
+    }
   `,
   Container: styled.div`
     display: grid;
     flex-direction: column;
+    @media (max-width: 768px) {
+      justify-content: center;
+    }
   `,
   ButtonContainer: styled.div`
     display: flex;
@@ -29,6 +42,9 @@ export const B = {
     gap: 5px 1px;
     left: -5vw;
     top: 3vh;
+    @media (max-width: 768px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
   `,
   BorderContainer: styled.div``,
   BorderImg: styled.img`
@@ -39,6 +55,9 @@ export const B = {
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.1);
+    @media (max-width: 768px) {
+      width: 120px;
+    }
   `,
   ButtonContainer: styled.div`
     justify-content: space-between;
@@ -52,12 +71,17 @@ export const B = {
     background-color: white;
     margin-top: 5px;
     line-height: 25px;
+    @media (max-width: 768px) {
+      font-size: 14px;
+    }
   `,
   BorderPage: styled.div`
     position: absolute;
     justify-content: center;
     top: 240px;
     right: 400px;
+    @media (max-width: 768px) {
+    }
   `,
 
   BorderLoading: styled.div`
@@ -107,6 +131,11 @@ export const B = {
     background-color: ${(props) => (props.is_equipped ? '#F3E7FF' : 'white')};
     color:black;
     border-radius: 6px;
+    @media (max-width: 768px) {
+      width: 48px; 
+      font-size: 14px;
+
+    }
     border: ${(props) =>
       props.is_equipped ? '1px solid #c88fff' : '1px solid #d9d9d9'};
     cursor: pointer;
@@ -121,6 +150,7 @@ export const B = {
       &:disabled:hover {
         cursor: not-allowed;
       }
+      
   `,
 };
 export const A = {
@@ -130,8 +160,18 @@ export const A = {
     grid-template-columns: repeat(3, 1fr);
     gap: 50px;
     margin-top: 10px;
+    @media (max-width: 768px) {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
   `,
+  AwardImage: styled.img`
+    width: 240px;
 
+    @media (max-width: 768px) {
+      width: 170px;
+    }
+  `,
   Loading: styled.div`
     margin-left: 500px;
   `,
@@ -176,6 +216,11 @@ export const A = {
     background-color: ${(props) => (props.is_equipped ? '#F3E7FF' : 'white')};
     color: black;
     border-radius: 6px;
+    @media (max-width: 768px) {
+      width: 48px; 
+      font-size: 14px;
+
+    }
     border: ${(props) =>
       props.is_equipped ? '1px solid #c88fff' : '1px solid #d9d9d9'};
     float: right;
@@ -191,6 +236,7 @@ export const A = {
     &:disabled:hover {
       cursor: not-allowed;
     }
+   
   `,
   Pagination: styled.div`
     position: absolute;

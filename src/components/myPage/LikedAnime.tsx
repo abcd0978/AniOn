@@ -66,7 +66,6 @@ const LikedAnime = () => {
 
         try {
           const animeDataList = await Promise.all(animePromises);
-          console.log('animeDataList', animeDataList);
 
           const newAnimeTitles: Record<string, AnimeG> = {};
           for (let i = 0; i < liked.length; i++) {
@@ -97,8 +96,6 @@ const LikedAnime = () => {
   const itemsPerPage = 9;
 
   const filteredLiked = liked?.filter((liked) => liked.length !== 0);
-  console.log('filetedLiked', filteredLiked);
-  console.log('liked', liked);
 
   const totalPages = Math.ceil(filteredLiked.length / itemsPerPage);
 
@@ -237,6 +234,10 @@ export const PosterImage = styled.img`
   width: 280px;
   height: 175px;
   border-radius: 10px;
+  @media (max-width: 768px) {
+    width: 180px;
+    height: 112.5px;
+  }
 `;
 export const LikedInfoTitle = styled.div`
   visibility: hidden;
@@ -283,11 +284,21 @@ const L = {
   LikedContainer: styled.div`
     margin-top: -700px;
     margin-left: 450px;
+    @media (max-width: 768px) {
+      display: flex;
+      flex-direction: column;
+      justify-contents: center;
+      margin-left: 10px;
+      margin-top: -20px;
+    }
   `,
   GridContainer: styled.div`
     display: grid;
     gap: 0px 20px;
     grid-template-columns: repeat(3, 1fr);
+    @media (max-width: 768px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
   `,
   Title: styled.div`
     width: 200px;
@@ -298,6 +309,9 @@ const L = {
     font-weight: 700;
     line-height: normal;
     letter-spacing: -0.36px;
+    @media (max-width: 768px) {
+      font-size: 16px;
+    }
   `,
   TopTags: styled.div`
     border-radius: 999px;
@@ -311,6 +325,11 @@ const L = {
     align-items: center;
     gap: 8px;
     margin-top: -60px;
+    @media (max-width: 768px) {
+      font-size: 12px;
+      height: auto;
+      margin-top: -30px;
+    }
   `,
 
   NoContainer: styled.div`

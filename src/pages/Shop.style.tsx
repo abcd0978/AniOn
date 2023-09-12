@@ -39,6 +39,16 @@ export const Button = styled.button`
   font-size: 13px;
   border-radius: 999px;
   font-weight: bold;
+  @media (max-width: 768px) {
+    display: flex;
+    width: 72px;
+    height: 28px;
+    padding: 8px;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+  }
 `;
 
 export const Point = styled.div`
