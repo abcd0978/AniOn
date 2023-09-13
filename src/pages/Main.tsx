@@ -148,7 +148,7 @@ const Main = () => {
     queryKey: ['animeRecommend'],
     queryFn: () => fetchAnimeRecommend(),
     refetchOnWindowFocus: false,
-    staleTile: 60 * 60,
+    staleTile: 60 * 1000,
   };
 
   const { data: dataH } = useQuery(historyQueryOption);

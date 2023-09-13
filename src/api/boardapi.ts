@@ -1,5 +1,10 @@
 import supabase from '../supabaseClient';
-import type { InsertPost, UpdatePost, InsertLike } from '../types/post';
+import type {
+  InsertPost,
+  UpdatePost,
+  InsertLike,
+  UserPostType,
+} from '../types/post';
 
 // 아래처럼 필터링 조건부로 처리하기
 // let query = supabase
@@ -11,7 +16,7 @@ import type { InsertPost, UpdatePost, InsertLike } from '../types/post';
 // if (filterPopHigh) { query = query.lt('population', filterPopHigh) }
 
 //전체 post 불러오기 + 페이지네이션
-const getPosts = async (
+const fetchPosts = async (
   category?: string,
   page: number = 1,
   searchKeyword?: string,
@@ -73,7 +78,7 @@ const getPosts = async (
 };
 
 // Post 상세조회
-const getPost = async (id: string) => {
+const fetchPost = async (id: string) => {
   const { data } = await supabase
     .from('posts')
     .select(
@@ -83,6 +88,39 @@ const getPost = async (id: string) => {
     .eq('users.inventory.is_equipped', true)
     .single();
   return data;
+};
+
+const fetchUserPosts = async (
+  id: string,
+  page: number = 1,
+  itemsPerPage: number = 12,
+): Promise<UserPostType> => {
+  try {
+    const startIndex = (page - 1) * itemsPerPage;
+    const { data, error, count } = await supabase
+      .from('posts')
+      .select('*', {
+        count: 'exact',
+      })
+      .eq('user_id', id)
+      .order('created_at', { ascending: false })
+      .range(startIndex, startIndex + itemsPerPage - 1);
+    if (error) {
+      return {
+        data: [],
+        totalPages: 0,
+        count: 0,
+      };
+    }
+    const totalPages = Math.ceil(count! / itemsPerPage);
+    return { data, totalPages, count } as UserPostType;
+  } catch (error) {
+    return {
+      data: [],
+      totalPages: 0,
+      count: 0,
+    };
+  }
 };
 
 // Post 추가
@@ -114,7 +152,7 @@ const updatePost = async (editPost: UpdatePost): Promise<void> => {
 
 // post 상세 조회에서 join으로 가져오도록 수정해보자.
 // 좋아요 목록을 가져오는 함수
-const getLikesForPost = async (postId: string) => {
+const fetchLikesForPost = async (postId: string) => {
   const { data } = await supabase
     .from('likes')
     .select('*')
@@ -122,7 +160,7 @@ const getLikesForPost = async (postId: string) => {
   return data;
 };
 
-const getLikeForPost = async (params: {
+const fetchLikeForPost = async (params: {
   post_id: string | undefined;
   user_id: string | undefined;
 }) => {
@@ -161,10 +199,11 @@ export {
   createPost,
   deletePost,
   updatePost,
-  getPost,
-  getPosts,
-  getLikesForPost,
+  fetchPost,
+  fetchPosts,
+  fetchLikesForPost,
+  fetchUserPosts,
   createLike,
   deleteLike,
-  getLikeForPost,
+  fetchLikeForPost,
 };

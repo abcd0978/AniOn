@@ -179,7 +179,7 @@ const LikedAnime = () => {
             navigate('/recommend');
           }}
         >
-          애니메이션 추천받으러 가기
+          애니메이션 찾으러 가기
           <img src={goShop} alt="고샾" />
         </L.GoRecommend>
       </L.NoContainer>
@@ -426,13 +426,12 @@ const L = {
     text-overflow: ellipsis;
     white-space: nowrap;
     margin: 10px;
-    @media (max-width: 768px){
-      font-size:14px ;
-      width:160px ; 
-    text-overflow: ellipsis;
-      
-      white-space :nowrap ;
-      }
+    @media (max-width: 768px) {
+      font-size: 14px;
+      width: 160px;
+      text-overflow: ellipsis;
+
+      white-space: nowrap;
     }
   `,
   HoverContent: styled.div`

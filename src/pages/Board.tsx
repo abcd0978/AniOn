@@ -1,9 +1,9 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import * as userStore from '../store/userStore';
 import * as S from './Board.style';
-import { getPosts } from '../api/boardapi';
+import { fetchPosts } from '../api/boardapi';
 import { useState } from 'react';
 import { useAtomValue } from 'jotai';
 import Pagination from '../components/Pagenation';
@@ -24,7 +24,7 @@ const Board = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>('');
   const [searchKeyword, setSearchKeyword] = useState<string>('');
   const [page, setPage] = useState<number>(1);
-  const { width, isMobile } = useViewport();
+  const { isMobile } = useViewport();
 
   const handleWriteClick = () => {
     if (!user) {
@@ -46,8 +46,12 @@ const Board = () => {
 
   const postQueryOptions = {
     queryKey: ['posts', selectedCategory, page],
-    queryFn: () => getPosts(selectedCategory, page, searchKeyword),
+    queryFn: () => fetchPosts(selectedCategory, page, searchKeyword),
     refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    staleTime: 60 * 1000,
+    cacheTime: 60 * 6000,
+    enabled: !!user,
   };
 
   const {
@@ -63,14 +67,15 @@ const Board = () => {
       return;
     }
     if (selected === 'prev' && page > 1) {
-      setPage((prev: any) => prev - 1);
+      setPage((prev: number) => prev - 1);
       return;
     }
     if (selected === 'next' && postsAndTotalPages?.totalPages) {
-      setPage((prev: any) => prev + 1);
+      setPage((prev: number) => prev + 1);
       return;
     }
   };
+
   const processBody = (bodyStr: string) => {
     let result = '';
     result = bodyStr
@@ -79,6 +84,7 @@ const Board = () => {
       .replace(/&nbsp;/gi, '');
     return result;
   };
+
   const handlePostClick = (postId: string) => {
     navigate(`/board/${postId}`);
   };
@@ -92,15 +98,6 @@ const Board = () => {
   const handleSearch = async () => {
     refetch();
     setSelectedCategory('');
-  };
-
-  // 글 이미지 미리보기에서 사진 없애기
-  const removeImageTags = (html: string) => {
-    // 이미지 태그를 제거하는 정규식 패턴
-    const pattern = /<img[^>]*>/g;
-    // HTML 문자열에서 이미지 태그를 제거
-    const cleanHtml = html.replace(pattern, '');
-    return cleanHtml;
   };
 
   return (
