@@ -160,7 +160,6 @@ export const E = {
   `,
   NickNameContainer: styled.div`
     align-items: center;
-    padding-left: 50px;
   `,
   NickNameInputAndCheck: styled.div`
     display: flex;
