@@ -6,6 +6,7 @@ import { fetchEquippedItem } from '../api/items';
 import { useQuery } from '@tanstack/react-query';
 
 type Props = {
+  onClick?: any;
   $mediawidth: number;
   width: number | null;
   minWidth?: number;
@@ -76,6 +77,7 @@ function ProfileWithBorder(props: Props) {
   if (props.profile_img_url) {
     return (
       <StProfileContainer
+        onClick={props.onClick}
         minWidth={props.minWidth}
         width={props.width}
         $mediawidth={props.$mediawidth}
@@ -90,6 +92,7 @@ function ProfileWithBorder(props: Props) {
 
   return (
     <StProfileContainer
+      onClick={props.onClick}
       minWidth={props.minWidth}
       width={props.width}
       $mediawidth={props.$mediawidth}

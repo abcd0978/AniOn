@@ -8,7 +8,6 @@ type Props = {};
 
 function AfterSocialLogin({}: Props) {
   const writeUser = useSetAtom(userStore.writeUser);
-  const navigate = useNavigate();
   async function authCheck() {
     await writeUser();
     toast.success('안녕하세요! 환영합니다😊', {
