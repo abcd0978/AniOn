@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useAtom, useAtomValue } from 'jotai';
-import ScrollToTop from '../scroll/ScrollToTop';
 import { toast } from 'react-toastify';
 import { throttle } from 'lodash';
 
@@ -9,6 +8,7 @@ import { throttle } from 'lodash';
 import AnimeCardSkeleton from './AnimeCardSkeleton';
 import useIntersect from '../../hooks/useIntersect';
 import AnimeFilter from './top-menu/AnimeFilter';
+import ScrollToTop from '../scroll/ScrollToTop';
 import { S } from './styled.AnimeList';
 import AnimeCard from './AnimeCard';
 
@@ -69,6 +69,7 @@ const AnimeList = () => {
     queryKey: ['animeListComments'],
     queryFn: () => fetchAllAnimeComments(),
     refetchOnWindowFocus: false,
+    staletime: 60 * 1000,
   };
 
   const { data: commentsData } = useQuery(animeCommentsQueryOptions);
@@ -163,6 +164,9 @@ const AnimeList = () => {
     setIsNextPage(data.isNextPage);
     setCount(data.count);
     setAnimeList((prevAnimeList) => [...prevAnimeList, ...data.animeList]);
+    if (isNextPage) {
+      queryClient.prefetchQuery(animeListQueryOptions);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
@@ -174,7 +178,7 @@ const AnimeList = () => {
     <S.AnimeListSection $isMobileFilterOpen={isMobileFilterOpen}>
       <S.PageNameDiv>
         <S.PageNameFisrt>애니 </S.PageNameFisrt>
-        <S.PageNameSecond>추천</S.PageNameSecond>
+        <S.PageNameSecond>검색</S.PageNameSecond>
       </S.PageNameDiv>
       <AnimeFilter count={count} setAnimeList={setAnimeList} />
       <S.AnimeContainer>

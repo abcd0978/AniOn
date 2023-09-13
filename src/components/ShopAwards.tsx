@@ -30,7 +30,7 @@ const ShopAwardList = () => {
     queryKey: ['myAwards'],
     queryFn: () => fetchMyAwards(user!.id),
     refetchOnWindowFocus: false,
-    staleTime: 60 * 60,
+    staleTime: 60 * 1000,
     enabled: !!user,
   };
 

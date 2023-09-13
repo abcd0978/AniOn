@@ -1,7 +1,7 @@
-import React, { useCallback, useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
-import { useAtom, useSetAtom } from 'jotai';
+import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import * as modalStore from '../store/modalStore';
 import * as sidebarStore from '../store/sidebarStore';
 import useViewport from '../hooks/useViewPort';
@@ -33,18 +33,21 @@ import { fetchEquippedItem } from '../api/items';
 import { useQuery } from '@tanstack/react-query';
 import useInput from '../hooks/useInput';
 
-type Props = {};
-
-function Header({}: Props) {
+function Header() {
   const navigate = useNavigate();
-  const [__, logoutStore] = useAtom(userStore.logoutUser);
-  const { width, height, isMobile, isLoaded } = useViewport();
-  const [user, setUser] = useAtom(userStore.user);
+  const location = useLocation();
+  const { width, isMobile } = useViewport();
+
   const [isModalOpened, setIsModalOpened] = useAtom(modalStore.isModalOpened);
   const [modalContents, setModalContents] = useAtom(modalStore.modalContents);
+
+  const logoutStore = useSetAtom(userStore.logoutUser);
+  const user = useAtomValue(userStore.user);
+
   const setKeyword = useSetAtom(animeRecommendStore.keywordAtom);
   const setAnimeList = useSetAtom(animeRecommendStore.animeListAtom);
   const setOffset = useSetAtom(animeRecommendStore.offsetAtom);
+
   const [isDropdownOnD, setIsDropdownOnD] = useState(false);
   const dropdownOpenerDRef = useRef<HTMLDivElement>(null);
   const [isDropdownOnB, setIsDropdownOnB] = useState(false);
@@ -52,6 +55,7 @@ function Header({}: Props) {
   const [mobileSearchCategory, setMobileSearchCategory] = useState<
     string | null
   >(null);
+
   const [mobileSearchInput, ___, onChangeSearchInput, ____] = useInput('');
 
   const [sideBarOpened, setSideBarOpened] = useAtom(sidebarStore.sideBarOpened);
@@ -60,12 +64,14 @@ function Header({}: Props) {
     headerStore.searchMobileClicked,
   );
   const [activeMenu, setActiveMenu] = useState('/');
-  const location = useLocation();
+
   const equipedAwardQueryOptions = {
     queryKey: ['equippedAward'],
     queryFn: () => fetchEquippedItem({ user_id: user!.id, category: 1 }),
     refetchOnWindowFocus: false,
-    staleTime: 60 * 60,
+    refetchOnMount: false,
+    staleTime: 60 * 1000,
+    cacheTime: 60 * 6000,
     enabled: !!user,
   };
 
@@ -90,6 +96,7 @@ function Header({}: Props) {
       }
     }
   };
+
   const searchAndSetRecentSearch = (keyword: string) => {
     const recentSearch: Array<string> | null = JSON.parse(
       localStorage.getItem('recentSearch')!,
@@ -103,6 +110,7 @@ function Header({}: Props) {
       localStorage.setItem('recentSearch', stringifiedArr);
     }
   };
+
   const goSearch = (keyword: string) => {
     if (keyword.length === 0 || !keyword) {
       return;
@@ -113,10 +121,11 @@ function Header({}: Props) {
     searchAndSetRecentSearch(keyword);
     navigate('/recommend');
   };
+
   useEffect(() => {
     setActiveMenu(location.pathname);
-    console.log(location.pathname);
   }, [location]);
+
   const dropdownContents: DropdownContentsType[] = [
     {
       content: '프로필설정',
@@ -139,6 +148,7 @@ function Header({}: Props) {
       },
     },
   ];
+
   return (
     <>
       {isModalOpened && <Modal>{modalContentsFunc(modalContents)}</Modal>}
@@ -198,17 +208,17 @@ function Header({}: Props) {
                   navigate('/recommend');
                   setActiveMenu('/recommend');
                 }}
-                $isactive={activeMenu === '/recommend' ? true : false}
+                $isactive={activeMenu.includes('/recommend') ? true : false}
                 color="#8200FF"
               >
-                애니추천
+                애니찾기
               </StHeaderMenu>
               <StHeaderMenu
                 onClick={() => {
                   navigate('/board');
                   setActiveMenu('/board');
                 }}
-                $isactive={activeMenu === '/board' ? true : false}
+                $isactive={activeMenu.includes('/board') ? true : false}
                 color="#8200FF"
               >
                 게시판
@@ -252,6 +262,7 @@ function Header({}: Props) {
             {user ? (
               <StHeaderUserInfoContainer>
                 <ProfileWithBorder
+                  onClick={() => navigate(`/mypage/${user.id}`)}
                   minWidth={36}
                   width={null}
                   $mediawidth={width}
@@ -402,6 +413,7 @@ const StSearchMobile = styled.div`
     }
   }
 `;
+
 const StHeaderMenuMobile = styled.div`
   display: none;
   @media (max-width: 768px) {
@@ -479,6 +491,7 @@ const StHeaderContainerSearch = styled.div`
     }
   }
 `;
+
 const StHeaderMobileSearchTypo = styled.p<{ selcted: boolean }>`
   color: ${(props) =>
     props.selcted ? '#000;' : 'var(--achromatic-colors-midgray-1, #999);'};
@@ -488,6 +501,7 @@ const StHeaderMobileSearchTypo = styled.p<{ selcted: boolean }>`
   line-height: normal;
   letter-spacing: -0.21px;
 `;
+
 const StHeaderMobileOption = styled.div`
   width: 68px;
   height: 24px;
@@ -498,6 +512,7 @@ const StHeaderMobileOption = styled.div`
   border-radius: 10px;
   background: var(--main-light-3, #f9f3ff);
 `;
+
 const StHeaderMobileSearchInputContainer = styled.div`
   width: 100%;
   height: 24px;
@@ -511,6 +526,7 @@ const StHeaderMobileSearchInputContainer = styled.div`
     border: none;
   }
 `;
+
 const StHeaderMobileSearchInput = styled.input`
   width: calc(100% - 24px);
   border: none;
@@ -521,9 +537,11 @@ const StHeaderMobileSearchInput = styled.input`
     outline: none;
   }
 `;
+
 const StHeaderMobileSearchCancel = styled.div`
   white-space: nowrap;
 `;
+
 const StHeaderLogoSection = styled.div`
   cursor: pointer;
   @media (max-width: 768px) {
@@ -542,6 +560,7 @@ const StHeaderMenuSection = styled.div`
     display: none;
   }
 `;
+
 const StHeaderMenu = styled.div<{ $isactive: boolean; color?: string }>`
   width: 99px;
   text-align: center;
@@ -561,6 +580,7 @@ const StHeaderUserInfoSection = styled.div`
   gap: 8px;
   height: 100%;
 `;
+
 const StHeaderUserInfoContainer = styled.div`
   display: flex;
   height: 100%;
@@ -577,6 +597,7 @@ const StHeaderUserInfo = styled.div`
     display: none;
   }
 `;
+
 const StHeaderUserName = styled.p`
   color: var(--black, #000);
   font-family: 'Pretendard-Regular';
@@ -588,6 +609,7 @@ const StHeaderUserName = styled.p`
   text-align: center;
   white-space: nowrap;
 `;
+
 const StHeaderUserAppellation = styled.p`
   color: var(--black, #000);
   font-size: 13px;
@@ -597,6 +619,7 @@ const StHeaderUserAppellation = styled.p`
   letter-spacing: -0.72px;
   white-space: nowrap;
 `;
+
 const StHeaderDropDownImgContainer = styled.div`
   display: flex;
   width: 24px;
@@ -609,16 +632,11 @@ const StHeaderDropDownImgContainer = styled.div`
     display: none;
   }
 `;
+
 const StHeaderLoginRegister = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-`;
-const StblackBar = styled.div`
-  width: 2px;
-  height: 16px;
-  flex-shrink: 0;
-  background: #4f4f4f;
 `;
 
 export default Header;

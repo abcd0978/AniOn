@@ -179,7 +179,7 @@ const LikedAnime = () => {
             navigate('/recommend');
           }}
         >
-          애니메이션 추천받으러 가기
+          애니메이션 찾으러 가기
           <img src={goShop} alt="고샾" />
         </L.GoRecommend>
       </L.NoContainer>

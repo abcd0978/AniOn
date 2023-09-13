@@ -31,7 +31,7 @@ const Comments = () => {
 
   const queryClient = useQueryClient();
   const { openConfirm } = useConfirm();
-  const { width, isMobile } = useViewport();
+  const { isMobile } = useViewport();
 
   const [newComment, setNewComment] = useState<string>('');
 
@@ -196,7 +196,7 @@ const Comments = () => {
           <S.WriteInput
             value={newComment}
             onChange={(e) => setNewComment(e.target.value)}
-            onKeyPress={(e) => {
+            onKeyDown={(e) => {
               if (e.key === 'Enter') {
                 handleCommentSubmit();
               }
@@ -213,8 +213,8 @@ const Comments = () => {
         <S.CommentBot>
           {postCommentsData?.data!.map((comment: CommentType) => (
             <S.Comment key={comment.id}>
-              <div>
-                <S.profile>
+              <S.CommentInfo>
+                <S.Profile>
                   <ProfileWithBorder
                     width={75}
                     $mediawidth={1920}
@@ -227,7 +227,6 @@ const Comments = () => {
                     key={comment.id!}
                   />
                   <S.Ninkname>{comment.users.nickname}</S.Ninkname>
-                  {/* <S.Award> */}
                   {comment.users.inventory.length > 0 &&
                   processItem(comment.users.inventory).award.img_url ? (
                     <S.Award
@@ -237,14 +236,13 @@ const Comments = () => {
                   ) : (
                     <S.AwardNo>칭호없음</S.AwardNo>
                   )}
-                  {/* </S.Award> */}
-                </S.profile>
+                </S.Profile>
                 {!isMobile && (
                   <S.CommentDate>
                     {new Date(comment.created_at).toLocaleString()}
                   </S.CommentDate>
                 )}
-              </div>
+              </S.CommentInfo>
               {user?.id === comment.user_id && (
                 <S.ButtonBox>
                   {comment.id === editingCommentId ? (
@@ -284,7 +282,7 @@ const Comments = () => {
                       <S.CommentMore
                         onClick={() => toggleCommentCollapse(comment.id)}
                       >
-                        댓글 더보기 <img src={commentpointer} />
+                        댓글 더보기 <img src={commentpointer} alt="더보기" />
                       </S.CommentMore>
                     </>
                   ) : (
@@ -294,7 +292,7 @@ const Comments = () => {
                         <S.CommentMore
                           onClick={() => toggleCommentCollapse(comment.id)}
                         >
-                          접기 <img src={commentpointerUp} />
+                          접기 <img src={commentpointerUp} alt="접기" />
                         </S.CommentMore>
                       )}
                     </>
