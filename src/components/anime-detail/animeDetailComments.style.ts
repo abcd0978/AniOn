@@ -14,13 +14,13 @@ export const S = {
   `,
 
   AniCommentBox: styled.div`
-    width: 1440px;
+    width: 100%;
     min-height: 218px;
     border-bottom: 2px solid #d9d9d9;
     position: relative;
 
     @media (max-width: 768px) {
-      width: 355px;
+      width: 95%;
       min-height: 308px;
     }
   `,
@@ -80,7 +80,7 @@ export const S = {
   `,
 
   AniCommentText: styled.div`
-    width: 1380px;
+    width: 95%;
     min-height: 48px;
     padding: 0px, 0px, 0px, 60px;
     margin-top: 10px;
@@ -95,12 +95,12 @@ export const S = {
     @media (max-width: 768px) {
       margin-left: 17px;
       margin-top: 14px;
-      width: 325px;
+      width: 95%;
     }
   `,
 
   AniCommentInputBox: styled.div`
-    width: 1440px;
+    width: 100%;
     height: 148px;
     border: 1px solid #d9d9d9;
     border-radius: 10px;
@@ -108,12 +108,12 @@ export const S = {
     background-color: #f9f3ff;
 
     @media (max-width: 768px) {
-      width: 355px;
+      width: 100%;
     }
   `,
 
   AniCommentInput: styled.textarea`
-    width: 1317px;
+    width: 95%;
     height: 50px;
     padding: 20px;
     border: none;
@@ -126,7 +126,7 @@ export const S = {
     font-size: 16px;
 
     @media (max-width: 768px) {
-      width: 306px;
+      width: 80%;
     }
   `,
   AniCommentInputButton: styled.button`
@@ -204,10 +204,7 @@ export const S = {
   Outer: styled.div`
     display: flex;
     flex-direction: column;
-
-    @media (max-width: 768px) {
-      width: 100%;
-    }
+    width: 100%;
   `,
 
   date: styled.div`
