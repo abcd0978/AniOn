@@ -13,7 +13,7 @@ import * as userStore from '../store/userStore';
 import { ReadAnimeLikeG } from '../types/likes';
 import play_arrow from '../assets/play_arrow.svg';
 import detaillike from '../assets/detaillike.svg';
-import ScrollToTop from '../components/ScrollToTop';
+import ScrollToTop from '../components/scroll/ScrollToTop';
 import { toast } from 'react-toastify';
 import Loading from '../components/Loading/Loading';
 import seemoreIcon from '../assets/stat_minus_1.svg';
@@ -35,43 +35,48 @@ function AnimeDetail() {
   };
 
   //parameter 가져오기
-  const { ani_id } = useParams() as { ani_id: string };
+  const { ani_id: aniId } = useParams() as { ani_id: string };
 
   // 해당 aniId 상세 내용 가져오기
+  const animeDetailQueryOption = {
+    queryKey: ['animeDetail'],
+    queryFn: () => {
+      return getAnimeById(aniId);
+    },
+    refetchOnWindowFocus: false,
+  };
   const {
     isLoading: isDetailLoading,
     isError: isDetailError,
     data: animeDetail,
-  } = useQuery({
-    queryKey: ['animeDetail'],
+  } = useQuery(animeDetailQueryOption);
+
+  // 해당 aniId 영상 가져오기
+  const animeVideoQueryOption = {
+    queryKey: ['animeVideo'],
     queryFn: () => {
-      return getAnimeById(ani_id);
+      return getAnimePreview(aniId);
     },
     refetchOnWindowFocus: false,
-  });
-  // 해당 aniId 영상 가져오기
+  };
   const {
     isLoading: isVideoLoading,
     isError: isVideoError,
     data: animeVideo,
-  } = useQuery({
-    queryKey: ['animeVideo'],
-    queryFn: () => {
-      return getAnimePreview(ani_id);
-    },
-    refetchOnWindowFocus: false,
-  });
+  } = useQuery(animeVideoQueryOption);
 
-  const { data: animeStar } = useQuery({
+  // 해당 aniId 별점 가져오기
+  const animeStartQueryOption = {
     queryKey: ['animeStar'],
     queryFn: () => {
-      return getAnimeStars(ani_id);
+      return getAnimeStars(aniId);
     },
-  });
+  };
+  const { data: animeStar } = useQuery(animeStartQueryOption);
 
   const likesQueryOptions = {
     queryKey: ['animeDetailLikes'],
-    queryFn: () => fetchAnimeLikes(ani_id),
+    queryFn: () => fetchAnimeLikes(aniId),
     refetchOnWindowFocus: false,
   };
 
@@ -96,7 +101,7 @@ function AnimeDetail() {
 
     const data = {
       user_id: user.id,
-      anime_id: ani_id,
+      anime_id: aniId,
       isDetailPage: true,
     };
     toggleLikeMutation.mutate(data);
@@ -105,7 +110,7 @@ function AnimeDetail() {
   const isLike = () => {
     const likedAnime = likesData?.find(
       (like: ReadAnimeLikeG) =>
-        like.anime_id === ani_id && like.user_id === user?.id,
+        like.anime_id === aniId && like.user_id === user?.id,
     );
     return !!likedAnime;
   };
@@ -207,7 +212,7 @@ function AnimeDetail() {
                       onClick={() => toggleCommentCollapse(animeDetail.id)}
                     >
                       <p>더보기</p>
-                      <img src={seemoreIcon} />
+                      <img src={seemoreIcon} alt="더보기" />
                     </S.ContentSeeMore>
                   </>
                 ) : (
@@ -218,7 +223,7 @@ function AnimeDetail() {
                         onClick={() => toggleCommentCollapse(animeDetail.id)}
                       >
                         <p>접기</p>
-                        <img src={seemoreIconUp} />
+                        <img src={seemoreIconUp} alt="접기" />
                       </S.ContentSeeMore>
                     )}
                   </>

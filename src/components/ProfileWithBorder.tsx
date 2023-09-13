@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useAtomValue } from 'jotai';
 import * as userStore from '../store/userStore';
@@ -6,6 +6,7 @@ import { fetchEquippedItem } from '../api/items';
 import { useQuery } from '@tanstack/react-query';
 
 type Props = {
+  onClick?: any;
   $mediawidth: number;
   width: number | null;
   minWidth?: number;
@@ -54,6 +55,7 @@ export const processItem = (
 };
 
 function ProfileWithBorder(props: Props) {
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const user = useAtomValue(userStore.user);
   // 두가지의 return.
   // 1. 헤더, 프로필
@@ -75,6 +77,7 @@ function ProfileWithBorder(props: Props) {
   if (props.profile_img_url) {
     return (
       <StProfileContainer
+        onClick={props.onClick}
         minWidth={props.minWidth}
         width={props.width}
         $mediawidth={props.$mediawidth}
@@ -89,6 +92,7 @@ function ProfileWithBorder(props: Props) {
 
   return (
     <StProfileContainer
+      onClick={props.onClick}
       minWidth={props.minWidth}
       width={props.width}
       $mediawidth={props.$mediawidth}

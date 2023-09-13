@@ -1,12 +1,11 @@
 import styled from 'styled-components';
 
 export const Outer = styled.div`
-  width: 1430px;
-  height: 999px;
+  width: 100%;
   margin-top: 30px;
 `;
 export const Top = styled.div`
-  width: 1430px;
+  width: 100%;
   height: 85px;
   margin-bottom: 30px;
 `;
@@ -18,10 +17,8 @@ export const Title = styled.div`
 `;
 
 export const ButtonContainer = styled.div`
-  border: none;
-  background-color: transparent;
   display: flex;
-  flex-direction: row;
+  align-items: center;
   justify-content: space-between;
 `;
 export const ButtonBox = styled.div`
@@ -43,7 +40,7 @@ export const Button = styled.button`
 `;
 
 export const Point = styled.div`
-  width: 132px;
+  width: 10%;
   height: 35px;
   border-radius: 10px;
   background-color: #f3e7ff;
@@ -53,43 +50,65 @@ export const Point = styled.div`
   align-items: center;
   justify-content: center;
   text-align: center;
+  @media (max-width: 768px) {
+    width: 25%;
+  }
 `;
 export const Bottom = styled.div`
-  width: 1440px;
+  width: 100%;
   height: 100%;
 `;
 
 export const ItemBox = styled.div`
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 10px;
+  gap: 24px;
+  row-gap: 60px;
+  @media (max-width: 1600px) {
+    /* 화면 크기가 1600px 이하인 경우 */
+    grid-template-columns: repeat(4, 23.5%); /* 4개의 컬럼으로 변경 */
+  }
+
+  @media (max-width: 1280px) {
+    /* 화면 크기가 1280px 이하인 경우 */
+    grid-template-columns: repeat(3, 31.7%); /* 3개의 컬럼으로 변경 */
+  }
+
+  @media (max-width: 768px) {
+    /* 화면 크기가 768px 이하인 경우 */
+    grid-template-columns: repeat(2, 49.6%); /* 2개의 컬럼으로 변경 */
+    gap: 8px;
+    row-gap: 24px;
+  }
 `;
 
 export const Item = styled.div`
-  width: 268px;
-  height: 268px;
+  display: flex;
+  flex-direction: column;
+`;
+
+export const ImgArea = styled.div`
   box-shadow: 0px 0px 20px 0px #0000001a;
   border-radius: 20px;
-  margin-bottom: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 export const TopArea = styled.img`
-  width: 80%;
-  height: 80%;
-  // display: flex;
-  margin-left: 28px;
-  margin-top: 25px;
-
-  // box-shadow: 0px 0px 20px 0px #0000001a;
+  width: 85%;
+  height: 100%;
+  object-fit: contain;
   border-radius: 20px;
 `;
 
 export const BottomArea = styled.div`
+  height: 10%;
   width: 100%;
   background-color: white;
   line-height: 25px;
-  margin-top: 40px;
 `;
+
 export const BuyButton = styled.button`
   width: 80px;
   height: 30px;

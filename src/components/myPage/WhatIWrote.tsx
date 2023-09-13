@@ -5,19 +5,19 @@ import * as userStore from '../../store/userStore';
 import { useNavigate } from 'react-router-dom';
 import supabase from '../../supabaseClient';
 import { deletePost } from '../../api/boardapi';
-import { Post } from './Wrote.styles';
-import { Divider } from './EditProfile';
+import { P } from './Styled.MyPage/Wrote.styles';
+import { Divider } from './Styled.MyPage/MyPage.styles';
 import Pagination from '../Pagenation';
 import { useQuery } from '@tanstack/react-query';
 import { getPosts } from '../../api/boardapi';
-import { StyledPostCategory } from './Wrote.styles';
+import { StyledPostCategory } from './Styled.MyPage/Wrote.styles';
 import useViewport from '../../hooks/useViewPort';
-import { styled } from 'styled-components';
 import { useConfirm } from '../../hooks/useConfirm';
 import CheckBox from '../../assets/check_box.png';
 import Delete from '../../assets/delete.png';
+import ThumbnailIcon from '../../assets/image.png';
 import { toast } from 'react-toastify';
-import MyPostsSkeleton from './MyPostsSkeleton';
+import MyPostsSkeleton from './Skeleton.MyPage/MyPostsSkeleton';
 type ReadMyBoard = Database['public']['Tables']['posts']['Row'];
 type ReadMyBoardLikes = Database['public']['Tables']['likes']['Row'];
 const userPostsAtom = atom<ReadMyBoard[]>([]);
@@ -162,9 +162,9 @@ const WhatIWrote = () => {
   return isLoading ? (
     <MyPostsSkeleton />
   ) : Array.isArray(userPosts) && userPosts.length > 0 ? (
-    <WriteContainer>
-      <WriteTitle>작성한 글</WriteTitle>
-      <PostContainer>
+    <P.Container>
+      <P.Title>작성한 글</P.Title>
+      <P.PostsContainer>
         {userPosts.slice(startIndex, endIndex).map((post) => {
           // const likesForPost = userPostLike.filter(
           //   (like) => like.post_id === post.id,
@@ -172,8 +172,8 @@ const WhatIWrote = () => {
 
           return (
             <div key={post.id}>
-              <Post.Box>
-                <Post.Input
+              <P.Box>
+                <P.Input
                   type="checkbox"
                   checked={selectedPosts.includes(post.id?.toString() ?? '')}
                   onChange={() =>
@@ -183,37 +183,42 @@ const WhatIWrote = () => {
                 <StyledPostCategory category={post.category}>
                   {post.category}
                 </StyledPostCategory>
-                <Post.Content>
-                  <Post.Title
+                <P.Content>
+                  <P.PostTitle
                     onClick={() => handlePostClick(post.id?.toString() ?? '')}
                   >
-                    {post.title}
-                    <Post.Date>
+                    <P.TitleAndThumbnail>
+                      {post.title}
+                      {post.thumbnail !== null && (
+                        <img src={ThumbnailIcon} alt="thumbnailIcon" />
+                      )}
+                    </P.TitleAndThumbnail>
+                    <P.Date>
                       {new Date(post.created_at).toLocaleString()}{' '}
-                    </Post.Date>
-                  </Post.Title>
+                    </P.Date>
+                  </P.PostTitle>
 
-                  {/* <div>받은 추천 수: {likesForPost}</div> */}
-                </Post.Content>
-              </Post.Box>
+                  {/*<div>받은 추천 수: {likesForPost}</div>*/}
+                </P.Content>
+              </P.Box>
               <Divider />
             </div>
           );
         })}
-      </PostContainer>
-      <PickButtonBox>
-        <PickButtonAll onClick={handleSelectAll}>
+      </P.PostsContainer>
+      <P.PickButtonBox>
+        <P.PickButtonAll onClick={handleSelectAll}>
           <img src={CheckBox} alt="체크박스" />
           {selectedPosts.length === userPosts.length
             ? '전체 선택 해제'
             : '전체 선택'}
-        </PickButtonAll>
-        <PickButton onClick={handleDeleteSelectedPosts}>
+        </P.PickButtonAll>
+        <P.PickButton onClick={handleDeleteSelectedPosts}>
           <img src={Delete} alt="삭제" />
           선택삭제
-        </PickButton>
-      </PickButtonBox>
-      <WriteP>
+        </P.PickButton>
+      </P.PickButtonBox>
+      <P.WriteP>
         <Pagination
           currentPage={currentPage}
           totalPages={totalPages}
@@ -221,121 +226,16 @@ const WhatIWrote = () => {
           isPreviousDisabled={currentPage === 1}
           isNextDisabled={currentPage >= totalPages}
         />
-      </WriteP>
-    </WriteContainer>
+      </P.WriteP>
+    </P.Container>
   ) : (
-    <NoPostsContainer>
-      <NoPostsMessage>작성한 글이 없어요!</NoPostsMessage>
-      <NoPostsButton onClick={() => navigate('/board')}>
+    <P.NoContainer>
+      <P.NoMessage>작성한 글이 없어요!</P.NoMessage>
+      <P.NoButton onClick={() => navigate('/board')}>
         글 작성하러 가기
-      </NoPostsButton>
-    </NoPostsContainer>
+      </P.NoButton>
+    </P.NoContainer>
   );
 };
 
 export default WhatIWrote;
-export const WriteContainer = styled.div`
-  position: relative;
-  top: -73%;
-  left: 15%;
-`;
-const WriteTitle = styled.div`
-  position: absolute;
-  top: -50px;
-  left: 0px;
-  width: 200px;
-  height: 32px;
-  color: #000;
-  font-size: 24px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: normal;
-  letter-spacing: -0.36px;
-  display: block;
-`;
-export const PostContainer = styled.div`
-  margin-bottom: 28px;
-`;
-
-export const WriteP = styled.div`
-  position: relative;
-  top: 550px;
-  left: 350px;
-`;
-const NoPostsContainer = styled.div`
-  display: grid;
-  align-items: center;
-
-  justify-content: center;
-  margin-left: 250%;
-  margin-top: -20%;
-`;
-const NoPostsButton = styled.button`
-  background-color: #8200ff;
-  border-color: transparent;
-
-  color: #fff;
-  width: 226.5px;
-  height: 48px;
-  border-radius: 30px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 10px;
-  cursor: pointer;
-`;
-const NoPostsMessage = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 10px;
-`;
-const PickButton = styled.button`
-  padding: 8px;
-  display: flex;
-  align-items: center;
-  margin: 2px;
-  border: 1px solid #c88fff;
-  border-radius: 6px;
-  background-color: #8200ff;
-  width: 112px;
-  height: 32px;
-  text-align: center;
-  justify-content: center;
-  cursor: pointer;
-  color: var(--achromatic-colors-white, #fff);
-  font-size: 15px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: normal;
-  letter-spacing: -0.225px;
-`;
-const PickButtonAll = styled.button`
-  padding: 8px;
-  display: flex;
-  border-radius: 6px;
-  border: 1px solid var(--main-mid-2, #c88fff);
-  background: var(--main-light, #fdfbff);
-  border-radius: 6px;
-  align-items: center;
-
-  color: white;
-  width: auto;
-  height: 32px;
-  text-align: center;
-  float: right;
-  cursor: pointer;
-  color: var(--achromatic-colors-darkgray, #4f4f4f);
-  font-size: 15px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: normal;
-  letter-spacing: -0.225px;
-  justify-content: center;
-`;
-const PickButtonBox = styled.div`
-  display: flex;
-  justify-content: space-between;
-  width: calc(100% - 5px);
-  margin-top: 12px;
-`;

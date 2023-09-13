@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import badge from '../../assets/badge (1).png';
+
 import hoverbadge from '../../assets/badge (2).png';
 import hoverdeco from '../../assets/palette (2).png';
 import hoverreview from '../../assets/rate_review (2).png';
 import hoverwrite from '../../assets/edit_note (2).png';
 import hoverfavorite from '../../assets/favorite (2).png';
+import badge from '../../assets/badge (1).png';
 import deco from '../../assets/palette.png';
 import review from '../../assets/rate_review.png';
 import write from '../../assets/edit_note.png';
@@ -14,9 +15,8 @@ import EditProfile from './EditProfile';
 import LikedAnime from './LikedAnime';
 import WhatIWrote from './WhatIWrote';
 import MyReviews from './MyReviews';
-import { InfoMenu } from './MyPage.styles';
+import { InfoMenu } from './Styled.MyPage/MyPage.styles';
 import { logout } from '../../api/auth';
-import { styled } from 'styled-components';
 import { useAtom } from 'jotai';
 import { useNavigate } from 'react-router-dom';
 import * as userStore from '../../store/userStore';
@@ -52,150 +52,89 @@ const MyInfoMenu = () => {
 
   return (
     <>
-      <InfoMenu.FullScreen>
-        <InfoMenu.Container>
-          <Outer>
-            <InfoMenu.EditMenu>
-              <EditButton
-                onClick={() => setSelectedComponent('EditProfile')}
-                style={{
-                  color:
-                    selectedComponent === 'EditProfile' ? '#8200FF' : '#999',
-                }}
-              >
-                {selectedComponent === 'EditProfile' ? (
-                  <EditButtonIcon src={hoverbadge} />
-                ) : (
-                  <EditButtonIcon src={badge} />
-                )}
-                프로필 수정
-              </EditButton>
-            </InfoMenu.EditMenu>
-            <div className="DecoMenu">
-              <InfoMenu.DecoButton
-                onClick={() => setSelectedComponent('DecoProfile')}
-                style={{
-                  color:
-                    selectedComponent === 'DecoProfile' ? '#8200FF' : '#999',
-                }}
-              >
-                {selectedComponent === 'DecoProfile' ? (
-                  <InfoMenu.DecoButtonIcon src={hoverdeco} />
-                ) : (
-                  <InfoMenu.DecoButtonIcon src={deco} />
-                )}
-                프로필 꾸미기
-              </InfoMenu.DecoButton>
-            </div>
-            <div className="LikedMenu">
-              <InfoMenu.LikedButton
-                onClick={() => setSelectedComponent('LikedAnime')}
-                style={{
-                  color:
-                    selectedComponent === 'LikedAnime' ? '#8200FF' : '#999',
-                }}
-              >
-                {selectedComponent === 'LikedAnime' ? (
-                  <InfoMenu.LikedButtonIcon src={hoverfavorite} />
-                ) : (
-                  <InfoMenu.LikedButtonIcon src={favorite} />
-                )}
-                찜한 목록
-              </InfoMenu.LikedButton>
-            </div>
-            <div className="ReviewMenu">
-              <InfoMenu.ReviewButton
-                onClick={() => setSelectedComponent('MyReviews')}
-                style={{
-                  color: selectedComponent === 'MyReviews' ? '#8200FF' : '#999',
-                }}
-              >
-                {selectedComponent === 'MyReviews' ? (
-                  <InfoMenu.ReviewButtonIcon src={hoverreview} />
-                ) : (
-                  <InfoMenu.ReviewButtonIcon src={review} />
-                )}
-                리뷰 관리
-              </InfoMenu.ReviewButton>
-            </div>
-            <div className="WriteMenu">
-              <InfoMenu.WriteButton
-                onClick={() => setSelectedComponent('WhatIWrote')}
-                style={{
-                  color:
-                    selectedComponent === 'WhatIWrote' ? '#8200FF' : '#999',
-                }}
-              >
-                {selectedComponent === 'WhatIWrote' ? (
-                  <InfoMenu.WriteButtonIcon src={hoverwrite} />
-                ) : (
-                  <InfoMenu.WriteButtonIcon src={write} />
-                )}
-                작성한 글
-              </InfoMenu.WriteButton>
-            </div>
-            <InfoMenu.InfoButtonContainer>
-              <InfoMenu.InfoButton onClick={handleLogout}>
-                로그아웃
-              </InfoMenu.InfoButton>
-              <InfoMenu.InfoButton>|</InfoMenu.InfoButton>
-              <InfoMenu.InfoButton>회원탈퇴</InfoMenu.InfoButton>
-            </InfoMenu.InfoButtonContainer>
-          </Outer>
-        </InfoMenu.Container>
+      <InfoMenu.Outer selectedComponent={selectedComponent}>
+        {/* 프로필 수정 */}
+        <InfoMenu.Button
+          onClick={() => setSelectedComponent('EditProfile')}
+          style={{
+            color: selectedComponent === 'EditProfile' ? '#8200FF' : '#999',
+          }}
+        >
+          {selectedComponent === 'EditProfile' ? (
+            <InfoMenu.ButtonIcon src={hoverbadge} />
+          ) : (
+            <InfoMenu.ButtonIcon src={badge} />
+          )}
+          프로필 수정
+        </InfoMenu.Button>
+        {/* 프로필 꾸미기 */}
+        <InfoMenu.Button
+          onClick={() => setSelectedComponent('DecoProfile')}
+          style={{
+            color: selectedComponent === 'DecoProfile' ? '#8200FF' : '#999',
+          }}
+        >
+          {selectedComponent === 'DecoProfile' ? (
+            <InfoMenu.ButtonIcon src={hoverdeco} />
+          ) : (
+            <InfoMenu.ButtonIcon src={deco} />
+          )}
+          프로필 꾸미기
+        </InfoMenu.Button>
+        {/* 찜한 목록 */}
+        <InfoMenu.Button
+          onClick={() => setSelectedComponent('LikedAnime')}
+          style={{
+            color: selectedComponent === 'LikedAnime' ? '#8200FF' : '#999',
+          }}
+        >
+          {selectedComponent === 'LikedAnime' ? (
+            <InfoMenu.ButtonIcon src={hoverfavorite} />
+          ) : (
+            <InfoMenu.ButtonIcon src={favorite} />
+          )}
+          찜한 목록
+        </InfoMenu.Button>
+        {/* 리뷰관리 */}
+        <InfoMenu.Button
+          onClick={() => setSelectedComponent('MyReviews')}
+          style={{
+            color: selectedComponent === 'MyReviews' ? '#8200FF' : '#999',
+          }}
+        >
+          {selectedComponent === 'MyReviews' ? (
+            <InfoMenu.ButtonIcon src={hoverreview} />
+          ) : (
+            <InfoMenu.ButtonIcon src={review} />
+          )}
+          리뷰 관리
+        </InfoMenu.Button>
+        {/* 작성한 글 */}
+        <InfoMenu.Button
+          onClick={() => setSelectedComponent('WhatIWrote')}
+          style={{
+            color: selectedComponent === 'WhatIWrote' ? '#8200FF' : '#999',
+          }}
+        >
+          {selectedComponent === 'WhatIWrote' ? (
+            <InfoMenu.ButtonIcon src={hoverwrite} />
+          ) : (
+            <InfoMenu.ButtonIcon src={write} />
+          )}
+          작성한 글
+        </InfoMenu.Button>
+        {/* 로그아웃, 회원탈퇴 */}
+        <InfoMenu.InfoButtonContainer>
+          <InfoMenu.InfoButton onClick={handleLogout}>
+            로그아웃
+          </InfoMenu.InfoButton>
+          <InfoMenu.InfoButton>|</InfoMenu.InfoButton>
+          <InfoMenu.InfoButton>회원탈퇴</InfoMenu.InfoButton>
+        </InfoMenu.InfoButtonContainer>
+      </InfoMenu.Outer>
 
-        <ProfileEdit>{renderSelectedComponent()}</ProfileEdit>
-      </InfoMenu.FullScreen>
+      <InfoMenu.FullScreen>{renderSelectedComponent()}</InfoMenu.FullScreen>
     </>
   );
 };
 export default MyInfoMenu;
-
-const Outer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-contents: center;
-  margin-left: 30px;
-  margin-top: 18px;
-`;
-const ProfileEdit = styled.div`
-  margin-left: -30px;
-`;
-
-export const EditButton = styled.button`
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  width: 170px;
-  background-color: transparent;
-  border-color: transparent;
-  color: #838383;
-  text-align: center;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-  letter-spacing: -0.24px;
-  margin-bottom: 10px;
-  margin-top: 25px;
-  cursor: pointer;
-`;
-export const EditButtonIcon = styled.img`
-  height: 36px;
-  width: 36px;
-`;
-export const DecoButton = styled.button`
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  width: 170px;
-  background-color: transparent;
-  border-color: transparent;
-  color: #838383;
-  text-align: center;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-  letter-spacing: -0.24px;
-`;

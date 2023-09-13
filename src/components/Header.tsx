@@ -1,4 +1,5 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useRef, useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import { useAtom, useSetAtom } from 'jotai';
 import * as modalStore from '../store/modalStore';
@@ -58,7 +59,8 @@ function Header({}: Props) {
   const [menuSearchClicked, setMenuSearchCliked] = useAtom(
     headerStore.searchMobileClicked,
   );
-  const [activeMenu, setActiveMenu] = useAtom(headerStore.activeMenu);
+  const [activeMenu, setActiveMenu] = useState('/');
+  const location = useLocation();
   const equipedAwardQueryOptions = {
     queryKey: ['equippedAward'],
     queryFn: () => fetchEquippedItem({ user_id: user!.id, category: 1 }),
@@ -102,12 +104,19 @@ function Header({}: Props) {
     }
   };
   const goSearch = (keyword: string) => {
+    if (keyword.length === 0 || !keyword) {
+      return;
+    }
     setAnimeList([]);
     setKeyword(keyword);
     setOffset(0);
     searchAndSetRecentSearch(keyword);
     navigate('/recommend');
   };
+  useEffect(() => {
+    setActiveMenu(location.pathname);
+    console.log(location.pathname);
+  }, [location]);
   const dropdownContents: DropdownContentsType[] = [
     {
       content: '프로필설정',
@@ -115,6 +124,7 @@ function Header({}: Props) {
       func: () => {
         if (user) {
           navigate(`/myPage/${user.id}`);
+          setIsDropdownOnD(false);
         }
       },
     },
@@ -122,6 +132,7 @@ function Header({}: Props) {
       content: '로그아웃',
       img_src: logout,
       func: async () => {
+        setIsDropdownOnD(false);
         await authApi.logout();
         logoutStore();
         navigate(`/`);
@@ -241,6 +252,7 @@ function Header({}: Props) {
             {user ? (
               <StHeaderUserInfoContainer>
                 <ProfileWithBorder
+                  onClick={() => navigate(`/mypage/${user.id}`)}
                   minWidth={36}
                   width={null}
                   $mediawidth={width}
@@ -295,16 +307,6 @@ function Header({}: Props) {
                 >
                   로그인
                 </p>
-                <StblackBar></StblackBar>
-                <p
-                  onClick={() => {
-                    setModalContents('register');
-                    setIsModalOpened(true);
-                  }}
-                  style={{ cursor: 'pointer' }}
-                >
-                  회원가입
-                </p>
               </StHeaderLoginRegister>
             )}
           </StHeaderUserInfoSection>
@@ -345,7 +347,6 @@ function Header({}: Props) {
               onClick={() => setIsDropdownOnB(!isDropdownOnB)}
               ref={dropdownOpenerBRef}
               style={{
-                display: 'flex',
                 flexDirection: 'column',
                 textAlign: 'center',
               }}
@@ -449,8 +450,8 @@ const StHeaderContainer = styled.div`
 const StHeaderContainerSearch = styled.div`
   margin: auto;
   width: 75%;
+  display: none;
   height: 0px;
-  display: flex;
   justify-content: space-between;
   align-items: center;
   transition: 0.2s;
@@ -460,6 +461,7 @@ const StHeaderContainerSearch = styled.div`
     display: none;
   }
   @media (max-width: 768px) {
+    display: flex;
     width: inherit;
     flex-direction: row;
     gap: 8px;
@@ -498,12 +500,12 @@ const StHeaderMobileOption = styled.div`
   background: var(--main-light-3, #f9f3ff);
 `;
 const StHeaderMobileSearchInputContainer = styled.div`
+  width: 100%;
   height: 24px;
   padding: 8px;
   justify-content: space-between;
   align-items: center;
   border: none;
-  flex: 1 0 0;
   border-radius: 10px;
   background: var(--main-light-3, #f9f3ff);
   &:focus {
@@ -511,6 +513,7 @@ const StHeaderMobileSearchInputContainer = styled.div`
   }
 `;
 const StHeaderMobileSearchInput = styled.input`
+  width: calc(100% - 24px);
   border: none;
   background: transparent;
   height: 100%;
@@ -519,7 +522,9 @@ const StHeaderMobileSearchInput = styled.input`
     outline: none;
   }
 `;
-const StHeaderMobileSearchCancel = styled.div``;
+const StHeaderMobileSearchCancel = styled.div`
+  white-space: nowrap;
+`;
 const StHeaderLogoSection = styled.div`
   cursor: pointer;
   @media (max-width: 768px) {
@@ -607,7 +612,6 @@ const StHeaderDropDownImgContainer = styled.div`
 `;
 const StHeaderLoginRegister = styled.div`
   display: flex;
-  width: 126px;
   justify-content: space-between;
   align-items: center;
 `;
