@@ -57,11 +57,7 @@ const WriteBoard = () => {
 
   // Post 추가
   const queryClient = useQueryClient();
-  const createMutation = useMutation(createPost, {
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['posts'] });
-    },
-  });
+  const createMutation = useMutation(createPost);
 
   const onSubmitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -124,7 +120,9 @@ const WriteBoard = () => {
           queryClient.invalidateQueries(['posts']);
           queryClient.invalidateQueries(['userPosts']);
           updatePoint({ userId: user.id, point: 3 });
-          toast.success('글작성 성공! 💰3포인트 적립');
+          toast.success('글작성 성공! 💰3포인트 적립', {
+            autoClose: 800,
+          });
           // // 글 작성 후 게시판 페이지로 이동
           navigate(`/board/${newPost.id}`);
         },
