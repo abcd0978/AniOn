@@ -2,11 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 import * as sidebarStore from '../store/sidebarStore';
 import * as headerStore from '../store/headerStore';
-import { useAtomValue, useAtom } from 'jotai';
+import { useAtom } from 'jotai';
 import { useNavigate } from 'react-router-dom';
-type Props = {};
 
-const SideBar = (props: Props) => {
+const SideBar = () => {
   const [sidebarOpened, setSidebarOpened] = useAtom(sidebarStore.sideBarOpened);
   const [activeMenu, setActiveMenu] = useAtom(headerStore.activeMenu);
   const navigate = useNavigate();
@@ -21,9 +20,9 @@ const SideBar = (props: Props) => {
           setSidebarOpened(false);
           document.body.style.overflow = 'unset';
         }}
-        IsActive={activeMenu === '/' ? true : false}
+        $IsActive={activeMenu === '/' ? true : false}
       >
-        <Typo>둘러보기</Typo>{' '}
+        <Typo>둘러보기</Typo>
       </StHamburgerMenu>
       <StHamburgerMenu
         onClick={() => {
@@ -32,9 +31,9 @@ const SideBar = (props: Props) => {
           setSidebarOpened(false);
           document.body.style.overflow = 'unset';
         }}
-        IsActive={activeMenu === '/recommend' ? true : false}
+        $IsActive={activeMenu.includes('/recommend') ? true : false}
       >
-        <Typo>애니추천</Typo>
+        <Typo>애니찾기</Typo>
       </StHamburgerMenu>
       <StHamburgerMenu
         onClick={() => {
@@ -43,7 +42,7 @@ const SideBar = (props: Props) => {
           setSidebarOpened(false);
           document.body.style.overflow = 'unset';
         }}
-        IsActive={activeMenu === '/board' ? true : false}
+        $IsActive={activeMenu.includes('/board') ? true : false}
       >
         <Typo>게시판</Typo>
       </StHamburgerMenu>
@@ -54,7 +53,7 @@ const SideBar = (props: Props) => {
           setSidebarOpened(false);
           document.body.style.overflow = 'unset';
         }}
-        IsActive={activeMenu.includes('/shop') ? true : false}
+        $IsActive={activeMenu.includes('/shop') ? true : false}
       >
         <Typo>상점</Typo>
       </StHamburgerMenu>
@@ -65,7 +64,7 @@ const SideBar = (props: Props) => {
           setSidebarOpened(false);
           document.body.style.overflow = 'unset';
         }}
-        IsActive={activeMenu === '/worldcup' ? true : false}
+        $IsActive={activeMenu.includes('/worldcup') ? true : false}
       >
         <Typo>이상형월드컵</Typo>
       </StHamburgerMenu>
@@ -80,7 +79,7 @@ const Typo = styled.p`
   line-height: normal;
   letter-spacing: -0.24px;
 `;
-const StHamburgerMenu = styled.div<{ IsActive?: boolean }>`
+const StHamburgerMenu = styled.div<{ $IsActive?: boolean }>`
   display: flex;
   padding: 8px 60px;
   flex-direction: column;
@@ -89,7 +88,7 @@ const StHamburgerMenu = styled.div<{ IsActive?: boolean }>`
   align-self: stretch;
   text-align: center;
   ${(props) => {
-    return props.IsActive
+    return props.$IsActive
       ? 'color: var(--main-default, #8200ff);'
       : 'color: var(--achromatic-colors-darkgray, #4F4F4F);';
   }}

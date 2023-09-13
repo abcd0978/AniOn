@@ -2,7 +2,6 @@ import styled from 'styled-components';
 
 export const S = {
   Container: styled.div`
-    width: 100%;
     border-radius: 20px;
     box-shadow: 0px 0px 20px 0px #0000001a;
     gap: 20px;
@@ -16,13 +15,9 @@ export const S = {
     }
   `,
   Inner: styled.div`
-    // width: 100%;
     display: block;
     align-items: center;
     justify-content: center;
-    @media (max-width: 768px) {
-      width: 317px;
-    }
   `,
   Top: styled.div`
     width: 100%;
@@ -57,7 +52,6 @@ export const S = {
 
   Category: styled.div`
     font-size: 16px;
-    width: 800px;
     margin-left: 17px;
     color: gray;
   `,
@@ -107,8 +101,6 @@ export const S = {
   `,
 
   Content: styled.div<{ width: number }>`
-    // word-wrap: break-word;
-    // font-size: 16px;
     line-height: 1.6;
     width: 100%;
     @media (max-width: 768px) {
@@ -323,6 +315,7 @@ export const S = {
   Post: styled.div`
     display: flex;
     justify-content: space-between;
+    width: 100%;
   `,
 
   Search: styled.div`
@@ -337,13 +330,11 @@ export const S = {
     background-color: #8200ff;
     border: none;
     border-radius: 10px;
-    width: 120px;
     height: 40px;
     padding: 8px;
     font-size: 15px;
     color: white;
     cursor: pointer;
-    margin-right: -70px;
   `,
 
   CateButton: styled.button`
@@ -374,9 +365,6 @@ export const S = {
     border: 1px solid #d9d9d9;
     width: 100%;
     margin-top: 20px;
-    @media (max-width: 768px) {
-      width: 317px;
-    }
   `,
 
   Award: styled.div`

@@ -108,16 +108,6 @@ const WriteBoard = () => {
         });
         return;
       }
-      // 날짜
-      const currentTime = new Date();
-
-      const year = currentTime.getFullYear();
-      const month = String(currentTime.getMonth() + 1).padStart(2, '0');
-      const day = String(currentTime.getDate()).padStart(2, '0');
-      const hours = String(currentTime.getHours()).padStart(2, '0');
-      const minutes = String(currentTime.getMinutes()).padStart(2, '0');
-
-      const formattedDateTime = `${year}-${month}-${day} ${hours}:${minutes}`;
 
       const newPost: InsertPosts = {
         id: uuidv4(),
@@ -125,7 +115,6 @@ const WriteBoard = () => {
         category: category as string,
         title,
         content,
-        created_at: formattedDateTime,
         thumbnail: getImg(content),
       };
 
@@ -133,6 +122,7 @@ const WriteBoard = () => {
       createMutation.mutate(newPost, {
         onSuccess: () => {
           queryClient.invalidateQueries(['posts']);
+          queryClient.invalidateQueries(['userPosts']);
           updatePoint({ userId: user.id, point: 3 });
           toast.success('글작성 성공! 💰3포인트 적립');
           // // 글 작성 후 게시판 페이지로 이동

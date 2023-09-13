@@ -1,13 +1,13 @@
 import styled from 'styled-components';
 // import Banner from '../components/Banner';
 import React from 'react';
-import { ReactNode, CSSProperties } from 'react';
+// import { ReactNode, CSSProperties } from 'react';
 import useViewport from '../hooks/useViewPort';
 import goTest from '../assets/goTest.svg';
 
-const imgStyle: CSSProperties = {
-  zIndex: -1,
-};
+// const imgStyle: CSSProperties = {
+//   zIndex: -1,
+// };
 
 type Props = {
   image: string;
@@ -31,10 +31,7 @@ const BannerSlide = (props: Props) => {
               <StAnionTypo mediaWidth={width <= 1200 ? 1200 : width}>
                 {props.name}
               </StAnionTypo>
-              <StText mediaWidth={width <= 1200 ? 1200 : width}>
-                {' '}
-                의 추천
-              </StText>
+              <StText mediaWidth={width <= 1200 ? 1200 : width}>의 추천</StText>
             </StAnionAndRecommend>
             <StAniTitle mediaWidth={width <= 1200 ? 1200 : width}>
               {props.title}
@@ -118,13 +115,13 @@ const StSlideInfos = styled.div<{ mediaWidth?: number }>`
 `;
 const StSlideButton = styled.button<{ mediaWidth?: number }>`
   display: flex;
-  padding:${(props) => {
+  padding: ${(props) => {
     return `${12 * (props.mediaWidth! / 1920)}px  ${
       12 * (props.mediaWidth! / 1920)
     }px ${12 * (props.mediaWidth! / 1920)}px ${
       24 * (props.mediaWidth! / 1920)
     }px;`;
-  }}
+  }};
   justify-content: center;
   align-items: center;
   gap: ${(props) => `${4 * (props.mediaWidth! / 1920)}px`};
@@ -153,7 +150,7 @@ const StAniTitle = styled.div<{ mediaWidth?: number }>`
   color: #fff;
   /* 대타이틀/1 */
   font-family: 'Cafe24Ssurround';
-  font-size: ${(props) => `${(44 * props.mediaWidth!) / 1920}px;`}
+  font-size: ${(props) => `${(44 * props.mediaWidth!) / 1920}px;`};
   font-style: normal;
   font-weight: 700;
   line-height: normal;
@@ -161,7 +158,7 @@ const StAniTitle = styled.div<{ mediaWidth?: number }>`
 const StAnionTypo = styled.p<{ mediaWidth?: number }>`
   color: var(--achromatic-colors-white, #fff);
   font-family: 'Pretendard-Regular';
-  font-size: ${(props) => `${(20 * props.mediaWidth!) / 1920}px;`}
+  font-size: ${(props) => `${(20 * props.mediaWidth!) / 1920}px;`};
   font-style: normal;
   font-weight: 700;
   line-height: normal;

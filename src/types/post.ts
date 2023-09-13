@@ -30,6 +30,22 @@ export type PostType = {
   };
 };
 
+export type UserPostType = {
+  count: number;
+  data?: {
+    category: string;
+    content: string;
+    created_at: string;
+    deleted_at: string;
+    id: string;
+    thumbnail: string | null;
+    title: string;
+    updated_at: string;
+    user_id: string;
+  }[];
+  totalPages: number;
+};
+
 export type InsertPost = Database['public']['Tables']['posts']['Insert'];
 export type ReadPosts = Database['public']['Tables']['posts']['Row'];
 export type UpdatePost = Database['public']['Tables']['posts']['Update'];
