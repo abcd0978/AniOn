@@ -171,7 +171,7 @@ export const InfoMenu = {
     border-color: transparent;
     color: #838383;
     text-align: center;
-    font-size: 16px;
+    font-size: 20px;
     font-style: normal;
     font-weight: 400;
     line-height: normal;

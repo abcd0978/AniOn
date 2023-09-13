@@ -20,11 +20,10 @@ const MyProfile = () => {
         <ProfileWithBorder $mediawidth={width} width={160} key={user?.id!} />
       )}
 
-      <Profile.MobileInfo>
-        <Profile.MyNickname>{user?.nickname}</Profile.MyNickname>
-        <MyProfileAward />
-        <MyPoint />
-      </Profile.MobileInfo>
+      <Profile.MyNickname>{user?.nickname}</Profile.MyNickname>
+      <MyProfileAward />
+      <MyPoint />
+      <Profile.MobileInfo />
     </Profile.MyProfileContainer>
   );
 };
