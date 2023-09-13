@@ -252,6 +252,7 @@ function Header({}: Props) {
             {user ? (
               <StHeaderUserInfoContainer>
                 <ProfileWithBorder
+                  onClick={() => navigate(`/mypage/${user.id}`)}
                   minWidth={36}
                   width={null}
                   $mediawidth={width}
