@@ -1,4 +1,4 @@
-import { MyAward } from './MyPage.styles';
+import { MyAward } from './Styled.MyPage/MyPage.styles';
 import * as userStore from '../../store/userStore';
 import { useAtomValue } from 'jotai';
 import { fetchEquippedItem } from '../../api/items';
@@ -18,11 +18,7 @@ const MyProfileAward = () => {
   return (
     <MyAward.MyProfileAward>
       {award ? (
-        <img
-          src={award.items.img_url}
-          alt={award.items.name}
-          style={{ width: '215px', height: '40px' }}
-        />
+        <MyAward.AwardImg src={award.items.img_url} alt={award.items.name} />
       ) : (
         <MyAward.NoAward>칭호없음</MyAward.NoAward>
       )}

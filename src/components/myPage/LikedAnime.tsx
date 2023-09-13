@@ -10,7 +10,7 @@ import { styled } from 'styled-components';
 import viewDetail from '../../assets/viewdetail.svg';
 import useViewport from '../../hooks/useViewPort';
 import LikeSvg from '../anime-recommend/LikeSvg';
-import LikedSkeleton from './LikedSkeleton';
+import LikedSkeleton from './Skeleton.MyPage/LikedSkeleton';
 import goShop from '../../assets/goShop.png';
 import { PaginationTwo } from '../PagenationTwo';
 
@@ -66,7 +66,6 @@ const LikedAnime = () => {
 
         try {
           const animeDataList = await Promise.all(animePromises);
-          console.log('animeDataList', animeDataList);
 
           const newAnimeTitles: Record<string, AnimeG> = {};
           for (let i = 0; i < liked.length; i++) {
@@ -97,8 +96,6 @@ const LikedAnime = () => {
   const itemsPerPage = 9;
 
   const filteredLiked = liked?.filter((liked) => liked.length !== 0);
-  console.log('filetedLiked', filteredLiked);
-  console.log('liked', liked);
 
   const totalPages = Math.ceil(filteredLiked.length / itemsPerPage);
 
@@ -116,10 +113,10 @@ const LikedAnime = () => {
   };
   const likedList =
     Array.isArray(filteredLiked) && filteredLiked.length > 0 ? (
-      <GridContainer>
+      <L.GridContainer>
         {displayedAnime.map((filteredLiked, index) => (
           <div key={index}>
-            <Liked.Container
+            <L.Container
               onClick={() => navigate(`/recommend/${filteredLiked.anime_id}`)}
             >
               <PosterImage
@@ -134,11 +131,11 @@ const LikedAnime = () => {
                     : undefined
                 }
               />
-              <AnimeTitle>
+              <L.AnimeTitle>
                 {animeTitles[filteredLiked.anime_id] &&
                   animeTitles[filteredLiked.anime_id].name}
-              </AnimeTitle>
-              <HoverContent>
+              </L.AnimeTitle>
+              <L.HoverContent>
                 <HoverViewDetail>
                   <p>자세히 보기</p>
                   <img
@@ -161,45 +158,45 @@ const LikedAnime = () => {
                         </HoveredAnimeGenreTag>
                       ))}
                 </HoveredAnimeGenre>
-                <LikedAnimeGenre>
+                <L.LikedAnimeGenre>
                   {animeTitles[filteredLiked.anime_id] &&
                     animeTitles[filteredLiked.anime_id]?.genres
                       ?.slice(0, 2)
                       .map((genre, index) => (
-                        <GenreTag key={index}>#{genre}</GenreTag>
+                        <L.GenreTag key={index}>#{genre}</L.GenreTag>
                       ))}
-                </LikedAnimeGenre>
-              </HoverContent>
-            </Liked.Container>
+                </L.LikedAnimeGenre>
+              </L.HoverContent>
+            </L.Container>
           </div>
         ))}
-      </GridContainer>
+      </L.GridContainer>
     ) : (
-      <GoAnimeContainer>
-        <GoAnimeMessage>좋아요를 누른 애니메이션이 없어요!</GoAnimeMessage>
-        <GoAnimeRecommend
+      <L.NoContainer>
+        <L.NoMessage>좋아요를 누른 애니메이션이 없어요!</L.NoMessage>
+        <L.GoRecommend
           onClick={() => {
             navigate('/recommend');
           }}
         >
           애니메이션 추천받으러 가기
           <img src={goShop} alt="고샾" />
-        </GoAnimeRecommend>
-      </GoAnimeContainer>
+        </L.GoRecommend>
+      </L.NoContainer>
     );
   return (
-    <LikedContainer>
+    <L.LikedContainer>
       {user && topTags.length > 0 && (
-        <TopTags>
-          {user?.nickname}님은 <Tags>#{topTags.join('#')}</Tags>을 좋아해요!
-        </TopTags>
+        <L.TopTags>
+          {user?.nickname}님은 <L.Tags>#{topTags.join('#')}</L.Tags>을 좋아해요!
+        </L.TopTags>
       )}
-      <LikedTitle>찜한 목록</LikedTitle>
+      <L.Title>찜한 목록</L.Title>
 
-      <FullPage>
-        <LikedList>{likedList}</LikedList>
+      <L.FullPage>
+        <L.List>{likedList}</L.List>
         {Array.isArray(displayedAnime) && displayedAnime.length >= 0 && (
-          <Page>
+          <L.Page>
             <PaginationTwo
               currentPage={currentPage}
               totalPages={totalPages}
@@ -207,89 +204,15 @@ const LikedAnime = () => {
               isPreviousDisabled={currentPage === 1}
               isNextDisabled={currentPage >= totalPages}
             />
-          </Page>
+          </L.Page>
         )}
-      </FullPage>
-    </LikedContainer>
+      </L.FullPage>
+    </L.LikedContainer>
   );
 };
 export default LikedAnime;
-const LikedContainer = styled.div`
-  margin-top: 10px;
-`;
 
-const Page = styled.div`
-  position: absolute;
-  margin-right: -680px;
-  margin-top: -330px;
-`;
-const TopTags = styled.div`
-  border-radius: 999px;
-  position: absolute;
-  background: var(--main-light-2, #f3e7ff);
-  width: auto;
-  display: flex;
-  height: 32px;
-  padding: 8px 20px;
-  justify-content: space-between;
-  align-items: center;
-  gap: 8px;
-  margin-top: -360px;
-  margin-left: 130px;
-`;
-const FullPage = styled.div`
-  position: absolute;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: flex-end;
-  margin-left: 150px;
-`;
-const Tags = styled.div`
-  font-weight: 600;
-`;
-const LikedList = styled.div`
-  margin-top: -280px;
-  position: absolute;
-  left: 10px;
-`;
-const LikedTitle = styled.div`
-  position: relative;
-  margin-left: 150px;
-  top: -300px;
-  width: 200px;
-  height: 32px;
-  color: #000;
-  font-size: 24px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: normal;
-  letter-spacing: -0.36px;
-`;
-const GridContainer = styled.div`
-  display: grid;
-  gap: 0px 20px;
-  grid-template-columns: repeat(3, 1fr);
-`;
-const AnimeTitle = styled.div`
-  width: 220px;
-  height: 19px;
-  font-weight: 600;
-  font-size: 16px;
-  line-height: 19px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  margin: 10px;
-`;
-const HoverContent = styled.div`
-  align-items: center;
-  justify-content: center;
-  display: grid;
-  margin-left: 110px;
-`;
-const HoverViewDetail = styled.div`
+export const HoverViewDetail = styled.div`
   visibility: hidden;
   display: flex;
   margin-top: -250px;
@@ -301,59 +224,41 @@ const HoverViewDetail = styled.div`
   border: none;
   background-color: #8200ff;
   color: white;
+
   cursor: pointer;
+  @media (max-width: 768px) {
+    visibility: hidden;
+    display: flex;
+    align-items: center;
+    position: absolute;
+    border-radius: 999px;
+    border: none;
+    background-color: #8200ff;
+    color: white;
+    width: 100px;
+    height: 20px;
+    padding: 6px 8px;
+    top: 300px;
+    justify-content: flex-start;
+    left: 30px;
+  }
   p {
     margin-left: 12px;
+    @media (max-width: 768px) {
+      font-size: 12px;
+    }
   }
 `;
-const LikedAnimeGenre = styled.div`
-  height: 16px;
-  display: flex;
-  justify-content: flex-start;
-  margin-left: -110px;
-  margin-bottom: 24px;
-  margin-top: -12px;
-  padding: 5px;
-  gap: 4px;
-`;
-const GenreTag = styled.div`
-  justify-content: center;
-  align-items: center;
-  padding: 4px 12px;
-  height: 16px;
-  background: #efefef;
-  border-radius: 999px;
-`;
-const HoveredAnimeGenre = styled.div`
-  visibility: hidden;
-  display: flex;
-  align-items: flex-start;
-  margin-left: -110px;
-  padding: 5px;
-  position: absolute;
-  top: 0;
-  left: 50;
-`;
-const HoveredAnimeGenreTag = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 150px;
-  height: 16px;
-  background: #f3e7ff;
-  padding: 7px;
-  border-radius: 3px;
-  width: 80px;
-  height: auto;
-  border-radius: 50px;
-  text-align: center;
-`;
-const PosterImage = styled.img`
+export const PosterImage = styled.img`
   width: 280px;
   height: 175px;
   border-radius: 10px;
+  @media (max-width: 768px) {
+    width: 160px;
+    height: 100px;
+  }
 `;
-const LikedInfoTitle = styled.div`
+export const LikedInfoTitle = styled.div`
   visibility: hidden;
   width: 100%;
   color: white;
@@ -361,20 +266,205 @@ const LikedInfoTitle = styled.div`
   font-weight: 700;
   font-size: 24px;
   line-height: 34px;
-  white-space: normal;
   position: absolute;
-  top: 50%;
-  left: 50%;
+  margin-left: 20px;
+  margin-top: -140px;
+  white-space: normal;
   overflow: hidden;
   text-overflow: ellipsis;
+  max-width: calc(40% - (50px + (70px / 2)));
   white-space: nowrap;
   transform: translate(-45%, -90%);
   overflow: hidden;
 `;
+export const HoveredAnimeGenreTag = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: auto;
+  height: 16px;
+  background: #f3e7ff;
+  padding: 7px 14px;
+  border-radius: 3px;
+  position: absolute;
+  margin-top: -220px;
+  margin-left: -100px;
+  border-radius: 50px;
+  text-align: center;
+`;
+export const HoveredAnimeGenre = styled.div`
+  visibility: hidden;
+  display: flex;
+  align-items: flex-start;
+  padding: 5px;
+`;
 
-const Liked = {
-  Container: styled.div`
+const L = {
+  LikedContainer: styled.div`
+    margin-top: -700px;
+    margin-left: 450px;
+    @media (max-width: 768px) {
+      display: flex;
+      flex-direction: column;
+      justify-contents: center;
+      margin-left: 10px;
+      margin-top: -10px;
+    }
+  `,
+  GridContainer: styled.div`
+    display: grid;
+    gap: 0px 20px;
+    grid-template-columns: repeat(3, 1fr);
+    @media (max-width: 768px) {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0px;
+      margin-left: 10%;
+    }
+  `,
+  Title: styled.div`
+    width: 200px;
+    height: 32px;
+    color: #000;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    letter-spacing: -0.36px;
+    @media (max-width: 768px) {
+      font-size: 16px;
+    }
+  `,
+  TopTags: styled.div`
+    border-radius: 999px;
+    position: absolute;
+    background: var(--main-light-2, #f3e7ff);
+    width: auto;
+    display: flex;
+    height: 32px;
+    padding: 8px 20px;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    margin-top: -60px;
+    @media (max-width: 768px) {
+      font-size: 12px;
+      height: auto;
+      margin-top: -30px;
+      margin-left: -10px;
+    }
+  `,
+
+  NoContainer: styled.div`
+    display: grid;
+    align-items: center;
+    transform: translate(300px, 300px);
+
+    justify-content: center;
+    @media (max-width: 768px) {
+      align-items: center;
+      transform: translate(-30px, 80px);
+    }
+  `,
+  GoRecommend: styled.button`
+    background-color: #8200ff;
+    color: #fff;
+    width: 226.5px;
+    height: 48px;
+    border-radius: 30px;
+    border-color: transparent;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+    cursor: pointer;
+  `,
+  NoMessage: styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+  `,
+
+  Page: styled.div`
+    position: absolute;
+    justify-content: center;
+    display: block;
+    top: -45px;
+    right: 250px;
+    @media (max-width: 768px) {
+      position: absolute;
+      justify-content: center;
+      display: block;
+      top: -35px;
+      right: 120px;
+    }
+  `,
+
+  FullPage: styled.div`
     position: relative;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-end;
+    @media (max-width: 768px) {
+    }
+  `,
+  Tags: styled.div`
+    font-weight: 600;
+  `,
+  List: styled.div``,
+
+  AnimeTitle: styled.div`
+    width: 220px;
+    height: 19px;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 19px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin: 10px;
+    @media (max-width: 768px){
+      font-size:14px ;
+      width:160px ; 
+    text-overflow: ellipsis;
+      
+      white-space :nowrap ;
+      }
+    }
+  `,
+  HoverContent: styled.div`
+    align-items: center;
+    justify-content: center;
+    display: grid;
+    margin-left: 110px;
+  `,
+
+  LikedAnimeGenre: styled.div`
+    height: 16px;
+    display: flex;
+    justify-content: flex-start;
+    margin-left: -110px;
+    margin-bottom: 24px;
+    margin-top: -12px;
+    padding: 5px;
+    gap: 4px;
+    @media (max-width: 768px) {
+      font-size: 12px;
+    }
+  `,
+  GenreTag: styled.div`
+    justify-content: center;
+    align-items: center;
+    padding: 4px 12px;
+    height: 16px;
+    background: #efefef;
+    border-radius: 999px;
+  `,
+
+  Container: styled.div`
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -385,6 +475,7 @@ const Liked = {
     height: 100%;
 
     cursor: pointer;
+
     &:hover ${HoverViewDetail} {
       visibility: visible;
       opacity: 1;
@@ -431,31 +522,3 @@ const Liked = {
     }
   `,
 };
-const GoAnimeRecommend = styled.button`
-  background-color: #8200ff;
-  color: #fff;
-  width: 226.5px;
-  height: 48px;
-  border-radius: 30px;
-  border-color: transparent;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 10px;
-  cursor: pointer;
-`;
-const GoAnimeMessage = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 10px;
-`;
-const GoAnimeContainer = styled.div`
-  display: grid;
-  align-items: center;
-
-  justify-content: center;
-  margin-left: 190%;
-  margin-top: 85%;
-`;
