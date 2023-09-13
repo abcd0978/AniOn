@@ -30,6 +30,7 @@ export const Profile = {
     @media (max-width: 768px) {
       display: flex;
       flex-direction: column;
+      justify-contents: center;
       align-items: center;
       border-radius: 20px;
       box-shadow: 0px 0px 25px 0px rgba(0, 0, 0, 0.1);
@@ -56,8 +57,6 @@ export const Profile = {
     background-size: cover;
     background-position: center;
     @media (max-width: 768px) {
-      order: -1;
-
       width: 60px;
       height: 60px;
     }
@@ -70,7 +69,6 @@ export const Profile = {
     background-size: cover;
     background-position: center;
     @media (max-width: 768px) {
-      order: -1;
       width: 60px;
       height: 60px;
     }
@@ -110,6 +108,17 @@ export const Profile = {
     }
   `,
   MobileInfo: styled.div`
+    @media (max-width: 768px) {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      margin-left: -20px;
+    }
+  `,
+  MyMobilePhoto: styled.div`
+    margin-left: 11%;
+  `,
+  MyMobileInfo: styled.div`
     @media (max-width: 768px) {
       display: flex;
       flex-direction: column;
