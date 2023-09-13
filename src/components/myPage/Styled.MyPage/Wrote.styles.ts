@@ -198,7 +198,7 @@ export const R = {
     transform: translate(900px, -500px);
 
     @media (max-width: 768px) {
-      transform: translate(-625px, 100px);
+      transform: translate(-10px, 100px);
     }
   `,
   NoMessage: styled.div`

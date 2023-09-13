@@ -350,6 +350,7 @@ const L = {
       font-size: 12px;
       height: auto;
       margin-top: -30px;
+      margin-left: -10px;
     }
   `,
 
@@ -427,9 +428,10 @@ const L = {
     margin: 10px;
     @media (max-width: 768px){
       font-size:14px ;
-      width:100 % ; 
+      width:160px ; 
+    text-overflow: ellipsis;
       
-      white-space :normal ;
+      white-space :nowrap ;
       }
     }
   `,
