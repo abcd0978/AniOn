@@ -1,8 +1,6 @@
 import styled from 'styled-components';
 
 export const Outer = styled.div`
-  // width: 1360px;
-  // display: flex;
   align-items: center;
   justify-content: center;
   margin-bottom: 80px;
@@ -17,16 +15,13 @@ export const CommentContainer = styled.div`
 `;
 
 export const CommentTop = styled.div`
-  width: 1430px;
+  width: 100%;
   height: auto;
   border: 1px solid #c88fff;
   background-color: #f9f3ff;
   border-radius: 10px;
   align-items: center;
   flex-direction: row;
-  @media (max-width: 768px) {
-    width: 100%;
-  }
 `;
 
 export const CommentTitle = styled.div`
@@ -46,7 +41,7 @@ export const WriteInput = styled.textarea`
   margin-top: 10px;
   border-radius: 10px;
   background-color: #f9f3ff;
-  width: 95%;
+  width: 87%;
   height: 48px;
   padding: 20px;
   border: none;
@@ -55,9 +50,6 @@ export const WriteInput = styled.textarea`
   resize: none;
   line-height: 1.6;
   font-size: 16px;
-  @media (max-width: 768px) {
-    width: 87%;
-  }
 `;
 
 export const WriteButton = styled.button`
@@ -72,11 +64,19 @@ export const WriteButton = styled.button`
   margin-bottom: 10px;
   margin-right: 10px;
   float: right;
+
+  @media (max-width: 768px) {
+    width: 60px;
+    height: 28px;
+    border-radius: 6px;
+    font-size: 12px;
+  }
 `;
 
 export const ButtonBox = styled.div`
   display: flex;
   position: absolute;
+  justify-content: space-between;
   bottom: 0;
   right: 0;
   margin: 5px;
@@ -87,7 +87,7 @@ export const button = styled.button`
   color: black;
   border: 1px solid #c88fff;
   border-radius: 6px;
-  width: 64px;
+  width: 70px;
   height: 28px;
   padding: 0px 8px;
   gap: 2px;
@@ -98,6 +98,13 @@ export const button = styled.button`
     background-color: #ffebf7;
     border: 1px solid #ff96db;
   }
+
+  @media (max-width: 768px) {
+    width: 60px;
+    height: 22px;
+    border-radius: 4px;
+    font-size: 12px;
+  }
 `;
 
 export const Comment = styled.div`
@@ -107,37 +114,35 @@ export const Comment = styled.div`
   border-bottom: 2px solid #d9d9d9;
   margin-top: 28px;
   background-color: #ffffff;
-  width: 1430px;
-  min-height: 218px;
-  @media (max-width: 768px) {
-    width: 100%;
-  }
+  width: 100%;
+  min-height: 190px;
 `;
 
 export const CommentDate = styled.div`
   color: #6e6c69;
   font-size: 12px;
-  margin-bottom: 33px;
   float: right;
   margin-right: 15px;
+  display: flex;
+  align-items: flex-end;
 `;
 export const MobieDate = styled.div`
   color: #999999;
   font-size: 12px;
   margin-top: 5px;
+  @media (max-width: 768px) {
+    margin-left: 5px;
+  }
 `;
 export const EditInput = styled.textarea`
   display: flex;
   border: 1px solid #566270;
-  width: 1277px;
+  width: 80%;
   height: 25px;
   padding: 20px;
-  margin: 10px 0px 0px 60px;
+  margin: 5px 0px 50px 80px;
   resize: none;
-  margin-top: 5px;
   border-radius: 20px;
-  margin-left: 80px;
-  margin-bottom: 50px;
   border: 1px solid #d9d9d9;
   outline: none;
   resize: none;
@@ -148,7 +153,12 @@ export const EditInput = styled.textarea`
   }
 `;
 
-export const profile = styled.div`
+export const CommentInfo = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+`;
+export const Profile = styled.div`
   display: flex;
   margin-top: 12px;
 `;
@@ -194,17 +204,21 @@ export const AwardNo = styled.div`
   font-size: 14px;
   margin-top: 20px;
   border: 1px solid #dbdbdb;
+  @media (max-width: 768px) {
+    width: 120px;
+    height: 22.32px;
+    margin-top: 25px;
+  }
 `;
+
 export const CommentBox = styled.div`
-  width: 1308px;
+  width: 80%;
   min-height: 30px;
   line-height: 1.6;
-  /* margin-bottom: 45px; */
   margin-left: 80px;
   word-wrap: break-word;
   white-space: pre-wrap;
   @media (max-width: 768px) {
-    width: 80%;
     margin-left: 32px;
   }
 `;
@@ -226,4 +240,19 @@ export const CommentMore = styled.button`
   margin-top: 12px;
   margin-bottom: 5px;
   display: block;
+
+  @media (max-width: 768px) {
+    width: 97px;
+    height: 28px;
+    margin-bottom: 20px;
+  }
+`;
+
+export const ReplyButton = styled.div`
+  display: flex;
+  position: absolute;
+  justify-content: space-between;
+  bottom: 0;
+  left: 0;
+  margin: 5px;
 `;

@@ -1,102 +1,40 @@
-import React, { useEffect, useState } from 'react';
-import { atom, useAtom, useAtomValue } from 'jotai';
-import { Database } from '../../types/supabase';
+import React, { useState } from 'react';
+import { useAtomValue } from 'jotai';
 import * as userStore from '../../store/userStore';
 import { useNavigate } from 'react-router-dom';
-import supabase from '../../supabaseClient';
-import { deletePost } from '../../api/boardapi';
-import { Post } from './Wrote.styles';
-import { Divider } from './EditProfile';
+import { P } from './Styled.MyPage/Wrote.styles';
+import { Divider } from './Styled.MyPage/MyPage.styles';
 import Pagination from '../Pagenation';
-import { useQuery } from '@tanstack/react-query';
-import { getPosts } from '../../api/boardapi';
-import { StyledPostCategory } from './Wrote.styles';
-import useViewport from '../../hooks/useViewPort';
-import { styled } from 'styled-components';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { fetchUserPosts, deletePost } from '../../api/boardapi';
+import { StyledPostCategory } from './Styled.MyPage/Wrote.styles';
 import { useConfirm } from '../../hooks/useConfirm';
 import CheckBox from '../../assets/check_box.png';
 import Delete from '../../assets/delete.png';
+import ThumbnailIcon from '../../assets/image.png';
 import { toast } from 'react-toastify';
-import MyPostsSkeleton from './MyPostsSkeleton';
-type ReadMyBoard = Database['public']['Tables']['posts']['Row'];
-type ReadMyBoardLikes = Database['public']['Tables']['likes']['Row'];
-const userPostsAtom = atom<ReadMyBoard[]>([]);
-const userPostLikeAtom = atom<ReadMyBoardLikes[]>([]);
+import MyPostsSkeleton from './Skeleton.MyPage/MyPostsSkeleton';
+import { UserPostType, ReadPosts } from '../../types/post';
 
 const WhatIWrote = () => {
-  const [userPosts, setUserPosts] = useAtom(userPostsAtom);
-  const [userPostLike, setUserPostLike] = useAtom(userPostLikeAtom);
   const { openConfirm } = useConfirm();
   const navigate = useNavigate();
   const user = useAtomValue(userStore.user);
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const [searchKeyword, setSearchKeyword] = useState<string>('');
+  const queryClient = useQueryClient();
   const [selectedPosts, setSelectedPosts] = useState<string[]>([]);
-  const [page, setPage] = useState<number>(1);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [page, setPage] = useState(1);
 
-  const { data: postsAndTotalPages, isLoading } = useQuery(
-    ['posts', selectedCategory, searchKeyword, page],
-    () => getPosts(selectedCategory || '', page),
-    {
-      onError: (error) => {
-        console.error('Error fetching posts:', error);
-      },
-    },
-  );
-
-  const fetchUserPosts = async () => {
-    try {
-      if (!user) {
-        return;
-      }
-      const { data, error } = await supabase
-        .from('posts')
-        .select('*')
-        .eq('user_id', user.id)
-        .order('created_at', { ascending: false });
-
-      if (error) {
-        console.error('fetchUserPosts에서 에러', error);
-      } else {
-        setUserPosts(data);
-      }
-    } catch (error) {
-      console.error('fetchUserPosts 에러', error);
-    }
+  const userPostsQueryOption = {
+    queryKey: ['userPosts', page],
+    queryFn: () => fetchUserPosts(user!.id, page),
+    refetchOnWindowFocus: false,
+    staleTime: 60 * 1000,
+    cacheTime: 60 * 6000,
+    enabled: !!user,
   };
 
-  useEffect(() => {
-    fetchUserPosts();
-  }, [setUserPosts, user]);
-  const fetchUserPostLikes = async () => {
-    try {
-      if (!user) {
-        return;
-      }
-      const { data, error } = await supabase
-        .from('likes')
-        .select('post_id')
-        .eq('user_id', user.id);
-
-      if (error) {
-        console.error('fetchUserPostLikes에서 에러', error);
-      } else {
-        const userLikes = data.map((like) => ({
-          id: '',
-          post_id: like.post_id,
-          user_id: user.id,
-        }));
-        setUserPostLike(userLikes);
-      }
-    } catch (error) {
-      console.error('fetchUserPostLikes 에러', error);
-    }
-  };
-  useEffect(() => {
-    fetchUserPosts();
-    fetchUserPostLikes();
-  }, [setUserPosts, setUserPostLike, user, currentPage]);
+  const { data: userPosts, isLoading } =
+    useQuery<UserPostType>(userPostsQueryOption);
 
   const handlePostClick = (id: string) => {
     navigate(`/board/${id}`);
@@ -111,69 +49,78 @@ const WhatIWrote = () => {
       }
     });
   };
+
   const handleSelectAll = () => {
-    if (selectedPosts.length === userPosts.length) {
+    if (!userPosts) {
+      return;
+    }
+
+    if (selectedPosts.length === userPosts.data?.length) {
       setSelectedPosts([]);
     } else {
-      const allPostIds = userPosts.map((post) => post.id?.toString() ?? '');
-      setSelectedPosts(allPostIds);
+      const allPostIds = userPosts.data?.map(
+        (post) => post.id?.toString() ?? '',
+      );
+      setSelectedPosts(allPostIds!);
     }
   };
+
+  // Post 삭제
+  const deleteMutation = useMutation(deletePost, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(['posts']);
+      queryClient.invalidateQueries(['userPosts']);
+    },
+  });
+
   const handleDeleteSelectedPosts = async () => {
-    try {
-      if (selectedPosts.length === 0) {
-        toast.info('선택된 게시글이 없습니다.');
-        return;
-      }
-      const deleteConfirmData = {
-        title: '게시글 삭제',
-        content: '정말 삭제하실건가요??',
-        callback: async () => {
-          for (const postId of selectedPosts) {
-            await deletePost(postId);
-          }
-          const updatedUserPost = userPosts.filter(
-            (post) => !selectedPosts.includes(post.id?.toString() ?? ''),
-          );
-          setUserPosts(updatedUserPost);
-          setSelectedPosts([]);
-        },
-      };
+    if (selectedPosts.length === 0) {
+      toast.info('선택된 게시글이 없습니다.');
+      return;
+    }
+    const deleteConfirmData = {
+      title: '게시글 삭제',
+      content: '정말 삭제하실건가요??',
+      callback: () => {
+        for (const postId of selectedPosts) {
+          deleteMutation.mutate(postId);
+        }
+        toast.success('삭제되었습니다!', {
+          autoClose: 800,
+        });
+      },
+    };
 
-      openConfirm(deleteConfirmData);
-    } catch (error) {
-      console.error('게시글 삭제 중 에러', error);
+    openConfirm(deleteConfirmData);
+  };
+
+  const handlePageChange = (selected: number | string) => {
+    if (page === selected) return;
+    if (typeof selected === 'number') {
+      setPage(selected);
+      return;
+    }
+    if (selected === 'prev' && page > 1) {
+      setPage((prev: number) => prev - 1);
+      return;
+    }
+    if (selected === 'next' && userPosts?.totalPages) {
+      setPage((prev: number) => prev + 1);
+      return;
     }
   };
-  const itemsPerPage = 12;
 
-  const totalPages = Math.ceil(userPosts.length / itemsPerPage);
-  const handlePageChange = (page: number | 'prev' | 'next') => {
-    if (page === 'prev' && currentPage > 1) {
-      setCurrentPage(currentPage - 1);
-    } else if (page === 'next' && currentPage < totalPages) {
-      setCurrentPage(currentPage + 1);
-    } else if (typeof page === 'number' && page >= 1 && page <= totalPages) {
-      setCurrentPage(page);
-    }
-  };
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
   return isLoading ? (
     <MyPostsSkeleton />
-  ) : Array.isArray(userPosts) && userPosts.length > 0 ? (
-    <WriteContainer>
-      <WriteTitle>작성한 글</WriteTitle>
-      <PostContainer>
-        {userPosts.slice(startIndex, endIndex).map((post) => {
-          // const likesForPost = userPostLike.filter(
-          //   (like) => like.post_id === post.id,
-          // ).length;
-
+  ) : userPosts ? (
+    <P.Container>
+      <P.Title>작성한 글</P.Title>
+      <P.PostsContainer>
+        {userPosts?.data?.map((post: ReadPosts) => {
           return (
             <div key={post.id}>
-              <Post.Box>
-                <Post.Input
+              <P.Box>
+                <P.Input
                   type="checkbox"
                   checked={selectedPosts.includes(post.id?.toString() ?? '')}
                   onChange={() =>
@@ -183,159 +130,57 @@ const WhatIWrote = () => {
                 <StyledPostCategory category={post.category}>
                   {post.category}
                 </StyledPostCategory>
-                <Post.Content>
-                  <Post.Title
+                <P.Content>
+                  <P.PostTitle
                     onClick={() => handlePostClick(post.id?.toString() ?? '')}
                   >
-                    {post.title}
-                    <Post.Date>
-                      {new Date(post.created_at).toLocaleString()}{' '}
-                    </Post.Date>
-                  </Post.Title>
-
-                  {/* <div>받은 추천 수: {likesForPost}</div> */}
-                </Post.Content>
-              </Post.Box>
+                    <P.TitleAndThumbnail>
+                      {post.title}
+                      {post.thumbnail !== null && (
+                        <img src={ThumbnailIcon} alt="thumbnailIcon" />
+                      )}
+                    </P.TitleAndThumbnail>
+                    <P.Date>
+                      {new Date(post.created_at).toLocaleString()}
+                    </P.Date>
+                  </P.PostTitle>
+                </P.Content>
+              </P.Box>
               <Divider />
             </div>
           );
         })}
-      </PostContainer>
-      <PickButtonBox>
-        <PickButtonAll onClick={handleSelectAll}>
+      </P.PostsContainer>
+      <P.PickButtonBox>
+        <P.PickButtonAll onClick={handleSelectAll}>
           <img src={CheckBox} alt="체크박스" />
-          {selectedPosts.length === userPosts.length
+          {selectedPosts.length === userPosts?.data?.length
             ? '전체 선택 해제'
             : '전체 선택'}
-        </PickButtonAll>
-        <PickButton onClick={handleDeleteSelectedPosts}>
+        </P.PickButtonAll>
+        <P.PickButton onClick={handleDeleteSelectedPosts}>
           <img src={Delete} alt="삭제" />
           선택삭제
-        </PickButton>
-      </PickButtonBox>
-      <WriteP>
+        </P.PickButton>
+      </P.PickButtonBox>
+      <P.WriteP>
         <Pagination
-          currentPage={currentPage}
-          totalPages={totalPages}
+          currentPage={page}
+          totalPages={userPosts!.totalPages || 1}
           onClick={handlePageChange}
-          isPreviousDisabled={currentPage === 1}
-          isNextDisabled={currentPage >= totalPages}
+          isPreviousDisabled={page === 1}
+          isNextDisabled={page >= (userPosts?.totalPages || 1)}
         />
-      </WriteP>
-    </WriteContainer>
+      </P.WriteP>
+    </P.Container>
   ) : (
-    <NoPostsContainer>
-      <NoPostsMessage>작성한 글이 없어요!</NoPostsMessage>
-      <NoPostsButton onClick={() => navigate('/board')}>
+    <P.NoContainer>
+      <P.NoMessage>작성한 글이 없어요!</P.NoMessage>
+      <P.NoButton onClick={() => navigate('/board')}>
         글 작성하러 가기
-      </NoPostsButton>
-    </NoPostsContainer>
+      </P.NoButton>
+    </P.NoContainer>
   );
 };
 
 export default WhatIWrote;
-export const WriteContainer = styled.div`
-  position: relative;
-  top: -73%;
-  left: 15%;
-`;
-const WriteTitle = styled.div`
-  position: absolute;
-  top: -50px;
-  left: 0px;
-  width: 200px;
-  height: 32px;
-  color: #000;
-  font-size: 24px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: normal;
-  letter-spacing: -0.36px;
-  display: block;
-`;
-export const PostContainer = styled.div`
-  margin-bottom: 28px;
-`;
-
-export const WriteP = styled.div`
-  position: relative;
-  top: 550px;
-  left: 350px;
-`;
-const NoPostsContainer = styled.div`
-  display: grid;
-  align-items: center;
-
-  justify-content: center;
-  margin-left: 250%;
-  margin-top: -20%;
-`;
-const NoPostsButton = styled.button`
-  background-color: #8200ff;
-  border-color: transparent;
-
-  color: #fff;
-  width: 226.5px;
-  height: 48px;
-  border-radius: 30px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 10px;
-  cursor: pointer;
-`;
-const NoPostsMessage = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 10px;
-`;
-const PickButton = styled.button`
-  padding: 8px;
-  display: flex;
-  align-items: center;
-  margin: 2px;
-  border: 1px solid #c88fff;
-  border-radius: 6px;
-  background-color: #8200ff;
-  width: 112px;
-  height: 32px;
-  text-align: center;
-  justify-content: center;
-  cursor: pointer;
-  color: var(--achromatic-colors-white, #fff);
-  font-size: 15px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: normal;
-  letter-spacing: -0.225px;
-`;
-const PickButtonAll = styled.button`
-  padding: 8px;
-  display: flex;
-  border-radius: 6px;
-  border: 1px solid var(--main-mid-2, #c88fff);
-  background: var(--main-light, #fdfbff);
-  border-radius: 6px;
-  align-items: center;
-
-  color: white;
-  width: auto;
-  height: 32px;
-  text-align: center;
-  float: right;
-  cursor: pointer;
-  color: var(--achromatic-colors-darkgray, #4f4f4f);
-  font-size: 15px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: normal;
-  letter-spacing: -0.225px;
-  justify-content: center;
-`;
-const PickButtonBox = styled.div`
-  display: flex;
-  justify-content: space-between;
-  width: calc(100% - 5px);
-  margin-top: 12px;
-`;

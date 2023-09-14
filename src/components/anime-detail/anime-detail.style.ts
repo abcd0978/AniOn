@@ -1,32 +1,30 @@
 import styled from 'styled-components';
 
+type Props = {
+  $isCollapse: boolean;
+};
+
 export const S = {
-  DetailContainer: styled.div`
+  DetailContainer: styled.div<Props>`
     display: flex;
-    // padding: 93px 240px 60px 240px;
-    padding: 45px 240px 129px 240px;
-    align-items: flex-start;
-    gap: 146px;
+    // padding: 45px 240px 129px 240px;
+    // gap: 50px;
     width: 100vw;
-    height: 662px;
     margin-left: calc(-50vw + 50%);
     background: #4f4f4f;
-
-    @media screen and (max-width: 768px) {
-      height: 920px;
-      padding: 0px 20px 0px 20px;
-    }
+    justify-content: space-evenly;
   `,
 
   ContentsContainer: styled.div`
+    margin-top: 20px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     gap: 40px;
-    height: 627px;
-    width: 830px;
+    width: 55%;
 
-    @media screen and (max-width: 768px) {
+    @media (max-width: 1024px) {
+      width: 80%;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -38,22 +36,22 @@ export const S = {
     flex-direction: column;
     align-items: flex-start;
     gap: 40px;
-    width: 830px;
-    height: 983px;
+    width: 100%;
 
-    @media screen and (max-width: 768px) {
+    @media (max-width: 768px) {
       gap: 10px;
     }
   `,
 
   ContentsImg: styled.div`
+    margin-top: 20px;
+    width: 350px;
     img {
-      width: 464px;
-      height: 662px;
+      width: 100%;
       border-radius: 20px;
     }
 
-    @media screen and (max-width: 768px) {
+    @media (max-width: 1024px) {
       display: none;
     }
   `,
@@ -61,12 +59,12 @@ export const S = {
   MobileContentsImg: styled.div`
     display: none;
 
-    @media screen and (max-width: 768px) {
-      display: flex;
+    @media (max-width: 1024px) {
+      display: none;
 
       img {
-        width: 131.77px;
-        height: 188px;
+        width: 40%;
+        // height: 188px;
         border-radius: 10px;
       }
     }
@@ -90,7 +88,7 @@ export const S = {
     line-height: normal;
     letter-spacing: -0.3px;
 
-    @media screen and (max-width: 768px) {
+    @media (max-width: 768px) {
       padding: 8px 16px 8px 8px;
       font-size: 16px;
     }
@@ -125,7 +123,6 @@ export const S = {
 
   ContentsEtc: styled.p`
     color: #fff;
-    /* 본문/1 */
     font-size: 16px;
     font-style: normal;
     font-weight: 700;
@@ -133,44 +130,45 @@ export const S = {
     letter-spacing: -0.24px;
   `,
 
-  ContentsEx: styled.p`
+  ContentsEx: styled.p<Props>`
     color: #fff;
-    /* 본문/2 */
     font-size: 16px;
     font-style: normal;
     font-weight: 400;
-    line-height: 150%; /* 24px */
+    line-height: 150%;
     letter-spacing: -0.24px;
-    width: 830px;
+    width: 100%;
+
+    height: ${(props) => (props.$isCollapse ? '100%' : '70%')};
+
     flex-shrink: 0;
 
-    @media screen and (max-width: 768px) {
-      width: 362px;
+    @media (max-width: 768px) {
       font-size: 15px;
     }
   `,
 
   ContentsOptions: styled.div`
     display: flex;
-    width: 829px;
+    width: 100%;
     justify-content: space-between;
     align-items: flex-start;
     img {
       cursor: pointer;
     }
 
-    @media screen and (max-width: 768px) {
-      width: 344px;
+    @media (max-width: 768px) {
+      width: 100%;
     }
   `,
 
   PreviewLike: styled.div`
     display: flex;
-    width: 829px;
+    width: 100%;
     justify-content: space-between;
     align-items: flex-start;
 
-    @media screen and (max-width: 768px) {
+    @media (max-width: 1024px) {
       flex-direction: column;
       gap: 13px;
     }
@@ -254,10 +252,10 @@ export const S = {
     align-items: center;
     gap: 160px;
     align-self: stretch;
-    width: 830px;
+
     height: 132px;
 
-    @media screen and (max-width: 768px) {
+    @media (max-width: 768px) {
       justify-content: unset;
     }
   `,
@@ -290,7 +288,6 @@ export const S = {
 
   StarBox: styled.div`
     display: flex;
-    width: 830px;
     flex-direction: column;
     align-items: flex-start;
     gap: 3px;
@@ -310,9 +307,8 @@ export const S = {
     font-style: normal;
     line-height: normal;
 
-    @media screen and (max-width: 768px) {
+    @media (max-width: 768px) {
       font-size: 24px;
-      width: 362px;
     }
   `,
 
@@ -331,22 +327,21 @@ export const S = {
       font-weight: 600;
     }
 
-    @media screen and (max-width: 1295px) {
+    @media (max-width: 1295px) {
       line-height: 32px;
     }
 
-    @media screen and (max-width: 768px) {
+    @media (max-width: 768px) {
       p {
         font-size: 11px;
       }
-
       margin-top: 69px;
     }
   `,
 
   AniTextLayoutTop: styled.div`
     display: flex;
-    width: 830px;
+    width: 100%;
     flex-direction: column;
     align-items: flex-start;
     gap: 20px;
@@ -363,14 +358,11 @@ export const S = {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    max-width: 1126px;
+    max-width: 90%;
     gap: 5px;
     row-gap: 15px;
     margin: 10px 0px;
-
-    @media screen and (max-width: 768px) {
-      max-width: 361px;
-    }
+    width: 100%;
   `,
 
   AniDetailTag: styled.div`
@@ -390,7 +382,12 @@ export const S = {
     letter-spacing: -0.015em;
     text-align: left;
 
-    @media screen and (max-width: 768px) {
+    @media (max-width: 1024px) {
+      padding: 3px 6px;
+      font-size: 13px;
+    }
+
+    @media (max-width: 768px) {
       font-size: 13px;
     }
   `,
@@ -418,7 +415,7 @@ export const S = {
 };
 
 //반응형예시
-// @media screen and (max-width: 600px) {
+// @media  (max-width: 600px) {
 //   flex-direction: column;
 //   align-items: flex-end;
 // }

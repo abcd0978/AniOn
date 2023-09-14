@@ -2,7 +2,6 @@ import styled from 'styled-components';
 
 export const S = {
   Container: styled.div`
-    width: 100%;
     border-radius: 20px;
     box-shadow: 0px 0px 20px 0px #0000001a;
     gap: 20px;
@@ -16,13 +15,9 @@ export const S = {
     }
   `,
   Inner: styled.div`
-    // width: 100%;
     display: block;
     align-items: center;
     justify-content: center;
-    @media (max-width: 768px) {
-      width: 317px;
-    }
   `,
   Top: styled.div`
     width: 100%;
@@ -34,7 +29,7 @@ export const S = {
   ButtonContainer: styled.div`
     display: flex;
     justify-content: right;
-    margin-bottom: 10px;
+    margin-right: -2px;
   `,
   Button: styled.button`
     background-color: #dddddd;
@@ -57,7 +52,6 @@ export const S = {
 
   Category: styled.div`
     font-size: 16px;
-    width: 800px;
     margin-left: 17px;
     color: gray;
   `,
@@ -65,6 +59,7 @@ export const S = {
   Date: styled.div`
     font-size: 16px;
     width: 100%;
+    margin-right: 7px;
     text-align: right;
     float: right;
     color: gray;
@@ -95,9 +90,8 @@ export const S = {
     font-size: 24px;
     font-weight: bold;
     line-height: 36px;
-    // margin: -5px;
-    margin-top: -10px;
-    margin-left: 12px;
+
+    margin-left: 18px;
     text-overflow: ellipsis;
     @media (max-width: 768px) {
       font-size: 18px;
@@ -107,8 +101,6 @@ export const S = {
   `,
 
   Content: styled.div<{ width: number }>`
-    // word-wrap: break-word;
-    // font-size: 16px;
     line-height: 1.6;
     width: 100%;
     @media (max-width: 768px) {
@@ -239,6 +231,10 @@ export const S = {
     &:hover {
       border: 1px solid #c88fff;
     }
+    @media (max-width: 768px) {
+      margin-left: -18px;
+      margin-top: 5px;
+    }
   `,
   Input: styled.input`
     width: calc(90% - 5px);
@@ -250,6 +246,10 @@ export const S = {
     border-radius: 8px;
     &:hover {
       border: 1px solid #c88fff;
+    }
+    @media (max-width: 768px) {
+      margin-left: -18px;
+      margin-top: 5px;
     }
   `,
 
@@ -273,6 +273,9 @@ export const S = {
   User: styled.div`
     display: flex;
     justify-content: space-between;
+    @media (max-width: 768px) {
+      margin-left: -8px;
+    }
   `,
   UserInfo: styled.div`
     display: flex;
@@ -296,7 +299,7 @@ export const S = {
     height: 40px;
     justify-content: flex-end;
     padding: 10px;
-    margin-right: -15px;
+
     @media (max-width: 768px) {
       height: 30px;
       margin-top: 30px;
@@ -323,6 +326,7 @@ export const S = {
   Post: styled.div`
     display: flex;
     justify-content: space-between;
+    width: 100%;
   `,
 
   Search: styled.div`
@@ -337,13 +341,14 @@ export const S = {
     background-color: #8200ff;
     border: none;
     border-radius: 10px;
+    height: 36px;
     width: 120px;
-    height: 40px;
     padding: 8px;
     font-size: 15px;
     color: white;
     cursor: pointer;
-    margin-right: -70px;
+    margin-top: 10px;
+    margin-right: 5px;
   `,
 
   CateButton: styled.button`
@@ -374,9 +379,6 @@ export const S = {
     border: 1px solid #d9d9d9;
     width: 100%;
     margin-top: 20px;
-    @media (max-width: 768px) {
-      width: 317px;
-    }
   `,
 
   Award: styled.div`
@@ -409,5 +411,9 @@ export const S = {
     background: #f4f4f4;
     font-size: 14px;
     border: 1px solid #dbdbdb;
+    @media (max-width: 768px) {
+      width: 120px;
+      height: 22.32px;
+    }
   `,
 };

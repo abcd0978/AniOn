@@ -1,24 +1,35 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import MyProfile from '../components/myPage/MyProfile';
 import MyInfoMenu from '../components/myPage/MyInfoMenu';
-import { Profile } from '../components/myPage/MyPage.styles';
+import { Profile } from '../components/myPage/Styled.MyPage/MyPage.styles';
 import { styled } from 'styled-components';
+import MyInfoMenuMobile from '../components/myPage/MobileMenu';
+import { ViewportContext } from '../components/ViewportContext';
 
-type Props = {};
+interface Props {
+  viewport?: number;
+}
 
-const MyPage = (props: Props) => {
+const MyPage = ({ viewport }: Props) => {
+  const { width, height } = useContext(ViewportContext);
   return (
     <MyPageConainer>
       <Profile.MyPageText> 마이페이지</Profile.MyPageText>
       <Profile.MyContainer>
         <MyProfile />
-        <MyInfoMenu />
+        {width <= 768 ? <MyInfoMenuMobile /> : <MyInfoMenu />}
       </Profile.MyContainer>
     </MyPageConainer>
   );
 };
 
 export default MyPage;
+
 const MyPageConainer = styled.div`
-  margin-left: -50px;
+  margin: 0 auto;
+  margin-bottom: 32px;
+  @media (max-width: 768px) {
+    width: 100%;
+    height: auto;
+  }
 `;

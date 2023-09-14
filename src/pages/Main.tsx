@@ -7,7 +7,7 @@ import MainCard from '../components/MainCard';
 import useViewport from '../hooks/useViewPort';
 import { fetchAnimeRecommend, getAnimeRankings } from '../api/laftel';
 import { useQuery } from '@tanstack/react-query';
-import { useNavigate } from 'react-router-dom';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import MainCardSkeleton from '../components/MainCardSkeleton';
 import useEmblaCarousel, { EmblaCarouselType } from 'embla-carousel-react';
 import hosino from '../assets/hosihoii.jpg';
@@ -15,6 +15,7 @@ import gil from '../assets/gil.jpg';
 import cha from '../assets/cha.jpg';
 import jusul from '../assets/jusulgg.png';
 import ScrollToTop from '../components/scroll/ScrollToTop';
+import NewPassword from '../components/Modal/NewPassword';
 
 const smallCardWidth = 272;
 const BigCardWidth = 464;
@@ -148,7 +149,7 @@ const Main = () => {
     queryKey: ['animeRecommend'],
     queryFn: () => fetchAnimeRecommend(),
     refetchOnWindowFocus: false,
-    staleTile: 60 * 60,
+    staleTile: 60 * 1000,
   };
 
   const { data: dataH } = useQuery(historyQueryOption);
@@ -224,7 +225,16 @@ const Main = () => {
       onClick: () => navigate('/recommend/41105'),
     },
   ];
-
+  // 비번재설정모달
+  const [isResetModalOpen, setIsResetModalOpen] = useState(false);
+  const location = useLocation();
+  useEffect(() => {
+    const urlParams = new URLSearchParams(location.search);
+    const token = urlParams.get('token');
+    if (token) {
+      setIsResetModalOpen(true);
+    }
+  }, [location]);
   return (
     <>
       <Banner options={{ loop: true, duration: 20 }} slides={bannerInfo} />
@@ -646,6 +656,8 @@ const Main = () => {
         </StMainCardContainerContainer>
       </div>
       <ScrollToTop />
+      <Outlet />
+      {isResetModalOpen && <NewPassword />}
     </>
   );
 };

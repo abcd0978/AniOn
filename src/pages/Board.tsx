@@ -1,10 +1,10 @@
-import React, { useCallback, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import * as userStore from '../store/userStore';
 import * as boardStore from '../store/boardStore';
 import * as S from './Board.style';
-import { getPosts } from '../api/boardapi';
+import { fetchPosts } from '../api/boardapi';
 import { useState } from 'react';
 import { useAtomValue, useAtom } from 'jotai';
 import Pagination from '../components/Pagenation';
@@ -12,6 +12,7 @@ import { toast } from 'react-toastify';
 import pencil from '../assets/pencil.svg';
 import search from '../assets/search.svg';
 import ddabong from '../assets/ddabong.svg';
+import commentsicon from '../assets/commentsicon.svg';
 import ScrollToTop from '../components/scroll/ScrollToTop';
 import ProfileWithBorder, {
   processItem,
@@ -23,11 +24,11 @@ const Board = () => {
   const user = useAtomValue(userStore.user);
   const [searchKeyword, setSearchKeyword] = useAtom(boardStore.searchKeyword);
   const navigate = useNavigate();
-  const location = useLocation();
   const [selectedCategory, setSelectedCategory] = useState<string>('');
   const [inputSearchKeyword, setInputSearchKeyword] = useState<string>('');
   const [page, setPage] = useState<number>(1);
-  const { width, isMobile } = useViewport();
+  const { isMobile } = useViewport();
+
   const handleWriteClick = () => {
     if (!user) {
       toast.warning('로그인 후에 작성할 수 있습니다! 로그인 해주세요😳', {
@@ -48,8 +49,10 @@ const Board = () => {
 
   const postQueryOptions = {
     queryKey: ['posts', selectedCategory, page, searchKeyword],
-    queryFn: () => getPosts(selectedCategory, page, searchKeyword),
+    queryFn: () => fetchPosts(selectedCategory, page, searchKeyword),
     refetchOnWindowFocus: false,
+    staleTime: 60 * 1000,
+    cacheTime: 60 * 6000,
   };
 
   const {
@@ -65,14 +68,15 @@ const Board = () => {
       return;
     }
     if (selected === 'prev' && page > 1) {
-      setPage((prev: any) => prev - 1);
+      setPage((prev: number) => prev - 1);
       return;
     }
     if (selected === 'next' && postsAndTotalPages?.totalPages) {
-      setPage((prev: any) => prev + 1);
+      setPage((prev: number) => prev + 1);
       return;
     }
   };
+
   const processBody = (bodyStr: string) => {
     let result = '';
     result = bodyStr
@@ -81,6 +85,7 @@ const Board = () => {
       .replace(/&nbsp;/gi, '');
     return result;
   };
+
   const handlePostClick = (postId: string) => {
     navigate(`/board/${postId}`);
   };
@@ -96,18 +101,6 @@ const Board = () => {
     setSelectedCategory('');
   };
 
-  const handleSearchCallback = useCallback(() => {
-    handleSearch();
-  }, []);
-
-  // 글 이미지 미리보기에서 사진 없애기
-  const removeImageTags = (html: string) => {
-    // 이미지 태그를 제거하는 정규식 패턴
-    const pattern = /<img[^>]*>/g;
-    // HTML 문자열에서 이미지 태그를 제거
-    const cleanHtml = html.replace(pattern, '');
-    return cleanHtml;
-  };
   return (
     <S.Container>
       <S.Title>게시판</S.Title>
@@ -198,8 +191,12 @@ const Board = () => {
                 </S.PostTopLeft>
                 <S.PostTopRight>
                   <S.Ddabong src={ddabong} alt="추천수" />
-                  <div style={{ marginTop: '3px', marginRight: '5px' }}>
+                  <div style={{ marginTop: '3px', marginRight: '12px' }}>
                     추천수 {post.likes?.length}
+                  </div>
+                  <S.CommentsCount src={commentsicon} alt="댓글 수" />
+                  <div style={{ marginTop: '3px', marginRight: '5px' }}>
+                    댓글 {post.commentsCount}
                   </div>
                 </S.PostTopRight>
               </S.PostTop>

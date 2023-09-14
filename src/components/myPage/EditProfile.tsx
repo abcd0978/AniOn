@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
 import supabase from '../../supabaseClient';
 import { v4 as uuidv4 } from 'uuid';
 import { useSetAtom } from 'jotai';
 import * as authApi from '../../api/auth';
 import * as userStore from '../../store/userStore';
-import { Profile } from './MyPage.styles';
+import { Divider, Profile } from './Styled.MyPage/MyPage.styles';
 import { useAtom } from 'jotai';
 import { toast } from 'react-toastify';
+import { E } from './Styled.MyPage/Edit.styles';
+import PasswordReset from './ResetPassword';
 //2-2-1.닉넴중복확인
 type ErrorType = {
   error: boolean;
@@ -51,7 +52,6 @@ const EditProfile = () => {
         setSelectedFile(null);
         return;
       }
-      // console.log('File uploaded successfully!');
 
       const response = supabase.storage
         .from('Profile Images')
@@ -64,8 +64,6 @@ const EditProfile = () => {
       }
 
       const publicUrl = response.data.publicUrl;
-
-      // console.log('Public URL:', publicUrl);
 
       //2-1-3. 사용자 프로필 이미지 업데이트
       const { data: userData, error: userUpdateError } = await supabase
@@ -89,8 +87,6 @@ const EditProfile = () => {
           console.error('No current user found');
         }
       }
-
-      // console.log('User profile update complete');
     } catch (error) {
       console.error(error);
     }
@@ -132,7 +128,6 @@ const EditProfile = () => {
 
     try {
       const validationResult = validateNickname(newNickname);
-      // console.log('Validation result:', validationResult);
       if (validationResult.error) {
         setNicknameError(validationResult);
         return;
@@ -166,14 +161,15 @@ const EditProfile = () => {
   const renderContent = () => {
     let updatedUser = user;
     return (
-      <EditPage>
-        <Container>
-          <EditTitle>프로필 수정</EditTitle>
+      <E.Page>
+        <E.Title>프로필 수정</E.Title>
+        <E.Container>
           <Divider />
-          <PhotoItem>
-            <Label>사진</Label>
+          {/* 사진 */}
+          <E.PhotoItem>
+            <E.Label>사진</E.Label>
             {user && editMode === 'photo' ? (
-              <ButtonArray>
+              <E.ButtonArray>
                 {/* 프로필 이미지를 표시하는 부분 */}
                 {selectedFile ? (
                   <Profile.BasicImage
@@ -182,34 +178,39 @@ const EditProfile = () => {
                   />
                 ) : (
                   <div key={user?.id}>
-                    <Profile.BasicImage
+                    <Profile.EditImage
                       src={user?.profile_img_url!}
                       alt="Profile picture"
                     />
                   </div>
                 )}
-                <StyledFileInput
-                  type="file"
-                  onChange={(event) => {
-                    if (event.target.files) {
-                      setSelectedFile(event.target.files[0]);
-                    }
-                  }}
-                />
-                <CancelButton onClick={() => setEditMode('')}>
-                  취소
-                </CancelButton>
-                <DoneButton
-                  onClick={() => {
-                    handleUpload();
-                    setEditMode('');
-                  }}
-                >
-                  완료
-                </DoneButton>
-              </ButtonArray>
+                <E.FileSelectContainer>
+                  <E.StyledLabel htmlFor="fileUpload">사진 선택</E.StyledLabel>
+                  <E.HiddenFileInput
+                    id="fileUpload"
+                    onChange={(event) => {
+                      if (event.target.files) {
+                        setSelectedFile(event.target.files[0]);
+                      }
+                    }}
+                  />
+                </E.FileSelectContainer>
+                <E.CancelAndDone>
+                  <E.CancelButton onClick={() => setEditMode('')}>
+                    취소
+                  </E.CancelButton>
+                  <E.DoneButton
+                    onClick={() => {
+                      handleUpload();
+                      setEditMode('');
+                    }}
+                  >
+                    완료
+                  </E.DoneButton>
+                </E.CancelAndDone>
+              </E.ButtonArray>
             ) : (
-              <ButtonArray>
+              <E.ButtonArray>
                 {/* 변경 버튼을 누르기 전에 현재 프로필 이미지를 표시하는 부분 */}
 
                 <div key={user?.id}>
@@ -219,271 +220,123 @@ const EditProfile = () => {
                   />
                 </div>
 
-                <ChangeButton onClick={() => setEditMode('photo')}>
+                <E.ChangeButton onClick={() => setEditMode('photo')}>
                   변경
-                </ChangeButton>
-              </ButtonArray>
+                </E.ChangeButton>
+              </E.ButtonArray>
             )}
-          </PhotoItem>
-          <TextBelowPhoto>
-            등록된 사진은 회원님의 게시물이나 댓글들에 사용됩니다.
-          </TextBelowPhoto>
+            <E.TextBelowPhoto>
+              등록된 사진은 회원님의 게시물이나 댓글들에 사용됩니다.
+            </E.TextBelowPhoto>
+          </E.PhotoItem>
+
           <Divider />
-          <EtcItem>
-            <Label>이메일</Label>
+          {/* 이메일 */}
+          <E.EtcItem>
+            <E.Label>이메일</E.Label>
             <div>{user?.email}</div>
-          </EtcItem>
+          </E.EtcItem>
+          <Divider />
+          <E.Label>비밀번호</E.Label>
+          <PasswordReset />
           <Divider />
 
-          <EtcItem>
-            <Label>닉네임</Label>
+          {/* 닉넴 */}
+          <E.EtcItem>
+            <E.Label>닉네임</E.Label>
+            <E.NickNameContainer>
+              {editMode === 'nickname' ? (
+                <form onSubmit={handleSubmitNickname}>
+                  <E.TextBelowNickname>
+                    {nicknameValidationMessage && (
+                      <E.Warning>{nicknameValidationMessage}</E.Warning>
+                    )}
+                    • 중복 닉네임 불가합니다.
+                    <br /> • 2~8자 이내로 작성해주세요.
+                  </E.TextBelowNickname>
+                  <E.NickNameInputAndCheck>
+                    <E.Input
+                      type="text"
+                      value={newNickname}
+                      onChange={handleNicknameChange}
+                      placeholder={updatedUser?.nickname}
+                    />
 
-            {editMode === 'nickname' ? (
-              <form onSubmit={handleSubmitNickname}>
-                <TextBelowNickname>
-                  {nicknameValidationMessage && (
-                    <Warning>{nicknameValidationMessage}</Warning>
-                  )}
-                  • 중복 닉네임 불가합니다.
-                  <br /> • 2~8자 이내로 작성해주세요.
-                </TextBelowNickname>
-                <Input
-                  type="text"
-                  value={newNickname}
-                  onChange={handleNicknameChange}
-                  placeholder={updatedUser?.nickname}
-                />
-                <NickNameCheck
-                  onClick={async (e) => {
-                    e.preventDefault();
-                    const val = validateNickname(newNickname);
-                    if (val.error) {
-                      setNicknameError(val);
-                      return;
-                    }
-                    try {
-                      const isNicknameAvailable = await nicknameDupCheck(
-                        newNickname,
-                      );
-                      if (isNicknameAvailable) {
-                        toast.success('사용가능한 닉네임입니다.✔️', {
-                          autoClose: 800,
-                        });
-                        setNicknameDupChecked(true);
-                        setNicknameError(initialError);
-                      } else {
-                        toast.warn('이미 사용 중인 닉네임 입니다.', {
-                          autoClose: 800,
-                        });
-                        setNicknameError({
-                          error: true,
-                          errorMsg: '중복되는 닉네임입니다.',
-                        });
-                        setNicknameDupChecked(false); // 중복확인 실패 시 초기화
+                    <E.NickNameCheck
+                      onClick={async (e) => {
+                        e.preventDefault();
+                        const val = validateNickname(newNickname);
+                        if (val.error) {
+                          setNicknameError(val);
+                          return;
+                        }
+                        try {
+                          const isNicknameAvailable = await nicknameDupCheck(
+                            newNickname,
+                          );
+                          if (isNicknameAvailable) {
+                            toast.success('사용가능한 닉네임입니다.✔️', {
+                              autoClose: 800,
+                            });
+                            setNicknameDupChecked(true);
+                            setNicknameError(initialError);
+                          } else {
+                            toast.warn('이미 사용 중인 닉네임 입니다.', {
+                              autoClose: 800,
+                            });
+                            setNicknameError({
+                              error: true,
+                              errorMsg: '중복되는 닉네임입니다.',
+                            });
+                            setNicknameDupChecked(false); // 중복확인 실패 시 초기화
+                          }
+                        } catch (error) {
+                          console.error(error);
+                        }
+                      }}
+                      disabled={
+                        newNickname === '' ||
+                        newNickname === user?.nickname ||
+                        !(newNickname.length >= 2 && newNickname.length <= 8)
                       }
-                    } catch (error) {
-                      console.error(error);
-                    }
-                  }}
-                  disabled={
-                    newNickname === '' ||
-                    newNickname === user?.nickname ||
-                    !(newNickname.length >= 2 && newNickname.length <= 8)
-                  }
-                >
-                  중복확인
-                </NickNameCheck>
-                <DoneButton
-                  type="submit"
-                  disabled={
-                    newNickname === '' ||
-                    newNickname === user?.nickname ||
-                    !(newNickname.length >= 2 && newNickname.length <= 8)
-                  }
-                >
-                  완료
-                </DoneButton>
-                <CancelButton onClick={() => setEditMode('')}>
-                  취소
-                </CancelButton>
-              </form>
-            ) : (
-              <ButtonArray>
-                <div>{updatedUser?.nickname}</div>
-                <ChangeButton onClick={() => setEditMode('nickname')}>
-                  변경
-                </ChangeButton>
-              </ButtonArray>
-            )}
-          </EtcItem>
+                    >
+                      중복확인
+                    </E.NickNameCheck>
+                  </E.NickNameInputAndCheck>
+                  <E.NickNameButtons>
+                    <E.DoneButton
+                      type="submit"
+                      disabled={
+                        newNickname === '' ||
+                        newNickname === user?.nickname ||
+                        !(newNickname.length >= 2 && newNickname.length <= 8)
+                      }
+                    >
+                      완료
+                    </E.DoneButton>
+                    <E.CancelButton onClick={() => setEditMode('')}>
+                      취소
+                    </E.CancelButton>
+                  </E.NickNameButtons>
+                </form>
+              ) : (
+                <E.ButtonArray>
+                  <div>{updatedUser?.nickname}</div>
+                  <E.ChangeButton onClick={() => setEditMode('nickname')}>
+                    변경
+                  </E.ChangeButton>
+                </E.ButtonArray>
+              )}
+            </E.NickNameContainer>
+          </E.EtcItem>
+
           <Divider />
-        </Container>
-      </EditPage>
+        </E.Container>
+      </E.Page>
     );
   };
 
-  return <EditContainer>{renderContent()}</EditContainer>;
+  return <E.Container>{renderContent()}</E.Container>;
 };
 
 export default EditProfile;
-export const EditTitle = styled.div`
-  position: absolute;
-  top: -50px;
-  left: 10px;
-  width: 200px;
-  height: 32px;
-  color: #000;
-  font-size: 24px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: normal;
-  letter-spacing: -0.36px;
-`;
-export const EditPage = styled.div`
-  position: absolute;
-  top: -150px;
-  left: -100px;
-`;
-export const EditContainer = styled.div`
-  position: absolute;
-  left: 550px;
-  top: 250px;
-`;
-export const Container = styled.div`
-  position: absolute;
-  top: 100px;
-  left: 100px;
-`;
-
-const PhotoItem = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  height: 148px;
-  padding-top: 12px;
-  padding-bottom: 12px;
-  gap: 8px;
-`;
-const EtcItem = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  height: 64px;
-  padding-top: 12px;
-  padding-bottom: 12px;
-  gap: 8px;
-`;
-
-const Label = styled.div`
-  font-size: 16px;
-  font-weight: bold;
-  width: 70px;
-`;
-
-const Input = styled.input`
-  padding: 8px;
-  border-radius: 4px;
-  border: none;
-  background-color: #f9f3ff;
-`;
-const CancelButton = styled.button`
-  position: absolute;
-  right: 80px;
-  background-color: #dbdbdb;
-  border-radius: 12px;
-  width: 72px;
-  height: 32px;
-  border: transparent;
-  cursor: pointer;
-`;
-const DoneButton = styled.button`
-  position: absolute;
-  right: -5px;
-  background-color: #8200ff;
-  border-radius: 12px;
-  width: 72px;
-  height: 32px;
-  border: transparent;
-  color: #fff;
-  cursor: pointer;
-
-  &:disabled {
-    background-color: white;
-    color: #cccccc;
-    cursor: not-allowed;
-  }
-  &:hover {
-    background-color: #c88fff;
-    color: white;
-  }
-`;
-const ChangeButton = styled.button`
-  background-color: #fdfbff;
-  border-radius: 12px;
-  width: 72px;
-  height: 32px;
-  border: 1px solid var(--main-mid-2, #c88fff);
-  position: absolute;
-  right: -5px;
-  color: #000;
-  cursor: pointer;
-
-  &:hover {
-    background-color: #c88fff;
-    color: white;
-  }
-`;
-const NickNameCheck = styled.button`
-  position: absolute;
-  margin-left: 10px;
-  background-color: #ff96db;
-  border-radius: 12px;
-  width: 72px;
-  height: 32px;
-  border-color: transparent;
-  cursor: pointer;
-
-  color: #fff;
-  &:disabled {
-    background-color: white;
-    color: #cccccc;
-    cursor: not-allowed;
-  }
-`;
-export const Button = styled.button`
-  padding: 8px;
-`;
-
-const TextBelowPhoto = styled.div`
-  color: #838383;
-  font-size: 14px;
-  margin-top: 8px;
-  margin-left: 80px;
-  width: 400px;
-`;
-const TextBelowNickname = styled.div`
-  color: #838383;
-  font-size: 14px;
-  margin-top: 8px;
-  width: 400px;
-`;
-export const Divider = styled.div`
-  width: 900px;
-  height: 1px;
-  background: var(--achromatic-colors-midgray-2, #dbdbdb);
-  margin-top: 8px;
-  margin-bottom: 8px;
-`;
-const Warning = styled.p`
-  color: red;
-`;
-const ButtonArray = styled.div`
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 8px;
-  align-items: center;
-  justify-content: center;
-`;
-const StyledFileInput = styled.input.attrs({ type: 'file' })`
-  color: pink;
-`;

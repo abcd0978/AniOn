@@ -1,28 +1,30 @@
-import { MyAward } from './MyPage.styles';
-import * as userStore from '../../store/userStore';
-import { useAtomValue } from 'jotai';
-import { fetchEquippedItem } from '../../api/items';
+import { MyAward } from './Styled.MyPage/MyPage.styles';
 import { useQuery } from '@tanstack/react-query';
+// import { AwardsRow } from '../../types/items';
+
+import * as userStore from '../../store/userStore';
+import { fetchEquippedItem } from '../../api/items';
+import { useAtomValue } from 'jotai';
 const MyProfileAward = () => {
+  // const queryClient = useQueryClient();
+
+  // const award = queryClient.getQueryData(['equippedAward']) as AwardsRow;
   const user = useAtomValue(userStore.user);
 
-  const equipedAwardQueryOption = {
+  const equipedAwardQueryOptions = {
     queryKey: ['equippedAward'],
     queryFn: () => fetchEquippedItem({ user_id: user!.id, category: 1 }),
     refetchOnWindowFocus: false,
-    staleTime: 60 * 60,
+    staleTime: 60 * 1000,
+    cacheTime: 60 * 6000,
     enabled: !!user,
   };
+  const { data: award } = useQuery(equipedAwardQueryOptions);
 
-  const { data: award } = useQuery(equipedAwardQueryOption);
   return (
     <MyAward.MyProfileAward>
       {award ? (
-        <img
-          src={award.items.img_url}
-          alt={award.items.name}
-          style={{ width: '215px', height: '40px' }}
-        />
+        <MyAward.AwardImg src={award.items.img_url} alt={award.items.name} />
       ) : (
         <MyAward.NoAward>칭호없음</MyAward.NoAward>
       )}

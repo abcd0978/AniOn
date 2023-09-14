@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useAtomValue } from 'jotai';
 import * as userStore from '../../store/userStore';
-import { A } from './Deco.styles';
+import { A } from './Styled.MyPage/Deco.styles';
 import goShop from '../../assets/goShop.png';
 // import useViewport from '../../hooks/useViewPort';
 import { useNavigate } from 'react-router-dom';
@@ -23,7 +23,7 @@ const MyInvenAward = () => {
     queryKey: ['myAwards'],
     queryFn: () => fetchMyAwards(user!.id),
     refetchOnWindowFocus: false,
-    staleTime: 60 * 60,
+    staleTime: 60 * 1000,
     enabled: !!user,
   };
 
@@ -74,9 +74,9 @@ const MyInvenAward = () => {
   };
   if (isLoading) {
     return (
-      <AwardLoading>
+      <A.Loading>
         <Loading />
-      </AwardLoading>
+      </A.Loading>
     );
   }
   if (isError) {
@@ -107,13 +107,12 @@ const MyInvenAward = () => {
 
   const awardsList =
     Array.isArray(filteredAwards) && filteredAwards.length > 0 ? (
-      <GridContainer>
+      <A.Container>
         {displayedAwards?.map((filteredAwards, index) => (
           <div key={index}>
-            <img
+            <A.AwardImage
               src={filteredAwards.items.img_url}
               alt={filteredAwards.items.name}
-              style={{ width: '240px' }}
             />
 
             <A.Equip
@@ -129,7 +128,7 @@ const MyInvenAward = () => {
             </A.Equip>
           </div>
         ))}
-      </GridContainer>
+      </A.Container>
     ) : (
       <A.NoneContainer>
         <A.NoneMessage>구매한 칭호가 없습니다.</A.NoneMessage>
@@ -145,42 +144,21 @@ const MyInvenAward = () => {
     );
 
   return (
-    <A.Container>
-      <GridContainer>{awardsList}</GridContainer>
-      <PageContainer>
-        <Page>
-          {Array.isArray(filteredAwards) && filteredAwards.length > 0 && (
-            <PaginationTwo
-              currentPage={currentPage}
-              totalPages={totalPages}
-              onClick={handlePageChange}
-              isPreviousDisabled={currentPage === 1}
-              isNextDisabled={currentPage >= totalPages}
-            />
-          )}
-        </Page>
-      </PageContainer>
-    </A.Container>
+    <A.Page>
+      <A.Container>{awardsList}</A.Container>
+      {Array.isArray(filteredAwards) && filteredAwards.length > 0 && (
+        <A.Pagination>
+          <PaginationTwo
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onClick={handlePageChange}
+            isPreviousDisabled={currentPage === 1}
+            isNextDisabled={currentPage >= totalPages}
+          />
+        </A.Pagination>
+      )}
+    </A.Page>
   );
 };
 
 export default MyInvenAward;
-const GridContainer = styled.div`
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 50px;
-  padding: 10px;
-`;
-const PageContainer = styled.div`
-  position: absolute;
-`;
-
-export const Page = styled.div`
-  position: absolute;
-  justify-content: center;
-  top: -565px;
-  left: 630px;
-`;
-const AwardLoading = styled.div`
-  margin-left: 500px;
-`;

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useAtomValue } from 'jotai';
 import * as userStore from '../store/userStore';
@@ -55,6 +55,7 @@ export const processItem = (
 };
 
 function ProfileWithBorder(props: Props) {
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const user = useAtomValue(userStore.user);
   // 두가지의 return.
   // 1. 헤더, 프로필
@@ -67,7 +68,7 @@ function ProfileWithBorder(props: Props) {
         category: 0,
       }),
     refetchOnWinowFocus: false,
-    staleTime: 60 * 60,
+    staleTime: 60 * 1000,
     eabled: !!user,
   };
 

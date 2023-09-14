@@ -139,13 +139,14 @@ function AnimeDetail() {
   const genres = animeDetail.genres.join('  ');
 
   //더보기
-  const toggleCommentCollapse = (contentId: string) => {
-    if (collapsedComments.includes(contentId)) {
+  const toggleCommentCollapse = () => {
+    console.log('호출');
+    if (collapsedComments.includes(aniId)) {
       // 댓글을 펼칩니다.
-      setCollapsedComments(collapsedComments.filter((id) => id !== contentId));
+      setCollapsedComments(collapsedComments.filter((id) => id !== aniId));
     } else {
       // 댓글을 접습니다.
-      setCollapsedComments([...collapsedComments, contentId]);
+      setCollapsedComments([...collapsedComments, aniId]);
     }
   };
 
@@ -153,7 +154,7 @@ function AnimeDetail() {
 
   return (
     <>
-      <S.DetailContainer>
+      <S.DetailContainer $isCollapse={collapsedComments.includes(aniId)}>
         <S.ContentsContainer>
           <S.ContentsBox>
             <S.AniTextLayoutTop>
@@ -208,14 +209,12 @@ function AnimeDetail() {
                   {genres}
                 </S.ContentsGenrePro>
               </S.ContentsTextUp>
-              <S.ContentsEx>
+              <S.ContentsEx $isCollapse={collapsedComments.includes(aniId)}>
                 {animeDetail.content.length > 300 &&
-                !collapsedComments.includes(animeDetail.id) ? (
+                !collapsedComments.includes(aniId) ? (
                   <>
                     {animeDetail.content.slice(0, 300)} ...
-                    <S.ContentSeeMore
-                      onClick={() => toggleCommentCollapse(animeDetail.id)}
-                    >
+                    <S.ContentSeeMore onClick={toggleCommentCollapse}>
                       <p>더보기</p>
                       <img src={seemoreIcon} alt="더보기" />
                     </S.ContentSeeMore>
@@ -224,9 +223,7 @@ function AnimeDetail() {
                   <>
                     {animeDetail.content}
                     {animeDetail.content.length > 300 && (
-                      <S.ContentSeeMore
-                        onClick={() => toggleCommentCollapse(animeDetail.id)}
-                      >
+                      <S.ContentSeeMore onClick={toggleCommentCollapse}>
                         <p>접기</p>
                         <img src={seemoreIconUp} alt="접기" />
                       </S.ContentSeeMore>
