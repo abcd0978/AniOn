@@ -25,6 +25,26 @@ export type CommentType = {
   };
 };
 
+export type ReplyCommentType = {
+  id: string;
+  comment: string;
+  comment_id: string;
+  created_at: string;
+  user_id: string;
+  users: {
+    inventory: {
+      id: string;
+      items: {
+        name: string;
+        img_url: string;
+        category: number;
+      };
+    }[];
+    nickname: string;
+    profile_img_url: string;
+  };
+};
+
 export type AniCommentType = {
   ani_id: string;
   comment: string;
