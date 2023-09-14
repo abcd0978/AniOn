@@ -7,6 +7,7 @@ export const S = {
     /* display: flex; */
     //width: 1440px;
     //height: 999px;
+    width: 100%;
     padding: 32px 0px;
     flex-direction: row;
     align-items: flex-start;
@@ -16,27 +17,21 @@ export const S = {
   `,
 
   WorldCupResultContainer: styled.div`
-    // position: relative;
+    width: 100%;
     display: flex;
-    //width: 1440px;
-    /* height: 999px; */
     padding: 32px 0px;
     flex-direction: row;
-    align-items: flex-start;
-    gap: 40px;
-    flex-shrink: 0;
-    margin: 0 auto;
+    justify-content: space-between;
 
     @media (max-width: 768px) {
       width: 100%;
       flex-direction: column;
-      gap: 20px;
     }
   `,
 
   WorldCupContainer2: styled.div`
     /* display: flex; */
-    //width: 1440px;
+    width: 100%;
     padding: 32px 0px;
     flex-direction: column;
     align-items: flex-start;
@@ -66,6 +61,7 @@ export const S = {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    width: 100%;
 
     p {
       font-size: 24px;
@@ -87,7 +83,7 @@ export const S = {
 
   WorldCupTestContainer: styled.div`
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
     margin-top: 35px;
 
@@ -111,11 +107,11 @@ export const S = {
     }
   `,
 
-  WorldCupTest: styled.div<{ height: number }>`
-    max-width: 600px;
+  WorldCupTest: styled.div`
+    width: 40%;
     display: flex;
-    height: ${(props) => props.height}px;
-    padding: 40px;
+    height: 100%;
+    padding: 35px;
     flex-direction: column;
     align-items: center;
     gap: 51px;
@@ -128,27 +124,23 @@ export const S = {
     border: 4px solid #fdfbff;
 
     &:hover {
-      /* 호버 상태일 때 크게 확대 */
-      /* transform: scale(1); */
       border: 4px solid #8200ff;
+    }
+
+    @media (max-width: 1280px) {
+      padding: 20px;
     }
 
     @media (max-width: 768px) {
       width: 80%;
       height: 100%;
       gap: 27px;
-
-      &:hover {
-        /* transform: scale(1); */
-        border: 4px solid #8200ff;
-      }
     }
   `,
 
-  WorldCupResultTest: styled.div<{ height: number }>`
-    width: 600px;
+  WorldCupResultTest: styled.div`
+    width: 100%;
     display: flex;
-    height: ${(props) => props.height}px;
     padding: 40px;
     flex-direction: column;
     align-items: center;
@@ -179,10 +171,16 @@ export const S = {
   //   align-items: center;
   // `,
 
-  WorldCupGender: styled.div`
+  WordlcupInfo: styled.div`
     display: flex;
-    width: 81px;
-    padding: 8px 16px;
+    flex-direction: column;
+    width: 100%;
+  `,
+
+  WorldCupGender: styled.div`
+    /* display: flex; */
+    width: 25%;
+    padding: 8px 12px;
     border-radius: 10px;
     background: var(--sub-1, #ff96db);
     color: #ffebf7;
@@ -192,6 +190,10 @@ export const S = {
     line-height: 150%; /* 27px */
     letter-spacing: -0.27px;
     margin-bottom: 12px;
+    @media (max-width: 1280px) {
+      font-size: 14px;
+    }
+
     @media (max-width: 768px) {
       width: 50px;
       font-size: 11px;
@@ -205,9 +207,8 @@ export const S = {
     font-weight: 700;
     line-height: 150%; /* 36px */
     letter-spacing: -0.36px;
-    width: 600px;
+    width: 100%;
     @media (max-width: 768px) {
-      width: 200px;
       font-size: 20px;
     }
   `,
@@ -223,7 +224,11 @@ export const S = {
     font-weight: 400;
     line-height: 150%; /* 36px */
     letter-spacing: -0.36px;
-    width: 600px;
+    width: 100%;
+
+    @media (max-width: 1280px) {
+      font-size: 14px;
+    }
 
     @media (max-width: 768px) {
       font-size: 15px;
@@ -236,7 +241,11 @@ export const S = {
     font-weight: 700;
     line-height: 150%; /* 42px */
     letter-spacing: -0.42px;
-    width: 600px;
+    width: 100%;
+
+    @media (max-width: 1280px) {
+      font-size: 20px;
+    }
 
     @media (max-width: 768px) {
       font-size: 18px;
@@ -245,8 +254,8 @@ export const S = {
 
   WorldCupImg: styled.div`
     margin-top: 32px;
-    width: 400px;
-    height: 400px;
+    width: 80%;
+    height: 80%;
     border-radius: 400px;
 
     @media (max-width: 768px) {
@@ -261,20 +270,18 @@ export const S = {
     height: 100%;
     border-radius: 400px;
     aspect-ratio: 1 / 1;
+    object-fit: cover;
   `,
 
   //----------------------------------------------Test쪽
   WorldCupImgs: styled.div`
     margin-top: 32px;
-    width: 400px;
-    height: 400px;
+    width: 80%;
+    height: 80%;
     border-radius: 400px;
     position: relative;
 
     @media (max-width: 768px) {
-      width: 100%;
-      height: 100%;
-      font-size: 10px;
       display: none;
     }
   `,
@@ -307,6 +314,12 @@ export const S = {
       background: #8200ff;
     }
 
+    @media (max-width: 1024px) {
+      width: 200px;
+      font-size: 15px;
+      padding: 12px 20px 12px 32px;
+    }
+
     @media (max-width: 768px) {
       width: 318px;
       height: 50px;
@@ -321,10 +334,10 @@ export const S = {
     // }
   `,
 
-  WorldCupTestPickButton: styled.button<{ width: number }>`
+  WorldCupTestPickButton: styled.button`
     display: flex;
     position: relative;
-    width: ${(props) => props.width}px;
+    width: 60%;
     justify-content: center;
     align-items: center;
     border-radius: 999px;
@@ -337,10 +350,16 @@ export const S = {
     letter-spacing: -0.3px;
     cursor: pointer;
     border: none;
-    height: 75px;
+    height: 67px;
 
     &:hover {
       background: #8200ff;
+    }
+
+    @media (max-width: 1280px) {
+      height: 50px;
+      font-size: 17px;
+      font-weight: 400;
     }
 
     @media (max-width: 768px) {
@@ -353,27 +372,29 @@ export const S = {
 
   WorldCupTestButtonTextBox: styled.div`
     display: flex;
-    width: 278px;
+    width: 100%;
     padding: 16px 20px 16px 32px;
     justify-content: center;
     align-items: center;
     gap: 12px;
 
+    @media (max-width: 1024px) {
+      padding: 12px 15px 12px 24px;
+    }
+
     @media (max-width: 768px) {
       font-size: 15px;
-      justify-content: center;
-      align-items: center;
-      display: flex;
       padding: 0;
       gap: 3px;
     }
   `,
 
   //----메인 카드
-  WorldCupMainTestCard: styled.div<{ height: number }>`
-    max-width: 600px;
+  // WorldCupMainTestCard: styled.div<{ height: number }>`
+  WorldCupMainTestCard: styled.div`
+    width: 35%;
     display: flex;
-    height: ${(props) => props.height}px;
+    // height: 45rem;
     padding: 40px;
     flex-direction: column;
     align-items: center;
@@ -393,6 +414,10 @@ export const S = {
   `,
 
   WorldcupWinnerContainer: styled.div`
-    width: 120%;
+    width: 38%;
+    height: 100%;
+    @media (max-width: 768px) {
+      width: 100%;
+    }
   `,
 };
