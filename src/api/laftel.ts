@@ -2,6 +2,7 @@ import api from './index';
 import { laftelParamsM, recommendType } from './../types/anime';
 
 export const fetchAnimeList = async (laftelParams: laftelParamsM) => {
+  console.log(laftelParams);
   if (laftelParams.keyword) {
     const result = await api.get(`/search/v3/keyword/?viewing_only=false&`, {
       params: {

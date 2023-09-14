@@ -40,7 +40,7 @@ function AnimeDetail() {
   // 해당 aniId 상세 내용 가져오기
   const animeDetailQueryOption = {
     queryKey: ['animeDetail'],
-    queryFn: () => {
+    queryFn: async () => {
       return getAnimeById(aniId);
     },
     refetchOnWindowFocus: false,
@@ -85,6 +85,7 @@ function AnimeDetail() {
   const toggleLikeMutation = useMutation(toggleAnimeLike, {
     onSuccess: () => {
       queryClient.invalidateQueries(['animeDetailLikes']);
+      queryClient.invalidateQueries(['genre']);
     },
     onError: (error) => {
       console.log(`toggleAnimeLike 오류가 발생했습니다. : ${error}`);
@@ -99,10 +100,14 @@ function AnimeDetail() {
       return;
     }
 
-    const data = {
+    const insertLike = {
       user_id: user.id,
       anime_id: aniId,
       isDetailPage: true,
+    };
+    const data = {
+      insertLike,
+      genres: animeDetail.genres!,
     };
     toggleLikeMutation.mutate(data);
   };

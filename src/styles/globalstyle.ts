@@ -56,6 +56,7 @@ header{
     transition: all .3s ease;
 }
 .downbar.opened {
+    height: calc(100% - 130px); /*왜 하필 130px인지 모르겠음ㄴ */
     padding: 20px 0px;
     top:90px;
 }
