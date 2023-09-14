@@ -14,6 +14,73 @@ export type Json =
 export interface Database {
   public: {
     Tables: {
+      user_genres: {
+        Row: {
+          id?: string;
+          user_id?: string;
+          개그: number;
+          공포: number;
+          드라마: number;
+          로맨스: number;
+          모험: number;
+          무협: number;
+          미스터리: number;
+          범죄: number;
+          성인: number;
+          스릴러: number;
+          스포츠: number;
+          시대물: number;
+          아동: number;
+          아이돌: number;
+          액션: number;
+          음식: number;
+          음악: number;
+          이세계: number;
+          일상: number;
+          재난: number;
+          추리: number;
+          치유: number;
+          특촬: number;
+          판타지: number;
+          하렘: number;
+          BL: number;
+          GL백합: number;
+          SF: number;
+        };
+        Insert: {
+          user_id: string;
+        };
+        Update: {
+          개그?: number;
+          공포?: number;
+          드라마?: number;
+          로맨스?: number;
+          모험?: number;
+          무협?: number;
+          미스터리?: number;
+          범죄?: number;
+          성인?: number;
+          스릴러?: number;
+          스포츠?: number;
+          시대물?: number;
+          아동?: number;
+          아이돌?: number;
+          액션?: number;
+          음식?: number;
+          음악?: number;
+          이세계?: number;
+          일상?: number;
+          재난?: number;
+          추리?: number;
+          치유?: number;
+          특촬?: number;
+          판타지?: number;
+          하렘?: number;
+          BL?: number;
+          GL백합?: number;
+          SF?: number;
+        };
+      };
       ani_comments: {
         Row: {
           ani_id: string;

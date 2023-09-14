@@ -5,6 +5,7 @@ import { useAtom, useSetAtom } from 'jotai';
 import * as modalStore from '../store/modalStore';
 import * as sidebarStore from '../store/sidebarStore';
 import useViewport from '../hooks/useViewPort';
+import * as boardStore from '../store/boardStore';
 import * as userStore from '../store/userStore';
 import * as headerStore from '../store/headerStore';
 import * as animeRecommendStore from '../store/animeRecommendStore';
@@ -34,7 +35,7 @@ import { useQuery } from '@tanstack/react-query';
 import useInput from '../hooks/useInput';
 
 type Props = {};
-
+type mobileSearchCategories = '게시글' | '애니찾기';
 function Header({}: Props) {
   const navigate = useNavigate();
   const [__, logoutStore] = useAtom(userStore.logoutUser);
@@ -42,6 +43,7 @@ function Header({}: Props) {
   const [user, setUser] = useAtom(userStore.user);
   const [isModalOpened, setIsModalOpened] = useAtom(modalStore.isModalOpened);
   const [modalContents, setModalContents] = useAtom(modalStore.modalContents);
+  const setSearchKeyword = useSetAtom(boardStore.searchKeyword);
   const setKeyword = useSetAtom(animeRecommendStore.keywordAtom);
   const setAnimeList = useSetAtom(animeRecommendStore.animeListAtom);
   const setOffset = useSetAtom(animeRecommendStore.offsetAtom);
@@ -49,9 +51,8 @@ function Header({}: Props) {
   const dropdownOpenerDRef = useRef<HTMLDivElement>(null);
   const [isDropdownOnB, setIsDropdownOnB] = useState(false);
   const dropdownOpenerBRef = useRef<HTMLDivElement>(null);
-  const [mobileSearchCategory, setMobileSearchCategory] = useState<
-    string | null
-  >(null);
+  const [mobileSearchCategory, setMobileSearchCategory] =
+    useState<mobileSearchCategories>('애니찾기');
   const [mobileSearchInput, ___, onChangeSearchInput, ____] = useInput('');
 
   const [sideBarOpened, setSideBarOpened] = useAtom(sidebarStore.sideBarOpened);
@@ -94,7 +95,7 @@ function Header({}: Props) {
     const recentSearch: Array<string> | null = JSON.parse(
       localStorage.getItem('recentSearch')!,
     );
-    if (recentSearch) {
+    if (recentSearch && !recentSearch.includes(keyword)) {
       recentSearch.push(keyword);
       const stringifiedArr = JSON.stringify(recentSearch);
       localStorage.setItem('recentSearch', stringifiedArr);
@@ -107,11 +108,16 @@ function Header({}: Props) {
     if (keyword.length === 0 || !keyword) {
       return;
     }
-    setAnimeList([]);
-    setKeyword(keyword);
-    setOffset(0);
     searchAndSetRecentSearch(keyword);
-    navigate('/recommend');
+    if (mobileSearchCategory === '게시글') {
+      setSearchKeyword(keyword);
+      navigate('/board');
+    } else {
+      setAnimeList([]);
+      setKeyword(keyword);
+      setOffset(0);
+      navigate('/recommend');
+    }
   };
   useEffect(() => {
     setActiveMenu(location.pathname);
@@ -176,6 +182,9 @@ function Header({}: Props) {
           >
             <StHeaderLogoSection
               onClick={() => {
+                setMenuSearchCliked(false);
+                setDownBarOpened(false);
+                setSideBarOpened(false);
                 navigate('/');
                 setActiveMenu('/');
               }}
@@ -341,7 +350,7 @@ function Header({}: Props) {
             <StHeaderMobileSearchTypo
               selcted={mobileSearchCategory ? true : false}
             >
-              {mobileSearchCategory ? mobileSearchCategory : '선택'}
+              {mobileSearchCategory}
             </StHeaderMobileSearchTypo>
             <div
               onClick={() => setIsDropdownOnB(!isDropdownOnB)}
@@ -356,6 +365,14 @@ function Header({}: Props) {
           </StHeaderMobileOption>
           <StHeaderMobileSearchInputContainer>
             <StHeaderMobileSearchInput
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  setMenuSearchCliked(false);
+                  setDownBarOpened(false);
+                  document.body.style.overflow = 'unset';
+                  goSearch(mobileSearchInput);
+                }
+              }}
               value={mobileSearchInput}
               onChange={onChangeSearchInput}
               placeholder="검색어를 입력해주세요"
@@ -412,7 +429,7 @@ const StHeaderMenuMobile = styled.div`
     align-items: flex-start;
     gap: 8px;
     cursor: pointer;
-    z-index: 5;
+    z-index: 7;
   }
 `;
 
@@ -424,7 +441,7 @@ const StHeader = styled.header<{ $mediawidth: number }>`
   background: var(--achromatic-colors-white, #fff);
   box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.06);
   backdrop-filter: blur(25px);
-  z-index: 4;
+  z-index: 7;
   transition: 0.2s;
   &.search {
     padding-bottom: 12px;

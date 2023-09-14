@@ -1,11 +1,12 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import React, { useCallback, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
 import * as userStore from '../store/userStore';
+import * as boardStore from '../store/boardStore';
 import * as S from './Board.style';
 import { getPosts } from '../api/boardapi';
 import { useState } from 'react';
-import { useAtomValue } from 'jotai';
+import { useAtomValue, useAtom } from 'jotai';
 import Pagination from '../components/Pagenation';
 import { toast } from 'react-toastify';
 import pencil from '../assets/pencil.svg';
@@ -20,12 +21,13 @@ import useViewport from '../hooks/useViewPort';
 
 const Board = () => {
   const user = useAtomValue(userStore.user);
+  const [searchKeyword, setSearchKeyword] = useAtom(boardStore.searchKeyword);
   const navigate = useNavigate();
+  const location = useLocation();
   const [selectedCategory, setSelectedCategory] = useState<string>('');
-  const [searchKeyword, setSearchKeyword] = useState<string>('');
+  const [inputSearchKeyword, setInputSearchKeyword] = useState<string>('');
   const [page, setPage] = useState<number>(1);
   const { width, isMobile } = useViewport();
-
   const handleWriteClick = () => {
     if (!user) {
       toast.warning('로그인 후에 작성할 수 있습니다! 로그인 해주세요😳', {
@@ -45,7 +47,7 @@ const Board = () => {
   };
 
   const postQueryOptions = {
-    queryKey: ['posts', selectedCategory, page],
+    queryKey: ['posts', selectedCategory, page, searchKeyword],
     queryFn: () => getPosts(selectedCategory, page, searchKeyword),
     refetchOnWindowFocus: false,
   };
@@ -55,7 +57,7 @@ const Board = () => {
     isFetching,
     refetch,
   } = useQuery(postQueryOptions);
-
+  console.log(postsAndTotalPages);
   const onClickPage = (selected: number | string) => {
     if (page === selected) return;
     if (typeof selected === 'number') {
@@ -90,9 +92,13 @@ const Board = () => {
   };
 
   const handleSearch = async () => {
-    refetch();
+    setSearchKeyword(inputSearchKeyword);
     setSelectedCategory('');
   };
+
+  const handleSearchCallback = useCallback(() => {
+    handleSearch();
+  }, []);
 
   // 글 이미지 미리보기에서 사진 없애기
   const removeImageTags = (html: string) => {
@@ -102,7 +108,6 @@ const Board = () => {
     const cleanHtml = html.replace(pattern, '');
     return cleanHtml;
   };
-
   return (
     <S.Container>
       <S.Title>게시판</S.Title>
@@ -159,8 +164,8 @@ const Board = () => {
             <S.SearchInput
               type="text"
               placeholder="검색어를 입력해주세요!"
-              value={searchKeyword}
-              onChange={(e) => setSearchKeyword(e.target.value)}
+              value={inputSearchKeyword}
+              onChange={(e) => setInputSearchKeyword(e.target.value)}
               onKeyDown={handleKeyPress}
             />
             <S.SearchIcon
