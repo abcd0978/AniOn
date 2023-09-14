@@ -178,7 +178,7 @@ const AnimeList = () => {
     <S.AnimeListSection $isMobileFilterOpen={isMobileFilterOpen}>
       <S.PageNameDiv>
         <S.PageNameFisrt>애니 </S.PageNameFisrt>
-        <S.PageNameSecond>검색</S.PageNameSecond>
+        <S.PageNameSecond>찾기</S.PageNameSecond>
       </S.PageNameDiv>
       <AnimeFilter count={count} setAnimeList={setAnimeList} />
       <S.AnimeContainer>

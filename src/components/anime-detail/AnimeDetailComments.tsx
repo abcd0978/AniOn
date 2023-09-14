@@ -154,7 +154,6 @@ const AnimeDetailComments = () => {
       return Promise.resolve({ data: [], totalPages: 1 });
     },
     keepPreviousData: true,
-    refetchOnMount: false,
   };
 
   const { data: aniCommentsData } = useQuery(aniCommentQueryOptions);

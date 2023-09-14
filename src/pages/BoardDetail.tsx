@@ -39,7 +39,7 @@ const BoardDetail = () => {
   const { post_id } = useParams<{ post_id: string }>();
 
   const { width } = useViewport();
-
+  const { isMobile } = useViewport();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const { openConfirm } = useConfirm();
@@ -188,19 +188,23 @@ const BoardDetail = () => {
       {!isEdit && (
         <S.Post>
           <S.Search>
-            <S.CateButton
-              style={{
-                backgroundColor: '#FF96DB',
-                color: '#ffffff',
-              }}
-            >
-              {post?.category}
-            </S.CateButton>
+            {!isMobile && (
+              <S.CateButton
+                style={{
+                  backgroundColor: '#FF96DB',
+                  color: '#ffffff',
+                }}
+              >
+                {post?.category}
+              </S.CateButton>
+            )}
           </S.Search>
           <S.Write>
-            <S.WriteButton onClick={handleWriteClick}>
-              <img src={pencil} alt="작성" /> 작성하기
-            </S.WriteButton>
+            {!isMobile && (
+              <S.WriteButton onClick={handleWriteClick}>
+                <img src={pencil} alt="작성" /> 작성하기
+              </S.WriteButton>
+            )}
           </S.Write>
         </S.Post>
       )}

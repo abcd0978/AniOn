@@ -69,6 +69,7 @@ export const WriteButton = styled.button`
 export const ButtonBox = styled.div`
   display: flex;
   position: absolute;
+  justify-content: space-between;
   bottom: 0;
   right: 0;
   margin: 5px;
@@ -79,7 +80,7 @@ export const button = styled.button`
   color: black;
   border: 1px solid #c88fff;
   border-radius: 6px;
-  width: 64px;
+  width: 70px;
   height: 28px;
   padding: 0px 8px;
   gap: 2px;
@@ -100,7 +101,7 @@ export const Comment = styled.div`
   margin-top: 28px;
   background-color: #ffffff;
   width: 100%;
-  min-height: 218px;
+  min-height: 190px;
 `;
 
 export const CommentDate = styled.div`
@@ -217,4 +218,13 @@ export const CommentMore = styled.button`
   margin-top: 12px;
   margin-bottom: 5px;
   display: block;
+`;
+
+export const ReplyButton = styled.div`
+  display: flex;
+  position: absolute;
+  justify-content: space-between;
+  bottom: 0;
+  left: 0;
+  margin: 5px;
 `;
