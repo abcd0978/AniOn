@@ -14,7 +14,7 @@ const PasswordReset = () => {
     if (user && user.email) {
       setSendingEmail(true);
       const { error } = await supabase.auth.resetPasswordForEmail(user.email, {
-        redirectTo: 'http://localhost:3000/newPassword/:user_id',
+        redirectTo: 'https://ani-on.vercel.app/newPassword/:user_id',
       });
 
       if (error) {

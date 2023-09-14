@@ -21,7 +21,7 @@ const MyProfile = () => {
           {user && (
             <ProfileWithBorder
               $mediawidth={width}
-              width={window.innerWidth <= 768 ? 450 : 300}
+              width={window.innerWidth <= 768 ? 450 : 200}
               key={user?.id!}
             />
           )}
