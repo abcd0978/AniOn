@@ -28,7 +28,6 @@ const WhatIWrote = () => {
     queryKey: ['userPosts', page],
     queryFn: () => fetchUserPosts(user!.id, page),
     refetchOnWindowFocus: false,
-    refetchOnMount: false,
     staleTime: 60 * 1000,
     cacheTime: 60 * 6000,
     enabled: !!user,
