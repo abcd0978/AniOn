@@ -149,11 +149,15 @@ export const B = {
   BorderPage: styled.div`
     position: absolute;
     justify-content: center;
-    top: 23%;
+    top: 25%;
     right: 26%;
     @media (max-width: 2000px) {
-      top: 19%;
-      right: 25%;
+      top: 25%;
+      margin-right: -5%;
+    }
+    @media (max-width: 1900px) {
+      top: 23%;
+      margin-right: 0%;
     }
     @media (max-width: 1600px) {
       top: 20%;
@@ -369,6 +373,10 @@ export const A = {
     right: 30%;
     top: 23%;
     @media (max-width: 2000px) {
+      margin-top: 0%;
+      margin-right: -5%;
+    }
+    @media (max-width: 1900px) {
       top: 20%;
       right: 30%;
     }

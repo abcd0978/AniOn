@@ -146,7 +146,6 @@ const MyBorder = () => {
 
   return (
     <B.BorderContainer>
-      <B.Container>{borderList}</B.Container>
       <B.BorderPage>
         {Array.isArray(filteredBorders) &&
           filteredBorders.length >= itemsPerPage && (
@@ -159,6 +158,7 @@ const MyBorder = () => {
             />
           )}
       </B.BorderPage>
+      <B.Container>{borderList}</B.Container>
     </B.BorderContainer>
   );
 };

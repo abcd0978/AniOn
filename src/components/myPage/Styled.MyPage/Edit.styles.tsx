@@ -4,29 +4,30 @@ export const E = {
     margin-top: -90%;
     margin-left: 45%;
     @media (max-width: 2000px) {
-      margin-top: -90%;
-      margin-left: 50%;
-    }
-    @media (max-width: 1600px) {
-      margin-top: -80%;
+      margin-top: -85%;
       margin-left: 40%;
     }
+    @media (max-width: 1900px) {
+      margin-top: -85%;
+      margin-left: 45%;
+    }
+
     @media (max-width: 1500px) {
       margin-top: -75%;
-      margin-left: 37%;
+      margin-left: 45%;
     }
     @media (max-width: 1400px) {
       margin-top: -75%;
-      margin-left: 37%;
+      margin-left: 40%;
     }
     @media (max-width: 1280px) {
       margin-top: -70%;
-      margin-left: 35%;
+      margin-left: 40%;
     }
 
     @media (max-width: 1024px) {
       margin-top: -65%;
-      margin-left: 30%;
+      margin-left: 40%;
     }
     @media (max-width: 768px) {
       display: flex;
