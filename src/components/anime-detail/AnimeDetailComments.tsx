@@ -243,13 +243,12 @@ const AnimeDetailComments = () => {
                   <S.AniUserAward>
                     {comment.users.inventory.length > 0 &&
                     processItem(comment.users.inventory).award.img_url ? (
-                      <img
+                      <S.Award
                         src={
                           processItem(comment.users.inventory).award.img_url!
                         }
                         alt={processItem(comment.users.inventory).award.name!}
-                        style={{ width: '172px', height: '32px' }}
-                      ></img>
+                      ></S.Award>
                     ) : (
                       <S.AniAwardNo>칭호없음</S.AniAwardNo>
                     )}

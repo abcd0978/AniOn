@@ -74,6 +74,7 @@ export const S = {
     @media (max-width: 768px) {
       width: 120px;
       height: 22.32px;
+      margin-top: 25px;
     }
   `,
 
