@@ -57,10 +57,15 @@ export const PostTopRight = styled.div`
 `;
 
 export const Ddabong = styled.img`
-  margin-right: 2px;
+  margin-right: 5px;
   width: 14px;
   color: #4f4f4f;
-  margin-right: 7px;
+`;
+export const CommentsCount = styled.img`
+  margin-right: 5px;
+  width: 14px;
+  color: #4f4f4f;
+  margin-top: 3px;
 `;
 export const PostMiddle = styled.div`
   width: 95%;
@@ -212,7 +217,7 @@ export const WriteButton = styled.button`
   border: none;
   border-radius: 10px;
   width: 120px;
-  height: 40px;
+  height: 36px;
   padding: 8px;
   font-size: 15px;
   color: white;
@@ -249,15 +254,23 @@ export const Write = styled.div`
 export const SearchInputContainer = styled.div`
   position: relative;
   display: flex;
+  margin-top: 10px;
+  margin-right: -12px;
 `;
 
 export const SearchInput = styled.input`
-  width: 260px;
-  height: 40px;
+  width: 228px;
+  border: none;
+  outline: none;
+`;
+export const SearchBox = styled.div`
+  width: 228px;
+  height: 36px;
   border: 1px solid #cfcfcf;
   border-radius: 20px;
   padding-right: 30px;
   padding-left: 15px;
+  display: flex;
 `;
 
 export const SearchIcon = styled.img`
@@ -266,6 +279,7 @@ export const SearchIcon = styled.img`
   transform: translateY(-50%);
   width: 20px;
   height: 20px;
+  margin-top: 18px;
 `;
 export const Page = styled.div`
   justify-content: center;

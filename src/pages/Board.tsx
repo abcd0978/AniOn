@@ -11,6 +11,7 @@ import { toast } from 'react-toastify';
 import pencil from '../assets/pencil.svg';
 import search from '../assets/search.svg';
 import ddabong from '../assets/ddabong.svg';
+import commentsicon from '../assets/commentsicon.svg';
 import ScrollToTop from '../components/scroll/ScrollToTop';
 import ProfileWithBorder, {
   processItem,
@@ -152,19 +153,20 @@ const Board = () => {
         </S.ButtonBox>
         {!isMobile && (
           <S.SearchInputContainer>
-            <S.SearchInput
-              type="text"
-              placeholder="검색어를 입력해주세요!"
-              value={searchKeyword}
-              onChange={(e) => setSearchKeyword(e.target.value)}
-              onKeyDown={handleKeyPress}
-            />
-            <S.SearchIcon
-              src={search}
-              alt="Search Icon"
-              onClick={handleSearch}
-            />
-
+            <S.SearchBox>
+              <S.SearchInput
+                type="text"
+                placeholder=" 검색어를 입력해주세요!"
+                value={searchKeyword}
+                onChange={(e) => setSearchKeyword(e.target.value)}
+                onKeyDown={handleKeyPress}
+              />
+              <S.SearchIcon
+                src={search}
+                alt="Search Icon"
+                onClick={handleSearch}
+              />
+            </S.SearchBox>
             <S.WriteButton onClick={handleWriteClick}>
               <img src={pencil} alt="작성" /> 작성하기
             </S.WriteButton>
@@ -189,8 +191,12 @@ const Board = () => {
                 </S.PostTopLeft>
                 <S.PostTopRight>
                   <S.Ddabong src={ddabong} alt="추천수" />
-                  <div style={{ marginTop: '3px', marginRight: '5px' }}>
+                  <div style={{ marginTop: '3px', marginRight: '12px' }}>
                     추천수 {post.likes?.length}
+                  </div>
+                  <S.CommentsCount src={commentsicon} alt="댓글 수" />
+                  <div style={{ marginTop: '3px', marginRight: '5px' }}>
+                    댓글 {post.commentsCount}
                   </div>
                 </S.PostTopRight>
               </S.PostTop>
