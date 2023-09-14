@@ -7,6 +7,7 @@ export type PostType = {
   deleted_at: string;
   id: string;
   thumbnail?: string;
+  commentsCount?: number;
   post_id: string;
   likes: {
     id: string;
