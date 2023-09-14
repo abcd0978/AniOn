@@ -47,6 +47,7 @@ const Comments = () => {
   const addMutation = useMutation(commentApi.addComment, {
     onSuccess: () => {
       queryClient.invalidateQueries(['post_comments']);
+      queryClient.invalidateQueries(['posts']);
       updatePoint({ userId: user?.id!, point: 1 });
       toast.success(
         '댓글이 작성되었습니다!ㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ 💰1포인트 적립',
