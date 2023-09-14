@@ -10,6 +10,7 @@ const S = {
     color: #8200ff;
     @media (max-width: 768px) {
       font-size: 20px;
+      margin-left: 10px;
     }
   `,
   Container: styled.div<{ width?: number }>`
@@ -30,6 +31,9 @@ const S = {
     align-items: center;
     margin: 0 auto;
     padding: 0 auto;
+    @media (max-width: 768px) {
+      margin-left: -3px;
+    }
   `,
 
   Form: styled.form<{ width?: number }>`
@@ -78,8 +82,9 @@ const S = {
     @media (max-width: 768px) {
       display: flex;
       flex-direction: column;
-      width: 90%;
+      width: 85%;
       margin-top: -10px;
+      margin-left: 45px;
     }
   `,
 
@@ -99,6 +104,7 @@ const S = {
     margin-left: 20px;
     @media (max-width: 768px) {
       margin-top: -10px;
+      margin-left: -10px;
     }
   `,
 
@@ -113,6 +119,7 @@ const S = {
     @media (max-width: 768px) {
       width: 96px;
       height: 34px;
+      margin-left: 10px;
     }
   `,
 
@@ -125,6 +132,9 @@ const S = {
     // border: 1px #c88fff solid;
     border: none;
     margin-right: 40px;
+    @media (max-width: 768px) {
+      margin-left: 10px;
+    }
   `,
 
   Textarea: styled.textarea<{ width?: number }>`
@@ -147,7 +157,7 @@ const S = {
     justify-content: flex-end;
     @media (max-width: 768px) {
       margin-top: -1px;
-      margin-left: 40px;
+      margin-left: 20px;
     }
   `,
   Button: styled.button<{ width?: number }>`
@@ -160,6 +170,10 @@ const S = {
     color: white;
     margin-right: 5px;
     cursor: pointer;
+    @media (max-width: 768px) {
+      width: 60px;
+      height: 30px;
+    }
   `,
   SubmitButton: styled.button<{ width?: number }>`
     background-color: #8200ff;
@@ -171,6 +185,10 @@ const S = {
     color: white;
     margin-right: 18px;
     cursor: pointer;
+    @media (max-width: 768px) {
+      width: 60px;
+      height: 30px;
+    }
   `,
 };
 

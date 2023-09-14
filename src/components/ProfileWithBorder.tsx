@@ -68,7 +68,7 @@ function ProfileWithBorder(props: Props) {
         category: 0,
       }),
     refetchOnWinowFocus: false,
-    staleTime: 60 * 60,
+    staleTime: 60 * 1000,
     eabled: !!user,
   };
 

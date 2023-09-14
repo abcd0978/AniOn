@@ -1,40 +1,45 @@
-import React, { useEffect, useMemo } from 'react';
-import Comments from '../components/Board/Comments';
-import { useNavigate, useParams } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
 import { useAtomValue } from 'jotai';
-import ScrollToTop from '../components/scroll/ScrollToTop';
-import { Database } from '../types/supabase';
-import EditorComponent from '../components/editor/EditorComponent';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import useViewport from '../hooks/useViewPort';
-import {
-  deletePost,
-  updatePost,
-  getPost,
-  getLikesForPost,
-  createLike,
-  deleteLike,
-  getLikeForPost,
-} from '../api/boardapi';
-import { useState } from 'react';
-import { S } from '../pages/BoardDetail.style';
-import * as userStore from '../store/userStore';
-import filledLike from '../assets/filledLike.svg';
-import borderLike from '../assets/borderLike.svg';
 import { toast } from 'react-toastify';
-import pencil from '../assets/pencil.svg';
-import search from '../assets/search.svg';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+
+// components
+import Comments from '../components/Board/Comments';
+import ScrollToTop from '../components/scroll/ScrollToTop';
+import EditorComponent from '../components/editor/EditorComponent';
 import ProfileWithBorder, {
   processItem,
 } from '../components/ProfileWithBorder';
-import { useConfirm } from '../hooks/useConfirm';
+import Loading from '../components/Loading/Loading';
 
-import type { PostType, UpdatePost, Like } from '../types/post';
+// style
+import { S } from '../pages/BoardDetail.style';
+
+//hooks
+import { useConfirm } from '../hooks/useConfirm';
+import useViewport from '../hooks/useViewPort';
+
+// assets, file
+import filledLike from '../assets/filledLike.svg';
+import borderLike from '../assets/borderLike.svg';
+import pencil from '../assets/pencil.svg';
+
+// api
+import * as boardApi from '../api/boardapi';
+
+// store
+import * as userStore from '../store/userStore';
+
+// types
+import type { UpdatePost } from '../types/post';
 
 const BoardDetail = () => {
   const user = useAtomValue(userStore.user);
-  const { width, isMobile } = useViewport();
+  const { post_id } = useParams<{ post_id: string }>();
 
+  const { width } = useViewport();
+  const { isMobile } = useViewport();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const { openConfirm } = useConfirm();
@@ -43,11 +48,7 @@ const BoardDetail = () => {
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const [title, setTitle] = useState<string>('');
   const [content, setContent] = useState<string>('');
-  const [category, setCategory] = useState<string>('');
   const [editCategory, setEditCategory] = useState<string>('');
-  const [existingLike, setExistingLike] = useState<boolean>(false);
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const [searchKeyword, setSearchKeyword] = useState<string>('');
 
   const handleWriteClick = () => {
     if (!user) {
@@ -59,60 +60,26 @@ const BoardDetail = () => {
     }
   };
 
-  const handleAllClick = () => {
-    setSelectedCategory(null);
-  };
-
-  const handleCategoryClick = (category: string) => {
-    setSelectedCategory(category);
-  };
-
-  const handlePostClick = (postId: string) => {
-    navigate(`/board/${postId}`);
-  };
-
-  const handleSearchSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    setSelectedCategory(null);
-    queryClient.invalidateQueries(['post', null, searchKeyword]);
-  };
-
-  // Post id 가져오기
-  const { post_id } = useParams<{ post_id: string }>();
-
-  // Likes 상태 추가
-  const [likes, setLikes] = useState<Like[]>([]);
-
   const postQueryOptions = {
     queryKey: ['post'],
-    queryFn: () => getPost(post_id!),
+    queryFn: () => boardApi.fetchPost(post_id!),
     refetchOnFocus: false,
   };
+
   // Post 상세조회
-  const { data: post, refetch: refetchPost } = useQuery(postQueryOptions);
-  useEffect(() => {
-    if (post) {
-      // 해당 게시물의 카테고리에 따라 선택한 카테고리 업데이트
-      setSelectedCategory(post.category);
-    }
-  }, [post]);
+  const { data: post } = useQuery(postQueryOptions);
 
   //전에 좋아요를 눌렀는지 확인
-  const { data: like } = useQuery(
-    ['like', user],
-    () => getLikeForPost({ post_id, user_id: user?.id }),
-    {
-      enabled: !!user,
-      refetchOnWindowFocus: false,
-    },
-  );
+  const likeQueryOption = {
+    queryKey: ['like'],
+    queryFn: () => boardApi.fetchLikeForPost({ post_id, user_id: user?.id }),
+    enabled: !!user,
+    refetchOnWindowFocus: false,
+  };
+  const { data: like } = useQuery(likeQueryOption);
 
   const onChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
-  };
-  const onChangeContent = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setContent(e.target.value);
   };
 
   useEffect(() => {
@@ -120,13 +87,12 @@ const BoardDetail = () => {
       // 수정 중이 아닐 때만 게시물 정보 업데이트
       setTitle(post.title);
       setContent(post.content);
-      setCategory(post.category);
       setEditCategory(post.category);
     }
   }, [isEdit, post]);
 
   // Post 삭제
-  const deleteMutation = useMutation(deletePost, {
+  const deleteMutation = useMutation(boardApi.deletePost, {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['posts'] });
     },
@@ -149,21 +115,21 @@ const BoardDetail = () => {
   };
 
   // Post 수정
-  const updateMutation = useMutation(updatePost, {
+  const updateMutation = useMutation(boardApi.updatePost, {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['post'] });
-      refetchPost();
       setIsEdit(false);
     },
   });
+
   const getImg = (bodyStr: string) => {
     const parser = new DOMParser();
     const doc = parser.parseFromString(bodyStr, 'text/html');
     const img = doc.querySelector<HTMLImageElement>('img[src]');
     const src = img?.src;
-    console.log(src);
     return src ? src : null;
   };
+
   const editButton = (post: UpdatePost) => {
     if (!isEdit) {
       setTitle(post.title);
@@ -182,11 +148,11 @@ const BoardDetail = () => {
     setIsEdit(!isEdit);
   };
 
-  const insertLikeMutation = useMutation(createLike, {
+  const insertLikeMutation = useMutation(boardApi.createLike, {
     onSuccess: () => queryClient.invalidateQueries(['like']),
   });
 
-  const deleteLikeMutation = useMutation(deleteLike, {
+  const deleteLikeMutation = useMutation(boardApi.deleteLike, {
     onSuccess: () => queryClient.invalidateQueries(['like']),
   });
 
@@ -209,93 +175,39 @@ const BoardDetail = () => {
       insertLikeMutation.mutate({ post_id: post_id!, user_id: user.id });
     }
 
-    // 좋아요 정보 업데이트
-    if (post) {
-      const updatedLikes = await getLikesForPost(post.id!);
-      setLikes(updatedLikes as Like[]);
-    }
-
-    // 새로운 게시물 정보를 불러와 업데이트
-    const updatedPost = await getPost(post_id!);
-    queryClient.setQueryData(['post', post_id], updatedPost);
-    // setExistingLike(!existingLike);
-    refetchPost();
     queryClient.invalidateQueries(['like']);
   };
 
   const handleListClick = () => {
-    navigate('/board'); // '/board'
-  };
-
-  //칭호 가져오기
-  const getUserTitle = (user: any) => {
-    if (user.inventory && user.inventory?.length > 0) {
-      const titleItem = user.inventory[0];
-
-      if (titleItem.items && titleItem.items.name) {
-        return titleItem.items.name;
-      }
-    }
-    //없으면
-    return '칭호없음';
+    navigate('/board');
   };
 
   return (
-    // <S.Layout>
     <>
       <S.TopTitle>게시판</S.TopTitle>
-      {!isMobile && (
+      {!isEdit && (
         <S.Post>
-          {!isEdit && (
-            <>
-              <S.Search>
-                <S.CateButton
-                  onClick={() => {}}
-                  style={{
-                    backgroundColor:
-                      selectedCategory === '애니' ? '#FF96DB' : '#FFEBF7',
-                    color: selectedCategory === '애니' ? '#ffffff' : 'black',
-                    cursor: 'not-allowed',
-                  }}
-                >
-                  애니
-                </S.CateButton>
-                <S.CateButton
-                  onClick={() => {}}
-                  style={{
-                    backgroundColor:
-                      selectedCategory === '자유' ? '#FF96DB' : '#FFEBF7',
-                    color: selectedCategory === '자유' ? '#ffffff' : 'black',
-
-                    cursor: 'not-allowed',
-                  }}
-                >
-                  자유
-                </S.CateButton>
-                <S.CateButton
-                  onClick={() => {}}
-                  style={{
-                    backgroundColor:
-                      selectedCategory === '오류 신고' ? '#FF96DB' : '#FFEBF7',
-                    color:
-                      selectedCategory === '오류 신고' ? '#ffffff' : 'black',
-
-                    cursor: 'not-allowed',
-                  }}
-                >
-                  오류 신고
-                </S.CateButton>
-              </S.Search>
-              <S.Write>
-                <S.WriteButton onClick={handleWriteClick}>
-                  <img src={pencil} /> 작성하기
-                </S.WriteButton>
-              </S.Write>
-            </>
-          )}
+          <S.Search>
+            {!isMobile && (
+              <S.CateButton
+                style={{
+                  backgroundColor: '#FF96DB',
+                  color: '#ffffff',
+                }}
+              >
+                {post?.category}
+              </S.CateButton>
+            )}
+          </S.Search>
+          <S.Write>
+            {!isMobile && (
+              <S.WriteButton onClick={handleWriteClick}>
+                <img src={pencil} alt="작성" /> 작성하기
+              </S.WriteButton>
+            )}
+          </S.Write>
         </S.Post>
       )}
-
       <S.Container>
         <S.Inner>
           {post ? (
@@ -349,7 +261,6 @@ const BoardDetail = () => {
                     <S.Input value={title} onChange={onChangeTitle} />
                   </S.Box>
                 ) : (
-                  // <S.Box>
                   <>
                     <S.Top>
                       <S.Title>{title}</S.Title>
@@ -376,7 +287,6 @@ const BoardDetail = () => {
                         >
                           <div style={{ paddingTop: '12.5%' }}>
                             <S.Nickname>{post.users?.nickname}</S.Nickname>
-                            {/* <S.Award> */}
                             {post.users.inventory.length > 0 &&
                             processItem(post.users.inventory).award.img_url ? (
                               <img
@@ -392,7 +302,6 @@ const BoardDetail = () => {
                             ) : (
                               <S.AwardNo>칭호없음</S.AwardNo>
                             )}
-                            {/* </S.Award> */}
                           </div>
                         </div>
                       </S.UserInfo>
@@ -404,12 +313,10 @@ const BoardDetail = () => {
                         )}
                       </S.Like>
                     </S.User>
-
-                    {/* </S.Box> */}
                   </>
                 )}
 
-                {isEdit ? null : <S.Line></S.Line>}
+                {!isEdit && <S.Line />}
 
                 {isEdit ? (
                   <S.EditBox>
@@ -427,14 +334,12 @@ const BoardDetail = () => {
               <S.Comment>{!isEdit && <Comments />}</S.Comment>
             </>
           ) : (
-            <div>Loading...</div>
+            <Loading />
           )}
-
           <ScrollToTop />
         </S.Inner>
       </S.Container>
       <S.ListButton onClick={handleListClick}>목록</S.ListButton>
-      {/* </S.Layout> */}
     </>
   );
 };

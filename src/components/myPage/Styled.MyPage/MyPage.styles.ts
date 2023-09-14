@@ -29,13 +29,24 @@ export const Profile = {
     margin-top: 20px;
     @media (max-width: 768px) {
       display: flex;
-      justify-content: space-between;
+      flex-direction: column;
+      justify-contents: center;
+      align-items: center;
       border-radius: 20px;
       box-shadow: 0px 0px 25px 0px rgba(0, 0, 0, 0.1);
       margin-top: -50px;
       margin-left: -20px;
-      width: 83vw;
+      width: 75%;
       padding: 15px;
+      height: 15%;
+    }
+    @media (max-width: 480px) {
+      width: 85%;
+      height: 15%;
+    }
+    @media (max-width: 400px) {
+      width: 77%;
+      height: 15%;
     }
   `,
   BasicImage: styled.img`
@@ -46,8 +57,6 @@ export const Profile = {
     background-size: cover;
     background-position: center;
     @media (max-width: 768px) {
-      order: -1;
-
       width: 60px;
       height: 60px;
     }
@@ -60,7 +69,6 @@ export const Profile = {
     background-size: cover;
     background-position: center;
     @media (max-width: 768px) {
-      order: -1;
       width: 60px;
       height: 60px;
     }
@@ -100,6 +108,17 @@ export const Profile = {
     }
   `,
   MobileInfo: styled.div`
+    @media (max-width: 768px) {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      margin-left: -20px;
+    }
+  `,
+  MyMobilePhoto: styled.div`
+    margin-left: 11%;
+  `,
+  MyMobileInfo: styled.div`
     @media (max-width: 768px) {
       display: flex;
       flex-direction: column;
@@ -176,6 +195,12 @@ export const InfoMenu = {
     font-weight: 400;
     line-height: normal;
     letter-spacing: -0.24px;
+    @media (max-width: 768px) {
+      font-size: 16px;
+      align-items: center;
+      margin-left: 10%;
+      margin-top: 5%;
+    }
   `,
   BackButton: styled.button`
     position: absolute;
@@ -204,6 +229,9 @@ export const InfoMenu = {
     display: flex;
     margin-left: 25px;
     margin-top: 70px;
+    @media (max-width: 768px) {
+      margin-left: 20%;
+    }
   `,
   InfoButton: styled.button`
     background-color: transparent;
@@ -220,12 +248,10 @@ export const InfoMenu = {
     margin-top: 18px;
 
     @media (max-width: 768px) {
-      margin-right: 10px;
-      height: auto;
+      height: 60%;
       background: #fdfbff;
-      margin-left: -20px;
-      width: 83vw;
-      padding: 15px;
+      margin-left: -5%;
+      width: 85%;
       padding-top: 32px;
       padding-left: 20 px;
       margin-top: 10 px;
@@ -237,6 +263,12 @@ export const InfoMenu = {
           ? 'none'
           : ' 0px 0px 25px 0px rgba(0, 0, 0, 0.1)'};
       border-radius: 20px;
+    }
+    @media (max-width: 480px) {
+      width: 92%;
+    }
+    @media (max-width: 400px) {
+      width: 85%;
     }
   `,
 };

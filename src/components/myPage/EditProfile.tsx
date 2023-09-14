@@ -8,6 +8,7 @@ import { Divider, Profile } from './Styled.MyPage/MyPage.styles';
 import { useAtom } from 'jotai';
 import { toast } from 'react-toastify';
 import { E } from './Styled.MyPage/Edit.styles';
+import PasswordReset from './ResetPassword';
 //2-2-1.닉넴중복확인
 type ErrorType = {
   error: boolean;
@@ -236,6 +237,10 @@ const EditProfile = () => {
             <div>{user?.email}</div>
           </E.EtcItem>
           <Divider />
+          <E.Label>비밀번호</E.Label>
+          <PasswordReset />
+          <Divider />
+
           {/* 닉넴 */}
           <E.EtcItem>
             <E.Label>닉네임</E.Label>

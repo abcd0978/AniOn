@@ -179,7 +179,7 @@ const LikedAnime = () => {
             navigate('/recommend');
           }}
         >
-          애니메이션 추천받으러 가기
+          애니메이션 찾으러 가기
           <img src={goShop} alt="고샾" />
         </L.GoRecommend>
       </L.NoContainer>
@@ -310,6 +310,10 @@ const L = {
       margin-left: 10px;
       margin-top: -10px;
     }
+    @media (max-width: 480px) {
+    }
+    @media (max-width: 400px) {
+    }
   `,
   GridContainer: styled.div`
     display: grid;
@@ -319,6 +323,14 @@ const L = {
       grid-template-columns: repeat(2, 1fr);
       gap: 0px;
       margin-left: 10%;
+    }
+    @media (max-width: 480px) {
+      margin-left: 2%;
+      margin-top: 10%;
+    }
+    @media (max-width: 400px) {
+      margin-left: -5%;
+      margin-top: 10%;
     }
   `,
   Title: styled.div`
@@ -348,9 +360,16 @@ const L = {
     margin-top: -60px;
     @media (max-width: 768px) {
       font-size: 12px;
-      height: auto;
+      height: 10px;
+      max-width: 100%;
       margin-top: -30px;
-      margin-left: -10px;
+      margin-left: -10%;
+    }
+    @media (max-width: 480px) {
+      margin-left: 0%;
+    }
+    @media (max-width: 400px) {
+      margin-left: -5%;
     }
   `,
 
@@ -390,8 +409,8 @@ const L = {
     position: absolute;
     justify-content: center;
     display: block;
-    top: -45px;
-    right: 250px;
+    top: -40px;
+    right: 200px;
     @media (max-width: 768px) {
       position: absolute;
       justify-content: center;
@@ -399,16 +418,34 @@ const L = {
       top: -35px;
       right: 120px;
     }
+    @media (max-width: 480px) {
+      right: 40%;
+      top: -5px;
+    }
+
+    @media (max-width: 400px) {
+      right: 40%;
+      top: -5px;
+    }
+    @media (max-width: 380px) {
+      right: 45%;
+      top: -5px;
+    }
+    @media (max-width: 360px) {
+      right: 40%;
+      top: -5px;
+    }
   `,
 
   FullPage: styled.div`
-    position: relative;
+    position: absolute;
 
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: flex-end;
     @media (max-width: 768px) {
+      height: auto;
     }
   `,
   Tags: styled.div`
@@ -429,8 +466,7 @@ const L = {
     @media (max-width: 768px){
       font-size:14px ;
       width:160px ; 
-    text-overflow: ellipsis;
-      
+      text-overflow: ellipsis;
       white-space :nowrap ;
       }
     }
@@ -480,6 +516,9 @@ const L = {
       visibility: visible;
       opacity: 1;
       transition-delay: 0s;
+      @media (max-width: 768px) {
+        visibility: hidden;
+      }
     }
     &:hover ${PosterImage} {
       filter: brightness(0.3);
@@ -490,6 +529,9 @@ const L = {
     }
     &:hover ${HoveredAnimeGenre} {
       visibility: visible;
+      @media (max-width: 768px) {
+        visibility: hidden;
+      }
     }
     @media (max-width: 540px) {
       width: 100%;
