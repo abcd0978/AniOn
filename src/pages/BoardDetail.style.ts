@@ -231,6 +231,10 @@ export const S = {
     &:hover {
       border: 1px solid #c88fff;
     }
+    @media (max-width: 768px) {
+      margin-left: -18px;
+      margin-top: 5px;
+    }
   `,
   Input: styled.input`
     width: calc(90% - 5px);
@@ -242,6 +246,10 @@ export const S = {
     border-radius: 8px;
     &:hover {
       border: 1px solid #c88fff;
+    }
+    @media (max-width: 768px) {
+      margin-left: -18px;
+      margin-top: 5px;
     }
   `,
 
@@ -333,11 +341,14 @@ export const S = {
     background-color: #8200ff;
     border: none;
     border-radius: 10px;
-    height: 40px;
+    height: 36px;
+    width: 120px;
     padding: 8px;
     font-size: 15px;
     color: white;
     cursor: pointer;
+    margin-top: 10px;
+    margin-right: 5px;
   `,
 
   CateButton: styled.button`
