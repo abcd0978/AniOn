@@ -3,12 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
 import Pagination from '../Pagenation';
 import * as S from './Comments.Styles';
-import {
-  fetchComments,
-  addComment,
-  deleteComment,
-  updateComment,
-} from '../../api/commentapi';
+import * as commentApi from '../../api/commentapi';
 import ProfileWithBorder, { processItem } from '../ProfileWithBorder';
 import * as userStore from '../../store/userStore';
 import { useAtomValue } from 'jotai';
@@ -23,6 +18,7 @@ import {
 import { updatePoint } from '../../api/items';
 import { useConfirm } from '../../hooks/useConfirm';
 import useViewport from '../../hooks/useViewPort';
+import ReplyComment from './reply/ReplyComment';
 
 const Comments = () => {
   const { post_id } = useParams() as { post_id: string };
@@ -34,9 +30,13 @@ const Comments = () => {
   const { isMobile } = useViewport();
 
   const [newComment, setNewComment] = useState<string>('');
-
   const [editingCommentId, setEditingCommentId] = useState<string | null>('');
   const [editedCommentText, setEditedCommentText] = useState<string>('');
+
+  // 대댓글
+  const [isReplying, setIsReplying] = useState<boolean>(false);
+  const [replyingId, setReplyingId] = useState<string | null>(null);
+
   // 로그인 여부 체크
   const isLoggedIn = !!user;
   // 로그인하지 않은 경우 댓글 입력 상태 변수에 메시지와 글씨를 설정
@@ -44,7 +44,7 @@ const Comments = () => {
     ? '댓글을 작성해주세요!'
     : '리뷰는 로그인/회원가입 후 이용해주세요.';
 
-  const addMutation = useMutation(addComment, {
+  const addMutation = useMutation(commentApi.addComment, {
     onSuccess: () => {
       queryClient.invalidateQueries(['post_comments']);
       updatePoint({ userId: user?.id!, point: 1 });
@@ -82,7 +82,7 @@ const Comments = () => {
     setNewComment('');
   };
 
-  const deleteMutation = useMutation(deleteComment, {
+  const deleteMutation = useMutation(commentApi.deleteComment, {
     onSuccess: () => {
       queryClient.invalidateQueries(['post_comments']);
     },
@@ -102,7 +102,7 @@ const Comments = () => {
     openConfirm(deleteConfirmData);
   };
 
-  const editMutation = useMutation(updateComment, {
+  const editMutation = useMutation(commentApi.updateComment, {
     onSuccess: () => {
       queryClient.invalidateQueries(['post_comments']);
     },
@@ -149,7 +149,7 @@ const Comments = () => {
     ['post_comments', post_id, page],
     () => {
       if (post_id) {
-        return fetchComments(post_id, page);
+        return commentApi.fetchComments(post_id, page);
       }
       return Promise.resolve({ data: [], totalPages: 1 });
     },
@@ -188,6 +188,22 @@ const Comments = () => {
     }
   };
 
+  const handleReplyButtonClick = (commentId: string) => {
+    if (!user) {
+      toast.warning('로그인 후 사용이 가능해요🙄', {
+        autoClose: 800,
+      });
+      return;
+    }
+    if (isReplying) {
+      setIsReplying(false);
+      setReplyingId(null);
+    } else {
+      setIsReplying(true);
+      setReplyingId(commentId);
+    }
+  };
+
   return (
     <S.Outer>
       <S.CommentContainer>
@@ -212,99 +228,116 @@ const Comments = () => {
         </S.CommentTop>
         <S.CommentBot>
           {postCommentsData?.data!.map((comment: CommentType) => (
-            <S.Comment key={comment.id}>
-              <S.CommentInfo>
-                <S.Profile>
-                  <ProfileWithBorder
-                    width={75}
-                    $mediawidth={1920}
-                    border_img_url={
-                      comment.users.inventory.length > 0
-                        ? processItem(comment.users.inventory).border
-                        : undefined
-                    }
-                    profile_img_url={comment.users?.profile_img_url}
-                    key={comment.id!}
-                  />
-                  <S.Ninkname>{comment.users.nickname}</S.Ninkname>
-                  {comment.users.inventory.length > 0 &&
-                  processItem(comment.users.inventory).award.img_url ? (
-                    <S.Award
-                      src={processItem(comment.users.inventory).award.img_url!}
-                      alt={processItem(comment.users.inventory).award.name!}
+            <React.Fragment key={comment.id}>
+              <S.Comment>
+                <S.CommentInfo>
+                  <S.Profile>
+                    <ProfileWithBorder
+                      width={75}
+                      $mediawidth={1920}
+                      border_img_url={
+                        comment.users.inventory.length > 0
+                          ? processItem(comment.users.inventory).border
+                          : undefined
+                      }
+                      profile_img_url={comment.users?.profile_img_url}
+                      key={comment.id!}
                     />
-                  ) : (
-                    <S.AwardNo>칭호없음</S.AwardNo>
+                    <S.Ninkname>{comment.users.nickname}</S.Ninkname>
+                    {comment.users.inventory.length > 0 &&
+                    processItem(comment.users.inventory).award.img_url ? (
+                      <S.Award
+                        src={
+                          processItem(comment.users.inventory).award.img_url!
+                        }
+                        alt={processItem(comment.users.inventory).award.name!}
+                      />
+                    ) : (
+                      <S.AwardNo>칭호없음</S.AwardNo>
+                    )}
+                  </S.Profile>
+                  {!isMobile && (
+                    <S.CommentDate>
+                      {new Date(comment.created_at).toLocaleString()}
+                    </S.CommentDate>
                   )}
-                </S.Profile>
-                {!isMobile && (
-                  <S.CommentDate>
-                    {new Date(comment.created_at).toLocaleString()}
-                  </S.CommentDate>
-                )}
-              </S.CommentInfo>
-              {user?.id === comment.user_id && (
-                <S.ButtonBox>
-                  {comment.id === editingCommentId ? (
-                    <>
-                      <S.button onClick={() => handleCommentEdit(comment)}>
-                        저장
-                      </S.button>
-                      <S.button onClick={() => setEditingCommentId(null)}>
-                        취소
-                      </S.button>
-                    </>
-                  ) : (
-                    <>
-                      <S.button onClick={() => handleCommentEdit(comment)}>
-                        수정
-                      </S.button>
-                      <S.button onClick={() => handleCommentDelete(comment.id)}>
-                        삭제
-                      </S.button>
-                    </>
-                  )}
-                </S.ButtonBox>
-              )}
-
-              {comment.id === editingCommentId ? (
-                <S.EditInput
-                  value={editedCommentText}
-                  onChange={(e) => setEditedCommentText(e.target.value)}
-                />
-              ) : (
-                //더보기
-                <S.CommentBox>
-                  {comment.comment.length > 250 &&
-                  !collapsedComments.includes(comment.id) ? (
-                    <>
-                      {comment.comment.slice(0, 250)}
-                      <S.CommentMore
-                        onClick={() => toggleCommentCollapse(comment.id)}
-                      >
-                        댓글 더보기 <img src={commentpointer} alt="더보기" />
-                      </S.CommentMore>
-                    </>
-                  ) : (
-                    <>
-                      {comment.comment}
-                      {comment.comment.length > 250 && (
+                </S.CommentInfo>
+                {comment.id === editingCommentId ? (
+                  <S.EditInput
+                    value={editedCommentText}
+                    onChange={(e) => setEditedCommentText(e.target.value)}
+                  />
+                ) : (
+                  //더보기
+                  <S.CommentBox>
+                    {comment.comment.length > 250 &&
+                    !collapsedComments.includes(comment.id) ? (
+                      <>
+                        {comment.comment.slice(0, 250)}
                         <S.CommentMore
                           onClick={() => toggleCommentCollapse(comment.id)}
                         >
-                          접기 <img src={commentpointerUp} alt="접기" />
+                          댓글 더보기 <img src={commentpointer} alt="더보기" />
                         </S.CommentMore>
-                      )}
-                    </>
-                  )}
-                  {isMobile && ( // 모바일일 때 날짜
-                    <S.MobieDate>
-                      {new Date(comment.created_at).toLocaleString()}
-                    </S.MobieDate>
-                  )}
-                </S.CommentBox>
-              )}
-            </S.Comment>
+                      </>
+                    ) : (
+                      <>
+                        {comment.comment}
+                        {comment.comment.length > 250 && (
+                          <S.CommentMore
+                            onClick={() => toggleCommentCollapse(comment.id)}
+                          >
+                            접기 <img src={commentpointerUp} alt="접기" />
+                          </S.CommentMore>
+                        )}
+                      </>
+                    )}
+                    {isMobile && ( // 모바일일 때 날짜
+                      <S.MobieDate>
+                        {new Date(comment.created_at).toLocaleString()}
+                      </S.MobieDate>
+                    )}
+                  </S.CommentBox>
+                )}
+                <S.ReplyButton>
+                  <S.button onClick={() => handleReplyButtonClick(comment.id)}>
+                    답글달기
+                  </S.button>
+                </S.ReplyButton>
+                {user?.id === comment.user_id && (
+                  <S.ButtonBox>
+                    {comment.id === editingCommentId ? (
+                      <>
+                        <S.button onClick={() => handleCommentEdit(comment)}>
+                          저장
+                        </S.button>
+                        <S.button onClick={() => setEditingCommentId(null)}>
+                          취소
+                        </S.button>
+                      </>
+                    ) : (
+                      <>
+                        <S.button onClick={() => handleCommentEdit(comment)}>
+                          수정
+                        </S.button>
+                        <S.button
+                          onClick={() => handleCommentDelete(comment.id)}
+                        >
+                          삭제
+                        </S.button>
+                      </>
+                    )}
+                  </S.ButtonBox>
+                )}
+              </S.Comment>
+              <ReplyComment
+                postId={post_id}
+                commentId={comment.id}
+                isReplying={isReplying}
+                setIsReplying={setIsReplying}
+                replyingId={replyingId}
+              />
+            </React.Fragment>
           ))}
           <S.Page>
             <Pagination
