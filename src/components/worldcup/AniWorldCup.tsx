@@ -22,11 +22,13 @@ function AniWorldCup() {
   const [displays, setDisplays] = useState<ReadCharacters[]>([]);
   const [winners, setWinners] = useState<ReadCharacters[]>([]);
   const [isDataLoaded, setIsDataLoaded] = useState(false);
-  const [currentRound, setCurrentRound] = useState('16강');
+  const [currentRound, setCurrentRound] = useState('32강');
 
   // 함수를 이용해 현재 라운드 정보를 계산
   const calculateCurrentRound = (charactersLeft: number) => {
-    if (charactersLeft > 8 && charactersLeft <= 16) {
+    if (charactersLeft > 16 && charactersLeft <= 32) {
+      return '32강';
+    } else if (charactersLeft > 8 && charactersLeft <= 16) {
       return '16강';
     } else if (charactersLeft > 4) {
       return '8강';
@@ -41,7 +43,9 @@ function AniWorldCup() {
 
   // 현재 라운드 진행도 계산 함수
   const totalMatchesPerRound = () => {
-    if (currentRound === '16강') {
+    if (currentRound === '32강') {
+      return 16;
+    } else if (currentRound === '16강') {
       return 8;
     } else if (currentRound === '8강') {
       return 4;
