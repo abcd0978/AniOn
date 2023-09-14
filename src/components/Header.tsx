@@ -56,13 +56,12 @@ function Header() {
   const [mobileSearchCategory, setMobileSearchCategory] =
     useState<mobileSearchCategories>('애니찾기');
   const [mobileSearchInput, ___, onChangeSearchInput, ____] = useInput('');
-
   const [sideBarOpened, setSideBarOpened] = useAtom(sidebarStore.sideBarOpened);
   const setDownBarOpened = useSetAtom(sidebarStore.downBarOpened);
   const [menuSearchClicked, setMenuSearchCliked] = useAtom(
     headerStore.searchMobileClicked,
   );
-  const [activeMenu, setActiveMenu] = useState('/');
+  const [activeMenu, setActiveMenu] = useAtom(headerStore.activeMenu);
 
   const equipedAwardQueryOptions = {
     queryKey: ['equippedAward'],
@@ -127,11 +126,12 @@ function Header() {
 
   useEffect(() => {
     setActiveMenu(location.pathname);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location]);
 
   const dropdownContents: DropdownContentsType[] = [
     {
-      content: '프로필설정',
+      content: '마이페이지',
       img_src: account,
       func: () => {
         if (user) {
