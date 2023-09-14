@@ -139,6 +139,7 @@ export const S = {
     font-size: 16px;
     @media (max-width: 768px) {
       width: 63%;
+      margin-left: 65px;
     }
   `,
 
