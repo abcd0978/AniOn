@@ -189,6 +189,11 @@ export const R = {
     left: 55%;
     @media (max-width: 768px) {
     }
+    @media (max-width: 480px) {
+      left: 25%;
+    }
+    @media (max-width: 400px) {
+    }
   `,
   NoContainer: styled.div`
     display: grid;
@@ -271,7 +276,18 @@ export const P = {
     transform: translate(-100px, -300px);
 
     @media (max-width: 768px) {
-      transform: translate(-625px, 100px);
+    }
+    @media (max-width: 480px) {
+      transform: translate(-740px, 100px);
+    }
+
+    @media (max-width: 400px) {
+      transform: translate(-665px, 100px);
+    }
+    @media (max-width: 380px) {
+      transform: translate(-670px, 100px);
+    }
+    @media (max-width: 360px) {
     }
   `,
   NoButton: styled.button`

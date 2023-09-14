@@ -104,11 +104,15 @@ export const B = {
   BorderPage: styled.div`
     position: absolute;
     justify-content: center;
-    top: 240px;
-    right: 400px;
+    top: 27%;
+    right: 26%;
     @media (max-width: 768px) {
-      right: 150px;
-      top: 320px;
+      right: 40%;
+      top: 47%;
+    }
+    @media (max-width: 480px) {
+      right: 40%;
+      top: 35%;
     }
   `,
 
@@ -252,13 +256,9 @@ export const A = {
     color: black;
     border-radius: 6px;
     @media (max-width: 768px) {
-      
         width: 48px; 
         font-size: 13px;
         height:24px;
-  
-      
-
     }
     border: ${(props) =>
       props.is_equipped ? '1px solid #c88fff' : '1px solid #d9d9d9'};

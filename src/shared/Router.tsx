@@ -18,6 +18,7 @@ import AfterSocialLogin from '../pages/AfterSocialLogin';
 import PrivateRoute from '../hoc/PrivateRoute';
 import { useState, useEffect } from 'react';
 import { ViewportProvider } from '../components/ViewportContext';
+import NewPassword from '../components/Modal/NewPassword';
 
 const Router = () => {
   const [viewport, setViewport] = useState({
@@ -47,7 +48,9 @@ const Router = () => {
           <ScrollToTop />
           <GlobalStyle />
           <Routes>
-            <Route path="/" element={<Main />} />
+            <Route path="/" element={<Main />}>
+              <Route path="/newPassword/:user_id" element={<NewPassword />} />
+            </Route>
             <Route path="/recommend" element={<AnimeRecommend />} />
             <Route path="/board" element={<Board />} />
             <Route path="/recommend/:ani_id" element={<AnimeDetail />} />

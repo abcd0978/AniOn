@@ -29,7 +29,7 @@ const MyPageConainer = styled.div`
   margin: 0 auto;
   margin-bottom: 32px;
   @media (max-width: 768px) {
-    width: auto;
+    width: 100%;
     height: auto;
   }
 `;
