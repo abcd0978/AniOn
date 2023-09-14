@@ -411,5 +411,9 @@ export const S = {
     background: #f4f4f4;
     font-size: 14px;
     border: 1px solid #dbdbdb;
+    @media (max-width: 768px) {
+      width: 120px;
+      height: 22.32px;
+    }
   `,
 };
