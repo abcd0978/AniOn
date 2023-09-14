@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import * as sidebarStore from '../store/sidebarStore';
 import * as headerStore from '../store/headerStore';
@@ -8,7 +8,9 @@ import { useNavigate } from 'react-router-dom';
 const SideBar = () => {
   const [sidebarOpened, setSidebarOpened] = useAtom(sidebarStore.sideBarOpened);
   const [activeMenu, setActiveMenu] = useAtom(headerStore.activeMenu);
+
   const navigate = useNavigate();
+
   return (
     <StHamburger
       className={sidebarOpened ? 'sidebar opened' : 'sidebar closed'}

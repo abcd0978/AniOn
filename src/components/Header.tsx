@@ -5,6 +5,7 @@ import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import * as modalStore from '../store/modalStore';
 import * as sidebarStore from '../store/sidebarStore';
 import useViewport from '../hooks/useViewPort';
+import * as boardStore from '../store/boardStore';
 import * as userStore from '../store/userStore';
 import * as headerStore from '../store/headerStore';
 import * as animeRecommendStore from '../store/animeRecommendStore';
@@ -33,6 +34,7 @@ import { fetchEquippedItem } from '../api/items';
 import { useQuery } from '@tanstack/react-query';
 import useInput from '../hooks/useInput';
 
+type mobileSearchCategories = '게시글' | '애니찾기';
 function Header() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -40,10 +42,9 @@ function Header() {
 
   const [isModalOpened, setIsModalOpened] = useAtom(modalStore.isModalOpened);
   const [modalContents, setModalContents] = useAtom(modalStore.modalContents);
-
+  const setSearchKeyword = useSetAtom(boardStore.searchKeyword);
   const logoutStore = useSetAtom(userStore.logoutUser);
   const user = useAtomValue(userStore.user);
-
   const setKeyword = useSetAtom(animeRecommendStore.keywordAtom);
   const setAnimeList = useSetAtom(animeRecommendStore.animeListAtom);
   const setOffset = useSetAtom(animeRecommendStore.offsetAtom);
@@ -52,18 +53,15 @@ function Header() {
   const dropdownOpenerDRef = useRef<HTMLDivElement>(null);
   const [isDropdownOnB, setIsDropdownOnB] = useState(false);
   const dropdownOpenerBRef = useRef<HTMLDivElement>(null);
-  const [mobileSearchCategory, setMobileSearchCategory] = useState<
-    string | null
-  >(null);
-
+  const [mobileSearchCategory, setMobileSearchCategory] =
+    useState<mobileSearchCategories>('애니찾기');
   const [mobileSearchInput, ___, onChangeSearchInput, ____] = useInput('');
-
   const [sideBarOpened, setSideBarOpened] = useAtom(sidebarStore.sideBarOpened);
   const setDownBarOpened = useSetAtom(sidebarStore.downBarOpened);
   const [menuSearchClicked, setMenuSearchCliked] = useAtom(
     headerStore.searchMobileClicked,
   );
-  const [activeMenu, setActiveMenu] = useState('/');
+  const [activeMenu, setActiveMenu] = useAtom(headerStore.activeMenu);
 
   const equipedAwardQueryOptions = {
     queryKey: ['equippedAward'],
@@ -100,7 +98,7 @@ function Header() {
     const recentSearch: Array<string> | null = JSON.parse(
       localStorage.getItem('recentSearch')!,
     );
-    if (recentSearch) {
+    if (recentSearch && !recentSearch.includes(keyword)) {
       recentSearch.push(keyword);
       const stringifiedArr = JSON.stringify(recentSearch);
       localStorage.setItem('recentSearch', stringifiedArr);
@@ -114,20 +112,26 @@ function Header() {
     if (keyword.length === 0 || !keyword) {
       return;
     }
-    setAnimeList([]);
-    setKeyword(keyword);
-    setOffset(0);
     searchAndSetRecentSearch(keyword);
-    navigate('/recommend');
+    if (mobileSearchCategory === '게시글') {
+      setSearchKeyword(keyword);
+      navigate('/board');
+    } else {
+      setAnimeList([]);
+      setKeyword(keyword);
+      setOffset(0);
+      navigate('/recommend');
+    }
   };
 
   useEffect(() => {
     setActiveMenu(location.pathname);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location]);
 
   const dropdownContents: DropdownContentsType[] = [
     {
-      content: '프로필설정',
+      content: '마이페이지',
       img_src: account,
       func: () => {
         if (user) {
@@ -185,6 +189,9 @@ function Header() {
           >
             <StHeaderLogoSection
               onClick={() => {
+                setMenuSearchCliked(false);
+                setDownBarOpened(false);
+                setSideBarOpened(false);
                 navigate('/');
                 setActiveMenu('/');
               }}
@@ -350,7 +357,7 @@ function Header() {
             <StHeaderMobileSearchTypo
               selcted={mobileSearchCategory ? true : false}
             >
-              {mobileSearchCategory ? mobileSearchCategory : '선택'}
+              {mobileSearchCategory}
             </StHeaderMobileSearchTypo>
             <div
               onClick={() => setIsDropdownOnB(!isDropdownOnB)}
@@ -365,6 +372,14 @@ function Header() {
           </StHeaderMobileOption>
           <StHeaderMobileSearchInputContainer>
             <StHeaderMobileSearchInput
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  setMenuSearchCliked(false);
+                  setDownBarOpened(false);
+                  document.body.style.overflow = 'unset';
+                  goSearch(mobileSearchInput);
+                }
+              }}
               value={mobileSearchInput}
               onChange={onChangeSearchInput}
               placeholder="검색어를 입력해주세요"
@@ -422,7 +437,7 @@ const StHeaderMenuMobile = styled.div`
     align-items: flex-start;
     gap: 8px;
     cursor: pointer;
-    z-index: 5;
+    z-index: 7;
   }
 `;
 
@@ -434,7 +449,7 @@ const StHeader = styled.header<{ $mediawidth: number }>`
   background: var(--achromatic-colors-white, #fff);
   box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.06);
   backdrop-filter: blur(25px);
-  z-index: 4;
+  z-index: 7;
   transition: 0.2s;
   &.search {
     padding-bottom: 12px;
