@@ -1,14 +1,39 @@
 import styled from 'styled-components';
 export const D = {
   Page: styled.div`
-    margin-top: -700px;
-    margin-left: 450px;
+    margin-top: -90%;
+    margin-left: 45%;
+    @media (max-width: 2000px) {
+      margin-top: -90%;
+      margin-left: 50%;
+    }
+    @media (max-width: 1600px) {
+      margin-top: -80%;
+      margin-left: 40%;
+    }
+    @media (max-width: 1500px) {
+      margin-top: -220%;
+      margin-left: 110%;
+    }
+    @media (max-width: 1400px) {
+      margin-top: -75%;
+      margin-left: 37%;
+    }
+    @media (max-width: 1280px) {
+      margin-top: -70%;
+      margin-left: 35%;
+    }
+
+    @media (max-width: 1024px) {
+      margin-top: -65%;
+      margin-left: 30%;
+    }
     @media (max-width: 768px) {
       display: flex;
       flex-direction: column;
       justify-contents: center;
-      margin-left: 10px;
-      margin-top: -20px;
+      margin-top: -5%;
+      margin-left: 5%;
     }
   `,
   Title: styled.div`
