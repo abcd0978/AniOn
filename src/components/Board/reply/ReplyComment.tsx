@@ -54,9 +54,6 @@ const ReplyComment = ({
     queryKey: ['replyComments'],
     queryFn: () => commentApi.fetchReplyComments(postId),
     refetchOnWindowFocus: false,
-    staleTime: 60 * 1000,
-    cacheTime: 60 * 6000,
-    enabled: !!postId,
   };
   const { data } = useQuery(replyCommentQueryOption);
 
@@ -66,6 +63,7 @@ const ReplyComment = ({
   const addMutation = useMutation(commentApi.addReplyComment, {
     onSuccess: () => {
       queryClient.invalidateQueries(['replyComments']);
+      queryClient.invalidateQueries(['post_comments']);
       updatePoint({ userId: user?.id!, point: 1 });
       toast.success(
         '댓글이 작성되었습니다!ㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ 💰1포인트 적립',
@@ -80,7 +78,7 @@ const ReplyComment = ({
   const editMutation = useMutation(commentApi.updateReplyComment, {
     onSuccess: () => {
       queryClient.invalidateQueries(['replyComments']);
-
+      queryClient.invalidateQueries(['post_comments']);
       toast.success('댓글을 수정했습니다❗', {
         autoClose: 800,
       });
@@ -91,6 +89,7 @@ const ReplyComment = ({
   const deleteMutation = useMutation(commentApi.deleteReplyComment, {
     onSuccess: () => {
       queryClient.invalidateQueries(['replyComments']);
+      queryClient.invalidateQueries(['post_comments']);
     },
   });
 
