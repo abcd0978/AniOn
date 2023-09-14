@@ -1,34 +1,19 @@
 import styled from 'styled-components';
 export const E = {
   Page: styled.div`
-    margin-top: -90%;
-    margin-left: 45%;
-    @media (max-width: 2000px) {
+    @media (max-width: 1920px) {
+      margin-top: -90%;
+      margin-left: 45%;
+    }
+    @media (max-width: 1728px) {
       margin-top: -85%;
       margin-left: 40%;
     }
-    @media (max-width: 1900px) {
-      margin-top: -85%;
-      margin-left: 45%;
-    }
-
-    @media (max-width: 1500px) {
-      margin-top: -75%;
-      margin-left: 45%;
-    }
-    @media (max-width: 1400px) {
-      margin-top: -75%;
-      margin-left: 40%;
-    }
-    @media (max-width: 1280px) {
+    @media (max-width: 1536px) {
       margin-top: -70%;
-      margin-left: 40%;
+      margin-left: 45%;
     }
 
-    @media (max-width: 1024px) {
-      margin-top: -65%;
-      margin-left: 40%;
-    }
     @media (max-width: 768px) {
       display: flex;
       flex-direction: column;
@@ -57,10 +42,10 @@ export const E = {
     display: flex;
     flex-direction: row;
     align-items: center;
-    height: 150px;
-    padding-top: 12px;
-    padding-bottom: 90px;
-    gap: 8px;
+    height: auto;
+    gap: 50px;
+    padding-top: 10%;
+    padding-bottom: 10%;
     display: flex;
     @media (max-width: 768px) {
       display: flex;
@@ -71,7 +56,11 @@ export const E = {
       gap: 8px;
     }
   `,
-
+  PhotoSection: styled.div``,
+  PhotoAndExplain: styled.div`
+    display: flex;
+    flex-direction: column;
+  `,
   EtcItem: styled.div`
     display: flex;
     flex-direction: row;
@@ -88,7 +77,7 @@ export const E = {
   Label: styled.div`
     font-size: 16px;
     font-weight: bold;
-    width: 70px;
+    width: auto;
   `,
 
   Input: styled.input`
@@ -105,10 +94,12 @@ export const E = {
     }
   `,
   CancelAndDone: styled.div`
+    display: flex;
+    gap: 10px;
     @media (max-width: 768px) {
       display: flex;
+      flex-direction: row;
       gap: 10px;
-      left: 50%;
     }
   `,
   CancelButton: styled.button`
@@ -160,6 +151,7 @@ export const E = {
     }
   `,
   ChangeButton: styled.button`
+    justify-content: flex-end;
     background-color: #fdfbff;
     border-radius: 12px;
     width: 72px;
@@ -226,8 +218,9 @@ export const E = {
   TextBelowPhoto: styled.div`
     color: #838383;
     font-size: 14px;
-    margin-top: 20%;
-    margin-left: -130px;
+    top: 100%;
+    left: 100%;
+    margin-top: 5%;
     width: 400px;
     @media (max-width: 768px) {
       margin-top: 60%;
@@ -244,11 +237,9 @@ export const E = {
     color: red;
   `,
   ButtonArray: styled.div`
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 8px;
+    display: flex;
+    justify-content: space-between;
     align-items: center;
-    justify-content: center;
     @media (max-width: 768px) {
       flex-direction: column;
       display: flex;
@@ -282,8 +273,6 @@ export const E = {
     }
   `,
   FileSelectContainer: styled.div`
-    margin-top: 250px;
-    margin-left: -130px;
     @media (max-width: 768px) {
       margin-top: 0px;
       margin-left: 0px;

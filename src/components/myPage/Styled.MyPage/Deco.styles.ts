@@ -7,26 +7,17 @@ export const D = {
       margin-top: -220%;
       margin-left: 110%;
     }
-    @media (max-width: 1800px) {
-      margin-top: -200%;
-      margin-left: 110%;
-    }
+
     @media (max-width: 1700px) {
       margin-top: -230%;
       margin-left: 110%;
     }
-    @media (max-width: 1600px) {
-      margin-top: -230%;
-      margin-left: 110%;
-    }
+
     @media (max-width: 1400px) {
       margin-top: -250%;
       margin-left: 110%;
     }
-    @media (max-width: 1280px) {
-      margin-top: -250%;
-      margin-left: 110%;
-    }
+
     @media (max-width: 1100px) {
       margin-top: -270%;
       margin-left: 110%;
@@ -97,8 +88,6 @@ export const B = {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 5px 1px;
-    left: -5vw;
-    top: 3vh;
     @media (max-width: 1300px) {
       grid-template-columns: repeat(3, 1fr);
       gap: 5px 1px;
@@ -148,37 +137,24 @@ export const B = {
   `,
   BorderPage: styled.div`
     position: absolute;
-    justify-content: center;
-    top: 25%;
-    right: 26%;
-    @media (max-width: 2000px) {
-      top: 25%;
-      margin-right: -5%;
+    @media (max-width: 1920px) {
+      margin-top: -2%;
+      margin-left: 45%;
     }
-    @media (max-width: 1900px) {
-      top: 23%;
-      margin-right: 0%;
+    @media (max-width: 1728px) {
+      margin-top: -2%;
+      margin-left: 45%;
     }
-    @media (max-width: 1600px) {
-      top: 20%;
-      right: 15%;
+    @media (max-width: 1536px) {
+      margin-top: -2%;
+      margin-left: 45%;
     }
-    @media (max-width: 1500px) {
-      top: 23%;
-      right: 17%;
-    }
-    @media (max-width: 1400px) {
-      top: 20%;
-      right: 17%;
-    }
-    @media (max-width: 1300px) {
-      top: 20%;
-      right: 25%;
-    }
+
     @media (max-width: 768px) {
-      right: 40%;
-      top: 47%;
+      top: 20%;
+      right: 17%;
     }
+
     @media (max-width: 480px) {
       right: 40%;
       top: 35%;
@@ -369,32 +345,23 @@ export const A = {
   Pagination: styled.div`
     position: absolute;
     justify-content: center;
-    display: block;
+    top: 20%;
     right: 30%;
-    top: 23%;
-    @media (max-width: 2000px) {
-      margin-top: 0%;
-      margin-right: -5%;
+    @media (max-width: 1920px) {
+      top: 25%;
+      right: 26%;
     }
-    @media (max-width: 1900px) {
-      top: 20%;
+    @media (max-width: 1536px) {
+      top: 10%;
       right: 30%;
     }
-    @media (max-width: 1600px) {
-      top: 20%;
-      right: 25%;
-    }
-    @media (max-width: 1500px) {
+    @media (max-width: 1024px) {
       top: 23%;
       right: 17%;
     }
-    @media (max-width: 1400px) {
+    @media (max-width: 768px) {
       top: 20%;
       right: 17%;
-    }
-    @media (max-width: 1300px) {
-      top: 20%;
-      right: 25%;
     }
 
     @media (max-width: 768px) {

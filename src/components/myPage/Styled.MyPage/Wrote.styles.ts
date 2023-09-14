@@ -250,8 +250,35 @@ export const R = {
 
 export const P = {
   Container: styled.div`
-    margin-top: -700px;
-    margin-left: 450px;
+    display: block;
+    @media (max-width: 2400px) {
+      margin-top: -200%;
+      margin-left: 110%;
+    }
+    @media (max-width: 1800px) {
+      margin-top: -220%;
+      margin-left: 110%;
+    }
+    @media (max-width: 1500px) {
+      margin-top: -230%;
+      margin-left: 110%;
+    }
+    @media (max-width: 1400px) {
+      margin-top: -240%;
+      margin-left: 110%;
+    }
+    @media (max-width: 1300px) {
+      margin-top: -250%;
+      margin-left: 110%;
+    }
+    @media (max-width: 1200px) {
+      margin-top: -260%;
+      margin-left: 110%;
+    }
+    @media (max-width: 1000px) {
+      margin-top: -280%;
+      margin-left: 110%;
+    }
     @media (max-width: 768px) {
       display: flex;
       flex-direction: column;

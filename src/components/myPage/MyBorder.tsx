@@ -104,6 +104,18 @@ const MyBorder = () => {
   const borderList =
     Array.isArray(filteredBorders) && filteredBorders.length > 0 ? (
       <B.Container>
+        <B.BorderPage>
+          {Array.isArray(filteredBorders) &&
+            filteredBorders.length >= itemsPerPage && (
+              <PaginationTwo
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onClick={handlePageChange}
+                isPreviousDisabled={currentPage === 1}
+                isNextDisabled={currentPage >= totalPages}
+              />
+            )}
+        </B.BorderPage>
         {displayedBorder.map((filteredBorders, index) => (
           <div key={index}>
             <B.BorderContainer>
@@ -146,18 +158,6 @@ const MyBorder = () => {
 
   return (
     <B.BorderContainer>
-      <B.BorderPage>
-        {Array.isArray(filteredBorders) &&
-          filteredBorders.length >= itemsPerPage && (
-            <PaginationTwo
-              currentPage={currentPage}
-              totalPages={totalPages}
-              onClick={handlePageChange}
-              isPreviousDisabled={currentPage === 1}
-              isNextDisabled={currentPage >= totalPages}
-            />
-          )}
-      </B.BorderPage>
       <B.Container>{borderList}</B.Container>
     </B.BorderContainer>
   );

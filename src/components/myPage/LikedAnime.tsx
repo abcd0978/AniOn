@@ -318,8 +318,10 @@ const L = {
       justify-contents: center;
       margin-left: 10px;
       margin-top: -10px;
+      padding-bottom: 10%;
     }
     @media (max-width: 480px) {
+      margin-bottom: 10%;
     }
     @media (max-width: 400px) {
     }
@@ -327,6 +329,7 @@ const L = {
   GridContainer: styled.div`
     display: grid;
     gap: 0px 20px;
+
     grid-template-columns: repeat(3, 1fr);
     @media (max-width: 1300px) {
       grid-template-columns: repeat(2, 1fr);
