@@ -149,11 +149,17 @@ const BoardDetail = () => {
   };
 
   const insertLikeMutation = useMutation(boardApi.createLike, {
-    onSuccess: () => queryClient.invalidateQueries(['like']),
+    onSuccess: () => {
+      queryClient.invalidateQueries(['like']);
+      queryClient.invalidateQueries(['posts']);
+    },
   });
 
   const deleteLikeMutation = useMutation(boardApi.deleteLike, {
-    onSuccess: () => queryClient.invalidateQueries(['like']),
+    onSuccess: () => {
+      queryClient.invalidateQueries(['like']);
+      queryClient.invalidateQueries(['posts']);
+    },
   });
 
   //좋아요
@@ -174,8 +180,6 @@ const BoardDetail = () => {
     } else {
       insertLikeMutation.mutate({ post_id: post_id!, user_id: user.id });
     }
-
-    queryClient.invalidateQueries(['like']);
   };
 
   const handleListClick = () => {

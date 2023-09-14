@@ -51,7 +51,6 @@ const Board = () => {
     refetchOnWindowFocus: false,
     staleTime: 60 * 1000,
     cacheTime: 60 * 6000,
-    enabled: !!user,
   };
 
   const {
