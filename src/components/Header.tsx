@@ -69,7 +69,6 @@ function Header() {
     queryKey: ['equippedAward'],
     queryFn: () => fetchEquippedItem({ user_id: user!.id, category: 1 }),
     refetchOnWindowFocus: false,
-    refetchOnMount: false,
     staleTime: 60 * 1000,
     cacheTime: 60 * 6000,
     enabled: !!user,
