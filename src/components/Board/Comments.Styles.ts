@@ -204,6 +204,11 @@ export const AwardNo = styled.div`
   font-size: 14px;
   margin-top: 20px;
   border: 1px solid #dbdbdb;
+  @media (max-width: 768px) {
+    width: 120px;
+    height: 22.32px;
+    margin-top: 25px;
+  }
 `;
 
 export const CommentBox = styled.div`
