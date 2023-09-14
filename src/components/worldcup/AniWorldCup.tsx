@@ -142,7 +142,7 @@ function AniWorldCup() {
           {displays.map((character: ReadCharacters, index) => {
             // console.log(index);
             return (
-              <S.WorldCupTest key={character.id} height={660}>
+              <S.WorldCupTest key={character.id}>
                 <S.WorldCupUp>
                   <S.WorldCupImg>
                     <S.CharacterImg
@@ -157,7 +157,6 @@ function AniWorldCup() {
                 </S.WorldCupUp>
                 <S.WorldCupTestPickButton
                   onClick={SelectWinnerhandler(character)}
-                  width={278}
                 >
                   선택하기
                 </S.WorldCupTestPickButton>

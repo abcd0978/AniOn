@@ -12,13 +12,13 @@ function WorldCup() {
       <S.WorldCupContainer2>
         <S.WorldCupMainTitle>이상형 월드컵</S.WorldCupMainTitle>
         <S.WorldCupTestContainer>
-          <S.WorldCupMainTestCard height={694}>
+          <S.WorldCupMainTestCard>
             <S.WorldCupUp>
-              <div>
+              <S.WordlcupInfo>
                 <S.WorldCupGender>남자 캐릭터</S.WorldCupGender>
                 <S.WorldCupTitles>애니메이션 캐릭터</S.WorldCupTitles>
                 <S.WorldCupTitles>이상형 월드컵</S.WorldCupTitles>
-              </div>
+              </S.WordlcupInfo>
               <S.WorldCupImgs>
                 <S.WorldCupStartImg src={quizmale} alt="퀴즈남자" />
               </S.WorldCupImgs>
@@ -31,17 +31,17 @@ function WorldCup() {
             >
               <S.WorldCupTestButtonTextBox>
                 테스트하러 가기
-                <img src={navigate_next} />
+                <img src={navigate_next} alt="go_test" />
               </S.WorldCupTestButtonTextBox>
             </S.WorldCupTestButton>
           </S.WorldCupMainTestCard>
-          <S.WorldCupMainTestCard height={694}>
+          <S.WorldCupMainTestCard>
             <S.WorldCupUp>
-              <div>
+              <S.WordlcupInfo>
                 <S.WorldCupGender>여자 캐릭터</S.WorldCupGender>
                 <S.WorldCupTitles>애니메이션 캐릭터</S.WorldCupTitles>
                 <S.WorldCupTitles>이상형 월드컵</S.WorldCupTitles>
-              </div>
+              </S.WordlcupInfo>
               <S.WorldCupImgs>
                 <S.WorldCupStartImg src={quizfemale} alt="퀴즈여자" />
               </S.WorldCupImgs>
@@ -54,7 +54,7 @@ function WorldCup() {
             >
               <S.WorldCupTestButtonTextBox>
                 테스트하러 가기
-                <img src={navigate_next} />
+                <img src={navigate_next} alt="go_test" />
               </S.WorldCupTestButtonTextBox>
             </S.WorldCupTestButton>
           </S.WorldCupMainTestCard>
