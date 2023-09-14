@@ -92,6 +92,10 @@ export const S = {
     bottom: 0;
     right: 0;
     margin: 5px;
+
+    @media (max-width: 768px) {
+      margin-right: -5px;
+    }
   `,
 
   Button: styled.button`
@@ -109,6 +113,13 @@ export const S = {
     &:hover {
       background-color: #ffebf7;
       border: 1px solid #ff96db;
+    }
+
+    @media (max-width: 768px) {
+      width: 50px;
+      height: 22px;
+      border-radius: 4px;
+      font-size: 12px;
     }
   `,
 
@@ -187,6 +198,10 @@ export const S = {
     resize: none;
     line-height: 1.6;
     font-size: 16px;
+
+    @media (max-width: 768px) {
+      width: 85%;
+    }
   `,
 
   ReplyButton: styled.button`
@@ -199,7 +214,15 @@ export const S = {
     height: 40px;
     font-size: 15px;
     margin-bottom: 10px;
-    margin-right: 10px;
+    margin-right: 5px;
     float: right;
+
+    @media (max-width: 768px) {
+      width: 60px;
+      height: 28px;
+      border-radius: 6px;
+      font-size: 12px;
+      margin-right: 8px;
+    }
   `,
 };
