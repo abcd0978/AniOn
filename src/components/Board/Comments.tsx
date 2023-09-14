@@ -86,6 +86,7 @@ const Comments = () => {
   const deleteMutation = useMutation(commentApi.deleteComment, {
     onSuccess: () => {
       queryClient.invalidateQueries(['post_comments']);
+      queryClient.invalidateQueries(['posts']);
     },
   });
   const handleCommentDelete = async (commentId: string) => {
