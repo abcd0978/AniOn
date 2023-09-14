@@ -29,7 +29,7 @@ export const S = {
   ButtonContainer: styled.div`
     display: flex;
     justify-content: right;
-    margin-bottom: 10px;
+    margin-right: -2px;
   `,
   Button: styled.button`
     background-color: #dddddd;
@@ -59,6 +59,7 @@ export const S = {
   Date: styled.div`
     font-size: 16px;
     width: 100%;
+    margin-right: 7px;
     text-align: right;
     float: right;
     color: gray;
@@ -89,9 +90,8 @@ export const S = {
     font-size: 24px;
     font-weight: bold;
     line-height: 36px;
-    // margin: -5px;
-    margin-top: -10px;
-    margin-left: 12px;
+
+    margin-left: 18px;
     text-overflow: ellipsis;
     @media (max-width: 768px) {
       font-size: 18px;
@@ -265,6 +265,9 @@ export const S = {
   User: styled.div`
     display: flex;
     justify-content: space-between;
+    @media (max-width: 768px) {
+      margin-left: -8px;
+    }
   `,
   UserInfo: styled.div`
     display: flex;
@@ -288,7 +291,7 @@ export const S = {
     height: 40px;
     justify-content: flex-end;
     padding: 10px;
-    margin-right: -15px;
+
     @media (max-width: 768px) {
       height: 30px;
       margin-top: 30px;

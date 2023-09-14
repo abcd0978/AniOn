@@ -5,15 +5,7 @@ import type {
   InsertLike,
   UserPostType,
 } from '../types/post';
-
-// 아래처럼 필터링 조건부로 처리하기
-// let query = supabase
-//   .from('cities')
-//   .select('name, country_id')
-
-// if (filterByName)  { query = query.eq('name', filterByName) }
-// if (filterPopLow)  { query = query.gte('population', filterPopLow) }
-// if (filterPopHigh) { query = query.lt('population', filterPopHigh) }
+import { toast } from 'react-toastify';
 
 //전체 post 불러오기 + 페이지네이션
 const fetchPosts = async (
@@ -69,9 +61,21 @@ const fetchPosts = async (
     if (error) {
       throw error;
     }
+
+    // 댓글 수 가져오기
+    const commentsData = await fetchAllPostsComments();
+
+    // 게시물 데이터에 댓글 수 추가
+    const postsWithComments = data.map((post) => ({
+      ...post,
+      commentsCount: commentsData.filter(
+        (comment) => comment.post_id === post.id,
+      ).length,
+    }));
+
     const totalPages = Math.ceil(count! / itemsPerPage);
 
-    return { data, totalPages, count };
+    return { data: postsWithComments, totalPages, count };
   } catch (error) {
     throw error;
   }
@@ -188,11 +192,32 @@ const createLike = async (params: { post_id: string; user_id: string }) => {
     user_id: params.user_id,
   };
   await supabase.from('likes').insert(newLike);
+  toast.success(`좋아요💜`, {
+    autoClose: 800,
+  });
 };
 
 // 좋아요 삭제 함수
 const deleteLike = async (likeId: string) => {
   await supabase.from('likes').delete().eq('id', likeId);
+  toast.success(`좋아요 취소😭`, {
+    autoClose: 800,
+  });
+};
+
+//댓글 보여주기
+const fetchAllPostsComments = async () => {
+  try {
+    const { data, error } = await supabase
+      .from('post_comments')
+      .select('post_id');
+    if (error) {
+      return [];
+    }
+    return data;
+  } catch (error) {
+    return [];
+  }
 };
 
 export {
@@ -206,4 +231,5 @@ export {
   createLike,
   deleteLike,
   fetchLikeForPost,
+  fetchAllPostsComments,
 };

@@ -64,6 +64,13 @@ export const WriteButton = styled.button`
   margin-bottom: 10px;
   margin-right: 10px;
   float: right;
+
+  @media (max-width: 768px) {
+    width: 60px;
+    height: 28px;
+    border-radius: 6px;
+    font-size: 12px;
+  }
 `;
 
 export const ButtonBox = styled.div`
@@ -91,6 +98,13 @@ export const button = styled.button`
     background-color: #ffebf7;
     border: 1px solid #ff96db;
   }
+
+  @media (max-width: 768px) {
+    width: 60px;
+    height: 22px;
+    border-radius: 4px;
+    font-size: 12px;
+  }
 `;
 
 export const Comment = styled.div`
@@ -116,6 +130,9 @@ export const MobieDate = styled.div`
   color: #999999;
   font-size: 12px;
   margin-top: 5px;
+  @media (max-width: 768px) {
+    margin-left: 5px;
+  }
 `;
 export const EditInput = styled.textarea`
   display: flex;
@@ -218,6 +235,12 @@ export const CommentMore = styled.button`
   margin-top: 12px;
   margin-bottom: 5px;
   display: block;
+
+  @media (max-width: 768px) {
+    width: 97px;
+    height: 28px;
+    margin-bottom: 20px;
+  }
 `;
 
 export const ReplyButton = styled.div`
