@@ -1,32 +1,44 @@
 import styled from 'styled-components';
 export const D = {
   Page: styled.div`
-    margin-top: -90%;
-    margin-left: 45%;
+    margin-top: -300%;
+    margin-left: 110%;
     @media (max-width: 2000px) {
-      margin-top: -90%;
-      margin-left: 50%;
-    }
-    @media (max-width: 1600px) {
-      margin-top: -80%;
-      margin-left: 40%;
-    }
-    @media (max-width: 1500px) {
       margin-top: -220%;
       margin-left: 110%;
     }
+    @media (max-width: 1800px) {
+      margin-top: -200%;
+      margin-left: 110%;
+    }
+    @media (max-width: 1700px) {
+      margin-top: -230%;
+      margin-left: 110%;
+    }
+    @media (max-width: 1600px) {
+      margin-top: -230%;
+      margin-left: 110%;
+    }
     @media (max-width: 1400px) {
-      margin-top: -75%;
-      margin-left: 37%;
+      margin-top: -250%;
+      margin-left: 110%;
     }
     @media (max-width: 1280px) {
-      margin-top: -70%;
-      margin-left: 35%;
+      margin-top: -250%;
+      margin-left: 110%;
+    }
+    @media (max-width: 1100px) {
+      margin-top: -270%;
+      margin-left: 110%;
     }
 
     @media (max-width: 1024px) {
-      margin-top: -65%;
-      margin-left: 30%;
+      margin-top: -280%;
+      margin-left: 110%;
+    }
+    @media (max-width: 900px) {
+      margin-top: -250%;
+      margin-left: 110%;
     }
     @media (max-width: 768px) {
       display: flex;
@@ -87,6 +99,14 @@ export const B = {
     gap: 5px 1px;
     left: -5vw;
     top: 3vh;
+    @media (max-width: 1300px) {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 5px 1px;
+    }
+    @media (max-width: 1000px) {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 5px 1px;
+    }
     @media (max-width: 768px) {
       grid-template-columns: repeat(2, 1fr);
       gap: 1px;
@@ -129,8 +149,28 @@ export const B = {
   BorderPage: styled.div`
     position: absolute;
     justify-content: center;
-    top: 27%;
+    top: 23%;
     right: 26%;
+    @media (max-width: 2000px) {
+      top: 19%;
+      right: 25%;
+    }
+    @media (max-width: 1600px) {
+      top: 20%;
+      right: 15%;
+    }
+    @media (max-width: 1500px) {
+      top: 23%;
+      right: 17%;
+    }
+    @media (max-width: 1400px) {
+      top: 20%;
+      right: 17%;
+    }
+    @media (max-width: 1300px) {
+      top: 20%;
+      right: 25%;
+    }
     @media (max-width: 768px) {
       right: 40%;
       top: 47%;
@@ -237,6 +277,10 @@ export const A = {
     grid-template-columns: repeat(3, 1fr);
     gap: 50px;
     margin-top: 10px;
+    @media (max-width: 1200px) {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 50px;
+    }
     @media (max-width: 768px) {
       grid-template-columns: repeat(2, 1fr);
       gap: 20px;
@@ -322,8 +366,53 @@ export const A = {
     position: absolute;
     justify-content: center;
     display: block;
-    top: 240px;
-    right: 470px;
+    right: 30%;
+    top: 23%;
+    @media (max-width: 2000px) {
+      top: 20%;
+      right: 30%;
+    }
+    @media (max-width: 1600px) {
+      top: 20%;
+      right: 25%;
+    }
+    @media (max-width: 1500px) {
+      top: 23%;
+      right: 17%;
+    }
+    @media (max-width: 1400px) {
+      top: 20%;
+      right: 17%;
+    }
+    @media (max-width: 1300px) {
+      top: 20%;
+      right: 25%;
+    }
+
+    @media (max-width: 768px) {
+      right: 40%;
+      top: 60%;
+    }
+    @media (max-width: 480px) {
+      right: 40%;
+      top: 35%;
+    }
+    @media (max-width: 420px) {
+      right: 40%;
+      top: 37%;
+    }
+    @media (max-width: 400px) {
+      right: 40%;
+      top: 39%;
+    }
+    @media (max-width: 380px) {
+      right: 40%;
+      top: 48%;
+    }
+    @media (max-width: 370px) {
+      right: 40%;
+      top: 45%;
+    }
     @media (max-width: 768px) {
       right: 150px;
       top: 320px;

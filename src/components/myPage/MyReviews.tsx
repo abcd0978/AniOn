@@ -131,12 +131,14 @@ const MyReviews = () => {
             <li key={review.id}>
               <R.Top>
                 <R.Content>
-                  <R.ReviewTitle>{animeTitles[review.ani_id]}</R.ReviewTitle>
+                  <R.TitleAndDate>
+                    <R.ReviewTitle>{animeTitles[review.ani_id]}</R.ReviewTitle>
+                    <R.Date>
+                      {new Date(review.created_at).toLocaleDateString()}
+                    </R.Date>
+                  </R.TitleAndDate>
                   <R.Comments>{review.comment}</R.Comments>
                 </R.Content>
-                <R.Date>
-                  {new Date(review.created_at).toLocaleDateString()}
-                </R.Date>
               </R.Top>
 
               <R.ButtonArray>

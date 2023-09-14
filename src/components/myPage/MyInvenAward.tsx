@@ -145,7 +145,6 @@ const MyInvenAward = () => {
 
   return (
     <A.Page>
-      <A.Container>{awardsList}</A.Container>
       {Array.isArray(filteredAwards) && filteredAwards.length > 0 && (
         <A.Pagination>
           <PaginationTwo
@@ -157,6 +156,7 @@ const MyInvenAward = () => {
           />
         </A.Pagination>
       )}
+      <A.Container>{awardsList}</A.Container>
     </A.Page>
   );
 };

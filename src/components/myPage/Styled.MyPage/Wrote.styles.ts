@@ -5,8 +5,26 @@ export const R = {
     display: flex;
     flex-direction: column;
     gap: 16px;
-    margin-top: -700px;
-    margin-left: 450px;
+    margin-top: -220%;
+    margin-left: 110%;
+    @media (max-width: 2300px) {
+      margin-top: -200%;
+    }
+    @media (max-width: 2000px) {
+      margin-top: -220%;
+    }
+    @media (max-width: 1500px) {
+      margin-top: -230%;
+    }
+    @media (max-width: 1300px) {
+      margin-top: -240%;
+    }
+    @media (max-width: 1200px) {
+      margin-top: -250%;
+    }
+    @media (max-width: 900px) {
+      margin-top: -280%;
+    }
     @media (max-width: 768px) {
       display: flex;
       flex-direction: column;
@@ -60,6 +78,9 @@ export const R = {
     display: flex;
     flex-direction: column;
   `,
+  TitleAndDate: styled.div`
+    display: flex;
+  `,
   ReviewTitle: styled.div`
     min-width: auto;
     min-height: auto;
@@ -81,7 +102,7 @@ export const R = {
     color: #999;
     width: auto;
     font-size: 13px;
-    right: 300px;
+    right: 8%;
 
     position: absolute;
     font-style: normal;

@@ -27,7 +27,7 @@ export default MyPage;
 
 const MyPageConainer = styled.div`
   margin: 0 auto;
-  margin-bottom: 32px;
+  padding-bottom: 10%;
   @media (max-width: 768px) {
     width: 100%;
     height: auto;

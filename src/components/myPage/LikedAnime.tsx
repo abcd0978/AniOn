@@ -194,7 +194,6 @@ const LikedAnime = () => {
       <L.Title>찜한 목록</L.Title>
 
       <L.FullPage>
-        <L.List>{likedList}</L.List>
         {Array.isArray(displayedAnime) && displayedAnime.length >= 0 && (
           <L.Page>
             <PaginationTwo
@@ -206,6 +205,7 @@ const LikedAnime = () => {
             />
           </L.Page>
         )}
+        <L.List>{likedList}</L.List>
       </L.FullPage>
     </L.LikedContainer>
   );
@@ -301,8 +301,17 @@ export const HoveredAnimeGenre = styled.div`
 
 const L = {
   LikedContainer: styled.div`
-    margin-top: -700px;
-    margin-left: 450px;
+    margin-top: -220%;
+    margin-left: 110%;
+    @media (max-width: 1500px) {
+      margin-top: -240%;
+      margin-left: 110%;
+    }
+    @media (max-width: 1400px) {
+      margin-top: -260%;
+      margin-left: 110%;
+    }
+
     @media (max-width: 768px) {
       display: flex;
       flex-direction: column;
@@ -319,6 +328,9 @@ const L = {
     display: grid;
     gap: 0px 20px;
     grid-template-columns: repeat(3, 1fr);
+    @media (max-width: 1300px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
     @media (max-width: 768px) {
       grid-template-columns: repeat(2, 1fr);
       gap: 0px;
