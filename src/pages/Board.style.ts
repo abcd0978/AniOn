@@ -192,6 +192,10 @@ export const Title = styled.div`
   margin-top: 30px;
   margin-left: 5px;
   color: #8200ff;
+
+  @media (max-width: 768px) {
+    font-size: 20px;
+  }
 `;
 
 export const Button = styled.button`
@@ -208,8 +212,9 @@ export const Button = styled.button`
   cursor: pointer;
 
   @media (max-width: 768px) {
-    width: 72px;
+    width: 76px;
     height: 36px;
+    font-size: 12px;
   }
 `;
 export const WriteButton = styled.button`
