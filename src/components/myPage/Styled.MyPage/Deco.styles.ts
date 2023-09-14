@@ -114,6 +114,22 @@ export const B = {
       right: 40%;
       top: 35%;
     }
+    @media (max-width: 420px) {
+      right: 40%;
+      top: 37%;
+    }
+    @media (max-width: 400px) {
+      right: 40%;
+      top: 39%;
+    }
+    @media (max-width: 380px) {
+      right: 40%;
+      top: 48%;
+    }
+    @media (max-width: 370px) {
+      right: 40%;
+      top: 45%;
+    }
   `,
 
   BorderLoading: styled.div`
