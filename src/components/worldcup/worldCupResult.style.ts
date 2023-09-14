@@ -4,17 +4,17 @@ export const R = {
   //-----------------------------------------------Result쪽
   WorldCupWinnerImg: styled.div`
     margin-top: 20px;
-    width: 440px;
-    height: 440px;
+    width: 60%;
     flex-shrink: 0;
     border-radius: 440px;
     background: #d9d9d9;
 
     img {
       position: relative;
-      width: 440px;
-      height: 440px;
+      width: 100%;
+      aspect-ratio: 1/1;
       border-radius: 440px;
+      object-fit: cover;
     }
     @media (max-width: 768px) {
       width: 55%;
@@ -29,8 +29,7 @@ export const R = {
   `,
   WorldCupWinnerCard: styled.div`
     display: flex;
-    width: 584px;
-    height: 746px;
+    width: 100%;
     padding: 40px;
     flex-direction: column;
     justify-content: center;
@@ -38,7 +37,7 @@ export const R = {
     gap: 100px;
 
     @media (max-width: 768px) {
-      width: 80%;
+      width: 95%;
       height: 100%;
       align-items: none;
       padding: 10px 0px 0px 10px;
@@ -51,7 +50,7 @@ export const R = {
     align-items: center;
     align-self: stretch;
     margin-top: 32px;
-    margin-bottom: 72px;
+    // margin-bottom: 72px;
     @media (max-width: 768px) {
       height: 10%;
       margin: 10px 0px 0px 0px;
@@ -59,7 +58,7 @@ export const R = {
   `,
 
   WorldCupResultButtonBox: styled.div`
-    width: 673px;
+    width: 100%;
     display: flex;
     align-items: center;
     text-align: center;
@@ -87,7 +86,7 @@ export const R = {
     background: ${(props) => props.background || '#838383'};
     position: relative;
     display: flex;
-    width: 160px;
+    width: 35%;
     padding: 12px 24px;
     justify-content: center;
     align-items: center;
@@ -120,7 +119,8 @@ export const R = {
   `,
 
   ResultBox: styled.div`
-    width: 792px;
+    width: 50%;
+
     @media (max-width: 768px) {
       width: 100%;
     }
@@ -132,13 +132,17 @@ export const R = {
     flex-direction: column;
     align-items: flex-start;
     gap: 20px;
+    @media (max-width: 1280px) {
+      align-items: center;
+    }
     @media (max-width: 768px) {
+      align-items: flex-start;
       margin-top: 20px;
     }
   `,
 
   ResultRankTitle: styled.div`
-    width: 126px;
+    width: 50%;
     height: 32px;
     color: #000;
     font-size: 24px;
@@ -147,10 +151,16 @@ export const R = {
     letter-spacing: -0.36px;
   `,
   ResultRankTop: styled.div`
+    width: 100%;
     display: flex;
     align-items: flex-start;
     gap: 24px;
+    justify-content: space-between;
 
+    @media (max-width: 1280px) {
+      flex-direction: column;
+      align-items: flex-end;
+    }
     @media (max-width: 768px) {
       flex-direction: row;
     }
@@ -158,7 +168,7 @@ export const R = {
 
   ResultTopCard: styled.div`
     display: flex;
-    width: 248px;
+    width: 30%;
     height: 177px;
     padding: 20px 0px;
     flex-direction: column;
@@ -170,15 +180,16 @@ export const R = {
     /* Drop Shadow */
     box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.1);
 
+    @media (max-width: 1280px) {
+      width: 80%;
+    }
     @media (max-width: 768px) {
-      flex-direction: column;
-      width: 101px;
-      border-radius: 21px;
+      width: 30%;
     }
   `,
 
   TopImgRankBox: styled.div`
-    width: 248px;
+    width: 100%;
   `,
 
   ResultTopCardImg: styled.img`
@@ -187,13 +198,14 @@ export const R = {
     fill: #d9d9d9;
     border-radius: 440px;
     background: #d9d9d9;
+    object-fit: cover;
     // @media (max-width: 768px) {
     //   width: 100%;
     // }
   `,
 
   ResultRankNum: styled.div`
-    width: 17px;
+    width: 3%;
     position: absolute;
     margin-left: 15px;
     color: #000;
@@ -204,7 +216,6 @@ export const R = {
     letter-spacing: -0.3px;
 
     @media (max-width: 768px) {
-      margin-left: 76px;
       font-size: 17px;
       margin-top: -18px;
     }
@@ -258,7 +269,7 @@ export const R = {
   `,
 
   OtherRankContainer: styled.div`
-    width: 792px;
+    width: 100%;
     margin-top: 20px;
     display: flex;
     flex-direction: column;
@@ -272,7 +283,7 @@ export const R = {
 
   OtherRankBox: styled.div`
     display: flex;
-    width: 792px;
+    width: 100%;
     align-items: center;
     gap: 12px;
     padding-bottom: 8px;
@@ -289,6 +300,7 @@ export const R = {
     fill: #d9d9d9;
     border-radius: 440px;
     background: #d9d9d9;
+    object-fit: cover;
   `,
 
   otherRankTextBox: styled.div`

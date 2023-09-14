@@ -6,6 +6,7 @@ import { useQuery } from '@tanstack/react-query';
 import { winnerResult } from '../api/aniCharacters';
 import navigate_next from '../assets/navigate_next.svg';
 import { useScript } from '../hooks/useScript';
+import Loading from '../components/Loading/Loading';
 
 export type ResultCharacterType = {
   ani_title: string;
@@ -84,7 +85,7 @@ const WorldCupResult = () => {
   }, [totalResult]);
 
   if (isResultLoading) {
-    return <div>데이터를 가져오는 중입니다..!</div>;
+    return <Loading />;
   }
 
   if (isResultError) {
@@ -98,7 +99,7 @@ const WorldCupResult = () => {
           결과
         </S.WorldCupMainTitle>
         <R.WorldCupWinnerCard>
-          <S.WorldCupResultTest key={winner.id} height={666}>
+          <S.WorldCupResultTest key={winner.id}>
             <R.WorldCupResultUp>
               <R.WorldCupWinnerImg>
                 <img src={winner.img_url} />
