@@ -167,67 +167,72 @@ const EditProfile = () => {
           <Divider />
           {/* 사진 */}
           <E.PhotoItem>
-            <E.Label>사진</E.Label>
-            {user && editMode === 'photo' ? (
-              <E.ButtonArray>
-                {/* 프로필 이미지를 표시하는 부분 */}
-                {selectedFile ? (
-                  <Profile.BasicImage
-                    src={URL.createObjectURL(selectedFile)}
-                    alt="Selected profile picture"
-                  />
-                ) : (
-                  <div key={user?.id}>
-                    <Profile.EditImage
-                      src={user?.profile_img_url!}
-                      alt="Profile picture"
+            <E.PhotoLabel>사진</E.PhotoLabel>
+            <E.PhotoSection>
+              {user && editMode === 'photo' ? (
+                <E.ButtonArray>
+                  {/* 프로필 이미지를 표시하는 부분 */}
+                  {selectedFile ? (
+                    <Profile.BasicImage
+                      src={URL.createObjectURL(selectedFile)}
+                      alt="Selected profile picture"
                     />
-                  </div>
-                )}
-                <E.FileSelectContainer>
-                  <E.StyledLabel htmlFor="fileUpload">사진 선택</E.StyledLabel>
-                  <E.HiddenFileInput
-                    id="fileUpload"
-                    onChange={(event) => {
-                      if (event.target.files) {
-                        setSelectedFile(event.target.files[0]);
-                      }
-                    }}
-                  />
-                </E.FileSelectContainer>
-                <E.CancelAndDone>
-                  <E.CancelButton onClick={() => setEditMode('')}>
-                    취소
-                  </E.CancelButton>
-                  <E.DoneButton
-                    onClick={() => {
-                      handleUpload();
-                      setEditMode('');
-                    }}
-                  >
-                    완료
-                  </E.DoneButton>
-                </E.CancelAndDone>
-              </E.ButtonArray>
-            ) : (
-              <E.ButtonArray>
-                {/* 변경 버튼을 누르기 전에 현재 프로필 이미지를 표시하는 부분 */}
-
-                <div key={user?.id}>
-                  <Profile.BasicImage
-                    src={user?.profile_img_url!}
-                    alt="Profile picture"
-                  />
-                </div>
-
-                <E.ChangeButton onClick={() => setEditMode('photo')}>
-                  변경
-                </E.ChangeButton>
-              </E.ButtonArray>
-            )}
-            <E.TextBelowPhoto>
-              등록된 사진은 회원님의 게시물이나 댓글들에 사용됩니다.
-            </E.TextBelowPhoto>
+                  ) : (
+                    <div key={user?.id}>
+                      <Profile.EditImage
+                        src={user?.profile_img_url!}
+                        alt="Profile picture"
+                      />
+                    </div>
+                  )}
+                  <E.FileSelectContainer>
+                    <E.StyledLabel htmlFor="fileUpload">
+                      사진 선택
+                    </E.StyledLabel>
+                    <E.HiddenFileInput
+                      id="fileUpload"
+                      onChange={(event) => {
+                        if (event.target.files) {
+                          setSelectedFile(event.target.files[0]);
+                        }
+                      }}
+                    />
+                  </E.FileSelectContainer>
+                  <E.CancelAndDone>
+                    <E.CancelButton onClick={() => setEditMode('')}>
+                      취소
+                    </E.CancelButton>
+                    <E.DoneButton
+                      onClick={() => {
+                        handleUpload();
+                        setEditMode('');
+                      }}
+                    >
+                      완료
+                    </E.DoneButton>
+                  </E.CancelAndDone>
+                </E.ButtonArray>
+              ) : (
+                <E.ShowBasicPhoto>
+                  {/* 변경 버튼을 누르기 전에 현재 프로필 이미지를 표시하는 부분 */}
+                  <E.PhotoAndExplain>
+                    <div key={user?.id}>
+                      <Profile.BasicImage
+                        src={user?.profile_img_url!}
+                        alt="Profile picture"
+                      />
+                    </div>
+                    <E.TextBelowPhoto>
+                      등록된 사진은 회원님의 게시물이나 <br />
+                      댓글들에 사용됩니다.
+                    </E.TextBelowPhoto>
+                  </E.PhotoAndExplain>
+                  <E.PhotoChangeButton onClick={() => setEditMode('photo')}>
+                    변경
+                  </E.PhotoChangeButton>
+                </E.ShowBasicPhoto>
+              )}
+            </E.PhotoSection>
           </E.PhotoItem>
 
           <Divider />
@@ -237,8 +242,10 @@ const EditProfile = () => {
             <div>{user?.email}</div>
           </E.EtcItem>
           <Divider />
-          <E.Label>비밀번호</E.Label>
-          <PasswordReset />
+          <E.EtcItem>
+            <E.Label>비밀번호</E.Label>
+            <PasswordReset />
+          </E.EtcItem>
           <Divider />
 
           {/* 닉넴 */}

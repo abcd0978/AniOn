@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import negetive_next from '../../assets/navigate_next.svg';
 import { useSetAtom } from 'jotai';
 import * as modalStore from '../../store/modalStore';
 import { useNavigate } from 'react-router-dom';
@@ -45,7 +44,7 @@ function AfterPurchaseModalContents({}: Props) {
             <StgotoProfileEditTypo>프로필 꾸미기로 이동</StgotoProfileEditTypo>
             <img
               style={{ width: '20px', height: '20px' }}
-              src={negetive_next}
+              src="/images/navigate_next.svg"
               alt="arrow"
             />
           </div>

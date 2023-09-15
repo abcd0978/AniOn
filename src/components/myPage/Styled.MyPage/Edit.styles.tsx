@@ -1,15 +1,26 @@
 import styled from 'styled-components';
 export const E = {
   Page: styled.div`
-    margin-top: -700px;
-    margin-left: 450px;
+    @media (max-width: 1920px) {
+      margin-top: -90%;
+      margin-left: 45%;
+    }
+    @media (max-width: 1728px) {
+      margin-top: -85%;
+      margin-left: 40%;
+    }
+    @media (max-width: 1536px) {
+      margin-top: -70%;
+      margin-left: 45%;
+    }
+
     @media (max-width: 768px) {
       display: flex;
       flex-direction: column;
       justify-contents: center;
-      margin-left: 10px;
-      margin-top: -20px;
-    }
+      margin-top: -5%;
+      margin-left: 5%;
+      width: 90%;
   `,
   Title: styled.div`
     width: 200px;
@@ -25,27 +36,46 @@ export const E = {
     }
   `,
 
-  Container: styled.div``,
-
-  PhotoItem: styled.div`
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    height: 150px;
-    padding-top: 12px;
-    padding-bottom: 90px;
-    gap: 8px;
-    display: flex;
+  Container: styled.div`
     @media (max-width: 768px) {
-      display: flex;
-      flex-direction: row;
-      height: 200px;
-      padding-top: 12px;
-      padding-bottom: 12px;
-      gap: 8px;
+      width: 100%;
     }
   `,
 
+  PhotoItem: styled.div`
+    display: flex;
+    align-items: center;
+    gap: 10%;
+    padding-top: 5%;
+    padding-bottom: 10%;
+    @media (max-width: 768px) {
+      display: flex;
+      padding-top: 5%;
+      padding-bottom: 5%;
+    }
+  `,
+  PhotoSection: styled.div`
+    padding-left: 10%;
+    @media (max-width: 768px) {
+      padding-left: 0%;
+    }
+  `,
+  PhotoAndExplain: styled.div`
+    display: flex;
+    flex-direction: column;
+    @media (max-width: 768px) {
+      flex-direction: column;
+      margin-left: -600%;
+    }
+  `,
+  ShowBasicPhoto: styled.div`
+    display: flex;
+    @media (max-width: 768px) {
+      gap: 1px;
+      align-items: center;
+      justify-content: center;
+    }
+  `,
   EtcItem: styled.div`
     display: flex;
     flex-direction: row;
@@ -62,7 +92,15 @@ export const E = {
   Label: styled.div`
     font-size: 16px;
     font-weight: bold;
-    width: 70px;
+    width: 100px;
+  `,
+  PhotoLabel: styled.div`
+    font-size: 16px;
+    font-weight: bold;
+    width: 100px;
+    margin-right: 50px;
+    @media (max-width: 768px) {
+    }
   `,
 
   Input: styled.input`
@@ -79,10 +117,12 @@ export const E = {
     }
   `,
   CancelAndDone: styled.div`
+    display: flex;
+    gap: 10px;
     @media (max-width: 768px) {
       display: flex;
+      flex-direction: row;
       gap: 10px;
-      left: 50%;
     }
   `,
   CancelButton: styled.button`
@@ -133,13 +173,37 @@ export const E = {
       color: white;
     }
   `,
-  ChangeButton: styled.button`
+  PhotoChangeButton: styled.button`
     background-color: #fdfbff;
     border-radius: 12px;
     width: 72px;
     height: 32px;
     border: 1px solid var(--main-mid-2, #c88fff);
-    right: -5px;
+    color: #000;
+    cursor: pointer;
+    &:hover {
+      background-color: #c88fff;
+      color: white;
+    }
+    @media (max-width: 768px) {
+      display: flex;
+      width: 60px;
+      height: 24px;
+      padding: 4px 14px;
+      justify-content: center;
+      gap: 8px;
+      border-radius: 6px;
+      margin-right: -240px;
+      transform: translateX(-120%);
+    }
+  `,
+  ChangeButton: styled.button`
+    justify-content: flex-end;
+    background-color: #fdfbff;
+    border-radius: 12px;
+    width: 72px;
+    height: 32px;
+    border: 1px solid var(--main-mid-2, #c88fff);
     color: #000;
     cursor: pointer;
 
@@ -153,7 +217,6 @@ export const E = {
       height: 24px;
       padding: 4px 14px;
       justify-content: center;
-      align-items: center;
       gap: 8px;
       border-radius: 6px;
     }
@@ -200,12 +263,12 @@ export const E = {
   TextBelowPhoto: styled.div`
     color: #838383;
     font-size: 14px;
-    margin-top: 20%;
-    margin-left: -130px;
+    top: 100%;
+    left: 100%;
+    margin-top: 5%;
     width: 400px;
     @media (max-width: 768px) {
-      margin-top: 60%;
-      margin-left: -100px;
+      width: 200px;
     }
   `,
   TextBelowNickname: styled.div`
@@ -218,13 +281,9 @@ export const E = {
     color: red;
   `,
   ButtonArray: styled.div`
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 8px;
+    display: flex;
     align-items: center;
-    justify-content: center;
     @media (max-width: 768px) {
-      flex-direction: column;
       display: flex;
     }
   `,
@@ -244,6 +303,7 @@ export const E = {
     color: black;
     cursor: pointer;
     padding: 4px;
+    margin: 5px;
     @media (max-width: 768px) {
       width: 60px;
       height: 24px;
@@ -256,11 +316,8 @@ export const E = {
     }
   `,
   FileSelectContainer: styled.div`
-    margin-top: 250px;
-    margin-left: -130px;
     @media (max-width: 768px) {
       margin-top: 0px;
-      margin-left: 0px;
     }
   `,
 };

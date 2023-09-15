@@ -17,16 +17,16 @@ const MyProfile = () => {
   return (
     <Profile.MyProfileContainer>
       <Profile.MobileInfo>
-        <Profile.MyMobilePhoto>
-          {user && (
-            <ProfileWithBorder
-              $mediawidth={width}
-              width={window.innerWidth <= 768 ? 450 : 200}
-              key={user?.id!}
-            />
-          )}
-        </Profile.MyMobilePhoto>
         <Profile.MyMobileInfo>
+          <Profile.MyMobilePhoto>
+            {user && (
+              <ProfileWithBorder
+                $mediawidth={width}
+                width={window.innerWidth <= 768 ? 450 : 200}
+                key={user?.id!}
+              />
+            )}
+          </Profile.MyMobilePhoto>
           <Profile.MyNickname>{user?.nickname}</Profile.MyNickname>
           <MyProfileAward />
           <MyPoint />

@@ -2,7 +2,6 @@ import MyBorder from './MyBorder';
 import { useState } from 'react';
 import MyInvenAward from './MyInvenAward';
 import { D } from './Styled.MyPage/Deco.styles';
-import * as S from '../../pages/Shop.style';
 import { styled } from 'styled-components';
 
 const DecoProfile = () => {
@@ -44,6 +43,7 @@ const DecoProfile = () => {
           칭호
         </D.Button>
       </D.ButtonContainer>
+
       <D.Container>{renderDecoComponent()}</D.Container>
     </D.Page>
   );

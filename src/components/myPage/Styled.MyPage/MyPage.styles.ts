@@ -3,15 +3,22 @@ interface OuterProps {
   selectedComponent: string | null;
 }
 export const Profile = {
+  MyPageConainer: styled.div`
+    margin: 0 auto;
+    padding-bottom: 10%;
+    @media (max-width: 768px) {
+      width: 100%;
+      height: auto;
+      padding-bottom: 100%;
+    }
+  `,
   // 내 프로필 전체 박스
   MyContainer: styled.div`
     border-radius: 20px;
     background: #fdfbff;
     box-shadow: 0px 0px 25px 0px rgba(0, 0, 0, 0.1);
-    width: 400px;
-    height: 850px;
-    padding: 20px;
-    margin-top: 40px;
+    width: 28%;
+    height: auto;
 
     @media (max-width: 768px) {
       background: transparent;
@@ -26,7 +33,8 @@ export const Profile = {
     justify-contents: center;
     align-items: center;
     text-align: center;
-    margin-top: 20px;
+    margin-top: 5%;
+    padding: 5%;
     @media (max-width: 768px) {
       display: flex;
       flex-direction: column;
@@ -34,18 +42,22 @@ export const Profile = {
       align-items: center;
       border-radius: 20px;
       box-shadow: 0px 0px 25px 0px rgba(0, 0, 0, 0.1);
-      margin-top: -50px;
-      margin-left: -20px;
-      width: 75%;
-      padding: 15px;
-      height: 15%;
+      margin-bottom: 10%;
+
+      width: 350%;
     }
     @media (max-width: 480px) {
-      width: 85%;
+      width: 350%;
       height: 15%;
     }
     @media (max-width: 400px) {
-      width: 77%;
+      display: flex;
+      flex-direction: column;
+      justify-contents: center;
+      align-items: center;
+      border-radius: 20px;
+      box-shadow: 0px 0px 25px 0px rgba(0, 0, 0, 0.1);
+      width: 350%;
       height: 15%;
     }
   `,
@@ -100,50 +112,70 @@ export const Profile = {
     align-items: center;
     line-height: normal;
     letter-spacing: -0.36px;
-    margin-top: 8px;
+    margin-top: 8%;
     font-size: 24px;
+    @media (max-width: 1280px) {
+      font-size: 20px;
+    }
     @media (max-width: 768px) {
       font-size: 20px;
       letter-spacing: -0.3px;
     }
   `,
   MobileInfo: styled.div`
+    align-items: center;
+    justify-content: center;
     @media (max-width: 768px) {
+      margin-top: 5%;
       display: flex;
       flex-direction: row;
       align-items: center;
-      margin-left: -20px;
+      justify-content: space-between;
     }
   `,
   MyMobilePhoto: styled.div`
-    margin-left: 11%;
+    display: block;
+    @media (max-width: 768px) {
+      margin-left: 0%;
+      margin-right: 10%;
+    }
   `,
   MyMobileInfo: styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+
+    @media (max-width: 1280px) {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
     @media (max-width: 768px) {
       display: flex;
       flex-direction: column;
       align-items: center;
+      justify-content: center;
     }
   `,
 };
 export const MyAward = {
   MyProfileAward: styled.div`
     display: flex;
-    width: 280px;
+    width: 100%;
     height: auto;
     justify-content: center;
     align-items: center;
     gap: 8px;
-    margin-top: 20px;
-    margin-bottom: 20px;
+
     @media (max-width: 768px) {
-      margin-top: 20px;
-      margin-bottom: 20px;
     }
   `,
   AwardImg: styled.img`
-    width: 215px;
-    height: 40px;
+    width: 80%;
+    height: auto;
     @media (max-width: 768px) {
       width: 140px;
       height: 25px;
@@ -167,11 +199,9 @@ export const MyProfilePoint = {
     display: flex;
     width: 106px;
     padding: 8px;
-    justify-content: center;
-    align-items: flex-start;
+    align-items: center;
     gap: 8px;
     background: #d9d9d9;
-    margin-bottom: 20px;
   `,
 };
 
@@ -180,17 +210,19 @@ export const InfoMenu = {
     display: flex;
   `,
   Button: styled.button`
-    margin-bottom: 10px;
+    padding: 2%;
     cursor: pointer;
     display: flex;
     align-items: center;
+    padding-left: 5%;
+
     gap: 8px;
-    width: 170px;
+    width: auto;
     background-color: transparent;
     border-color: transparent;
     color: #838383;
     text-align: center;
-    font-size: 20px;
+    font-size: 100%;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
@@ -227,10 +259,12 @@ export const InfoMenu = {
   // 회원탈퇴, 로그아웃
   InfoButtonContainer: styled.div`
     display: flex;
-    margin-left: 25px;
-    margin-top: 70px;
+    justify-content: center;
+    margin-top: 15%;
+    margin-bottom: 15%;
+
     @media (max-width: 768px) {
-      margin-left: 20%;
+      margin-left: 0%;
     }
   `,
   InfoButton: styled.button`
@@ -244,14 +278,11 @@ export const InfoMenu = {
     display: flex;
     flex-direction: column;
     justify-contents: center;
-    margin-left: 30px;
-    margin-top: 18px;
-
+    padding: 5%;
     @media (max-width: 768px) {
       height: 60%;
       background: #fdfbff;
-      margin-left: -5%;
-      width: 85%;
+      width: 350%;
       padding-top: 32px;
       padding-left: 20 px;
       margin-top: 10 px;
@@ -265,10 +296,8 @@ export const InfoMenu = {
       border-radius: 20px;
     }
     @media (max-width: 480px) {
-      width: 92%;
     }
     @media (max-width: 400px) {
-      width: 85%;
     }
   `,
 };

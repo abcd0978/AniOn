@@ -5,8 +5,26 @@ export const R = {
     display: flex;
     flex-direction: column;
     gap: 16px;
-    margin-top: -700px;
-    margin-left: 450px;
+    margin-top: -220%;
+    margin-left: 110%;
+    @media (max-width: 2300px) {
+      margin-top: -200%;
+    }
+    @media (max-width: 2000px) {
+      margin-top: -220%;
+    }
+    @media (max-width: 1500px) {
+      margin-top: -230%;
+    }
+    @media (max-width: 1300px) {
+      margin-top: -240%;
+    }
+    @media (max-width: 1200px) {
+      margin-top: -250%;
+    }
+    @media (max-width: 900px) {
+      margin-top: -280%;
+    }
     @media (max-width: 768px) {
       display: flex;
       flex-direction: column;
@@ -51,6 +69,8 @@ export const R = {
     width: 900px;
     height: 100px;
     @media (max-width: 768px) {
+      width: 500px;
+      height: 100px;
       max-width: auto;
       margin-top: 20px;
       justify-content: flex-start;
@@ -59,6 +79,10 @@ export const R = {
   Content: styled.div`
     display: flex;
     flex-direction: column;
+  `,
+  TitleAndDate: styled.div`
+    display: flex;
+    gap: 10%;
   `,
   ReviewTitle: styled.div`
     min-width: auto;
@@ -81,14 +105,16 @@ export const R = {
     color: #999;
     width: auto;
     font-size: 13px;
-    right: 300px;
-
     position: absolute;
     font-style: normal;
     letter-spacing: -0.195px;
+    right: 15%;
+    @media (max-width: 1728px) {
+      right: 8%;
+    }
     @media (max-width: 768px) {
       position: absolute;
-      right: 25px;
+      right: 15px;
       display: flex;
       justify-content: flex-end;
       width: auto;
@@ -108,7 +134,7 @@ export const R = {
 
     text-overflow: ellipsis;
     @media (max-width: 768px) {
-      max-width: 80vw;
+      width: 100%;
       max-height: calc(1.5em * 2);
       overflow: hidden;
       text-overflow: ellipsis;
@@ -200,7 +226,7 @@ export const R = {
     align-items: center;
 
     justify-content: center;
-    transform: translate(900px, -500px);
+    transform: translate(40px, 80px);
 
     @media (max-width: 768px) {
       transform: translate(-10px, 100px);
@@ -229,8 +255,19 @@ export const R = {
 
 export const P = {
   Container: styled.div`
-    margin-top: -700px;
-    margin-left: 450px;
+    @media (max-width: 2400px) {
+      margin-top: -220%;
+      margin-left: 110%;
+    }
+    @media (max-width: 1728px) {
+      margin-top: -220%;
+      margin-left: 110%;
+    }
+    @media (max-width: 1600px) {
+      margin-top: -250%;
+      margin-left: 110%;
+    }
+
     @media (max-width: 768px) {
       display: flex;
       flex-direction: column;
@@ -271,21 +308,20 @@ export const P = {
     align-items: center;
 
     justify-content: center;
-    margin-left: 250%;
-    margin-top: -20%;
-    transform: translate(-100px, -300px);
+
+    transform: translate(700px, -500px);
 
     @media (max-width: 768px) {
     }
     @media (max-width: 480px) {
-      transform: translate(-740px, 100px);
+      transform: translate(-10px, 100px);
     }
 
     @media (max-width: 400px) {
-      transform: translate(-665px, 100px);
+      transform: translate(-10px, 100px);
     }
     @media (max-width: 380px) {
-      transform: translate(-670px, 100px);
+      transform: translate(-10px, 100px);
     }
     @media (max-width: 360px) {
     }
@@ -390,7 +426,11 @@ export const P = {
     color: #757575;
     float: right;
     max-width: 160px;
-    // display: flex;
+    display: flex;
+    @media (max-width: 768px) {
+      max-width: 100px;
+      transform: translateX(90px);
+    }
   `,
   PostTitle: styled.div`
     min-width: 780px;
@@ -399,7 +439,10 @@ export const P = {
     display: flex;
     justify-content: space-between;
     @media (max-width: 768px) {
+      min-width: auto;
+
       font-size: 13px;
+      gap: 10px;
     }
   `,
   TitleAndThumbnail: styled.div`

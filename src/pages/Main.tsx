@@ -1,20 +1,14 @@
 import React, { CSSProperties, useCallback, useState, useEffect } from 'react';
-import Banner from '../components/Banner';
+import Banner from '../components/Banner/Banner';
 import styled from 'styled-components';
-import next from '../assets/next.svg';
-import prev from '../assets/prev.svg';
-import MainCard from '../components/MainCard';
+import MainCard from '../components/MainCard/MainCard';
 import useViewport from '../hooks/useViewPort';
 import { fetchAnimeRecommend, getAnimeRankings } from '../api/laftel';
 import { useQuery } from '@tanstack/react-query';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
-import MainCardSkeleton from '../components/MainCardSkeleton';
+import MainCardSkeleton from '../components/MainCard/MainCardSkeleton';
 import useEmblaCarousel, { EmblaCarouselType } from 'embla-carousel-react';
-import hosino from '../assets/hosihoii.jpg';
-import gil from '../assets/gil.jpg';
-import cha from '../assets/cha.jpg';
-import jusul from '../assets/jusulgg.png';
-import ScrollToTop from '../components/scroll/ScrollToTop';
+import ScrollToTop from '../components/Scroll/ScrollToTop';
 import NewPassword from '../components/Modal/NewPassword';
 
 const smallCardWidth = 272;
@@ -193,7 +187,7 @@ const Main = () => {
 
   const bannerInfo = [
     {
-      image: hosino,
+      image: '/images/hosihoii.webp',
       name: '애니-온',
       title: '이상형 월드컵',
       desc: '나만의 이상형을 애니에서 만나볼 수 있다고?',
@@ -201,7 +195,7 @@ const Main = () => {
       onClick: () => navigate('/worldcup'),
     },
     {
-      image: jusul,
+      image: '/images/jusulgg_1.webp',
       name: '애니-온',
       title: '주술회전 1기 part 1',
       desc: '마법으로 펼쳐지는 모험, 화끈한 주문 대결의 시작',
@@ -209,7 +203,7 @@ const Main = () => {
       onClick: () => navigate('/recommend/39986'),
     },
     {
-      image: gil,
+      image: '/images/gil.webp',
       name: '애니-온',
       title: '길모퉁이 마족',
       desc: '화끈한 마법세계 속, 귀엽고 야심찬 마족들의 독특한 모험!',
@@ -217,7 +211,7 @@ const Main = () => {
       onClick: () => navigate('/recommend/39524'),
     },
     {
-      image: cha,
+      image: '/images/cha.webp',
       name: '애니-온',
       title: '체인소 맨',
       desc: '악마와 맞서는 데빌 헌터들을 만날 시간',
@@ -675,7 +669,7 @@ const PrevButton = (props: ButtonProps) => {
   const visibilty: CSSProperties = disabled ? { visibility: 'hidden' } : {};
   return (
     <button onClick={onClickfunc} style={{ ...buttonStyle, ...visibilty }}>
-      <img src={prev} alt="prev" />
+      <img src="/images/prev.svg" alt="prev" />
     </button>
   );
 };
@@ -685,7 +679,7 @@ const NextButton = (props: ButtonProps) => {
   const visibilty: CSSProperties = disabled ? { visibility: 'hidden' } : {};
   return (
     <button onClick={onClickfunc} style={{ ...buttonStyle, ...visibilty }}>
-      <img src={next} alt="next" />
+      <img src="/images/next.svg" alt="next" />
     </button>
   );
 };

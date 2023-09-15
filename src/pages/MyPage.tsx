@@ -13,23 +13,14 @@ interface Props {
 const MyPage = ({ viewport }: Props) => {
   const { width, height } = useContext(ViewportContext);
   return (
-    <MyPageConainer>
+    <Profile.MyPageConainer>
       <Profile.MyPageText> 마이페이지</Profile.MyPageText>
       <Profile.MyContainer>
         <MyProfile />
         {width <= 768 ? <MyInfoMenuMobile /> : <MyInfoMenu />}
       </Profile.MyContainer>
-    </MyPageConainer>
+    </Profile.MyPageConainer>
   );
 };
 
 export default MyPage;
-
-const MyPageConainer = styled.div`
-  margin: 0 auto;
-  margin-bottom: 32px;
-  @media (max-width: 768px) {
-    width: 100%;
-    height: auto;
-  }
-`;

@@ -9,9 +9,6 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { fetchUserPosts, deletePost } from '../../api/boardapi';
 import { StyledPostCategory } from './Styled.MyPage/Wrote.styles';
 import { useConfirm } from '../../hooks/useConfirm';
-import CheckBox from '../../assets/check_box.png';
-import Delete from '../../assets/delete.png';
-import ThumbnailIcon from '../../assets/image.png';
 import { toast } from 'react-toastify';
 import MyPostsSkeleton from './Skeleton.MyPage/MyPostsSkeleton';
 import { UserPostType, ReadPosts } from '../../types/post';
@@ -112,11 +109,11 @@ const WhatIWrote = () => {
 
   return isLoading ? (
     <MyPostsSkeleton />
-  ) : userPosts ? (
+  ) : userPosts && userPosts.data && userPosts.data.length > 0 ? (
     <P.Container>
       <P.Title>작성한 글</P.Title>
       <P.PostsContainer>
-        {userPosts?.data?.map((post: ReadPosts) => {
+        {userPosts.data.map((post: ReadPosts) => {
           return (
             <div key={post.id}>
               <P.Box>
@@ -137,11 +134,11 @@ const WhatIWrote = () => {
                     <P.TitleAndThumbnail>
                       {post.title}
                       {post.thumbnail !== null && (
-                        <img src={ThumbnailIcon} alt="thumbnailIcon" />
+                        <img src="/images/image.png" alt="thumbnailIcon" />
                       )}
                     </P.TitleAndThumbnail>
                     <P.Date>
-                      {new Date(post.created_at).toLocaleString()}
+                      {new Date(post.created_at).toLocaleDateString()}
                     </P.Date>
                   </P.PostTitle>
                 </P.Content>
@@ -151,27 +148,31 @@ const WhatIWrote = () => {
           );
         })}
       </P.PostsContainer>
-      <P.PickButtonBox>
-        <P.PickButtonAll onClick={handleSelectAll}>
-          <img src={CheckBox} alt="체크박스" />
-          {selectedPosts.length === userPosts?.data?.length
-            ? '전체 선택 해제'
-            : '전체 선택'}
-        </P.PickButtonAll>
-        <P.PickButton onClick={handleDeleteSelectedPosts}>
-          <img src={Delete} alt="삭제" />
-          선택삭제
-        </P.PickButton>
-      </P.PickButtonBox>
-      <P.WriteP>
-        <Pagination
-          currentPage={page}
-          totalPages={userPosts!.totalPages || 1}
-          onClick={handlePageChange}
-          isPreviousDisabled={page === 1}
-          isNextDisabled={page >= (userPosts?.totalPages || 1)}
-        />
-      </P.WriteP>
+      {userPosts && userPosts.data && userPosts.data.length > 0 && (
+        <>
+          <P.PickButtonBox>
+            <P.PickButtonAll onClick={handleSelectAll}>
+              <img src="/images/checkbox.png" alt="체크박스" />
+              {selectedPosts.length === userPosts?.data?.length
+                ? '전체 선택 해제'
+                : '전체 선택'}
+            </P.PickButtonAll>
+            <P.PickButton onClick={handleDeleteSelectedPosts}>
+              <img src="images/delete.png" alt="삭제" />
+              선택삭제
+            </P.PickButton>
+          </P.PickButtonBox>
+          <P.WriteP>
+            <Pagination
+              currentPage={page}
+              totalPages={userPosts!.totalPages || 1}
+              onClick={handlePageChange}
+              isPreviousDisabled={page === 1}
+              isNextDisabled={page >= (userPosts?.totalPages || 1)}
+            />
+          </P.WriteP>
+        </>
+      )}
     </P.Container>
   ) : (
     <P.NoContainer>

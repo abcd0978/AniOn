@@ -1,21 +1,12 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import checkBox from '../../assets/checkBox.svg';
-import checkBoxChecked from '../../assets/checkBoxChecked.svg';
 import useViewport from '../../hooks/useViewPort';
 import { useAtom, useSetAtom } from 'jotai';
 import useInput from '../../hooks/useInput';
 import { toast } from 'react-toastify';
 import * as authApi from '../../api/auth';
 import * as userStore from '../../store/userStore';
-import logo from '../../assets/logo.svg';
-import google from '../../assets/google.svg';
-import kakao from '../../assets/kakao.svg';
-import github from '../../assets/github.svg';
-import discord from '../../assets/discord.svg';
 import * as modalStore from '../../store/modalStore';
-import loadingSpinner from '../../assets/loadingSpinner.svg';
-import horizontalLineForLoginModal from '../../assets/horzontalLineForLoginModal.svg';
 type Props = {};
 type ErrorType = {
   error: boolean;
@@ -80,7 +71,7 @@ const LoginModalContents = (props: Props) => {
       <StLoginUpperContents>
         <StLoginInfoContainer>
           <StLoginInfoLogo $mediawidth={width}>
-            <img src={logo} alt="로고" />
+            <img src={'/images/logo.svg'} alt="로고" />
           </StLoginInfoLogo>
           <StLoginInfoTypo $mediawidth={width}>
             다양한 애니메이션 팬들과 소통해보세요!
@@ -127,7 +118,11 @@ const LoginModalContents = (props: Props) => {
             <StLoginCheckBoxContents>
               <StLoginCheckBox onClick={() => setChecked(!checked)}>
                 <img
-                  src={checked ? checkBoxChecked : checkBox}
+                  src={
+                    checked
+                      ? '/images/checkBoxChecked.svg'
+                      : '/images/checkBox.svg'
+                  }
                   alt="checkBox"
                 />
               </StLoginCheckBox>
@@ -169,7 +164,7 @@ const LoginModalContents = (props: Props) => {
                 로그인중
                 <img
                   style={{ width: '15px', height: '15px' }}
-                  src={loadingSpinner}
+                  src={'/images/loadingSpinner.svg'}
                   alt="스피너"
                 />
               </StLoginButtonTypo>
@@ -203,12 +198,12 @@ const LoginModalContents = (props: Props) => {
         <StLoginDownerTitleContainer>
           <StLoginDownerTitlehorizontalLine
             $mediawidth={width}
-            src={horizontalLineForLoginModal}
+            src={'/images/horzontalLineForLoginModal.svg'}
           />
           SNS계정으로 로그인
           <StLoginDownerTitlehorizontalLine
             $mediawidth={width}
-            src={horizontalLineForLoginModal}
+            src={'/images/horzontalLineForLoginModal.svg'}
           />
         </StLoginDownerTitleContainer>
         <StLoginDownerLoginOptionContainer $mediawidth={width}>
@@ -229,7 +224,7 @@ const LoginModalContents = (props: Props) => {
             alt="깃헙"
           /> */}
           <StLoginDownerLoginOption
-            src={google}
+            src={'/images/google.svg'}
             onClick={async () => {
               await authApi.loginHandler(undefined, true, AuthProvider.Google);
             }}
@@ -237,7 +232,7 @@ const LoginModalContents = (props: Props) => {
             alt="구글"
           />
           <StLoginDownerLoginOption
-            src={kakao}
+            src={'/images/kakao.svg'}
             onClick={async () => {
               await authApi.loginHandler(undefined, true, AuthProvider.Kakao);
             }}

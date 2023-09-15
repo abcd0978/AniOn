@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 // component
-import { S } from './styled.ReplyComment';
+import { S } from './replyComment.styles';
 import ProfileWithBorder, { processItem } from '../../ProfileWithBorder';
 
 // api
@@ -17,10 +17,6 @@ import * as userStore from '../../../store/userStore';
 // hooks
 import { useConfirm } from '../../../hooks/useConfirm';
 import useViewport from '../../../hooks/useViewPort';
-
-// file
-import commentpointer from '../../../assets/commentpointer.svg';
-import commentpointerUp from '../../../assets/commentPointerUp.svg';
 
 type Props = {
   postId: string;
@@ -282,7 +278,8 @@ const ReplyComment = ({
                   <S.CommentMore
                     onClick={() => toggleCommentCollapse(reply.id)}
                   >
-                    댓글 더보기 <img src={commentpointer} alt="더보기" />
+                    댓글 더보기{' '}
+                    <img src={'/images/commentpointer.svg'} alt="더보기" />
                   </S.CommentMore>
                 </>
               ) : (
@@ -292,7 +289,8 @@ const ReplyComment = ({
                     <S.CommentMore
                       onClick={() => toggleCommentCollapse(reply.id)}
                     >
-                      접기 <img src={commentpointerUp} alt="접기" />
+                      접기{' '}
+                      <img src={'/images/commentPointerUp.svg'} alt="접기" />
                     </S.CommentMore>
                   )}
                 </>

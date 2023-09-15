@@ -1,14 +1,42 @@
 import styled from 'styled-components';
 export const D = {
   Page: styled.div`
-    margin-top: -700px;
-    margin-left: 450px;
+    margin-top: -300%;
+    margin-left: 110%;
+    @media (max-width: 2000px) {
+      margin-top: -220%;
+      margin-left: 110%;
+    }
+
+    @media (max-width: 1700px) {
+      margin-top: -230%;
+      margin-left: 110%;
+    }
+
+    @media (max-width: 1400px) {
+      margin-top: -250%;
+      margin-left: 110%;
+    }
+
+    @media (max-width: 1100px) {
+      margin-top: -270%;
+      margin-left: 110%;
+    }
+
+    @media (max-width: 1024px) {
+      margin-top: -280%;
+      margin-left: 110%;
+    }
+    @media (max-width: 900px) {
+      margin-top: -250%;
+      margin-left: 110%;
+    }
     @media (max-width: 768px) {
       display: flex;
       flex-direction: column;
       justify-contents: center;
-      margin-left: 10px;
-      margin-top: -20px;
+      margin-top: -5%;
+      margin-left: 5%;
     }
   `,
   Title: styled.div`
@@ -60,8 +88,14 @@ export const B = {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 5px 1px;
-    left: -5vw;
-    top: 3vh;
+    @media (max-width: 1300px) {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 5px 1px;
+    }
+    @media (max-width: 1000px) {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 5px 1px;
+    }
     @media (max-width: 768px) {
       grid-template-columns: repeat(2, 1fr);
       gap: 1px;
@@ -103,16 +137,43 @@ export const B = {
   `,
   BorderPage: styled.div`
     position: absolute;
-    justify-content: center;
-    top: 27%;
-    right: 26%;
-    @media (max-width: 768px) {
-      right: 40%;
-      top: 47%;
+    @media (max-width: 1920px) {
+      margin-top: -2%;
+      margin-left: 45%;
     }
+    @media (max-width: 1728px) {
+      margin-top: -2%;
+      margin-left: 45%;
+    }
+    @media (max-width: 1536px) {
+      margin-top: -2%;
+      margin-left: 45%;
+    }
+
+    @media (max-width: 768px) {
+      top: 20%;
+      right: 17%;
+    }
+
     @media (max-width: 480px) {
       right: 40%;
       top: 35%;
+    }
+    @media (max-width: 420px) {
+      right: 40%;
+      top: 37%;
+    }
+    @media (max-width: 400px) {
+      right: 40%;
+      top: 39%;
+    }
+    @media (max-width: 380px) {
+      right: 40%;
+      top: 48%;
+    }
+    @media (max-width: 370px) {
+      right: 40%;
+      top: 45%;
     }
   `,
 
@@ -196,6 +257,10 @@ export const A = {
     grid-template-columns: repeat(3, 1fr);
     gap: 50px;
     margin-top: 10px;
+    @media (max-width: 1200px) {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 50px;
+    }
     @media (max-width: 768px) {
       grid-template-columns: repeat(2, 1fr);
       gap: 20px;
@@ -280,12 +345,50 @@ export const A = {
   Pagination: styled.div`
     position: absolute;
     justify-content: center;
-    display: block;
-    top: 240px;
-    right: 470px;
+    top: 20%;
+    right: 30%;
+    @media (max-width: 1920px) {
+      top: 25%;
+      right: 26%;
+    }
+    @media (max-width: 1536px) {
+      top: 10%;
+      right: 30%;
+    }
+    @media (max-width: 1024px) {
+      top: 23%;
+      right: 17%;
+    }
     @media (max-width: 768px) {
-      right: 150px;
-      top: 320px;
+      top: 20%;
+      right: 17%;
+    }
+
+    @media (max-width: 768px) {
+      right: 40%;
+      top: 60%;
+    }
+    @media (max-width: 480px) {
+      right: 40%;
+      top: 35%;
+    }
+    @media (max-width: 420px) {
+      right: 40%;
+      top: 48%;
+    }
+    @media (max-width: 400px) {
+      right: 40%;
+      top: 52%;
+    }
+    @media (max-width: 380px) {
+      right: 40%;
+      top: 64%;
+    }
+    @media (max-width: 370px) {
+      right: 40%;
+      top: 57%;
+    }
+    @media (max-width: 768px) {
     }
   `,
 };

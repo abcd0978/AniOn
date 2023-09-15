@@ -2,7 +2,6 @@ import { equipItem, fetchMyBorders, unEquipItem } from '../../api/items';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useAtomValue } from 'jotai';
 import * as userStore from '../../store/userStore';
-import goShop from '../../assets/goShop.png';
 import { B } from './Styled.MyPage/Deco.styles';
 import { useNavigate } from 'react-router-dom';
 import React, { useState } from 'react';
@@ -104,6 +103,18 @@ const MyBorder = () => {
   const borderList =
     Array.isArray(filteredBorders) && filteredBorders.length > 0 ? (
       <B.Container>
+        <B.BorderPage>
+          {Array.isArray(filteredBorders) &&
+            filteredBorders.length >= itemsPerPage && (
+              <PaginationTwo
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onClick={handlePageChange}
+                isPreviousDisabled={currentPage === 1}
+                isNextDisabled={currentPage >= totalPages}
+              />
+            )}
+        </B.BorderPage>
         {displayedBorder.map((filteredBorders, index) => (
           <div key={index}>
             <B.BorderContainer>
@@ -139,7 +150,7 @@ const MyBorder = () => {
           }}
         >
           테두리 구매하러 가기
-          <img src={goShop} alt="상점으로" />
+          <img src="/images/goShop.png" alt="상점으로" />
         </B.NoneButton>
       </B.NoneContainer>
     );
@@ -147,18 +158,6 @@ const MyBorder = () => {
   return (
     <B.BorderContainer>
       <B.Container>{borderList}</B.Container>
-      <B.BorderPage>
-        {Array.isArray(filteredBorders) &&
-          filteredBorders.length >= itemsPerPage && (
-            <PaginationTwo
-              currentPage={currentPage}
-              totalPages={totalPages}
-              onClick={handlePageChange}
-              isPreviousDisabled={currentPage === 1}
-              isNextDisabled={currentPage >= totalPages}
-            />
-          )}
-      </B.BorderPage>
     </B.BorderContainer>
   );
 };
