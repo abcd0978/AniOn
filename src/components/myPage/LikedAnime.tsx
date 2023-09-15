@@ -194,8 +194,7 @@ const LikedAnime = () => {
       <L.Title>찜한 목록</L.Title>
 
       <L.FullPage>
-        <L.List>{likedList}</L.List>
-        {Array.isArray(displayedAnime) && displayedAnime.length >= 0 && (
+        {Array.isArray(displayedAnime) && displayedAnime.length > 0 && (
           <L.Page>
             <PaginationTwo
               currentPage={currentPage}
@@ -206,6 +205,7 @@ const LikedAnime = () => {
             />
           </L.Page>
         )}
+        <L.List>{likedList}</L.List>
       </L.FullPage>
     </L.LikedContainer>
   );
@@ -301,16 +301,28 @@ export const HoveredAnimeGenre = styled.div`
 
 const L = {
   LikedContainer: styled.div`
-    margin-top: -700px;
-    margin-left: 450px;
+    margin-top: -220%;
+    margin-left: 110%;
+    @media (max-width: 1500px) {
+      margin-top: -240%;
+      margin-left: 110%;
+    }
+    @media (max-width: 1400px) {
+      margin-top: -260%;
+      margin-left: 110%;
+    }
+
     @media (max-width: 768px) {
       display: flex;
       flex-direction: column;
       justify-contents: center;
       margin-left: 10px;
       margin-top: -10px;
+      padding-bottom: 10%;
     }
     @media (max-width: 480px) {
+      margin-bottom: 200%;
+      margin-top: -10px;
     }
     @media (max-width: 400px) {
     }
@@ -318,7 +330,11 @@ const L = {
   GridContainer: styled.div`
     display: grid;
     gap: 0px 20px;
+
     grid-template-columns: repeat(3, 1fr);
+    @media (max-width: 1300px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
     @media (max-width: 768px) {
       grid-template-columns: repeat(2, 1fr);
       gap: 0px;
@@ -381,7 +397,7 @@ const L = {
     justify-content: center;
     @media (max-width: 768px) {
       align-items: center;
-      transform: translate(-30px, 80px);
+      transform: translate(40px, 80px);
     }
   `,
   GoRecommend: styled.button`
@@ -439,19 +455,22 @@ const L = {
 
   FullPage: styled.div`
     position: absolute;
-
+    padding-bottom: 20%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: flex-end;
     @media (max-width: 768px) {
-      height: auto;
     }
   `,
   Tags: styled.div`
     font-weight: 600;
   `,
-  List: styled.div``,
+  List: styled.div`
+    @media (max-width: 768px) {
+      padding-bottom: 10%;
+    }
+  `,
 
   AnimeTitle: styled.div`
     width: 220px;

@@ -44,6 +44,7 @@ const DecoProfile = () => {
           칭호
         </D.Button>
       </D.ButtonContainer>
+
       <D.Container>{renderDecoComponent()}</D.Container>
     </D.Page>
   );
