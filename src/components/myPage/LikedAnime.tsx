@@ -321,7 +321,8 @@ const L = {
       padding-bottom: 10%;
     }
     @media (max-width: 480px) {
-      margin-bottom: 10%;
+      margin-bottom: 200%;
+      margin-top: -10px;
     }
     @media (max-width: 400px) {
     }
@@ -396,7 +397,7 @@ const L = {
     justify-content: center;
     @media (max-width: 768px) {
       align-items: center;
-      transform: translate(-30px, 80px);
+      transform: translate(40px, 80px);
     }
   `,
   GoRecommend: styled.button`
@@ -454,19 +455,22 @@ const L = {
 
   FullPage: styled.div`
     position: absolute;
-
+    padding-bottom: 20%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: flex-end;
     @media (max-width: 768px) {
-      height: auto;
     }
   `,
   Tags: styled.div`
     font-weight: 600;
   `,
-  List: styled.div``,
+  List: styled.div`
+    @media (max-width: 768px) {
+      padding-bottom: 10%;
+    }
+  `,
 
   AnimeTitle: styled.div`
     width: 220px;

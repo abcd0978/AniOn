@@ -374,23 +374,21 @@ export const A = {
     }
     @media (max-width: 420px) {
       right: 40%;
-      top: 37%;
+      top: 48%;
     }
     @media (max-width: 400px) {
       right: 40%;
-      top: 39%;
+      top: 52%;
     }
     @media (max-width: 380px) {
       right: 40%;
-      top: 48%;
+      top: 64%;
     }
     @media (max-width: 370px) {
       right: 40%;
-      top: 45%;
+      top: 57%;
     }
     @media (max-width: 768px) {
-      right: 150px;
-      top: 320px;
     }
   `,
 };

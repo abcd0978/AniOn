@@ -20,7 +20,7 @@ export const E = {
       justify-contents: center;
       margin-top: -5%;
       margin-left: 5%;
-    }
+      width: 90%;
   `,
   Title: styled.div`
     width: 200px;
@@ -36,30 +36,36 @@ export const E = {
     }
   `,
 
-  Container: styled.div``,
+  Container: styled.div`
+    @media (max-width: 768px) {
+      width: 100%;
+    }
+  `,
 
   PhotoItem: styled.div`
     display: flex;
-    flex-direction: row;
     align-items: center;
-    height: auto;
-    gap: 50px;
-    padding-top: 10%;
+    gap: 10%;
+    padding-top: 5%;
     padding-bottom: 10%;
-    display: flex;
     @media (max-width: 768px) {
       display: flex;
-      flex-direction: row;
-      height: auto;
-      padding-top: 0%;
-      padding-bottom: 0%;
-      gap: 8px;
+      padding-top: 5%;
+      padding-bottom: 5%;
     }
   `,
-  PhotoSection: styled.div``,
+  PhotoSection: styled.div`
+    padding-left: 10%;
+    @media (max-width: 768px) {
+      padding-left: 0%;
+    }
+  `,
   PhotoAndExplain: styled.div`
     display: flex;
     flex-direction: column;
+  `,
+  ShowBasicPhoto: styled.div`
+    display: flex;
   `,
   EtcItem: styled.div`
     display: flex;
@@ -77,7 +83,15 @@ export const E = {
   Label: styled.div`
     font-size: 16px;
     font-weight: bold;
-    width: auto;
+    width: 100px;
+  `,
+  PhotoLabel: styled.div`
+    font-size: 16px;
+    font-weight: bold;
+    width: 100px;
+    margin-right: 50px;
+    @media (max-width: 768px) {
+    }
   `,
 
   Input: styled.input`
@@ -150,6 +164,29 @@ export const E = {
       color: white;
     }
   `,
+  PhotoChangeButton: styled.button`
+    background-color: #fdfbff;
+    border-radius: 12px;
+    width: 72px;
+    height: 32px;
+    border: 1px solid var(--main-mid-2, #c88fff);
+    color: #000;
+    cursor: pointer;
+    &:hover {
+      background-color: #c88fff;
+      color: white;
+    }
+    @media (max-width: 768px) {
+      display: flex;
+      width: 60px;
+      height: 24px;
+      padding: 4px 14px;
+      justify-content: center;
+      gap: 8px;
+      border-radius: 6px;
+      margin-left: -250px;
+    }
+  `,
   ChangeButton: styled.button`
     justify-content: flex-end;
     background-color: #fdfbff;
@@ -157,7 +194,6 @@ export const E = {
     width: 72px;
     height: 32px;
     border: 1px solid var(--main-mid-2, #c88fff);
-    right: -5px;
     color: #000;
     cursor: pointer;
 
@@ -171,7 +207,6 @@ export const E = {
       height: 24px;
       padding: 4px 14px;
       justify-content: center;
-      align-items: center;
       gap: 8px;
       border-radius: 6px;
     }
@@ -223,8 +258,7 @@ export const E = {
     margin-top: 5%;
     width: 400px;
     @media (max-width: 768px) {
-      margin-top: 60%;
-      margin-left: -100px;
+      width: 200px;
     }
   `,
   TextBelowNickname: styled.div`
@@ -238,10 +272,8 @@ export const E = {
   `,
   ButtonArray: styled.div`
     display: flex;
-    justify-content: space-between;
     align-items: center;
     @media (max-width: 768px) {
-      flex-direction: column;
       display: flex;
     }
   `,
@@ -261,6 +293,7 @@ export const E = {
     color: black;
     cursor: pointer;
     padding: 4px;
+    margin: 5px;
     @media (max-width: 768px) {
       width: 60px;
       height: 24px;
@@ -275,7 +308,6 @@ export const E = {
   FileSelectContainer: styled.div`
     @media (max-width: 768px) {
       margin-top: 0px;
-      margin-left: 0px;
     }
   `,
 };

@@ -141,7 +141,7 @@ const WhatIWrote = () => {
                       )}
                     </P.TitleAndThumbnail>
                     <P.Date>
-                      {new Date(post.created_at).toLocaleString()}
+                      {new Date(post.created_at).toLocaleDateString()}
                     </P.Date>
                   </P.PostTitle>
                 </P.Content>
@@ -151,7 +151,7 @@ const WhatIWrote = () => {
           );
         })}
       </P.PostsContainer>
-      {selectedPosts.length > 0 && (
+      {userPosts && userPosts.data && userPosts.data.length > 0 && (
         <>
           <P.PickButtonBox>
             <P.PickButtonAll onClick={handleSelectAll}>

@@ -167,7 +167,7 @@ const EditProfile = () => {
           <Divider />
           {/* 사진 */}
           <E.PhotoItem>
-            <E.Label>사진</E.Label>
+            <E.PhotoLabel>사진</E.PhotoLabel>
             <E.PhotoSection>
               {user && editMode === 'photo' ? (
                 <E.ButtonArray>
@@ -213,7 +213,7 @@ const EditProfile = () => {
                   </E.CancelAndDone>
                 </E.ButtonArray>
               ) : (
-                <E.ButtonArray>
+                <E.ShowBasicPhoto>
                   {/* 변경 버튼을 누르기 전에 현재 프로필 이미지를 표시하는 부분 */}
                   <E.PhotoAndExplain>
                     <div key={user?.id}>
@@ -227,10 +227,10 @@ const EditProfile = () => {
                       댓글들에 사용됩니다.
                     </E.TextBelowPhoto>
                   </E.PhotoAndExplain>
-                  <E.ChangeButton onClick={() => setEditMode('photo')}>
+                  <E.PhotoChangeButton onClick={() => setEditMode('photo')}>
                     변경
-                  </E.ChangeButton>
-                </E.ButtonArray>
+                  </E.PhotoChangeButton>
+                </E.ShowBasicPhoto>
               )}
             </E.PhotoSection>
           </E.PhotoItem>

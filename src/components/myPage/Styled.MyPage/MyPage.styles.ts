@@ -125,7 +125,7 @@ export const Profile = {
     }
   `,
   MyMobilePhoto: styled.div`
-    margin-left: 20%;
+    display: block;
     @media (max-width: 768px) {
       margin-left: 0%;
       margin-right: 10%;
@@ -162,8 +162,6 @@ export const MyAward = {
     gap: 8px;
 
     @media (max-width: 768px) {
-      margin-top: 20px;
-      margin-bottom: 20px;
     }
   `,
   AwardImg: styled.img`
