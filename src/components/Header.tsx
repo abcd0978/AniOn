@@ -207,7 +207,7 @@ function Header() {
                 $isactive={activeMenu === '/' ? true : false}
                 color="#8200FF"
               >
-                둘러보기
+                홈
               </StHeaderMenu>
               <StHeaderMenu
                 onClick={() => {
