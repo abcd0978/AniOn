@@ -426,10 +426,10 @@ export const P = {
     color: #757575;
     float: right;
     max-width: 160px;
-    // display: flex;
+    display: flex;
     @media (max-width: 768px) {
       max-width: 100px;
-      padding-right: 60%;
+      transform: translateX(90px);
     }
   `,
   PostTitle: styled.div`
@@ -439,6 +439,8 @@ export const P = {
     display: flex;
     justify-content: space-between;
     @media (max-width: 768px) {
+      min-width: auto;
+
       font-size: 13px;
       gap: 10px;
     }
