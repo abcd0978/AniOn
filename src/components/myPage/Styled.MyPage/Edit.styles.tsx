@@ -63,9 +63,18 @@ export const E = {
   PhotoAndExplain: styled.div`
     display: flex;
     flex-direction: column;
+    @media (max-width: 768px) {
+      flex-direction: column;
+      margin-left: -600%;
+    }
   `,
   ShowBasicPhoto: styled.div`
     display: flex;
+    @media (max-width: 768px) {
+      gap: 1px;
+      align-items: center;
+      justify-content: center;
+    }
   `,
   EtcItem: styled.div`
     display: flex;
@@ -184,7 +193,8 @@ export const E = {
       justify-content: center;
       gap: 8px;
       border-radius: 6px;
-      margin-left: -250px;
+      margin-right: -240px;
+      transform: translateX(-120%);
     }
   `,
   ChangeButton: styled.button`
