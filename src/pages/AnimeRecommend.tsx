@@ -1,9 +1,7 @@
 import React from 'react';
-import AnimeList from '../components/anime-recommend/AnimeList';
+import AnimeList from '../components/anime-recommend/AnimeList/AnimeList';
 
-type Props = {};
-
-function AnimeRecommend({}: Props) {
+function AnimeRecommend() {
   return (
     <>
       <AnimeList />

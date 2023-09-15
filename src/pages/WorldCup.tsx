@@ -1,8 +1,5 @@
-import { S } from '../components/worldcup/worldCup.style';
+import { S } from '../components/Worldcup/worldCup.styles';
 import { useNavigate } from 'react-router';
-import navigate_next from '../assets/navigate_next.svg';
-import quizmale from '../assets/quizmale2.png';
-import quizfemale from '../assets/quizfemale.png';
 
 function WorldCup() {
   const navigate = useNavigate();
@@ -20,7 +17,10 @@ function WorldCup() {
                 <S.WorldCupTitles>이상형 월드컵</S.WorldCupTitles>
               </S.WordlcupInfo>
               <S.WorldCupImgs>
-                <S.WorldCupStartImg src={quizmale} alt="퀴즈남자" />
+                <S.WorldCupStartImg
+                  src="/images/quizmale2.png"
+                  alt="퀴즈남자"
+                />
               </S.WorldCupImgs>
             </S.WorldCupUp>
             <S.WorldCupTestButton
@@ -31,7 +31,7 @@ function WorldCup() {
             >
               <S.WorldCupTestButtonTextBox>
                 테스트하러 가기
-                <img src={navigate_next} alt="go_test" />
+                <img src="/images/navigate_next.svg" alt="go_test" />
               </S.WorldCupTestButtonTextBox>
             </S.WorldCupTestButton>
           </S.WorldCupMainTestCard>
@@ -43,7 +43,10 @@ function WorldCup() {
                 <S.WorldCupTitles>이상형 월드컵</S.WorldCupTitles>
               </S.WordlcupInfo>
               <S.WorldCupImgs>
-                <S.WorldCupStartImg src={quizfemale} alt="퀴즈여자" />
+                <S.WorldCupStartImg
+                  src="/images/quizfemale.png"
+                  alt="퀴즈여자"
+                />
               </S.WorldCupImgs>
             </S.WorldCupUp>
             <S.WorldCupTestButton
@@ -54,7 +57,7 @@ function WorldCup() {
             >
               <S.WorldCupTestButtonTextBox>
                 테스트하러 가기
-                <img src={navigate_next} alt="go_test" />
+                <img src="/images/navigate_next.svg" alt="go_test" />
               </S.WorldCupTestButtonTextBox>
             </S.WorldCupTestButton>
           </S.WorldCupMainTestCard>

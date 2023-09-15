@@ -3,12 +3,10 @@ import styled from 'styled-components';
 import useViewport from '../../hooks/useViewPort';
 import { useAtom, useSetAtom } from 'jotai';
 import { toast } from 'react-toastify';
-import goBack from '../../assets/goBack.svg';
 import * as modalStore from '../../store/modalStore';
 import * as userStore from '../../store/userStore';
 import useInput from '../../hooks/useInput';
 import supabase from '../../supabaseClient';
-import loadingSpinner from '../../assets/loadingSpinner.svg';
 import * as authApi from '../../api/auth';
 import * as itemApi from '../../api/items';
 import { updatePoint } from '../../api/items';
@@ -187,7 +185,7 @@ const LoginModalContents = (props: Props) => {
       <StRegisteContentsContainer $mediawidth={width} mediaHeight={height}>
         <StRegisterTitleContainer>
           <img
-            src={goBack}
+            src="/images/goBack.svg"
             alt="뒤로가기"
             onClick={() => {
               setModalContents('login');
@@ -356,7 +354,7 @@ const LoginModalContents = (props: Props) => {
               가입중
               <img
                 style={{ width: '15px', height: '15px' }}
-                src={loadingSpinner}
+                src="/images/loadingSpinner.svg"
                 alt="로딩스피너"
               />
             </StRegisterButtonTypo>

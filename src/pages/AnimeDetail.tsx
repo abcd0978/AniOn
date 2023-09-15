@@ -1,24 +1,18 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { getAnimeById, getAnimePreview, getAnimeStars } from '../api/laftel';
 import { useParams } from 'react-router-dom';
-import VideoPlayer from '../components/anime-detail/VideoPlayer';
-import { S } from '../components/anime-detail/anime-detail.style';
-import AnimeDetailComments from '../components/anime-detail/AnimeDetailComments';
+import VideoPlayer from '../components/AnimeDetail/VideoPlayer';
+import { S } from '../components/AnimeDetail/animeDetail.styles';
+import AnimeDetailComments from '../components/AnimeDetail/AnimeDetailComments';
 import { useRef, useState } from 'react';
-import unfilled from '../assets/unfilledLike.svg';
-import share from '../assets/share.svg';
 import { fetchAnimeLikes, toggleAnimeLike } from '../api/aniLike';
 import { useAtomValue } from 'jotai';
 import * as userStore from '../store/userStore';
 import { ReadAnimeLikeG } from '../types/likes';
-import play_arrow from '../assets/play_arrow.svg';
-import detaillike from '../assets/detaillike.svg';
-import ScrollToTop from '../components/scroll/ScrollToTop';
+import ScrollToTop from '../components/Scroll/ScrollToTop';
 import { toast } from 'react-toastify';
 import Loading from '../components/Loading/Loading';
-import seemoreIcon from '../assets/stat_minus_1.svg';
-import seemoreIconUp from '../assets/stat_minus_2.svg';
-import StarRatings from '../components/anime-detail/StarRatings';
+import StarRatings from '../components/AnimeDetail/StarRatings';
 
 function AnimeDetail() {
   const previewRef = useRef<HTMLDivElement>(null);
@@ -169,20 +163,32 @@ function AnimeDetail() {
               <S.ContentsOptions>
                 <S.PreviewLike>
                   <S.PreviewBox onClick={scrollToPreview}>
-                    <img src={play_arrow} alt="goVideo" />
+                    <img src="/images/play_arrow.svg" alt="goVideo" />
                     1화 맛보기
                   </S.PreviewBox>
                   <S.LikeShareBox>
                     <S.LikeBox>
                       {isLike() ? (
-                        <img src={detaillike} alt="like" onClick={handleLike} />
+                        <img
+                          src="/images/detaillike.svg"
+                          alt="like"
+                          onClick={handleLike}
+                        />
                       ) : (
-                        <img src={unfilled} alt="like" onClick={handleLike} />
+                        <img
+                          src="/images/unfilledLike.svg"
+                          alt="like"
+                          onClick={handleLike}
+                        />
                       )}
                       <p>찜</p>
                     </S.LikeBox>
                     <S.ShareBox>
-                      <img src={share} alt="share" onClick={isShare}></img>
+                      <img
+                        src="/images/share.svg"
+                        alt="share"
+                        onClick={isShare}
+                      ></img>
                       <p>공유하기</p>
                     </S.ShareBox>
                   </S.LikeShareBox>
@@ -216,7 +222,7 @@ function AnimeDetail() {
                     {animeDetail.content.slice(0, 300)} ...
                     <S.ContentSeeMore onClick={toggleCommentCollapse}>
                       <p>더보기</p>
-                      <img src={seemoreIcon} alt="더보기" />
+                      <img src="/images/stat_minus_2.svg" alt="더보기" />
                     </S.ContentSeeMore>
                   </>
                 ) : (
@@ -225,7 +231,7 @@ function AnimeDetail() {
                     {animeDetail.content.length > 300 && (
                       <S.ContentSeeMore onClick={toggleCommentCollapse}>
                         <p>접기</p>
-                        <img src={seemoreIconUp} alt="접기" />
+                        <img src="/images/stat_minus_1.svg" alt="접기" />
                       </S.ContentSeeMore>
                     )}
                   </>

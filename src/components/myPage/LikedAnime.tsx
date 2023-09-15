@@ -7,11 +7,8 @@ import React, { useEffect, useState } from 'react';
 import { AnimeG } from '../../types/anime';
 import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
-import viewDetail from '../../assets/viewdetail.svg';
 import useViewport from '../../hooks/useViewPort';
-import LikeSvg from '../anime-recommend/LikeSvg';
 import LikedSkeleton from './Skeleton.MyPage/LikedSkeleton';
-import goShop from '../../assets/goShop.png';
 import { PaginationTwo } from '../PagenationTwo';
 
 const LikedAnime = () => {
@@ -140,7 +137,7 @@ const LikedAnime = () => {
                   <p>자세히 보기</p>
                   <img
                     className="viewDetail"
-                    src={viewDetail}
+                    src="/images/viewdetail.svg"
                     alt="viewdetail"
                   />
                 </HoverViewDetail>
@@ -180,7 +177,7 @@ const LikedAnime = () => {
           }}
         >
           애니메이션 찾으러 가기
-          <img src={goShop} alt="고샾" />
+          <img src="/images/goShop.png" alt="고샾" />
         </L.GoRecommend>
       </L.NoContainer>
     );

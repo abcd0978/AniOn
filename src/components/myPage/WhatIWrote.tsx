@@ -9,9 +9,6 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { fetchUserPosts, deletePost } from '../../api/boardapi';
 import { StyledPostCategory } from './Styled.MyPage/Wrote.styles';
 import { useConfirm } from '../../hooks/useConfirm';
-import CheckBox from '../../assets/check_box.png';
-import Delete from '../../assets/delete.png';
-import ThumbnailIcon from '../../assets/image.png';
 import { toast } from 'react-toastify';
 import MyPostsSkeleton from './Skeleton.MyPage/MyPostsSkeleton';
 import { UserPostType, ReadPosts } from '../../types/post';
@@ -137,7 +134,7 @@ const WhatIWrote = () => {
                     <P.TitleAndThumbnail>
                       <P.TitleText>{post.title}</P.TitleText>
                       {post.thumbnail !== null && (
-                        <img src={ThumbnailIcon} alt="thumbnailIcon" />
+                        <img src="/images/image.png" alt="thumbnailIcon" />
                       )}
                     </P.TitleAndThumbnail>
                     <P.Date>
@@ -155,13 +152,13 @@ const WhatIWrote = () => {
         <>
           <P.PickButtonBox>
             <P.PickButtonAll onClick={handleSelectAll}>
-              <img src={CheckBox} alt="체크박스" />
+              <img src="/images/checkbox.png" alt="체크박스" />
               {selectedPosts.length === userPosts?.data?.length
                 ? '전체 선택 해제'
                 : '전체 선택'}
             </P.PickButtonAll>
             <P.PickButton onClick={handleDeleteSelectedPosts}>
-              <img src={Delete} alt="삭제" />
+              <img src="images/delete.png" alt="삭제" />
               선택삭제
             </P.PickButton>
           </P.PickButtonBox>
