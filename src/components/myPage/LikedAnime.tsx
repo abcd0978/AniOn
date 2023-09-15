@@ -194,7 +194,7 @@ const LikedAnime = () => {
       <L.Title>찜한 목록</L.Title>
 
       <L.FullPage>
-        {Array.isArray(displayedAnime) && displayedAnime.length >= 0 && (
+        {Array.isArray(displayedAnime) && displayedAnime.length > 0 && (
           <L.Page>
             <PaginationTwo
               currentPage={currentPage}

@@ -221,7 +221,7 @@ export const R = {
     align-items: center;
 
     justify-content: center;
-    transform: translate(900px, -500px);
+    transform: translate(700px, -500px);
 
     @media (max-width: 768px) {
       transform: translate(-10px, 100px);
@@ -319,9 +319,8 @@ export const P = {
     align-items: center;
 
     justify-content: center;
-    margin-left: 250%;
-    margin-top: -20%;
-    transform: translate(-100px, -300px);
+
+    transform: translate(700px, -500px);
 
     @media (max-width: 768px) {
     }
