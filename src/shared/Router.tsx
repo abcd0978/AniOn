@@ -18,7 +18,7 @@ import AfterSocialLogin from '../pages/AfterSocialLogin';
 
 import { ViewportProvider } from '../components/ViewportContext';
 import NewPassword from '../components/Modal/NewPassword';
-import ScrollToTop from '../components/Scroll/ScrollTop';
+import ScrollTop from '../components/Scroll/ScrollTop';
 import AniWorldCup from '../components/Worldcup/AniWorldCup';
 
 import Layout from '../styles/Layout';
@@ -49,7 +49,7 @@ const Router = () => {
     <ViewportProvider>
       <BrowserRouter>
         <Layout>
-          <ScrollToTop />
+          <ScrollTop />
           <GlobalStyle />
           <Routes>
             <Route path="/" element={<Main />}>
