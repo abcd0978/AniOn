@@ -1,19 +1,7 @@
 import styled from 'styled-components';
 export const E = {
   Page: styled.div`
-    @media (max-width: 1920px) {
-      margin-top: -90%;
-      margin-left: 45%;
-    }
-    @media (max-width: 1728px) {
-      margin-top: -85%;
-      margin-left: 40%;
-    }
-    @media (max-width: 1536px) {
-      margin-top: -70%;
-      margin-left: 45%;
-    }
-
+    width:100%;
     @media (max-width: 768px) {
       display: flex;
       flex-direction: column;
@@ -32,48 +20,41 @@ export const E = {
     line-height: normal;
     letter-spacing: -0.36px;
     @media (max-width: 768px) {
+      display: flex;
+      align-items: center;
       font-size: 16px;
     }
   `,
 
   Container: styled.div`
-    @media (max-width: 768px) {
-      width: 100%;
-    }
+    width: 100%;
   `,
 
   PhotoItem: styled.div`
     display: flex;
     align-items: center;
-    gap: 10%;
-    padding-top: 5%;
-    padding-bottom: 10%;
-    @media (max-width: 768px) {
-      display: flex;
-      padding-top: 5%;
-      padding-bottom: 5%;
-    }
+    padding: 3% 0%;
   `,
   PhotoSection: styled.div`
-    padding-left: 10%;
-    @media (max-width: 768px) {
-      padding-left: 0%;
-    }
+    width: 90%;
+    // padding-left: 10%;
+    // @media (max-width: 768px) {
+    //   padding-left: 0%;
+    // }
   `,
   PhotoAndExplain: styled.div`
     display: flex;
     flex-direction: column;
-    @media (max-width: 768px) {
-      flex-direction: column;
-      margin-left: -600%;
-    }
   `,
   ShowBasicPhoto: styled.div`
     display: flex;
+    width: 100%;
+    justify-content: space-between;
     @media (max-width: 768px) {
       gap: 1px;
-      align-items: center;
+
       justify-content: center;
+      flex-direction: column;
     }
   `,
   EtcItem: styled.div`
@@ -81,6 +62,7 @@ export const E = {
     flex-direction: row;
     align-items: center;
     height: 64px;
+    width: 100%;
     padding-top: 12px;
     padding-bottom: 12px;
     gap: 8px;
@@ -95,11 +77,11 @@ export const E = {
     width: 100px;
   `,
   PhotoLabel: styled.div`
+    width: 100px;
     font-size: 16px;
     font-weight: bold;
-    width: 100px;
-    margin-right: 50px;
-    @media (max-width: 768px) {
+    width: @media (max-width: 768px) {
+
     }
   `,
 
@@ -193,8 +175,6 @@ export const E = {
       justify-content: center;
       gap: 8px;
       border-radius: 6px;
-      margin-right: -240px;
-      transform: translateX(-120%);
     }
   `,
   ChangeButton: styled.button`
@@ -221,16 +201,27 @@ export const E = {
       border-radius: 6px;
     }
   `,
+  ProfileEditContainer: styled.div`
+    display: flex;
+    flex-direction: column;
+  `,
+
   NickNameContainer: styled.div`
-    align-items: center;
+    width: 100%;
+    display: flex;
   `,
   NickNameInputAndCheck: styled.div`
     display: flex;
+    flex-direction: column;
   `,
   NickNameButtons: styled.div`
     align-items: center;
     display: flex;
     gap: 5px;
+  `,
+  NickNameForm: styled.form`
+    display: flex;
+    justify-content: space-between;
   `,
   NickNameCheck: styled.button`
     margin-left: 10px;
@@ -266,7 +257,6 @@ export const E = {
     top: 100%;
     left: 100%;
     margin-top: 5%;
-    width: 400px;
     @media (max-width: 768px) {
       width: 200px;
     }
@@ -281,10 +271,16 @@ export const E = {
     color: red;
   `,
   ButtonArray: styled.div`
+    // max-width: 187px;
+    width: 100%;
     display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 10px;
     align-items: center;
     @media (max-width: 768px) {
-      display: flex;
+      flex-direction: column;
+      align-items: baseline;
     }
   `,
   HiddenFileInput: styled.input.attrs({ type: 'file' })`
@@ -303,7 +299,7 @@ export const E = {
     color: black;
     cursor: pointer;
     padding: 4px;
-    margin: 5px;
+    margin-top: 5px;
     @media (max-width: 768px) {
       width: 60px;
       height: 24px;
@@ -316,6 +312,8 @@ export const E = {
     }
   `,
   FileSelectContainer: styled.div`
+    display: flex;
+    flex-direction: column;
     @media (max-width: 768px) {
       margin-top: 0px;
     }

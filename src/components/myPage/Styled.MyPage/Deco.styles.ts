@@ -1,42 +1,11 @@
 import styled from 'styled-components';
 export const D = {
   Page: styled.div`
-    margin-top: -300%;
-    margin-left: 110%;
-    @media (max-width: 2000px) {
-      margin-top: -220%;
-      margin-left: 110%;
-    }
-
-    @media (max-width: 1700px) {
-      margin-top: -230%;
-      margin-left: 110%;
-    }
-
-    @media (max-width: 1400px) {
-      margin-top: -250%;
-      margin-left: 110%;
-    }
-
-    @media (max-width: 1100px) {
-      margin-top: -270%;
-      margin-left: 110%;
-    }
-
-    @media (max-width: 1024px) {
-      margin-top: -280%;
-      margin-left: 110%;
-    }
-    @media (max-width: 900px) {
-      margin-top: -250%;
-      margin-left: 110%;
-    }
     @media (max-width: 768px) {
       display: flex;
       flex-direction: column;
       justify-contents: center;
       margin-top: -5%;
-      margin-left: 5%;
     }
   `,
   Title: styled.div`
@@ -49,6 +18,8 @@ export const D = {
     line-height: normal;
     letter-spacing: -0.36px;
     @media (max-width: 768px) {
+      display: flex;
+      align-items: center;
       font-size: 16px;
     }
   `,
@@ -61,9 +32,6 @@ export const D = {
   `,
   ButtonContainer: styled.div`
     display: flex;
-    @media (max-width: 768px) {
-      margin-left: -20px;
-    }
   `,
   Button: styled.button`
     border: none;
@@ -136,7 +104,6 @@ export const B = {
     }
   `,
   BorderPage: styled.div`
-    position: absolute;
     @media (max-width: 1920px) {
       margin-top: -2%;
       margin-left: 45%;
@@ -151,29 +118,8 @@ export const B = {
     }
 
     @media (max-width: 768px) {
-      top: 20%;
-      right: 17%;
-    }
-
-    @media (max-width: 480px) {
-      right: 40%;
-      top: 35%;
-    }
-    @media (max-width: 420px) {
-      right: 40%;
-      top: 37%;
-    }
-    @media (max-width: 400px) {
-      right: 40%;
-      top: 39%;
-    }
-    @media (max-width: 380px) {
-      right: 40%;
-      top: 48%;
-    }
-    @media (max-width: 370px) {
-      right: 40%;
-      top: 45%;
+      // top: 20%;
+      // right: 17%;
     }
   `,
 
@@ -348,15 +294,27 @@ export const A = {
     top: 20%;
     right: 30%;
     @media (max-width: 1920px) {
-      top: 25%;
+      top: 20%;
       right: 26%;
     }
     @media (max-width: 1536px) {
-      top: 10%;
-      right: 30%;
+      top: 20%;
+      right: 25%;
+    }
+    @media (max-width: 1400px) {
+      top: 15%;
+      right: 20%;
+    }
+    @media (max-width: 1300px) {
+      top: 20%;
+      right: 15%;
+    }
+    @media (max-width: 1200px) {
+      top: 20%;
+      right: 25%;
     }
     @media (max-width: 1024px) {
-      top: 23%;
+      top: 15%;
       right: 17%;
     }
     @media (max-width: 768px) {

@@ -28,7 +28,7 @@ const PasswordReset = () => {
   };
 
   return (
-    <div>
+    <div style={{ width: '100%' }}>
       {errorMessage && <p>{errorMessage}</p>}
 
       {emailSent ? (

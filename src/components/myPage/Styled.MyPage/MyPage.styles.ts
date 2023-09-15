@@ -4,8 +4,11 @@ interface OuterProps {
 }
 export const Profile = {
   MyPageConainer: styled.div`
+    display: flex;
     margin: 0 auto;
     padding-bottom: 10%;
+
+    justify-content: space-between;
     @media (max-width: 768px) {
       width: 100%;
       height: auto;
@@ -19,8 +22,8 @@ export const Profile = {
     box-shadow: 0px 0px 25px 0px rgba(0, 0, 0, 0.1);
     width: 28%;
     height: auto;
-
     @media (max-width: 768px) {
+      width: 100%;
       background: transparent;
       border: none;
       box-shadow: none;
@@ -33,8 +36,7 @@ export const Profile = {
     justify-contents: center;
     align-items: center;
     text-align: center;
-    margin-top: 5%;
-    padding: 5%;
+    padding-bottom: 5%;
     @media (max-width: 768px) {
       display: flex;
       flex-direction: column;
@@ -44,11 +46,10 @@ export const Profile = {
       box-shadow: 0px 0px 25px 0px rgba(0, 0, 0, 0.1);
       margin-bottom: 10%;
 
-      width: 350%;
+      width: 100%;
     }
     @media (max-width: 480px) {
-      width: 350%;
-      height: 15%;
+      width: 100%;
     }
     @media (max-width: 400px) {
       display: flex;
@@ -57,8 +58,7 @@ export const Profile = {
       align-items: center;
       border-radius: 20px;
       box-shadow: 0px 0px 25px 0px rgba(0, 0, 0, 0.1);
-      width: 350%;
-      height: 15%;
+      width: 100%;
     }
   `,
   BasicImage: styled.img`
@@ -68,6 +68,7 @@ export const Profile = {
     overflow: hidden;
     background-size: cover;
     background-position: center;
+    object-fit: cover;
     @media (max-width: 768px) {
       width: 60px;
       height: 60px;
@@ -80,6 +81,7 @@ export const Profile = {
     overflow: hidden;
     background-size: cover;
     background-position: center;
+    object-fit: cover;
     @media (max-width: 768px) {
       width: 60px;
       height: 60px;
@@ -207,7 +209,11 @@ export const MyProfilePoint = {
 
 export const InfoMenu = {
   FullScreen: styled.div`
+    width: 70%;
     display: flex;
+    @media (max-width: 768px) {
+      width: 100%;
+    }
   `,
   Button: styled.button`
     padding: 2%;
@@ -235,11 +241,8 @@ export const InfoMenu = {
     }
   `,
   BackButton: styled.button`
-    position: absolute;
-    margin-top: -20px;
-    margin-left: -20px;
     cursor: pointer;
-    display: flex;
+    display: none;
     width: auto;
     background-color: transparent;
     border-color: transparent;
@@ -250,6 +253,10 @@ export const InfoMenu = {
     font-weight: 400;
     line-height: normal;
     letter-spacing: -0.24px;
+    z-index: 3;
+    @media (max-width: 768px) {
+      display: flex;
+    }
   `,
 
   ButtonIcon: styled.img`
@@ -278,11 +285,11 @@ export const InfoMenu = {
     display: flex;
     flex-direction: column;
     justify-contents: center;
-    padding: 5%;
+    padding-bottom: 5%;
     @media (max-width: 768px) {
       height: 60%;
       background: #fdfbff;
-      width: 350%;
+      width: 100%;
       padding-top: 32px;
       padding-left: 20 px;
       margin-top: 10 px;
@@ -303,7 +310,7 @@ export const InfoMenu = {
 };
 // divider
 export const Divider = styled.div`
-  width: 900px;
+  width: 100%;
   height: 1px;
   background: var(--achromatic-colors-midgray-2, #dbdbdb);
   margin-top: 8px;
