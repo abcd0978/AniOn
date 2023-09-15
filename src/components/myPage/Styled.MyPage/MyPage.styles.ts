@@ -3,6 +3,15 @@ interface OuterProps {
   selectedComponent: string | null;
 }
 export const Profile = {
+  MyPageConainer: styled.div`
+    margin: 0 auto;
+    padding-bottom: 10%;
+    @media (max-width: 768px) {
+      width: 100%;
+      height: auto;
+      padding-bottom: 100%;
+    }
+  `,
   // 내 프로필 전체 박스
   MyContainer: styled.div`
     border-radius: 20px;

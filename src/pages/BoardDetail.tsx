@@ -6,24 +6,19 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 // components
 import Comments from '../components/Board/Comments';
-import ScrollToTop from '../components/scroll/ScrollToTop';
-import EditorComponent from '../components/editor/EditorComponent';
+import ScrollToTop from '../components/Scroll/ScrollToTop';
+import EditorComponent from '../components/Editor/EditorComponent';
 import ProfileWithBorder, {
   processItem,
 } from '../components/ProfileWithBorder';
 import Loading from '../components/Loading/Loading';
 
 // style
-import { S } from '../pages/BoardDetail.style';
+import { S } from './Board/boardDetail.styles';
 
 //hooks
 import { useConfirm } from '../hooks/useConfirm';
 import useViewport from '../hooks/useViewPort';
-
-// assets, file
-import filledLike from '../assets/filledLike.svg';
-import borderLike from '../assets/borderLike.svg';
-import pencil from '../assets/pencil.svg';
 
 // api
 import * as boardApi from '../api/boardapi';
@@ -206,7 +201,7 @@ const BoardDetail = () => {
           <S.Write>
             {!isMobile && (
               <S.WriteButton onClick={handleWriteClick}>
-                <img src={pencil} alt="작성" /> 작성하기
+                <img src="/images/pencil.svg" alt="작성" /> 작성하기
               </S.WriteButton>
             )}
           </S.Write>
@@ -311,9 +306,12 @@ const BoardDetail = () => {
                       </S.UserInfo>
                       <S.Like onClick={toggleLike}>
                         {like?.length ? (
-                          <S.Img src={filledLike} alt="좋아요" />
+                          <S.Img src="/images/filledLike.svg" alt="좋아요" />
                         ) : (
-                          <S.Img src={borderLike} alt="좋아요 취소" />
+                          <S.Img
+                            src="/images/borderLike.svg"
+                            alt="좋아요 취소"
+                          />
                         )}
                       </S.Like>
                     </S.User>

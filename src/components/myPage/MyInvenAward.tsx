@@ -2,8 +2,6 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useAtomValue } from 'jotai';
 import * as userStore from '../../store/userStore';
 import { A } from './Styled.MyPage/Deco.styles';
-import goShop from '../../assets/goShop.png';
-// import useViewport from '../../hooks/useViewPort';
 import { useNavigate } from 'react-router-dom';
 import { equipItem, fetchMyAwards, unEquipItem } from '../../api/items';
 import { styled } from 'styled-components';
@@ -17,7 +15,6 @@ const MyInvenAward = () => {
   const queryClient = useQueryClient();
   const user = useAtomValue(userStore.user);
   const navigate = useNavigate();
-  // const { width, height, isMobile, isLoaded } = useViewport();
   const [currentPage, setCurrentPage] = useState(1);
   const myAwardsQueryOptions = {
     queryKey: ['myAwards'],
@@ -114,7 +111,6 @@ const MyInvenAward = () => {
               src={filteredAwards.items.img_url}
               alt={filteredAwards.items.name}
             />
-
             <A.Equip
               is_equipped={filteredAwards.is_equipped}
               onClick={() =>
@@ -138,7 +134,7 @@ const MyInvenAward = () => {
           }}
         >
           칭호 구매하러 가기
-          <img src={goShop} alt="고샾" />
+          <img src="/images/goShop.png" alt="고샾" />
         </A.NoneButton>
       </A.NoneContainer>
     );

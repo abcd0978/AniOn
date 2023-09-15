@@ -2,14 +2,12 @@ import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
 import Pagination from '../Pagenation';
-import * as S from './Comments.Styles';
+import * as S from './comments.Styles';
 import * as commentApi from '../../api/commentapi';
 import ProfileWithBorder, { processItem } from '../ProfileWithBorder';
 import * as userStore from '../../store/userStore';
 import { useAtomValue } from 'jotai';
 import { toast } from 'react-toastify';
-import commentpointer from '../../assets/commentpointer.svg';
-import commentpointerUp from '../../assets/commentPointerUp.svg';
 import {
   CommentType,
   InsertPostComment,
@@ -279,7 +277,11 @@ const Comments = () => {
                         <S.CommentMore
                           onClick={() => toggleCommentCollapse(comment.id)}
                         >
-                          댓글 더보기 <img src={commentpointer} alt="더보기" />
+                          댓글 더보기{' '}
+                          <img
+                            src={'/images/commentpointer.svg'}
+                            alt="더보기"
+                          />
                         </S.CommentMore>
                       </>
                     ) : (
@@ -289,7 +291,11 @@ const Comments = () => {
                           <S.CommentMore
                             onClick={() => toggleCommentCollapse(comment.id)}
                           >
-                            접기 <img src={commentpointerUp} alt="접기" />
+                            접기{' '}
+                            <img
+                              src={'/images/commentPointerUp.svg'}
+                              alt="접기"
+                            />
                           </S.CommentMore>
                         )}
                       </>

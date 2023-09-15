@@ -1,6 +1,5 @@
 import React from 'react';
-import { S } from './styled.NotFoundPage';
-import NotFound from '../../assets/404.svg';
+import { S } from './notFoundPage.styles';
 import { useNavigate } from 'react-router-dom';
 
 const NotFoundPage = () => {
@@ -8,7 +7,7 @@ const NotFoundPage = () => {
 
   return (
     <S.NotFoundContainer>
-      <S.NotFoundImg src={NotFound} alt={NotFound} />
+      <S.NotFoundImg src="/images/404.svg" alt="/images/404.svg" />
       <S.NotFoundContents>
         <S.NotFoundTitle>페이지를 찾을 수 없습니다.</S.NotFoundTitle>
         <S.NotFoundBodys>

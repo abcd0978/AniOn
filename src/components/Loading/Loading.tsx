@@ -1,7 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import loadingSpinnerPageSvg from '../../assets/LoadingSpinnerPageSvg.svg';
-import logo from '../../assets/logo.svg';
 type Props = {};
 
 const Loading = (props: Props) => {
@@ -17,10 +15,10 @@ const Loading = (props: Props) => {
       }}
     >
       <LoadingContainer>
-        <Spinner src={loadingSpinnerPageSvg} alt="스피너" />
+        <Spinner src={'/images/LoadingSpinnerPageSvg.svg'} alt="스피너" />
         <LoadingInfoContainer>
           <LoadingTypo>다양한 애니메이션 콘텐츠의 풍부한 세계</LoadingTypo>
-          <Logo src={logo} alt="로고" />
+          <Logo src={'/images/logo.svg'} alt="로고" />
         </LoadingInfoContainer>
       </LoadingContainer>
     </div>

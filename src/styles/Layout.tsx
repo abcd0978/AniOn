@@ -1,10 +1,10 @@
 import React from 'react';
-import Header from '../components/Header';
-import SideBar from '../components/SideBar';
-import Footer from '../components/Footer';
+import Header from '../components/Layout/Header';
+import SideBar from '../components/Layout/SideBar';
+import Footer from '../components/Layout/Footer';
 import { styled } from 'styled-components';
 import { Confirm } from '../components/Modal/confirm/Confirm';
-import DownBar from '../components/DownBar';
+import DownBar from '../components/Layout/DownBar';
 
 interface Props {
   children: React.ReactNode;

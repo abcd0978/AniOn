@@ -1,9 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
 import { fetchCharacter, updateNumOfWin } from '../../api/aniCharacters';
 import { useParams } from 'react-router';
-import { S } from './worldCup.style';
+import { S } from './worldCup.styles';
 import { useEffect, useState } from 'react';
-import vs from '../../assets/vs.svg';
 import { Database } from '../../types/supabase';
 import { useNavigate } from 'react-router-dom';
 import { updatePoint } from '../../api/items';
@@ -164,7 +163,6 @@ function AniWorldCup() {
             );
           })}
         </S.WorldCupRealTestContainer>
-        {/* <S.WorldcupVS src={vs} alt="vs" /> */}
       </S.WorldCupContainer>
     </>
   );
