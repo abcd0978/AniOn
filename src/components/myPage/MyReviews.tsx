@@ -7,12 +7,10 @@ import { useNavigate } from 'react-router-dom';
 import { deleteComment } from '../../api/aniComment';
 import { R } from './Styled.MyPage/Wrote.styles';
 import { Divider } from './Styled.MyPage/MyPage.styles';
-import goReview from '../../assets/next (1).png';
 import Pagination from '../Pagenation';
 import { getAnimeById } from '../../api/laftel';
 import ReviewSkeleton from './Skeleton.MyPage/MyReviewSkeleton';
 import { styled } from 'styled-components';
-import goShop from '../../assets/goShop.png';
 import { useConfirm } from '../../hooks/useConfirm';
 
 const supabaseUrl = process.env.REACT_APP_SUPABASE_URL;
@@ -144,7 +142,7 @@ const MyReviews = () => {
               <R.ButtonArray>
                 <R.GoButton onClick={() => handleReviewClick(review.ani_id)}>
                   보러가기
-                  <R.ButtonIcon src={goReview} />
+                  <R.ButtonIcon src="/images/nextblack.png" alt="보러가기" />
                 </R.GoButton>
                 <R.Button onClick={() => handleRemoveReview(review.id)}>
                   삭제
@@ -175,7 +173,7 @@ const MyReviews = () => {
       >
         리뷰 쓰러 가기
       </R.GoWriteReview>
-      <img src={goShop} alt="고샾" />
+      <img src="/images/goShop.png" alt="리뷰쓰기" />
     </R.NoContainer>
   );
 };

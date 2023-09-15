@@ -1,24 +1,28 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+
+import PrivateRoute from '../hoc/PrivateRoute';
+
 import Main from '../pages/Main';
 import AnimeRecommend from '../pages/AnimeRecommend';
-import Board from '../pages/Board';
+import Board from '../pages/Board/Board';
 import MyPage from '../pages/MyPage';
-import Shop from '../pages/Shop';
+import Shop from '../pages/Shop/Shop';
 import WorldCup from '../pages/WorldCup';
-import WriteBoard from '../pages/WriteBoard';
+import WriteBoard from '../pages/Board/WriteBoard';
 import NotFoundPage from '../pages/notfound/NotFoundPage';
 import AnimeDetail from '../pages/AnimeDetail';
-import BoardDetail from '../pages/BoardDetail';
-import { GlobalStyle } from '../styles/globalstyle';
-import ScrollToTop from '../components/scroll/ScrollTop';
-import AniWorldCup from '../components/worldcup/AniWorldCup';
+import BoardDetail from '../pages/Board/BoardDetail';
 import WorldCupResult from '../pages/WorldCupResult';
-import Layout from '../styles/Layout';
 import AfterSocialLogin from '../pages/AfterSocialLogin';
-import PrivateRoute from '../hoc/PrivateRoute';
-import { useState, useEffect } from 'react';
+
 import { ViewportProvider } from '../components/ViewportContext';
 import NewPassword from '../components/Modal/NewPassword';
+import ScrollToTop from '../components/Scroll/ScrollTop';
+import AniWorldCup from '../components/Worldcup/AniWorldCup';
+
+import Layout from '../styles/Layout';
+import { GlobalStyle } from '../styles/globalstyle';
 
 const Router = () => {
   const [viewport, setViewport] = useState({

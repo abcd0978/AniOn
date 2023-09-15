@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { S } from '../components/worldcup/worldCup.style';
-import { R } from '../components/worldcup/worldCupResult.style';
+import { S } from '../components/Worldcup/worldCup.styles';
+import { R } from '../components/Worldcup/worldCupResult.styles';
 import { useQuery } from '@tanstack/react-query';
 import { winnerResult } from '../api/aniCharacters';
-import navigate_next from '../assets/navigate_next.svg';
 import { useScript } from '../hooks/useScript';
 import Loading from '../components/Loading/Loading';
 
@@ -124,7 +123,7 @@ const WorldCupResult = () => {
                 background="#8200FF"
                 color="#FFFFFF"
               >
-                <img src={navigate_next} />
+                <img src="/images/navigate_next.svg" alt="공유하기" />
                 공유하기
               </R.WorldCupResultButton>
             </R.WorldCupResultButtonBox>

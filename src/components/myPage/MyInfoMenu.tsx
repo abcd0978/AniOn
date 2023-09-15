@@ -1,15 +1,4 @@
 import React, { useState } from 'react';
-
-import hoverbadge from '../../assets/badge (2).png';
-import hoverdeco from '../../assets/palette (2).png';
-import hoverreview from '../../assets/rate_review (2).png';
-import hoverwrite from '../../assets/edit_note (2).png';
-import hoverfavorite from '../../assets/favorite (2).png';
-import badge from '../../assets/badge (1).png';
-import deco from '../../assets/palette.png';
-import review from '../../assets/rate_review.png';
-import write from '../../assets/edit_note.png';
-import favorite from '../../assets/favorite.png';
 import DecoProfile from './DecoProfile';
 import EditProfile from './EditProfile';
 import LikedAnime from './LikedAnime';
@@ -61,9 +50,9 @@ const MyInfoMenu = () => {
           }}
         >
           {selectedComponent === 'EditProfile' ? (
-            <InfoMenu.ButtonIcon src={hoverbadge} />
+            <InfoMenu.ButtonIcon src="/images/badge (2).png" />
           ) : (
-            <InfoMenu.ButtonIcon src={badge} />
+            <InfoMenu.ButtonIcon src="/images/badge (1).png" />
           )}
           프로필 수정
         </InfoMenu.Button>
@@ -75,9 +64,9 @@ const MyInfoMenu = () => {
           }}
         >
           {selectedComponent === 'DecoProfile' ? (
-            <InfoMenu.ButtonIcon src={hoverdeco} />
+            <InfoMenu.ButtonIcon src="/images/palette (2).png" />
           ) : (
-            <InfoMenu.ButtonIcon src={deco} />
+            <InfoMenu.ButtonIcon src="/images/palette.png" />
           )}
           프로필 꾸미기
         </InfoMenu.Button>
@@ -89,9 +78,9 @@ const MyInfoMenu = () => {
           }}
         >
           {selectedComponent === 'LikedAnime' ? (
-            <InfoMenu.ButtonIcon src={hoverfavorite} />
+            <InfoMenu.ButtonIcon src="/images/favorite (2).png" />
           ) : (
-            <InfoMenu.ButtonIcon src={favorite} />
+            <InfoMenu.ButtonIcon src="/images/favorite.png" />
           )}
           찜한 목록
         </InfoMenu.Button>
@@ -103,9 +92,9 @@ const MyInfoMenu = () => {
           }}
         >
           {selectedComponent === 'MyReviews' ? (
-            <InfoMenu.ButtonIcon src={hoverreview} />
+            <InfoMenu.ButtonIcon src="/images/rate_review (2).png" />
           ) : (
-            <InfoMenu.ButtonIcon src={review} />
+            <InfoMenu.ButtonIcon src="/images/rate_review.png" />
           )}
           리뷰 관리
         </InfoMenu.Button>
@@ -117,9 +106,9 @@ const MyInfoMenu = () => {
           }}
         >
           {selectedComponent === 'WhatIWrote' ? (
-            <InfoMenu.ButtonIcon src={hoverwrite} />
+            <InfoMenu.ButtonIcon src="/images/edit_note (2).png" />
           ) : (
-            <InfoMenu.ButtonIcon src={write} />
+            <InfoMenu.ButtonIcon src="/images/edit_note.png" />
           )}
           작성한 글
         </InfoMenu.Button>
