@@ -77,12 +77,13 @@ export const R = {
     }
   `,
   Content: styled.div`
-    display: flex;
+    display: grid;
     flex-direction: column;
   `,
   TitleAndDate: styled.div`
     display: flex;
-    gap: 10%;
+    justify-content: space-between;
+    align-items: center;
   `,
   ReviewTitle: styled.div`
     min-width: auto;
@@ -92,6 +93,8 @@ export const R = {
     justify-content: space-between;
     font-weight: 700;
     font-size: 16px;
+    flex-grow: 1;
+    white-space: nowrap;
     @media (max-width: 768px) {
       font-style: normal;
       font-weight: 700;
@@ -105,19 +108,18 @@ export const R = {
     color: #999;
     width: auto;
     font-size: 13px;
-    position: absolute;
     font-style: normal;
     letter-spacing: -0.195px;
-    right: 15%;
+    right: 12%;
     @media (max-width: 1728px) {
       right: 8%;
     }
+    @media (max-width: 1500px) {
+      right: 5%;
+    }
     @media (max-width: 768px) {
-      position: absolute;
-      right: 15px;
       display: flex;
-      justify-content: flex-end;
-      width: auto;
+      transform: translateX(-160px);
     }
   `,
   Comments: styled.div`
@@ -134,7 +136,7 @@ export const R = {
 
     text-overflow: ellipsis;
     @media (max-width: 768px) {
-      width: 100%;
+      width: 60%;
       max-height: calc(1.5em * 2);
       overflow: hidden;
       text-overflow: ellipsis;
@@ -152,6 +154,7 @@ export const R = {
   ButtonArray: styled.div`
     display: flex;
     justify-content: space-between;
+
     @media (max-width: 768px) {
       display: flex;
     }
@@ -191,6 +194,7 @@ export const R = {
       background-color: #c88fff;
       color: white;
     }
+
     @media (max-width: 768px) {
       font-style: normal;
       font-weight: 400;
@@ -212,8 +216,9 @@ export const R = {
     position: absolute;
     display: flex;
     justify-content: flex-end;
-    left: 55%;
+    left: 50%;
     @media (max-width: 768px) {
+      left: 40%;
     }
     @media (max-width: 480px) {
       left: 25%;
@@ -226,10 +231,22 @@ export const R = {
     align-items: center;
 
     justify-content: center;
-    transform: translate(40px, 80px);
+
+    transform: translate(700px, -500px);
 
     @media (max-width: 768px) {
+    }
+    @media (max-width: 480px) {
       transform: translate(-10px, 100px);
+    }
+
+    @media (max-width: 400px) {
+      transform: translate(-10px, 100px);
+    }
+    @media (max-width: 380px) {
+      transform: translate(-10px, 100px);
+    }
+    @media (max-width: 360px) {
     }
   `,
   NoMessage: styled.div`
@@ -267,7 +284,14 @@ export const P = {
       margin-top: -250%;
       margin-left: 110%;
     }
-
+    @media (max-width: 1100px) {
+      margin-top: -270%;
+      margin-left: 110%;
+    }
+    @media (max-width: 900px) {
+      margin-top: -290%;
+      margin-left: 110%;
+    }
     @media (max-width: 768px) {
       display: flex;
       flex-direction: column;
@@ -425,11 +449,9 @@ export const P = {
     font-size: 14px;
     color: #757575;
     float: right;
-    max-width: 160px;
     display: flex;
+    margin-left: auto;
     @media (max-width: 768px) {
-      max-width: 100px;
-      transform: translateX(90px);
     }
   `,
   PostTitle: styled.div`
@@ -437,23 +459,28 @@ export const P = {
     min-height: 40px;
     align-items: center;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     @media (max-width: 768px) {
-      min-width: auto;
-
-      font-size: 13px;
-      gap: 10px;
     }
   `,
   TitleAndThumbnail: styled.div`
     display: flex;
-    aling-items: center;
+    align-items: center;
     gap: 10px;
+    flex-grow: 1;
   `,
   Box: styled.div`
     display: flex;
     flex-direction: row;
     cursor: pointer;
+  `,
+  TitleText: styled.span`
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 130px;
+    white-space: nowrap;
+    font-size: 13px;
+    gap: 10px;
   `,
   Input: styled.input`
     min-width: 24px;

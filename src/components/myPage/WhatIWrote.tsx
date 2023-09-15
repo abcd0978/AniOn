@@ -135,7 +135,7 @@ const WhatIWrote = () => {
                     onClick={() => handlePostClick(post.id?.toString() ?? '')}
                   >
                     <P.TitleAndThumbnail>
-                      {post.title}
+                      <P.TitleText>{post.title}</P.TitleText>
                       {post.thumbnail !== null && (
                         <img src={ThumbnailIcon} alt="thumbnailIcon" />
                       )}

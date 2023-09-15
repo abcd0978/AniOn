@@ -303,6 +303,7 @@ const L = {
   LikedContainer: styled.div`
     margin-top: -220%;
     margin-left: 110%;
+    height: auto;
     @media (max-width: 1500px) {
       margin-top: -240%;
       margin-left: 110%;
@@ -317,12 +318,12 @@ const L = {
       flex-direction: column;
       justify-contents: center;
       margin-left: 10px;
-      margin-top: -10px;
+      margin-top: 0px;
       padding-bottom: 10%;
     }
     @media (max-width: 480px) {
       margin-bottom: 200%;
-      margin-top: -10px;
+      margin-top: 0px;
     }
     @media (max-width: 400px) {
     }

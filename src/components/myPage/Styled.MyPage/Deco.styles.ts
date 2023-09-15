@@ -348,15 +348,27 @@ export const A = {
     top: 20%;
     right: 30%;
     @media (max-width: 1920px) {
-      top: 25%;
+      top: 20%;
       right: 26%;
     }
     @media (max-width: 1536px) {
-      top: 10%;
-      right: 30%;
+      top: 20%;
+      right: 25%;
+    }
+    @media (max-width: 1400px) {
+      top: 15%;
+      right: 20%;
+    }
+    @media (max-width: 1300px) {
+      top: 20%;
+      right: 15%;
+    }
+    @media (max-width: 1200px) {
+      top: 20%;
+      right: 25%;
     }
     @media (max-width: 1024px) {
-      top: 23%;
+      top: 15%;
       right: 17%;
     }
     @media (max-width: 768px) {

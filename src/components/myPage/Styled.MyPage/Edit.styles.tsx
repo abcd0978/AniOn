@@ -1,19 +1,23 @@
 import styled from 'styled-components';
 export const E = {
   Page: styled.div`
+ 
     @media (max-width: 1920px) {
       margin-top: -90%;
       margin-left: 45%;
     }
     @media (max-width: 1728px) {
       margin-top: -85%;
-      margin-left: 40%;
-    }
-    @media (max-width: 1536px) {
-      margin-top: -70%;
       margin-left: 45%;
     }
-
+    @media (max-width: 1536px) {
+      margin-top: -75%;
+      margin-left: 40%;
+    }
+    @media (max-width: 1300px) {
+      margin-top: -70%;
+      margin-left: 35%;
+    }
     @media (max-width: 768px) {
       display: flex;
       flex-direction: column;
