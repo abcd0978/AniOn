@@ -11,9 +11,11 @@ export const S = {
     grid-template-columns: repeat(4, 1fr);
     gap: 24px;
     row-gap: 60px;
+    margin-left: 20px;
     @media (max-width: 1600px) {
       /* 화면 크기가 1600px 이하인 경우 */
       grid-template-columns: repeat(3, 32%); /* 4개의 컬럼으로 변경 */
+      margin-left: 5px;
     }
 
     @media (max-width: 1024px) {
@@ -21,6 +23,7 @@ export const S = {
       grid-template-columns: repeat(2, 49.6%); /* 2개의 컬럼으로 변경 */
       gap: 8px;
       row-gap: 24px;
+      margin-left: 5px;
     }
   `,
 
@@ -33,7 +36,7 @@ export const S = {
   `,
 
   AwardImg: styled.img<Props>`
-    width: 100%;
+    width: 90%;
   `,
 
   AwardName: styled.div`
@@ -91,7 +94,7 @@ export const S = {
 
   ShopMenu: styled.div`
     display: flex;
-    width: 95%;
+    width: 85%;
     height: 32px;
     padding: 0px 8px;
     justify-content: space-between;
