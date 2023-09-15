@@ -5,36 +5,6 @@ export const R = {
     display: flex;
     flex-direction: column;
     gap: 16px;
-    margin-top: -220%;
-    margin-left: 110%;
-    @media (max-width: 2300px) {
-      margin-top: -200%;
-    }
-    @media (max-width: 2000px) {
-      margin-top: -220%;
-    }
-    @media (max-width: 1500px) {
-      margin-top: -230%;
-    }
-    @media (max-width: 1300px) {
-      margin-top: -240%;
-    }
-    @media (max-width: 1200px) {
-      margin-top: -250%;
-    }
-    @media (max-width: 900px) {
-      margin-top: -280%;
-    }
-    @media (max-width: 768px) {
-      display: flex;
-      flex-direction: column;
-      justify-contents: center;
-      margin-top: -20px;
-      height: auto;
-      width: 100%;
-
-      margin-left: 0px;
-    }
   `,
 
   Title: styled.div`
@@ -48,8 +18,8 @@ export const R = {
     letter-spacing: -0.36px;
     @media (max-width: 768px) {
       font-size: 16px;
-      margin-left: 10px;
-      margin-top: -10px;
+      display: flex;
+      align-items: center;
     }
   `,
   Outer: styled.div`
@@ -69,7 +39,7 @@ export const R = {
     width: 900px;
     height: 100px;
     @media (max-width: 768px) {
-      width: 500px;
+      width: 354px;
       height: 100px;
       max-width: auto;
       margin-top: 20px;
@@ -81,6 +51,7 @@ export const R = {
     flex-direction: column;
   `,
   TitleAndDate: styled.div`
+    width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -119,7 +90,7 @@ export const R = {
     }
     @media (max-width: 768px) {
       display: flex;
-      transform: translateX(-160px);
+      //transform: translateX(-160px);
     }
   `,
   Comments: styled.div`
@@ -215,7 +186,7 @@ export const R = {
   Page: styled.div`
     position: absolute;
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
     left: 50%;
     @media (max-width: 768px) {
       left: 40%;
@@ -227,33 +198,23 @@ export const R = {
     }
   `,
   NoContainer: styled.div`
-    display: grid;
-    align-items: center;
-
-    justify-content: center;
-
-    transform: translate(700px, -500px);
-
+    // align-items: center;
+    // justify-content: center;
     @media (max-width: 768px) {
     }
-    @media (max-width: 480px) {
-      transform: translate(-10px, 100px);
-    }
+  `,
+  NoMessageContainer: styled.div`
+    transform: translate(200%, 200%);
 
-    @media (max-width: 400px) {
-      transform: translate(-10px, 100px);
-    }
-    @media (max-width: 380px) {
-      transform: translate(-10px, 100px);
-    }
-    @media (max-width: 360px) {
+    flex-direction: column;
+    @media (max-width: 768px) {
+      transform: translate(20%, 50%);
     }
   `,
   NoMessage: styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 10px;
   `,
   GoWriteReview: styled.button`
     background-color: #8200ff;
@@ -264,7 +225,6 @@ export const R = {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 10px;
     cursor: pointer;
     border-color: transparent;
   `,
@@ -272,33 +232,7 @@ export const R = {
 
 export const P = {
   Container: styled.div`
-    @media (max-width: 2400px) {
-      margin-top: -220%;
-      margin-left: 110%;
-    }
-    @media (max-width: 1728px) {
-      margin-top: -220%;
-      margin-left: 110%;
-    }
-    @media (max-width: 1600px) {
-      margin-top: -250%;
-      margin-left: 110%;
-    }
-    @media (max-width: 1100px) {
-      margin-top: -270%;
-      margin-left: 110%;
-    }
-    @media (max-width: 900px) {
-      margin-top: -290%;
-      margin-left: 110%;
-    }
-    @media (max-width: 768px) {
-      display: flex;
-      flex-direction: column;
-      justify-contents: center;
-      margin-left: 10px;
-      margin-top: -20px;
-    }
+    width: 100%;
   `,
   Title: styled.div`
     width: 200px;
@@ -311,6 +245,8 @@ export const P = {
     letter-spacing: -0.36px;
     display: block;
     @media (max-width: 768px) {
+      display: flex;
+      align-items: center;
       font-size: 16px;
     }
   `,
@@ -327,27 +263,18 @@ export const P = {
       margin-left: 0vw;
     }
   `,
-  NoContainer: styled.div`
-    display: grid;
-    align-items: center;
-
-    justify-content: center;
-
-    transform: translate(700px, -500px);
-
+  NoMessageContainer: styled.div`
+    transform: translate(200%, 300%);
+    flex-direction: column;
     @media (max-width: 768px) {
+      transform: translate(20%, 50%);
     }
-    @media (max-width: 480px) {
-      transform: translate(-10px, 100px);
-    }
-
-    @media (max-width: 400px) {
-      transform: translate(-10px, 100px);
-    }
-    @media (max-width: 380px) {
-      transform: translate(-10px, 100px);
-    }
-    @media (max-width: 360px) {
+  `,
+  NoContainer: styled.div`
+    // display: grid;
+    align-items: center;
+    justify-content: center;
+    @media (max-width: 768px) {
     }
   `,
   NoButton: styled.button`
@@ -361,14 +288,12 @@ export const P = {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 10px;
     cursor: pointer;
   `,
   NoMessage: styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 10px;
   `,
   PickButton: styled.button`
     padding: 8px;
@@ -455,11 +380,11 @@ export const P = {
     }
   `,
   PostTitle: styled.div`
-    min-width: 780px;
+    width: 100%;
     min-height: 40px;
     align-items: center;
     display: flex;
-    justify-content: flex-start;
+    justify-content: space-between;
     @media (max-width: 768px) {
     }
   `,
@@ -470,17 +395,20 @@ export const P = {
     flex-grow: 1;
   `,
   Box: styled.div`
+    width: 80%;
     display: flex;
     flex-direction: row;
     cursor: pointer;
   `,
   TitleText: styled.span`
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 130px;
-    white-space: nowrap;
-    font-size: 13px;
-    gap: 10px;
+    @media (max-width: 768px) {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 130px;
+      white-space: nowrap;
+      font-size: 13px;
+      gap: 10px;
+    }
   `,
   Input: styled.input`
     min-width: 24px;
@@ -488,6 +416,7 @@ export const P = {
     cursor: pointer;
   `,
   Content: styled.div`
+    width: 80%;
     align-items: center;
     justify-content: center;
     text-align: center;

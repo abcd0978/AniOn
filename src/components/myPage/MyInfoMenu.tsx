@@ -9,34 +9,19 @@ import { logout } from '../../api/auth';
 import { useAtom } from 'jotai';
 import { useNavigate } from 'react-router-dom';
 import * as userStore from '../../store/userStore';
+import * as myPageStore from '../../store/myPageStore';
 import { useLocation } from 'react-router-dom';
 const MyInfoMenu = () => {
   const [__, logoutStore] = useAtom(userStore.logoutUser);
   const navigate = useNavigate();
   const location = useLocation();
-  const [selectedComponent, setSelectedComponent] = useState(
-    location.state?.selected ? location.state?.selected : 'EditProfile',
+  const [selectedComponent, setSelectedComponent] = useAtom(
+    myPageStore.selectedComponent,
   );
   const handleLogout = async () => {
     await logout();
     logoutStore();
     navigate(`/`);
-  };
-  const renderSelectedComponent = () => {
-    switch (selectedComponent) {
-      case 'DecoProfile':
-        return <DecoProfile />;
-      case 'EditProfile':
-        return <EditProfile />;
-      case 'LikedAnime':
-        return <LikedAnime />;
-      case 'WhatIWrote':
-        return <WhatIWrote />;
-      case 'MyReviews':
-        return <MyReviews />;
-      default:
-        return null;
-    }
   };
 
   return (
@@ -121,8 +106,6 @@ const MyInfoMenu = () => {
           <InfoMenu.InfoButton>회원탈퇴</InfoMenu.InfoButton>
         </InfoMenu.InfoButtonContainer>
       </InfoMenu.Outer>
-
-      <InfoMenu.FullScreen>{renderSelectedComponent()}</InfoMenu.FullScreen>
     </>
   );
 };

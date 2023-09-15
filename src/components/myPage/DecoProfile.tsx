@@ -1,12 +1,14 @@
 import MyBorder from './MyBorder';
 import { useState } from 'react';
+import { useSetAtom } from 'jotai';
 import MyInvenAward from './MyInvenAward';
 import { D } from './Styled.MyPage/Deco.styles';
 import { styled } from 'styled-components';
-
+import { InfoMenu } from './Styled.MyPage/MyPage.styles';
+import * as myPageStore from '../../store/myPageStore';
 const DecoProfile = () => {
   const [selectedDecoMenu, setSelectedDecoMenu] = useState('Border');
-
+  const setSelectedComponent = useSetAtom(myPageStore.selectedComponent);
   const renderDecoComponent = () => {
     switch (selectedDecoMenu) {
       case 'Award':
@@ -19,7 +21,12 @@ const DecoProfile = () => {
   };
   return (
     <D.Page>
-      <D.Title>프로필 꾸미기</D.Title>
+      <div style={{ display: 'flex', flexDirection: 'row' }}>
+        <InfoMenu.BackButton onClick={() => setSelectedComponent(null)}>
+          ←
+        </InfoMenu.BackButton>
+        <D.Title>프로필 꾸미기</D.Title>
+      </div>
 
       <D.ButtonContainer>
         <D.Button
