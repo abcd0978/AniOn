@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { styled } from 'styled-components';
+import topButton from '../../assets/topButton.svg';
 
 const ScrollToTop = () => {
   const [isShowButton, setIsShowButton] = useState(false);
@@ -31,10 +32,7 @@ const ScrollToTop = () => {
 
   return isShowButton ? (
     <StScrollBox>
-      <StScrollButton
-        src="/images/topButton.svg"
-        onClick={scrollToTop}
-      ></StScrollButton>
+      <StScrollButton src={topButton} onClick={scrollToTop}></StScrollButton>
     </StScrollBox>
   ) : (
     <></>
