@@ -1,14 +1,10 @@
 import { MyAward } from './Styled.MyPage/MyPage.styles';
 import { useQuery } from '@tanstack/react-query';
-// import { AwardsRow } from '../../types/items';
 
 import * as userStore from '../../store/userStore';
 import { fetchEquippedItem } from '../../api/items';
 import { useAtomValue } from 'jotai';
 const MyProfileAward = () => {
-  // const queryClient = useQueryClient();
-
-  // const award = queryClient.getQueryData(['equippedAward']) as AwardsRow;
   const user = useAtomValue(userStore.user);
 
   const equipedAwardQueryOptions = {

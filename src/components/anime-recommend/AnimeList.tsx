@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useAtom, useAtomValue } from 'jotai';
 import { toast } from 'react-toastify';
@@ -6,11 +6,14 @@ import { throttle } from 'lodash';
 
 // component
 import AnimeCardSkeleton from './AnimeCardSkeleton';
-import useIntersect from '../../hooks/useIntersect';
 import AnimeFilter from './top-menu/AnimeFilter';
 import ScrollToTop from '../scroll/ScrollToTop';
 import { S } from './styled.AnimeList';
 import AnimeCard from './AnimeCard';
+
+// hooks
+import useViewport from '../../hooks/useViewPort';
+import useIntersect from '../../hooks/useIntersect';
 
 // api
 import { fetchAnimeList } from '../../api/laftel';
@@ -23,12 +26,13 @@ import * as animeStore from '../../store/animeRecommendStore';
 
 // type
 import type { ReadAnimeLikeG } from '../../types/likes';
-import type { AnimeG } from '../../types/anime';
+import type { AnimeG, laftelParamsM } from '../../types/anime';
 import { AniCommentType } from '../../types/comment';
 
 const AnimeList = () => {
   // 상세페이지로 이동했을때만 offset, genres 등등 저장해서 뒤로가기시 데이터 그대로 보여주는 방법 찾아보기
   const queryClient = useQueryClient();
+  const { isMobile } = useViewport();
 
   const user = useAtomValue(userStore.user);
   const ending = useAtomValue(animeStore.isEndingAtom);
@@ -37,7 +41,10 @@ const AnimeList = () => {
   const category = useAtomValue(animeStore.selectedCategoryAtom);
   const isMobileFilterOpen = useAtomValue(animeStore.isMobileFilterAtom);
 
-  const size = 18;
+  const size = useMemo(() => {
+    return isMobile ? 6 : 18;
+  }, [isMobile]);
+
   const sort = 'rank';
 
   const [count, setCount] = useState(0);
@@ -46,19 +53,33 @@ const AnimeList = () => {
   const [offset, setOffset] = useAtom(animeStore.offsetAtom);
   const [keyword, setKeyword] = useAtom(animeStore.keywordAtom);
 
+  const params: laftelParamsM = {
+    sort,
+    genres,
+    offset,
+    size,
+    years,
+    ending,
+    keyword,
+  };
+
+  const animeListQueryKey = [
+    'animeList',
+    genres,
+    offset,
+    years,
+    ending,
+    category,
+    keyword,
+  ];
+
+  // 1. prefetch와 데이터 확인
+  // 2. 무한스크롤 prefetch로 변경
+  // 3. display prefetch로 더하기
+
   const animeListQueryOptions = {
-    queryKey: ['animeList', genres, offset, years, ending, category, keyword],
-    queryFn: () => {
-      return fetchAnimeList({
-        sort,
-        genres,
-        offset,
-        size,
-        years,
-        ending,
-        keyword,
-      });
-    },
+    queryKey: animeListQueryKey,
+    queryFn: () => fetchAnimeList(params),
     refetchOnWindowFocus: false,
   };
 
@@ -95,12 +116,15 @@ const AnimeList = () => {
     },
   });
 
-  const likesCount = (anime_id: string): number => {
-    return likesData
-      ? likesData.filter((like: ReadAnimeLikeG) => like.anime_id === anime_id)
-          .length
-      : 0;
-  };
+  const likesCount = useMemo(() => {
+    console.log('실행됨메모');
+    return (animeId: string) => {
+      return likesData
+        ? likesData.filter((like: ReadAnimeLikeG) => like.anime_id === animeId)
+            .length
+        : 0;
+    };
+  }, [likesData]);
 
   const handleLike = (anime_id: string, genres: string[]) => {
     if (!user) {
@@ -132,17 +156,19 @@ const AnimeList = () => {
   };
 
   // 댓글 개수 확인
-  const commentsCount = (animeId: string): number => {
-    if (!commentsData) {
-      return 0;
-    }
-    return commentsData
-      ? commentsData.filter(
-          (comment: Pick<AniCommentType, 'ani_id'>) =>
-            comment.ani_id === animeId,
-        ).length
-      : 0;
-  };
+  const commentsCount = useMemo(() => {
+    return (animeId: string) => {
+      if (!commentsData) {
+        return 0;
+      }
+      return commentsData
+        ? commentsData.filter(
+            (comment: Pick<AniCommentType, 'ani_id'>) =>
+              comment.ani_id === animeId,
+          ).length
+        : 0;
+    };
+  }, [commentsData]);
 
   // 스로틀링된 무한 스크롤 콜백 함수
   // 카테고리를 변경할 때 무한스크롤 실행되는 이슈 발견 > 아래 useEffect를 clean-up 함수로 변경.
@@ -178,9 +204,7 @@ const AnimeList = () => {
     setIsNextPage(data.isNextPage);
     setCount(data.count);
     setAnimeList((prevAnimeList) => [...prevAnimeList, ...data.animeList]);
-    if (isNextPage) {
-      queryClient.prefetchQuery(animeListQueryOptions);
-    }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
