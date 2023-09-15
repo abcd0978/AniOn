@@ -2,10 +2,11 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import * as userStore from '../store/userStore';
+import * as boardStore from '../store/boardStore';
 import * as S from './Board.style';
 import { fetchPosts } from '../api/boardapi';
 import { useState } from 'react';
-import { useAtomValue } from 'jotai';
+import { useAtomValue, useAtom } from 'jotai';
 import Pagination from '../components/Pagenation';
 import { toast } from 'react-toastify';
 import pencil from '../assets/pencil.svg';
@@ -21,9 +22,10 @@ import useViewport from '../hooks/useViewPort';
 
 const Board = () => {
   const user = useAtomValue(userStore.user);
+  const [searchKeyword, setSearchKeyword] = useAtom(boardStore.searchKeyword);
   const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState<string>('');
-  const [searchKeyword, setSearchKeyword] = useState<string>('');
+  const [inputSearchKeyword, setInputSearchKeyword] = useState<string>('');
   const [page, setPage] = useState<number>(1);
   const { isMobile } = useViewport();
 
@@ -46,7 +48,7 @@ const Board = () => {
   };
 
   const postQueryOptions = {
-    queryKey: ['posts', selectedCategory, page],
+    queryKey: ['posts', selectedCategory, page, searchKeyword],
     queryFn: () => fetchPosts(selectedCategory, page, searchKeyword),
     refetchOnWindowFocus: false,
     staleTime: 60 * 1000,
@@ -58,7 +60,7 @@ const Board = () => {
     isFetching,
     refetch,
   } = useQuery(postQueryOptions);
-
+  console.log(postsAndTotalPages);
   const onClickPage = (selected: number | string) => {
     if (page === selected) return;
     if (typeof selected === 'number') {
@@ -95,7 +97,7 @@ const Board = () => {
   };
 
   const handleSearch = async () => {
-    refetch();
+    setSearchKeyword(inputSearchKeyword);
     setSelectedCategory('');
   };
 
@@ -152,20 +154,19 @@ const Board = () => {
         </S.ButtonBox>
         {!isMobile && (
           <S.SearchInputContainer>
-            <S.SearchBox>
-              <S.SearchInput
-                type="text"
-                placeholder=" 검색어를 입력해주세요!"
-                value={searchKeyword}
-                onChange={(e) => setSearchKeyword(e.target.value)}
-                onKeyDown={handleKeyPress}
-              />
-              <S.SearchIcon
-                src={search}
-                alt="Search Icon"
-                onClick={handleSearch}
-              />
-            </S.SearchBox>
+            <S.SearchInput
+              type="text"
+              placeholder="검색어를 입력해주세요!"
+              value={inputSearchKeyword}
+              onChange={(e) => setInputSearchKeyword(e.target.value)}
+              onKeyDown={handleKeyPress}
+            />
+            <S.SearchIcon
+              src={search}
+              alt="Search Icon"
+              onClick={handleSearch}
+            />
+
             <S.WriteButton onClick={handleWriteClick}>
               <img src={pencil} alt="작성" /> 작성하기
             </S.WriteButton>

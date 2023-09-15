@@ -12,7 +12,7 @@ interface Props {
   likesCount: (animeId: string) => number;
   commentsCount: (animeId: string) => number;
   isLike: (animeId: string) => boolean;
-  handleLike: (animeId: string) => void;
+  handleLike: (animeId: string, genres: string[]) => void;
 }
 
 const AnimeCard = ({
@@ -49,7 +49,7 @@ const AnimeCard = ({
             <S.HoverLikeBox>
               <S.HoverCountDisplay>
                 <LikeSvg
-                  onClick={() => handleLike(String(anime.id))}
+                  onClick={() => handleLike(String(anime.id), anime.genres!)}
                   is_like={isLike(String(anime.id))}
                 />
                 {likesCount(String(anime.id))}

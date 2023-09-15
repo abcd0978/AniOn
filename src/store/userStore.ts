@@ -38,8 +38,8 @@ export const writeUser = atom(null, async (get, set) => {
     if ((await authApi.checkUser(userData!.id)) <= 0) {
       //db에 있으면 안넣고 db에있으면 넣는다
       await authApi.addUser(currentUser);
-
-      await supabase.from('point').insert({ user_id: userData.id!, point: 30 });
+      await supabase.from('point').insert({ user_id: userData.id!, point: 30 }); //포인트 넣어주기
+      await supabase.from('user_genres').insert([{ user_id: userData.id! }]); //장르 선호 넣어주기
     }
     return true;
   }

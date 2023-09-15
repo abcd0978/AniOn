@@ -48,8 +48,17 @@ const AnimeList = () => {
 
   const animeListQueryOptions = {
     queryKey: ['animeList', genres, offset, years, ending, category, keyword],
-    queryFn: () =>
-      fetchAnimeList({ sort, genres, offset, size, years, ending, keyword }),
+    queryFn: () => {
+      return fetchAnimeList({
+        sort,
+        genres,
+        offset,
+        size,
+        years,
+        ending,
+        keyword,
+      });
+    },
     refetchOnWindowFocus: false,
   };
 
@@ -77,6 +86,7 @@ const AnimeList = () => {
   const toggleLikeMutation = useMutation(toggleAnimeLike, {
     onSuccess: () => {
       queryClient.invalidateQueries(['animeLikes']);
+      queryClient.invalidateQueries(['genre']);
     },
     onError: (error) => {
       toast.error(`좋아요 도중 오류가 발생했어요.. : ${error}`, {
@@ -92,7 +102,7 @@ const AnimeList = () => {
       : 0;
   };
 
-  const handleLike = (anime_id: string) => {
+  const handleLike = (anime_id: string, genres: string[]) => {
     if (!user) {
       toast.warning('로그인 후 찜해주세요!💗', {
         autoClose: 800,
@@ -100,10 +110,14 @@ const AnimeList = () => {
       return;
     }
 
-    const data = {
+    const insertLike = {
       user_id: user.id,
       anime_id,
       isDetailPage: false,
+    };
+    const data = {
+      insertLike,
+      genres,
     };
     toggleLikeMutation.mutate(data);
   };
