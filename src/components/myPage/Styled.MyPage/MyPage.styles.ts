@@ -36,7 +36,8 @@ export const Profile = {
     justify-contents: center;
     align-items: center;
     text-align: center;
-    padding-bottom: 5%;
+    padding-top: 10%;
+
     @media (max-width: 768px) {
       display: flex;
       flex-direction: column;
@@ -45,19 +46,7 @@ export const Profile = {
       border-radius: 20px;
       box-shadow: 0px 0px 25px 0px rgba(0, 0, 0, 0.1);
       margin-bottom: 10%;
-
-      width: 100%;
-    }
-    @media (max-width: 480px) {
-      width: 100%;
-    }
-    @media (max-width: 400px) {
-      display: flex;
-      flex-direction: column;
-      justify-contents: center;
-      align-items: center;
-      border-radius: 20px;
-      box-shadow: 0px 0px 25px 0px rgba(0, 0, 0, 0.1);
+      padding-bottom: 5%;
       width: 100%;
     }
   `,
@@ -269,7 +258,7 @@ export const InfoMenu = {
     justify-content: center;
     margin-top: 15%;
     margin-bottom: 15%;
-
+    width: auto;
     @media (max-width: 768px) {
       margin-left: 0%;
     }
@@ -278,7 +267,7 @@ export const InfoMenu = {
     background-color: transparent;
     border: transparent;
     color: #999;
-    width: 60px;
+    width: auto;
     cursor: pointer;
   `,
   Outer: styled.div<OuterProps>`
@@ -286,6 +275,7 @@ export const InfoMenu = {
     flex-direction: column;
     justify-contents: center;
     padding-bottom: 5%;
+    padding-top: 10%;
     @media (max-width: 768px) {
       height: 60%;
       background: #fdfbff;

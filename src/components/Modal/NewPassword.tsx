@@ -35,9 +35,12 @@ const NewPassword = () => {
         });
         navigate(`/`);
       } else {
-        toast.warning('비밀번호 변경 중에 오류가 발생했습니다.', {
-          autoClose: 800,
-        });
+        toast.warning(
+          '비밀번호는 최소 6자리 이상이며, 영문자 혹은 숫자를 포함해야 합니다.',
+          {
+            autoClose: 800,
+          },
+        );
       }
     } catch (error) {
       console.error('비밀번호 변경 중에 오류가 발생했습니다!!!!!!.', error);
@@ -61,9 +64,9 @@ const NewPassword = () => {
         </NewPasswordTop>
 
         <PasswordRule>비밀번호 재설정*</PasswordRule>
-        <PasswordRule>
+        {/* <PasswordRule>
           비밀번호는 최소 6자리 이상이며, 영문자 혹은 숫자를 포함해야 합니다.
-        </PasswordRule>
+        </PasswordRule> */}
         <NewPasswordForm onSubmit={updatePasswordHandler}>
           <PasswordInput
             type="password"
@@ -89,16 +92,16 @@ export default NewPassword;
 const NewPasswordContainer = styled.div`
   align-items: center;
   justify-content: center;
-  padding: 20px;
+  padding-left: 80px;
+  padding-right: 80px;
 `;
 const NewPasswordTop = styled.div`
   display: flex;
   align-items: center;
-  justify-content: flex-start;
-
-  gap: 25%;
-  margin-top: -10%;
-  margin-bottom: 10%;
+  margin-bottom: 48px;
+  margin-right: 24px;
+  justify-content: space-between;
+  gap: 24px;
 `;
 const SetPassword = styled.div`
   color: #000;
@@ -106,6 +109,7 @@ const SetPassword = styled.div`
   font-style: normal;
   font-weight: 700;
   line-height: 40px;
+  width: auto;
 `;
 const PasswordRule = styled.div`
   color: var(--achromatic-colors-black, #191919);

@@ -104,22 +104,12 @@ export const B = {
     }
   `,
   BorderPage: styled.div`
-    @media (max-width: 1920px) {
-      margin-top: -2%;
-      margin-left: 45%;
-    }
-    @media (max-width: 1728px) {
-      margin-top: -2%;
-      margin-left: 45%;
-    }
-    @media (max-width: 1536px) {
-      margin-top: -2%;
-      margin-left: 45%;
-    }
+    justify-content: center;
+    position: absolute;
+    transform: translate(700px, -38px);
 
     @media (max-width: 768px) {
-      // top: 20%;
-      // right: 17%;
+      transform: translate(200px, -38px);
     }
   `,
 
@@ -163,7 +153,7 @@ export const B = {
   `,
 
   Equip: styled.button<{ is_equipped: boolean }>`
-    position: RELATIVE;
+    position: relative;
     font-size: 14px;
     padding: 0px;8px;
     left: 100px;
@@ -174,7 +164,11 @@ export const B = {
     color:black;
     border-radius: 6px;
     @media (max-width: 768px) {
-      width: 48px; 
+    display: inline-flex;
+
+      width:auto; 
+      padding: 8px;
+      align-items:center;
       font-size: 13px;
       height:24px;
 
@@ -267,9 +261,13 @@ export const A = {
     color: black;
     border-radius: 6px;
     @media (max-width: 768px) {
-        width: 48px; 
-        font-size: 13px;
-        height:24px;
+      display: inline-flex;
+
+      width:auto; 
+      padding: 8px;
+      align-items:center;
+      font-size: 13px;
+      height:24px;
     }
     border: ${(props) =>
       props.is_equipped ? '1px solid #c88fff' : '1px solid #d9d9d9'};
@@ -289,64 +287,12 @@ export const A = {
    
   `,
   Pagination: styled.div`
-    position: absolute;
     justify-content: center;
-    top: 20%;
-    right: 30%;
-    @media (max-width: 1920px) {
-      top: 20%;
-      right: 26%;
-    }
-    @media (max-width: 1536px) {
-      top: 20%;
-      right: 25%;
-    }
-    @media (max-width: 1400px) {
-      top: 15%;
-      right: 20%;
-    }
-    @media (max-width: 1300px) {
-      top: 20%;
-      right: 15%;
-    }
-    @media (max-width: 1200px) {
-      top: 20%;
-      right: 25%;
-    }
-    @media (max-width: 1024px) {
-      top: 15%;
-      right: 17%;
-    }
-    @media (max-width: 768px) {
-      top: 20%;
-      right: 17%;
-    }
+    position: absolute;
+    transform: translate(600px, -38px);
 
     @media (max-width: 768px) {
-      right: 40%;
-      top: 60%;
-    }
-    @media (max-width: 480px) {
-      right: 40%;
-      top: 35%;
-    }
-    @media (max-width: 420px) {
-      right: 40%;
-      top: 48%;
-    }
-    @media (max-width: 400px) {
-      right: 40%;
-      top: 52%;
-    }
-    @media (max-width: 380px) {
-      right: 40%;
-      top: 64%;
-    }
-    @media (max-width: 370px) {
-      right: 40%;
-      top: 57%;
-    }
-    @media (max-width: 768px) {
+      transform: translate(200px, -38px);
     }
   `,
 };
