@@ -15,6 +15,7 @@ import ProfileWithBorder, {
 } from '../../components/ProfileWithBorder';
 import type { PostType } from '../../types/post';
 import useViewport from '../../hooks/useViewPort';
+import Loading from '../../components/Loading/Loading';
 
 const Board = () => {
   const user = useAtomValue(userStore.user);
@@ -51,11 +52,7 @@ const Board = () => {
     cacheTime: 60 * 6000,
   };
 
-  const {
-    data: postsAndTotalPages,
-    isFetching,
-    refetch,
-  } = useQuery(postQueryOptions);
+  const { data: postsAndTotalPages, isFetching } = useQuery(postQueryOptions);
   console.log(postsAndTotalPages);
   const onClickPage = (selected: number | string) => {
     if (page === selected) return;
@@ -97,6 +94,9 @@ const Board = () => {
     setSelectedCategory('');
   };
 
+  // if (isLoading) {
+  //   return <Loading />;
+  // }
   return (
     <S.Container>
       <S.Title>게시판</S.Title>
@@ -172,88 +172,89 @@ const Board = () => {
           </S.SearchInputContainer>
         )}
       </S.Search>
-
-      <S.PostWrapper>
-        {isFetching ? (
-          <div>로딩중...</div>
-        ) : postsAndTotalPages?.data.length !== 0 ? (
-          postsAndTotalPages?.data?.map((post: PostType, index: number) => (
-            <S.Post
-              key={post.id}
-              onClick={() => post.id && handlePostClick(post.id.toString())}
-              className={post.thumbnail ? 'tall' : 'small'}
-            >
-              <S.PostTop>
-                <S.PostTopLeft>
-                  #{postsAndTotalPages?.count! - (page - 1) * 12 - index}
-                  <S.Category>{post.category} 게시판</S.Category>
-                </S.PostTopLeft>
-                <S.PostTopRight>
-                  <S.Ddabong src="/images/ddabong.svg" alt="추천수" />
-                  <div style={{ marginTop: '3px', marginRight: '12px' }}>
-                    추천수 {post.likes?.length}
-                  </div>
-                  <S.CommentsCount
-                    src="/images/commentsicon.svg"
-                    alt="댓글 수"
-                  />
-                  <div style={{ marginTop: '3px', marginRight: '5px' }}>
-                    댓글 {post.commentsCount}
-                  </div>
-                </S.PostTopRight>
-              </S.PostTop>
-              <S.PostMiddle>
-                <S.PostMiddleLeft>
-                  <ProfileWithBorder
-                    width={40}
-                    $mediawidth={1920}
-                    border_img_url={
-                      post.users.inventory.length > 0
-                        ? processItem(post.users.inventory).border
-                        : undefined
-                    }
-                    profile_img_url={post.users?.profile_img_url}
-                    key={post.id!}
-                  />
-                  <S.Ninkname>{post.users?.nickname}</S.Ninkname>
-                  {post.users.inventory.length > 0 &&
-                  processItem(post.users.inventory).award.img_url ? (
-                    <S.StAwardImg
-                      src={processItem(post.users.inventory).award.img_url!}
-                      alt={processItem(post.users.inventory).award.name!}
+      {isFetching ? (
+        <Loading />
+      ) : (
+        <S.PostWrapper>
+          {postsAndTotalPages?.data.length !== 0 ? (
+            postsAndTotalPages?.data?.map((post: PostType, index: number) => (
+              <S.Post
+                key={post.id}
+                onClick={() => post.id && handlePostClick(post.id.toString())}
+                className={post.thumbnail ? 'tall' : 'small'}
+              >
+                <S.PostTop>
+                  <S.PostTopLeft>
+                    #{postsAndTotalPages?.count! - (page - 1) * 12 - index}
+                    <S.Category>{post.category} 게시판</S.Category>
+                  </S.PostTopLeft>
+                  <S.PostTopRight>
+                    <S.Ddabong src="/images/ddabong.svg" alt="추천수" />
+                    <div style={{ marginTop: '3px', marginRight: '12px' }}>
+                      추천수 {post.likes?.length}
+                    </div>
+                    <S.CommentsCount
+                      src="/images/commentsicon.svg"
+                      alt="댓글 수"
                     />
+                    <div style={{ marginTop: '3px', marginRight: '5px' }}>
+                      댓글 {post.commentsCount}
+                    </div>
+                  </S.PostTopRight>
+                </S.PostTop>
+                <S.PostMiddle>
+                  <S.PostMiddleLeft>
+                    <ProfileWithBorder
+                      width={40}
+                      $mediawidth={1920}
+                      border_img_url={
+                        post.users.inventory.length > 0
+                          ? processItem(post.users.inventory).border
+                          : undefined
+                      }
+                      profile_img_url={post.users?.profile_img_url}
+                      key={post.id!}
+                    />
+                    <S.Ninkname>{post.users?.nickname}</S.Ninkname>
+                    {post.users.inventory.length > 0 &&
+                    processItem(post.users.inventory).award.img_url ? (
+                      <S.StAwardImg
+                        src={processItem(post.users.inventory).award.img_url!}
+                        alt={processItem(post.users.inventory).award.name!}
+                      />
+                    ) : (
+                      <S.AwardNo>칭호없음</S.AwardNo>
+                    )}
+                  </S.PostMiddleLeft>
+                  <S.PostMiddleRight>
+                    {new Date(post.created_at).toLocaleDateString()}
+                  </S.PostMiddleRight>
+                </S.PostMiddle>
+                <S.PostBottom>
+                  <S.PostBottomLeft $isFull={post.thumbnail ? false : true}>
+                    <S.PostTitle>{post.title}</S.PostTitle>
+                    <S.PostContent
+                      id="post-content"
+                      hasImage={post.thumbnail ? true : false}
+                    >
+                      {processBody(post.content)}
+                    </S.PostContent>
+                  </S.PostBottomLeft>
+                  {post.thumbnail ? (
+                    <S.PostBottomRight>
+                      <S.Thumbnail src={post?.thumbnail} />
+                    </S.PostBottomRight>
                   ) : (
-                    <S.AwardNo>칭호없음</S.AwardNo>
+                    ''
                   )}
-                </S.PostMiddleLeft>
-                <S.PostMiddleRight>
-                  {new Date(post.created_at).toLocaleDateString()}
-                </S.PostMiddleRight>
-              </S.PostMiddle>
-              <S.PostBottom>
-                <S.PostBottomLeft $isFull={post.thumbnail ? false : true}>
-                  <S.PostTitle>{post.title}</S.PostTitle>
-                  <S.PostContent
-                    id="post-content"
-                    hasImage={post.thumbnail ? true : false}
-                  >
-                    {processBody(post.content)}
-                  </S.PostContent>
-                </S.PostBottomLeft>
-                {post.thumbnail ? (
-                  <S.PostBottomRight>
-                    <S.Thumbnail src={post?.thumbnail} />
-                  </S.PostBottomRight>
-                ) : (
-                  ''
-                )}
-              </S.PostBottom>
-            </S.Post>
-          ))
-        ) : (
-          <div>검색 결과 없음</div>
-        )}
-      </S.PostWrapper>
+                </S.PostBottom>
+              </S.Post>
+            ))
+          ) : (
+            <div>검색 결과 없음</div>
+          )}
+        </S.PostWrapper>
+      )}
       <S.Page>
         <Pagination
           currentPage={page}
