@@ -234,11 +234,12 @@
 
 ---
 
-| 이름  | 직책   | 블로그                                                           | 깃허브                         |
-|-----|------|---------------------------------------------------------------|-----------------------------|
-| 이소영 | 리더   | https://blog.naver.com/ddooo__ding                            | https://github.com/ddooo00  |
-| 정송주 | 부리더  | https://www.notion.so/87152dd202f7436db1bfebd9b20ac04e?pvs=21 | https://github.com/songjuu  |
-| 박은희 | 팀원   | https://eunhee9902.tistory.com/                               | https://github.com/baguni99 |
-| 김무겸 | 팀원   | https://frian.tistory.com/                                    | https://github.com/hgyeom   |
-| 김민규 | 팀원   | https://hungryspider.tistory.com/                             | https://github.com/abcd0978 |
-| 김예림 | 디자이너 |                                                               |                             |
+ 이름  | 직책   | 블로그                                                           | 깃허브                         
+:---:|:----:|:-------------------------------------------------------------:|:---------------------------:
+ 이소영 | 리더   | https://blog.naver.com/ddooo__ding                            | https://github.com/ddooo00  
+ 정송주 | 부리더  | https://www.notion.so/87152dd202f7436db1bfebd9b20ac04e?pvs=21 | https://github.com/songjuu  
+ 박은희 | 팀원   | https://eunhee9902.tistory.com/                               | https://github.com/baguni99 
+ 김무겸 | 팀원   | https://frian.tistory.com/                                    | https://github.com/hgyeom   
+ 김민규 | 팀원   | https://hungryspider.tistory.com/                             | https://github.com/abcd0978 
+ 김예림 | 디자이너 |                                                               |                             
+
