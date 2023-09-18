@@ -4,11 +4,13 @@ import { v4 as uuidv4 } from 'uuid';
 import { useSetAtom } from 'jotai';
 import * as authApi from '../../api/auth';
 import * as userStore from '../../store/userStore';
+import * as myPageStore from '../../store/myPageStore';
 import { Divider, Profile } from './Styled.MyPage/MyPage.styles';
 import { useAtom } from 'jotai';
 import { toast } from 'react-toastify';
 import { E } from './Styled.MyPage/Edit.styles';
 import PasswordReset from './ResetPassword';
+import { InfoMenu } from './Styled.MyPage/MyPage.styles';
 //2-2-1.닉넴중복확인
 type ErrorType = {
   error: boolean;
@@ -25,6 +27,7 @@ const EditProfile = () => {
   const [nicknameError, setNicknameError] = useState<ErrorType>(initialError);
   const [nicknameDupChecked, setNicknameDupChecked] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const setSelectedComponent = useSetAtom(myPageStore.selectedComponent);
   //2-1-1. 사진 업로드
   const handleUpload = async () => {
     if (!selectedFile) {
@@ -162,7 +165,12 @@ const EditProfile = () => {
     let updatedUser = user;
     return (
       <E.Page>
-        <E.Title>프로필 수정</E.Title>
+        <div style={{ display: 'flex', flexDirection: 'row' }}>
+          <InfoMenu.BackButton onClick={() => setSelectedComponent(null)}>
+            ←
+          </InfoMenu.BackButton>
+          <E.Title>프로필 수정</E.Title>
+        </div>
         <E.Container>
           <Divider />
           {/* 사진 */}
@@ -172,32 +180,37 @@ const EditProfile = () => {
               {user && editMode === 'photo' ? (
                 <E.ButtonArray>
                   {/* 프로필 이미지를 표시하는 부분 */}
-                  {selectedFile ? (
-                    <Profile.BasicImage
-                      src={URL.createObjectURL(selectedFile)}
-                      alt="Selected profile picture"
-                    />
-                  ) : (
-                    <div key={user?.id}>
+                  <E.ProfileEditContainer>
+                    {selectedFile ? (
+                      <Profile.BasicImage
+                        src={URL.createObjectURL(selectedFile)}
+                        alt="Selected profile picture"
+                      />
+                    ) : (
                       <Profile.EditImage
                         src={user?.profile_img_url!}
                         alt="Profile picture"
                       />
-                    </div>
-                  )}
-                  <E.FileSelectContainer>
-                    <E.StyledLabel htmlFor="fileUpload">
-                      사진 선택
-                    </E.StyledLabel>
-                    <E.HiddenFileInput
-                      id="fileUpload"
-                      onChange={(event) => {
-                        if (event.target.files) {
-                          setSelectedFile(event.target.files[0]);
-                        }
-                      }}
-                    />
-                  </E.FileSelectContainer>
+                    )}
+
+                    <E.FileSelectContainer>
+                      <E.TextBelowPhoto>
+                        등록된 사진은 회원님의 게시물이나 <br />
+                        댓글들에 사용됩니다.
+                      </E.TextBelowPhoto>
+                      <E.StyledLabel htmlFor="fileUpload">
+                        사진 선택
+                      </E.StyledLabel>
+                      <E.HiddenFileInput
+                        id="fileUpload"
+                        onChange={(event) => {
+                          if (event.target.files) {
+                            setSelectedFile(event.target.files[0]);
+                          }
+                        }}
+                      />
+                    </E.FileSelectContainer>
+                  </E.ProfileEditContainer>
                   <E.CancelAndDone>
                     <E.CancelButton onClick={() => setEditMode('')}>
                       취소
@@ -239,7 +252,7 @@ const EditProfile = () => {
           {/* 이메일 */}
           <E.EtcItem>
             <E.Label>이메일</E.Label>
-            <div>{user?.email}</div>
+            <div style={{ width: '100%' }}>{user?.email}</div>
           </E.EtcItem>
           <Divider />
           <E.EtcItem>
@@ -253,15 +266,15 @@ const EditProfile = () => {
             <E.Label>닉네임</E.Label>
             <E.NickNameContainer>
               {editMode === 'nickname' ? (
-                <form onSubmit={handleSubmitNickname}>
-                  <E.TextBelowNickname>
-                    {nicknameValidationMessage && (
-                      <E.Warning>{nicknameValidationMessage}</E.Warning>
-                    )}
-                    • 중복 닉네임 불가합니다.
-                    <br /> • 2~8자 이내로 작성해주세요.
-                  </E.TextBelowNickname>
+                <E.NickNameForm onSubmit={handleSubmitNickname}>
                   <E.NickNameInputAndCheck>
+                    <E.TextBelowNickname>
+                      {nicknameValidationMessage && (
+                        <E.Warning>{nicknameValidationMessage}</E.Warning>
+                      )}
+                      • 중복 닉네임 불가합니다.
+                      <br /> • 2~8자 이내로 작성해주세요.
+                    </E.TextBelowNickname>
                     <E.Input
                       type="text"
                       value={newNickname}
@@ -325,7 +338,7 @@ const EditProfile = () => {
                       취소
                     </E.CancelButton>
                   </E.NickNameButtons>
-                </form>
+                </E.NickNameForm>
               ) : (
                 <E.ButtonArray>
                   <div>{updatedUser?.nickname}</div>

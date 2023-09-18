@@ -15,6 +15,7 @@ const PasswordReset = () => {
       setSendingEmail(true);
       const { error } = await supabase.auth.resetPasswordForEmail(user.email, {
         redirectTo: 'https://ani-on.vercel.app/newPassword/:user_id',
+        // redirectTo: 'localhost:3000/newPassword/:user_id',
       });
 
       if (error) {
@@ -28,7 +29,7 @@ const PasswordReset = () => {
   };
 
   return (
-    <div>
+    <div style={{ width: '100%' }}>
       {errorMessage && <p>{errorMessage}</p>}
 
       {emailSent ? (

@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { createClient } from '@supabase/supabase-js';
-import { atom, useAtom, useAtomValue } from 'jotai';
+import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { Database } from '../../types/supabase';
 import * as userStore from '../../store/userStore';
+import * as myPageStore from '../../store/myPageStore';
 import { useNavigate } from 'react-router-dom';
 import { deleteComment } from '../../api/aniComment';
 import { R } from './Styled.MyPage/Wrote.styles';
@@ -12,7 +13,8 @@ import { getAnimeById } from '../../api/laftel';
 import ReviewSkeleton from './Skeleton.MyPage/MyReviewSkeleton';
 import { styled } from 'styled-components';
 import { useConfirm } from '../../hooks/useConfirm';
-
+import { InfoMenu } from './Styled.MyPage/MyPage.styles';
+import { D } from './Styled.MyPage/Deco.styles';
 const supabaseUrl = process.env.REACT_APP_SUPABASE_URL;
 const supabaseAnonKey = process.env.REACT_APP_ANON_KEY;
 
@@ -34,6 +36,7 @@ const MyReviews = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [animeTitles, setAnimeTitles] = useState<Record<string, AnimeG>>({});
   const [isLoadingTitles, setIsLoadingTitles] = useState(true);
+  const setSelectedComponent = useSetAtom(myPageStore.selectedComponent);
   const { openConfirm } = useConfirm();
   useEffect(() => {
     const fetchUserReview = async () => {
@@ -119,7 +122,12 @@ const MyReviews = () => {
 
   return Array.isArray(userReview) && userReview.length > 0 ? (
     <R.Container>
-      <R.Title>리뷰 관리</R.Title>
+      <div style={{ display: 'flex', flexDirection: 'row' }}>
+        <InfoMenu.BackButton onClick={() => setSelectedComponent(null)}>
+          ←
+        </InfoMenu.BackButton>
+        <R.Title>리뷰관리</R.Title>
+      </div>
       <Divider />
       <R.Outer>
         {isLoadingTitles ? (
@@ -165,15 +173,23 @@ const MyReviews = () => {
     </R.Container>
   ) : (
     <R.NoContainer>
-      <R.NoMessage>작성한 리뷰가 없어요 !</R.NoMessage>
-      <R.GoWriteReview
-        onClick={() => {
-          navigate('/recommend');
-        }}
-      >
-        리뷰 쓰러 가기
-      </R.GoWriteReview>
-      <img src="/images/goShop.png" alt="리뷰쓰기" />
+      <div style={{ display: 'flex', width: '100%' }}>
+        <InfoMenu.BackButton onClick={() => setSelectedComponent(null)}>
+          ←
+        </InfoMenu.BackButton>
+        <R.Title>리뷰관리</R.Title>
+      </div>
+      <R.NoMessageContainer>
+        <R.NoMessage>작성한 리뷰가 없어요 !</R.NoMessage>
+        <R.GoWriteReview
+          onClick={() => {
+            navigate('/recommend');
+          }}
+        >
+          리뷰 쓰러 가기
+        </R.GoWriteReview>
+        <img src="/images/goShop.png" alt="리뷰쓰기" />
+      </R.NoMessageContainer>
     </R.NoContainer>
   );
 };

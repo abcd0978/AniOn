@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { useAtomValue } from 'jotai';
+import { useAtomValue, useSetAtom } from 'jotai';
 import * as userStore from '../../store/userStore';
+import * as myPageStore from '../../store/myPageStore';
 import { useNavigate } from 'react-router-dom';
-import { P } from './Styled.MyPage/Wrote.styles';
+import { P, R } from './Styled.MyPage/Wrote.styles';
 import { Divider } from './Styled.MyPage/MyPage.styles';
 import Pagination from '../Pagenation';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
@@ -12,14 +13,18 @@ import { useConfirm } from '../../hooks/useConfirm';
 import { toast } from 'react-toastify';
 import MyPostsSkeleton from './Skeleton.MyPage/MyPostsSkeleton';
 import { UserPostType, ReadPosts } from '../../types/post';
-
+import { InfoMenu } from './Styled.MyPage/MyPage.styles';
+import { D } from './Styled.MyPage/Deco.styles';
 const WhatIWrote = () => {
-  const { openConfirm } = useConfirm();
   const navigate = useNavigate();
-  const user = useAtomValue(userStore.user);
   const queryClient = useQueryClient();
-  const [selectedPosts, setSelectedPosts] = useState<string[]>([]);
+  const { openConfirm } = useConfirm();
+
   const [page, setPage] = useState(1);
+  const [selectedPosts, setSelectedPosts] = useState<string[]>([]);
+
+  const user = useAtomValue(userStore.user);
+  const setSelectedComponent = useSetAtom(myPageStore.selectedComponent);
 
   const userPostsQueryOption = {
     queryKey: ['userPosts', page],
@@ -111,7 +116,12 @@ const WhatIWrote = () => {
     <MyPostsSkeleton />
   ) : userPosts && userPosts.data && userPosts.data.length > 0 ? (
     <P.Container>
-      <P.Title>작성한 글</P.Title>
+      <div style={{ display: 'flex', width: '100%' }}>
+        <InfoMenu.BackButton onClick={() => setSelectedComponent(null)}>
+          ←
+        </InfoMenu.BackButton>
+        <D.Title>작성한 글</D.Title>
+      </div>
       <P.PostsContainer>
         {userPosts.data.map((post: ReadPosts) => {
           return (
@@ -132,7 +142,7 @@ const WhatIWrote = () => {
                     onClick={() => handlePostClick(post.id?.toString() ?? '')}
                   >
                     <P.TitleAndThumbnail>
-                      {post.title}
+                      <P.TitleText>{post.title}</P.TitleText>
                       {post.thumbnail !== null && (
                         <img src="/images/image.png" alt="thumbnailIcon" />
                       )}
@@ -176,10 +186,18 @@ const WhatIWrote = () => {
     </P.Container>
   ) : (
     <P.NoContainer>
-      <P.NoMessage>작성한 글이 없어요!</P.NoMessage>
-      <P.NoButton onClick={() => navigate('/board')}>
-        글 작성하러 가기
-      </P.NoButton>
+      <div style={{ display: 'flex', width: '100%' }}>
+        <InfoMenu.BackButton onClick={() => setSelectedComponent(null)}>
+          ←
+        </InfoMenu.BackButton>
+        <D.Title>작성한 글</D.Title>
+      </div>
+      <P.NoMessageContainer>
+        <P.NoMessage>작성한 글이 없어요!</P.NoMessage>
+        <P.NoButton onClick={() => navigate('/board')}>
+          글 작성하러 가기
+        </P.NoButton>
+      </P.NoMessageContainer>
     </P.NoContainer>
   );
 };

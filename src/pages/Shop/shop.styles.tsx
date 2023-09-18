@@ -93,11 +93,12 @@ export const ImgArea = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-bottom: 10px;
 `;
 
 export const TopArea = styled.img`
   width: 85%;
-  height: 100%;
+  height: 85%;
   object-fit: contain;
   border-radius: 20px;
 `;

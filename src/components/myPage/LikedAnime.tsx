@@ -6,10 +6,13 @@ import { useQuery } from '@tanstack/react-query';
 import React, { useEffect, useState } from 'react';
 import { AnimeG } from '../../types/anime';
 import { useNavigate } from 'react-router-dom';
+import * as myPageStore from '../../store/myPageStore';
 import { styled } from 'styled-components';
 import useViewport from '../../hooks/useViewPort';
 import LikedSkeleton from './Skeleton.MyPage/LikedSkeleton';
 import { PaginationTwo } from '../PagenationTwo';
+import { InfoMenu } from './Styled.MyPage/MyPage.styles';
+import { useSetAtom } from 'jotai';
 
 const LikedAnime = () => {
   const [page, setPage] = useState<number>(1);
@@ -19,6 +22,7 @@ const LikedAnime = () => {
   const [animeTitles, setAnimeTitles] = useState<Record<string, AnimeG>>({});
   const [topTags, setTopTags] = useState<string[]>([]);
   const user = useAtomValue(userStore.user);
+  const setSelectedComponent = useSetAtom(myPageStore.selectedComponent);
   const navigate = useNavigate();
   const {
     isLoading,
@@ -188,7 +192,12 @@ const LikedAnime = () => {
           {user?.nickname}님은 <L.Tags>#{topTags.join('#')}</L.Tags>을 좋아해요!
         </L.TopTags>
       )}
-      <L.Title>찜한 목록</L.Title>
+      <div style={{ display: 'flex', flexDirection: 'row' }}>
+        <InfoMenu.BackButton onClick={() => setSelectedComponent(null)}>
+          ←
+        </InfoMenu.BackButton>
+        <L.Title>찜한목록</L.Title>
+      </div>
 
       <L.FullPage>
         {Array.isArray(displayedAnime) && displayedAnime.length > 0 && (
@@ -284,8 +293,6 @@ export const HoveredAnimeGenreTag = styled.div`
   padding: 7px 14px;
   border-radius: 3px;
   position: absolute;
-  margin-top: -220px;
-  margin-left: -100px;
   border-radius: 50px;
   text-align: center;
 `;
@@ -298,8 +305,7 @@ export const HoveredAnimeGenre = styled.div`
 
 const L = {
   LikedContainer: styled.div`
-    margin-top: -220%;
-    margin-left: 110%;
+    height: auto;
     @media (max-width: 1500px) {
       margin-top: -240%;
       margin-left: 110%;
@@ -314,12 +320,12 @@ const L = {
       flex-direction: column;
       justify-contents: center;
       margin-left: 10px;
-      margin-top: -10px;
+      margin-top: 0px;
       padding-bottom: 10%;
     }
     @media (max-width: 480px) {
       margin-bottom: 200%;
-      margin-top: -10px;
+      margin-top: 0px;
     }
     @media (max-width: 400px) {
     }
@@ -389,7 +395,7 @@ const L = {
   NoContainer: styled.div`
     display: grid;
     align-items: center;
-    transform: translate(300px, 300px);
+    transform: translate(200%, 150%);
 
     justify-content: center;
     @media (max-width: 768px) {
