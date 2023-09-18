@@ -1,8 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-type Props = {};
 
-const Loading = (props: Props) => {
+const Loading = () => {
   return (
     <div
       style={{

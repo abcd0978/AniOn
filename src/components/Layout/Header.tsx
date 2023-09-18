@@ -13,6 +13,7 @@ import * as authApi from '../../api/auth';
 import type { DropdownContentsType } from '../DropDown/DropDown';
 import DropDown from '../DropDown/DropDown';
 import Modal from '../Modal/Modal';
+import { useQueryClient } from '@tanstack/react-query';
 import ProfileWithBorder from '../ProfileWithBorder';
 import LoginModalContents from '../Modal/LoginModalContents';
 import RegisterModalContents from '../Modal/RegisterModalContents';
@@ -28,6 +29,7 @@ type mobileSearchCategories = '게시글' | '애니찾기';
 function Header() {
   const navigate = useNavigate();
   const location = useLocation();
+  const queryClient = useQueryClient();
   const { width, isMobile } = useViewport();
 
   const [isModalOpened, setIsModalOpened] = useAtom(modalStore.isModalOpened);
@@ -137,6 +139,8 @@ function Header() {
         setIsDropdownOnD(false);
         await authApi.logout();
         logoutStore();
+        queryClient.removeQueries(['equippedBorder']);
+        queryClient.removeQueries(['equippedAward']);
         navigate(`/`);
       },
     },
