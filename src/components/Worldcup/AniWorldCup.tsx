@@ -36,7 +36,7 @@ function AniWorldCup() {
     } else if (charactersLeft === 2) {
       return '결승';
     } else {
-      return ''; // 예외 처리
+      return ''; // 예외 처리.
     }
   };
 
