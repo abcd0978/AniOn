@@ -174,7 +174,7 @@ const LoginModalContents = (props: Props) => {
           </StLoginButton>
         </StLoginInputContainer>
         <StLoginOptions $mediawidth={width}>
-          <StLoginOptionsTypo
+          {/* <StLoginOptionsTypo
             onClick={() => setModalContents('findId')}
             $mediawidth={width}
           >
@@ -185,7 +185,7 @@ const LoginModalContents = (props: Props) => {
             $mediawidth={width}
           >
             비밀번호 찾기
-          </StLoginOptionsTypo>
+          </StLoginOptionsTypo> */}
           <StLoginOptionsTypo
             onClick={() => setModalContents('register')}
             $mediawidth={width}

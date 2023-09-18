@@ -5,14 +5,17 @@ import LikedAnime from './LikedAnime';
 import WhatIWrote from './WhatIWrote';
 import MyReviews from './MyReviews';
 import { InfoMenu } from './Styled.MyPage/MyPage.styles';
+import { toast } from 'react-toastify';
+import supabase from '../../supabaseClient';
 import { logout } from '../../api/auth';
-import { useAtom } from 'jotai';
+import { useAtom, useAtomValue } from 'jotai';
 import { useNavigate } from 'react-router-dom';
 import * as userStore from '../../store/userStore';
 import * as myPageStore from '../../store/myPageStore';
 import { useLocation } from 'react-router-dom';
 const MyInfoMenu = () => {
   const [__, logoutStore] = useAtom(userStore.logoutUser);
+  const user = useAtomValue(userStore.user);
   const navigate = useNavigate();
   const location = useLocation();
   const [selectedComponent, setSelectedComponent] = useAtom(
@@ -103,7 +106,17 @@ const MyInfoMenu = () => {
             로그아웃
           </InfoMenu.InfoButton>
           <InfoMenu.InfoButton>|</InfoMenu.InfoButton>
-          <InfoMenu.InfoButton>회원탈퇴</InfoMenu.InfoButton>
+          <InfoMenu.InfoButton
+            onClick={async () => {
+              const { error } = await supabase.auth.admin.deleteUser(user?.id!);
+              if (!error) {
+                toast.success('탈퇴되었습니다');
+              }
+              logoutStore();
+            }}
+          >
+            회원탈퇴
+          </InfoMenu.InfoButton>
         </InfoMenu.InfoButtonContainer>
       </InfoMenu.Outer>
     </>
