@@ -256,9 +256,11 @@ export const InfoMenu = {
   InfoButtonContainer: styled.div`
     display: flex;
     justify-content: center;
+    align-items: center;
     margin-top: 15%;
     margin-bottom: 15%;
     width: auto;
+    transform: translatex(-20px);
     @media (max-width: 768px) {
       margin-left: 0%;
     }
@@ -276,6 +278,7 @@ export const InfoMenu = {
     justify-contents: center;
     padding-bottom: 5%;
     padding-top: 10%;
+    padding-left: 10%;
     @media (max-width: 768px) {
       height: 60%;
       background: #fdfbff;
@@ -283,6 +286,7 @@ export const InfoMenu = {
       padding-top: 32px;
       padding-left: 20 px;
       margin-top: 10 px;
+      padding-left: 0%;
 
       background-color: ${(props) =>
         props.selectedComponent ? 'transparent' : '#fdfbff'};

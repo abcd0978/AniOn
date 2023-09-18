@@ -55,7 +55,6 @@ export const processItem = (
 };
 
 function ProfileWithBorder(props: Props) {
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const user = useAtomValue(userStore.user);
   // 두가지의 return.
   // 1. 헤더, 프로필
