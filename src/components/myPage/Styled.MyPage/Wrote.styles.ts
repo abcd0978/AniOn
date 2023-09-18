@@ -5,6 +5,7 @@ export const R = {
     display: flex;
     flex-direction: column;
     gap: 16px;
+    margin-bottom: 150%;
   `,
 
   Title: styled.div`
@@ -84,6 +85,7 @@ export const R = {
     right: 12%;
     @media (max-width: 1728px) {
       right: 8%;
+      width: auto;
     }
     @media (max-width: 1500px) {
       right: 5%;
@@ -135,8 +137,10 @@ export const R = {
     border: 1px solid var(--achromatic-colors-midgray-2, #dbdbdb);
     color: black;
     background-color: white;
-
-    width: 78px;
+    padding: 5px;
+    justify-content: center;
+    align-itmes: center;
+    width: auto;
     height: 28px;
     text-align: center;
     cursor: pointer;
@@ -147,8 +151,8 @@ export const R = {
       line-height: 150%; /* 18px */
       letter-spacing: -0.18px;
       font-size: 12px;
-
-      width: 25%;
+      padding: 4px;
+      width: auto;
       height: 24px;
     }
   `,
@@ -156,7 +160,7 @@ export const R = {
     border-radius: 6px;
     border: 1px solid var(--main-mid-2, #c88fff);
     background: #fdfbff;
-    width: 64px;
+    width: auto;
     height: 28px;
     text-align: center;
     cursor: pointer;
@@ -179,22 +183,18 @@ export const R = {
     }
   `,
   ButtonIcon: styled.img`
-    width: 12px;
-    height: 12px;
-    color: white;
+    width: 8px;
+    height: 8px;
+    margin-left: 3px;
+    // color: white;
   `,
   Page: styled.div`
     position: absolute;
     display: flex;
     justify-content: center;
-    left: 50%;
+    left: 60%;
     @media (max-width: 768px) {
-      left: 40%;
-    }
-    @media (max-width: 480px) {
       left: 25%;
-    }
-    @media (max-width: 400px) {
     }
   `,
   NoContainer: styled.div`
@@ -376,6 +376,8 @@ export const P = {
     float: right;
     display: flex;
     margin-left: auto;
+    width: auto;
+
     @media (max-width: 768px) {
     }
   `,
@@ -395,7 +397,7 @@ export const P = {
     flex-grow: 1;
   `,
   Box: styled.div`
-    width: 80%;
+    width: 100%;
     display: flex;
     flex-direction: row;
     cursor: pointer;
@@ -416,13 +418,15 @@ export const P = {
     cursor: pointer;
   `,
   Content: styled.div`
-    width: 80%;
+    width: 100%;
     align-items: center;
     justify-content: center;
     text-align: center;
     display: flex;
     flex-direction: row;
     height: 35px;
+    @media (max-width: 768px) {
+    }
   `,
   line: styled.div`
     border-bottom: 1px solid #ccc;

@@ -102,7 +102,7 @@ const MyBorder = () => {
 
   const borderList =
     Array.isArray(filteredBorders) && filteredBorders.length > 0 ? (
-      <B.Container>
+      <>
         <B.BorderPage>
           {Array.isArray(filteredBorders) &&
             filteredBorders.length >= itemsPerPage && (
@@ -115,32 +115,34 @@ const MyBorder = () => {
               />
             )}
         </B.BorderPage>
-        {displayedBorder.map((filteredBorders, index) => (
-          <div key={index}>
-            <B.BorderContainer>
-              <B.BorderImg
-                src={filteredBorders.items?.img_url}
-                alt={filteredBorders.items?.name}
-              />
-              <B.ButtonContainer>
-                <B.BorderName>{filteredBorders.items?.name}</B.BorderName>
+        <B.Container>
+          {displayedBorder.map((filteredBorders, index) => (
+            <div key={index}>
+              <B.BorderContainer>
+                <B.BorderImg
+                  src={filteredBorders.items?.img_url}
+                  alt={filteredBorders.items?.name}
+                />
+                <B.ButtonContainer>
+                  <B.BorderName>{filteredBorders.items?.name}</B.BorderName>
 
-                <B.Equip
-                  is_equipped={filteredBorders.is_equipped}
-                  onClick={() =>
-                    handleApplyButtonClick({
-                      itemId: filteredBorders.items?.id,
-                      isEquipped: filteredBorders.is_equipped,
-                    })
-                  }
-                >
-                  {filteredBorders.is_equipped ? '해제' : '적용'}
-                </B.Equip>
-              </B.ButtonContainer>
-            </B.BorderContainer>
-          </div>
-        ))}
-      </B.Container>
+                  <B.Equip
+                    is_equipped={filteredBorders.is_equipped}
+                    onClick={() =>
+                      handleApplyButtonClick({
+                        itemId: filteredBorders.items?.id,
+                        isEquipped: filteredBorders.is_equipped,
+                      })
+                    }
+                  >
+                    {filteredBorders.is_equipped ? '해제' : '적용'}
+                  </B.Equip>
+                </B.ButtonContainer>
+              </B.BorderContainer>
+            </div>
+          ))}
+        </B.Container>
+      </>
     ) : (
       <B.NoneContainer>
         <B.NoneMessage>구매한 테두리가 없습니다.</B.NoneMessage>

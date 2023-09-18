@@ -1,27 +1,49 @@
-import React, { useState } from 'react';
-import DecoProfile from './DecoProfile';
-import EditProfile from './EditProfile';
-import LikedAnime from './LikedAnime';
-import WhatIWrote from './WhatIWrote';
-import MyReviews from './MyReviews';
+import React from 'react';
 import { InfoMenu } from './Styled.MyPage/MyPage.styles';
+import { toast } from 'react-toastify';
+import supabase from '../../supabaseClient';
 import { logout } from '../../api/auth';
-import { useAtom } from 'jotai';
+import { useAtom, useAtomValue } from 'jotai';
+import { useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import * as userStore from '../../store/userStore';
 import * as myPageStore from '../../store/myPageStore';
-import { useLocation } from 'react-router-dom';
+import { useConfirm } from '../../hooks/useConfirm';
+
 const MyInfoMenu = () => {
-  const [__, logoutStore] = useAtom(userStore.logoutUser);
   const navigate = useNavigate();
-  const location = useLocation();
+  const queryClient = useQueryClient();
+
+  const { openConfirm } = useConfirm();
+
+  const [__, logoutStore] = useAtom(userStore.logoutUser);
+  const user = useAtomValue(userStore.user);
   const [selectedComponent, setSelectedComponent] = useAtom(
     myPageStore.selectedComponent,
   );
   const handleLogout = async () => {
     await logout();
     logoutStore();
+    queryClient.removeQueries(['equippedBorder']);
+    queryClient.removeQueries(['equippedAward']);
     navigate(`/`);
+  };
+
+  const deleteUserHandler = async () => {
+    const deleteUserConfirmData = {
+      title: '회원 탈퇴',
+      content: '정말 탈퇴하실건가요..?😢',
+      callback: async () => {
+        const { error } = await supabase.auth.admin.deleteUser(user?.id!);
+        if (!error) {
+          toast.success('탈퇴되었습니다', {
+            autoClose: 800,
+          });
+        }
+        logoutStore();
+      },
+    };
+    openConfirm(deleteUserConfirmData);
   };
 
   return (
@@ -103,7 +125,9 @@ const MyInfoMenu = () => {
             로그아웃
           </InfoMenu.InfoButton>
           <InfoMenu.InfoButton>|</InfoMenu.InfoButton>
-          <InfoMenu.InfoButton>회원탈퇴</InfoMenu.InfoButton>
+          <InfoMenu.InfoButton onClick={deleteUserHandler}>
+            회원탈퇴
+          </InfoMenu.InfoButton>
         </InfoMenu.InfoButtonContainer>
       </InfoMenu.Outer>
     </>

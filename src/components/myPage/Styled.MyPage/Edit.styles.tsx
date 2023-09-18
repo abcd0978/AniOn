@@ -61,7 +61,7 @@ export const E = {
     display: flex;
     flex-direction: row;
     align-items: center;
-    height: 64px;
+    height: auto;
     width: 100%;
     padding-top: 12px;
     padding-bottom: 12px;
@@ -90,6 +90,7 @@ export const E = {
     border-radius: 4px;
     border: none;
     background-color: #f9f3ff;
+    margin: 8px;
     @media (max-width: 768px) {
       display: flex;
       width: 150px;
@@ -218,6 +219,9 @@ export const E = {
     align-items: center;
     display: flex;
     gap: 5px;
+    @media (max-width: 768px) {
+      align-items: center;
+    }
   `,
   NickNameForm: styled.form`
     display: flex;
@@ -240,9 +244,9 @@ export const E = {
     }
     @media (max-width: 768px) {
       display: flex;
-      width: auto;
+      width: 76px;
       height: 30px;
-      padding: 4px 14px;
+      padding: 4px;
       justify-content: center;
       align-items: center;
       gap: 8px;
@@ -266,6 +270,9 @@ export const E = {
     font-size: 14px;
     margin-top: 8px;
     width: 400px;
+    @media (max-width: 768px) {
+      width: 170px;
+    }
   `,
   Warning: styled.p`
     color: red;

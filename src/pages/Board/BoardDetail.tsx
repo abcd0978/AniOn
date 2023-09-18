@@ -89,7 +89,7 @@ const BoardDetail = () => {
   // Post 삭제
   const deleteMutation = useMutation(boardApi.deletePost, {
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['posts'] });
+      queryClient.invalidateQueries(['posts']);
     },
   });
 
@@ -112,7 +112,8 @@ const BoardDetail = () => {
   // Post 수정
   const updateMutation = useMutation(boardApi.updatePost, {
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['post'] });
+      queryClient.invalidateQueries(['post']);
+      queryClient.invalidateQueries(['posts']);
       setIsEdit(false);
     },
   });
