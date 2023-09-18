@@ -137,8 +137,8 @@ export const R = {
     border: 1px solid var(--achromatic-colors-midgray-2, #dbdbdb);
     color: black;
     background-color: white;
-    padding: 20px;
-    justify-content: denter;
+    padding: 5px;
+    justify-content: center;
     align-itmes: center;
     width: auto;
     height: 28px;
@@ -192,14 +192,9 @@ export const R = {
     position: absolute;
     display: flex;
     justify-content: center;
-    left: 50%;
+    left: 60%;
     @media (max-width: 768px) {
-      left: 40%;
-    }
-    @media (max-width: 480px) {
       left: 25%;
-    }
-    @media (max-width: 400px) {
     }
   `,
   NoContainer: styled.div`
