@@ -1,26 +1,24 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import useViewport from '../../hooks/useViewPort';
-import { useAtom, useSetAtom } from 'jotai';
+import { useSetAtom } from 'jotai';
 import { toast } from 'react-toastify';
 import * as modalStore from '../../store/modalStore';
-import * as userStore from '../../store/userStore';
+// import * as userStore from '../../store/userStore';
 import useInput from '../../hooks/useInput';
 import supabase from '../../supabaseClient';
 import * as authApi from '../../api/auth';
-import * as itemApi from '../../api/items';
-import { updatePoint } from '../../api/items';
+// import * as itemApi from '../../api/items';
 /******************상수와 타입들****************/
 type ErrorType = {
   error: boolean;
   errorMsg: string;
 };
 const initialError: ErrorType = { error: false, errorMsg: '' };
-type Props = {};
 const registerUnactivated =
   'background: var(--achromatic-colors-midgray-1, #999);';
-const buttonColor = 'background: var(--main-sub-1, #FFA8DC);';
-const inputColor = 'background: var(--main-light-3, #F9F3FF);';
+// const buttonColor = 'background: var(--main-sub-1, #FFA8DC);';
+// const inputColor = 'background: var(--main-light-3, #F9F3FF);';
 const ErrorBorder = 'border: 1px solid var(--error, #FF535D);';
 /******************유효성검사 함수****************/
 const validateEmail = (email: string) => {
@@ -79,10 +77,10 @@ const nicknameDupCheck = async (nickname: string) => {
   return await authApi.nicknameValidate(nickname);
 };
 /************************************************/
-const LoginModalContents = (props: Props) => {
-  const [checked, setChecked] = useState(false);
+const LoginModalContents = () => {
+  // const [checked, setChecked] = useState(false);
+  // const writeUser = useSetAtom(userStore.writeUser);
   const setModal = useSetAtom(modalStore.isModalOpened);
-  const writeUser = useSetAtom(userStore.writeUser);
   const setModalContents = useSetAtom(modalStore.modalContents);
   const [email, setEmail, onChangeEmail, resetEmail] = useInput('');
   const [nickname, setNickname, onChangeNickname, resetNickname] = useInput('');
@@ -102,7 +100,7 @@ const LoginModalContents = (props: Props) => {
   const [nicknameDupChecked, setNicknameDupChecked] = useState(false);
   const [validated, setValidated] = useState(false);
   const [loading, setLoading] = useState<boolean>(false);
-  const { width, height, isMobile, isLoaded } = useViewport();
+  const { width, height } = useViewport();
   const joinUsHandler = async (e: any) => {
     e.preventDefault();
     if (
@@ -125,11 +123,9 @@ const LoginModalContents = (props: Props) => {
       const userMetadata = {
         nickname: nickname,
         email: email,
-        profile_img_url: `http://gravatar.com/avatar/${
-          nickname + Math.random().toString()
-        }?d=identicon`,
+        profile_img_url: `/images/person.svg`,
       };
-      const { data, error } = await supabase.auth.signUp({
+      const { error } = await supabase.auth.signUp({
         email,
         password,
         options: {
@@ -143,9 +139,9 @@ const LoginModalContents = (props: Props) => {
         return;
       }
       setModal(false);
-      await writeUser();
-      await itemApi.makePoint({ userId: data!.user!.id });
-      toast.success('가입 되었습니다. 신규회원 100P증정!');
+      toast.success(
+        '입력하신 이메일로 메일이 발송되었습니다. 인증 후 사용 가능합니다.',
+      );
     } catch (error) {
       console.error(error);
     } finally {

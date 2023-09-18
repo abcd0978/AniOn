@@ -1,18 +1,20 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import useViewport from '../../hooks/useViewPort';
-import { useAtom, useSetAtom } from 'jotai';
+import { useSetAtom } from 'jotai';
 import useInput from '../../hooks/useInput';
 import { toast } from 'react-toastify';
 import * as authApi from '../../api/auth';
 import * as userStore from '../../store/userStore';
 import * as modalStore from '../../store/modalStore';
-type Props = {};
+
 type ErrorType = {
   error: boolean;
   errorMsg: string;
 };
+
 const initialError: ErrorType = { error: false, errorMsg: '' };
+
 enum AuthProvider {
   Google = 'google',
   Kakao = 'kakao',
@@ -20,7 +22,7 @@ enum AuthProvider {
   Discord = 'discord',
 }
 
-const LoginModalContents = (props: Props) => {
+const LoginModalContents = () => {
   const [email, setEmail, onChangeEmail, resetEmail] = useInput('');
   const [password, setPassword, onChangePassword, resetPassword] = useInput('');
   const [emailError, setEmailError] = useState<ErrorType>(initialError);
@@ -28,11 +30,11 @@ const LoginModalContents = (props: Props) => {
   const [emailAndPasswordError, setEmailAndPasswordError] =
     useState<ErrorType>(initialError);
   const [checked, setChecked] = useState(false);
-  const [modalContents, setModalContents] = useAtom(modalStore.modalContents);
-  const [isModalOpened, setIsModalOpened] = useAtom(modalStore.isModalOpened);
-  const [__, writeUser] = useAtom(userStore.writeUser);
+  const setModalContents = useSetAtom(modalStore.modalContents);
+  const setIsModalOpened = useSetAtom(modalStore.isModalOpened);
+  const writeUser = useSetAtom(userStore.writeUser);
   const [loading, setLoading] = useState(false);
-  const { width, height, isMobile, isLoaded } = useViewport();
+  const { width, height } = useViewport();
   const validationFunc = (e: any) => {
     e.preventDefault();
     const regStr = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
@@ -161,7 +163,7 @@ const LoginModalContents = (props: Props) => {
           >
             {loading ? (
               <StLoginButtonTypo>
-                로그인중
+                메일 발송중
                 <img
                   style={{ width: '15px', height: '15px' }}
                   src={'/images/loadingSpinner.svg'}
