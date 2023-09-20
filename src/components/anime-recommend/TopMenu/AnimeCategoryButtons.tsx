@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { S } from './animeCategoryButtons.styles';
 import { useAtom, useSetAtom } from 'jotai';
 
-import * as recommendStore from '../../../store/animeRecommendStore';
+import * as recommendStore from '../../../store/animeListStore';
 
 const AnimeCategory = () => {
   const [selectedCategory, setSelectedCategory] = useAtom(
@@ -15,33 +15,36 @@ const AnimeCategory = () => {
   const setOffset = useSetAtom(recommendStore.offsetAtom);
   const setIsEnding = useSetAtom(recommendStore.isEndingAtom);
 
-  const handleCategoryClick = (category: string) => {
-    if (selectedCategory === category && !keyword) {
-      return;
-    }
-    setKeyword('');
+  const handleCategoryClick = useCallback(
+    (category: string) => {
+      console.log(keyword);
+      if (selectedCategory === category && !keyword) {
+        return;
+      }
+      setKeyword('');
 
-    if (category === '방영') {
-      setIsEnding('false');
-    } else {
-      setIsEnding(null);
-    }
+      if (category === '방영') {
+        setIsEnding('false');
+      } else {
+        setIsEnding(null);
+      }
 
-    if (category !== selectedCategory || selectedCategory === '전체') {
-      setYears(null);
-      setGenres([]);
-    }
+      if (category !== selectedCategory || selectedCategory === '전체') {
+        setYears(null);
+        setGenres([]);
+      }
 
-    setSelectedCategory(category);
-    setOffset(0);
-  };
+      setSelectedCategory(category);
+      setOffset(0);
+    }, // eslint-disable-next-line react-hooks/exhaustive-deps
+    [selectedCategory],
+  );
 
   useEffect(() => {
     return () => {
       setSelectedCategory('전체');
       setIsEnding(null);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }; // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import * as userStore from '../../store/userStore';
 import * as boardStore from '../../store/boardStore';
 import * as S from './board.styles';
-import { fetchPosts } from '../../api/boardapi';
+import { fetchPosts } from '../../api/board';
 import { useState } from 'react';
 import { useAtomValue, useAtom } from 'jotai';
 import Pagination from '../../components/Pagenation';

@@ -7,7 +7,7 @@ import { P, R } from './Styled.MyPage/Wrote.styles';
 import { Divider } from './Styled.MyPage/MyPage.styles';
 import Pagination from '../Pagenation';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { fetchUserPosts, deletePost } from '../../api/boardapi';
+import { fetchUserPosts, deletePost } from '../../api/board';
 import { StyledPostCategory } from './Styled.MyPage/Wrote.styles';
 import { useConfirm } from '../../hooks/useConfirm';
 import { toast } from 'react-toastify';

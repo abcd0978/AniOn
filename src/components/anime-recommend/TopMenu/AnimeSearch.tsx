@@ -1,4 +1,4 @@
-import React, { SetStateAction } from 'react';
+import React, { SetStateAction, useCallback } from 'react';
 import { S } from './animeSearch.styles';
 import useInput from '../../../hooks/useInput';
 import { useSetAtom } from 'jotai';
@@ -6,7 +6,7 @@ import {
   keywordAtom,
   offsetAtom,
   selectedCategoryAtom,
-} from '../../../store/animeRecommendStore';
+} from '../../../store/animeListStore';
 import { AnimeG } from '../../../types/anime';
 
 interface Props {
@@ -26,7 +26,7 @@ const AnimeSearch = ({ setAnimeList }: Props) => {
     }
   };
 
-  const handleSearch = () => {
+  const handleSearch = useCallback(() => {
     if (!keyword) {
       return;
     }
@@ -45,7 +45,8 @@ const AnimeSearch = ({ setAnimeList }: Props) => {
     setCategory('전체');
     setAnimeList([]);
     setOffset(0);
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [keyword]);
 
   return (
     <>
@@ -56,7 +57,6 @@ const AnimeSearch = ({ setAnimeList }: Props) => {
           value={keyword}
           onKeyDown={handleKeyPress}
         />
-        {/* svg asstes에 넣을지 고민. */}
         <S.SearchSVG
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 16 16"
