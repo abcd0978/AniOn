@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useQueryClient, useMutation } from '@tanstack/react-query';
-import { createPost } from '../../api/boardapi';
+import { createPost } from '../../api/board';
 import { Database } from '../../types/supabase';
 import EditorComponent from '../../components/Editor/EditorComponent';
 import { S } from './writeBoard.styles';
