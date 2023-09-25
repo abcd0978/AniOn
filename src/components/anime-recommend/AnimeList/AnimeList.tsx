@@ -46,6 +46,7 @@ const AnimeList = () => {
   }, [isMobile]);
 
   const [count, setCount] = useState(0);
+  const [isLoaded, setIsLoaded] = useState(false);
   const [isNextPage, setIsNextPage] = useState(false);
   const [animeList, setAnimeList] = useAtom(animeStore.animeListAtom);
   const [offset, setOffset] = useAtom(animeStore.offsetAtom);
@@ -72,13 +73,18 @@ const AnimeList = () => {
 
   const animeListQueryOptions = {
     queryKey: animeListQueryKey,
-    queryFn: () => fetchAnimeList(params),
+    queryFn: async () => {
+      setIsLoaded(false);
+      const data = await fetchAnimeList(params);
+      return data;
+    },
     refetchOnWindowFocus: false,
     // 타입 명시하기
     onSuccess: (data: any) => {
       setIsNextPage(data.isNextPage);
       setCount(data.count);
       setAnimeList((prevAnimeList) => [...prevAnimeList, ...data.animeList]);
+      setIsLoaded(true);
     },
   };
 
@@ -170,8 +176,7 @@ const AnimeList = () => {
   // 스로틀링된 무한 스크롤 콜백 함수
   // 카테고리를 변경할 때 무한스크롤 실행되는 이슈 발견 > 아래 useEffect를 clean-up 함수로 변경.
   const throttledLoadMore = throttle(() => {
-    if (isNextPage && !isFetching && !isLoading) {
-      console.log('offset');
+    if (isNextPage && !isFetching && !isLoading && isLoaded) {
       // 이전 offset에 size를 더하여 다음 페이지 데이터를 가져오도록 설정
       setOffset((prevOffset) => prevOffset! + size);
     }
@@ -196,20 +201,6 @@ const AnimeList = () => {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [genres, category, years]);
-
-  // 1. prefetch와 데이터 확인
-  // 2. 무한스크롤 prefetch로 변경
-  // 3. display prefetch로 더하기
-  // useEffect(() => {
-  //   if (!data || data.animeList === animeList) {
-  //     return;
-  //   }
-  //   setIsNextPage(data.isNextPage);
-  //   setCount(data.count);
-  //   setAnimeList((prevAnimeList) => [...prevAnimeList, ...data.animeList]);
-
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [data]);
 
   if (isError) {
     return <div>Anime List를 가져오는 중 오류가 발생했습니다.</div>;
@@ -244,7 +235,7 @@ const AnimeList = () => {
               />
             ))
           )}
-          {isLoading && (
+          {isFetching && (
             <>
               {Array(9)
                 .fill(undefined)
@@ -256,7 +247,7 @@ const AnimeList = () => {
         </S.AnimeContainer>
         <ScrollToTop />
       </S.AnimeListSection>
-      {isNextPage && !isLoading && !isFetching && <S.Target ref={ref} />}
+      <S.Target ref={ref} />
     </>
   );
 };
