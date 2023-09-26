@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
 import Pagination from '../Pagenation';
 import * as S from './comments.Styles';
-import * as commentApi from '../../api/commentapi';
+import * as commentApi from '../../api/postComment';
 import ProfileWithBorder, { processItem } from '../ProfileWithBorder';
 import * as userStore from '../../store/userStore';
 import { useAtomValue } from 'jotai';

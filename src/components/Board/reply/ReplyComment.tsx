@@ -9,7 +9,7 @@ import ProfileWithBorder, { processItem } from '../../ProfileWithBorder';
 
 // api
 import { updatePoint } from '../../../api/items';
-import * as commentApi from '../../../api/commentapi';
+import * as commentApi from '../../../api/postComment';
 
 // store
 import * as userStore from '../../../store/userStore';

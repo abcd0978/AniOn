@@ -3,8 +3,8 @@ import React from 'react';
 import { S } from './mobileCategory.styles';
 import AnimeCategory from './AnimeCategory';
 import { useAtom } from 'jotai';
-import { isMobileFilterAtom } from '../../../store/animeRecommendStore';
-import * as animeStore from '../../../store/animeRecommendStore';
+import { isMobileFilterAtom } from '../../../store/animeListStore';
+import * as animeStore from '../../../store/animeListStore';
 
 const MobileFilter = () => {
   const [isOpen, setIsOpen] = useAtom(isMobileFilterAtom);

@@ -2,7 +2,7 @@ import React from 'react';
 import { useAtom, useAtomValue } from 'jotai';
 import { S } from './animeCategory.styles';
 
-import * as animeStore from '../../../store/animeRecommendStore';
+import * as animeStore from '../../../store/animeListStore';
 
 import { Genres, Years } from '../../../types/anime';
 

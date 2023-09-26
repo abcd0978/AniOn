@@ -21,7 +21,7 @@ import { useConfirm } from '../../hooks/useConfirm';
 import useViewport from '../../hooks/useViewPort';
 
 // api
-import * as boardApi from '../../api/boardapi';
+import * as boardApi from '../../api/board';
 
 // store
 import * as userStore from '../../store/userStore';

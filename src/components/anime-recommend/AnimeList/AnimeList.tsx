@@ -22,7 +22,7 @@ import { fetchAllAnimeLikes, toggleAnimeLike } from '../../../api/aniLike';
 
 // store
 import * as userStore from '../../../store/userStore';
-import * as animeStore from '../../../store/animeRecommendStore';
+import * as animeStore from '../../../store/animeListStore';
 
 // type
 import type { ReadAnimeLikeG } from '../../../types/likes';
@@ -45,16 +45,14 @@ const AnimeList = () => {
     return isMobile ? 6 : 18;
   }, [isMobile]);
 
-  const sort = 'rank';
-
   const [count, setCount] = useState(0);
+  const [isLoaded, setIsLoaded] = useState(false);
   const [isNextPage, setIsNextPage] = useState(false);
   const [animeList, setAnimeList] = useAtom(animeStore.animeListAtom);
   const [offset, setOffset] = useAtom(animeStore.offsetAtom);
   const [keyword, setKeyword] = useAtom(animeStore.keywordAtom);
 
   const params: laftelParamsM = {
-    sort,
     genres,
     offset,
     size,
@@ -73,19 +71,24 @@ const AnimeList = () => {
     keyword,
   ];
 
-  // 1. prefetch와 데이터 확인
-  // 2. 무한스크롤 prefetch로 변경
-  // 3. display prefetch로 더하기
-
   const animeListQueryOptions = {
     queryKey: animeListQueryKey,
-    queryFn: () => fetchAnimeList(params),
+    queryFn: async () => {
+      setIsLoaded(false);
+      const data = await fetchAnimeList(params);
+      return data;
+    },
     refetchOnWindowFocus: false,
+    // 타입 명시하기
+    onSuccess: (data: any) => {
+      setIsNextPage(data.isNextPage);
+      setCount(data.count);
+      setAnimeList((prevAnimeList) => [...prevAnimeList, ...data.animeList]);
+      setIsLoaded(true);
+    },
   };
 
-  const { isLoading, isError, isFetching, data } = useQuery(
-    animeListQueryOptions,
-  );
+  const { isLoading, isError, isFetching } = useQuery(animeListQueryOptions);
 
   const likesQueryOptions = {
     queryKey: ['animeLikes'],
@@ -173,19 +176,21 @@ const AnimeList = () => {
   // 스로틀링된 무한 스크롤 콜백 함수
   // 카테고리를 변경할 때 무한스크롤 실행되는 이슈 발견 > 아래 useEffect를 clean-up 함수로 변경.
   const throttledLoadMore = throttle(() => {
-    console.log('살행됨');
-    if (isNextPage && !isFetching && !isLoading) {
+    if (isNextPage && !isFetching && !isLoading && isLoaded) {
       // 이전 offset에 size를 더하여 다음 페이지 데이터를 가져오도록 설정
       setOffset((prevOffset) => prevOffset! + size);
     }
-  }, 2000);
+  }, 1000);
 
-  const ref = useIntersect(async (entry, observer) => {
-    observer.unobserve(entry.target);
-    if (!isFetching || !isLoading) {
-      throttledLoadMore(); // 요소를 관찰 대상으로 추가
-    }
-  });
+  const ref = useIntersect(
+    async (entry, observer) => {
+      observer.unobserve(entry.target);
+      if (!isFetching && !isLoading) {
+        throttledLoadMore(); // 요소를 관찰 대상으로 추가
+      }
+    },
+    { threshold: 0.5 },
+  );
 
   // 장르, 카테고리, 분기 선택 시 변경.
   useEffect(() => {
@@ -197,53 +202,53 @@ const AnimeList = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [genres, category, years]);
 
-  useEffect(() => {
-    if (!data) {
-      return;
-    }
-    setIsNextPage(data.isNextPage);
-    setCount(data.count);
-    setAnimeList((prevAnimeList) => [...prevAnimeList, ...data.animeList]);
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data]);
-
   if (isError) {
     return <div>Anime List를 가져오는 중 오류가 발생했습니다.</div>;
   }
 
   return (
-    <S.AnimeListSection $isMobileFilterOpen={isMobileFilterOpen}>
-      <S.PageNameDiv>
-        <S.PageNameFisrt>애니 </S.PageNameFisrt>
-        <S.PageNameSecond>찾기</S.PageNameSecond>
-      </S.PageNameDiv>
-      <AnimeFilter count={count} setAnimeList={setAnimeList} />
-      <S.AnimeContainer>
-        {isLoading && isFetching && !animeList.length ? (
-          <>
-            {Array(36)
-              .fill(undefined)
-              .map((_, index) => (
-                <AnimeCardSkeleton key={index} />
-              ))}
-          </>
-        ) : (
-          animeList.map((anime: AnimeG) => (
-            <AnimeCard
-              key={anime.id}
-              anime={anime}
-              likesCount={likesCount}
-              isLike={isLike}
-              handleLike={handleLike}
-              commentsCount={commentsCount}
-            />
-          ))
-        )}
-      </S.AnimeContainer>
-      <ScrollToTop />
-      {isNextPage && !isLoading && !isFetching && <S.Target ref={ref} />}
-    </S.AnimeListSection>
+    <>
+      <S.AnimeListSection $isMobileFilterOpen={isMobileFilterOpen}>
+        <S.PageNameDiv>
+          <S.PageNameFisrt>애니 </S.PageNameFisrt>
+          <S.PageNameSecond>찾기</S.PageNameSecond>
+        </S.PageNameDiv>
+        <AnimeFilter count={count} setAnimeList={setAnimeList} />
+        <S.AnimeContainer>
+          {isLoading && !animeList.length ? (
+            <>
+              {Array(36)
+                .fill(undefined)
+                .map((_, index) => (
+                  <AnimeCardSkeleton key={index} />
+                ))}
+            </>
+          ) : (
+            animeList.map((anime: AnimeG) => (
+              <AnimeCard
+                key={anime.id}
+                anime={anime}
+                likesCount={likesCount}
+                isLike={isLike}
+                handleLike={handleLike}
+                commentsCount={commentsCount}
+              />
+            ))
+          )}
+          {isFetching && (
+            <>
+              {Array(9)
+                .fill(undefined)
+                .map((_, index) => (
+                  <AnimeCardSkeleton key={index} />
+                ))}
+            </>
+          )}
+        </S.AnimeContainer>
+        <ScrollToTop />
+      </S.AnimeListSection>
+      <S.Target ref={ref} />
+    </>
   );
 };
 

@@ -11,7 +11,7 @@ import AnimeSearch from './AnimeSearch';
 import useViewport from '../../../hooks/useViewPort';
 
 // jotai store
-import * as recommendStore from '../../../store/animeRecommendStore';
+import * as recommendStore from '../../../store/animeListStore';
 
 // type
 import type { AnimeG } from '../../../types/anime';

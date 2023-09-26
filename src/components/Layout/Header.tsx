@@ -8,7 +8,7 @@ import useViewport from '../../hooks/useViewPort';
 import * as boardStore from '../../store/boardStore';
 import * as userStore from '../../store/userStore';
 import * as headerStore from '../../store/headerStore';
-import * as animeRecommendStore from '../../store/animeRecommendStore';
+import * as animeRecommendStore from '../../store/animeListStore';
 import * as authApi from '../../api/auth';
 import type { DropdownContentsType } from '../DropDown/DropDown';
 import DropDown from '../DropDown/DropDown';
