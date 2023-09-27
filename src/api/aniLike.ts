@@ -1,9 +1,9 @@
 import { toast } from 'react-toastify';
 import supabase from '../supabaseClient';
 import { InsertAnimeLikeG, ReadAnimeLikeG } from '../types/likes';
-import type { Database } from '../types/supabase';
-import { laftelParamsM } from '../types/anime';
-type userGenresRow = Database['public']['Tables']['user_genres']['Row'];
+// import type { Database } from '../types/supabase';
+// import { laftelParamsM } from '../types/anime';
+// type userGenresRow = Database['public']['Tables']['user_genres']['Row'];
 
 export const fetchAllAnimeLikes = async (): Promise<ReadAnimeLikeG[]> => {
   try {
