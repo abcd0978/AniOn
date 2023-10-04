@@ -4,7 +4,6 @@ import * as userStore from '../../store/userStore';
 import { A } from './Styled.MyPage/Deco.styles';
 import { useNavigate } from 'react-router-dom';
 import { equipItem, fetchMyAwards, unEquipItem } from '../../api/items';
-import { styled } from 'styled-components';
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 import { PaginationTwo } from '../PagenationTwo';
@@ -44,9 +43,6 @@ const MyInvenAward = () => {
         autoClose: 800,
       });
     },
-    // onError: (error) => {
-    //   console.log('장착 myInvenAward', error);
-    // },
   });
 
   const handleApplyButtonClick = (params: {

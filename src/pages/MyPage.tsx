@@ -1,10 +1,7 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import MyProfile from '../components/myPage/MyProfile';
 import MyInfoMenu from '../components/myPage/MyInfoMenu';
 import { Profile } from '../components/myPage/Styled.MyPage/MyPage.styles';
-import { styled } from 'styled-components';
-import MyInfoMenuMobile from '../components/myPage/MobileMenu';
-import { ViewportContext } from '../components/ViewportContext';
 import * as myPageStore from '../store/myPageStore';
 import DecoProfile from '../components/myPage/DecoProfile';
 import EditProfile from '../components/myPage/EditProfile';
@@ -12,18 +9,13 @@ import LikedAnime from '../components/myPage/LikedAnime';
 import WhatIWrote from '../components/myPage/WhatIWrote';
 import MyReviews from '../components/myPage/MyReviews';
 import { InfoMenu } from '../components/myPage/Styled.MyPage/MyPage.styles';
-import { useAtom } from 'jotai';
+import { useAtomValue } from 'jotai';
 import useViewport from '../hooks/useViewPort';
-interface Props {
-  viewport?: number;
-}
 
-const MyPage = ({ viewport }: Props) => {
+const MyPage = () => {
   const { isMobile } = useViewport();
 
-  const [selectedComponent, setSelectedComponent] = useAtom(
-    myPageStore.selectedComponent,
-  );
+  const selectedComponent = useAtomValue(myPageStore.selectedComponent);
 
   const renderSelectedComponent = () => {
     switch (selectedComponent) {
@@ -42,7 +34,6 @@ const MyPage = ({ viewport }: Props) => {
     }
   };
 
-  const { width, height } = useContext(ViewportContext);
   return (
     <>
       <Profile.MyPageText> 마이페이지</Profile.MyPageText>
