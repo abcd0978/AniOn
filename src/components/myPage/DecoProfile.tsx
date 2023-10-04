@@ -3,9 +3,9 @@ import { useState } from 'react';
 import { useSetAtom } from 'jotai';
 import MyInvenAward from './MyInvenAward';
 import { D } from './Styled.MyPage/Deco.styles';
-import { styled } from 'styled-components';
 import { InfoMenu } from './Styled.MyPage/MyPage.styles';
 import * as myPageStore from '../../store/myPageStore';
+
 const DecoProfile = () => {
   const [selectedDecoMenu, setSelectedDecoMenu] = useState('Border');
   const setSelectedComponent = useSetAtom(myPageStore.selectedComponent);

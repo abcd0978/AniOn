@@ -155,27 +155,28 @@ export const B = {
   Equip: styled.button<{ is_equipped: boolean }>`
     position: relative;
     font-size: 14px;
-    padding: 0px;8px;
+    padding: 0px 8px;
     left: 100px;
     top: -30px;
     width: 80px;
     height: 30px;
-    background-color: ${(props) => (props.is_equipped ? '#F3E7FF' : 'white')};
-    color:black;
+    color: black;
+    cursor: pointer;
     border-radius: 6px;
+    background-color: ${(props) => (props.is_equipped ? '#F3E7FF' : 'white')};
+
     @media (max-width: 768px) {
-    display: inline-flex;
+      display: inline-flex;
 
-      width:auto; 
+      width: auto;
       padding: 8px;
-      align-items:center;
+      align-items: center;
       font-size: 13px;
-      height:24px;
-
+      height: 24px;
     }
+
     border: ${(props) =>
       props.is_equipped ? '1px solid #c88fff' : '1px solid #d9d9d9'};
-    cursor: pointer;
     &:hover {
       ${(props) =>
         !props.is_equipped &&
@@ -183,11 +184,11 @@ export const B = {
         background-color: ${props.is_equipped ? '#F3E7FF' : 'white'};
         color: black;
       `}
-  
+
       &:disabled:hover {
         cursor: not-allowed;
       }
-      
+    }
   `,
 };
 export const A = {
@@ -263,28 +264,28 @@ export const A = {
     @media (max-width: 768px) {
       display: inline-flex;
 
-      width:auto; 
+      width: auto;
       padding: 8px;
-      align-items:center;
+      align-items: center;
       font-size: 13px;
-      height:24px;
+      height: 24px;
     }
     border: ${(props) =>
       props.is_equipped ? '1px solid #c88fff' : '1px solid #d9d9d9'};
     float: right;
     cursor: pointer;
     &:hover {
-    ${(props) =>
-      !props.is_equipped &&
-      `
+      ${(props) =>
+        !props.is_equipped &&
+        `
       background-color: ${props.is_equipped ? '#F3E7FF' : 'white'};
       color: black;
     `}
 
-    &:disabled:hover {
-      cursor: not-allowed;
+      &:disabled:hover {
+        cursor: not-allowed;
+      }
     }
-   
   `,
   Pagination: styled.div`
     justify-content: center;
