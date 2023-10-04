@@ -6,7 +6,6 @@ import { B } from './Styled.MyPage/Deco.styles';
 import { useNavigate } from 'react-router-dom';
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
-import { styled } from 'styled-components';
 import { PaginationTwo } from '../PagenationTwo';
 import Loading from '../Loading/Loading';
 const itemsPerPage = 8;
@@ -16,7 +15,6 @@ const MyBorder = () => {
 
   const queryClient = useQueryClient();
   const user = useAtomValue(userStore.user);
-  // const { width, height, isMobile, isLoaded } = useViewport();
   const navigate = useNavigate();
 
   const inventoryQueryOptions = {

@@ -4,7 +4,7 @@ import useViewport from '../../hooks/useViewPort';
 type Props = {
   width: number;
   data: any;
-  index: number;
+  index?: number;
   key: number;
 };
 
@@ -24,23 +24,25 @@ const MainCard = ({ width, data, index, key }: Props) => {
             : data.img
         }
       >
-        <StMainCardImgIndex
-          className="index-card"
-          $mediawidth={mediaWidth <= 1092 ? mediaWidth : 1092}
-        >
-          <p
-            style={{
-              fontSize: `max(14px, ${16 * (mediaWidth / 1920)}px)`,
-              fontWeight: 'bold',
-              color: 'var(--achromatic-colors-white, #FFF)',
-              fontStyle: 'normal',
-              lineHeight: 'normal',
-              letterSpacing: '-0.24px',
-            }}
+        {index && (
+          <StMainCardImgIndex
+            className="index-card"
+            $mediawidth={mediaWidth <= 1092 ? mediaWidth : 1092}
           >
-            TOP {index}
-          </p>
-        </StMainCardImgIndex>
+            <p
+              style={{
+                fontSize: `max(14px, ${16 * (mediaWidth / 1920)}px)`,
+                fontWeight: 'bold',
+                color: 'var(--achromatic-colors-white, #FFF)',
+                fontStyle: 'normal',
+                lineHeight: 'normal',
+                letterSpacing: '-0.24px',
+              }}
+            >
+              TOP {index}
+            </p>
+          </StMainCardImgIndex>
+        )}
         <StHoverViewDetail className="viewmore">
           <p>자세히보기</p>
           <img

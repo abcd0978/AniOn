@@ -601,7 +601,7 @@ const Main = () => {
                         >
                           <MainCard
                             key={Math.random()}
-                            index={index + 1}
+                            // index={index + 1}
                             data={data}
                             width={smallCardWidth}
                           />
