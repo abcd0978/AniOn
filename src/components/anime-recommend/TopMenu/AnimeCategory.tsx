@@ -31,18 +31,23 @@ const AnimeCategory = () => {
     }
   };
 
-  let enumToShow;
+  const enumToShow =
+    category === '분기별'
+      ? Object.values(Years)
+      : category === '장르별'
+      ? Object.values(Genres)
+      : null;
 
-  switch (category) {
-    case '분기별':
-      enumToShow = Years; // 분기 카테고리에서는 분기 enum
-      break;
-    case '장르별':
-      enumToShow = Genres; // 장르 카테고리에서는 장르 enum
-      break;
-    default:
-      enumToShow = null; // 다른 카테고리가 들어온 경우 null을 할당
-  }
+  // switch (category) {
+  //   case '분기별':
+  //     enumToShow = Years; // 분기 카테고리에서는 분기 enum
+  //     break;
+  //   case '장르별':
+  //     enumToShow = Genres; // 장르 카테고리에서는 장르 enum
+  //     break;
+  //   default:
+  //     enumToShow = null; // 다른 카테고리가 들어온 경우 null을 할당
+  // }
 
   if (enumToShow) {
     // enumToShow가 null이 아닌 경우 해당 enum의 값을 보여줌

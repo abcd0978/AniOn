@@ -15,10 +15,8 @@ import { InfoMenu } from './Styled.MyPage/MyPage.styles';
 import { useSetAtom } from 'jotai';
 
 const LikedAnime = () => {
-  const [page, setPage] = useState<number>(1);
-  const { width, height, isMobile, isLoaded } = useViewport();
+  const { width } = useViewport();
   const [currentPage, setCurrentPage] = useState(1);
-  const [likedAnimeIds, setLikedAnimeIds] = useState<string[]>([]);
   const [animeTitles, setAnimeTitles] = useState<Record<string, AnimeG>>({});
   const [topTags, setTopTags] = useState<string[]>([]);
   const user = useAtomValue(userStore.user);
@@ -473,12 +471,11 @@ const L = {
     text-overflow: ellipsis;
     white-space: nowrap;
     margin: 10px;
-    @media (max-width: 768px){
-      font-size:14px ;
-      width:160px ; 
+    @media (max-width: 768px) {
+      font-size: 14px;
+      width: 160px;
       text-overflow: ellipsis;
-      white-space :nowrap ;
-      }
+      white-space: nowrap;
     }
   `,
   HoverContent: styled.div`
