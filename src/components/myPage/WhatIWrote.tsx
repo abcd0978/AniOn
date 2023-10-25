@@ -3,7 +3,7 @@ import { useAtomValue, useSetAtom } from 'jotai';
 import * as userStore from '../../store/userStore';
 import * as myPageStore from '../../store/myPageStore';
 import { useNavigate } from 'react-router-dom';
-import { P, R } from './Styled.MyPage/Wrote.styles';
+import { P } from './Styled.MyPage/Wrote.styles';
 import { Divider } from './Styled.MyPage/MyPage.styles';
 import Pagination from '../Pagenation';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';

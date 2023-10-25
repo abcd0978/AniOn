@@ -11,10 +11,10 @@ import { Divider } from './Styled.MyPage/MyPage.styles';
 import Pagination from '../Pagenation';
 import { getAnimeById } from '../../api/laftel';
 import ReviewSkeleton from './Skeleton.MyPage/MyReviewSkeleton';
-import { styled } from 'styled-components';
+// import { styled } from 'styled-components';
 import { useConfirm } from '../../hooks/useConfirm';
 import { InfoMenu } from './Styled.MyPage/MyPage.styles';
-import { D } from './Styled.MyPage/Deco.styles';
+// import { D } from './Styled.MyPage/Deco.styles';
 const supabaseUrl = process.env.REACT_APP_SUPABASE_URL;
 const supabaseAnonKey = process.env.REACT_APP_ANON_KEY;
 

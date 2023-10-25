@@ -9,52 +9,53 @@ import * as sidebarStore from '../../store/sidebarStore';
 import * as userStore from '../../store/userStore';
 import * as animeLikeApi from '../../api/aniLike';
 import * as animeStore from '../../store/animeListStore';
-import { laftelParamsM } from '../../types/anime';
+// import { laftelParamsM } from '../../types/anime';
 import { Genres } from '../../types/anime';
 type Props = {};
-const genresForUnregistered: laftelParamsM['genres'] = [
-  '개그',
-  '공포',
-  '드라마',
-  '로맨스',
-  '모험',
-  '무협',
-  '미스터리',
-  '범죄',
-  '성인',
-  '스릴러',
-  '스포츠',
-  '시대물',
-  '아동',
-  '아이돌',
-  '액션',
-  '음식',
-  '음악',
-  '이세계',
-  '일상',
-  '재난',
-  '추리',
-  '치유',
-  '특촬',
-  '판타지',
-  '하렘',
-  'BL',
-  'GL 백합',
-  'SF',
-];
+// const genresForUnregistered: laftelParamsM['genres'] = [
+//   '개그',
+//   '공포',
+//   '드라마',
+//   '로맨스',
+//   '모험',
+//   '무협',
+//   '미스터리',
+//   '범죄',
+//   '성인',
+//   '스릴러',
+//   '스포츠',
+//   '시대물',
+//   '아동',
+//   '아이돌',
+//   '액션',
+//   '음식',
+//   '음악',
+//   '이세계',
+//   '일상',
+//   '재난',
+//   '추리',
+//   '치유',
+//   '특촬',
+//   '판타지',
+//   '하렘',
+//   'BL',
+//   'GL 백합',
+//   'SF',
+// ];
 
 const DownBar = (props: Props) => {
   const [downBarOpened, setDownBarOpened] = useAtom(sidebarStore.downBarOpened);
-  const [menuSearchClicked, setMenuSearchCliked] = useAtom(
-    headerStore.searchMobileClicked,
-  );
+  const setMenuSearchCliked = useSetAtom(headerStore.searchMobileClicked);
+  // const [menuSearchClicked, setMenuSearchCliked] = useAtom(
+  //   headerStore.searchMobileClicked,
+  // );
   const setKeyword = useSetAtom(animeRecommendStore.keywordAtom);
   const navigate = useNavigate();
   const setAnimeList = useSetAtom(animeRecommendStore.animeListAtom);
   const setOffset = useSetAtom(animeRecommendStore.offsetAtom);
   const user = useAtomValue(userStore.user);
   const [recentSearch, setRecentSearch] = useState<Array<string>>([]);
-  const [genresAnime, setGenresAnime] = useAtom(animeStore.selectedGenresAtom);
+  const setGenresAnime = useSetAtom(animeStore.selectedGenresAtom);
 
   const genreQueryOptions = {
     queryKey: ['genre'],
@@ -65,7 +66,7 @@ const DownBar = (props: Props) => {
     enabled: !!user,
   };
 
-  const { isLoading, isError, isFetching, data } = useQuery(genreQueryOptions);
+  const { data } = useQuery(genreQueryOptions);
 
   const deleteRecentSearch = (keyword: string) => {
     const recentSearch: Array<string> | null = JSON.parse(
