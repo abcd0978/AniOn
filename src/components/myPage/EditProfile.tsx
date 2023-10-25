@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import supabase from '../../supabaseClient';
 import { v4 as uuidv4 } from 'uuid';
-import { useSetAtom } from 'jotai';
+import { useAtomValue, useSetAtom } from 'jotai';
 import * as authApi from '../../api/auth';
 import * as userStore from '../../store/userStore';
 import * as myPageStore from '../../store/myPageStore';
 import { Divider, Profile } from './Styled.MyPage/MyPage.styles';
-import { useAtom } from 'jotai';
 import { toast } from 'react-toastify';
 import { E } from './Styled.MyPage/Edit.styles';
 import PasswordReset from './ResetPassword';
@@ -21,12 +20,11 @@ const initialError: ErrorType = { error: false, errorMsg: '' };
 const EditProfile = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [editMode, setEditMode] = useState<string>('');
-  const [user, setUser] = useAtom(userStore.user);
+  const user = useAtomValue(userStore.user);
   const writeUser = useSetAtom(userStore.writeUser);
   const [newNickname, setNewNickname] = useState('');
   const [nicknameError, setNicknameError] = useState<ErrorType>(initialError);
   const [nicknameDupChecked, setNicknameDupChecked] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
   const setSelectedComponent = useSetAtom(myPageStore.selectedComponent);
   //2-1-1. 사진 업로드
   const handleUpload = async () => {
@@ -43,7 +41,7 @@ const EditProfile = () => {
     const profileFilePath = `public/Profile_Images/${sanitizedFileName}`;
 
     try {
-      const { data, error: uploadError } = await supabase.storage
+      const { error: uploadError } = await supabase.storage
         .from('Profile Images')
         .upload(profileFilePath, selectedFile);
 
@@ -60,16 +58,15 @@ const EditProfile = () => {
         .from('Profile Images')
         .getPublicUrl(profileFilePath);
 
-      if (response.data) {
-        const publicUrl = response.data.publicUrl;
-      } else {
+      if (!response.data) {
         console.error('No public URL found in response data.');
+        return;
       }
 
       const publicUrl = response.data.publicUrl;
 
       //2-1-3. 사용자 프로필 이미지 업데이트
-      const { data: userData, error: userUpdateError } = await supabase
+      const { error: userUpdateError } = await supabase
         .from('users')
         .update({
           profile_img_url: publicUrl,
@@ -136,7 +133,7 @@ const EditProfile = () => {
         return;
       }
 
-      const { data, error } = await supabase
+      const { error } = await supabase
         .from('users')
         .update({ nickname: newNickname })
         .eq('id', user?.id);

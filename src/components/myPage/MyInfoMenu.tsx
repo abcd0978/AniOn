@@ -3,7 +3,7 @@ import { InfoMenu } from './Styled.MyPage/MyPage.styles';
 import { toast } from 'react-toastify';
 import supabase from '../../supabaseClient';
 import { logout } from '../../api/auth';
-import { useAtom, useAtomValue } from 'jotai';
+import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import * as userStore from '../../store/userStore';
@@ -16,7 +16,7 @@ const MyInfoMenu = () => {
 
   const { openConfirm } = useConfirm();
 
-  const [__, logoutStore] = useAtom(userStore.logoutUser);
+  const logoutStore = useSetAtom(userStore.logoutUser);
   const user = useAtomValue(userStore.user);
   const [selectedComponent, setSelectedComponent] = useAtom(
     myPageStore.selectedComponent,
