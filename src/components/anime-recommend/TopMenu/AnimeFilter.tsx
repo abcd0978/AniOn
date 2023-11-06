@@ -46,12 +46,9 @@ const AnimeFilter = ({ count, setAnimeList }: Props) => {
         {isMobile &&
           selectedCategory !== '방영' &&
           selectedCategory !== '전체' && (
-            <S.MobileFilterButton>
+            <S.MobileFilterButton onClick={handleMobileFilterToggle}>
               필터
-              <S.MobileFilterImg
-                src={'/images/filter.svg'}
-                onClick={handleMobileFilterToggle}
-              />
+              <S.MobileFilterImg src={'/images/filter.svg'} />
             </S.MobileFilterButton>
           )}
       </S.FilterBottomContainer>
