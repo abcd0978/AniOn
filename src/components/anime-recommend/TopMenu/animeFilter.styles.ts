@@ -37,6 +37,7 @@ export const S = {
   MobileFilterButton: styled.div`
     display: flex;
     font-size: 14px;
+    cursor: pointer;
   `,
   MobileFilterImg: styled.img``,
 };

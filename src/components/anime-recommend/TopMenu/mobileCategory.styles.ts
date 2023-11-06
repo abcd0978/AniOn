@@ -34,6 +34,7 @@ export const S = {
     display: flex;
     justify-content: center;
     margin-top: 20px;
+    cursor: pointer;
   `,
 
   MobileFilterContainer: styled.div`
@@ -59,6 +60,7 @@ export const S = {
     display: flex;
     font-size: 12px;
     align-items: center;
+    cursor: pointer;
   `,
 
   DoneButton: styled.button`
@@ -70,5 +72,6 @@ export const S = {
     border-radius: 999px;
     height: 36px;
     font-size: 15px;
+    cursor: pointer;
   `,
 };

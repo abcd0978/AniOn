@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import * as sidebarStore from '../../store/sidebarStore';
 import * as headerStore from '../../store/headerStore';
@@ -89,6 +89,7 @@ const StHamburgerMenu = styled.div<{ $IsActive?: boolean }>`
   gap: 4px;
   align-self: stretch;
   text-align: center;
+  cursor: pointer;
   ${(props) => {
     return props.$IsActive
       ? 'color: var(--main-default, #8200ff);'
