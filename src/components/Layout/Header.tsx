@@ -133,6 +133,16 @@ function Header() {
       },
     },
     {
+      content: '쪽 지',
+      img_src: '/images/account.svg',
+      func: () => {
+        if (user) {
+          navigate(`/note/${user.id}`);
+          setIsDropdownOnD(false);
+        }
+      },
+    },
+    {
       content: '로그아웃',
       img_src: '/images/logout.svg',
       func: async () => {

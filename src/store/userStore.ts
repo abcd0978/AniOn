@@ -2,9 +2,7 @@ import { atom } from 'jotai';
 import { atomWithStorage } from 'jotai/utils';
 import supabase from '../supabaseClient';
 import * as authApi from '../api/auth';
-// import * as itemApi from '../api/items';
 import { Database } from '../types/supabase';
-// import { write } from 'fs';
 
 type Usertype = Database['public']['Tables']['users']['Row'];
 export const user = atomWithStorage<Usertype | null>('user', null);
@@ -15,7 +13,7 @@ export const logoutUser = atom(null, (__, set) => {
   set(user, null);
 });
 
-export const setBorder = atom(null, (get, set) => {});
+// export const setBorder = atom(null, (get, set) => {});
 
 export const writeUser = atom(null, async (get, set) => {
   const session = await supabase.auth.getSession();

@@ -1,20 +1,21 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+// import { useState, useEffect } from 'react';
 
 import PrivateRoute from '../hoc/PrivateRoute';
 
 import Main from '../pages/Main';
-import AnimeRecommend from '../pages/AnimeRecommend';
-import Board from '../pages/Board/Board';
+import Note from '../pages/Note';
 import MyPage from '../pages/MyPage';
 import Shop from '../pages/Shop/Shop';
 import WorldCup from '../pages/WorldCup';
-import WriteBoard from '../pages/Board/WriteBoard';
-import NotFoundPage from '../pages/notfound/NotFoundPage';
+import Board from '../pages/Board/Board';
 import AnimeDetail from '../pages/AnimeDetail';
+import WriteBoard from '../pages/Board/WriteBoard';
 import BoardDetail from '../pages/Board/BoardDetail';
 import WorldCupResult from '../pages/WorldCupResult';
+import AnimeRecommend from '../pages/AnimeRecommend';
 import AfterSocialLogin from '../pages/AfterSocialLogin';
+import NotFoundPage from '../pages/notfound/NotFoundPage';
 
 import { ViewportProvider } from '../components/ViewportContext';
 import NewPassword from '../components/Modal/NewPassword';
@@ -25,25 +26,25 @@ import Layout from '../styles/Layout';
 import { GlobalStyle } from '../styles/globalstyle';
 
 const Router = () => {
-  const [viewport, setViewport] = useState({
-    width: window.innerWidth,
-    height: window.innerHeight,
-  });
+  // const [viewport, setViewport] = useState({
+  //   width: window.innerWidth,
+  //   height: window.innerHeight,
+  // });
 
-  useEffect(() => {
-    const handleResize = () => {
-      setViewport({
-        width: window.innerWidth,
-        height: window.innerHeight,
-      });
-    };
+  // useEffect(() => {
+  //   const handleResize = () => {
+  //     setViewport({
+  //       width: window.innerWidth,
+  //       height: window.innerHeight,
+  //     });
+  //   };
 
-    window.addEventListener('resize', handleResize);
+  //   window.addEventListener('resize', handleResize);
 
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
+  //   return () => {
+  //     window.removeEventListener('resize', handleResize);
+  //   };
+  // }, []);
 
   return (
     <ViewportProvider>
@@ -71,6 +72,7 @@ const Router = () => {
               <Route path="/board/write" element={<WriteBoard />} />
 
               <Route path="/myPage/:user_id" element={<MyPage />} />
+              <Route path="/note/:user_id" element={<Note />} />
             </Route>
             <Route element={<PrivateRoute authentication={false} />}>
               <Route path="/sociallogin" element={<AfterSocialLogin />} />

@@ -40,7 +40,6 @@ const MyPage = () => {
       <Profile.MyPageConainer>
         <Profile.MyContainer>
           <MyProfile />
-          {/* {width <= 768 ? <MyInfoMenuMobile /> : <MyInfoMenu />} */}
           {!isMobile ? (
             <MyInfoMenu />
           ) : !selectedComponent ? (
