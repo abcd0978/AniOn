@@ -1,15 +1,21 @@
 import React from 'react';
+
+import { useAtomValue } from 'jotai';
+
+import * as myPageStore from '../store/myPageStore';
+
+import Note from '../components/myPage/Note/Note';
+import MyReviews from '../components/myPage/MyReviews';
 import MyProfile from '../components/myPage/MyProfile';
 import MyInfoMenu from '../components/myPage/MyInfoMenu';
-import { Profile } from '../components/myPage/Styled.MyPage/MyPage.styles';
-import * as myPageStore from '../store/myPageStore';
+import WhatIWrote from '../components/myPage/WhatIWrote';
+import LikedAnime from '../components/myPage/LikedAnime';
 import DecoProfile from '../components/myPage/DecoProfile';
 import EditProfile from '../components/myPage/EditProfile';
-import LikedAnime from '../components/myPage/LikedAnime';
-import WhatIWrote from '../components/myPage/WhatIWrote';
-import MyReviews from '../components/myPage/MyReviews';
+
+import { Profile } from '../components/myPage/Styled.MyPage/MyPage.styles';
 import { InfoMenu } from '../components/myPage/Styled.MyPage/MyPage.styles';
-import { useAtomValue } from 'jotai';
+
 import useViewport from '../hooks/useViewPort';
 
 const MyPage = () => {
@@ -19,16 +25,18 @@ const MyPage = () => {
 
   const renderSelectedComponent = () => {
     switch (selectedComponent) {
-      case 'DecoProfile':
-        return <DecoProfile />;
       case 'EditProfile':
         return <EditProfile />;
+      case 'DecoProfile':
+        return <DecoProfile />;
       case 'LikedAnime':
         return <LikedAnime />;
       case 'WhatIWrote':
         return <WhatIWrote />;
       case 'MyReviews':
         return <MyReviews />;
+      case 'Note':
+        return <Note />;
       default:
         return isMobile ? null : <EditProfile />;
     }

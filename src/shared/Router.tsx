@@ -4,7 +4,6 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import PrivateRoute from '../hoc/PrivateRoute';
 
 import Main from '../pages/Main';
-import Note from '../pages/Note';
 import MyPage from '../pages/MyPage';
 import Shop from '../pages/Shop/Shop';
 import WorldCup from '../pages/WorldCup';
@@ -72,7 +71,6 @@ const Router = () => {
               <Route path="/board/write" element={<WriteBoard />} />
 
               <Route path="/myPage/:user_id" element={<MyPage />} />
-              <Route path="/note/:user_id" element={<Note />} />
             </Route>
             <Route element={<PrivateRoute authentication={false} />}>
               <Route path="/sociallogin" element={<AfterSocialLogin />} />

@@ -9,6 +9,7 @@ import * as boardStore from '../../store/boardStore';
 import * as userStore from '../../store/userStore';
 import * as headerStore from '../../store/headerStore';
 import * as animeRecommendStore from '../../store/animeListStore';
+import * as myPageStore from '../../store/myPageStore';
 import * as authApi from '../../api/auth';
 import type { DropdownContentsType } from '../DropDown/DropDown';
 import DropDown from '../DropDown/DropDown';
@@ -40,6 +41,7 @@ function Header() {
   const setKeyword = useSetAtom(animeRecommendStore.keywordAtom);
   const setAnimeList = useSetAtom(animeRecommendStore.animeListAtom);
   const setOffset = useSetAtom(animeRecommendStore.offsetAtom);
+  const setSelectedComponent = useSetAtom(myPageStore.selectedComponent);
 
   const [isDropdownOnD, setIsDropdownOnD] = useState(false);
   const dropdownOpenerDRef = useRef<HTMLDivElement>(null);
@@ -137,8 +139,9 @@ function Header() {
       img_src: '/images/account.svg',
       func: () => {
         if (user) {
-          navigate(`/note/${user.id}`);
+          navigate(`/myPage/${user.id}`);
           setIsDropdownOnD(false);
+          setSelectedComponent('Note');
         }
       },
     },
