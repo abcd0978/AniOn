@@ -49,7 +49,7 @@ function Header() {
   const dropdownOpenerBRef = useRef<HTMLDivElement>(null);
   const [mobileSearchCategory, setMobileSearchCategory] =
     useState<mobileSearchCategories>('애니찾기');
-  const [mobileSearchInput, ___, onChangeSearchInput, ____] = useInput('');
+  const [mobileSearchInput, ___, onChangeSearchInput] = useInput('');
   const [sideBarOpened, setSideBarOpened] = useAtom(sidebarStore.sideBarOpened);
   const setDownBarOpened = useSetAtom(sidebarStore.downBarOpened);
   const [menuSearchClicked, setMenuSearchCliked] = useAtom(

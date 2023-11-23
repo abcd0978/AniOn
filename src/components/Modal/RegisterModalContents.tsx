@@ -82,15 +82,11 @@ const LoginModalContents = () => {
   // const writeUser = useSetAtom(userStore.writeUser);
   const setModal = useSetAtom(modalStore.isModalOpened);
   const setModalContents = useSetAtom(modalStore.modalContents);
-  const [email, setEmail, onChangeEmail, resetEmail] = useInput('');
-  const [nickname, setNickname, onChangeNickname, resetNickname] = useInput('');
-  const [password, setPassword, onChangePassword, resetPassword] = useInput('');
-  const [
-    passwordConfirm,
-    setPasswordConfirm,
-    onChangePasswordConfirm,
-    resetPasswordConfirm,
-  ] = useInput('');
+  const [email, setEmail, onChangeEmail] = useInput('');
+  const [nickname, setNickname, onChangeNickname] = useInput('');
+  const [password, setPassword, onChangePassword] = useInput('');
+  const [passwordConfirm, setPasswordConfirm, onChangePasswordConfirm] =
+    useInput('');
   const [emailError, setEmailError] = useState<ErrorType>(initialError);
   const [passwordError, setPasswordError] = useState<ErrorType>(initialError);
   const [passwordConfirmError, setPasswordConfirmError] =
