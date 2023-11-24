@@ -65,7 +65,9 @@ const SendNote = ({ setSt }: Props) => {
           });
           return;
         }
-        alert('성공');
+        toast.warning('메세지를 보냈습니다!💖', {
+          autoClose: 800,
+        });
         setSt('sent');
       },
     });
