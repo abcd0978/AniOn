@@ -1,17 +1,19 @@
 import React, { useState } from 'react';
 import SendNote from './SendNote';
 import NoteList from './NoteList';
+// style
+import { S } from './note.Styles';
 
 const Note = () => {
   const [st, setSt] = useState('recv');
 
   return (
-    <div>
-      <button onClick={() => setSt('recv')}>받은</button>
-      <button onClick={() => setSt('sent')}>보낸</button>
-      <button onClick={() => setSt('send')}>보내기</button>
+    <S.Container>
+      <S.RecvButton onClick={() => setSt('recv')}>받은</S.RecvButton>
+      <S.SentButton onClick={() => setSt('sent')}>보낸</S.SentButton>
+      <S.SendButton onClick={() => setSt('send')}>보내기</S.SendButton>
       {st === 'send' ? <SendNote setSt={setSt} /> : <NoteList st={st} />}
-    </div>
+    </S.Container>
   );
 };
 

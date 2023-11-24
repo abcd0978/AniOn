@@ -3,6 +3,9 @@ import { useAtomValue } from 'jotai';
 import { toast } from 'react-toastify';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
+// style
+import { S } from './sendnote.Styles';
+
 import * as userStore from '../../../store/userStore';
 import { createNote } from '../../../api/note';
 
@@ -74,7 +77,7 @@ const SendNote = ({ setSt }: Props) => {
   };
 
   return (
-    <div>
+    <S.Container>
       <br />
       <br />
       <form onSubmit={onSubmitHandler}>
@@ -90,9 +93,9 @@ const SendNote = ({ setSt }: Props) => {
         <textarea onChange={onChangeContent} />
         <br />
         <br />
-        <button type="submit">보내기</button>
+        <S.SendButton type="submit">보내기</S.SendButton>
       </form>
-    </div>
+    </S.Container>
   );
 };
 
