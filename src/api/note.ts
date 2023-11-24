@@ -1,26 +1,55 @@
 import { toast } from 'react-toastify';
 import supabase from '../supabaseClient';
 import { findUserIdByNickname } from './auth';
-import { insertNoteType } from '../types/note';
+import { fetchNoteType, noteType } from '../types/note';
 
-const fetchRecvNotes = async (params: any) => {
+export const fetchNotes = async (params: fetchNoteType) => {
   try {
-  } catch (error) {}
+    const startIndex = (params.page - 1) * params.itemsPerPage;
+    let query;
+
+    if (params.type === 'sent') {
+      query = supabase
+        .from('note')
+        .select('*,users!note_recv_id_fkey(nickname))', {
+          count: 'exact',
+        })
+        .eq('send_id', params.user_id)
+        .order('sent_at', { ascending: false })
+        .range(startIndex, startIndex + params.itemsPerPage - 1);
+    } else {
+      query = supabase
+        .from('note')
+        .select('*,users!note_send_id_fkey(nickname)', {
+          count: 'exact',
+        })
+        .eq('recv_id', params.user_id)
+        .order('sent_at', { ascending: false })
+        .range(startIndex, startIndex + params.itemsPerPage - 1);
+    }
+    const { data, error, count } = await query;
+
+    if (error) {
+      throw error;
+    }
+
+    const totalPages = Math.ceil(count! / params.itemsPerPage);
+
+    console.log(data);
+    return { data, totalPages, count };
+  } catch (error) {
+    throw error;
+  }
 };
 
-const fetchSentNotes = async (params: any) => {
-  try {
-  } catch (error) {}
-};
-
-export const createNote = async (params: any) => {
+export const createNote = async (params: Omit<noteType, 'recv_id'>) => {
   try {
     const recv_id = await findUserIdByNickname(params.nickname!);
     // console.log(recv_id);
     if (recv_id === 'none' || !recv_id) {
       return 'none';
     }
-    const newNote: insertNoteType = {
+    const newNote: noteType = {
       send_id: params.send_id,
       recv_id,
       title: params.title,

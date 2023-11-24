@@ -10,7 +10,7 @@ import useInputTest from '../../../hooks/useInputTest';
 // import { insertNoteType } from '../../../types/note';
 
 interface Props {
-  setSt: React.Dispatch<SetStateAction<number>>;
+  setSt: React.Dispatch<SetStateAction<string>>;
 }
 
 const SendNote = ({ setSt }: Props) => {
@@ -58,6 +58,7 @@ const SendNote = ({ setSt }: Props) => {
 
     createMutation.mutate(params, {
       onSuccess: (data) => {
+        queryClient.invalidateQueries(['notes']);
         if (data === 'none') {
           toast.warning('받는분의 닉네임을 확인해주세요!', {
             autoClose: 800,
@@ -65,7 +66,7 @@ const SendNote = ({ setSt }: Props) => {
           return;
         }
         alert('성공');
-        setSt(2);
+        setSt('sent');
       },
     });
   };

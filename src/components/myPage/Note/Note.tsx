@@ -1,28 +1,16 @@
 import React, { useState } from 'react';
 import SendNote from './SendNote';
+import NoteList from './NoteList';
 
 const Note = () => {
-  const [st, setSt] = useState(0);
-
-  const renderSelectedComponent = () => {
-    switch (st) {
-      case 1:
-        return <div>받은쪽지함</div>;
-      case 2:
-        return <div>보낸쪽지함</div>;
-      case 3:
-        return <SendNote setSt={setSt} />;
-      default:
-        return <div>보낸쪽지함</div>;
-    }
-  };
+  const [st, setSt] = useState('recv');
 
   return (
     <div>
-      <button onClick={() => setSt(1)}>받은</button>
-      <button onClick={() => setSt(2)}>보낸</button>
-      <button onClick={() => setSt(3)}>보내기</button>
-      {renderSelectedComponent()}
+      <button onClick={() => setSt('recv')}>받은</button>
+      <button onClick={() => setSt('sent')}>보낸</button>
+      <button onClick={() => setSt('send')}>보내기</button>
+      {st === 'send' ? <SendNote setSt={setSt} /> : <NoteList st={st} />}
     </div>
   );
 };
