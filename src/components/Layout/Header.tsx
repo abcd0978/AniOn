@@ -131,6 +131,7 @@ function Header() {
         if (user) {
           navigate(`/myPage/${user.id}`);
           setIsDropdownOnD(false);
+          setSelectedComponent('EditProfile');
         }
       },
     },
@@ -427,7 +428,7 @@ const headerMenuColorActivated = '#4f4f4f';
 const StSearchMobile = styled.div`
   transition: 0.1s;
   display: none;
-  @media (max-width: 768px) {
+  @media (max-width: 1024px) {
     display: inline-block;
     &.search {
       & > img {
@@ -440,7 +441,7 @@ const StSearchMobile = styled.div`
 
 const StHeaderMenuMobile = styled.div`
   display: none;
-  @media (max-width: 768px) {
+  @media (max-width: 1024px) {
     display: flex;
     padding: 8px 16px 8px 0px;
     flex-direction: column;
@@ -453,7 +454,7 @@ const StHeaderMenuMobile = styled.div`
 
 const StHeader = styled.header<{ $mediawidth: number }>`
   ${(props) => `height:${80 * (props.$mediawidth / 1920)}px;`}
-  min-height:45px;
+  min-height:50px;
   display: grid;
   align-items: center;
   background: var(--achromatic-colors-white, #fff);
@@ -474,7 +475,7 @@ const StHeaderContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  @media (max-width: 768px) {
+  @media (max-width: 1024px) {
     width: inherit;
     box-sizing: border-box;
     border-left: 18px solid #fff;
@@ -495,7 +496,7 @@ const StHeaderContainerSearch = styled.div`
     opacity: 0;
     display: none;
   }
-  @media (max-width: 768px) {
+  @media (max-width: 1024px) {
     display: flex;
     width: inherit;
     flex-direction: row;
@@ -568,7 +569,7 @@ const StHeaderMobileSearchCancel = styled.div`
 
 const StHeaderLogoSection = styled.div`
   cursor: pointer;
-  @media (max-width: 768px) {
+  @media (max-width: 1024px) {
     position: absolute;
     left: calc(50% - 50px);
   }
@@ -580,13 +581,13 @@ const StHeaderMenuSection = styled.div`
   display: flex;
   align-items: center;
   gap: 40px;
-  @media (max-width: 768px) {
+  @media (max-width: 1024px) {
     display: none;
   }
 `;
 
 const StHeaderMenu = styled.div<{ $isactive: boolean; color?: string }>`
-  width: 99px;
+  /* width: 25%; */
   text-align: center;
   font-weight: 700;
   cursor: pointer;
@@ -595,6 +596,9 @@ const StHeaderMenu = styled.div<{ $isactive: boolean; color?: string }>`
   ${(props) => props.$isactive && props.color && `color: ${props.color};`}
   &:active {
     color: ${(props) => props.color || headerMenuColorActivated};
+  }
+  @media (max-width: 1280) {
+    font-size: 10px;
   }
 `;
 
@@ -617,7 +621,7 @@ const StHeaderUserInfo = styled.div`
   display: flex;
   flex-direction: column;
   gap: 2px;
-  @media (max-width: 768px) {
+  @media (max-width: 1024px) {
     display: none;
   }
 `;
@@ -652,7 +656,7 @@ const StHeaderDropDownImgContainer = styled.div`
   justify-content: center;
   align-items: center;
   gap: 8px;
-  @media (max-width: 768px) {
+  @media (max-width: 1024px) {
     display: none;
   }
 `;

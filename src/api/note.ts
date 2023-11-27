@@ -1,4 +1,3 @@
-import { toast } from 'react-toastify';
 import supabase from '../supabaseClient';
 import { findUserIdByNickname } from './auth';
 import { fetchNoteType, noteType } from '../types/note';
@@ -64,7 +63,7 @@ export const createNote = async (params: Omit<noteType, 'recv_id'>) => {
   }
 };
 
-const deleteNote = async (params: any) => {
-  try {
-  } catch (error) {}
-};
+// const deleteNote = async (params: any) => {
+//   try {
+//   } catch (error) {}
+// };
