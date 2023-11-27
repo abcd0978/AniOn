@@ -1,16 +1,14 @@
 import { useState } from 'react';
 
-// 나중에 setValue 빼는거 고려하기
 type UseInputResult<T> = [
   value: T,
-  setValue: React.Dispatch<React.SetStateAction<T>>,
   onChange: (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => void,
   reset: () => void,
 ];
 
-const useInput = <T,>(initialValue: T): UseInputResult<T> => {
+const useInputTest = <T,>(initialValue: T): UseInputResult<T> => {
   const [value, setValue] = useState<T>(initialValue);
 
   const onChange = (
@@ -23,7 +21,7 @@ const useInput = <T,>(initialValue: T): UseInputResult<T> => {
     setValue(initialValue);
   };
 
-  return [value, setValue, onChange, reset];
+  return [value, onChange, reset];
 };
 
-export default useInput;
+export default useInputTest;

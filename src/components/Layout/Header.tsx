@@ -9,6 +9,7 @@ import * as boardStore from '../../store/boardStore';
 import * as userStore from '../../store/userStore';
 import * as headerStore from '../../store/headerStore';
 import * as animeRecommendStore from '../../store/animeListStore';
+import * as myPageStore from '../../store/myPageStore';
 import * as authApi from '../../api/auth';
 import type { DropdownContentsType } from '../DropDown/DropDown';
 import DropDown from '../DropDown/DropDown';
@@ -40,6 +41,7 @@ function Header() {
   const setKeyword = useSetAtom(animeRecommendStore.keywordAtom);
   const setAnimeList = useSetAtom(animeRecommendStore.animeListAtom);
   const setOffset = useSetAtom(animeRecommendStore.offsetAtom);
+  const setSelectedComponent = useSetAtom(myPageStore.selectedComponent);
 
   const [isDropdownOnD, setIsDropdownOnD] = useState(false);
   const dropdownOpenerDRef = useRef<HTMLDivElement>(null);
@@ -47,7 +49,7 @@ function Header() {
   const dropdownOpenerBRef = useRef<HTMLDivElement>(null);
   const [mobileSearchCategory, setMobileSearchCategory] =
     useState<mobileSearchCategories>('애니찾기');
-  const [mobileSearchInput, ___, onChangeSearchInput, ____] = useInput('');
+  const [mobileSearchInput, ___, onChangeSearchInput] = useInput('');
   const [sideBarOpened, setSideBarOpened] = useAtom(sidebarStore.sideBarOpened);
   const setDownBarOpened = useSetAtom(sidebarStore.downBarOpened);
   const [menuSearchClicked, setMenuSearchCliked] = useAtom(
@@ -129,6 +131,17 @@ function Header() {
         if (user) {
           navigate(`/myPage/${user.id}`);
           setIsDropdownOnD(false);
+        }
+      },
+    },
+    {
+      content: '쪽 지',
+      img_src: '/images/account.svg',
+      func: () => {
+        if (user) {
+          navigate(`/myPage/${user.id}`);
+          setIsDropdownOnD(false);
+          setSelectedComponent('Note');
         }
       },
     },

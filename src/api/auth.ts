@@ -11,14 +11,17 @@ export type FormData = {
   email: string;
   password: string;
 };
+
 export const logout = async () => {
   await supabase.auth.signOut();
   //window.location.reload();
 };
+
 export const addUser = async (user: userTypeInsert) => {
   const { data } = await supabase.from('users').insert(user).select();
   return data![0];
 };
+
 export const checkUser = async (user_id: string) => {
   const result = await supabase
     .from('users')
@@ -26,6 +29,7 @@ export const checkUser = async (user_id: string) => {
     .eq('id', user_id!);
   return result.data![0].count;
 };
+
 export const nicknameValidate = async (nickname: string) => {
   const result = await supabase
     .from('users')
@@ -33,6 +37,22 @@ export const nicknameValidate = async (nickname: string) => {
     .eq('nickname', `${nickname}`);
   return result.data![0].count > 0 ? false : true;
 };
+
+// 쪽지기능을 위한 닉네임(userid) 검색
+export const findUserIdByNickname = async (
+  nickname: string,
+): Promise<string | 'none' | false> => {
+  const { data, error } = await supabase
+    .from('users')
+    .select('id')
+    .eq('nickname', `${nickname}`);
+  if (error) {
+    console.log(error);
+    return false;
+  }
+  return data.length > 0 ? data![0].id : 'none';
+};
+
 export const emailValidate = async (nickname: string) => {
   const result = await supabase
     .from('users')
@@ -40,6 +60,7 @@ export const emailValidate = async (nickname: string) => {
     .eq('email', nickname);
   return result.data![0].count > 0 ? false : true;
 };
+
 export const loginHandler = async (
   Logindata?: FormData,
   isOAuth?: boolean,

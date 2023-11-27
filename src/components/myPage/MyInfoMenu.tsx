@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { InfoMenu } from './Styled.MyPage/MyPage.styles';
 import { toast } from 'react-toastify';
 import supabase from '../../supabaseClient';
@@ -18,9 +18,11 @@ const MyInfoMenu = () => {
 
   const logoutStore = useSetAtom(userStore.logoutUser);
   const user = useAtomValue(userStore.user);
+
   const [selectedComponent, setSelectedComponent] = useAtom(
     myPageStore.selectedComponent,
   );
+
   const handleLogout = async () => {
     await logout();
     logoutStore();
@@ -45,6 +47,10 @@ const MyInfoMenu = () => {
     };
     openConfirm(deleteUserConfirmData);
   };
+
+  useEffect(() => {
+    return () => setSelectedComponent('EditProfile');
+  }, [setSelectedComponent]);
 
   return (
     <>
@@ -118,6 +124,20 @@ const MyInfoMenu = () => {
             <InfoMenu.ButtonIcon src="/images/edit_note.png" />
           )}
           작성한 글
+        </InfoMenu.Button>
+        {/* 쪽지 */}
+        <InfoMenu.Button
+          onClick={() => setSelectedComponent('Note')}
+          style={{
+            color: selectedComponent === 'Note' ? '#8200FF' : '#999',
+          }}
+        >
+          {selectedComponent === 'Note' ? (
+            <InfoMenu.ButtonIcon src="/images/edit_note (2).png" />
+          ) : (
+            <InfoMenu.ButtonIcon src="/images/edit_note.png" />
+          )}
+          쪽지
         </InfoMenu.Button>
         {/* 로그아웃, 회원탈퇴 */}
         <InfoMenu.InfoButtonContainer>

@@ -53,7 +53,7 @@ const Board = () => {
   };
 
   const { data: postsAndTotalPages, isFetching } = useQuery(postQueryOptions);
-  console.log(postsAndTotalPages);
+  // console.log(postsAndTotalPages);
   const onClickPage = (selected: number | string) => {
     if (page === selected) return;
     if (typeof selected === 'number') {
