@@ -7,6 +7,9 @@ import Loading from '../../Loading/Loading';
 import { noteType } from '../../../types/note';
 import Pagination from '../../Pagenation';
 
+// style
+import { S } from './notelist.Styles';
+
 interface Props {
   st: string;
 }
@@ -46,9 +49,10 @@ const NoteList = ({ st }: Props) => {
   console.log(notesAndTotalPages?.data);
 
   return (
-    <div>
+    <S.Container>
+      {/* <S.Outer> */}
       <div style={{ fontSize: 20, margin: 20 }}>
-        {st === 'recv' ? '받은' : '보낸'}
+        {st === 'recv' ? '받은 쪽지' : '보낸 쪽지'}
       </div>
       {isFetching ? (
         <Loading />
@@ -72,7 +76,8 @@ const NoteList = ({ st }: Props) => {
         isPreviousDisabled={page === 1}
         isNextDisabled={page >= (notesAndTotalPages?.totalPages || 1)}
       />
-    </div>
+      {/* </S.Outer> */}
+    </S.Container>
   );
 };
 
