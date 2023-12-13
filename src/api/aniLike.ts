@@ -73,6 +73,7 @@ export const fetchAnimeMyLiked = async (params: Omit<ReadAnimeLikeG, 'id'>) => {
     return [];
   }
 };
+
 export const getPreferedGenres = async (
   userId: string,
 ): Promise<any | null> => {
@@ -98,6 +99,7 @@ export const getPreferedGenres = async (
   }
   return result as any[];
 };
+
 // 좋아요 클릭
 export const toggleAnimeLike = async (params: {
   insertLike: InsertAnimeLikeG;
@@ -162,14 +164,13 @@ export const toggleAnimeLike = async (params: {
           ...functionParam,
           userid: params.insertLike.user_id,
         };
-        console.log(finalFunctionParam);
-        let { data, error } = await supabase.rpc(
+        // console.log(finalFunctionParam);
+        let { error } = await supabase.rpc(
           'updateusergenres',
           finalFunctionParam,
         );
 
         if (error) console.error(error);
-        else console.log(data);
       }
 
       toast.success(`좋아요 취소🤔`, {
@@ -237,14 +238,13 @@ export const toggleAnimeLike = async (params: {
           ...functionParam,
           userid: params.insertLike.user_id,
         };
-        console.log(finalFunctionParam);
-        let { data, error } = await supabase.rpc(
+        // console.log(finalFunctionParam);
+        let { error } = await supabase.rpc(
           'updateusergenres',
           finalFunctionParam,
         );
 
         if (error) console.error(error);
-        else console.log(data);
       }
 
       return true;

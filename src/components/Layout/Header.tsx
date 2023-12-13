@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
+import supabase from '../../supabaseClient';
 import * as modalStore from '../../store/modalStore';
 import * as sidebarStore from '../../store/sidebarStore';
 import useViewport from '../../hooks/useViewPort';
@@ -56,6 +57,7 @@ function Header() {
     headerStore.searchMobileClicked,
   );
   const [activeMenu, setActiveMenu] = useAtom(headerStore.activeMenu);
+  const [alarmNote, setAlarmNote] = useAtom(headerStore.alarmNote);
 
   const equipedAwardQueryOptions = {
     queryKey: ['equippedAward'],
@@ -159,6 +161,23 @@ function Header() {
       },
     },
   ];
+
+  supabase
+    .channel('insert-note-channel')
+    .on(
+      'postgres_changes',
+      {
+        event: 'INSERT',
+        schema: 'public',
+        table: 'note',
+        filter: `recv_id=eq.${user?.id}`,
+      },
+      () => {
+        console.log('쪽지');
+        setAlarmNote(true);
+      },
+    )
+    .subscribe();
 
   return (
     <>
@@ -278,6 +297,12 @@ function Header() {
             </StSearchMobile>
             {user ? (
               <StHeaderUserInfoContainer>
+                {alarmNote && (
+                  <StAlarmNote
+                    src={'/images/alarmNote.svg'}
+                    alt="새로운 쪽지"
+                  />
+                )}
                 <ProfileWithBorder
                   onClick={() => navigate(`/mypage/${user.id}`)}
                   minWidth={36}
@@ -424,6 +449,10 @@ function Header() {
 
 const headerMenuColor = '#999999';
 const headerMenuColorActivated = '#4f4f4f';
+
+const StAlarmNote = styled.img`
+  width: 45px;
+`;
 
 const StSearchMobile = styled.div`
   transition: 0.1s;

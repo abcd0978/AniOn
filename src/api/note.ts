@@ -2,6 +2,7 @@ import supabase from '../supabaseClient';
 import { findUserIdByNickname } from './auth';
 import { fetchNoteType, noteType } from '../types/note';
 
+// fetch한 쪽지 중 read_at이 비어있으면 alarmNote true로 변경하는 로직 짜기
 export const fetchNotes = async (params: fetchNoteType) => {
   try {
     const startIndex = (params.page - 1) * params.itemsPerPage;
@@ -44,7 +45,7 @@ export const fetchNotes = async (params: fetchNoteType) => {
 export const createNote = async (params: Omit<noteType, 'recv_id'>) => {
   try {
     const recv_id = await findUserIdByNickname(params.nickname!);
-    // console.log(recv_id);
+
     if (recv_id === 'none' || !recv_id) {
       return 'none';
     }
@@ -62,6 +63,21 @@ export const createNote = async (params: Omit<noteType, 'recv_id'>) => {
     throw error;
   }
 };
+
+// export const checkRecvNote = async (params:any) => {
+//   try{
+//     let query = supabase
+//     .from('note')
+//     .select('*', {
+//       count: 'exact',
+//     })
+//     .eq('recv_id', params.user_id)
+//     .eq('read_at',null)
+
+//   } catch (error) {
+//     throw error;
+//   }
+// }
 
 // const deleteNote = async (params: any) => {
 //   try {

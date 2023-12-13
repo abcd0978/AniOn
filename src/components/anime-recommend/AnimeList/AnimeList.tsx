@@ -30,7 +30,12 @@ import type { AnimeG, laftelParamsM } from '../../../types/anime';
 import { AniCommentType } from '../../../types/comment';
 
 const AnimeList = () => {
+  console.log('AnimeList 컴포넌트가 리렌더링 되었습니다.');
   // 상세페이지로 이동했을때만 offset, genres 등등 저장해서 뒤로가기시 데이터 그대로 보여주는 방법 찾아보기
+  // > 클릭하면 전역으로 저장?
+  // > 전역으로 offset과 genres등을 저장 (ex / preoffset?)
+  // > preoffset이 있으면 preoffset으로 검색, 없으면 offset을 0으로 검색?
+  // > 뒤로가기 감지 필요
   const queryClient = useQueryClient();
   const { isMobile } = useViewport();
 
@@ -119,8 +124,16 @@ const AnimeList = () => {
     },
   });
 
+  // likesData는 전체 like를 받아오기 때문에
+  // 좋아요를 추가하거나 삭제하지 않는 이상
+  // 항상 같은 값을 반환할것.
+  // > 따라서 좋아요 눌렀을때만 반응,
+  // 블로그 및 이력서 좋아요 눌렀을 때로 수정하기
+
+  // 이너조인 가능하니까 애초에 좋아요 같이 불러오는 방식 찾아보기
+
   const likesCount = useMemo(() => {
-    console.log('실행됨메모');
+    console.log('라이크 발동');
     return (animeId: string) => {
       return likesData
         ? likesData.filter((like: ReadAnimeLikeG) => like.anime_id === animeId)
