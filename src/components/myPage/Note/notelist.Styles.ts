@@ -10,8 +10,18 @@ export const S = {
     margin-bottom: 100px;
   `,
 
-  //   Outer: styled.div`
-  //     background-color: #f3e7ff;
-  //     border-radius: 20px;
-  //   `,
+  noteBox: styled.div`
+    border: 1px solid gray;
+    display: flex;
+    flex-direction: row;
+  `,
+  nickname: styled.div`
+    width: 15%;
+  `,
+  title: styled.div`
+    width: 72%;
+  `,
+  date: styled.div`
+    width: 13%;
+  `,
 };

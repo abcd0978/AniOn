@@ -17,6 +17,7 @@ interface Props {
 const NoteList = ({ st }: Props) => {
   const user = useAtomValue(userStore.user);
   const [page, setPage] = useState<number>(1);
+  const [expandedNoteId, setExpandedNoteId] = useState<string | null>(null); //note
 
   const noteQueryOptions = {
     queryKey: ['notes', st, page],
@@ -34,38 +35,68 @@ const NoteList = ({ st }: Props) => {
     if (page === selected) return;
     if (typeof selected === 'number') {
       setPage(selected);
+      setExpandedNoteId(null);
       return;
     }
     if (selected === 'prev' && page > 1) {
       setPage((prev: number) => prev - 1);
+      setExpandedNoteId(null);
       return;
     }
     if (selected === 'next' && notesAndTotalPages?.totalPages) {
       setPage((prev: number) => prev + 1);
+      setExpandedNoteId(null);
       return;
     }
+  };
+
+  // 날짜 변환 함수
+  function formatDate(dateString: string) {
+    const originalDate = new Date(dateString);
+    const year = originalDate.getFullYear();
+    const month = ('0' + (originalDate.getMonth() + 1)).slice(-2);
+    const day = ('0' + originalDate.getDate()).slice(-2);
+    return `${year}-${month}-${day}`;
+  }
+
+  const handleNoteClick = (noteId: string) => {
+    setExpandedNoteId((prev) => (prev === noteId ? null : noteId));
   };
 
   console.log(notesAndTotalPages?.data);
 
   return (
     <S.Container>
-      {/* <S.Outer> */}
       <div style={{ fontSize: 20, margin: 20 }}>
         {st === 'recv' ? '받은 쪽지' : '보낸 쪽지'}
       </div>
       {isFetching ? (
         <Loading />
       ) : notesAndTotalPages?.data.length !== 0 ? (
-        notesAndTotalPages?.data?.map((note: any, index: number) => (
-          <div key={note.id}>
-            <div>제목 : {note.title}</div>
-            <div>내용 : {note.content}</div>
-            {/* send : 누구에게 보냈는지, recv : 누가 보냈는지.  */}
-            <div>닉네임 : {note.users.nickname}</div>
-            <hr />
-          </div>
-        ))
+        <>
+          {/* 노트 헤더 */}
+          <S.noteBox>
+            <div>닉네임</div>
+            <S.title>제목</S.title>
+            <S.date>날짜</S.date>
+          </S.noteBox>
+
+          {/* 각 노트 데이터 */}
+          {notesAndTotalPages?.data?.map((note: any, index: number) => (
+            <div key={note.id}>
+              <S.noteBox onClick={() => handleNoteClick(note.id)}>
+                <div>{note.users.nickname}</div>
+                <S.title>{note.title}</S.title>
+                <S.date>{formatDate(note.sent_at)}</S.date>
+              </S.noteBox>
+              {expandedNoteId === note.id && (
+                <div>
+                  <p>내용: {note.content}</p>
+                </div>
+              )}
+            </div>
+          ))}
+        </>
       ) : (
         <div>결과 없음</div>
       )}
@@ -76,7 +107,6 @@ const NoteList = ({ st }: Props) => {
         isPreviousDisabled={page === 1}
         isNextDisabled={page >= (notesAndTotalPages?.totalPages || 1)}
       />
-      {/* </S.Outer> */}
     </S.Container>
   );
 };

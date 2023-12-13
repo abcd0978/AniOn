@@ -21,13 +21,14 @@ export const S = {
     width: 10%;
     height: 4%;
     border-radius: 20px;
-    background-color: #8200ff;
+    background-color: #a86bff;
     border: 1px solid black;
     cursor: pointer;
     border-bottom: 2px solid black;
     margin-right: 3px;
     &:hover {
       background-color: #a86bff;
+      background-color: #8200ff;
     }
   `,
   SendButton: styled.button`
