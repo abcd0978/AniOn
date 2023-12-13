@@ -133,9 +133,9 @@ const MyInfoMenu = () => {
           }}
         >
           {selectedComponent === 'Note' ? (
-            <InfoMenu.ButtonIcon src="/images/edit_note (2).png" />
+            <InfoMenu.ButtonIcon src="/images/note(2).svg" />
           ) : (
-            <InfoMenu.ButtonIcon src="/images/edit_note.png" />
+            <InfoMenu.ButtonIcon src="/images/note.svg" />
           )}
           쪽지
         </InfoMenu.Button>
