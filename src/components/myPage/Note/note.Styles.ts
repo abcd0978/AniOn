@@ -9,38 +9,41 @@ export const S = {
     height: 4%;
     border-radius: 20px;
     background-color: #f3e7ff;
-    border: 1px solid black;
+    border: none;
     cursor: pointer;
-    border-bottom: 2px solid black;
+
     margin-right: 3px;
     &:hover {
-      background-color: #e0d3ff;
+      background-color: #8200ff;
+      color: white;
     }
   `,
   SentButton: styled.button`
     width: 10%;
     height: 4%;
     border-radius: 20px;
-    background-color: #a86bff;
-    border: 1px solid black;
+    background-color: #f3e7ff;
+    border: none;
     cursor: pointer;
-    border-bottom: 2px solid black;
+
     margin-right: 3px;
     &:hover {
-      background-color: #a86bff;
       background-color: #8200ff;
+      color: white;
     }
   `,
   SendButton: styled.button`
     width: 10%;
     height: 4%;
     border-radius: 20px;
-    background-color: rgb(255, 150, 219);
-    border: 1px solid black;
+    background-color: rgb(255, 235, 247);
+    border: none;
     cursor: pointer;
-    border-bottom: 2px solid black;
+
     &:hover {
         background-color: rgb(255, 180, 239);
+        color: white;
+       
     
   `,
 };

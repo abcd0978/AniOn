@@ -75,24 +75,34 @@ const NoteList = ({ st }: Props) => {
       ) : notesAndTotalPages?.data.length !== 0 ? (
         <>
           {/* 노트 헤더 */}
-          <S.noteBox>
-            <div>닉네임</div>
+          <S.noteTopBox>
+            <S.nickname>닉네임</S.nickname>
             <S.title>제목</S.title>
             <S.date>날짜</S.date>
-          </S.noteBox>
+          </S.noteTopBox>
 
           {/* 각 노트 데이터 */}
           {notesAndTotalPages?.data?.map((note: any, index: number) => (
             <div key={note.id}>
               <S.noteBox onClick={() => handleNoteClick(note.id)}>
-                <div>{note.users.nickname}</div>
-                <S.title>{note.title}</S.title>
+                <S.nickname>{note.users.nickname}</S.nickname>
+                <S.title>
+                  {/* 글 제목 35자 넘어가면 ...으로 */}
+                  {note.title.length > 35
+                    ? `${note.title.slice(0, 35)}...`
+                    : note.title}
+                </S.title>
                 <S.date>{formatDate(note.sent_at)}</S.date>
               </S.noteBox>
               {expandedNoteId === note.id && (
-                <div>
-                  <p>내용: {note.content}</p>
-                </div>
+                // 내용 300자 제한
+                <S.Content expanded={expandedNoteId === note.id}>
+                  {index === 0} <br />
+                  <S.ContentInner>
+                    {note.content.slice(0, 300)}
+                    {note.content.length > 300 && '...'}
+                  </S.ContentInner>
+                </S.Content>
               )}
             </div>
           ))}
