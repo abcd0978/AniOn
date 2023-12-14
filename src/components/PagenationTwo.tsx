@@ -42,6 +42,7 @@ const Button = styled.button`
 `;
 const Current = styled.div`
   color: #191919;
+  font-weight: bold;
   @media (max-width: 768px) {
     font-size: 15px;
   }
