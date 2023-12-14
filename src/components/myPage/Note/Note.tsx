@@ -9,6 +9,16 @@ const Note = () => {
 
   return (
     <S.Container>
+      <div
+        style={{
+          fontSize: 24,
+          margin: 3,
+          marginBottom: 10,
+          fontWeight: 'bold',
+        }}
+      >
+        {st === 'recv' ? '받은 쪽지' : '보낸 쪽지'}
+      </div>
       <S.RecvButton
         onClick={() => setSt('recv')}
         style={{

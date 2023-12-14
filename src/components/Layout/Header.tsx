@@ -136,7 +136,7 @@ function Header() {
     },
     {
       content: '쪽 지',
-      img_src: '/images/account.svg',
+      img_src: '/images/header_note.svg',
       func: () => {
         if (user) {
           navigate(`/myPage/${user.id}`);

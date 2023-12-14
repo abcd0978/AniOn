@@ -66,10 +66,8 @@ const NoteList = ({ st }: Props) => {
   console.log(notesAndTotalPages?.data);
 
   return (
-    <S.Container>
-      <div style={{ fontSize: 20, margin: 20 }}>
-        {st === 'recv' ? '받은 쪽지' : '보낸 쪽지'}
-      </div>
+    // <S.Container>
+    <div>
       {isFetching ? (
         <Loading />
       ) : notesAndTotalPages?.data.length !== 0 ? (
@@ -110,14 +108,17 @@ const NoteList = ({ st }: Props) => {
       ) : (
         <div>결과 없음</div>
       )}
-      <Pagination
-        currentPage={page}
-        totalPages={notesAndTotalPages?.totalPages || 1}
-        onClick={onClickPage}
-        isPreviousDisabled={page === 1}
-        isNextDisabled={page >= (notesAndTotalPages?.totalPages || 1)}
-      />
-    </S.Container>
+      <S.Page>
+        <Pagination
+          currentPage={page}
+          totalPages={notesAndTotalPages?.totalPages || 1}
+          onClick={onClickPage}
+          isPreviousDisabled={page === 1}
+          isNextDisabled={page >= (notesAndTotalPages?.totalPages || 1)}
+        />
+      </S.Page>
+      {/* </S.Container> */}
+    </div>
   );
 };
 
