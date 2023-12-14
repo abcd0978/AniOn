@@ -1,32 +1,36 @@
 import React, { useState } from 'react';
-import { fetchNotes } from '../../../api/note';
-import { useQuery } from '@tanstack/react-query';
-import * as userStore from '../../../store/userStore';
 import { useAtomValue } from 'jotai';
-import Loading from '../../Loading/Loading';
-import { noteType } from '../../../types/note';
-import Pagination from '../../Pagenation';
+import { useQuery } from '@tanstack/react-query';
 
-// style
-import { S } from './notelist.Styles';
+import { fetchNotes } from '../../../api/note';
+
+import * as userStore from '../../../store/userStore';
+
+import Pagination from '../../Pagenation';
+import Loading from '../../Loading/Loading';
 
 interface Props {
-  st: string;
+  selectedNoteType: string;
 }
 
-const NoteList = ({ st }: Props) => {
+const NoteList = ({ selectedNoteType }: Props) => {
   const user = useAtomValue(userStore.user);
   const [page, setPage] = useState<number>(1);
   const [expandedNoteId, setExpandedNoteId] = useState<string | null>(null); //note
 
   const noteQueryOptions = {
-    queryKey: ['notes', st, page],
+    queryKey: ['notes', selectedNoteType, page],
     queryFn: () =>
-      fetchNotes({ user_id: user!.id, type: st, page, itemsPerPage: 10 }),
+      fetchNotes({
+        user_id: user!.id,
+        type: selectedNoteType,
+        page,
+        itemsPerPage: 10,
+      }),
     refetchOnWindowFocus: false,
-    staleTime: 60 * 1000,
-    cacheTime: 60 * 6000,
-    enabled: !!user && st !== 'send',
+    staleTime: 1 * 60 * 1000,
+    cacheTime: 60 * 60 * 1000,
+    enabled: !!user && selectedNoteType !== 'send',
   };
 
   const { data: notesAndTotalPages, isFetching } = useQuery(noteQueryOptions);
@@ -50,6 +54,7 @@ const NoteList = ({ st }: Props) => {
     }
   };
 
+
   // 날짜 변환 함수
   function formatDate(dateString: string) {
     const originalDate = new Date(dateString);
@@ -66,7 +71,6 @@ const NoteList = ({ st }: Props) => {
   console.log(notesAndTotalPages?.data);
 
   return (
-    // <S.Container>
     <div>
       {isFetching ? (
         <Loading />
@@ -78,7 +82,6 @@ const NoteList = ({ st }: Props) => {
             <S.title>제목</S.title>
             <S.date>날짜</S.date>
           </S.noteTopBox>
-
           {/* 각 노트 데이터 */}
           {notesAndTotalPages?.data?.map((note: any, index: number) => (
             <div key={note.id}>
@@ -117,7 +120,6 @@ const NoteList = ({ st }: Props) => {
           isNextDisabled={page >= (notesAndTotalPages?.totalPages || 1)}
         />
       </S.Page>
-      {/* </S.Container> */}
     </div>
   );
 };

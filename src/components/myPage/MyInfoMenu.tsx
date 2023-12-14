@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { InfoMenu } from './Styled.MyPage/MyPage.styles';
 import { toast } from 'react-toastify';
 import supabase from '../../supabaseClient';
@@ -47,10 +47,6 @@ const MyInfoMenu = () => {
     };
     openConfirm(deleteUserConfirmData);
   };
-
-  useEffect(() => {
-    return () => setSelectedComponent('EditProfile');
-  }, [setSelectedComponent]);
 
   return (
     <>

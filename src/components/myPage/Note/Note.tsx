@@ -1,11 +1,24 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import SendNote from './SendNote';
 import NoteList from './NoteList';
+
+import * as myPageStore from '../../../store/myPageStore';
+import * as headerStore from '../../../store/headerStore';
+
 // style
 import { S } from './note.Styles';
+import { useSetAtom } from 'jotai';
 
 const Note = () => {
-  const [st, setSt] = useState('recv');
+  const [selectedNoteType, setSelectedNoteType] = useState('recv');
+
+  const setSelectedComponent = useSetAtom(myPageStore.selectedComponent);
+  const setAlarmNote = useSetAtom(headerStore.alarmNote);
+
+  // useEffect(() => {
+  //   setAlarmNote(false);
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
 
   return (
     <S.Container>

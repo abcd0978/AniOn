@@ -1,9 +1,9 @@
 import React, { useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import DropDownContents from './DropDownContents';
-import * as dropDownStore from '../../store/dropDownStore';
+// import * as dropDownStore from '../../store/dropDownStore';
 import useViewport from '../../hooks/useViewPort';
-import { useSetAtom } from 'jotai';
+
 export type DropdownContentsType = {
   content: string;
   img_src?: string;

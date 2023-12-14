@@ -122,6 +122,7 @@ const StProfileContainer = styled.div<{
     }
   }}
   position: relative;
+  cursor: pointer;
 `;
 const StPreview = styled.div<{ background: string | null }>`
   z-index: 3;

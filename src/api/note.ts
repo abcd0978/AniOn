@@ -1,8 +1,8 @@
-import { toast } from 'react-toastify';
 import supabase from '../supabaseClient';
 import { findUserIdByNickname } from './auth';
 import { fetchNoteType, noteType } from '../types/note';
 
+// fetch한 쪽지 중 read_at이 비어있으면 alarmNote true로 변경하는 로직 짜기
 export const fetchNotes = async (params: fetchNoteType) => {
   try {
     const startIndex = (params.page - 1) * params.itemsPerPage;
@@ -35,7 +35,6 @@ export const fetchNotes = async (params: fetchNoteType) => {
 
     const totalPages = Math.ceil(count! / params.itemsPerPage);
 
-    console.log(data);
     return { data, totalPages, count };
   } catch (error) {
     throw error;
@@ -45,17 +44,20 @@ export const fetchNotes = async (params: fetchNoteType) => {
 export const createNote = async (params: Omit<noteType, 'recv_id'>) => {
   try {
     const recv_id = await findUserIdByNickname(params.nickname!);
-    // console.log(recv_id);
+
     if (recv_id === 'none' || !recv_id) {
       return 'none';
     }
+
     const newNote: noteType = {
       send_id: params.send_id,
       recv_id,
       title: params.title,
       content: params.content,
     };
+
     const { error } = await supabase.from('note').insert(newNote);
+
     if (error) {
       alert('에러 발생. 에러 코드를 오류 신고 게시판에 남겨주세요.\n' + error);
     }
@@ -64,7 +66,56 @@ export const createNote = async (params: Omit<noteType, 'recv_id'>) => {
   }
 };
 
-const deleteNote = async (params: any) => {
+// count만 줌.
+export const checkRecvNote = async (user_id: string) => {
   try {
-  } catch (error) {}
+    const { count, error } = await supabase
+      .from('note')
+      .select('*', {
+        count: 'exact',
+      })
+      .eq('recv_id', user_id)
+      .is('read_at', null);
+
+    if (error) {
+      alert('에러 발생. 에러 코드를 오류 신고 게시판에 남겨주세요.\n' + error);
+    }
+
+    return count;
+  } catch (error) {
+    throw error;
+  }
+};
+
+// 읽음 표시
+export const readRecvNote = async (params: any): Promise<void> => {
+  try {
+    const currentTimestamp = new Date();
+
+    const updateReadAt = { read_at: currentTimestamp };
+
+    const { error } = await supabase
+      .from('note')
+      .update(updateReadAt)
+      .eq('id', params.id);
+
+    if (error) {
+      alert('에러 발생. 에러 코드를 오류 신고 게시판에 남겨주세요.\n' + error);
+    }
+  } catch (error) {
+    throw error;
+  }
+};
+
+// 삭제
+export const deleteNote = async (id: string): Promise<void> => {
+  try {
+    const { error } = await supabase.from('note').delete().eq('id', id);
+
+    if (error) {
+      alert('에러 발생. 에러 코드를 오류 신고 게시판에 남겨주세요.\n' + error);
+    }
+  } catch (error) {
+    throw error;
+  }
 };
