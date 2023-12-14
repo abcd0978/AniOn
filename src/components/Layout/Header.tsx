@@ -26,6 +26,7 @@ import { useNavigate } from 'react-router-dom';
 import { fetchEquippedItem } from '../../api/items';
 import { useQuery } from '@tanstack/react-query';
 import useInput from '../../hooks/useInput';
+import { checkRecvNote } from '../../api/note';
 
 type mobileSearchCategories = '게시글' | '애니찾기';
 function Header() {
@@ -63,12 +64,24 @@ function Header() {
     queryKey: ['equippedAward'],
     queryFn: () => fetchEquippedItem({ user_id: user!.id, category: 1 }),
     refetchOnWindowFocus: false,
-    staleTime: 60 * 1000,
-    cacheTime: 60 * 6000,
+    staleTime: 1 * 60 * 1000,
+    cacheTime: 60 * 60 * 1000,
     enabled: !!user,
   };
 
+  const recvNoteQueryOptions = {
+    queryKey: ['recvNote'],
+    queryFn: () => checkRecvNote(user!.id),
+    refetchOnWindowFocus: false,
+    enabled: !!user,
+    onSuccess: () => {
+      setAlarmNote(true);
+    },
+  };
+
   const { data: award } = useQuery(equipedAwardQueryOptions);
+
+  useQuery(recvNoteQueryOptions);
 
   const modalContentsFunc = (name: string) => {
     switch (name) {
@@ -299,6 +312,10 @@ function Header() {
               <StHeaderUserInfoContainer>
                 {alarmNote && (
                   <StAlarmNote
+                    onClick={() => {
+                      navigate(`/myPage/${user.id}`);
+                      setSelectedComponent('Note');
+                    }}
                     src={'/images/alarmNote.svg'}
                     alt="새로운 쪽지"
                   />
@@ -451,12 +468,14 @@ const headerMenuColor = '#999999';
 const headerMenuColorActivated = '#4f4f4f';
 
 const StAlarmNote = styled.img`
-  width: 45px;
+  width: 33px;
+  cursor: pointer;
 `;
 
 const StSearchMobile = styled.div`
   transition: 0.1s;
   display: none;
+  cursor: pointer;
   @media (max-width: 1024px) {
     display: inline-block;
     &.search {

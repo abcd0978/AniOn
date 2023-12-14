@@ -35,7 +35,6 @@ export const fetchNotes = async (params: fetchNoteType) => {
 
     const totalPages = Math.ceil(count! / params.itemsPerPage);
 
-    console.log(data);
     return { data, totalPages, count };
   } catch (error) {
     throw error;
@@ -49,13 +48,16 @@ export const createNote = async (params: Omit<noteType, 'recv_id'>) => {
     if (recv_id === 'none' || !recv_id) {
       return 'none';
     }
+
     const newNote: noteType = {
       send_id: params.send_id,
       recv_id,
       title: params.title,
       content: params.content,
     };
+
     const { error } = await supabase.from('note').insert(newNote);
+
     if (error) {
       alert('에러 발생. 에러 코드를 오류 신고 게시판에 남겨주세요.\n' + error);
     }
@@ -64,22 +66,56 @@ export const createNote = async (params: Omit<noteType, 'recv_id'>) => {
   }
 };
 
-// export const checkRecvNote = async (params:any) => {
-//   try{
-//     let query = supabase
-//     .from('note')
-//     .select('*', {
-//       count: 'exact',
-//     })
-//     .eq('recv_id', params.user_id)
-//     .eq('read_at',null)
+// count만 줌.
+export const checkRecvNote = async (user_id: string) => {
+  try {
+    const { count, error } = await supabase
+      .from('note')
+      .select('*', {
+        count: 'exact',
+      })
+      .eq('recv_id', user_id)
+      .is('read_at', null);
 
-//   } catch (error) {
-//     throw error;
-//   }
-// }
+    if (error) {
+      alert('에러 발생. 에러 코드를 오류 신고 게시판에 남겨주세요.\n' + error);
+    }
 
-// const deleteNote = async (params: any) => {
-//   try {
-//   } catch (error) {}
-// };
+    return count;
+  } catch (error) {
+    throw error;
+  }
+};
+
+// 읽음 표시
+export const readRecvNote = async (params: any): Promise<void> => {
+  try {
+    const currentTimestamp = new Date();
+
+    const updateReadAt = { read_at: currentTimestamp };
+
+    const { error } = await supabase
+      .from('note')
+      .update(updateReadAt)
+      .eq('id', params.id);
+
+    if (error) {
+      alert('에러 발생. 에러 코드를 오류 신고 게시판에 남겨주세요.\n' + error);
+    }
+  } catch (error) {
+    throw error;
+  }
+};
+
+// 삭제
+export const deleteNote = async (id: string): Promise<void> => {
+  try {
+    const { error } = await supabase.from('note').delete().eq('id', id);
+
+    if (error) {
+      alert('에러 발생. 에러 코드를 오류 신고 게시판에 남겨주세요.\n' + error);
+    }
+  } catch (error) {
+    throw error;
+  }
+};

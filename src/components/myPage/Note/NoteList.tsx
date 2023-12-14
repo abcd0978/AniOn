@@ -9,8 +9,6 @@ import * as userStore from '../../../store/userStore';
 import Pagination from '../../Pagenation';
 import Loading from '../../Loading/Loading';
 
-// import { noteType } from '../../../types/note';
-
 interface Props {
   selectedNoteType: string;
 }
@@ -29,8 +27,8 @@ const NoteList = ({ selectedNoteType }: Props) => {
         itemsPerPage: 10,
       }),
     refetchOnWindowFocus: false,
-    staleTime: 60 * 1000,
-    cacheTime: 60 * 6000,
+    staleTime: 1 * 60 * 1000,
+    cacheTime: 60 * 60 * 1000,
     enabled: !!user && selectedNoteType !== 'send',
   };
 
@@ -51,8 +49,6 @@ const NoteList = ({ selectedNoteType }: Props) => {
       return;
     }
   };
-
-  // console.log(notesAndTotalPages?.data);
 
   return (
     <div>
