@@ -166,7 +166,7 @@ const EditProfile = () => {
           <InfoMenu.BackButton onClick={() => setSelectedComponent(null)}>
             ←
           </InfoMenu.BackButton>
-          <E.Title>프로필 수정</E.Title>
+          <E.Title></E.Title>
         </div>
         <E.Container>
           <Divider />
