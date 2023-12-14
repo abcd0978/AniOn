@@ -13,10 +13,10 @@ import useInputTest from '../../../hooks/useInputTest';
 // import { insertNoteType } from '../../../types/note';
 
 interface Props {
-  setSt: React.Dispatch<SetStateAction<string>>;
+  setSelectedNoteType: React.Dispatch<SetStateAction<string>>;
 }
 
-const SendNote = ({ setSt }: Props) => {
+const SendNote = ({ setSelectedNoteType }: Props) => {
   const user = useAtomValue(userStore.user);
 
   const [title, onChangeTitle] = useInputTest('');
@@ -71,7 +71,7 @@ const SendNote = ({ setSt }: Props) => {
         toast.warning('메세지를 보냈습니다!💖', {
           autoClose: 800,
         });
-        setSt('sent');
+        setSelectedNoteType('sent');
       },
     });
   };

@@ -1,31 +1,35 @@
 import React, { useState } from 'react';
-import { fetchNotes } from '../../../api/note';
-import { useQuery } from '@tanstack/react-query';
-import * as userStore from '../../../store/userStore';
 import { useAtomValue } from 'jotai';
-import Loading from '../../Loading/Loading';
-import { noteType } from '../../../types/note';
-import Pagination from '../../Pagenation';
+import { useQuery } from '@tanstack/react-query';
 
-// style
-import { S } from './notelist.Styles';
+import { fetchNotes } from '../../../api/note';
+
+import * as userStore from '../../../store/userStore';
+
+import Pagination from '../../Pagenation';
+import Loading from '../../Loading/Loading';
 
 interface Props {
-  st: string;
+  selectedNoteType: string;
 }
 
-const NoteList = ({ st }: Props) => {
+const NoteList = ({ selectedNoteType }: Props) => {
   const user = useAtomValue(userStore.user);
   const [page, setPage] = useState<number>(1);
 
   const noteQueryOptions = {
-    queryKey: ['notes', st, page],
+    queryKey: ['notes', selectedNoteType, page],
     queryFn: () =>
-      fetchNotes({ user_id: user!.id, type: st, page, itemsPerPage: 10 }),
+      fetchNotes({
+        user_id: user!.id,
+        type: selectedNoteType,
+        page,
+        itemsPerPage: 10,
+      }),
     refetchOnWindowFocus: false,
-    staleTime: 60 * 1000,
-    cacheTime: 60 * 6000,
-    enabled: !!user && st !== 'send',
+    staleTime: 1 * 60 * 1000,
+    cacheTime: 60 * 60 * 1000,
+    enabled: !!user && selectedNoteType !== 'send',
   };
 
   const { data: notesAndTotalPages, isFetching } = useQuery(noteQueryOptions);
@@ -46,14 +50,11 @@ const NoteList = ({ st }: Props) => {
     }
   };
 
-  console.log(notesAndTotalPages?.data);
-
   return (
-    <S.Container>
-      {/* <S.Outer> */}
-      <div style={{ fontSize: 20, margin: 20 }}>
-        {st === 'recv' ? '받은 쪽지' : '보낸 쪽지'}
-      </div>
+    <div>
+      <p style={{ fontSize: 20, margin: 20 }}>
+        {selectedNoteType === 'recv' ? '받은' : '보낸'}
+      </p>
       {isFetching ? (
         <Loading />
       ) : notesAndTotalPages?.data.length !== 0 ? (
@@ -76,8 +77,7 @@ const NoteList = ({ st }: Props) => {
         isPreviousDisabled={page === 1}
         isNextDisabled={page >= (notesAndTotalPages?.totalPages || 1)}
       />
-      {/* </S.Outer> */}
-    </S.Container>
+    </div>
   );
 };
 
