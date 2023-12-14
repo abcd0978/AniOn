@@ -22,6 +22,8 @@ const Note = () => {
 
   return (
     <S.Container>
+      {/* //모바일 뒤로가기 */}
+      {/* <div onClick={() => setSelectedComponent(null)}>←</div> */}
       <div
         style={{
           fontSize: 24,
@@ -30,37 +32,43 @@ const Note = () => {
           fontWeight: 'bold',
         }}
       >
-        {st === 'recv' ? '받은 쪽지' : '보낸 쪽지'}
+        {selectedNoteType === 'recv' ? '받은 쪽지' : '보낸 쪽지'}
       </div>
       <S.RecvButton
-        onClick={() => setSt('recv')}
+        onClick={() => setSelectedNoteType('recv')}
         style={{
-          backgroundColor: st === 'recv' ? '#8200ff' : '#f3e7ff',
-          color: st === 'recv' ? '#ffffff' : 'black',
+          backgroundColor: selectedNoteType === 'recv' ? '#8200ff' : '#f3e7ff',
+          color: selectedNoteType === 'recv' ? '#ffffff' : 'black',
         }}
       >
         받은 메세지
       </S.RecvButton>
       <S.SentButton
-        onClick={() => setSt('sent')}
+        onClick={() => setSelectedNoteType('sent')}
         style={{
-          backgroundColor: st === 'sent' ? '#8200ff' : '#f3e7ff',
-          color: st === 'sent' ? '#ffffff' : 'black',
+          backgroundColor: selectedNoteType === 'sent' ? '#8200ff' : '#f3e7ff',
+          color: selectedNoteType === 'sent' ? '#ffffff' : 'black',
         }}
       >
         보낸 메세지
       </S.SentButton>
       <S.SendButton
-        onClick={() => setSt('send')}
+        onClick={() => setSelectedNoteType('send')}
         style={{
           backgroundColor:
-            st === 'send' ? ' rgb(255, 180, 239)' : 'rgb(255, 235, 247)',
-          color: st === 'send' ? '#ffffff' : 'initial',
+            selectedNoteType === 'send'
+              ? ' rgb(255, 180, 239)'
+              : 'rgb(255, 235, 247)',
+          color: selectedNoteType === 'send' ? '#ffffff' : 'initial',
         }}
       >
         보내기
       </S.SendButton>
-      {st === 'send' ? <SendNote setSt={setSt} /> : <NoteList st={st} />}
+      {selectedNoteType === 'send' ? (
+        <SendNote setSelectedNoteType={setSelectedNoteType} />
+      ) : (
+        <NoteList selectedNoteType={selectedNoteType} />
+      )}
     </S.Container>
   );
 };

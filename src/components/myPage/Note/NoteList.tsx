@@ -5,7 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import { fetchNotes } from '../../../api/note';
 
 import * as userStore from '../../../store/userStore';
-
+import { S } from './notelist.Styles';
 import Pagination from '../../Pagenation';
 import Loading from '../../Loading/Loading';
 
@@ -53,7 +53,6 @@ const NoteList = ({ selectedNoteType }: Props) => {
       return;
     }
   };
-
 
   // 날짜 변환 함수
   function formatDate(dateString: string) {
