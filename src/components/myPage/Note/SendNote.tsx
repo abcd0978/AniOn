@@ -1,4 +1,4 @@
-import React, { SetStateAction } from 'react';
+import React, { SetStateAction, useState } from 'react';
 import { useAtomValue } from 'jotai';
 import { toast } from 'react-toastify';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -9,9 +9,6 @@ import { S } from './sendnote.Styles';
 import * as userStore from '../../../store/userStore';
 import { createNote } from '../../../api/note';
 
-import useInputTest from '../../../hooks/useInputTest';
-// import { insertNoteType } from '../../../types/note';
-
 interface Props {
   setSelectedNoteType: React.Dispatch<SetStateAction<string>>;
 }
@@ -19,36 +16,31 @@ interface Props {
 const SendNote = ({ setSelectedNoteType }: Props) => {
   const user = useAtomValue(userStore.user);
 
-  const [title, onChangeTitle] = useInputTest('');
-  const [nickname, onChangeNickname] = useInputTest('');
-  const [content, onChangeContent] = useInputTest('');
+  const [title, setTitle] = useState<string>('');
+  const [nickname, setNickname] = useState<string>('');
+  const [content, setContent] = useState<string>('');
 
-  // 나중에 목록 받아올 때 초기화를 위해
   const queryClient = useQueryClient();
   const createMutation = useMutation(createNote);
 
+  const validateAndToast = (value: string, label: string) => {
+    if (!value) {
+      toast.warning(`${label}을(를) 입력해주세요!`, { autoClose: 600 });
+      return false;
+    }
+    return true;
+  };
+
   const onSubmitHandler = (e: React.FormEvent<HTMLFormElement>) => {
-    if (!user) return;
     e.preventDefault();
-    // toast 출력을 입력받지 않은 값을 검사해서 한줄로 줄일 수 없을까?
-    if (!title) {
-      toast.warning('제목을 입력해주세요!', {
-        autoClose: 800,
-      });
-      return;
-    }
 
-    if (!nickname) {
-      toast.warning('받는분의 닉네임을 입력해주세요!', {
-        autoClose: 800,
-      });
-      return;
-    }
+    if (!user) return;
 
-    if (!content) {
-      toast.warning('내용을 입력해주세요!', {
-        autoClose: 800,
-      });
+    if (
+      !validateAndToast(title, '제목') ||
+      !validateAndToast(nickname, '닉네임') ||
+      !validateAndToast(content, '내용')
+    ) {
       return;
     }
 
@@ -63,14 +55,10 @@ const SendNote = ({ setSelectedNoteType }: Props) => {
       onSuccess: (data) => {
         queryClient.invalidateQueries(['notes']);
         if (data === 'none') {
-          toast.warning('받는분의 닉네임을 확인해주세요!', {
-            autoClose: 800,
-          });
+          toast.warning('받는분의 닉네임을 확인해주세요!', { autoClose: 600 });
           return;
         }
-        toast.warning('메세지를 보냈습니다!💖', {
-          autoClose: 800,
-        });
+        toast.warning('쪽지를 보냈습니다!💖', { autoClose: 600 });
         setSelectedNoteType('sent');
       },
     });
@@ -81,21 +69,56 @@ const SendNote = ({ setSelectedNoteType }: Props) => {
       <br />
       <br />
       <form onSubmit={onSubmitHandler}>
-        <label>제목</label>
-        <input type="text" onChange={onChangeTitle} />
-        <br />
-        <br />
-        <label>닉네임</label>
-        <input type="text" onChange={onChangeNickname} />
-        <br />
-        <br />
-        <label>내용</label>
-        <textarea onChange={onChangeContent} />
-        <br />
-        <br />
+        <InputField
+          label="제목"
+          value={title}
+          onChange={setTitle}
+          maxLength={20}
+        />
+        <InputField
+          label="닉네임"
+          value={nickname}
+          onChange={setNickname}
+          maxLength={8}
+        />
+        <InputField
+          label="내용"
+          value={content}
+          onChange={setContent}
+          maxLength={300}
+        />
         <S.SendButton type="submit">보내기</S.SendButton>
       </form>
     </S.Container>
+  );
+};
+
+const InputField = ({ label, value, onChange, maxLength }: any) => {
+  const onChangeText = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const inputValue = e.target.value;
+
+    if (inputValue.length > maxLength) {
+      toast.warning(`${label}은(는) ${maxLength}자 이하로 입력해주세요!`, {
+        autoClose: 600,
+        toastId: `${label}Warning`,
+      });
+    } else {
+      onChange(inputValue);
+    }
+  };
+
+  return (
+    <>
+      <label>{label}</label>
+      <input
+        type="text"
+        onChange={onChangeText}
+        maxLength={maxLength}
+        value={value}
+      />
+      <br />
+      <br />
+    </>
   );
 };
 
