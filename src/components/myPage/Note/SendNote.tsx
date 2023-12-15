@@ -70,16 +70,16 @@ const SendNote = ({ setSelectedNoteType }: Props) => {
       <br />
       <form onSubmit={onSubmitHandler}>
         <InputField
+          label="받는 사람 "
+          value={nickname}
+          onChange={setNickname}
+          maxLength={8}
+        />
+        <InputField
           label="제목"
           value={title}
           onChange={setTitle}
           maxLength={20}
-        />
-        <InputField
-          label="닉네임"
-          value={nickname}
-          onChange={setNickname}
-          maxLength={8}
         />
         <InputField
           label="내용"
@@ -87,7 +87,10 @@ const SendNote = ({ setSelectedNoteType }: Props) => {
           onChange={setContent}
           maxLength={300}
         />
-        <S.SendButton type="submit">보내기</S.SendButton>
+        <S.ButtonBox>
+          <S.CancelButton type="button"> 취소</S.CancelButton>
+          <S.SendButton type="submit">보내기</S.SendButton>
+        </S.ButtonBox>
       </form>
     </S.Container>
   );
@@ -108,9 +111,9 @@ const InputField = ({ label, value, onChange, maxLength }: any) => {
   };
 
   return (
-    <>
-      <label>{label}</label>
-      <input
+    <S.sendBox>
+      <S.Label>{label}</S.Label>
+      <S.Input
         type="text"
         onChange={onChangeText}
         maxLength={maxLength}
@@ -118,7 +121,7 @@ const InputField = ({ label, value, onChange, maxLength }: any) => {
       />
       <br />
       <br />
-    </>
+    </S.sendBox>
   );
 };
 
