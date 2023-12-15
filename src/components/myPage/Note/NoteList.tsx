@@ -105,16 +105,10 @@ const NoteList = ({ selectedNoteType }: Props) => {
             <div key={note.id}>
               <S.noteBox onClick={() => handleNoteClick(note.id)}>
                 <S.nickname>{note.users.nickname}</S.nickname>
-                <S.title>
-                  {/* 글 제목 35자 넘어가면 ...으로 */}
-                  {note.title.length > 35
-                    ? `${note.title.slice(0, 35)}...`
-                    : note.title}
-                </S.title>
+                <S.title>{note.title}</S.title>
                 <S.date>{formatDate(note.sent_at)}</S.date>
               </S.noteBox>
               {expandedNoteId === note.id && (
-                // 내용 300자 제한
                 <S.Content expanded={expandedNoteId === note.id}>
                   {index === 0} <br />
                   <S.ContentInner>
