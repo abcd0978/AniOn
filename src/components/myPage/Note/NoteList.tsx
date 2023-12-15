@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 import { useAtomValue } from 'jotai';
 import { useQuery } from '@tanstack/react-query';
-
+import { useQueryClient } from '@tanstack/react-query';
 import { fetchNotes } from '../../../api/note';
 
 import * as userStore from '../../../store/userStore';
 import { S } from './notelist.Styles';
 import Pagination from '../../Pagenation';
 import Loading from '../../Loading/Loading';
-
+import { useConfirm } from '../../../hooks/useConfirm';
+import { deleteNote } from '../../../api/note';
 interface Props {
   selectedNoteType: string;
 }
@@ -17,6 +18,8 @@ const NoteList = ({ selectedNoteType }: Props) => {
   const user = useAtomValue(userStore.user);
   const [page, setPage] = useState<number>(1);
   const [expandedNoteId, setExpandedNoteId] = useState<string | null>(null); //note
+  const { openConfirm } = useConfirm();
+  const queryClient = useQueryClient();
 
   const noteQueryOptions = {
     queryKey: ['notes', selectedNoteType, page],
@@ -34,7 +37,7 @@ const NoteList = ({ selectedNoteType }: Props) => {
   };
 
   const { data: notesAndTotalPages, isFetching } = useQuery(noteQueryOptions);
-
+  //페이지네이션
   const onClickPage = (selected: number | string) => {
     if (page === selected) return;
     if (typeof selected === 'number') {
@@ -62,9 +65,25 @@ const NoteList = ({ selectedNoteType }: Props) => {
     const day = ('0' + originalDate.getDate()).slice(-2);
     return `${year}-${month}-${day}`;
   }
-
+  //내용 펼치기
   const handleNoteClick = (noteId: string) => {
     setExpandedNoteId((prev) => (prev === noteId ? null : noteId));
+  };
+  // 리뷰 삭제
+  const handleRemoveNote = async (noteId: string) => {
+    try {
+      const deleteConfirmData = {
+        title: '쪽지 삭제',
+        content: '정말 삭제하실 건가요??!',
+        callback: async () => {
+          await deleteNote(noteId);
+          queryClient.invalidateQueries(['notes', selectedNoteType, page]);
+        },
+      };
+      openConfirm(deleteConfirmData);
+    } catch (error) {
+      console.error('리뷰 삭제 중 에러', error);
+    }
   };
 
   console.log(notesAndTotalPages?.data);
@@ -102,6 +121,9 @@ const NoteList = ({ selectedNoteType }: Props) => {
                     {note.content.slice(0, 300)}
                     {note.content.length > 300 && '...'}
                   </S.ContentInner>
+                  <S.deleteButton onClick={() => handleRemoveNote(note.id)}>
+                    삭제
+                  </S.deleteButton>
                 </S.Content>
               )}
             </div>

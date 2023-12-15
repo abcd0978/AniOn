@@ -58,4 +58,22 @@ export const S = {
     display: flex;
     justify-content: center;
   `,
+  deleteButton: styled.button`
+    border-radius: 6px;
+    border: 1px solid var(--main-mid-2, #c88fff);
+    background: #fdfbff;
+    width: auto;
+    height: 28px;
+    text-align: center;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    float: right;
+    margin-top: 10px;
+    &:hover {
+      background-color: #c88fff;
+      color: white;
+    }
+  `,
 };
