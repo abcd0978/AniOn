@@ -74,8 +74,8 @@ function Header() {
     queryFn: () => checkRecvNote(user!.id),
     refetchOnWindowFocus: false,
     enabled: !!user,
-    onSuccess: () => {
-      setAlarmNote(true);
+    onSuccess: (data: number) => {
+      data > 0 ? setAlarmNote(true) : setAlarmNote(false);
     },
   };
 
