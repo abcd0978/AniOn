@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useAtomValue } from 'jotai';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { useQueryClient } from '@tanstack/react-query';
-import { fetchNotes } from '../../../api/note';
+import { fetchNotes, readRecvNote } from '../../../api/note';
 
 import * as userStore from '../../../store/userStore';
 import { S } from './notelist.Styles';
@@ -65,10 +65,20 @@ const NoteList = ({ selectedNoteType }: Props) => {
     const day = ('0' + originalDate.getDate()).slice(-2);
     return `${year}-${month}-${day}`;
   }
+
+  // 읽음 표시
+  const readRecvNoteMutation = useMutation(readRecvNote, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(['recvNote']);
+    },
+  });
+
   //내용 펼치기
   const handleNoteClick = (noteId: string) => {
+    readRecvNoteMutation.mutate(noteId);
     setExpandedNoteId((prev) => (prev === noteId ? null : noteId));
   };
+
   // 리뷰 삭제
   const handleRemoveNote = async (noteId: string) => {
     try {
@@ -85,8 +95,6 @@ const NoteList = ({ selectedNoteType }: Props) => {
       console.error('리뷰 삭제 중 에러', error);
     }
   };
-
-  console.log(notesAndTotalPages?.data);
 
   return (
     <div>

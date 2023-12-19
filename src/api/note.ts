@@ -59,7 +59,10 @@ export const createNote = async (params: Omit<noteType, 'recv_id'>) => {
     const { error } = await supabase.from('note').insert(newNote);
 
     if (error) {
-      alert('에러 발생. 에러 코드를 오류 신고 게시판에 남겨주세요.\n' + error);
+      alert(
+        '에러 발생. 에러 코드를 오류 신고 게시판에 남겨주세요.\n' +
+          JSON.stringify(error),
+      );
     }
   } catch (error) {
     throw error;
@@ -78,9 +81,11 @@ export const checkRecvNote = async (user_id: string) => {
       .is('read_at', null);
 
     if (error) {
-      alert('에러 발생. 에러 코드를 오류 신고 게시판에 남겨주세요.\n' + error);
+      alert(
+        '에러 발생. 에러 코드를 오류 신고 게시판에 남겨주세요.\n' +
+          JSON.stringify(error),
+      );
     }
-
     return count;
   } catch (error) {
     throw error;
@@ -88,7 +93,7 @@ export const checkRecvNote = async (user_id: string) => {
 };
 
 // 읽음 표시
-export const readRecvNote = async (params: any): Promise<void> => {
+export const readRecvNote = async (noteId: string): Promise<void> => {
   try {
     const currentTimestamp = new Date();
 
@@ -97,10 +102,13 @@ export const readRecvNote = async (params: any): Promise<void> => {
     const { error } = await supabase
       .from('note')
       .update(updateReadAt)
-      .eq('id', params.id);
+      .eq('id', noteId);
 
     if (error) {
-      alert('에러 발생. 에러 코드를 오류 신고 게시판에 남겨주세요.\n' + error);
+      alert(
+        '에러 발생. 에러 코드를 오류 신고 게시판에 남겨주세요.\n' +
+          JSON.stringify(error),
+      );
     }
   } catch (error) {
     throw error;
@@ -113,7 +121,10 @@ export const deleteNote = async (id: string): Promise<void> => {
     const { error } = await supabase.from('note').delete().eq('id', id);
 
     if (error) {
-      alert('에러 발생. 에러 코드를 오류 신고 게시판에 남겨주세요.\n' + error);
+      alert(
+        '에러 발생. 에러 코드를 오류 신고 게시판에 남겨주세요.\n' +
+          JSON.stringify(error),
+      );
     }
   } catch (error) {
     throw error;
