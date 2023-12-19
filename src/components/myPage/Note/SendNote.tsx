@@ -70,24 +70,28 @@ const SendNote = ({ setSelectedNoteType }: Props) => {
       <br />
       <form onSubmit={onSubmitHandler}>
         <InputField
+          label="받는 사람 "
+          value={nickname}
+          onChange={setNickname}
+          maxLength={8}
+        />
+        <InputField
           label="제목"
           value={title}
           onChange={setTitle}
           maxLength={20}
         />
         <InputField
-          label="닉네임"
-          value={nickname}
-          onChange={setNickname}
-          maxLength={8}
-        />
-        <InputField
+          className={S.contentInputBox}
           label="내용"
           value={content}
           onChange={setContent}
           maxLength={300}
         />
-        <S.SendButton type="submit">보내기</S.SendButton>
+        <S.ButtonBox>
+          <S.CancelButton type="button"> 취소</S.CancelButton>
+          <S.SendButton type="submit">보내기</S.SendButton>
+        </S.ButtonBox>
       </form>
     </S.Container>
   );
@@ -108,17 +112,31 @@ const InputField = ({ label, value, onChange, maxLength }: any) => {
   };
 
   return (
-    <>
-      <label>{label}</label>
-      <input
-        type="text"
-        onChange={onChangeText}
-        maxLength={maxLength}
-        value={value}
-      />
+    <S.sendBox className={label === '내용' ? 'contentInputBox' : ''}>
+      {label === '내용' ? null : <S.Label>{label}</S.Label>}
+
+      {label === '내용' ? (
+        <S.contentInputBox>
+          <S.contentInput
+            type="text"
+            onChange={onChangeText}
+            maxLength={maxLength}
+            value={value}
+            placeholder="쪽지 내용을 입력해주세요!"
+          />
+        </S.contentInputBox>
+      ) : (
+        <S.Input
+          type="text"
+          onChange={onChangeText}
+          maxLength={maxLength}
+          value={value}
+        />
+      )}
+
       <br />
       <br />
-    </>
+    </S.sendBox>
   );
 };
 

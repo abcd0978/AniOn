@@ -11,8 +11,10 @@ export const S = {
     background-color: #f3e7ff;
     border: none;
     cursor: pointer;
-
+    margin-top: 10px;
+    margin-bottom: 8px;
     margin-right: 3px;
+
     &:hover {
       background-color: #8200ff;
       color: white;
@@ -25,8 +27,10 @@ export const S = {
     background-color: #f3e7ff;
     border: none;
     cursor: pointer;
-
+    margin-top: 10px;
+    margin-bottom: 8px;
     margin-right: 3px;
+
     &:hover {
       background-color: #8200ff;
       color: white;
@@ -39,6 +43,8 @@ export const S = {
     background-color: rgb(255, 235, 247);
     border: none;
     cursor: pointer;
+    margin-top: 10px;
+    margin-bottom: 8px;
 
     &:hover {
         background-color: rgb(255, 180, 239);

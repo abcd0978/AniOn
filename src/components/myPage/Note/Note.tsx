@@ -32,7 +32,11 @@ const Note = () => {
           fontWeight: 'bold',
         }}
       >
-        {selectedNoteType === 'recv' ? '받은 쪽지' : '보낸 쪽지'}
+        {selectedNoteType === 'recv'
+          ? '받은 쪽지'
+          : selectedNoteType === 'send'
+          ? '쪽지 보내기'
+          : '보낸 쪽지'}
       </div>
       <S.RecvButton
         onClick={() => setSelectedNoteType('recv')}
@@ -41,7 +45,7 @@ const Note = () => {
           color: selectedNoteType === 'recv' ? '#ffffff' : 'black',
         }}
       >
-        받은 메세지
+        받은 쪽지
       </S.RecvButton>
       <S.SentButton
         onClick={() => setSelectedNoteType('sent')}
@@ -50,7 +54,7 @@ const Note = () => {
           color: selectedNoteType === 'sent' ? '#ffffff' : 'black',
         }}
       >
-        보낸 메세지
+        보낸 쪽지
       </S.SentButton>
       <S.SendButton
         onClick={() => setSelectedNoteType('send')}
