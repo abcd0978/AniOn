@@ -64,6 +64,10 @@ const SendNote = ({ setSelectedNoteType }: Props) => {
     });
   };
 
+  const handleCancel = () => {
+    setSelectedNoteType('recv');
+  };
+
   return (
     <S.Container>
       <br />
@@ -89,7 +93,10 @@ const SendNote = ({ setSelectedNoteType }: Props) => {
           maxLength={300}
         />
         <S.ButtonBox>
-          <S.CancelButton type="button"> 취소</S.CancelButton>
+          <S.CancelButton type="button" onClick={handleCancel}>
+            {' '}
+            취소
+          </S.CancelButton>
           <S.SendButton type="submit">보내기</S.SendButton>
         </S.ButtonBox>
       </form>
