@@ -163,7 +163,6 @@ const LoginModalContents = () => {
           >
             {loading ? (
               <StLoginButtonTypo>
-                메일 발송중
                 <img
                   style={{ width: '15px', height: '15px' }}
                   src={'/images/loadingSpinner.svg'}

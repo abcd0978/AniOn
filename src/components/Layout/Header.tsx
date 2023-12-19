@@ -175,22 +175,28 @@ function Header() {
     },
   ];
 
-  supabase
-    .channel('insert-note-channel')
-    .on(
-      'postgres_changes',
-      {
-        event: 'INSERT',
-        schema: 'public',
-        table: 'note',
-        filter: `recv_id=eq.${user?.id}`,
-      },
-      () => {
-        console.log('쪽지');
-        setAlarmNote(true);
-      },
-    )
-    .subscribe();
+  if (user) {
+    try {
+      supabase
+        .channel('note-channel')
+        .on(
+          'postgres_changes',
+          {
+            event: 'INSERT',
+            schema: 'public',
+            table: 'note',
+            filter: `recv_id=eq.${user.id}`,
+          },
+          (payload) => {
+            // console.log('쪽지', payload);
+            setAlarmNote(true);
+          },
+        )
+        .subscribe();
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   return (
     <>
