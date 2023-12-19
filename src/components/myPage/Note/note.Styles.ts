@@ -4,9 +4,9 @@ export const S = {
     width: 100%;
   `,
 
-  RecvButton: styled.button`
-    width: 10%;
-    height: 4%;
+  NoteButton: styled.button`
+    width: 100px;
+    height: 36px;
     border-radius: 20px;
     background-color: #f3e7ff;
     border: none;
@@ -19,26 +19,16 @@ export const S = {
       background-color: #8200ff;
       color: white;
     }
-  `,
-  SentButton: styled.button`
-    width: 10%;
-    height: 4%;
-    border-radius: 20px;
-    background-color: #f3e7ff;
-    border: none;
-    cursor: pointer;
-    margin-top: 10px;
-    margin-bottom: 8px;
-    margin-right: 3px;
 
-    &:hover {
-      background-color: #8200ff;
-      color: white;
+    @media (max-width: 768px) {
+      width: 72px;
+      height: 28px;
     }
   `,
+
   SendButton: styled.button`
-    width: 10%;
-    height: 4%;
+    width: 100px;
+    height: 36px;
     border-radius: 20px;
     background-color: rgb(255, 235, 247);
     border: none;
@@ -47,9 +37,12 @@ export const S = {
     margin-bottom: 8px;
 
     &:hover {
-        background-color: rgb(255, 180, 239);
-        color: white;
-       
-    
+      background-color: rgb(255, 180, 239);
+      color: white;
+    }
+    @media (max-width: 768px) {
+      width: 72px;
+      height: 28px;
+    }
   `,
 };

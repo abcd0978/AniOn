@@ -94,7 +94,6 @@ const SendNote = ({ setSelectedNoteType }: Props) => {
         />
         <S.ButtonBox>
           <S.CancelButton type="button" onClick={handleCancel}>
-            {' '}
             취소
           </S.CancelButton>
           <S.SendButton type="submit">보내기</S.SendButton>
