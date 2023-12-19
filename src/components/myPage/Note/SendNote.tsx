@@ -113,14 +113,16 @@ const InputField = ({ label, value, onChange, maxLength }: any) => {
 
   return (
     <S.sendBox className={label === '내용' ? 'contentInputBox' : ''}>
-      <S.Label>{label}</S.Label>
+      {label === '내용' ? null : <S.Label>{label}</S.Label>}
+
       {label === '내용' ? (
         <S.contentInputBox>
-          <S.content
+          <S.contentInput
             type="text"
             onChange={onChangeText}
             maxLength={maxLength}
             value={value}
+            placeholder="쪽지 내용을 입력해주세요!"
           />
         </S.contentInputBox>
       ) : (
@@ -131,6 +133,7 @@ const InputField = ({ label, value, onChange, maxLength }: any) => {
           value={value}
         />
       )}
+
       <br />
       <br />
     </S.sendBox>

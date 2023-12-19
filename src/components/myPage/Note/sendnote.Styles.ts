@@ -14,7 +14,7 @@ export const S = {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-left: 55px;
+    margin-left: 30px;
   `,
 
   SendButton: styled.button`
@@ -24,8 +24,9 @@ export const S = {
     border-radius: 20px;
     cursor: pointer;
     margin-left: 10px;
-    width: 7%;
-    height: 25px;
+    width: 10%;
+    height: 31px;
+    margin-top: 10px;
   `,
   CancelButton: styled.button`
     background-color: #757575;
@@ -34,8 +35,9 @@ export const S = {
     border-radius: 20px;
     cursor: pointer;
     margin-left: 10px;
-    width: 7%;
-    height: 25px;
+    width: 10%;
+    height: 31px;
+    margin-top: 10px;
   `,
 
   sendBox: styled.div`
@@ -46,19 +48,22 @@ export const S = {
     margin-bottom: 10px;
   `,
   Label: styled.div`
-    width: 8%;
+    width: 10%;
   `,
   Input: styled.input`
-    width: 30%;
+    width: 39%;
     height: 30px;
+    margin-bottom: 10px;
   `,
 
   contentInputBox: styled.div`
-    width: 30%;
-    height: 100px;
+    width: 50%;
+    height: 120px;
     border: 1px solid black;
   `,
-  content: styled.input`
+  contentInput: styled.input`
     border: none;
+    width: 99%;
+    height: 118px;
   `,
 };
