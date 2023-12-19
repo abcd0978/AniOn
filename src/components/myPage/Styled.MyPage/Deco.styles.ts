@@ -17,6 +17,7 @@ export const D = {
     font-weight: 700;
     line-height: normal;
     letter-spacing: -0.36px;
+    margin-bottom: 20px;
     @media (max-width: 768px) {
       display: flex;
       align-items: center;

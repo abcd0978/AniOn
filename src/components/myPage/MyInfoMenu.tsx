@@ -18,9 +18,11 @@ const MyInfoMenu = () => {
 
   const logoutStore = useSetAtom(userStore.logoutUser);
   const user = useAtomValue(userStore.user);
+
   const [selectedComponent, setSelectedComponent] = useAtom(
     myPageStore.selectedComponent,
   );
+
   const handleLogout = async () => {
     await logout();
     logoutStore();
@@ -118,6 +120,20 @@ const MyInfoMenu = () => {
             <InfoMenu.ButtonIcon src="/images/edit_note.png" />
           )}
           작성한 글
+        </InfoMenu.Button>
+        {/* 쪽지 */}
+        <InfoMenu.Button
+          onClick={() => setSelectedComponent('Note')}
+          style={{
+            color: selectedComponent === 'Note' ? '#8200FF' : '#999',
+          }}
+        >
+          {selectedComponent === 'Note' ? (
+            <InfoMenu.ButtonIcon src="/images/note(2).svg" />
+          ) : (
+            <InfoMenu.ButtonIcon src="/images/note.svg" />
+          )}
+          쪽지
         </InfoMenu.Button>
         {/* 로그아웃, 회원탈퇴 */}
         <InfoMenu.InfoButtonContainer>

@@ -33,7 +33,7 @@ export const Profile = {
   MyProfileContainer: styled.div`
     display: grid;
     place-items: center;
-    justify-contents: center;
+    justify-content: center;
     align-items: center;
     text-align: center;
     padding-top: 10%;
@@ -83,7 +83,7 @@ export const Profile = {
     font-weight: 700;
     line-height: normal;
     letter-spacing: -0.48px;
-    margin-top: 32px;
+    margin: 30px 0px 40px 5px;
     @media (max-width: 768px) {
       font-size: 20px;
       font-style: normal;

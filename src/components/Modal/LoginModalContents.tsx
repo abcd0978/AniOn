@@ -23,8 +23,8 @@ enum AuthProvider {
 }
 
 const LoginModalContents = () => {
-  const [email, setEmail, onChangeEmail, resetEmail] = useInput('');
-  const [password, setPassword, onChangePassword, resetPassword] = useInput('');
+  const [email, setEmail, onChangeEmail] = useInput('');
+  const [password, setPassword, onChangePassword] = useInput('');
   const [emailError, setEmailError] = useState<ErrorType>(initialError);
   const [passwordError, setPasswordError] = useState<ErrorType>(initialError);
   const [emailAndPasswordError, setEmailAndPasswordError] =

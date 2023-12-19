@@ -187,7 +187,8 @@ const LikedAnime = () => {
     <L.LikedContainer>
       {user && topTags.length > 0 && (
         <L.TopTags>
-          {user?.nickname}님은 <L.Tags>#{topTags.join('#')}</L.Tags>을 좋아해요!
+          "{user?.nickname}" 님은
+          <L.Tags>#{topTags.join(' #')}</L.Tags>장르를 좋아해요!
         </L.TopTags>
       )}
       <div style={{ display: 'flex', flexDirection: 'row' }}>
@@ -347,6 +348,7 @@ const L = {
     font-weight: 700;
     line-height: normal;
     letter-spacing: -0.36px;
+    margin-bottom: 20px;
     @media (max-width: 768px) {
       font-size: 16px;
     }
@@ -357,12 +359,12 @@ const L = {
     background: var(--main-light-2, #f3e7ff);
     width: auto;
     display: flex;
-    height: 32px;
-    padding: 8px 20px;
+    height: 22px;
+    padding: 5px 16px;
     justify-content: space-between;
     align-items: center;
     gap: 8px;
-    margin-top: -60px;
+    margin-top: -50px;
     @media (max-width: 768px) {
       font-size: 12px;
       height: 10px;

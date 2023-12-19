@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
+import supabase from '../../supabaseClient';
 import * as modalStore from '../../store/modalStore';
 import * as sidebarStore from '../../store/sidebarStore';
 import useViewport from '../../hooks/useViewPort';
@@ -9,6 +10,7 @@ import * as boardStore from '../../store/boardStore';
 import * as userStore from '../../store/userStore';
 import * as headerStore from '../../store/headerStore';
 import * as animeRecommendStore from '../../store/animeListStore';
+import * as myPageStore from '../../store/myPageStore';
 import * as authApi from '../../api/auth';
 import type { DropdownContentsType } from '../DropDown/DropDown';
 import DropDown from '../DropDown/DropDown';
@@ -24,6 +26,7 @@ import { useNavigate } from 'react-router-dom';
 import { fetchEquippedItem } from '../../api/items';
 import { useQuery } from '@tanstack/react-query';
 import useInput from '../../hooks/useInput';
+import { checkRecvNote } from '../../api/note';
 
 type mobileSearchCategories = '게시글' | '애니찾기';
 function Header() {
@@ -40,6 +43,7 @@ function Header() {
   const setKeyword = useSetAtom(animeRecommendStore.keywordAtom);
   const setAnimeList = useSetAtom(animeRecommendStore.animeListAtom);
   const setOffset = useSetAtom(animeRecommendStore.offsetAtom);
+  const setSelectedComponent = useSetAtom(myPageStore.selectedComponent);
 
   const [isDropdownOnD, setIsDropdownOnD] = useState(false);
   const dropdownOpenerDRef = useRef<HTMLDivElement>(null);
@@ -47,24 +51,37 @@ function Header() {
   const dropdownOpenerBRef = useRef<HTMLDivElement>(null);
   const [mobileSearchCategory, setMobileSearchCategory] =
     useState<mobileSearchCategories>('애니찾기');
-  const [mobileSearchInput, ___, onChangeSearchInput, ____] = useInput('');
+  const [mobileSearchInput, ___, onChangeSearchInput] = useInput('');
   const [sideBarOpened, setSideBarOpened] = useAtom(sidebarStore.sideBarOpened);
   const setDownBarOpened = useSetAtom(sidebarStore.downBarOpened);
   const [menuSearchClicked, setMenuSearchCliked] = useAtom(
     headerStore.searchMobileClicked,
   );
   const [activeMenu, setActiveMenu] = useAtom(headerStore.activeMenu);
+  const [alarmNote, setAlarmNote] = useAtom(headerStore.alarmNote);
 
   const equipedAwardQueryOptions = {
     queryKey: ['equippedAward'],
     queryFn: () => fetchEquippedItem({ user_id: user!.id, category: 1 }),
     refetchOnWindowFocus: false,
-    staleTime: 60 * 1000,
-    cacheTime: 60 * 6000,
+    staleTime: 1 * 60 * 1000,
+    cacheTime: 60 * 60 * 1000,
     enabled: !!user,
   };
 
+  const recvNoteQueryOptions = {
+    queryKey: ['recvNote'],
+    queryFn: () => checkRecvNote(user!.id),
+    refetchOnWindowFocus: false,
+    enabled: !!user,
+    onSuccess: (data: number) => {
+      data > 0 ? setAlarmNote(true) : setAlarmNote(false);
+    },
+  };
+
   const { data: award } = useQuery(equipedAwardQueryOptions);
+
+  useQuery(recvNoteQueryOptions);
 
   const modalContentsFunc = (name: string) => {
     switch (name) {
@@ -129,6 +146,18 @@ function Header() {
         if (user) {
           navigate(`/myPage/${user.id}`);
           setIsDropdownOnD(false);
+          setSelectedComponent('EditProfile');
+        }
+      },
+    },
+    {
+      content: '쪽 지',
+      img_src: '/images/header_note.svg',
+      func: () => {
+        if (user) {
+          navigate(`/myPage/${user.id}`);
+          setIsDropdownOnD(false);
+          setSelectedComponent('Note');
         }
       },
     },
@@ -145,6 +174,23 @@ function Header() {
       },
     },
   ];
+
+  supabase
+    .channel('insert-note-channel')
+    .on(
+      'postgres_changes',
+      {
+        event: 'INSERT',
+        schema: 'public',
+        table: 'note',
+        filter: `recv_id=eq.${user?.id}`,
+      },
+      () => {
+        console.log('쪽지');
+        setAlarmNote(true);
+      },
+    )
+    .subscribe();
 
   return (
     <>
@@ -264,6 +310,16 @@ function Header() {
             </StSearchMobile>
             {user ? (
               <StHeaderUserInfoContainer>
+                {alarmNote && (
+                  <StAlarmNote
+                    onClick={() => {
+                      navigate(`/myPage/${user.id}`);
+                      setSelectedComponent('Note');
+                    }}
+                    src={'/images/alarmNote.svg'}
+                    alt="새로운 쪽지"
+                  />
+                )}
                 <ProfileWithBorder
                   onClick={() => navigate(`/mypage/${user.id}`)}
                   minWidth={36}
@@ -411,10 +467,16 @@ function Header() {
 const headerMenuColor = '#999999';
 const headerMenuColorActivated = '#4f4f4f';
 
+const StAlarmNote = styled.img`
+  width: 33px;
+  cursor: pointer;
+`;
+
 const StSearchMobile = styled.div`
   transition: 0.1s;
   display: none;
-  @media (max-width: 768px) {
+  cursor: pointer;
+  @media (max-width: 1024px) {
     display: inline-block;
     &.search {
       & > img {
@@ -427,7 +489,7 @@ const StSearchMobile = styled.div`
 
 const StHeaderMenuMobile = styled.div`
   display: none;
-  @media (max-width: 768px) {
+  @media (max-width: 1024px) {
     display: flex;
     padding: 8px 16px 8px 0px;
     flex-direction: column;
@@ -440,7 +502,7 @@ const StHeaderMenuMobile = styled.div`
 
 const StHeader = styled.header<{ $mediawidth: number }>`
   ${(props) => `height:${80 * (props.$mediawidth / 1920)}px;`}
-  min-height:45px;
+  min-height:50px;
   display: grid;
   align-items: center;
   background: var(--achromatic-colors-white, #fff);
@@ -461,7 +523,7 @@ const StHeaderContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  @media (max-width: 768px) {
+  @media (max-width: 1024px) {
     width: inherit;
     box-sizing: border-box;
     border-left: 18px solid #fff;
@@ -482,7 +544,7 @@ const StHeaderContainerSearch = styled.div`
     opacity: 0;
     display: none;
   }
-  @media (max-width: 768px) {
+  @media (max-width: 1024px) {
     display: flex;
     width: inherit;
     flex-direction: row;
@@ -555,7 +617,7 @@ const StHeaderMobileSearchCancel = styled.div`
 
 const StHeaderLogoSection = styled.div`
   cursor: pointer;
-  @media (max-width: 768px) {
+  @media (max-width: 1024px) {
     position: absolute;
     left: calc(50% - 50px);
   }
@@ -567,13 +629,13 @@ const StHeaderMenuSection = styled.div`
   display: flex;
   align-items: center;
   gap: 40px;
-  @media (max-width: 768px) {
+  @media (max-width: 1024px) {
     display: none;
   }
 `;
 
 const StHeaderMenu = styled.div<{ $isactive: boolean; color?: string }>`
-  width: 99px;
+  /* width: 25%; */
   text-align: center;
   font-weight: 700;
   cursor: pointer;
@@ -582,6 +644,9 @@ const StHeaderMenu = styled.div<{ $isactive: boolean; color?: string }>`
   ${(props) => props.$isactive && props.color && `color: ${props.color};`}
   &:active {
     color: ${(props) => props.color || headerMenuColorActivated};
+  }
+  @media (max-width: 1280) {
+    font-size: 10px;
   }
 `;
 
@@ -604,7 +669,7 @@ const StHeaderUserInfo = styled.div`
   display: flex;
   flex-direction: column;
   gap: 2px;
-  @media (max-width: 768px) {
+  @media (max-width: 1024px) {
     display: none;
   }
 `;
@@ -639,7 +704,7 @@ const StHeaderDropDownImgContainer = styled.div`
   justify-content: center;
   align-items: center;
   gap: 8px;
-  @media (max-width: 768px) {
+  @media (max-width: 1024px) {
     display: none;
   }
 `;
