@@ -8,12 +8,15 @@ import * as headerStore from '../../../store/headerStore';
 // style
 import { S } from './note.Styles';
 import { useSetAtom } from 'jotai';
+import useViewport from '../../../hooks/useViewPort';
 
 const Note = () => {
   const [selectedNoteType, setSelectedNoteType] = useState('recv');
 
   const setSelectedComponent = useSetAtom(myPageStore.selectedComponent);
   const setAlarmNote = useSetAtom(headerStore.alarmNote);
+
+  const { isMobile } = useViewport();
 
   // useEffect(() => {
   //   setAlarmNote(false);
@@ -38,7 +41,7 @@ const Note = () => {
           ? '쪽지 보내기'
           : '보낸 쪽지'}
       </div>
-      <S.RecvButton
+      <S.NoteButton
         onClick={() => setSelectedNoteType('recv')}
         style={{
           backgroundColor: selectedNoteType === 'recv' ? '#8200ff' : '#f3e7ff',
@@ -46,8 +49,8 @@ const Note = () => {
         }}
       >
         받은 쪽지
-      </S.RecvButton>
-      <S.SentButton
+      </S.NoteButton>
+      <S.NoteButton
         onClick={() => setSelectedNoteType('sent')}
         style={{
           backgroundColor: selectedNoteType === 'sent' ? '#8200ff' : '#f3e7ff',
@@ -55,7 +58,7 @@ const Note = () => {
         }}
       >
         보낸 쪽지
-      </S.SentButton>
+      </S.NoteButton>
       <S.SendButton
         onClick={() => setSelectedNoteType('send')}
         style={{

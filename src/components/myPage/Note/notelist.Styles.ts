@@ -30,12 +30,22 @@ export const S = {
   nickname: styled.div`
     width: 15%;
     margin-left: 13px;
+
+    @media (max-width: 768px) {
+      width: 25%;
+    }
   `,
   title: styled.div`
     width: 72%;
   `,
   date: styled.div`
     width: 13%;
+
+    @media (max-width: 768px) {
+      width: 33%;
+      margin-left: 5px;
+      margin-right: 8px;
+    }
   `,
   Content: styled.div<{ expanded: boolean }>`
     background-color: #f2f0f0;
