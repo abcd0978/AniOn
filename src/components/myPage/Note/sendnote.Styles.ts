@@ -50,6 +50,15 @@ export const S = {
   `,
   Input: styled.input`
     width: 30%;
-    height: 20px;
+    height: 30px;
+  `,
+
+  contentInputBox: styled.div`
+    width: 30%;
+    height: 100px;
+    border: 1px solid black;
+  `,
+  content: styled.input`
+    border: none;
   `,
 };

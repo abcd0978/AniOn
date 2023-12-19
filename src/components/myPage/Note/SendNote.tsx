@@ -82,6 +82,7 @@ const SendNote = ({ setSelectedNoteType }: Props) => {
           maxLength={20}
         />
         <InputField
+          className={S.contentInputBox}
           label="내용"
           value={content}
           onChange={setContent}
@@ -111,14 +112,25 @@ const InputField = ({ label, value, onChange, maxLength }: any) => {
   };
 
   return (
-    <S.sendBox>
+    <S.sendBox className={label === '내용' ? 'contentInputBox' : ''}>
       <S.Label>{label}</S.Label>
-      <S.Input
-        type="text"
-        onChange={onChangeText}
-        maxLength={maxLength}
-        value={value}
-      />
+      {label === '내용' ? (
+        <S.contentInputBox>
+          <S.content
+            type="text"
+            onChange={onChangeText}
+            maxLength={maxLength}
+            value={value}
+          />
+        </S.contentInputBox>
+      ) : (
+        <S.Input
+          type="text"
+          onChange={onChangeText}
+          maxLength={maxLength}
+          value={value}
+        />
+      )}
       <br />
       <br />
     </S.sendBox>
