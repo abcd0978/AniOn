@@ -128,7 +128,7 @@ const InputField = ({ label, value, onChange, maxLength }: any) => {
             onChange={onChangeText}
             maxLength={maxLength}
             value={value}
-            placeholder="쪽지 내용을 입력해주세요!"
+            placeholder="쪽지 내용을 입력해주세요!💜"
           />
         </S.contentInputBox>
       ) : (

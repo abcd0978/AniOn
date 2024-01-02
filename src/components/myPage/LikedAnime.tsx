@@ -366,10 +366,10 @@ const L = {
     gap: 8px;
     margin-top: -50px;
     @media (max-width: 768px) {
-      font-size: 12px;
+      font-size: 11.6px;
       height: 10px;
       max-width: 100%;
-      margin-top: -30px;
+      margin-top: -27px;
       margin-left: -10%;
     }
     @media (max-width: 480px) {
@@ -456,6 +456,7 @@ const L = {
   `,
   Tags: styled.div`
     font-weight: 600;
+    color: #5e107d;
   `,
   List: styled.div`
     @media (max-width: 768px) {
