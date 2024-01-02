@@ -69,8 +69,9 @@ export const S = {
 
     @media (max-width: 768px) {
       margin-top: -80px;
-      width: 16%;
+      width: 17%;
       margin-right: 8px;
+      font-size: 15px;
     }
   `,
   Input: styled.input`

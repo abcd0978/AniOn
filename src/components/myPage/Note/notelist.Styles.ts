@@ -33,18 +33,23 @@ export const S = {
 
     @media (max-width: 768px) {
       width: 25%;
+      font-size: 12px;
     }
   `,
   title: styled.div`
     width: 72%;
+    @media (max-width: 768px) {
+      font-size: 12px;
+    }
   `,
   date: styled.div`
     width: 13%;
 
     @media (max-width: 768px) {
-      width: 33%;
+      width: 27%;
       margin-left: 5px;
       margin-right: 8px;
+      font-size: 12px;
     }
   `,
   Content: styled.div<{ expanded: boolean }>`

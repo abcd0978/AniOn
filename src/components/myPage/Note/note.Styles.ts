@@ -4,6 +4,18 @@ export const S = {
     width: 100%;
   `,
 
+  Title: styled.div`
+    font-size: 24px;
+    display: flex;
+    flex-direction: row;
+    font-weight: bold;
+    margin-bottom: 10px;
+    @media (max-width: 768px) {
+      font-size: 16px;
+      font-weight: bold;
+    }
+  `,
+
   NoteButton: styled.button`
     width: 100px;
     height: 36px;
@@ -43,6 +55,14 @@ export const S = {
     @media (max-width: 768px) {
       width: 72px;
       height: 28px;
+    }
+  `,
+
+  InfoMenu: styled.button`
+    width: 70%;
+    display: flex;
+    @media (max-width: 768px) {
+      width: 100%;
     }
   `,
 };
