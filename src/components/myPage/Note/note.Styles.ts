@@ -8,7 +8,8 @@ export const S = {
     font-size: 24px;
     display: flex;
     flex-direction: row;
-
+    font-weight: bold;
+    margin-bottom: 10px;
     @media (max-width: 768px) {
       font-size: 16px;
       font-weight: bold;
