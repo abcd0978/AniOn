@@ -25,22 +25,30 @@ const Note = () => {
 
   return (
     <S.Container>
-      {/* //모바일 뒤로가기 */}
-      {/* <div onClick={() => setSelectedComponent(null)}>←</div> */}
-      <div
-        style={{
-          fontSize: 24,
-          margin: 3,
-          marginBottom: 10,
-          fontWeight: 'bold',
-        }}
-      >
+      {/* {!isMobile && (
+
+
+      )} */}
+      <S.Title>
+        {isMobile && (
+          <div
+            style={{
+              fontSize: 16,
+              color: '#838383',
+              cursor: 'pointer',
+              marginRight: '6px',
+            }}
+            onClick={() => setSelectedComponent(null)}
+          >
+            ←
+          </div>
+        )}
         {selectedNoteType === 'recv'
           ? '받은 쪽지'
           : selectedNoteType === 'send'
           ? '쪽지 보내기'
           : '보낸 쪽지'}
-      </div>
+      </S.Title>
       <S.NoteButton
         onClick={() => setSelectedNoteType('recv')}
         style={{
