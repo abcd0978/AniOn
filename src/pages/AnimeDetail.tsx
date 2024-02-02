@@ -222,7 +222,7 @@ function AnimeDetail() {
                     {animeDetail.content.slice(0, 300)} ...
                     <S.ContentSeeMore onClick={toggleCommentCollapse}>
                       <p>더보기</p>
-                      <img src="/images/stat_minus_2.svg" alt="더보기" />
+                      <img src="/images/stat_minus_1.svg" alt="더보기" />
                     </S.ContentSeeMore>
                   </>
                 ) : (
@@ -231,7 +231,7 @@ function AnimeDetail() {
                     {animeDetail.content.length > 300 && (
                       <S.ContentSeeMore onClick={toggleCommentCollapse}>
                         <p>접기</p>
-                        <img src="/images/stat_minus_1.svg" alt="접기" />
+                        <img src="/images/stat_minus_2.svg" alt="접기" />
                       </S.ContentSeeMore>
                     )}
                   </>
