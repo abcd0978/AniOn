@@ -10,7 +10,7 @@ export const PostWrapper = styled.div`
   display: grid;
   row-gap: 20px;
   margin-top: 40px;
-  @media (min-width: 768px) {
+  @media (min-width: 1025px) {
     grid-template-columns: repeat(2, minmax(50%, 1fr));
     /* grid-template-rows: fit-content(100px); */
     /* grid-auto-rows: auto; */
@@ -93,8 +93,8 @@ export const PostMiddleRight = styled.div`
   color: #999999;
   font-size: 15px;
 
-  @media (max-width: 768px) {
-    font-size: 10px;
+  @media (max-width: 1280px) and (min-width: 1025px) {
+    font-size: 14px;
   }
 `;
 export const Ninkname = styled.div`

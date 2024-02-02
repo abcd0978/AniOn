@@ -1,21 +1,21 @@
 import { useAtom } from 'jotai';
 import * as userStore from '../../store/userStore';
 import { useNavigate } from 'react-router-dom';
-import { useLocation } from 'react-router-dom';
+// import { useLocation } from 'react-router-dom';
 import * as myPageStore from '../../store/myPageStore';
-import React, { useState } from 'react';
+import React from 'react';
 import { logout } from '../../api/auth';
-import DecoProfile from './DecoProfile';
-import EditProfile from './EditProfile';
-import LikedAnime from './LikedAnime';
-import WhatIWrote from './WhatIWrote';
-import MyReviews from './MyReviews';
+// import DecoProfile from './DecoProfile';
+// import EditProfile from './EditProfile';
+// import LikedAnime from './LikedAnime';
+// import WhatIWrote from './WhatIWrote';
+// import MyReviews from './MyReviews';
 import { InfoMenu } from './Styled.MyPage/MyPage.styles';
 
 const MyInfoMenuMobile = () => {
   const [__, logoutStore] = useAtom(userStore.logoutUser);
   const navigate = useNavigate();
-  const location = useLocation();
+  // const location = useLocation();
   const [selectedComponent, setSelectedComponent] = useAtom(
     myPageStore.selectedComponent,
   );
@@ -25,22 +25,22 @@ const MyInfoMenuMobile = () => {
     navigate(`/`);
   };
 
-  const renderSelectedComponent = () => {
-    switch (selectedComponent) {
-      case 'DecoProfile':
-        return <DecoProfile />;
-      case 'EditProfile':
-        return <EditProfile />;
-      case 'LikedAnime':
-        return <LikedAnime />;
-      case 'WhatIWrote':
-        return <WhatIWrote />;
-      case 'MyReviews':
-        return <MyReviews />;
-      default:
-        return null;
-    }
-  };
+  // const renderSelectedComponent = () => {
+  //   switch (selectedComponent) {
+  //     case 'DecoProfile':
+  //       return <DecoProfile />;
+  //     case 'EditProfile':
+  //       return <EditProfile />;
+  //     case 'LikedAnime':
+  //       return <LikedAnime />;
+  //     case 'WhatIWrote':
+  //       return <WhatIWrote />;
+  //     case 'MyReviews':
+  //       return <MyReviews />;
+  //     default:
+  //       return null;
+  //   }
+  // };
 
   return (
     <InfoMenu.Outer selectedComponent={selectedComponent}>
@@ -76,7 +76,6 @@ const MyInfoMenuMobile = () => {
           <InfoMenu.InfoButton>회원탈퇴</InfoMenu.InfoButton>
         </InfoMenu.InfoButtonContainer>
       </>
-      {/* )} */}
     </InfoMenu.Outer>
   );
 };

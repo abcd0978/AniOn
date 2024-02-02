@@ -23,8 +23,8 @@ enum AuthProvider {
 }
 
 const LoginModalContents = () => {
-  const [email, setEmail, onChangeEmail, resetEmail] = useInput('');
-  const [password, setPassword, onChangePassword, resetPassword] = useInput('');
+  const [email, setEmail, onChangeEmail] = useInput('');
+  const [password, setPassword, onChangePassword] = useInput('');
   const [emailError, setEmailError] = useState<ErrorType>(initialError);
   const [passwordError, setPasswordError] = useState<ErrorType>(initialError);
   const [emailAndPasswordError, setEmailAndPasswordError] =
@@ -163,7 +163,6 @@ const LoginModalContents = () => {
           >
             {loading ? (
               <StLoginButtonTypo>
-                메일 발송중
                 <img
                   style={{ width: '15px', height: '15px' }}
                   src={'/images/loadingSpinner.svg'}

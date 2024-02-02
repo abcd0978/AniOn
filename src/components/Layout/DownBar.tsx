@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { useNavigate } from 'react-router-dom';
@@ -11,7 +11,7 @@ import * as animeLikeApi from '../../api/aniLike';
 import * as animeStore from '../../store/animeListStore';
 // import { laftelParamsM } from '../../types/anime';
 import { Genres } from '../../types/anime';
-type Props = {};
+// type Props = {};
 // const genresForUnregistered: laftelParamsM['genres'] = [
 //   '개그',
 //   '공포',
@@ -43,7 +43,7 @@ type Props = {};
 //   'SF',
 // ];
 
-const DownBar = (props: Props) => {
+const DownBar = () => {
   const [downBarOpened, setDownBarOpened] = useAtom(sidebarStore.downBarOpened);
   const setMenuSearchCliked = useSetAtom(headerStore.searchMobileClicked);
   // const [menuSearchClicked, setMenuSearchCliked] = useAtom(
@@ -112,7 +112,7 @@ const DownBar = (props: Props) => {
             {recentSearch.map((__, index) => {
               if (index < 8) {
                 return (
-                  <StHamburgerRecentSearch>
+                  <StHamburgerRecentSearch key={index}>
                     <p
                       onClick={() => {
                         setMenuSearchCliked(false);
@@ -138,6 +138,7 @@ const DownBar = (props: Props) => {
                   </StHamburgerRecentSearch>
                 );
               }
+              return null;
             })}
           </StHamburgerItemContainer>
         </StHamburgerContainer>
@@ -149,6 +150,7 @@ const DownBar = (props: Props) => {
                 if (index < 12) {
                   return (
                     <StHamburgerGenre
+                      key={index}
                       onClick={() => {
                         setMenuSearchCliked(false);
                         setDownBarOpened(false);
@@ -161,6 +163,7 @@ const DownBar = (props: Props) => {
                     </StHamburgerGenre>
                   );
                 }
+                return null;
               })}
           </StHamburgerItemContainer>
         </StHamburgerContainer>

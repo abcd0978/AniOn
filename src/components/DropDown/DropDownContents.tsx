@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import useViewport from '../../hooks/useViewPort';
 import type { DropdownContentsType } from './DropDown';
-import { isDropDownOn } from '../../store/dropDownStore';
+// import { isDropDownOn } from '../../store/dropDownStore';
 type Props = {
   data: DropdownContentsType;
   NumOfChildren: number;

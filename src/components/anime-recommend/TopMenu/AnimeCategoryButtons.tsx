@@ -17,7 +17,7 @@ const AnimeCategory = () => {
 
   const handleCategoryClick = useCallback(
     (category: string) => {
-      console.log(keyword);
+      // console.log(keyword);
       if (selectedCategory === category && !keyword) {
         return;
       }
