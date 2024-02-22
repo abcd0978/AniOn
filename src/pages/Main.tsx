@@ -65,6 +65,7 @@ const Main = () => {
     [],
   );
 
+  // 추천 애니. laftel API 비활성화로 주석처리.
   const [recommendEmblaRef, recommendEmblaApi] = useEmblaCarousel(
     { slidesToScroll: 'auto', containScroll: 'trimSnaps' },
     [],
@@ -109,17 +110,18 @@ const Main = () => {
     }
   }, []);
 
-  const scrollPrevR = useCallback((emblaApi: EmblaCarouselType | undefined) => {
-    if (emblaApi) {
-      emblaApi.scrollPrev();
-    }
-  }, []);
+  // 추천 애니. laftel API 비활성화로 주석처리.
+  // const scrollPrevR = useCallback((emblaApi: EmblaCarouselType | undefined) => {
+  //   if (emblaApi) {
+  //     emblaApi.scrollPrev();
+  //   }
+  // }, []);
 
-  const scrollNextR = useCallback((emblaApi: EmblaCarouselType | undefined) => {
-    if (emblaApi) {
-      emblaApi.scrollNext();
-    }
-  }, []);
+  // const scrollNextR = useCallback((emblaApi: EmblaCarouselType | undefined) => {
+  //   if (emblaApi) {
+  //     emblaApi.scrollNext();
+  //   }
+  // }, []);
 
   const historyQueryOption = {
     queryKey: ['animeRankingHistory'],
@@ -139,17 +141,20 @@ const Main = () => {
     refetchOnWindowFocus: false,
   };
 
-  const recommendQueryOption = {
-    queryKey: ['animeRecommend'],
-    queryFn: () => fetchAnimeRecommend(),
-    refetchOnWindowFocus: false,
-    staleTile: 60 * 1000,
-  };
+  // 추천 애니. laftel API 비활성화로 주석처리.
+  // const recommendQueryOption = {
+  //   queryKey: ['animeRecommend'],
+  //   queryFn: () => fetchAnimeRecommend(),
+  //   refetchOnWindowFocus: false,
+  //   staleTile: 60 * 1000,
+  // };
 
   const { data: dataH } = useQuery(historyQueryOption);
   const { data: dataQ } = useQuery(quarterQueryOption);
   const { data: dataW } = useQuery(weeklyQueryOption);
-  const { data: dataR } = useQuery(recommendQueryOption);
+
+  // 추천 애니. laftel API 비활성화로 주석처리.
+  // const { data: dataR } = useQuery(recommendQueryOption);
 
   const onSelectN = useCallback((emblaApi: EmblaCarouselType) => {
     setPrevButtonDisabledN(!emblaApi.canScrollPrev());
@@ -557,6 +562,7 @@ const Main = () => {
           </StMainCardContainerWithTypo>
         </StMainCardContainerContainer>
 
+        {/* // 추천 애니. laftel API 비활성화로 주석처리.
         <StMainCardContainerContainer>
           <StMainCardContainerWithTypo>
             <div>
@@ -647,7 +653,7 @@ const Main = () => {
               </div>
             </StMainCardContainer>
           </StMainCardContainerWithTypo>
-        </StMainCardContainerContainer>
+        </StMainCardContainerContainer> */}
       </div>
       <ScrollToTop />
       <Outlet />
