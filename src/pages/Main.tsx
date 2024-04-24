@@ -65,7 +65,7 @@ const Main = () => {
     [],
   );
 
-  // 추천 애니. laftel API 비활성화로 주석처리.
+  // 추천 애니.
   const [recommendEmblaRef, recommendEmblaApi] = useEmblaCarousel(
     { slidesToScroll: 'auto', containScroll: 'trimSnaps' },
     [],
@@ -110,18 +110,18 @@ const Main = () => {
     }
   }, []);
 
-  // 추천 애니. laftel API 비활성화로 주석처리.
-  // const scrollPrevR = useCallback((emblaApi: EmblaCarouselType | undefined) => {
-  //   if (emblaApi) {
-  //     emblaApi.scrollPrev();
-  //   }
-  // }, []);
+  // 추천 애니.
+  const scrollPrevR = useCallback((emblaApi: EmblaCarouselType | undefined) => {
+    if (emblaApi) {
+      emblaApi.scrollPrev();
+    }
+  }, []);
 
-  // const scrollNextR = useCallback((emblaApi: EmblaCarouselType | undefined) => {
-  //   if (emblaApi) {
-  //     emblaApi.scrollNext();
-  //   }
-  // }, []);
+  const scrollNextR = useCallback((emblaApi: EmblaCarouselType | undefined) => {
+    if (emblaApi) {
+      emblaApi.scrollNext();
+    }
+  }, []);
 
   const historyQueryOption = {
     queryKey: ['animeRankingHistory'],
@@ -141,20 +141,20 @@ const Main = () => {
     refetchOnWindowFocus: false,
   };
 
-  // 추천 애니. laftel API 비활성화로 주석처리.
-  // const recommendQueryOption = {
-  //   queryKey: ['animeRecommend'],
-  //   queryFn: () => fetchAnimeRecommend(),
-  //   refetchOnWindowFocus: false,
-  //   staleTile: 60 * 1000,
-  // };
+  // 추천 애니.
+  const recommendQueryOption = {
+    queryKey: ['animeRecommend'],
+    queryFn: () => fetchAnimeRecommend(),
+    refetchOnWindowFocus: false,
+    staleTile: 60 * 1000,
+  };
 
   const { data: dataH } = useQuery(historyQueryOption);
   const { data: dataQ } = useQuery(quarterQueryOption);
   const { data: dataW } = useQuery(weeklyQueryOption);
 
-  // 추천 애니. laftel API 비활성화로 주석처리.
-  // const { data: dataR } = useQuery(recommendQueryOption);
+  // 추천 애니.
+  const { data: dataR } = useQuery(recommendQueryOption);
 
   const onSelectN = useCallback((emblaApi: EmblaCarouselType) => {
     setPrevButtonDisabledN(!emblaApi.canScrollPrev());
@@ -562,7 +562,7 @@ const Main = () => {
           </StMainCardContainerWithTypo>
         </StMainCardContainerContainer>
 
-        {/* // 추천 애니. laftel API 비활성화로 주석처리.
+        {/* // 추천 애니. */}
         <StMainCardContainerContainer>
           <StMainCardContainerWithTypo>
             <div>
@@ -601,13 +601,12 @@ const Main = () => {
                       return (
                         <div
                           onClick={() => navigate(`/recommend/${data.id}`)}
-                          key={Math.random()}
+                          key={data.id}
                           className="embla__slide"
                           style={{ cursor: 'pointer' }}
                         >
                           <MainCard
-                            key={Math.random()}
-                            // index={index + 1}
+                            key={data.id}
                             data={data}
                             width={smallCardWidth}
                           />
@@ -653,7 +652,7 @@ const Main = () => {
               </div>
             </StMainCardContainer>
           </StMainCardContainerWithTypo>
-        </StMainCardContainerContainer> */}
+        </StMainCardContainerContainer>
       </div>
       <ScrollToTop />
       <Outlet />
