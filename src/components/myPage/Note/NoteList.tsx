@@ -10,6 +10,7 @@ import Pagination from '../../Pagenation';
 import Loading from '../../Loading/Loading';
 import { useConfirm } from '../../../hooks/useConfirm';
 import { deleteNote } from '../../../api/note';
+import { readNoteType } from '../../../types/note';
 interface Props {
   selectedNoteType: string;
 }
@@ -37,6 +38,7 @@ const NoteList = ({ selectedNoteType }: Props) => {
   };
 
   const { data: notesAndTotalPages, isFetching } = useQuery(noteQueryOptions);
+
   //페이지네이션
   const onClickPage = (selected: number | string) => {
     if (page === selected) return;
@@ -74,9 +76,11 @@ const NoteList = ({ selectedNoteType }: Props) => {
   });
 
   //내용 펼치기
-  const handleNoteClick = (noteId: string) => {
-    readRecvNoteMutation.mutate(noteId);
-    setExpandedNoteId((prev) => (prev === noteId ? null : noteId));
+  const handleNoteClick = (params: readNoteType) => {
+    readRecvNoteMutation.mutate(params);
+    setExpandedNoteId((prev) =>
+      prev === params.noteId ? null : params.noteId,
+    );
   };
 
   // 리뷰 삭제
@@ -111,7 +115,11 @@ const NoteList = ({ selectedNoteType }: Props) => {
           {/* 각 노트 데이터 */}
           {notesAndTotalPages?.data?.map((note: any, index: number) => (
             <div key={note.id}>
-              <S.noteBox onClick={() => handleNoteClick(note.id)}>
+              <S.noteBox
+                onClick={() =>
+                  handleNoteClick({ noteId: note.id, userId: user!.id })
+                }
+              >
                 <S.nickname>{note.users.nickname}</S.nickname>
                 <S.title>{note.title}</S.title>
                 <S.date>{formatDate(note.sent_at)}</S.date>
