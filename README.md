@@ -5,15 +5,50 @@
 
 **일본 애니메이션 입문자, 중급자 등 팬들을 위한 종합 애니메이션 커뮤니티 플랫폼입니다.**
 
-- 서비스 둘러보기 : [https://ani-on.vercel.app/](https://ani-on.vercel.app/)
-- Github 주소 : [https://github.com/abcd0978/AniOn](https://github.com/abcd0978/AniOn)
+🎉 다양한 애니메이션 콘텐츠의 풍부한 세계로 떠나보세요. 신나는 여정이 여기에서 시작됩니다!
+
+🎮 **이상형 테스트**도 즐기고 **댓글, 리뷰**를 작성하며 **포인트**를 획득할 수 있어요.
+
+💰 포인트를 사용하여 **특별한 아이템**을 구매 해 자신을 나타내보세요.
+
+
+- 서비스 둘러보기 : [Vercel](https://ani-on.vercel.app/)
+- Notion 주소 : [Notion](https://literate-ixia-ac1.notion.site/Ani-ON-0508ffa70f4e408dadadd7e71df253e9?pvs=4)
+
+## 👩🏻‍💻 기술 스택
+
+
+`react` `typescript` `styled components` `Jotai` `tanstack-query` `supabase` `vercel` `laftel api` `kakao api` `embla-carousel-react` 
+
+## ⌚ 개발 기간
+
+**2023.08.16 ~ 2023.09.18 (5주)**
+
+
+## 프로젝트 인원
+
+### 프론트엔드 5명, 디자이너 1명
+
+ 이름  | 직책   | 블로그                                                           | 깃허브                         
+:---:|:----:|:-------------------------------------------------------------:|:---------------------------:
+ 이소영 | 리더   | https://blog.naver.com/ddooo__ding                            | https://github.com/ddooo00  
+ 정송주 | 부리더  | https://www.notion.so/87152dd202f7436db1bfebd9b20ac04e?pvs=21 | https://github.com/songjuu  
+ 박은희 | 팀원   | https://eunhee9902.tistory.com/                               | https://github.com/baguni99 
+ 김무겸 | 팀원   | https://frian.tistory.com/                                    | https://github.com/hgyeom   
+ 김민규 | 팀원   | https://hungryspider.tistory.com/                             | https://github.com/abcd0978 
+ 김예림 | 디자이너 |                                                               |                             
+
 
 ---
 
 # 📐 Ani-ON 아키텍처 구성
 
+## 아키텍처
+
 ![ANION_중간발표_서비스아키텍처 (2)](https://github.com/abcd0978/AniOn/assets/48148112/ef83275b-4d56-4d3b-a92e-fcf9047ee3cc)
 
+## ERD
+![image](https://github.com/abcd0978/AniOn/assets/96222942/caf2878e-b4f1-4b03-b9b7-c41240ce1202)
 
 ---
 
@@ -216,6 +251,18 @@
         
         ![마이페이지아이템](https://github.com/abcd0978/AniOn/assets/48148112/4591cf63-e63f-4b9a-beb1-3145e2d96f17)
         
+    - 칭호, 테두리
+ 
+        ### 칭호, 테두리 장착(변경)
+
+        ![칭호테두리변경](https://github.com/abcd0978/AniOn/assets/96222942/7d5c0ed1-c67e-4c75-a6ea-f896ec586311)
+
+        ### 게시판에서의 프로필
+
+        ![image](https://github.com/abcd0978/AniOn/assets/96222942/f1257357-2e2a-48ea-8f93-7e9ceb744880)
+
+
+        
     - 이상형월드컵
         
         ### 이상형월드컵 진입
@@ -229,17 +276,17 @@
         ### 이상형월드컵 종료
         
         ![월3](https://github.com/abcd0978/AniOn/assets/48148112/d5b332cd-428f-477d-b4aa-79dac5544674)
+         
+    - 쪽지
+         
+        ### 쪽지
+         
+        ![img](https://github.com/abcd0978/AniOn/assets/96222942/ce7228a1-eb67-48d8-83a1-a25798d69ab4)
 
-        
 
----
+# 🏆 수상
 
- 이름  | 직책   | 블로그                                                           | 깃허브                         
-:---:|:----:|:-------------------------------------------------------------:|:---------------------------:
- 이소영 | 리더   | https://blog.naver.com/ddooo__ding                            | https://github.com/ddooo00  
- 정송주 | 부리더  | https://www.notion.so/87152dd202f7436db1bfebd9b20ac04e?pvs=21 | https://github.com/songjuu  
- 박은희 | 팀원   | https://eunhee9902.tistory.com/                               | https://github.com/baguni99 
- 김무겸 | 팀원   | https://frian.tistory.com/                                    | https://github.com/hgyeom   
- 김민규 | 팀원   | https://hungryspider.tistory.com/                             | https://github.com/abcd0978 
- 김예림 | 디자이너 |                                                               |                             
+ **내일배움캠프 리액트 Best Project 수상 🎉**
+
+ ![image](https://github.com/abcd0978/AniOn/assets/96222942/4d0462de-dcab-4124-80c7-539f88fe78ab)
 
