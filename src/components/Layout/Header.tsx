@@ -180,7 +180,7 @@ function Header() {
     .on(
       'postgres_changes',
       {
-        event: '*',
+        event: 'INSERT',
         schema: 'public',
         table: 'note',
         filter: `recv_id=eq.${user?.id}`,
