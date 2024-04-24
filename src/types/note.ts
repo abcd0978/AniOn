@@ -12,3 +12,8 @@ export type fetchNoteType = {
   page: number;
   itemsPerPage: number;
 };
+
+export type readNoteType = {
+  noteId: string;
+  userId: string;
+};

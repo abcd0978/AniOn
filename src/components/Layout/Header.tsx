@@ -175,28 +175,25 @@ function Header() {
     },
   ];
 
-  if (user) {
-    try {
-      supabase
-        .channel('note-channel')
-        .on(
-          'postgres_changes',
-          {
-            event: 'INSERT',
-            schema: 'public',
-            table: 'note',
-            filter: `recv_id=eq.${user.id}`,
-          },
-          (payload) => {
-            // console.log('쪽지', payload);
-            setAlarmNote(true);
-          },
-        )
-        .subscribe();
-    } catch (error) {
-      console.log(error);
-    }
-  }
+  const noteChannel = supabase
+    .channel('note-channel')
+    .on(
+      'postgres_changes',
+      {
+        event: '*',
+        schema: 'public',
+        table: 'note',
+        filter: `recv_id=eq.${user?.id}`,
+      },
+      (payload) => {
+        setAlarmNote(true);
+      },
+    )
+    .subscribe();
+
+  // if (noteChannel) {
+  //   console.log('리얼타임 감시용', noteChannel);
+  // }
 
   return (
     <>

@@ -1,6 +1,6 @@
 import supabase from '../supabaseClient';
 import { findUserIdByNickname } from './auth';
-import { fetchNoteType, noteType } from '../types/note';
+import { fetchNoteType, noteType, readNoteType } from '../types/note';
 
 // fetch한 쪽지 중 read_at이 비어있으면 alarmNote true로 변경하는 로직 짜기
 export const fetchNotes = async (params: fetchNoteType) => {
@@ -93,7 +93,7 @@ export const checkRecvNote = async (user_id: string) => {
 };
 
 // 읽음 표시
-export const readRecvNote = async (noteId: string): Promise<void> => {
+export const readRecvNote = async (params: readNoteType): Promise<void> => {
   try {
     const currentTimestamp = new Date();
 
@@ -102,7 +102,8 @@ export const readRecvNote = async (noteId: string): Promise<void> => {
     const { error } = await supabase
       .from('note')
       .update(updateReadAt)
-      .eq('id', noteId);
+      .eq('id', params.noteId)
+      .eq('recv_id', params.userId);
 
     if (error) {
       alert(
