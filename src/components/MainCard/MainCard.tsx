@@ -14,6 +14,7 @@ const MainCard = ({ width, data, index, key }: Props) => {
     <StMainCard
       width={width}
       $mediawidth={mediaWidth > 1092 ? mediaWidth : 1092}
+      key={key}
     >
       <StMainCardImgContainer
         img_url={

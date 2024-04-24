@@ -86,6 +86,7 @@ export const getAnimeStars = async (animeId: string) => {
   return result.data;
 };
 
+// 라프텔 추천 애니메이션
 export const fetchAnimeRecommend = async () => {
   const result = await api.post(`/home/v2/recommend/5/`);
   const filteredData = result.data
