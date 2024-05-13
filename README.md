@@ -1,3 +1,6 @@
+# 현재 라프텔 서버의 해외ip 차단으로 인해 vercel에서 애니 정보를 불러오지 못하는 중입니다. 해결 방법을 찾아보도록 하겠습니다.
+
+
 # Ani-ON
 
 ![Frame_1](https://github.com/abcd0978/AniOn/assets/48148112/8a7cd10e-ce6c-4899-ac1d-dae99a557604)
