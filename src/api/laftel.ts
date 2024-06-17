@@ -77,6 +77,7 @@ export const getAnimeRankings = async (type: recommendType) => {
       type: type,
     },
   });
+  console.log(result.data);
   return result.data.slice(0, 10) as any[];
 };
 
