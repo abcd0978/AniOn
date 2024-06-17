@@ -4,16 +4,17 @@ interface PostContentProps {
   hasImage?: boolean;
   $isFull?: boolean;
 }
-export const Container = styled.div``;
+export const Container = styled.div`
+  width: 100%;
+`;
 export const PostWrapper = styled.div`
   gap: 20px;
   display: grid;
   row-gap: 20px;
   margin-top: 40px;
+  // 1025px부터 2줄로
   @media (min-width: 1025px) {
     grid-template-columns: repeat(2, minmax(50%, 1fr));
-    /* grid-template-rows: fit-content(100px); */
-    /* grid-auto-rows: auto; */
     .tall {
       grid-row: span 2;
     }
@@ -21,14 +22,19 @@ export const PostWrapper = styled.div`
       grid-row: span 1;
     }
   }
+  @media (max-width: 1024px) {
+    grid-template-columns: 1fr; /* 1024px 이하에서는 단일 열 레이아웃 */
+  }
 `;
 
 export const Post = styled.div`
+  min-width: 0;
   border: 2px solid #c88fff;
   border-radius: 12px;
   display: inline-block;
   cursor: pointer;
   background-color: #fdfbff;
+  box-sizing: border-box;
 `;
 
 export const PostTop = styled.div`
@@ -54,6 +60,9 @@ export const PostTopLeft = styled.div`
 export const PostTopRight = styled.div`
   display: flex;
   font-size: 15px;
+  @media (max-width: 768px) {
+    font-size: 13px;
+  }
 `;
 
 export const Ddabong = styled.img`
@@ -61,25 +70,30 @@ export const Ddabong = styled.img`
   width: 14px;
   color: #4f4f4f;
 `;
+
 export const CommentsCount = styled.img`
   margin-right: 5px;
   width: 14px;
   color: #4f4f4f;
   margin-top: 3px;
 `;
+
 export const PostMiddle = styled.div`
   width: 95%;
-  height: 49px;
+  // 1920상태에서 gap 확인
   gap: 12px;
   border-bottom: 1px solid #d9d9d9;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-left: 12px;
+  margin: auto;
 
   @media (max-width: 768px) {
-    width: 90%;
-    margin-left: 12px;
+    /* width: 100%; */
+    /* gap: 2px;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 5px; */
   }
 `;
 export const PostMiddleLeft = styled.div`
@@ -102,11 +116,11 @@ export const Ninkname = styled.div`
   margin-left: 10px;
   margin-right: 10px;
   @media (max-width: 768px) {
+    margin: 0px 5px;
     font-size: 13px;
   }
 `;
 export const PostBottom = styled.div`
-  width: 95%;
   gap: 12px;
   display: flex;
   justify-content: space-between;
@@ -116,15 +130,34 @@ export const PostBottom = styled.div`
 `;
 
 export const PostBottomLeft = styled.div<PostContentProps>`
-  width: ${(props) => (props.$isFull ? '90%' : '45%')};
-  padding: 25px;
+  width: ${(props) => (props.$isFull ? '95%' : '45%')};
+  /* padding: 25px; */
+  padding: 1em;
   gap: 8px;
   display: flex;
   flex-direction: column;
 
   @media (max-width: 768px) {
+    width: 95%;
+    padding: 10px;
+  }
+`;
+
+export const PostBottomRight = styled.div`
+  padding: 8px 0px;
+  width: 60%;
+  padding: 0.5em;
+  @media (max-width: 768px) {
+    margin: auto;
     width: 90%;
   }
+`;
+
+export const Thumbnail = styled.img`
+  width: 100%;
+  object-fit: cover;
+  margin: auto;
+  border-radius: 20px;
 `;
 
 export const PostTitle = styled.div`
@@ -151,26 +184,11 @@ export const PostContent = styled.div<PostContentProps>`
   text-overflow: ellipsis;
   word-wrap: break-word;
   @media (max-width: 768px) {
-    width: 90%;
+    width: 99%;
     font-size: 15px;
   }
 `;
 
-export const PostBottomRight = styled.div`
-  padding: 8px 0px;
-  width: 60%;
-`;
-
-export const Thumbnail = styled.img`
-  width: 100%;
-  object-fit: cover;
-  margin-left: 15px;
-  margin-top: 10px;
-  border-radius: 20px;
-  @media (max-width: 768px) {
-    width: 320px;
-  }
-`;
 export const StAwardImg = styled.img`
   width: 172px;
   height: 32px;
@@ -179,10 +197,15 @@ export const StAwardImg = styled.img`
     height: 22.32px;
   }
 `;
+
 export const Category = styled.div`
   color: #4f4f4f;
   font-size: 15px;
   margin-left: 10px;
+  @media (max-width: 768px) {
+    font-size: 13px;
+    margin-left: 7px;
+  }
 `;
 
 export const Title = styled.div`
