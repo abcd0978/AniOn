@@ -86,6 +86,12 @@ const Before = styled.button`
     border-color: ${(props) => (props.disabled ? '' : '#c88fff')};
     background-color: ${(props) => (props.disabled ? '' : '#f3e7ff')};
   }
+
+  @media (max-width: 768px) {
+    width: 45px;
+    height: 32px;
+    font-size: 8px;
+  }
 `;
 
 const After = styled.button`
@@ -100,6 +106,11 @@ const After = styled.button`
   &:hover {
     background-color: ${(props) => (props.disabled ? '' : '#f3e7ff')};
     border-color: ${(props) => (props.disabled ? '' : '#c88fff')};
+  }
+  @media (max-width: 768px) {
+    width: 45px;
+    height: 32px;
+    font-size: 8.8px;
   }
 `;
 
@@ -116,6 +127,10 @@ const Number = styled.span`
   &.active-page {
     color: rgb(255, 150, 219);
     font-weight: bold;
+  }
+
+  @media (max-width: 768px) {
+    font-size: 10px;
   }
 `;
 
