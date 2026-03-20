@@ -278,10 +278,10 @@ function AnimeDetail() {
           1화 맛보기 <p> 애니온은 저작권을 준수하며 미리보기만 지원합니다. </p>
         </S.DetailLabel>
         <S.ContentVideoLayout>
-          {animeVideo.public_streaming_info &&
-          animeVideo.public_streaming_info.hls_preview_url ? (
+          {animeVideo.highlight_video &&
+          animeVideo.highlight_video.hls_url ? (
             <VideoPlayer
-              src={animeVideo.public_streaming_info.hls_preview_url}
+              src={animeVideo.highlight_video.hls_url}
               type="m3u8"
             />
           ) : (
