@@ -60,7 +60,8 @@ export const fetchSearchedAnime = async (laftelParams: laftelParamsM) => {
 
 // preview (1화 3분)
 export const getAnimePreview = async (animeId: string) => {
-  const result = await api.get(`/episodes/v1/${animeId}/recent-video/`);
+  const result = await api.get(`//items/v4/${animeId}/`);
+    // const result = await api.get(`/episodes/v1/${animeId}/recent-video/`);
   return result.data;
 };
 
